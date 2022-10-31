@@ -7,6 +7,13 @@ function App() {
         <div className='App'>
             <Topnav />
 
+            <div
+                className='div'
+                style={{
+                    marginBottom: '75px',
+                }}
+            ></div>
+
             <Routes>
                 <Route path='/' element={<Main />} />
             </Routes>
