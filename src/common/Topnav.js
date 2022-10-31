@@ -19,7 +19,7 @@ const Topnav = () => {
 
                 <Navbar.Collapse id='responsive-navbar-nav'>
                     <Nav className='me-auto'>
-                        <Nav.Link href='/book'>책 관리</Nav.Link>
+                        <Nav.Link href='/mypage/book/all'>책 관리</Nav.Link>
                         <Nav.Link href='/'>Pricing</Nav.Link>
                     </Nav>
 
