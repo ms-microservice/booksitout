@@ -16,6 +16,18 @@ function App() {
 
             <Routes>
                 <Route path='/' element={<Main />} />
+                <Route path='/introduction' element={<></>} />
+
+                <Route path='/login' element={<></>} />
+                <Route path='/join' element={<></>} />
+                <Route path='/settings' element={<></>} />
+
+                <Route path='/book/reading' element={<></>} />
+                <Route path='/book/toread' element={<></>} />
+
+                <Route path='/search/:key' element={<></>} />
+
+                <Route path='/book/add' element={<></>} />
             </Routes>
         </div>
     );
