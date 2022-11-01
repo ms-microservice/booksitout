@@ -40,5 +40,6 @@ public class Book {
     @Column(name = "page", nullable = true)
     private Integer page;
 
+    @Column(name = "summary", nullable = true)
     private String summary;
 }
