@@ -1,12 +1,12 @@
-import koreaIcon from './images/language/korea.png';
-import novelIcon from './images/category/novel.png';
-import ebookIcon from './images/medium/ebook.png';
-import timeIcon from './images/statistics/time.png';
-import bookIcon from './images/statistics/book.png';
-import averageIcon from './images/statistics/average.png';
-import starIcon from './images/statistics/star.png';
-import longestDayIcon from './images/statistics/bookworm.png';
-import pageIcon from './images/statistics/page.png';
+import koreaIcon from '../images/language/korea.png';
+import novelIcon from '../images/category/novel.png';
+import ebookIcon from '../images/medium/ebook.png';
+import timeIcon from '../images/statistics/time.png';
+import bookIcon from '../images/statistics/book.png';
+import averageIcon from '../images/statistics/average.png';
+import starIcon from '../images/statistics/star.png';
+import longestDayIcon from '../images/statistics/bookworm.png';
+import pageIcon from '../images/statistics/page.png';
 
 const dummy = {
     lastBook: {

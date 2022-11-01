@@ -1,7 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Topnav from './common/Topnav';
-import Main from './routes/Main';
-import Introduction from './routes/Introduction';
+import Summary from './summary/Summary';
+import Introduction from './introduction/Introduction';
 
 function App() {
     return (
@@ -16,7 +16,7 @@ function App() {
             ></div>
 
             <Routes>
-                <Route path='/' element={<Main />} />
+                <Route path='/' element={<Summary />} />
                 <Route path='/introduction' element={<Introduction />} />
 
                 <Route path='/login' element={<></>} />
@@ -30,8 +30,6 @@ function App() {
                 <Route path='/reading' element={<></>} />
 
                 <Route path='/search/:key' element={<></>} />
-
-                <Route path='/book/add' element={<></>} />
             </Routes>
         </div>
     );

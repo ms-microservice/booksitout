@@ -1,8 +1,8 @@
 import React from 'react';
 import { Card, Container } from 'react-bootstrap';
 // Icon
-import goalIcon from '../images/general/goal.png';
-import { dummy } from '../dummy.js';
+import goalIcon from '../resources/images/general/goal.png';
+import { dummy } from '../resources/data/mainDummyData.js';
 // Components
 import HorizontalBookView from '../common/HorizontalBookView';
 import DateLineChart from '../statistics/DateLineChart';

@@ -2,10 +2,10 @@ import React from 'react';
 import { Card } from 'react-bootstrap';
 import parse from 'html-react-parser';
 
-import startIcon from '../images/introduction/start.png';
-import forgetIcon from '../images/introduction/forget.png';
-import serachIcon from '../images/introduction/search.png';
-import shareIcon from '../images/introduction/share.png';
+import startIcon from '../resources/images/introduction/start.png';
+import forgetIcon from '../resources/images/introduction/forget.png';
+import serachIcon from '../resources/images/introduction/search.png';
+import shareIcon from '../resources/images/introduction/share.png';
 
 const Introduction = () => {
     const data = [
