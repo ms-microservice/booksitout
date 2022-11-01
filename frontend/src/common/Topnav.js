@@ -42,8 +42,9 @@ const Topnav = () => {
 
                 <Navbar.Collapse id='responsive-navbar-nav'>
                     <Nav className='me-auto text-center'>
-                        <Nav.Link href='/book/reading'>읽고 있는 책</Nav.Link>
-                        <Nav.Link href='/book/toread'>읽고 싶은 책</Nav.Link>
+                        <Nav.Link href='/book/all'>추가된 책</Nav.Link>
+                        <Nav.Link href='/review'>다 읽은 책</Nav.Link>
+                        <Nav.Link href='/statistics'>독서 통계</Nav.Link>
                     </Nav>
 
                     <Nav className={`d-inline d-${expand}-none text-center`}>

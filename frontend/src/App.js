@@ -22,8 +22,11 @@ function App() {
                 <Route path='/join' element={<></>} />
                 <Route path='/settings' element={<></>} />
 
-                <Route path='/book/reading' element={<></>} />
-                <Route path='/book/toread' element={<></>} />
+                <Route path='/book/:range' element={<></>} />
+                <Route path='/book/detail/:id' element={<></>} />
+                <Route path='/review' element={<></>} />
+                <Route path='/statistics' element={<></>} />
+                <Route path='/reading' element={<></>} />
 
                 <Route path='/search/:key' element={<></>} />
 
