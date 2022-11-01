@@ -1,5 +1,7 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.jinkyumpark.bookitout.author.Author;
+import com.jinkyumpark.bookitout.bookcategory.BookCategory;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;

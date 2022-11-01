@@ -1,4 +1,6 @@
-package com.jinkyumpark.bookitout.book;
+package com.jinkyumpark.bookitout.author;
+
+import com.jinkyumpark.bookitout.nationality.Nationality;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
