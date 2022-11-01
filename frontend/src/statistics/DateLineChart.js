@@ -2,18 +2,36 @@ import React from 'react';
 import { Chart } from 'react-chartjs-2';
 import {
     Chart as ChartJS,
-    LinearScale,
     CategoryScale,
+    LinearScale,
     PointElement,
     LineElement,
+    Title,
+    Tooltip,
+    Legend,
 } from 'chart.js';
+import { Line } from 'react-chartjs-2';
 
 const DateLineChart = ({ startDate, endDate = Date.now(), data }) => {
-    ChartJS.register(LinearScale, CategoryScale, PointElement, LineElement);
+    ChartJS.register(
+        CategoryScale,
+        LinearScale,
+        PointElement,
+        LineElement,
+        Title,
+        Tooltip,
+        Legend
+    );
 
     return (
-        <Chart
-            type='line'
+        <Line
+            options={{
+                plugins: {
+                    legend: {
+                        display: false,
+                    },
+                },
+            }}
             data={{
                 labels: [
                     ...Array.from(
@@ -31,7 +49,6 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data }) => {
 
                 datasets: [
                     {
-                        label: false,
                         backgroundColor: 'rgb(255, 99, 132)',
                         borderColor: 'rgb(255, 99, 132)',
                         data: data,

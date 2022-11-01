@@ -1,6 +1,7 @@
 import { Routes, Route } from 'react-router-dom';
 import Topnav from './common/Topnav';
 import Main from './routes/Main';
+import Introduction from './routes/Introduction';
 
 function App() {
     return (
@@ -16,7 +17,7 @@ function App() {
 
             <Routes>
                 <Route path='/' element={<Main />} />
-                <Route path='/introduction' element={<></>} />
+                <Route path='/introduction' element={<Introduction />} />
 
                 <Route path='/login' element={<></>} />
                 <Route path='/join' element={<></>} />
