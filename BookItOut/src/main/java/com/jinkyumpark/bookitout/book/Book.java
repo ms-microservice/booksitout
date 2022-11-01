@@ -2,6 +2,7 @@ package com.jinkyumpark.bookitout.book;
 
 import com.jinkyumpark.bookitout.author.Author;
 import com.jinkyumpark.bookitout.bookcategory.BookCategory;
+import com.jinkyumpark.bookitout.language.Language;
 import lombok.*;
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -42,4 +43,8 @@ public class Book {
 
     @Column(name = "summary", nullable = true)
     private String summary;
+
+    @ManyToOne
+    @JoinColumn(name = "book_language_id", nullable = false, referencedColumnName = "id", foreignKey = @ForeignKey(name = "book_language_fk"))
+    private Language language;
 }
