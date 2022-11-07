@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.book.author.nationality;
+package com.jinkyumpark.bookitout.bookelement.author.nationality;
 
 import javax.persistence.*;
 

@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.book.bookcategory;
+package com.jinkyumpark.bookitout.bookelement.bookcategory;
 
 import javax.persistence.*;
 

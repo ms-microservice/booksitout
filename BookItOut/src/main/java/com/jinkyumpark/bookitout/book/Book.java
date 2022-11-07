@@ -1,8 +1,8 @@
 package com.jinkyumpark.bookitout.book;
 
-import com.jinkyumpark.bookitout.book.author.Author;
-import com.jinkyumpark.bookitout.book.bookcategory.BookCategory;
-import com.jinkyumpark.bookitout.book.language.Language;
+import com.jinkyumpark.bookitout.bookelement.author.Author;
+import com.jinkyumpark.bookitout.bookelement.bookcategory.BookCategory;
+import com.jinkyumpark.bookitout.bookelement.language.Language;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 

@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.book.language;
+package com.jinkyumpark.bookitout.bookelement.language;
 
 import javax.persistence.*;
 
