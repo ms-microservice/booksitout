@@ -17,21 +17,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
-@Entity(name = "readingsession")
+@Entity
 @Table(name = "ReadingSession")
 public class ReadingSession {
     @Id
     @SequenceGenerator(name = "reading_session_seq", sequenceName = "reading_session_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reading_session_seq")
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "reading_session_user_id", referencedColumnName = "id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_user_fk"))
-    private AppUser appUser;
-
-    @ManyToOne
-    @JoinColumn(name = "reading_session_book_id", referencedColumnName = "id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
-    private Book book;
+    @Column(name = "reading_session_id")
+    private Long readingSessionId;
 
     @Column(name = "start_page")
     private Integer startPage;
@@ -40,9 +33,18 @@ public class ReadingSession {
     private Integer endPage;
 
     @Generated(GenerationTime.INSERT)
-    @Column(name = "start_time", updatable = false, insertable = false, nullable = false)
+    @Column(name = "start_time", updatable = false, nullable = false)
     private LocalDateTime startTime;
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
+
+    // FK
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_user_fk"))
+    private AppUser appUser;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
+    private Book book;
 }

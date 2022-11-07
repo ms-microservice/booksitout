@@ -14,8 +14,8 @@ public class StatisticsControllerV1 {
     private StatisticsService statisticsService;
 
     @GetMapping("/month")
-    public Statistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,
-                                           @RequestParam(value = "month", required = false) Integer month) {
+    public MonthStatistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,
+                                                @RequestParam(value = "month", required = false) Integer month) {
         if (year == null) {
             year = LocalDateTime.now().getYear();
         }
@@ -24,7 +24,7 @@ public class StatisticsControllerV1 {
             month = LocalDateTime.now().getMonthValue();
         }
 
-        Optional<Statistics> statisticsOptional = statisticsService.getStatisticsByMonth(year, month);
+        Optional<MonthStatistics> statisticsOptional = statisticsService.getStatisticsByMonth(year, month);
 
         if (statisticsOptional.isEmpty()) {
             return null;
@@ -34,41 +34,41 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("/year")
-    public Statistics getStatisticsByYear(@RequestParam(value = "year", required = false) Integer year) {
+    public MonthStatistics getStatisticsByYear(@RequestParam(value = "year", required = false) Integer year) {
         if (year == null) {
             year = LocalDateTime.now().getYear();
         }
 
-        List<Statistics> statisticsList = statisticsService.getStatisticsByYear(year);
+        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(year);
 
-        int totalReadMinute = statisticsList.stream()
-                .mapToInt(Statistics::getTotalReadMinute)
+        int totalReadMinute = monthStatisticsList.stream()
+                .mapToInt(MonthStatistics::getTotalReadMinute)
                 .sum();
 
-        int totalStar = statisticsList.stream()
-                .mapToInt(Statistics::getTotalStar)
+        int totalStar = monthStatisticsList.stream()
+                .mapToInt(MonthStatistics::getTotalStar)
                 .sum();
 
-        int totalFinishedBook = statisticsList.stream()
-                .mapToInt(Statistics::getFinishedBook)
+        int totalFinishedBook = monthStatisticsList.stream()
+                .mapToInt(MonthStatistics::getFinishedBook)
                 .sum();
 
-        int totalPage = statisticsList.stream()
-                .mapToInt(Statistics::getTotalPage)
+        int totalPage = monthStatisticsList.stream()
+                .mapToInt(MonthStatistics::getTotalPage)
                 .sum();
 
-        int maxReadMinuteInDay = statisticsList.stream()
-                .mapToInt(Statistics::getMaxReadMinute)
+        int maxReadMinuteInDay = monthStatisticsList.stream()
+                .mapToInt(MonthStatistics::getMaxReadMinute)
                 .max().orElse(0);
 
-        Statistics yearStatistics = new Statistics();
-        yearStatistics.setYear(year);
-        yearStatistics.setTotalReadMinute(totalReadMinute);
-        yearStatistics.setFinishedBook(totalFinishedBook);
-        yearStatistics.setTotalStar(totalStar);
-        yearStatistics.setMaxReadMinute(maxReadMinuteInDay);
-        yearStatistics.setTotalPage(totalPage);
+        MonthStatistics yearMonthStatistics = new MonthStatistics();
+        yearMonthStatistics.setYear(year);
+        yearMonthStatistics.setTotalReadMinute(totalReadMinute);
+        yearMonthStatistics.setFinishedBook(totalFinishedBook);
+        yearMonthStatistics.setTotalStar(totalStar);
+        yearMonthStatistics.setMaxReadMinute(maxReadMinuteInDay);
+        yearMonthStatistics.setTotalPage(totalPage);
 
-        return yearStatistics;
+        return yearMonthStatistics;
     }
 }

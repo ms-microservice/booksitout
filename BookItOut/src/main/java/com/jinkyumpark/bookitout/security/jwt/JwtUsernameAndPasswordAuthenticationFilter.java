@@ -13,11 +13,14 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 @AllArgsConstructor
 public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
@@ -36,8 +39,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                     authenticationRequest.getPassword()
             );
 
-            Authentication authenticate = authenticationManager.authenticate(authentication);
-            return authenticate;
+            return authenticationManager.authenticate(authentication);
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -56,7 +58,26 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)
                 .compact();
-
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
+
+        response.setContentType("application/json");
+        response.setCharacterEncoding("UTF-8");
+        Map<String, String> successMessage = Map.of("timestamp", new Date().toString(), "message", "로그인했어요");
+        ObjectMapper mapper = new ObjectMapper();
+        response.getWriter().write(mapper.writeValueAsString(successMessage));
+        response.getWriter().flush();
+    }
+
+    @Override
+    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+        response.setStatus(401);
+        response.setCharacterEncoding("UTF-8");
+        response.setContentType("application/json");
+
+        ObjectMapper mapper = new ObjectMapper();
+        Map<String, String> messageMap = Map.of("timestamp", new Date().toString(), "message", "이메일이나 비밀번호가 틀렸어요. 다시 확인해 주세요.");
+        response.getWriter().write(mapper.writeValueAsString(messageMap));
+        response.getWriter().flush();
     }
 }

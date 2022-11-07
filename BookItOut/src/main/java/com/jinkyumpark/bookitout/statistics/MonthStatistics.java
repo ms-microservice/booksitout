@@ -12,21 +12,19 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @Setter
-@Entity(name = "statistics")
-@Table(name = "Statistics")
-public class Statistics {
+@Entity(name = "month_statistics")
+@Table(name = "MonthStatistics")
+public class MonthStatistics {
     @SequenceGenerator(name = "statistics_seq", sequenceName = "statistics_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "statistics_seq")
+    @Column(name = "month_statistics_id")
     @Id
-    private Long id;
-
-    @ManyToOne
-    @JoinColumn(name = "appuser", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "statistics_user_fk"))
-    private AppUser appUser;
+    private Long monthStatisticsId;
 
     @Column(name = "year", nullable = false)
     private Integer year;
-    @Column(name = "month")
+
+    @Column(name = "month", nullable = false)
     private Integer month;
 
     @Column(name = "total_read_minute")
@@ -43,4 +41,9 @@ public class Statistics {
 
     @Column(name = "total_page")
     private Integer totalPage;
+
+    // FK
+    @ManyToOne
+    @JoinColumn(name = "app_user_id", nullable = false, foreignKey = @ForeignKey(name = "statistics_app_user_fk"))
+    private AppUser appUser;
 }

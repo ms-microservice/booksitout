@@ -11,11 +11,11 @@ import java.util.Optional;
 public class StatisticsService {
     private StatisticsRepository statisticsRepository;
 
-    public Optional<Statistics> getStatisticsByMonth(Integer year, Integer month) {
+    public Optional<MonthStatistics> getStatisticsByMonth(Integer year, Integer month) {
         return statisticsRepository.findStatisticsByYearIsAndMonthIs(year, month);
     }
 
-    public List<Statistics> getStatisticsByYear(Integer year) {
+    public List<MonthStatistics> getStatisticsByYear(Integer year) {
         return statisticsRepository.findAllByYearIs(year);
     }
 }

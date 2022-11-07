@@ -13,12 +13,17 @@ import java.util.Collection;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+
 @Entity
+@Table(name = "App_User", uniqueConstraints = {
+        @UniqueConstraint(name = "app_user_email_unique", columnNames = "email")
+})
 public class AppUser implements UserDetails {
     @Id
     @SequenceGenerator(name = "app_user_seq", sequenceName = "app_user_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
-    private Long id;
+    @Column(name = "app_user_id")
+    private Long appUserId;
 
     @Column(name = "email", unique = true, nullable = false)
     private String email;
