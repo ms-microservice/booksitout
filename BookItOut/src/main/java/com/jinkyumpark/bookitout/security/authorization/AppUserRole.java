@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.security;
+package com.jinkyumpark.bookitout.security.authorization;
 
 import com.google.common.collect.Sets;
 import lombok.AllArgsConstructor;

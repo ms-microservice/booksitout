@@ -1,2 +1,25 @@
-package com.jinkyumpark.bookitout.security.jwt;public class JwtConfig {
+package com.jinkyumpark.bookitout.security.jwt;
+
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.boot.context.properties.ConfigurationProperties;
+
+import com.google.common.net.HttpHeaders;
+import org.springframework.stereotype.Component;
+
+@NoArgsConstructor
+@Getter
+@Setter
+
+@Component
+@ConfigurationProperties(prefix = "application.jwt")
+public class JwtConfig {
+    private String secretKey;
+    private String tokenPrefix;
+    private Integer tokenExpirationAfterDays;
+
+    public String getAuthorizationHeader() {
+        return HttpHeaders.AUTHORIZATION;
+    }
 }

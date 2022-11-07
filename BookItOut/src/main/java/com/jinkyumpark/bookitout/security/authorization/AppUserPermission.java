@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.security;
+package com.jinkyumpark.bookitout.security.authorization;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

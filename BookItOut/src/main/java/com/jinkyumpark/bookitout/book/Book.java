@@ -1,9 +1,11 @@
 package com.jinkyumpark.bookitout.book;
 
-import com.jinkyumpark.bookitout.author.Author;
-import com.jinkyumpark.bookitout.bookcategory.BookCategory;
-import com.jinkyumpark.bookitout.language.Language;
+import com.jinkyumpark.bookitout.book.author.Author;
+import com.jinkyumpark.bookitout.book.bookcategory.BookCategory;
+import com.jinkyumpark.bookitout.book.language.Language;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
+
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
@@ -38,8 +40,12 @@ public class Book {
     @Column(name = "published_at", nullable = true)
     private LocalDateTime publishedAt;
 
-    @Column(name = "page", nullable = true)
-    private Integer page;
+    @Column(name = "currentPage")
+    @ColumnDefault("0")
+    private Integer currentPage;
+
+    @Column(name = "endPage", nullable = true)
+    private Integer endPage;
 
     @Column(name = "summary", nullable = true)
     private String summary;
@@ -47,4 +53,14 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "book_language_id", nullable = false, referencedColumnName = "id", foreignKey = @ForeignKey(name = "book_language_fk"))
     private Language language;
+
+    @Column(name = "source")
+    @Enumerated(EnumType.ORDINAL)
+    private BookSource source;
+
+    @Column(name = "rating", length = 5)
+    private Integer rating;
+
+    @Column(name = "review")
+    private String review;
 }

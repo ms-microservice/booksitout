@@ -2,12 +2,16 @@ package com.jinkyumpark.bookitout.statistics;
 
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
+@Setter
 @Entity(name = "statistics")
 @Table(name = "Statistics")
 public class Statistics {
@@ -20,7 +24,7 @@ public class Statistics {
     @JoinColumn(name = "appuser", referencedColumnName = "id", nullable = false, foreignKey = @ForeignKey(name = "statistics_user_fk"))
     private AppUser appUser;
 
-    @Column(name = "year")
+    @Column(name = "year", nullable = false)
     private Integer year;
     @Column(name = "month")
     private Integer month;

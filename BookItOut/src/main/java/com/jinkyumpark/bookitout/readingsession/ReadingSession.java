@@ -1,13 +1,21 @@
 package com.jinkyumpark.bookitout.readingsession;
 
+import com.jinkyumpark.bookitout.book.Book;
 import com.jinkyumpark.bookitout.user.AppUser;
-import com.jinkyumpark.bookitout.userbook.UserBook;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 
 @Entity(name = "readingsession")
 @Table(name = "ReadingSession")
@@ -23,7 +31,7 @@ public class ReadingSession {
 
     @ManyToOne
     @JoinColumn(name = "reading_session_book_id", referencedColumnName = "id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
-    private UserBook userBook;
+    private Book book;
 
     @Column(name = "start_page")
     private Integer startPage;

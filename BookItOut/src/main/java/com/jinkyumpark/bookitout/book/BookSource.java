@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.userbook;
+package com.jinkyumpark.bookitout.book;
 
 public enum BookSource {
     BOUGHT_BOOKSTORE,
