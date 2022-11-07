@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.security.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -18,6 +19,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -32,8 +34,13 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || ! authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
-            filterChain.doFilter(request, response);
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
+            Map<String, String> responseMessage = Map.of("timestamp", new Date().toString(), "message", "로그인 해 주세요");
+            ObjectMapper mapper = new ObjectMapper();
+            response.setCharacterEncoding("UTF-8");
+            response.setContentType("application/json");
+            response.getWriter().write(mapper.writeValueAsString(responseMessage));
+            response.getWriter().flush();
             return;
         }
 

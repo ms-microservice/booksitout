@@ -53,6 +53,10 @@ public class Book {
     @Column(name = "rating", length = 5)
     private Integer rating;
 
+    @Column(name = "sharing")
+    @ColumnDefault("false")
+    private Boolean isSharing;
+
     // FK
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "book_user_fk"))

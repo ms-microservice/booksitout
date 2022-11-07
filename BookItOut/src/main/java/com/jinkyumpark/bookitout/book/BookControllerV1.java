@@ -21,8 +21,8 @@ public class BookControllerV1 {
     private AppUserService appUserService;
 
     @GetMapping("{id}")
-    public Book getBookById(@PathVariable("id") Long id) {
-        Optional<Book> bookOptional = bookService.getBookById(id);
+    public Book getBookById(@PathVariable("id") Long bookId) {
+        Optional<Book> bookOptional = bookService.getBookById(bookId);
 
         if (bookOptional.isEmpty()) {
             throw new NotFoundException("해당 id의 책은 존재하지 않아요");
@@ -44,7 +44,6 @@ public class BookControllerV1 {
         return userBookOptional.get();
     }
 
-    @PreAuthorize("hasAnyRole('ROLE_ADMIN')")
     @PostMapping
     public BookAddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {
         Book book = new Book();
