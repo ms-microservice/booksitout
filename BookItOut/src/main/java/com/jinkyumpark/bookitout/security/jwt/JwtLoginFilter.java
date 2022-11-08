@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
@@ -19,11 +20,10 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @AllArgsConstructor
-public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePasswordAuthenticationFilter {
+public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
     private final SecretKey secretKey;
@@ -53,13 +53,14 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                                             Authentication authResult) throws IOException, ServletException {
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
+                .claim("appUserId", ((AppUser) authResult.getPrincipal()).getAppUserId())
                 .claim("authorities", authResult.getAuthorities())
                 .setIssuedAt(new Date())
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)
                 .compact();
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
-        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
+//        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
@@ -70,7 +71,9 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     }
 
     @Override
-    protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response, AuthenticationException failed) throws IOException, ServletException {
+    protected void unsuccessfulAuthentication(HttpServletRequest request,
+                                              HttpServletResponse response,
+                                              AuthenticationException failed) throws IOException, ServletException {
         response.setStatus(401);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");

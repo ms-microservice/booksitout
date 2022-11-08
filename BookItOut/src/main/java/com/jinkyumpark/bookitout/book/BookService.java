@@ -24,15 +24,9 @@ public class BookService {
         return bookRepository.save(book);
     }
 
-    public Optional<Book> getLastBookByUserid(String loginUserid) {
-        Optional<AppUser> appUserOptional = appUserService.getUserByEmail(loginUserid);
-
-        if (appUserOptional.isEmpty()) {
-            throw new IllegalStateException("No User Found");
-        }
-
+    public Optional<Book> getLastBookByUserid(Long appUserId) {
         Optional<ReadingSession> readingSessionOptional = readingSessionRepository
-                .findTopByAppUserOrderByEndTimeDesc(appUserOptional.get());
+                .findTopByAppUser_AppUserIdOrderByEndTimeDesc(appUserId);
 
         if (readingSessionOptional.isEmpty()) {
             return Optional.empty();

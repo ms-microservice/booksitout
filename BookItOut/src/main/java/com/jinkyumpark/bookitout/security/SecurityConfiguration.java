@@ -1,8 +1,8 @@
 package com.jinkyumpark.bookitout.security;
 
 import com.jinkyumpark.bookitout.security.jwt.JwtConfig;
-import com.jinkyumpark.bookitout.security.jwt.JwtTokenVerifier;
-import com.jinkyumpark.bookitout.security.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.jinkyumpark.bookitout.security.jwt.JwtTokenCheckFilter;
+import com.jinkyumpark.bookitout.security.jwt.JwtLoginFilter;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -35,8 +35,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .and()
 
-                .addFilter(new JwtUsernameAndPasswordAuthenticationFilter(authenticationManager(), jwtConfig, secretKey))
-                .addFilterAfter(new JwtTokenVerifier(secretKey, jwtConfig), JwtUsernameAndPasswordAuthenticationFilter.class)
+                .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, secretKey))
+                .addFilterAfter(new JwtTokenCheckFilter(secretKey, jwtConfig), JwtLoginFilter.class)
 
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*", "/v1/join", "/login").permitAll()

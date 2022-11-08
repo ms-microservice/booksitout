@@ -2,12 +2,12 @@ package com.jinkyumpark.bookitout.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
+import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -26,7 +26,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 @AllArgsConstructor
-public class JwtTokenVerifier extends OncePerRequestFilter {
+public class JwtTokenCheckFilter extends OncePerRequestFilter {
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
 
@@ -54,15 +54,17 @@ public class JwtTokenVerifier extends OncePerRequestFilter {
             Claims body = claimsJws.getBody();
             String username = body.getSubject();
             List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
+            Long appUserId = Long.valueOf((Integer) body.get("appUserId"));
 
             Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
                     .map(m -> new SimpleGrantedAuthority(m.get("authority")))
                     .collect(Collectors.toSet());
-            Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, simpleGrantedAuthorities);
+            Authentication authentication = new AppUserAuthenticationToken(username, null, simpleGrantedAuthorities, appUserId);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
+
         } catch (JwtException e) {
-            throw new IllegalStateException(String.format("Token %s가 변조되었습니다", token));
+            throw new IllegalStateException(String.format("Token %s가 변조됐어요", token));
         }
 
         filterChain.doFilter(request, response);

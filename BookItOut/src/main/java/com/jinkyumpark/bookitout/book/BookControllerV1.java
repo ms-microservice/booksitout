@@ -4,9 +4,9 @@ import com.jinkyumpark.bookitout.book.request.BookAddRequest;
 import com.jinkyumpark.bookitout.book.response.*;
 import com.jinkyumpark.bookitout.exception.common.BadRequestException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,12 +33,12 @@ public class BookControllerV1 {
 
     @GetMapping("last")
     public Book getLastBook() {
-        String loginUserid = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long appUserId = ((AppUserAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getId();
 
-        Optional<Book> userBookOptional = bookService.getLastBookByUserid(loginUserid);
+        Optional<Book> userBookOptional = bookService.getLastBookByUserid(appUserId);
 
         if (userBookOptional.isEmpty()) {
-            throw new NotFoundException("No Reading Session Available");
+            throw new NotFoundException("아직 책-it-out으로 책을 읽으신 적이 없어요. 지금 바로 독서활동을 기록해 보세요!");
         }
 
         return userBookOptional.get();

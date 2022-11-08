@@ -10,6 +10,6 @@ import java.util.Optional;
 
 @Repository
 public interface ReadingSessionRepository extends JpaRepository<ReadingSession, Long> {
-    Optional<ReadingSession> findTopByAppUserOrderByEndTimeDesc(AppUser appUser);
+    Optional<ReadingSession> findTopByAppUser_AppUserIdOrderByEndTimeDesc(Long appUserId);
     List<ReadingSession> findAllByAppUserAndStartTimeBetween(AppUser appUser, LocalDateTime startTime, LocalDateTime endTime);
 }
