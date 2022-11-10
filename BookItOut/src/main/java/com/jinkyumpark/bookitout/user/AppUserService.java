@@ -1,6 +1,9 @@
 package com.jinkyumpark.bookitout.user;
 
+import com.jinkyumpark.bookitout.exception.common.NotLoginException;
 import lombok.AllArgsConstructor;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -29,5 +32,15 @@ public class AppUserService implements UserDetailsService {
 
     public AppUser addUser(AppUser appUser) {
         return appUserRepository.save(appUser);
+    }
+
+    public static Long getLoginAppUserId() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (! authentication.isAuthenticated()) {
+            throw new NotLoginException("로그인해 주세요");
+        }
+
+        AppUserAuthenticationToken token = ((AppUserAuthenticationToken) authentication);
+        return token.getAppUserId();
     }
 }

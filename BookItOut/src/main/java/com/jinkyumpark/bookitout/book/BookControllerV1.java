@@ -7,6 +7,9 @@ import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,7 +36,7 @@ public class BookControllerV1 {
 
     @GetMapping("last")
     public Book getLastBook() {
-        Long appUserId = ((AppUserAuthenticationToken) SecurityContextHolder.getContext().getAuthentication()).getId();
+        Long appUserId = AppUserService.getLoginAppUserId();
 
         Optional<Book> userBookOptional = bookService.getLastBookByUserid(appUserId);
 
@@ -43,6 +46,19 @@ public class BookControllerV1 {
 
         return userBookOptional.get();
     }
+
+    @GetMapping("notdone/all")
+    public Page<Book> getAllNotDoneBook(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                        @RequestParam(value = "size", required = false, defaultValue = "9") Integer size) {
+        PageRequest pageRequest = PageRequest.of(page, size);
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+//        Page<Book> bookList = bookService.getAllNotDoneBook(loginUserId, pageRequest);
+//        return bookList;
+
+        return null;
+    }
+
 
     @PostMapping
     public BookAddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {

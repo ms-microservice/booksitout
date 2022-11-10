@@ -2,6 +2,7 @@ package com.jinkyumpark.bookitout.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.bookitout.user.AppUser;
+import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
@@ -34,7 +35,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             EmailPasswordLoginRequest authenticationRequest = new ObjectMapper()
                     .readValue(request.getInputStream(), EmailPasswordLoginRequest.class);
 
-            Authentication authentication = new UsernamePasswordAuthenticationToken(
+            Authentication authentication = new AppUserAuthenticationToken(
                     authenticationRequest.getEmail(),
                     authenticationRequest.getPassword()
             );
@@ -59,12 +60,13 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey)
                 .compact();
-        response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
-//        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
+        response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
+//        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
         Map<String, String> successMessage = Map.of("timestamp", new Date().toString(), "message", "로그인했어요");
+
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(successMessage));
         response.getWriter().flush();
