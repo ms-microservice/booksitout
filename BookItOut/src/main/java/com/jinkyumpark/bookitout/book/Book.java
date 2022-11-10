@@ -27,20 +27,20 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "cover", nullable = true)
+    @Column(name = "cover")
     private String cover;
 
-    @Column(name = "published_at", nullable = true)
+    @Column(name = "published_at")
     private LocalDateTime publishedAt;
 
-    @Column(name = "summary", nullable = true)
+    @Column(name = "summary")
     private String summary;
 
     @Column(name = "currentPage")
     @ColumnDefault("0")
     private Integer currentPage;
 
-    @Column(name = "endPage", nullable = true)
+    @Column(name = "endPage", nullable = false)
     private Integer endPage;
 
     @Column(name = "source")

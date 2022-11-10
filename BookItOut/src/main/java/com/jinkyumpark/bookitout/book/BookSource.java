@@ -11,4 +11,6 @@ public enum BookSource {
 
     EBOOK_BOUGHT,
     EBOOK_SUBSCRIPTION,
+
+    NOT_PROVIDED
 }
