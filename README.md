@@ -23,15 +23,20 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ## DB
 
 -   MySQL
+-   JPA
 
 ## Server
 
--   Spring Boot
 -   Gradle
+
+-   Spring Boot
 -   Spring Security
--   JPA
--   JUnit, Mockito, AssertJ
--   Lombok
+
+-   Testing (JUnit, Mockito, AssertJ)
+
+-   Java Utilities
+    -   Lombok
+    -   Guava
 
 ## Frontend
 
@@ -42,13 +47,14 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ## DevOps
 
 -   Docker
+-   AWS
 
 # 버전역사
 
 ## Version 1 (22년 10월 29일 ~)
 
 -   책 관리 : 독서활동 측정, 읽은 책 별점/리뷰
--   Authentication, Authorization : Spring Security를 활용한 안전한 보안
+-   Authentication, Authorization : JWT 기반, Spring Security로 구현
 
 ## Version 2
 
