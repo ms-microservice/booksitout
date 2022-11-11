@@ -41,8 +41,9 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ## Frontend
 
 -   React
+    -   react-router
+    -   react-icons
 -   Bootstrap
--   SaSS
 
 ## DevOps
 
