@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.user.request;
 
 import lombok.Getter;
+import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.Min;
@@ -16,6 +17,6 @@ public class JoinRequest {
 
     @NotNull
     @NotBlank(message = "비밃번호를 입력해 주세요")
-    @Min(value = 6, message = "6자 이상의 비밀번호를 입력해 주세요")
+    @Length(min = 6, message = "6자 이상의 비밀번호를 입력해 주세요")
     private String password;
 }

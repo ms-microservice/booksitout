@@ -1,5 +1,7 @@
 package com.jinkyumpark.bookitout.book;
 
+import lombok.Getter;
+
 public enum BookSource {
     BOUGHT_BOOKSTORE,
     BOUGHT_ONLINE,

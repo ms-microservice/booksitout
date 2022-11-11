@@ -3,7 +3,7 @@ package com.jinkyumpark.bookitout.user;
 import com.jinkyumpark.bookitout.exception.common.ConflictException;
 import com.jinkyumpark.bookitout.exception.common.UnknownException;
 import com.jinkyumpark.bookitout.user.request.JoinRequest;
-import com.jinkyumpark.bookitout.user.response.JoinResponse;
+import com.jinkyumpark.bookitout.user.response.JoinSuccessResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,14 +16,14 @@ import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
-@RequestMapping("v1")
+@RequestMapping("/v1")
 public class AppUserControllerV1 {
 
     private AppUserService appUserService;
     private PasswordEncoder passwordEncoder;
 
     @PostMapping("join")
-    public JoinResponse join(@RequestBody @Valid JoinRequest joinRequest) {
+    public JoinSuccessResponse join(@RequestBody @Valid JoinRequest joinRequest) {
         Optional<AppUser> userOptional = appUserService.getUserByEmail(joinRequest.getEmail());
 
         if (userOptional.isPresent()) {
@@ -35,7 +35,7 @@ public class AppUserControllerV1 {
 
         AppUser result = appUserService.addUser(appUser);
         if (result.getEmail().equals(joinRequest.getEmail())) {
-            return new JoinResponse();
+            return new JoinSuccessResponse();
         }
 
         throw new UnknownException();

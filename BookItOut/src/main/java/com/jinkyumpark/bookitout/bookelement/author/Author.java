@@ -14,11 +14,14 @@ public class Author {
     @Column(name = "author_id")
     private Long authorId;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name = "birthdate", nullable = true)
+    @Column(name = "birth_date")
     private LocalDateTime birthDate;
+
+    @Column(name = "dead_date")
+    private LocalDateTime deadDate;
 
     // Fk
     @ManyToOne

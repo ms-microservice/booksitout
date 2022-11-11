@@ -14,6 +14,7 @@ public class BookAddRequest {
     @NotNull
     @NotBlank
     private String title;
+
     private Integer authorId;
     private String cover;
     private LocalDateTime publishedAt;
@@ -21,8 +22,8 @@ public class BookAddRequest {
     private Integer bookCategoryId;
 
     private String source = BookSource.NOT_PROVIDED.toString();
+    private Integer currentPage = 0;
     @NotNull
-    @NotBlank
-    private Integer page;
+    private Integer endPage;
     private String summary;
 }

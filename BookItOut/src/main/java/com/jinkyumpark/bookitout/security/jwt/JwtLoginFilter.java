@@ -1,11 +1,13 @@
 package com.jinkyumpark.bookitout.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.jinkyumpark.bookitout.exception.common.NotLoginException;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -43,7 +45,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             return authenticationManager.authenticate(authentication);
 
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            throw new NotLoginException("Email과 비밀번호를 입력해 주세요");
         }
     }
 
