@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.bookelement.author.Author;
 import com.jinkyumpark.bookitout.bookelement.bookcategory.BookCategory;
 import com.jinkyumpark.bookitout.bookelement.language.Language;
@@ -32,6 +33,10 @@ public class Book {
 
     @Column(name = "published_at")
     private LocalDateTime publishedAt;
+
+    @Column(name = "add_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
+    @JsonIgnore
+    private LocalDateTime addDate;
 
     @Column(name = "summary")
     private String summary;

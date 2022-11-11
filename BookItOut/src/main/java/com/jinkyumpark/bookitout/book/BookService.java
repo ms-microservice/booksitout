@@ -9,8 +9,7 @@ import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserRepository;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -47,16 +46,16 @@ public class BookService {
         return Optional.of(userBook);
     }
 
-    public List<Book> getAllBook(Long loginUserId) {
-        return bookRepository.findAllByAppUser_AppUserId(loginUserId);
+    public List<Book> getAllBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllByAppUser_AppUserId(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllDoneBook(Long loginUserId) {
-        return bookRepository.findAllDoneBook(loginUserId);
+    public List<Book> getAllDoneBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllDoneBook(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllNotDoneBook(Long loginUserId) {
-        return bookRepository.findAllNotDoneBook(loginUserId);
+    public List<Book> getAllNotDoneBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllNotDoneBook(loginUserId, pageRequest);
     }
 
     public void addBook(Book book, Long loginUserId) {

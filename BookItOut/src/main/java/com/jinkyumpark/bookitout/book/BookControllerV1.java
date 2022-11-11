@@ -9,7 +9,10 @@ import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -53,26 +56,34 @@ public class BookControllerV1 {
     }
 
     @GetMapping("all")
-    public List<Book> getAllBooks() {
+    public List<Book> getAllBooks(
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "size", required = false, defaultValue = "9") Integer size
+    ) {
         Long loginUserId = AppUserService.getLoginAppUserId();
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
 
-        return bookService.getAllBook(loginUserId);
+        return bookService.getAllBook(loginUserId, pageRequest);
     }
 
     @GetMapping("all/done")
-    public List<Book> getAllDoneBooks() {
+    public List<Book> getAllDoneBooks(
+            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+            @RequestParam(value = "page", required = false, defaultValue = "9") Integer size
+    ) {
         Long loginUserId = AppUserService.getLoginAppUserId();
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
 
-        return bookService.getAllDoneBook(loginUserId);
+        return bookService.getAllDoneBook(loginUserId, pageRequest);
     }
 
     @GetMapping("all/notdone")
     public List<Book> getAllNotDoneBook(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                         @RequestParam(value = "size", required = false, defaultValue = "9") Integer size) {
-        PageRequest pageRequest = PageRequest.of(page, size);
         Long loginUserId = AppUserService.getLoginAppUserId();
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
 
-        return bookService.getAllNotDoneBook(loginUserId);
+        return bookService.getAllNotDoneBook(loginUserId, pageRequest);
     }
 
     @PostMapping
