@@ -58,19 +58,19 @@ public class Book {
     private Boolean isSharing;
 
     // FK
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "app_user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "book_user_fk"))
     private AppUser appUser;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name = "book_author_fk"))
+    @ManyToOne
+    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "book_author_fk"))
     private Author author;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_category_id", nullable = false, foreignKey = @ForeignKey(name = "book_category_fk"))
+    @ManyToOne
+    @JoinColumn(name = "book_category_id", foreignKey = @ForeignKey(name = "book_category_fk"))
     private BookCategory category;
 
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "book_language_id", nullable = false, foreignKey = @ForeignKey(name = "book_language_fk"))
+    @ManyToOne
+    @JoinColumn(name = "book_language_id", foreignKey = @ForeignKey(name = "book_language_fk"))
     private Language language;
 }
