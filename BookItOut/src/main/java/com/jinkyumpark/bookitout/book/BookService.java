@@ -47,15 +47,15 @@ public class BookService {
     }
 
     public List<Book> getAllBook(Long loginUserId, Pageable pageRequest) {
-        return bookRepository.findAllByAppUser_AppUserId(loginUserId, pageRequest);
+        return bookRepository.findAllBooksByAppUserId(loginUserId, pageRequest);
     }
 
     public List<Book> getAllDoneBook(Long loginUserId, Pageable pageRequest) {
-        return bookRepository.findAllDoneBook(loginUserId, pageRequest);
+        return bookRepository.findAllDoneBooks(loginUserId, pageRequest);
     }
 
     public List<Book> getAllNotDoneBook(Long loginUserId, Pageable pageRequest) {
-        return bookRepository.findAllNotDoneBook(loginUserId, pageRequest);
+        return bookRepository.findAllNotDoneBooks(loginUserId, pageRequest);
     }
 
     public void addBook(Book book, Long loginUserId) {

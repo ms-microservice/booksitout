@@ -1,7 +1,6 @@
 package com.jinkyumpark.bookitout.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +10,6 @@ import javax.persistence.*;
 import java.util.Collection;
 
 @Getter
-@AllArgsConstructor
 @NoArgsConstructor
 
 @Entity
@@ -29,6 +27,12 @@ public class AppUser implements UserDetails {
     private String email;
     @Column(name = "password", nullable = false)
     private String password;
+
+    public AppUser(Long appUserId, String email, String password) {
+        this.appUserId = appUserId;
+        this.email = email;
+        this.password = password;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {

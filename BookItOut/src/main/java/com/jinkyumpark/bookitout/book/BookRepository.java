@@ -9,11 +9,12 @@ import java.util.List;
 
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
-    List<Book> findAllByAppUser_AppUserId(Long appUserId, Pageable pageRequest);
+    @Query("select b from Book b where b.appUser.appUserId = ?1")
+    List<Book> findAllBooksByAppUserId(Long appUserId, Pageable pageRequest);
 
     @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = b.endPage")
-    List<Book> findAllDoneBook(Long appUserId, Pageable pageRequest);
+    List<Book> findAllDoneBooks(Long appUserId, Pageable pageRequest);
 
     @Query("select b from Book b where b.appUser.appUserId = ?1 and not b.currentPage = b.endPage")
-    List<Book> findAllNotDoneBook(Long appUserId, Pageable pageRequest);
+    List<Book> findAllNotDoneBooks(Long appUserId, Pageable pageRequest);
 }

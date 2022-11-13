@@ -62,9 +62,15 @@ public class Book {
     @ColumnDefault("false")
     private Boolean isSharing;
 
+    public Book(String title, Integer endPage, AppUser appUser) {
+        this.title = title;
+        this.endPage = endPage;
+        this.appUser = appUser;
+    }
+
     // FK
     @ManyToOne
-    @JoinColumn(name = "app_user_id", nullable = false, updatable = false, foreignKey = @ForeignKey(name = "book_user_fk"))
+    @JoinColumn(name = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
     private AppUser appUser;
 
     @ManyToOne
