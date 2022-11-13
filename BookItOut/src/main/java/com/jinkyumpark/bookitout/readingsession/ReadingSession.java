@@ -41,10 +41,17 @@ public class ReadingSession {
 
     // FK
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_user_fk"))
+    @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
     private AppUser appUser;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
     private Book book;
+
+    // Required Args Constructor
+    public ReadingSession(Integer startPage, LocalDateTime startTime, Book book) {
+        this.startPage = startPage;
+        this.startTime = startTime;
+        this.book = book;
+    }
 }

@@ -24,14 +24,10 @@ public class BookService {
     private ReadingSessionRepository readingSessionRepository;
     private AppUserRepository appUserRepository;
 
-    public Book getBookById(Long id) {
+    public Optional<Book> getBookById(Long id) {
         Optional<Book> bookOptional = bookRepository.findById(id);
 
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException("해당 id의 책은 존재하지 않아요");
-        }
-
-        return bookOptional.get();
+        return bookOptional;
     }
 
     public Optional<Book> getLastBookByUserid(Long appUserId) {
