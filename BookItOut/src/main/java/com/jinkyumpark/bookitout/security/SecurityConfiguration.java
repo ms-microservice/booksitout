@@ -15,6 +15,10 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+
 import javax.crypto.SecretKey;
 
 @AllArgsConstructor
@@ -31,8 +35,11 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .csrf().disable()
+                .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
+                .and()
+                .cors().configurationSource(corsConfigurationSource())
                 .and()
 
                 .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, secretKey))
@@ -40,10 +47,24 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/login", "/**/join").permitAll()
+                .antMatchers("/login", "/**/join", "/**/login").permitAll()
 
                 .anyRequest()
                 .authenticated();
+    }
+
+    @Bean
+    public CorsConfigurationSource corsConfigurationSource() {
+        CorsConfiguration configuration = new CorsConfiguration();
+
+        configuration.addAllowedOrigin("*");
+        configuration.addAllowedHeader("*");
+        configuration.addAllowedMethod("*");
+
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration);
+
+        return source;
     }
 
     @Override

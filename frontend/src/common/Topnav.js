@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
@@ -6,7 +6,6 @@ import Form from 'react-bootstrap/Form';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-
 import {
     HiUserCircle as UserIcon,
     HiOutlineUserAdd as JoinIcon,
@@ -16,12 +15,18 @@ import {
     FiSettings as SettingIcon,
 } from 'react-icons/fi';
 
-const Topnav = () => {
+const Topnav = ({ token }) => {
     const navigate = useNavigate();
-
     const expand = 'lg';
 
     const [keyword, setKeyword] = useState('');
+
+    useEffect(() => {
+        if (token === '') {
+            navigate('/login');
+        }
+    }, []);
+
     const search = (e) => {
         e.preventDefault();
         if (keyword !== '') {
@@ -29,6 +34,12 @@ const Topnav = () => {
         } else {
             alert('검색어를 입력해 주세요');
         }
+    };
+
+    const handleLogout = (e) => {
+        e.preventDefault();
+        localStorage.setItem('login-token', '');
+        navigate('/login');
     };
 
     return (
@@ -55,7 +66,16 @@ const Topnav = () => {
                                         <div className='col-4'>
                                             <LoginIcon className='me-2' />
                                         </div>
-                                        <div className='col-8'>로그인</div>
+                                        {token === '' ? (
+                                            <div className='col-8'>로그인</div>
+                                        ) : (
+                                            <div
+                                                className='col-8'
+                                                onClick={handleLogout}
+                                            >
+                                                로그아웃
+                                            </div>
+                                        )}
                                     </div>
                                 </div>
                             </div>
@@ -112,9 +132,16 @@ const Topnav = () => {
                             size='xl'
                             className={`d-none d-${expand}-inline`}
                         >
-                            <NavDropdown.Item href='/login'>
-                                로그인
-                            </NavDropdown.Item>
+                            {token === '' ? (
+                                <NavDropdown.Item href='/login'>
+                                    로그인
+                                </NavDropdown.Item>
+                            ) : (
+                                <NavDropdown.Item onClick={handleLogout}>
+                                    로그아웃
+                                </NavDropdown.Item>
+                            )}
+
                             <NavDropdown.Item href='/join'>
                                 회원가입
                             </NavDropdown.Item>

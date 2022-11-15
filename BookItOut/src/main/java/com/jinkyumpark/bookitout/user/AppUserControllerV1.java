@@ -2,6 +2,7 @@ package com.jinkyumpark.bookitout.user;
 
 import com.jinkyumpark.bookitout.exception.common.ConflictException;
 import com.jinkyumpark.bookitout.exception.common.UnknownException;
+import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.user.request.JoinRequest;
 import com.jinkyumpark.bookitout.user.response.JoinSuccessResponse;
 import lombok.AllArgsConstructor;
@@ -39,5 +40,10 @@ public class AppUserControllerV1 {
         }
 
         throw new UnknownException();
+    }
+
+    @PostMapping("login")
+    public void login(@RequestBody @Valid EmailPasswordLoginRequest loginRequest) {
+
     }
 }

@@ -12,7 +12,10 @@ import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
@@ -67,7 +70,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setCharacterEncoding("UTF-8");
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
 //        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
-        Map<String, String> successMessage = Map.of("timestamp", new Date().toString(), "message", "로그인했어요");
+        Map<String, Object> successMessage = Map.of("timestamp", new Date().toString(), "status", 200, "message", "로그인했어요", "token", jwtConfig.getTokenPrefix() + token);
 
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(successMessage));
@@ -83,7 +86,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType("application/json");
 
         ObjectMapper mapper = new ObjectMapper();
-        Map<String, String> messageMap = Map.of("timestamp", new Date().toString(), "message", "이메일이나 비밀번호가 틀렸어요. 다시 확인해 주세요.");
+        Map<String, Object> messageMap = Map.of("timestamp", new Date().toString(), "status", 401, "message", "이메일이나 비밀번호가 틀렸어요. 다시 확인해 주세요.");
         response.getWriter().write(mapper.writeValueAsString(messageMap));
         response.getWriter().flush();
     }

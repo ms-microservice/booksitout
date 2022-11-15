@@ -1,12 +1,16 @@
 import { Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import Topnav from './common/Topnav';
 import Summary from './summary/Summary';
 import Introduction from './introduction/Introduction';
+import Login from './user/Login';
 
 function App() {
+    const [token, setToken] = useState(localStorage.getItem('login-token'));
+
     return (
         <div className='App'>
-            <Topnav />
+            <Topnav token={token} />
 
             <div
                 className='div'
@@ -19,7 +23,7 @@ function App() {
                 <Route path='/' element={<Summary />} />
                 <Route path='/introduction' element={<Introduction />} />
 
-                <Route path='/login' element={<></>} />
+                <Route path='/login' element={<Login setToken={setToken} />} />
                 <Route path='/join' element={<></>} />
                 <Route path='/settings' element={<></>} />
 
