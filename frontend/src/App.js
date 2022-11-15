@@ -4,6 +4,7 @@ import Topnav from './common/Topnav';
 import Summary from './summary/Summary';
 import Introduction from './introduction/Introduction';
 import Login from './user/Login';
+import Join from './user/Join';
 
 function App() {
     const [token, setToken] = useState(localStorage.getItem('login-token'));
@@ -24,7 +25,7 @@ function App() {
                 <Route path='/introduction' element={<Introduction />} />
 
                 <Route path='/login' element={<Login setToken={setToken} />} />
-                <Route path='/join' element={<></>} />
+                <Route path='/join' element={<Join />} />
                 <Route path='/settings' element={<></>} />
 
                 <Route path='/book/:range' element={<></>} />

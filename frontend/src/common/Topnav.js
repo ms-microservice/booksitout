@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -16,14 +16,18 @@ import {
 } from 'react-icons/fi';
 
 const Topnav = ({ token }) => {
-    const navigate = useNavigate();
     const expand = 'lg';
+
+    const navigate = useNavigate();
+    const location = useLocation();
 
     const [keyword, setKeyword] = useState('');
 
     useEffect(() => {
         if (token === '') {
-            navigate('/login');
+            if (!location.pathname.includes('join')) {
+                navigate('/login');
+            }
         }
     }, []);
 
