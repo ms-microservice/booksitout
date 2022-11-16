@@ -62,6 +62,11 @@ public class Book {
     @ColumnDefault("false")
     private Boolean isSharing;
 
+    @Column(name = "language", nullable = false)
+    @ColumnDefault(value = "KOREAN")
+    @Enumerated(value = EnumType.STRING)
+    private Language language;
+
     public Book(String title, Integer endPage, AppUser appUser) {
         this.title = title;
         this.endPage = endPage;
