@@ -9,7 +9,6 @@ import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -81,9 +80,10 @@ public class BookControllerV1 {
         return bookService.getAllDoneBook(loginUserId, pageRequest);
     }
 
-    @GetMapping("all/notdone")
-    public List<Book> getAllNotDoneBook(@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
-                                        @RequestParam(value = "size", required = false, defaultValue = "9") Integer size) {
+    @GetMapping("all/not-done")
+    public List<Book> getAllNotDoneBook(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                        @RequestParam(value = "size", required = false, defaultValue = "9") Integer size
+    ) {
         Long loginUserId = AppUserService.getLoginAppUserId();
         Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
 
@@ -94,9 +94,11 @@ public class BookControllerV1 {
     public AddSucessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {
         Book book = new Book();
         book.setTitle(bookAddRequest.getTitle());
-        book.setCurrentPage(bookAddRequest.getCurrentPage());
+        book.setAuthor(bookAddRequest.getAuthor());
         book.setEndPage(bookAddRequest.getEndPage());
         book.setSource(BookSource.valueOf(bookAddRequest.getSource()));
+        book.setCover(bookAddRequest.getCover());
+
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         bookService.addBook(book, loginUserId);
