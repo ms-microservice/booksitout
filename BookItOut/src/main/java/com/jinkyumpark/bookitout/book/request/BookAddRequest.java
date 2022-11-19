@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.book.request;
 
-import com.jinkyumpark.bookitout.book.BookSource;
+import com.jinkyumpark.bookitout.bookelement.BookForm;
+import com.jinkyumpark.bookitout.bookelement.BookSource;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,10 +23,11 @@ public class BookAddRequest {
     private String cover;
     private LocalDateTime publishedAt;
     private String language;
+    private String form = BookForm.PHYSICAL.toString();
     private String source = BookSource.NOT_PROVIDED.toString();
     @NotNull
     private Integer endPage;
 
-    // FK
-    private Integer bookCategoryId;
+    private Boolean isSharing = false;
+    private String category;
 }

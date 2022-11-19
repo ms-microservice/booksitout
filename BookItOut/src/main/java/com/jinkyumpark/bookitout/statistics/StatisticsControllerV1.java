@@ -1,8 +1,13 @@
 package com.jinkyumpark.bookitout.statistics;
 
+import com.jinkyumpark.bookitout.statistics.response.Daily;
+import com.jinkyumpark.bookitout.statistics.response.ReadTimeResponse;
+import com.jinkyumpark.bookitout.statistics.response.SummaryStatistics;
+import com.jinkyumpark.bookitout.statistics.response.Yearly;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
@@ -16,7 +21,7 @@ import java.util.Optional;
 public class StatisticsControllerV1 {
     private StatisticsService statisticsService;
 
-    @GetMapping("/month")
+    @GetMapping("month")
     public MonthStatistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,
                                                 @RequestParam(value = "month", required = false) Integer month) {
         if (year == null) {
@@ -38,54 +43,58 @@ public class StatisticsControllerV1 {
         return statisticsOptional.get();
     }
 
-    @GetMapping("/year")
-    public MonthStatistics getStatisticsByYear(@RequestParam(value = "year", required = false) Integer year) {
-        if (year == null) {
-            year = LocalDateTime.now().getYear();
-        }
+    @GetMapping("year/{year}")
+    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year) {
+        if (year == null) year = LocalDateTime.now().getYear();
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginUserId, year);
 
-        int totalReadMinute = monthStatisticsList.stream()
+        int totalReadTime = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalReadMinute)
+                .sum();
+
+        int totalReadBookCount = monthStatisticsList.stream()
+                .mapToInt(MonthStatistics::getFinishedBook)
                 .sum();
 
         int totalStar = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalStar)
                 .sum();
+        double averageStar = totalStar / (totalReadBookCount == 0 ? 1 : totalReadBookCount* 1.0);
 
-        int totalFinishedBook = monthStatisticsList.stream()
-                .mapToInt(MonthStatistics::getFinishedBook)
-                .sum();
-
-        int totalPage = monthStatisticsList.stream()
+        int totalReadPage = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalPage)
                 .sum();
 
-        int maxReadMinuteInDay = monthStatisticsList.stream()
+        boolean isThisYear = LocalDateTime.now().getYear() == year;
+        int averageReadTime = totalReadTime / (
+                isThisYear ?
+                LocalDateTime.now().getDayOfYear()
+                : 365
+        );
+
+        int mostReadTime = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getMaxReadMinute)
                 .max().orElse(0);
 
-        MonthStatistics yearMonthStatistics = new MonthStatistics();
-        yearMonthStatistics.setYear(year);
-        yearMonthStatistics.setTotalReadMinute(totalReadMinute);
-        yearMonthStatistics.setFinishedBook(totalFinishedBook);
-        yearMonthStatistics.setTotalStar(totalStar);
-        yearMonthStatistics.setMaxReadMinute(maxReadMinuteInDay);
-        yearMonthStatistics.setTotalPage(totalPage);
+        // TODO : Goal
 
-        return yearMonthStatistics;
+        Yearly yearly = new Yearly(totalReadTime, totalReadBookCount, averageStar, totalReadPage);
+        Daily daily = new Daily(averageReadTime, mostReadTime);
+        SummaryStatistics summaryStatistics = new SummaryStatistics(HttpStatus.OK.value(), year, yearly, daily, 50);
+
+        return summaryStatistics;
     }
 
     @GetMapping("/read-time/{day}")
-    public List<Integer> getReadTime(@PathVariable("day") Integer dayRange) {
+    public ReadTimeResponse getReadTime(@PathVariable("day") Integer dayRange) {
         List<Integer> readTimeList = new ArrayList<>();
 
         for (int i = 0; i < dayRange; i++) {
             readTimeList.add((int) (Math.random() * 100));
         }
 
-        return readTimeList;
+        return new ReadTimeResponse(200, readTimeList);
     }
 }

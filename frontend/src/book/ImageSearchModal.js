@@ -1,7 +1,9 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Card, Button } from 'react-bootstrap'
+// Resources
 import Error from '../common/Error'
+import Loading from '../common/Loading'
+import checkIcon from '../resources/images/general/check.png'
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {
 	const GOOGLE_URL = `https://customsearch.googleapis.com/customsearch/v1`
@@ -9,44 +11,59 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 	const GOOGLE_API_KEY = `AIzaSyC2YmfHVVN3U6ZPHHANULvMSq_eNx97q4Q`
 
 	const coverImageStyle = { maxHeight: '300px', width: '100%', objectPosition: 'center' }
-	const coverSelectedStyle = { opacity: 0.7, maxHeight: '300px', width: '100%', objectPosition: 'center' }
+	const coverSelectedStyle = { opacity: 0.4, maxHeight: '300px', width: '100%', objectPosition: 'center' }
 	const [selectedImageIndex, setSelectedImageIndex] = useState(-1)
 	const [imageSearchResult, setImageSearchResult] = useState([])
 
-	const closeModal = () => setShowModal(false)
+	const closeModal = () => {
+		setSelectedImageIndex(-1)
+		setShowModal(false)
+	}
 	const closeModalSuccess = () => {
-		console.log(imageSearchResult[selectedImageIndex].image)
 		setCover(imageSearchResult[selectedImageIndex].image)
 		setSelectedImageIndex(-1)
 		setShowModal(false)
 	}
 
+	const [initialFetch, setInitialFetch] = useState(true)
+	const [isLoading, setIsLoading] = useState(true)
+
 	useEffect(() => {
 		if (!showModal) return
+
+		setTimeout(() => {
+			setInitialFetch(false)
+		}, 3000)
 
 		fetch(`${GOOGLE_URL}?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${title}&searchType=image`)
 			.then((res) => {
 				return res.json()
 			})
 			.then((data) => {
-				console.log(data)
-
 				const imageLink = data.items.map((item, index) => {
 					return { id: index, image: item.link }
 				})
 
 				setImageSearchResult(imageLink)
 			})
+			.finally(() => {
+				setIsLoading(false)
+				setInitialFetch(false)
+			})
 	}, [showModal])
 
 	return (
-		<Modal show={showModal} onHide={closeModal} backdrop='static' size='xl'>
+		<Modal show={showModal} onHide={closeModal} backdrop='static' size='xl' fullscreen='sm-down'>
 			<Modal.Header closeButton>
 				<Modal.Title>이미지 검색</Modal.Title>
 			</Modal.Header>
 
 			<Modal.Body>
-				{imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length == 0 ? (
+				{initialFetch ? (
+					<></>
+				) : isLoading ? (
+					<Loading />
+				) : imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length == 0 ? (
 					<Error message='검색 결과가 없어요' />
 				) : (
 					<div className='row'>
@@ -55,6 +72,22 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 								<div className='col-6 col-xl-3'>
 									<Card className='mb-4' onClick={() => setSelectedImageIndex(link.id)}>
 										<Card.Body>
+											{link.id == selectedImageIndex && (
+												<img
+													src={checkIcon}
+													alt='selected'
+													className='img-fluid'
+													style={{
+														widht: '50px',
+														height: '50px',
+														position: 'absolute',
+														top: '-20px',
+														right: '-10px',
+														zIndex: 100,
+													}}
+												/>
+											)}
+
 											<img
 												src={link.image}
 												alt=''
@@ -74,7 +107,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 				<Button variant='danger' onClick={closeModal}>
 					취소
 				</Button>
-				<Button variant='primary' onClick={closeModalSuccess}>
+				<Button variant='primary' onClick={closeModalSuccess} disabled={selectedImageIndex == -1}>
 					선택한 이미지로 결정하기
 				</Button>
 			</Modal.Footer>

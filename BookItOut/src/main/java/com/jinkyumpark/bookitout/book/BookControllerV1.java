@@ -2,6 +2,9 @@ package com.jinkyumpark.bookitout.book;
 
 import com.jinkyumpark.bookitout.book.request.BookAddRequest;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
+import com.jinkyumpark.bookitout.bookelement.BookCategory;
+import com.jinkyumpark.bookitout.bookelement.BookSource;
+import com.jinkyumpark.bookitout.bookelement.language.Language;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;
@@ -98,6 +101,9 @@ public class BookControllerV1 {
         book.setEndPage(bookAddRequest.getEndPage());
         book.setSource(BookSource.valueOf(bookAddRequest.getSource()));
         book.setCover(bookAddRequest.getCover());
+        book.setCategory(BookCategory.valueOf(bookAddRequest.getCategory()));
+        book.setLanguage(Language.valueOf(bookAddRequest.getLanguage()));
+        book.setIsSharing(bookAddRequest.getIsSharing());
 
         Long loginUserId = AppUserService.getLoginAppUserId();
 

@@ -1,8 +1,6 @@
 import React from 'react'
 import { useState, useEffect } from 'react'
-import { Card, Container } from 'react-bootstrap'
-// Icon
-import { dummy } from '../resources/data/mainDummyData.js'
+import { Card, Container, Alert } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -14,9 +12,12 @@ import Goal from './Goal'
 const Main = (props) => {
 	const LAST_BOOK_API_URL = `http://localhost/v1/book/last`
 	const READ_TIME_API_URL = `http://localhost/v1/statistics/read-time/14`
-	const STATISTICS_SUMMARY_URL = `http://localhost/v1/`
+	const STATISTICS_SUMMARY_URL = `http://localhost/v1/statistics/year/2022`
 
-	const [isLoading, setIsLoading] = useState(false)
+	const [isLoading, setIsLoading] = useState(true)
+	const [initialFetch, setInitialFetch] = useState(true)
+	const [showAlert, setShowAlert] = useState(true)
+
 	const [lastBook, setLastBook] = useState(null)
 	const [readTime, setReadTime] = useState(null)
 	const [statistics, setStatistics] = useState(null)
@@ -25,71 +26,91 @@ const Main = (props) => {
 		{
 			id: 1,
 			title: '마지막으로 읽은 책',
-			element: lastBook === null ? <Error message='마지막으로 읽은 책이 없어요' /> : <HorizontalBookView book={lastBook} />,
+			element: lastBook != null && (
+				<HorizontalBookView
+					book={lastBook}
+					secondButton={
+						<a href='/book/all' className='btn btn-warning w-100'>
+							다른 책 읽기
+						</a>
+					}
+				/>
+			),
+			data: lastBook,
+			message: '마지막으로 읽은 책이 없어요',
 		},
 		{
 			id: 2,
 			title: '최근 2주간 독서시간',
-			element:
-				statistics == null ? (
-					<Error message='독서시간을 불러올 수 없어요' />
-				) : (
-					<DateLineChart startDate={new Date().setDate(new Date().getDate() - 14)} data={readTime} />
-				),
+			element: readTime != null && <DateLineChart startDate={new Date().setDate(new Date().getDate() - 14)} data={readTime} />,
+			data: readTime,
+			message: '오류가 났어요',
 		},
 		{
 			id: 3,
 			title: '2022년 목표',
-			element: statistics === null ? <Error message='목표를 불러올 수 없어요' /> : <Goal goal={dummy.goal} />,
+			element: statistics != null && <Goal goal={{ current: statistics.yearly.totalReadBookCount, goal: statistics.goal }} />,
+			data: statistics,
+			message: '오류가 났어요',
 		},
 		{
 			id: 4,
 			title: '2022년 독서 요약',
-			element: statistics === null ? <Error message='통계를 불러올 수 없어요' /> : <SummaryTable statistics={statistics} />,
+			element: statistics != null && <SummaryTable statistics={statistics} />,
+			data: statistics,
+			message: '오류가 났어요',
 		},
 	]
 
-	const fetchFromApi = ({ url, token, setData }) => {
+	const fetchFromApi = (url, setData) => {
 		fetch(url, {
 			methods: 'GET',
-			headers: { Authorization: token },
+			headers: { Authorization: props.token, 'Content-Type': 'application/json' },
 		})
-			.then((res) => {
-				console.log(res)
-				return res.json()
-			})
-			.then((data) => {
-				console.log(data)
-
-				if (data.status.toString().startsWith(2)) {
-					setData(data)
-				}
-			})
-			.catch((e) => {
-				console.log(e)
-			})
+			.then((res) => res.json())
+			.then((data) => setData(data))
+			.catch((e) => console.log(e))
 	}
 
 	useEffect(() => {
+		setTimeout(() => {
+			setInitialFetch(false)
+		}, 500)
+
 		Promise.all([
-			fetchFromApi(LAST_BOOK_API_URL, props.token, setLastBook),
-			fetchFromApi(READ_TIME_API_URL, props.token, setReadTime),
-			// fetchFromApi(STATISTICS_SUMMARY_URL, props.token, setStatistics),
+			fetchFromApi(LAST_BOOK_API_URL, (data) => data.status.toString().startsWith(2) && setLastBook(data)),
+			fetchFromApi(READ_TIME_API_URL, (data) => data.status.toString().startsWith(2) && setReadTime(data.timeSeriesData)),
+			fetchFromApi(STATISTICS_SUMMARY_URL, (data) => data.status.toString().startsWith(2) && setStatistics(data)),
 		]).finally(() => {
+			setInitialFetch(false)
 			setIsLoading(false)
 		})
 	}, [])
 
 	return (
 		<Container>
-			{isLoading ? (
+			{initialFetch ? (
+				<></>
+			) : isLoading ? (
 				<Loading />
 			) : (
 				<div className='row row-eq-height'>
+					<div className='container'>
+						{showAlert && (
+							<Alert variant='success' dismissible onClose={() => setShowAlert(false)}>
+								{`어서오세요, ${localStorage.getItem('user-name')}님! 오늘도 마음의 양식을 섭취하러 오셨군요 😉`}
+							</Alert>
+						)}
+					</div>
+
 					{uiData.map((ui) => {
 						return (
 							<div className='col-lg-12 col-xl-6 mb-4'>
-								<CardWithTitle title={ui.title} element={ui.element} />
+								{ui.data == null ? (
+									<CardWithTitle title={ui.title} element={<Error message={ui.message} />} />
+								) : (
+									<CardWithTitle title={ui.title} element={ui.element} />
+								)}
 							</div>
 						)
 					})}

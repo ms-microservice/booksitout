@@ -69,8 +69,16 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
-//        response.addCookie(new Cookie("Authorization", jwtConfig.getTokenPrefix() + token));
-        Map<String, Object> successMessage = Map.of("timestamp", new Date().toString(), "status", 200, "message", "로그인했어요", "token", jwtConfig.getTokenPrefix() + token);
+
+        String appUserName = ((AppUser) authResult.getPrincipal()).getName();
+
+        Map<String, Object> successMessage = Map.of(
+                "timestamp", new Date().toString(),
+                "status", 200,
+                "message", String.format("어서오세요, %s님!", appUserName),
+                "token", jwtConfig.getTokenPrefix() + token,
+                "name", appUserName
+        );
 
         ObjectMapper mapper = new ObjectMapper();
         response.getWriter().write(mapper.writeValueAsString(successMessage));

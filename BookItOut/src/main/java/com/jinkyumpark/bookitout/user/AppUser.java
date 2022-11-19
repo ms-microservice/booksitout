@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
@@ -28,10 +29,19 @@ public class AppUser implements UserDetails {
     @Column(name = "password", nullable = false)
     private String password;
 
+    @Column(name = "name", nullable = false)
+    private String name;
+
     public AppUser(Long appUserId, String email, String password) {
         this.appUserId = appUserId;
         this.email = email;
         this.password = password;
+    }
+
+    public AppUser(String email, String password, String name) {
+        this.email = email;
+        this.password = password;
+        this.name = name;
     }
 
     @Override

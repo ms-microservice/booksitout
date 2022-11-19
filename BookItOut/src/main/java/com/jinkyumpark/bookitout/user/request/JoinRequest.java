@@ -19,4 +19,8 @@ public class JoinRequest {
     @NotBlank(message = "비밃번호를 입력해 주세요")
     @Length(min = 6, message = "6자 이상의 비밀번호를 입력해 주세요")
     private String password;
+
+    @NotNull
+    @NotBlank(message = "이름을 입력해 주세요")
+    private String name;
 }

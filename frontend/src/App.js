@@ -1,5 +1,5 @@
-import { Routes, Route, useLocation } from 'react-router-dom'
 import { useState, useEffect } from 'react'
+import { Routes, Route, useLocation } from 'react-router-dom'
 // common
 import Topnav from './common/Topnav'
 import AddButton from './common/AddButton'
@@ -31,7 +31,7 @@ function App() {
 
 	return (
 		<div className='App'>
-			<Topnav token={token} />
+			<Topnav token={token} setToken={setToken} />
 
 			<div style={{ marginBottom: '80px' }} />
 
@@ -55,8 +55,12 @@ function App() {
 				<Route path='/search/:key' element={<></>} />
 			</Routes>
 
-			{!currentUrl.startsWith('/book/add') && <AddButton />}
-			<ReadingButton />
+			{token != '' && (
+				<>
+					{!currentUrl.startsWith('/book/add') && <AddButton />}
+					<ReadingButton />
+				</>
+			)}
 		</div>
 	)
 }

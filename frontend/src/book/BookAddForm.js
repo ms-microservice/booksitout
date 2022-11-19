@@ -1,19 +1,20 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
-import { Button, Form } from 'react-bootstrap'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Button, Form } from 'react-bootstrap'
+// Resources
 import defaultBookCover from '../resources/images/common/book.png'
-
 import ImageSearchModal from './ImageSearchModal'
 
 const BookAddForm = (props) => {
+	const ADD_BOOK_API_URL = `http://localhost/v1/book`
+
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false)
 
 	// Messages
 	const TITLE_MESSAGE = `책 제목을 알려 주세요`
 	const AUTHOR_MESSAGE = `책의 저자를 알려 주세요`
-	const PAGE_MESSAGE = `마지막 페이지는 몇 페이지 인가요?`
+	const PAGE_MESSAGE = `마지막 페이지를 알려 주세요`
 
 	// Book Info
 	const [title, setTitle] = useState('')
@@ -21,16 +22,17 @@ const BookAddForm = (props) => {
 	const [endPage, setEndPage] = useState(0)
 	const [cover, setCover] = useState('')
 	const [language, setLanguage] = useState('KOREAN')
-	const [source, setSource] = useState('NOT_PROVIDED')
-
-	const [category, setCategory] = useState('NOVEL')
-	const [publishedAt, setPublishedAt] = useState('')
+	const [category, setCategory] = useState('LITERATURE')
 	const [isSharing, setIsSharing] = useState(false)
+	const [publishedAt, setPublishedAt] = useState('')
+
+	const [form, setForm] = useState('PHYSICAL')
+	const [source, setSource] = useState('NOT_PROVIDED')
 
 	const addBook = (e) => {
 		e.preventDefault()
 
-		fetch(`http://localhost/v1/book`, {
+		fetch(ADD_BOOK_API_URL, {
 			method: 'POST',
 			headers: {
 				'Content-Type': 'application/json',
@@ -43,7 +45,12 @@ const BookAddForm = (props) => {
 				language: language,
 
 				endPage: endPage,
+				category: category,
+
+				form: form,
 				source: source,
+
+				isSharing: isSharing,
 			}),
 		})
 			.then((res) => {
@@ -82,7 +89,7 @@ const BookAddForm = (props) => {
 						<div className='row mt-5'>
 							<div className='col-6'>
 								<Button className='w-100' onClick={openModal}>
-									이미지 검색
+									책 표지 검색
 								</Button>
 							</div>
 							<div className='col-6'>
@@ -123,9 +130,21 @@ const BookAddForm = (props) => {
 							<div className='col-4'>
 								<Form.Group>
 									<Form.Label>장르</Form.Label>
-									<Form.Select>
-										<option>문학</option>
-										<option>비문학</option>
+									<Form.Select onChange={(e) => setCategory(e.target.value)}>
+										<option value='LITERATURE'>문학</option>
+
+										<option value='NATURAL_SCIENCE'>자연과학</option>
+										<option value='SOCIAL_SCIENCE'>사회과학</option>
+										<option value='TECHNOLOGY'>기술</option>
+
+										<option value='PHILOSOPHY'>철학</option>
+										<option value='LANGUAGE'>언어</option>
+										<option value='ART'>예술</option>
+										<option value='HISTORY'>역사</option>
+
+										<option value='RELIGION'>종교</option>
+
+										<option value='OTHERS'>기타</option>
 									</Form.Select>
 								</Form.Group>
 							</div>
@@ -140,12 +159,12 @@ const BookAddForm = (props) => {
 
 						<div className='row mt-5'>
 							<div className='col-6'>
-								<Form.Group className='mb-3'>
+								<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
 									<Form.Label>책 형태</Form.Label>
 									<Form.Select>
-										<option>실물 책</option>
-										<option>전자책</option>
-										<option>오디오북</option>
+										<option value='PHYSICAL'>종이책</option>
+										<option value='EBOOK'>전자책</option>
+										<option value='AUDIO'>오디오북</option>
 									</Form.Select>
 								</Form.Group>
 							</div>
@@ -156,22 +175,29 @@ const BookAddForm = (props) => {
 									<Form.Select>
 										<option value='NOT_PROVIDED'>말하고 싶지 않아요</option>
 
-										<option value='BOUGHT_BOOKSTORE'>온라인 서점</option>
-										<option value='BOUGHT_ONLINE'>오프라인 서점</option>
-										<option value='BOUGHT_USED'>중고로 샀어요</option>
+										<option value='BUY_NEW_OFFLINE'>새 책 - 온라인 서점</option>
+										<option value='BIY_NEW_ONLINE'>새 책 - 오프라인 서점</option>
+										<option value='BUY_USED_OFFLINE'>중고책 - 오프라인 서점 (알라딘 등)</option>
+										<option value='BUY_USED_ONLINE'>중고책 - 온라인 서점</option>
 
-										<option value='BORROW_LIBRARY'>도서관에서 빌렸어요</option>
+										<option value='LIBRARY'>도서관</option>
 										<option value='BORROW_STORE'>돈 주고 빌렸어요</option>
 										<option value='BORROW_FRIENDS'>친구에게 빌렸어요</option>
 
-										<option value='EBOOK_SUBSCRIPTION'>구독했어요 (밀리의 서재 등)</option>
+										<option value='SUBSCRIPTION'>구독 (밀리의 서재 등)</option>
+
+										<opton value='OTHERS'>기타</opton>
 									</Form.Select>
 								</Form.Group>
 							</div>
 						</div>
 
 						<Form.Group className='mb-3' controlId='formBasicCheckbox'>
-							<Form.Check type='checkbox' label='다른 사람이 내 독서활동을 볼 수 있도록 하기' />
+							<Form.Check
+								type='checkbox'
+								label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
+								onChange={() => setIsSharing(!isSharing)}
+							/>
 						</Form.Group>
 
 						<div className='row justify-content-center mt-5 container'>

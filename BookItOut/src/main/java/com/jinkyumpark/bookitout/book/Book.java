@@ -1,8 +1,9 @@
 package com.jinkyumpark.bookitout.book;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.bookitout.bookelement.author.Author;
-import com.jinkyumpark.bookitout.bookelement.bookcategory.BookCategory;
+import com.jinkyumpark.bookitout.bookelement.BookCategory;
+import com.jinkyumpark.bookitout.bookelement.BookForm;
+import com.jinkyumpark.bookitout.bookelement.BookSource;
 import com.jinkyumpark.bookitout.bookelement.language.Language;
 import com.jinkyumpark.bookitout.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.user.AppUser;
@@ -36,6 +37,7 @@ public class Book {
     private String cover;
 
     @Column(name = "published_at")
+    @JsonIgnore
     private LocalDateTime publishedAt;
 
     @Column(name = "add_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
@@ -56,6 +58,10 @@ public class Book {
     @Enumerated(EnumType.ORDINAL)
     private BookSource source;
 
+    @Column(name = "form")
+    @Enumerated(EnumType.ORDINAL)
+    private BookForm form;
+
     @Column(name = "review")
     private String review;
 
@@ -71,19 +77,20 @@ public class Book {
     @Enumerated(value = EnumType.ORDINAL)
     private Language language;
 
+    @Column(name = "category", nullable = false)
+    @ColumnDefault(value = "1")
+    @Enumerated(value = EnumType.ORDINAL)
+    private BookCategory category;
 
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    List<ReadingSession> readingSessionList;
+    // TODO : change to FK
+    @Column(name = "author", nullable = false)
+    private String author;
 
     // FK
     @ManyToOne
     @JoinColumn(name = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
     private AppUser appUser;
 
-    @Column(name = "author", nullable = false)
-    private String author;
-
-    @ManyToOne
-    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "book_category_fk"))
-    private BookCategory category;
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ReadingSession> readingSessionList;
 }
