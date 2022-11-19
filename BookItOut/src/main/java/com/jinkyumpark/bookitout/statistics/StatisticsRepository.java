@@ -8,6 +8,7 @@ import java.util.Optional;
 
 @Repository
 public interface StatisticsRepository extends JpaRepository<MonthStatistics, Long> {
-    Optional<MonthStatistics> findStatisticsByYearIsAndMonthIs(Integer year, Integer month);
-    List<MonthStatistics> findAllByYearIs(Integer year);
+    Optional<MonthStatistics> findByAppUser_AppUserIdAndYearIsAndMonthIs(Long AppUserId, Integer year, Integer month);
+    List<MonthStatistics> findAllByAppUser_AppUserIdAndYearIs(Long appUserId, Integer year);
+    Optional<MonthStatistics> findByAppUser_AppUserIdAndYearAndMonth(Long appUserId, Integer year, Integer month);
 }

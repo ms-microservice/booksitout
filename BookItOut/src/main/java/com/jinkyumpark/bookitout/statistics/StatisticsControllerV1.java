@@ -1,9 +1,12 @@
 package com.jinkyumpark.bookitout.statistics;
 
+import com.jinkyumpark.bookitout.user.AppUser;
+import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,7 +27,9 @@ public class StatisticsControllerV1 {
             month = LocalDateTime.now().getMonthValue();
         }
 
-        Optional<MonthStatistics> statisticsOptional = statisticsService.getStatisticsByMonth(year, month);
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        Optional<MonthStatistics> statisticsOptional = statisticsService.getStatisticsByMonth(loginUserId, year, month);
 
         if (statisticsOptional.isEmpty()) {
             return null;
@@ -38,8 +43,9 @@ public class StatisticsControllerV1 {
         if (year == null) {
             year = LocalDateTime.now().getYear();
         }
+        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(year);
+        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginUserId, year);
 
         int totalReadMinute = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalReadMinute)
@@ -70,5 +76,16 @@ public class StatisticsControllerV1 {
         yearMonthStatistics.setTotalPage(totalPage);
 
         return yearMonthStatistics;
+    }
+
+    @GetMapping("/read-time/{day}")
+    public List<Integer> getReadTime(@PathVariable("day") Integer dayRange) {
+        List<Integer> readTimeList = new ArrayList<>();
+
+        for (int i = 0; i < dayRange; i++) {
+            readTimeList.add((int) (Math.random() * 100));
+        }
+
+        return readTimeList;
     }
 }
