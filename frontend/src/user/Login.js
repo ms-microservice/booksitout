@@ -7,7 +7,7 @@ const Login = (props) => {
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
-	const [stayLogin, setStayLogin] = useState(false)
+	const [stayLogin, setStayLogin] = useState(true)
 
 	const navigate = useNavigate()
 
@@ -90,15 +90,15 @@ const Login = (props) => {
 							</Form.Group>
 
 							<div class='form-check mt-3 text-start ms-3'>
-								<input
-									type='checkbox'
-									class='form-check-input'
-									onChange={() => {
+								<label
+									onClick={() => {
 										setStayLogin(!stayLogin)
-									}}
-								/>
-								<label class='form-check-label' for='stay-login'>
-									로그인 유지하기
+									}}>
+									<label class='form-check-label' for='stay-login'>
+										로그인 유지하기
+									</label>
+
+									<input type='checkbox' class='form-check-input' checked={stayLogin} value={stayLogin} />
 								</label>
 							</div>
 
