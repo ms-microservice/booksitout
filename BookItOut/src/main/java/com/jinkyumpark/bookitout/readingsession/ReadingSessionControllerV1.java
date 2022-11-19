@@ -8,14 +8,14 @@ import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
+import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
-import lombok.Getter;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -74,6 +74,18 @@ public class ReadingSessionControllerV1 {
         return recentReadingSessionList;
     }
 
+    @GetMapping("current")
+    public ReadingSession getCurrentReadingSession() {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+        Optional<ReadingSession> previousReadingSessionOptional = readingSessionService.getPreviousReadingSession(loginUserId);
+
+        if (previousReadingSessionOptional.isEmpty()) {
+            throw new NotFoundException("전에 진행중이신 독서활동이 없어요");
+        }
+
+        return previousReadingSessionOptional.get();
+    }
+
     @PostMapping("{bookId}")
     public AddSucessResponse startReadingSession(@PathVariable("bookId") Long bookId) {
         Optional<Book> bookOptional = bookService.getBookById(bookId);
@@ -86,19 +98,21 @@ public class ReadingSessionControllerV1 {
             throw new BookNotSharingException("독서활동을 추가하시려는 책의 주인이 아니에요");
         }
 
-        Optional<ReadingSession> previousReadingSessionOptional = readingSessionService.getPreviousReadingSession(bookId);
+        Optional<ReadingSession> previousReadingSessionOptional = readingSessionService.getPreviousReadingSession(loginAppUserId);
         if (previousReadingSessionOptional.isPresent() && previousReadingSessionOptional.get().getEndPage() == null) {
-            throw new IllegalStateException("아직 진행중이신 독서활동이 있어요. 전의 독서활동을 먼저 끝내 주세요");
+            throw new BadRequestException("아직 진행중이신 독서활동이 있어요. 전의 독서활동을 먼저 끝내 주세요");
         }
 
         Integer startPage = previousReadingSessionOptional.isEmpty() ? 0 : previousReadingSessionOptional.get().getEndPage();
-        ReadingSession newReadingSession = new ReadingSession(startPage, LocalDateTime.now(), bookOptional.get());
+        AppUser appUser = new AppUser(loginAppUserId);
+        ReadingSession newReadingSession = new ReadingSession(startPage, LocalDateTime.now(), bookOptional.get(), appUser);
 
         readingSessionService.addReadingSession(newReadingSession);
 
         return new AddSucessResponse("독서활동을 추가했어요");
     }
 
+    @Transactional
     @PutMapping("{bookId}/end")
     public AddSucessResponse endReadingSession(@PathVariable("bookId") Long bookId, @RequestParam("page") Integer readingSessionEndPage) {
         Optional<Book> bookOptional = bookService.getBookById(bookId);
@@ -117,8 +131,11 @@ public class ReadingSessionControllerV1 {
         }
         updatedReadingSession.setEndPage(readingSessionEndPage);
         updatedReadingSession.setEndTime(LocalDateTime.now());
-
         readingSessionService.updateReadingSession(updatedReadingSession);
+
+        Book updatedBook = bookOptional.get();
+        updatedBook.setCurrentPage(readingSessionEndPage);
+        bookService.editBook(updatedBook);
 
         return new AddSucessResponse("독서활동을 종료했어요");
     }

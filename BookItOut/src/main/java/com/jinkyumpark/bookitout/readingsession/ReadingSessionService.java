@@ -42,8 +42,8 @@ public class ReadingSessionService {
         return readingSessionRepository.findAllByBook_BookId(bookId);
     }
 
-    public Optional<ReadingSession> getPreviousReadingSession(Long bookId) {
-        return readingSessionRepository.findFirstByBook_BookIdOrderByStartTimeDesc(bookId);
+    public Optional<ReadingSession> getPreviousReadingSession(Long appUserId) {
+        return readingSessionRepository.findFirstByAppUser_AppUserIdOrderByStartTimeDesc(appUserId);
     }
 
     public void addReadingSession(ReadingSession newReadingSession) {

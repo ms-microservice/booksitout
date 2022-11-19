@@ -6,8 +6,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -32,26 +30,26 @@ public class ReadingSession {
     @Column(name = "end_page")
     private Integer endPage;
 
-    @Generated(GenerationTime.INSERT)
-    @Column(name = "start_time", updatable = false, nullable = false)
+    @Column(name = "start_time", updatable = false, nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime startTime;
 
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
     // FK
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
     private AppUser appUser;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne
     @JoinColumn(name = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
     private Book book;
 
     // Required Args Constructor
-    public ReadingSession(Integer startPage, LocalDateTime startTime, Book book) {
+    public ReadingSession(Integer startPage, LocalDateTime startTime, Book book, AppUser appUser) {
         this.startPage = startPage;
         this.startTime = startTime;
         this.book = book;
+        this.appUser = appUser;
     }
 }

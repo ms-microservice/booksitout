@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Getter
 @ResponseStatus(HttpStatus.CREATED)
 public class AddSucessResponse {
-    private final LocalDateTime timestamp = LocalDateTime.now();
+    private final String timestamp = LocalDateTime.now().toString();
     private final Integer status = HttpStatus.CREATED.value();
     private String message = "성공적으로 추가했어요!";
 

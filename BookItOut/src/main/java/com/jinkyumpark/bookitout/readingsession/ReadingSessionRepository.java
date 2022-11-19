@@ -20,5 +20,6 @@ public interface ReadingSessionRepository extends JpaRepository<ReadingSession, 
     @Query("select r from ReadingSession r where r.appUser.appUserId = ?1 order by r.startTime DESC")
     List<ReadingSession> findAllRecentReadingSession(Long appUserId, Pageable pageable);
 
-    Optional<ReadingSession> findFirstByBook_BookIdOrderByStartTimeDesc(Long bookId);
+    Optional<ReadingSession> findFirstByAppUser_AppUserIdOrderByStartTimeDesc(Long appUserId);
+
 }
