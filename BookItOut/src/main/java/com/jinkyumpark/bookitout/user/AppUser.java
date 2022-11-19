@@ -44,12 +44,17 @@ public class AppUser implements UserDetails {
         this.password = password;
     }
 
+    public AppUser(Long appUserId) {
+        this.appUserId = appUserId;
+    }
+
     @JsonIgnore
     @Override
     public String getPassword() {
         return password;
     }
 
+    @JsonIgnore
     @Override
     public String getUsername() {
         return email;
