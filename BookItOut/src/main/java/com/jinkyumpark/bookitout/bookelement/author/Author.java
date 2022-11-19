@@ -20,9 +20,4 @@ public class Author {
 
     @Column(name = "dead_date")
     private LocalDateTime deadDate;
-
-    // Fk
-    @ManyToOne
-    @JoinColumn(name = "nationality_id", nullable = false, foreignKey = @ForeignKey(name = "author_nationality_fk"))
-    private Nationality nationality;
 }
