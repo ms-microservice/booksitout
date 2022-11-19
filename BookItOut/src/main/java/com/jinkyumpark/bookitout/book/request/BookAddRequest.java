@@ -15,15 +15,17 @@ public class BookAddRequest {
     @NotBlank
     private String title;
 
-    private Integer authorId;
+    @NotNull
+    @NotBlank
+    private String  author;
+
     private String cover;
     private LocalDateTime publishedAt;
-    private Integer languageId;
-    private Integer bookCategoryId;
-
+    private String language;
     private String source = BookSource.NOT_PROVIDED.toString();
-    private Integer currentPage = 0;
     @NotNull
     private Integer endPage;
-    private String summary;
+
+    // FK
+    private Integer bookCategoryId;
 }
