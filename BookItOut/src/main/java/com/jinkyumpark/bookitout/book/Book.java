@@ -4,12 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.bookelement.author.Author;
 import com.jinkyumpark.bookitout.bookelement.bookcategory.BookCategory;
 import com.jinkyumpark.bookitout.bookelement.language.Language;
+import com.jinkyumpark.bookitout.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -18,6 +21,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "book")
+@DynamicInsert
 public class Book {
     @Id
     @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
@@ -28,7 +32,7 @@ public class Book {
     @Column(name = "title", nullable = false)
     private String title;
 
-    @Column(name = "cover")
+    @Column(name = "cover", length = 1000)
     private String cover;
 
     @Column(name = "published_at")
@@ -63,30 +67,23 @@ public class Book {
     private Boolean isSharing;
 
     @Column(name = "language", nullable = false)
-    @ColumnDefault(value = "KOREAN")
-    @Enumerated(value = EnumType.STRING)
+    @ColumnDefault(value = "1")
+    @Enumerated(value = EnumType.ORDINAL)
     private Language language;
 
-    public Book(String title, Integer endPage, AppUser appUser) {
-        this.title = title;
-        this.endPage = endPage;
-        this.appUser = appUser;
-    }
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
+    List<ReadingSession> readingSessionList;
 
     // FK
     @ManyToOne
     @JoinColumn(name = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
     private AppUser appUser;
 
-    @ManyToOne
-    @JoinColumn(name = "author_id", foreignKey = @ForeignKey(name = "book_author_fk"))
-    private Author author;
+    @Column(name = "author", nullable = false)
+    private String author;
 
     @ManyToOne
-    @JoinColumn(name = "book_category_id", foreignKey = @ForeignKey(name = "book_category_fk"))
+    @JoinColumn(name = "category_id", foreignKey = @ForeignKey(name = "book_category_fk"))
     private BookCategory category;
-
-    @ManyToOne
-    @JoinColumn(name = "book_language_id", foreignKey = @ForeignKey(name = "book_language_fk"))
-    private Language language;
 }
