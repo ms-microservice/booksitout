@@ -1,31 +1,77 @@
-import React from 'react';
+import React from 'react'
+// Icons
+import timeIcon from '../resources/images/statistics/time.png'
+import bookIcon from '../resources/images/statistics/book.png'
+import averageIcon from '../resources/images/statistics/average.png'
+import starIcon from '../resources/images/statistics/star.png'
+import longestDayIcon from '../resources/images/statistics/bookworm.png'
+import pageIcon from '../resources/images/statistics/page.png'
 
 const SummaryTable = ({ statistics }) => {
-    return (
-        <table class='table table-hover mt-3'>
-            <tbody>
-                {statistics.map((stat) => {
-                    return (
-                        <tr>
-                            <th className='col-8 h5'>
-                                <img
-                                    src={stat.icon}
-                                    alt=''
-                                    className='img-fluid me-3'
-                                    style={{
-                                        width: '30px',
-                                        height: '30px',
-                                    }}
-                                />
-                                {stat.name}
-                            </th>
-                            <td className='col-4 h5'>{stat.value}</td>
-                        </tr>
-                    );
-                })}
-            </tbody>
-        </table>
-    );
-};
+	const statisticsData = [
+		{
+			id: 1,
+			icon: timeIcon,
+			name: '총 독서시간',
+			value: `${statistics.yearly.totalReadTime != null && statistics.yearly.totalReadTime}시간`,
+		},
+		{
+			id: 2,
+			icon: averageIcon,
+			name: '하루 평균 독서시간',
+			value: `${statistics.daily.averageReadTime != null && statistics.daily.averageReadTime}분`,
+		},
+		{
+			id: 3,
+			icon: bookIcon,
+			name: '읽은 책',
+			value: `${statistics.yearly.totalReadBookCount != null && statistics.yearly.totalReadBookCount}권`,
+		},
+		{
+			id: 4,
+			icon: starIcon,
+			name: '평균별점',
+			value: `${statistics.yearly.averageStar != null && statistics.yearly.averageStar}`,
+		},
+		{
+			id: 2,
+			icon: longestDayIcon,
+			name: '책을 가장 많이 읽은 날',
+			value: `${statistics.daily.mostReadTime != null && statistics.daily.mostReadTime}분`,
+		},
+		{
+			id: 2,
+			icon: pageIcon,
+			name: '총 읽은 페이지 수',
+			value: `${statistics.yearly.totalReadPage != null && statistics.yearly.totalReadPage} 페이지`,
+		},
+	]
 
-export default SummaryTable;
+	return (
+		<table class='table table-hover mt-3'>
+			<tbody>
+				{statisticsData.map((stat) => {
+					return (
+						<tr>
+							<th className='col-8 h5'>
+								<img
+									src={stat.icon}
+									alt=''
+									className='img-fluid me-3'
+									style={{
+										width: '30px',
+										height: '30px',
+									}}
+								/>
+								{stat.name}
+							</th>
+							<td className='col-4 h5'>{stat.value}</td>
+						</tr>
+					)
+				})}
+			</tbody>
+		</table>
+	)
+}
+
+export default SummaryTable
