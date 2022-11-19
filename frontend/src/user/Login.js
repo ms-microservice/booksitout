@@ -31,6 +31,7 @@ const Login = (props) => {
 			body: JSON.stringify({
 				email: email,
 				password: password,
+				stayLogin: stayLogin,
 			}),
 		})
 			.then((res) => res.json())
