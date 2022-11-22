@@ -2,7 +2,7 @@ import React from 'react'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
-const DateLineChart = ({ startDate, endDate = Date.now(), data }) => {
+const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 }) => {
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 	return (
@@ -16,7 +16,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data }) => {
 			}}
 			data={{
 				labels: [
-					...Array.from({ length: 14 }, (_, i) => {
+					...Array.from({ length: duration }, (_, i) => {
 						let day = new Date(startDate).setDate(new Date(startDate).getDate() + i + 1)
 						return new Date(day).getDate() + '일'
 					}),
