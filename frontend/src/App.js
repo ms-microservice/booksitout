@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Routes, Route, useLocation } from 'react-router-dom'
+import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 // common
 import Topnav from './common/Topnav'
 import AddButton from './common/AddButton'
@@ -24,12 +24,22 @@ import Introduction from './info/Introduction'
 import Search from './search/Search'
 
 function App() {
+	const REDIRECT_EXCLUDE_URL = ['join', 'introduction', 'qna', 'faq']
+
 	const location = useLocation()
+	const navigate = useNavigate()
 
 	const [token, setToken] = useState(localStorage.getItem('login-token'))
 	const [currentUrl, setCurrentUrl] = useState(location.pathname.toString())
+
 	useEffect(() => {
 		setCurrentUrl(location.pathname.toString())
+
+		if (token === '') {
+			if (!REDIRECT_EXCLUDE_URL.some((url) => currentUrl.includes(url))) {
+				navigate('/login')
+			}
+		}
 	}, [location.pathname])
 
 	return (

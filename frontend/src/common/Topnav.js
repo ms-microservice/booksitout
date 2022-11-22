@@ -12,13 +12,6 @@ const Topnav = ({ token, setToken }) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	const checkLogin = (token) => {
-		if (token === '') {
-			if (!location.pathname.includes('join')) {
-				navigate('/login')
-			}
-		}
-	}
 	const handleLogout = (e) => {
 		e.preventDefault()
 		localStorage.setItem('login-token', '')
@@ -27,9 +20,6 @@ const Topnav = ({ token, setToken }) => {
 		alert('로그아웃했어요')
 		navigate('/login')
 	}
-	useEffect(() => {
-		checkLogin(token)
-	}, [])
 
 	const urlList = [
 		{
