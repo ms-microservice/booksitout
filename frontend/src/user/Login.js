@@ -7,8 +7,15 @@ const Login = (props) => {
 	const INTRODUCTION_URL = `/introduction`
 	const FAQ_URL = `/faq`
 	const QNA_URL = `/qna`
+
 	const EMAIL_PLACEHOLDER_MESSAGE = `이메일을 입력해 주세요`
 	const PASSWORD_PLACEHOLDER_MESSAGE = `비밀번호를 입력해 주세요`
+	const INTRODUCTION_TITLE = `책-it-out이 뭐 하는 곳인지 궁금하신가요? 🧐`
+	const FAQ_TITLE = `FAQ`
+	const FAQ_CONTENT = `자주 하시는 질문을 모아 봤어요`
+	const QNA_TITLE = `QNA`
+	const QNA_CONTENT = `직접 질문하실 수 있어요`
+	const FAQ_QNA_TITLE = `책-it-out에 관한 질문 한 스푼 🥄`
 
 	const navigate = useNavigate()
 
@@ -60,7 +67,7 @@ const Login = (props) => {
 	return (
 		<div className='container mt-5'>
 			<div className='row row-eq-height justify-content-center'>
-				<div className='col-12 col-lg-7 mb-4'>
+				<div className='col-12 col-lg-7 mb-5'>
 					<Card className='text-center'>
 						<Card.Body>
 							<h1>📗 로그인</h1>
@@ -129,11 +136,11 @@ const Login = (props) => {
 					</Card>
 				</div>
 
-				<div className='col-12 col-lg-6 mt-4'>
+				<div className='col-12 col-lg-6 mb-4'>
 					<a href={INTRODUCTION_URL} className='text-decoration-none text-black h-100'>
 						<Card className='h-100'>
 							<Card.Body className='text-center'>
-								<h4>책-it-out이 뭐 하는 곳인지 궁금하신가요?</h4>
+								<h4>{INTRODUCTION_TITLE}</h4>
 
 								<h6 className='mt-5 mb-4'>책 읽는 모든 이들을 위한 곳, 책-it-out을 더 알고 싶으면 여기를 클릭해 주세요</h6>
 							</Card.Body>
@@ -141,25 +148,25 @@ const Login = (props) => {
 					</a>
 				</div>
 
-				<div className='col-12 col-lg-6 mt-4'>
+				<div className='col-12 col-lg-6 mb-4'>
 					<Card className='h-100'>
 						<Card.Body className='text-center'>
-							<h4 className='text-center'>책-it-out에 관한 질문 한 스푼</h4>
+							<h4 className='text-center'>{FAQ_QNA_TITLE}</h4>
 
 							<div className='row mt-3'>
 								<div className='col-12 col-md-6'>
 									<a href={FAQ_URL} className='text-decoration-none text-black'>
 										<Card>
-											<Card.Header>FAQ</Card.Header>
-											<Card.Body>자주 하시는 질문을 모아 봤어요</Card.Body>
+											<Card.Header>{FAQ_TITLE}</Card.Header>
+											<Card.Body>{FAQ_CONTENT}</Card.Body>
 										</Card>
 									</a>
 								</div>
 								<div className='col-12 col-md-6'>
 									<a href={QNA_URL} className='text-decoration-none text-black'>
 										<Card>
-											<Card.Header>QNA</Card.Header>
-											<Card.Body>직접 질문하실 수 있어요</Card.Body>
+											<Card.Header>{QNA_TITLE}</Card.Header>
+											<Card.Body>{QNA_CONTENT}</Card.Body>
 										</Card>
 									</a>
 								</div>
