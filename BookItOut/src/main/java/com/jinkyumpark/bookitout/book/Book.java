@@ -4,8 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.bookelement.BookCategory;
 import com.jinkyumpark.bookitout.bookelement.BookForm;
 import com.jinkyumpark.bookitout.bookelement.BookSource;
-import com.jinkyumpark.bookitout.bookelement.language.Language;
-import com.jinkyumpark.bookitout.readingsession.ReadingSession;
+import com.jinkyumpark.bookitout.bookelement.BookLanguage;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -13,7 +12,6 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.List;
 
 @AllArgsConstructor
 @NoArgsConstructor
@@ -75,7 +73,7 @@ public class Book {
     @Column(name = "language", nullable = false)
     @ColumnDefault(value = "1")
     @Enumerated(value = EnumType.ORDINAL)
-    private Language language;
+    private BookLanguage language;
 
     @Column(name = "category", nullable = false)
     @ColumnDefault(value = "1")
@@ -90,7 +88,4 @@ public class Book {
     @ManyToOne
     @JoinColumn(name = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
     private AppUser appUser;
-
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, cascade = CascadeType.ALL, orphanRemoval = true)
-    List<ReadingSession> readingSessionList;
 }
