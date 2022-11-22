@@ -40,7 +40,7 @@ const Join = () => {
 	return (
 		<div className='mt-5 container'>
 			<div className='row justify-content-center'>
-				<Card className='col-12 col-lg-6 text-center'>
+				<Card className='col-12 col-lg-7 text-center'>
 					<Card.Body>
 						<h1>📗 회원가입</h1>
 
