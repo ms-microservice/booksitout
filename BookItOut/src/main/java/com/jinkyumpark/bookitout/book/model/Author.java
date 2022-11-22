@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.bookelement.author;
+package com.jinkyumpark.bookitout.book.model;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;

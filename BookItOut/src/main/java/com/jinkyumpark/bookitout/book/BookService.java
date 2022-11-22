@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.exception.common.NotLoginException;

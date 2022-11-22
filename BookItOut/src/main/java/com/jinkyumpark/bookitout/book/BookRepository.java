@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.jinkyumpark.bookitout.book.model.Book;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

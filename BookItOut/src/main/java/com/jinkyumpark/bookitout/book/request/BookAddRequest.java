@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.book.request;
 
-import com.jinkyumpark.bookitout.bookelement.BookForm;
-import com.jinkyumpark.bookitout.bookelement.BookSource;
+import com.jinkyumpark.bookitout.book.model.BookForm;
+import com.jinkyumpark.bookitout.book.model.BookSource;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;

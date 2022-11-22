@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserRepository;
 import org.junit.jupiter.api.Test;

@@ -1,6 +1,6 @@
 package com.jinkyumpark.bookitout.readingsession;
 
-import com.jinkyumpark.bookitout.book.Book;
+import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

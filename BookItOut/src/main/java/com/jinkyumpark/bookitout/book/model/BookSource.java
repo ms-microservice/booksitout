@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.bookelement;
+package com.jinkyumpark.bookitout.book.model;
 
 public enum BookSource {
     BUY_NEW_OFFLINE,

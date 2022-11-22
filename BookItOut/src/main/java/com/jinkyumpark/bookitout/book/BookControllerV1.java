@@ -1,11 +1,12 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.book.request.BookAddRequest;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
-import com.jinkyumpark.bookitout.bookelement.BookCategory;
-import com.jinkyumpark.bookitout.bookelement.BookForm;
-import com.jinkyumpark.bookitout.bookelement.BookSource;
-import com.jinkyumpark.bookitout.bookelement.BookLanguage;
+import com.jinkyumpark.bookitout.book.model.BookCategory;
+import com.jinkyumpark.bookitout.book.model.BookForm;
+import com.jinkyumpark.bookitout.book.model.BookSource;
+import com.jinkyumpark.bookitout.book.model.BookLanguage;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;

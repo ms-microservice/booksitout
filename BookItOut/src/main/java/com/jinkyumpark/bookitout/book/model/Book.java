@@ -1,10 +1,6 @@
-package com.jinkyumpark.bookitout.book;
+package com.jinkyumpark.bookitout.book.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.bookitout.bookelement.BookCategory;
-import com.jinkyumpark.bookitout.bookelement.BookForm;
-import com.jinkyumpark.bookitout.bookelement.BookSource;
-import com.jinkyumpark.bookitout.bookelement.BookLanguage;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
