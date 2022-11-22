@@ -69,7 +69,7 @@ const Topnav = ({ token, setToken }) => {
 											<LoginIcon className='me-2 ' />
 										</div>
 
-										{token == '' || token == null ? (
+										{token === '' || token == null ? (
 											<div className='col-xs-10 col-8'>로그인</div>
 										) : (
 											<div className='col-xs-10 col-8' onClick={handleLogout}>
@@ -81,7 +81,7 @@ const Topnav = ({ token, setToken }) => {
 							</div>
 						</Nav.Link>
 
-						{(token == '' || token == null) && (
+						{(token === '' || token == null) && (
 							<Nav.Link href='/join'>
 								<div className='row justify-content-center'>
 									<div className='col-3  col-md-2'>
@@ -96,7 +96,7 @@ const Topnav = ({ token, setToken }) => {
 							</Nav.Link>
 						)}
 
-						{(token != '' || token == null) && (
+						{(token !== '' || token == null) && (
 							<Nav.Link href='/settings'>
 								<div className='row justify-content-center'>
 									<div className='col-3 col-md-2'>
@@ -112,7 +112,7 @@ const Topnav = ({ token, setToken }) => {
 						)}
 					</Nav>
 
-					{token != '' && token != null && <SearchBar />}
+					{token !== '' && token != null && <SearchBar />}
 
 					<Nav>
 						<NavDropdown
@@ -121,7 +121,7 @@ const Topnav = ({ token, setToken }) => {
 							align='end'
 							size='xl'
 							className={`d-none d-${expand}-inline`}>
-							{token == '' || token == null ? (
+							{token === '' || token == null ? (
 								<>
 									<NavDropdown.Item href='/login'>로그인</NavDropdown.Item>
 									<NavDropdown.Item href='/join'>회원가입</NavDropdown.Item>
