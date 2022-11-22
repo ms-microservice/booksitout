@@ -20,11 +20,13 @@ import Summary from './statistics/Summary'
 import Statistics from './statistics/Statistics'
 // informations
 import Introduction from './introduction/Introduction'
+// search
+import Search from './search/Search'
 
 function App() {
-	const [token, setToken] = useState(localStorage.getItem('login-token'))
-
 	const location = useLocation()
+
+	const [token, setToken] = useState(localStorage.getItem('login-token'))
 	const [currentUrl, setCurrentUrl] = useState(location.pathname.toString())
 	useEffect(() => {
 		setCurrentUrl(location.pathname.toString())
@@ -54,10 +56,10 @@ function App() {
 				<Route path='/reading' element={<ReadingNoId token={token} />} />
 				<Route path='/reading/:id' element={<Reading token={token} />} />
 
-				<Route path='/search/:key' element={<></>} />
+				<Route path='/search/:key' element={<Search />} />
 			</Routes>
 
-			{token != '' && !location.pathname.startsWith('/reading') && (
+			{token !== '' && !location.pathname.startsWith('/reading') && (
 				<>
 					{!currentUrl.startsWith('/book/add') && <AddButton />}
 					<ReadingButton />
