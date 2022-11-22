@@ -1,12 +1,11 @@
-import React from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 
 const ReadingNoId = ({ token }) => {
-	const navigate = useNavigate()
-
 	const READING_SESSION_CHECK_API_URL = `http://localhost/v1/reading-session/current`
 	const READING_SESSION_URL = `/reading/`
+
+	const navigate = useNavigate()
 
 	useEffect(() => {
 		fetch(READING_SESSION_CHECK_API_URL, {
@@ -21,7 +20,8 @@ const ReadingNoId = ({ token }) => {
 				return
 			})
 			.then((data) => {
-				navigate(`${READING_SESSION_URL}${data.readingSessionId}`)
+				console.log(data)
+				navigate(`${READING_SESSION_URL}${data.book.bookId}`)
 			})
 	}, [])
 
