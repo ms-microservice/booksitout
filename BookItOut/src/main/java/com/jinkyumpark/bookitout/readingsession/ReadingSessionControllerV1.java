@@ -44,12 +44,12 @@ public class ReadingSessionControllerV1 {
 
     @GetMapping("{bookId}")
     public List<ReadingSession> getReadingSessionByBookId(@PathVariable("bookId") Long bookId) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
         Optional<Book> bookOptional = bookService.getBookById(bookId);
         if (bookOptional.isEmpty()) {
             throw new NotFoundException(BOOK_NOT_FOUND_MESSAGE);
         }
 
+        Long loginUserId = AppUserService.getLoginAppUserId();
         Long bookAppUserId = bookOptional.get().getAppUser().getAppUserId();
 
         if (!loginUserId.equals(bookAppUserId) && !bookOptional.get().getIsSharing()) {
