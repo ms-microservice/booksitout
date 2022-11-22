@@ -19,7 +19,7 @@ import ReadingNoId from './book/ReadingNoId'
 import Summary from './statistics/Summary'
 import Statistics from './statistics/Statistics'
 // informations
-import Introduction from './introduction/Introduction'
+import Introduction from './info/Introduction'
 // search
 import Search from './search/Search'
 
