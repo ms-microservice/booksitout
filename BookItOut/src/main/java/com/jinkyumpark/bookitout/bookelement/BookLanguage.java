@@ -1,6 +1,6 @@
-package com.jinkyumpark.bookitout.bookelement.language;
+package com.jinkyumpark.bookitout.bookelement;
 
-public enum Language {
+public enum BookLanguage {
     KOREAN,
     ENGLISH,
     JAPANESE,

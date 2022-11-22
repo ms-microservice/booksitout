@@ -7,20 +7,14 @@ import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.web.authentication.AbstractAuthenticationProcessingFilter;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
-import org.springframework.security.web.util.matcher.RequestMatcher;
 
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -34,6 +28,8 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final JwtConfig jwtConfig;
     private final SecretKey secretKey;
 
+    private static Boolean stayLogin = false;
+
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response) throws AuthenticationException {
         try {
@@ -44,6 +40,8 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                     authenticationRequest.getEmail(),
                     authenticationRequest.getPassword()
             );
+
+            stayLogin = authenticationRequest.getStayLogin();
 
             return authenticationManager.authenticate(authentication);
 
@@ -62,7 +60,9 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .claim("appUserId", ((AppUser) authResult.getPrincipal()).getAppUserId())
                 .claim("authorities", authResult.getAuthorities())
                 .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(jwtConfig.getTokenExpirationAfterDays())))
+                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(
+                        stayLogin ? jwtConfig.getTokenExpirationAfterDaysStayLogin() : jwtConfig.getTokenExpirationAfterDays()
+                )))
                 .signWith(secretKey)
                 .compact();
 

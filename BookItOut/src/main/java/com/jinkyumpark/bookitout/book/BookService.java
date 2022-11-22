@@ -67,16 +67,14 @@ public class BookService {
 
     @Transactional
     public void editBook(Book editedBook) {
-        Optional<Book> bookOptional = bookRepository.findById(editedBook.getBookId());
-
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException("수정하실려는 책이 없어요");
-        }
+        Optional<Book> bookOptional = Optional.ofNullable(bookRepository.findById(editedBook.getBookId())
+                .orElseThrow(() -> new NotFoundException("수정하실려는 책이 없어요")));
 
         Book bookToEdit = bookOptional.get();
         if (editedBook.getTitle() != null) {
             bookToEdit.setTitle(editedBook.getTitle());
         }
+        bookToEdit.setLanguage(editedBook.getLanguage());
         if (editedBook.getCover() != null) {
             bookToEdit.setCover(editedBook.getCover());
         }

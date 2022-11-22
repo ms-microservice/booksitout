@@ -6,7 +6,7 @@ import physicalBookIcon from '../../resources/images/book-form/physical-book.png
 import ebookBookIcon from '../../resources/images/book-form/ebook.png'
 import audioBookIcon from '../../resources/images/book-form/audio-book.png'
 
-const FormIcon = ({ form }) => {
+const FormInfo = ({ form }) => {
 	const formTextMap = new Map([
 		['PHYSICAL', '종이책'],
 		['EBOOK', '이북'],
@@ -33,4 +33,4 @@ const FormIcon = ({ form }) => {
 	)
 }
 
-export default FormIcon
+export default FormInfo

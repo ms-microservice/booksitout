@@ -22,4 +22,6 @@ public class EmailPasswordLoginRequest {
     @NotBlank(message = "비밀번호를 입력해 주세요")
     @Min(value = 6, message = "6자 이상의 비밀번호를 입력해 주세요")
     private String password;
+
+    private Boolean stayLogin = false;
 }

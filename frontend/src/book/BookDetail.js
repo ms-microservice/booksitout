@@ -2,14 +2,16 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
 // Classification Icons
-import LanguageIcon from './info/LanguageIcon'
-import CategoryIcon from './info/CategoryIcon'
-import SourceIcon from './info/SourceIcon'
-import FormIcon from './info/FormIcon'
+import LanguageInfo from './info/LanguageInfo'
+import CategoryInfo from './info/CategoryInfo'
+import SourceInfo from './info/SourceInfo'
+import FormInfo from './info/FormInfo'
 // Common
 import Error from '../common/Error'
 import Loading from '../common/Loading'
 import NoContent from '../common/NoContent'
+
+import defaultBookCover from '../resources/images/common/book.png'
 
 const BookDetail = ({ token }) => {
 	const { id } = useParams()
@@ -18,8 +20,11 @@ const BookDetail = ({ token }) => {
 	const BOOK_DELETE_API_URL = `http://localhost/v1/book/${id}`
 	const BOOK_DETAIL_API_URL = `http://localhost/v1/book/${id}`
 
-	const [notFound, setNotFound] = useState(false)
+	const BOOK_EDIT_URL = `/book/edit/${id}`
+
+	const [notFound, setNotFound] = useState(true)
 	const [loading, setLoading] = useState(true)
+	const [initialFetch, setInitialFetch] = useState(true)
 	const [book, setBook] = useState(null)
 
 	const handleDelete = () => {
@@ -32,7 +37,7 @@ const BookDetail = ({ token }) => {
 			}).then((res) => {
 				if (res.status.toString().startsWith(2)) {
 					alert('책을 삭제 했어요')
-					navigate('/book/done')
+					navigate('/book/not-done')
 				} else {
 					alert('알 수 없는 이유로 실패했어요 다시 시도해 주세요')
 				}
@@ -41,35 +46,48 @@ const BookDetail = ({ token }) => {
 	}
 
 	useEffect(() => {
+		setTimeout(() => {
+			setInitialFetch(false)
+		}, 5000)
+
 		fetch(BOOK_DETAIL_API_URL, {
 			method: 'GET',
 			headers: { Authorization: token },
 		})
 			.then((res) => {
-				if (res.status.toString().startsWith(4)) {
-					setNotFound(true)
+				if (res.status.toString().startsWith(2)) {
+					setNotFound(false)
 				}
 				return res.json()
 			})
 			.then((data) => setBook(data))
 			.catch((e) => console.log(e))
-			.finally(() => setLoading(false))
+			.finally(() => {
+				setLoading(false)
+				setInitialFetch(false)
+			})
 	}, [])
 
 	return (
 		<div className='container'>
-			{notFound ? (
-				<Error />
+			{initialFetch ? (
+				<></>
 			) : loading ? (
 				<Loading message='' />
+			) : notFound ? (
+				<Error />
 			) : (
 				<div className='row text-center'>
 					<div className='col-12 col-md-4 mb-5'>
-						<img src={book.cover} alt='' className='img-fluid rounded border' />
+						<img
+							src={book.cover == '' ? defaultBookCover : book.cover}
+							alt=''
+							className={`img-fluid rounded  ${book.cover != '' && 'border'}`}
+						/>
 
 						<div className='row mt-3'>
 							<div className='col-6'>
-								<Button variant='warning' className='w-100'>
+								<Button variant='warning' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
 									수정하기
 								</Button>
 							</div>
@@ -81,8 +99,14 @@ const BookDetail = ({ token }) => {
 							</div>
 
 							<div className='col-12 mt-3'>
-								<Button variant='success' className='w-100'>
+								<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
 									이어서 읽기
+								</Button>
+							</div>
+
+							<div className='col-12 mt-3'>
+								<Button variant='warning' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
+									포기하기
 								</Button>
 							</div>
 						</div>
@@ -115,16 +139,16 @@ const BookDetail = ({ token }) => {
 
 						<div className='row justify-content-center'>
 							<div className='col-3 col-xl-2'>
-								<LanguageIcon language={book.language} />
+								<LanguageInfo language={book.language} />
 							</div>
 							<div className='col-3 col-xl-2'>
-								<CategoryIcon category={book.category} />
+								<CategoryInfo category={book.category} />
 							</div>
 							<div className='col-3 col-xl-2'>
-								<FormIcon form={book.form} />
+								<FormInfo form={book.form} />
 							</div>
 							<div className='col-3 col-xl-2'>
-								<SourceIcon source={book.source} />
+								<SourceInfo source={book.source} />
 							</div>
 						</div>
 
@@ -132,36 +156,36 @@ const BookDetail = ({ token }) => {
 							<Card.Body>
 								<h4>독서활동</h4>
 
-								<div className='row justify-content-center'>
+								<div className='row justify-content-center mt-5'>
 									<div className='col-6'>
-										<NoContent />
+										<NoContent style={{ width: '150px' }} />
 									</div>
 								</div>
 							</Card.Body>
 						</Card>
 
 						<div className='row'>
-							<div className='col-12 col-md-6'>
+							<div className='col-12'>
 								<Card className='mt-3'>
 									<Card.Body>
 										<h4>메모</h4>
 
-										<div className='row justify-content-center'>
+										<div className='row justify-content-center mt-4'>
 											<div className='col-12'>
-												<NoContent />
+												<NoContent style={{ width: '150px' }} />
 											</div>
 										</div>
 									</Card.Body>
 								</Card>
 							</div>
-							<div className='col-12 col-md-6'>
+							<div className='col-12'>
 								<Card className='mt-3'>
 									<Card.Body>
 										<h4>인용</h4>
 
-										<div className='row justify-content-center'>
+										<div className='row justify-content-center mt-4'>
 											<div className='col-12'>
-												<NoContent />
+												<NoContent style={{ width: '150px' }} />
 											</div>
 										</div>
 									</Card.Body>

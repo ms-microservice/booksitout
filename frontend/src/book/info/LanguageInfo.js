@@ -9,7 +9,7 @@ import chineseIcon from '../../resources/images/language/china.png'
 import frenchIcon from '../../resources/images/language/france.png'
 import spanishIcon from '../../resources/images/language/spain.png'
 
-const LanguageIcon = ({ language }) => {
+const LanguageInfo = ({ language }) => {
 	const languageTextMap = new Map([
 		['ENGLISH', '영어'],
 		['KOREAN', '한국어'],
@@ -42,4 +42,4 @@ const LanguageIcon = ({ language }) => {
 	)
 }
 
-export default LanguageIcon
+export default LanguageInfo

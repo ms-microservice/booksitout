@@ -24,13 +24,16 @@ const BookAddForm = (props) => {
 	const [language, setLanguage] = useState('KOREAN')
 	const [category, setCategory] = useState('LITERATURE')
 	const [isSharing, setIsSharing] = useState(false)
-	const [publishedAt, setPublishedAt] = useState('')
-
 	const [form, setForm] = useState('PHYSICAL')
 	const [source, setSource] = useState('NOT_PROVIDED')
 
 	const addBook = (e) => {
 		e.preventDefault()
+
+		if (endPage == 0) {
+			alert('0은 페이지로 입력할 수 없어요')
+			return
+		}
 
 		fetch(ADD_BOOK_API_URL, {
 			method: 'POST',
@@ -81,8 +84,7 @@ const BookAddForm = (props) => {
 			<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
 
 			<Form onSubmit={addBook}>
-				<div class='gcse-search'></div>
-				<div className='row row-eq-height'>
+				<div className='row row-eq-height text-center'>
 					<div className='col-12 col-lg-4 mb-3'>
 						<img src={cover === '' ? defaultBookCover : cover} alt='' className='img-fluid rounded' />
 
@@ -100,7 +102,7 @@ const BookAddForm = (props) => {
 						</div>
 					</div>
 
-					<div className='col-12 col-lg-8 mb-3'>
+					<div className='col-12 col-lg-8 mb-3 text-start'>
 						<Form.Group className='mb-3'>
 							<Form.Label>책 제목</Form.Label>
 							<Form.Control type='text' placeholder={TITLE_MESSAGE} required onChange={(e) => setTitle(e.target.value)} />
@@ -150,9 +152,9 @@ const BookAddForm = (props) => {
 							</div>
 
 							<div className='col-4'>
-								<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)} required>
+								<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
 									<Form.Label>총 페이지 수</Form.Label>
-									<Form.Control type='number' placeholder={PAGE_MESSAGE} />
+									<Form.Control type='number' placeholder={PAGE_MESSAGE} required />
 								</Form.Group>
 							</div>
 						</div>

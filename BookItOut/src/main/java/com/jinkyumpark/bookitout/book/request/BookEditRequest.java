@@ -9,13 +9,14 @@ import lombok.Setter;
 @Setter
 public class BookEditRequest {
     private String title;
+    private String author;
+    private String language;
+    private String category;
+    private Integer endPage;
     private String cover;
-    private String summary;
-
     private String source;
-    private String review;
-
     private Boolean isSharing;
 
-    private Integer currentPage;
+    private String summary;
+    private String review;
 }

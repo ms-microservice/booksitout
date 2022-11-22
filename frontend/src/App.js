@@ -14,6 +14,7 @@ import BookDetail from './book/BookDetail'
 import BookAddForm from './book/BookAddForm'
 import BookEditForm from './book/BookEditForm'
 import Reading from './book/Reading'
+import ReadingNoId from './book/ReadingNoId'
 // statistics
 import Summary from './statistics/Summary'
 import Statistics from './statistics/Statistics'
@@ -48,14 +49,15 @@ function App() {
 				<Route path='/book/:range' element={<BookList token={token} />} />
 				<Route path='/book/detail/:id' element={<BookDetail token={token} />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
-				<Route path='/book/edit/:id' element={<BookEditForm />} />
+				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
 				<Route path='/statistics' element={<Statistics />} />
-				<Route path='/reading' element={<Reading />} />
+				<Route path='/reading' element={<ReadingNoId token={token} />} />
+				<Route path='/reading/:id' element={<Reading token={token} />} />
 
 				<Route path='/search/:key' element={<></>} />
 			</Routes>
 
-			{token != '' && (
+			{token != '' && !location.pathname.startsWith('/reading') && (
 				<>
 					{!currentUrl.startsWith('/book/add') && <AddButton />}
 					<ReadingButton />

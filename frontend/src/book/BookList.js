@@ -7,6 +7,7 @@ import Loading from '../common/Loading'
 import Error from '../common/Error'
 import NoContent from '../common/NoContent'
 import HorizontalBookView from './HorizontalBookView'
+// Images
 import kimchiImage from '../resources/images/general/kimchi.png'
 import bookShelfImage from '../resources/images/common/bookshelf.png'
 
@@ -70,7 +71,11 @@ const BookList = (props) => {
 								<Card className='h-100'>
 									<Card.Body>
 										<a href={`/book/detail/${book.bookId}`} className='text-black text-decoration-none'>
-											<HorizontalBookView book={book} />
+											{range == 'done' ? (
+												<HorizontalBookView book={book} firstButton={<></>} secondButton={<></>} />
+											) : (
+												<HorizontalBookView book={book} />
+											)}
 										</a>
 									</Card.Body>
 								</Card>

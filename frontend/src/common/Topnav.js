@@ -22,7 +22,9 @@ const Topnav = ({ token, setToken }) => {
 	const handleLogout = (e) => {
 		e.preventDefault()
 		localStorage.setItem('login-token', '')
+		localStorage.setItem('user-name', '')
 		setToken('')
+		alert('로그아웃했어요')
 		navigate('/login')
 	}
 	useEffect(() => {

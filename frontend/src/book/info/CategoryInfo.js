@@ -12,7 +12,7 @@ import literatureIcon from '../../resources/images/category/drama.png'
 import historyIcon from '../../resources/images/category/history.png'
 import othersIcon from '../../resources/images/common/others.png'
 
-const CategoryIcon = ({ category }) => {
+const CategoryInfo = ({ category }) => {
 	const categoryTextMap = new Map([
 		['PHILOSOPHY', '철학'],
 		['RELIGION', '종교'],
@@ -53,4 +53,4 @@ const CategoryIcon = ({ category }) => {
 	)
 }
 
-export default CategoryIcon
+export default CategoryInfo

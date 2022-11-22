@@ -12,15 +12,15 @@ import bookStoreIcon from '../../resources/images/source/book-store.png'
 import borrowIcon from '../../resources/images/source/borrow.png'
 import othersIcon from '../../resources/images/source/others.png'
 
-const SourceIcon = ({ source }) => {
+const SourceInfo = ({ source }) => {
 	const sourceTextMap = new Map([
 		['BUY_NEW_OFFLINE', '서점'],
-		['BUY_NEW_ONLINE', '온라인 서점'],
+		['BUY_NEW_ONLINE', '온라인'],
 		['BUY_USED_OFFLINE', '중고서점'],
-		['BUY_USED_ONLINE', '온라인 중고'],
+		['BUY_USED_ONLINE', '중고'],
 
 		['LIBRARY', '도서관'],
-		[('BORROW_STORE', '유료 도서관')],
+		[('BORROW_STORE', '유료 책방')],
 		['BORROW_FRIENDS', '지인'],
 
 		['SUBSCRIPTION', '구독'],
@@ -32,7 +32,7 @@ const SourceIcon = ({ source }) => {
 		['BUY_NEW_OFFLINE', '서점'],
 		['BUY_NEW_ONLINE', onlineIcon],
 		['BUY_USED_OFFLINE', bookStoreIcon],
-		['BUY_USED_ONLINE', '온라인 중고'],
+		['BUY_USED_ONLINE', bookStoreIcon],
 
 		['LIBRARY', libraryIcon],
 		['BORROW_STORE', borrowIcon],
@@ -59,4 +59,4 @@ const SourceIcon = ({ source }) => {
 	)
 }
 
-export default SourceIcon
+export default SourceInfo

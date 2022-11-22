@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.readingsession;
 
+import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -62,10 +63,13 @@ public class ReadingSessionService {
     public void updateReadingSession(ReadingSession updatedReadingSession) {
         Optional<ReadingSession> readingSessionOptional = readingSessionRepository.findById(updatedReadingSession.getReadingSessionId());
 
-        if (readingSessionOptional.isPresent()) {
-            readingSessionOptional.get().setEndTime(updatedReadingSession.getEndTime());
-            readingSessionOptional.get().setEndPage(updatedReadingSession.getEndPage());
+        if (readingSessionOptional.isEmpty()) {
+            throw new NotFoundException("찾을 수 없어요");
         }
+
+        ReadingSession readingSession = readingSessionOptional.get();
+        readingSession.setEndTime(updatedReadingSession.getEndTime());
+        readingSession.setEndPage(updatedReadingSession.getEndPage());
     }
 
     public List<ReadingSession> getRecentReadingSessions(Long appUserId, Pageable pageRequest) {

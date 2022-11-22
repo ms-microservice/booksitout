@@ -1,11 +1,18 @@
-import React from 'react'
-import CategoryIcon from './info/CategoryIcon'
-import LanguageIcon from './info/LanguageIcon'
-import FormIcon from './info/FormIcon'
-import { useEffect } from 'react'
+import React, { useEffect } from 'react'
+// Components
+import CategoryInfo from './info/CategoryInfo'
+import LanguageInfo from './info/LanguageInfo'
+import FormInfo from './info/FormInfo'
+// Images
+import defaultBookCover from '../resources/images/common/book.png'
 
 const HorizontalBookView = ({
 	book,
+	firstButton = (
+		<a href={`/reading/${book.bookId}`} className='btn btn-primary w-100'>
+			이어서 읽기
+		</a>
+	),
 	secondButton = (
 		<a href='/book/' className='btn btn-danger w-100'>
 			이 책 포기하기
@@ -15,7 +22,7 @@ const HorizontalBookView = ({
 	return (
 		<div className='row mt-3 row-eq-height'>
 			<div className='col-4 align-self-center'>
-				<img className='img-fluid rounded border' src={book.cover} alt='' />
+				<img className={`img-fluid rounded  ${book.cover != '' && 'border'}`} src={book.cover == '' ? defaultBookCover : book.cover} alt='' />
 			</div>
 
 			<div className='col-8'>
@@ -43,22 +50,20 @@ const HorizontalBookView = ({
 
 				<div className='row text-center mt-4 justify-content-center'>
 					<div className='col-4'>
-						<LanguageIcon language={book.language} />
+						<LanguageInfo language={book.language} />
 					</div>
 
 					<div className='col-4'>
-						<CategoryIcon category={book.category} />
+						<CategoryInfo category={book.category} />
 					</div>
 
 					<div className='col-4'>
-						<FormIcon form={book.form} />
+						<FormInfo form={book.form} />
 					</div>
 				</div>
 
 				<div className='row mt-4'>
-					<div className='col-6'>
-						<div className='btn btn-primary w-100'>이어서 읽기</div>
-					</div>
+					<div className='col-6'>{firstButton}</div>
 					<div className='col-6'>{secondButton}</div>
 				</div>
 			</div>

@@ -3,8 +3,9 @@ package com.jinkyumpark.bookitout.book;
 import com.jinkyumpark.bookitout.book.request.BookAddRequest;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
 import com.jinkyumpark.bookitout.bookelement.BookCategory;
+import com.jinkyumpark.bookitout.bookelement.BookForm;
 import com.jinkyumpark.bookitout.bookelement.BookSource;
-import com.jinkyumpark.bookitout.bookelement.language.Language;
+import com.jinkyumpark.bookitout.bookelement.BookLanguage;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;
@@ -102,8 +103,9 @@ public class BookControllerV1 {
         book.setSource(BookSource.valueOf(bookAddRequest.getSource()));
         book.setCover(bookAddRequest.getCover());
         book.setCategory(BookCategory.valueOf(bookAddRequest.getCategory()));
-        book.setLanguage(Language.valueOf(bookAddRequest.getLanguage()));
+        book.setLanguage(BookLanguage.valueOf(bookAddRequest.getLanguage()));
         book.setIsSharing(bookAddRequest.getIsSharing());
+        book.setForm(BookForm.valueOf(bookAddRequest.getForm()));
 
         Long loginUserId = AppUserService.getLoginAppUserId();
 
@@ -128,6 +130,9 @@ public class BookControllerV1 {
         if (bookEditRequest.getSummary() != null) {
             editedBook.setSummary(bookEditRequest.getSummary());
         }
+
+        editedBook.setLanguage(BookLanguage.valueOf(bookEditRequest.getLanguage()));
+
         if (bookEditRequest.getSource() != null) {
             BookSource bookSource = BookSource.valueOf(bookEditRequest.getSource());
             editedBook.setSource(bookSource);
@@ -137,9 +142,6 @@ public class BookControllerV1 {
         }
         if (bookEditRequest.getIsSharing() != null) {
             editedBook.setIsSharing(bookEditRequest.getIsSharing());
-        }
-        if (bookEditRequest.getCurrentPage() != null) {
-            editedBook.setCurrentPage(bookEditRequest.getCurrentPage());
         }
 
         bookService.editBook(editedBook);

@@ -1,6 +1,6 @@
-import React from 'react'
-import { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Container, Alert } from 'react-bootstrap'
+import { Link } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -38,6 +38,7 @@ const Main = (props) => {
 			),
 			data: lastBook,
 			message: '마지막으로 읽은 책이 없어요',
+			url: `/book/detail/${lastBook != null && lastBook.bookId}`,
 		},
 		{
 			id: 2,
@@ -45,6 +46,7 @@ const Main = (props) => {
 			element: readTime != null && <DateLineChart startDate={new Date().setDate(new Date().getDate() - 14)} data={readTime} />,
 			data: readTime,
 			message: '오류가 났어요',
+			url: '/statistics',
 		},
 		{
 			id: 3,
@@ -52,6 +54,7 @@ const Main = (props) => {
 			element: statistics != null && <Goal goal={{ current: statistics.yearly.totalReadBookCount, goal: statistics.goal }} />,
 			data: statistics,
 			message: '오류가 났어요',
+			url: '/statistics/goal',
 		},
 		{
 			id: 4,
@@ -59,6 +62,7 @@ const Main = (props) => {
 			element: statistics != null && <SummaryTable statistics={statistics} />,
 			data: statistics,
 			message: '오류가 났어요',
+			url: '/statistics',
 		},
 	]
 
@@ -109,7 +113,7 @@ const Main = (props) => {
 								{ui.data == null ? (
 									<CardWithTitle title={ui.title} element={<Error message={ui.message} />} />
 								) : (
-									<CardWithTitle title={ui.title} element={ui.element} />
+									<CardWithTitle title={ui.title} element={ui.element} url={ui.url} />
 								)}
 							</div>
 						)
@@ -120,15 +124,17 @@ const Main = (props) => {
 	)
 }
 
-const CardWithTitle = ({ title, element }) => {
+const CardWithTitle = ({ title, element, url }) => {
 	return (
-		<Card className='h-100'>
-			<Card.Body>
-				<h3>{title}</h3>
+		<Link to={url} className='text-decoration-none text-black'>
+			<Card className='h-100'>
+				<Card.Body>
+					<h3>{title}</h3>
 
-				{element}
-			</Card.Body>
-		</Card>
+					{element}
+				</Card.Body>
+			</Card>
+		</Link>
 	)
 }
 

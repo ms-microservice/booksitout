@@ -35,27 +35,30 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 			setInitialFetch(false)
 		}, 3000)
 
-		fetch(`${GOOGLE_URL}?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${title}&searchType=image`)
-			.then((res) => {
-				return res.json()
-			})
-			.then((data) => {
-				const imageLink = data.items.map((item, index) => {
-					return { id: index, image: item.link }
+		if (showModal) {
+			fetch(`${GOOGLE_URL}?key=${GOOGLE_API_KEY}&cx=${GOOGLE_CX}&q=${title}%20${author}&searchType=image&num=8`)
+				.then((res) => {
+					return res.json()
 				})
+				.then((data) => {
+					const imageLink = data.items.map((item, index) => {
+						return { id: index, image: item.link }
+					})
 
-				setImageSearchResult(imageLink)
-			})
-			.finally(() => {
-				setIsLoading(false)
-				setInitialFetch(false)
-			})
+					setImageSearchResult(imageLink)
+				})
+				.finally(() => {
+					setIsLoading(false)
+					setInitialFetch(false)
+				})
+		}
 	}, [showModal])
 
 	return (
-		<Modal show={showModal} onHide={closeModal} backdrop='static' size='xl' fullscreen='sm-down'>
+		<Modal show={showModal} onHide={closeModal} backdrop='static' size='xl' fullscreen='md-down'>
 			<Modal.Header closeButton>
 				<Modal.Title>이미지 검색</Modal.Title>
+				<span className='text-secondary ms-5'>책 제목이 흔하면 저자도 입력하면 더 정확하게 나와요</span>
 			</Modal.Header>
 
 			<Modal.Body>

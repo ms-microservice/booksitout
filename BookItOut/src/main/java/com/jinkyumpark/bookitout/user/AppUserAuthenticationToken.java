@@ -7,6 +7,7 @@ import java.util.Collection;
 
 public class AppUserAuthenticationToken extends UsernamePasswordAuthenticationToken {
     private Long appUserId;
+    private Boolean stayLogin;
 
     public AppUserAuthenticationToken(String email, String password) {
         super(email, password);
