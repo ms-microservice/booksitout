@@ -1,9 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, Form } from 'react-bootstrap'
+import { Card, Form, Button } from 'react-bootstrap'
 
 const Login = (props) => {
 	const LOGIN_API_URL = `http://localhost/login`
+
+	const EMAIL_PLACEHOLDER_MESSAGE = `이메일을 입력해 주세요`
+	const PASSWORD_PLACEHOLDER_MESSAGE = `비밀번호를 입력해 주세요`
 
 	const navigate = useNavigate()
 
@@ -61,14 +64,15 @@ const Login = (props) => {
 
 						<Form onSubmit={handleLogin}>
 							<Form.Group class='row mt-3'>
-								<label for='email' class='col-sm-2 col-form-label text-start'>
-									이메일
-								</label>
-								<div class='col-sm-10'>
+								<div className='col-2'>
+									<label class='col-form-label text-start'>이메일</label>
+								</div>
+
+								<div class='col-10'>
 									<input
 										type='email'
 										class='form-control'
-										placeholder='이메일을 입력해 주세요'
+										placeholder={EMAIL_PLACEHOLDER_MESSAGE}
 										onChange={(e) => setEmail(e.target.value)}
 										required
 									/>
@@ -76,21 +80,22 @@ const Login = (props) => {
 							</Form.Group>
 
 							<Form.Group class='row mt-3'>
-								<label for='inputPassword3' class='col-sm-2 col-form-labe text-start'>
-									비밀번호
-								</label>
-								<div class='col-sm-10'>
+								<div className='col-2'>
+									<label class='text-start'>비밀번호</label>
+								</div>
+
+								<div class='col-10'>
 									<input
 										type='password'
 										class='form-control'
-										placeholder='비밀번호를 입력해 주세요'
+										placeholder={PASSWORD_PLACEHOLDER_MESSAGE}
 										onChange={(e) => setPassword(e.target.value)}
 										required
 									/>
 								</div>
 							</Form.Group>
 
-							<div class='form-check mt-3 text-start ms-3'>
+							<div class='form-check mt-3 ms-3 text-start'>
 								<label
 									onClick={() => {
 										setStayLogin(!stayLogin)
@@ -105,14 +110,15 @@ const Login = (props) => {
 
 							<div className='row justify-content-center mt-3'>
 								<div className='col-4'>
-									<button type='submit' className='btn btn-success w-100'>
+									<Button varnt='success' type='submit' className='w-100'>
 										로그인
-									</button>
+									</Button>
 								</div>
+
 								<div className='col-4'>
-									<a className='btn btn-danger w-100' href='join'>
+									<Button variant='danger' className='w-100' href='join'>
 										회원가입
-									</a>
+									</Button>
 								</div>
 							</div>
 						</Form>
