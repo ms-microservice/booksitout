@@ -1,15 +1,15 @@
 import React, { useState } from 'react'
-import { Card, Form } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
+import { Card, Form } from 'react-bootstrap'
 
 const Login = (props) => {
 	const LOGIN_API_URL = `http://localhost/login`
 
+	const navigate = useNavigate()
+
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [stayLogin, setStayLogin] = useState(true)
-
-	const navigate = useNavigate()
 
 	const handleLogin = (e) => {
 		e.preventDefault()
@@ -53,7 +53,7 @@ const Login = (props) => {
 	}
 
 	return (
-		<div className='mt-5 container'>
+		<div className='container mt-5'>
 			<div className='row justify-content-center'>
 				<Card className='col-12 col-lg-6 text-center'>
 					<Card.Body>
