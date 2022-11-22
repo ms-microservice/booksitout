@@ -69,7 +69,7 @@ function App() {
 				<Route path='/search/:key' element={<Search />} />
 			</Routes>
 
-			{token !== '' && !location.pathname.startsWith('/reading') && (
+			{token !== '' && (
 				<>
 					{!currentUrl.startsWith('/book/add') && <AddButton />}
 					<ReadingButton />
