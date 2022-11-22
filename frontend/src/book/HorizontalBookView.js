@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-// Components
+// Book Info
 import CategoryInfo from './info/CategoryInfo'
 import LanguageInfo from './info/LanguageInfo'
 import FormInfo from './info/FormInfo'
@@ -20,14 +20,18 @@ const HorizontalBookView = ({
 	),
 }) => {
 	return (
-		<div className='row mt-3 row-eq-height'>
+		<div className='row row-eq-height mt-3'>
 			<div className='col-4 align-self-center'>
-				<img className={`img-fluid rounded  ${book.cover != '' && 'border'}`} src={book.cover == '' ? defaultBookCover : book.cover} alt='' />
+				<img
+					className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
+					src={book.cover === '' ? defaultBookCover : book.cover}
+					alt=''
+				/>
 			</div>
 
 			<div className='col-8'>
 				<h4>{book.title}</h4>
-				<h6 className='text-muted'>{book.author == null || book.author == '' ? '-' : book.author}</h6>
+				<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
 
 				<div className='row align-items-center'>
 					<div className='col-9'>
