@@ -20,6 +20,8 @@ import Summary from './statistics/Summary'
 import Statistics from './statistics/Statistics'
 // informations
 import Introduction from './info/Introduction'
+import Faq from './info/Faq'
+import Qna from './info/Qna'
 // search
 import Search from './search/Search'
 
@@ -51,8 +53,8 @@ function App() {
 			<Routes>
 				<Route path='/' element={<Summary token={token} />} />
 				<Route path='/introduction' element={<Introduction />} />
-				<Route path='/qna' element={<></>} />
-				<Route path='/faq' element={<></>} />
+				<Route path='/qna' element={<Qna />} />
+				<Route path='/faq' element={<Faq />} />
 
 				<Route path='/login' element={<Login setToken={setToken} />} />
 				<Route path='/join' element={<Join />} />
@@ -62,7 +64,7 @@ function App() {
 				<Route path='/book/detail/:id' element={<BookDetail token={token} />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
-				<Route path='/statistics' element={<Statistics />} />
+				<Route path='/statistics' element={<Statistics token={token} />} />
 				<Route path='/reading' element={<ReadingNoId token={token} />} />
 				<Route path='/reading/:id' element={<Reading token={token} />} />
 
