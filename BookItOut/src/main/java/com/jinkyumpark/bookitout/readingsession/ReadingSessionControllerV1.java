@@ -23,9 +23,8 @@ import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-
 @RestController
-@RequestMapping("v1/reading-session")
+@RequestMapping("/v1/reading-session")
 public class ReadingSessionControllerV1 {
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
@@ -140,14 +139,16 @@ public class ReadingSessionControllerV1 {
     @Transactional
     @PutMapping("{bookId}/end")
     public AddSucessResponse endReadingSession(@PathVariable("bookId") Long bookId,
-                                               @RequestParam("page") Integer readingSessionEndPage
+                                               @RequestParam("page") Integer readingSessionEndPage,
+                                               @RequestParam("time") Integer totalTimeInSecond
     ) {
         Optional<Book> bookOptional = bookService.getBookById(bookId);
         if (bookOptional.isEmpty()) {
             throw new NotFoundException("없는 책이에요");
         }
 
-        Optional<ReadingSession> previousReadingSession = readingSessionService.getPreviousReadingSession(bookId);
+        Long loginUserId = AppUserService.getLoginAppUserId();
+        Optional<ReadingSession> previousReadingSession = readingSessionService.getPreviousReadingSession(loginUserId);
         if (previousReadingSession.isEmpty()) {
             throw new NotFoundException("끝내시려는 독서활동이 없어요");
         }
@@ -158,6 +159,7 @@ public class ReadingSessionControllerV1 {
         }
         updatedReadingSession.setEndPage(readingSessionEndPage);
         updatedReadingSession.setEndTime(LocalDateTime.now());
+        updatedReadingSession.setReadTime(totalTimeInSecond / 60);
         readingSessionService.updateReadingSession(updatedReadingSession);
 
         Book updatedBook = bookOptional.get();

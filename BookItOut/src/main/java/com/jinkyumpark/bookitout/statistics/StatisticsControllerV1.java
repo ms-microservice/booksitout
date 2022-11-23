@@ -1,5 +1,7 @@
 package com.jinkyumpark.bookitout.statistics;
 
+import com.jinkyumpark.bookitout.readingsession.ReadingSession;
+import com.jinkyumpark.bookitout.readingsession.ReadingSessionService;
 import com.jinkyumpark.bookitout.statistics.response.Daily;
 import com.jinkyumpark.bookitout.statistics.response.ReadTimeResponse;
 import com.jinkyumpark.bookitout.statistics.response.SummaryStatistics;
@@ -20,6 +22,7 @@ import java.util.Optional;
 @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
     private StatisticsService statisticsService;
+    private ReadingSessionService readingSessionService;
 
     @GetMapping("month")
     public MonthStatistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,

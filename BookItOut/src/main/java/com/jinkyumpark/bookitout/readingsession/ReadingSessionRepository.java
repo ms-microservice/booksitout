@@ -13,7 +13,7 @@ import java.util.Optional;
 @Repository
 public interface ReadingSessionRepository extends JpaRepository<ReadingSession, Long> {
     Optional<ReadingSession> findTopByAppUser_AppUserIdOrderByEndTimeDesc(Long appUserId);
-    List<ReadingSession> findAllByAppUserAndStartTimeBetween(AppUser appUser, LocalDateTime startTime, LocalDateTime endTime);
+    List<ReadingSession> findAllByAppUser_AppUserIdAndStartTimeBetween(Long appUserId, LocalDateTime startTime, LocalDateTime endTime);
 
     List<ReadingSession> findAllByBook_BookId(Long bookId);
 

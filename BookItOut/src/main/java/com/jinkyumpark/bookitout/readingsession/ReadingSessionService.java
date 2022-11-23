@@ -19,18 +19,18 @@ public class ReadingSessionService {
     private ReadingSessionRepository readingSessionRepository;
 
     public List<Integer> getReadTimeByDateRange(
-            AppUser user,
+            Long appUserId,
             LocalDateTime startDate,
             LocalDateTime endDate
     ) {
-        List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUserAndStartTimeBetween(user, startDate, endDate);
+        List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUser_AppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
 
         List<Integer> readingTimeList = new ArrayList<>();
         for (int i = startDate.getDayOfYear(); i <= endDate.getDayOfYear(); i++) {
             int finalI = i;
             Integer totalReadTime = Math.toIntExact(readingSessionList.stream()
                     .filter(r -> r.getStartTime().getDayOfYear() == finalI)
-                    .mapToLong(r -> Duration.between(r.getStartTime(), r.getEndTime()).toMinutes())
+                    .mapToLong(r -> r.getReadTime() == null ? 0 : r.getReadTime())
                     .sum());
 
             readingTimeList.add(totalReadTime);
