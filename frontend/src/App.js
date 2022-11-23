@@ -13,8 +13,9 @@ import BookList from './book/BookList'
 import BookDetail from './book/BookDetail'
 import BookAddForm from './book/BookAddForm'
 import BookEditForm from './book/BookEditForm'
-import Reading from './book/Reading'
-import ReadingNoId from './book/ReadingNoId'
+// Reading
+import Reading from './book/reading/Reading'
+import ReadingNoId from './book/reading/ReadingNoId'
 // statistics
 import Summary from './statistics/Summary'
 import Statistics from './statistics/Statistics'
