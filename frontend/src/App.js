@@ -27,23 +27,28 @@ import Qna from './info/Qna'
 import Search from './search/Search'
 
 function App() {
-	const REDIRECT_EXCLUDE_URL = ['join', 'introduction', 'qna', 'faq']
-
 	const location = useLocation()
 	const navigate = useNavigate()
 
 	const [token, setToken] = useState(localStorage.getItem('login-token'))
-	const [currentUrl, setCurrentUrl] = useState(location.pathname.toString())
 
+	const REDIRECT_EXCLUDE_URL = ['join', 'introduction', 'qna', 'faq']
 	useEffect(() => {
-		setCurrentUrl(location.pathname.toString())
-
 		if (token === '') {
-			if (!REDIRECT_EXCLUDE_URL.some((url) => currentUrl.includes(url))) {
-				navigate('/login')
-			}
+			!REDIRECT_EXCLUDE_URL.some((url) => location.pathname.includes(url)) && navigate('/login')
 		}
 	}, [location.pathname])
+
+	const TIME_SECONDS = `reading-session-time`
+	const TIMER_ON = `timer-on`
+	const [readingSessionTime, setReadingSessionTime] = useState(localStorage.getItem(TIME_SECONDS))
+	setTimeout(() => {
+		if (localStorage.getItem(TIMER_ON) == 'true' && token != '') {
+			const currentTime = localStorage.getItem(TIME_SECONDS)
+			currentTime == null ? localStorage.setItem(TIME_SECONDS, 0) : localStorage.setItem(TIME_SECONDS, Number(currentTime) + 1)
+			setReadingSessionTime(localStorage.getItem(TIME_SECONDS))
+		}
+	}, 1000)
 
 	return (
 		<div className='App'>
@@ -67,15 +72,16 @@ function App() {
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
 				<Route path='/statistics' element={<Statistics token={token} />} />
 				<Route path='/reading' element={<ReadingNoId token={token} />} />
-				<Route path='/reading/:id' element={<Reading token={token} />} />
+				<Route path='/reading/:id' element={<Reading token={token} readingSessionTime={readingSessionTime} />} />
 
 				<Route path='/search/:key' element={<Search />} />
 			</Routes>
 
 			{token !== '' && (
 				<>
-					{!currentUrl.startsWith('/book/add') && <AddButton />}
-					<ReadingButton />
+					{!location.pathname.startsWith('/book/add') && <AddButton />}
+
+					<ReadingButton time={readingSessionTime} />
 				</>
 			)}
 		</div>

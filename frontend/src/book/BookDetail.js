@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, Button, ProgressBar } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 // Classification Icons
 import LanguageInfo from './info/LanguageInfo'
 import CategoryInfo from './info/CategoryInfo'
