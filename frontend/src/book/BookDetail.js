@@ -19,6 +19,7 @@ const BookDetail = ({ token }) => {
 
 	const BOOK_DELETE_API_URL = `http://localhost/v1/book/${id}`
 	const BOOK_DETAIL_API_URL = `http://localhost/v1/book/${id}`
+	const MEMO_API_URL = `http://localhost/v1/memo/all/${id}`
 
 	const BOOK_EDIT_URL = `/book/edit/${id}`
 
@@ -26,6 +27,7 @@ const BookDetail = ({ token }) => {
 	const [loading, setLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [book, setBook] = useState(null)
+	const [memo, setMemo] = useState(null)
 
 	const handleDelete = () => {
 		const confirmation = window.confirm('정말 책을 삭제할까요?')
@@ -66,6 +68,13 @@ const BookDetail = ({ token }) => {
 				setLoading(false)
 				setInitialFetch(false)
 			})
+
+		fetch(MEMO_API_URL, {
+			method: 'GET',
+			headers: { Authorization: token },
+		})
+			.then((res) => res.json())
+			.then((data) => setMemo(data))
 	}, [])
 
 	return (
@@ -172,7 +181,11 @@ const BookDetail = ({ token }) => {
 
 										<div className='row justify-content-center mt-4'>
 											<div className='col-12'>
-												<NoContent style={{ width: '150px' }} />
+												{memo == null || memo.length === 0 ? (
+													<NoContent style={{ width: '150px' }} />
+												) : (
+													<MemoList memoList={memo} />
+												)}
 											</div>
 										</div>
 									</Card.Body>
@@ -195,6 +208,31 @@ const BookDetail = ({ token }) => {
 					</div>
 				</div>
 			)}
+		</div>
+	)
+}
+
+const MemoList = ({ memoList }) => {
+	return (
+		<div className='row row-eq-height'>
+			{memoList.map((memo) => {
+				return (
+					<div className='col-12 col-lg-6 mb-2'>
+						<Card className=''>
+							<Card.Body>
+								<div className='row'>
+									<div className='col-2'>
+										<h6 className='mt-1'>{memo.page}</h6>
+									</div>
+									<div className='col-10'>
+										<div className='text-start'>{memo.content}</div>
+									</div>
+								</div>
+							</Card.Body>
+						</Card>
+					</div>
+				)
+			})}
 		</div>
 	)
 }
