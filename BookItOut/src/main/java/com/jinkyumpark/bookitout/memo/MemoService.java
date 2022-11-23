@@ -13,4 +13,8 @@ public class MemoService {
     public List<Memo> getAllMemoByBookId(Long bookId) {
         return memoRepository.findAllByBook_BookId(bookId);
     }
+
+    public void addMemo(Memo memo) {
+        memoRepository.save(memo);
+    }
 }

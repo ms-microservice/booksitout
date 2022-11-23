@@ -4,13 +4,13 @@ import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
+import com.jinkyumpark.bookitout.memo.request.MemoAddRequest;
+import com.jinkyumpark.bookitout.response.AddSucessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -31,5 +31,17 @@ public class MemoControllerV1 {
 
         List<Memo> memoList = memoService.getAllMemoByBookId(bookId);
         return memoList;
+    }
+
+    @PostMapping("{bookId}")
+    public AddSucessResponse addMemo(@PathVariable("bookId") Long bookId,
+                                     @RequestBody @Valid MemoAddRequest memoAddRequest
+    ) {
+        Book book = bookService.getBookById(bookId);
+        Memo memo = new Memo(memoAddRequest.getPage(), memoAddRequest.getContent(), book);
+
+        memoService.addMemo(memo);
+
+        return new AddSucessResponse("메모를 추가했어요");
     }
 }

@@ -1,8 +1,13 @@
 package com.jinkyumpark.bookitout.memo;
 
 import com.jinkyumpark.bookitout.book.model.Book;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+
+@Getter
+@NoArgsConstructor
 
 @Entity
 @Table(name = "Memo")
@@ -21,4 +26,10 @@ public class Memo {
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", foreignKey = @ForeignKey(name = "memo_book_fk"))
     private Book book;
+
+    public Memo(Integer page, String content, Book book) {
+        this.page = page;
+        this.content = content;
+        this.book = book;
+    }
 }
