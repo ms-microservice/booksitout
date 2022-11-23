@@ -38,14 +38,10 @@ public class BookControllerV1 {
     @GetMapping("{id}")
     public Book getBookById(@PathVariable("id") Long bookId) {
         Long loginUserId = AppUserService.getLoginAppUserId();
-        Optional<Book> bookOptional = bookService.getBookById(bookId);
+        Book book = bookService.getBookById(bookId);
 
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException("해당 id의 책은 존재하지 않아요");
-        }
-
-        if (bookOptional.get().getIsSharing() || bookOptional.get().getAppUser().getAppUserId().equals(loginUserId)) {
-            return bookOptional.get();
+        if (book.getIsSharing() || book.getAppUser().getAppUserId().equals(loginUserId)) {
+            return book;
         }
 
         throw new NotAuthorizeException(BOOK_NOT_SHARING_MESSAGE);

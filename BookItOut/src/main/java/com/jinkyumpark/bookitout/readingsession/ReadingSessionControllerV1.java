@@ -43,15 +43,12 @@ public class ReadingSessionControllerV1 {
 
     @GetMapping("{bookId}")
     public List<ReadingSession> getReadingSessionByBookId(@PathVariable("bookId") Long bookId) {
-        Optional<Book> bookOptional = bookService.getBookById(bookId);
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException(BOOK_NOT_FOUND_MESSAGE);
-        }
+        Book book = bookService.getBookById(bookId);
 
         Long loginUserId = AppUserService.getLoginAppUserId();
-        Long bookAppUserId = bookOptional.get().getAppUser().getAppUserId();
+        Long bookAppUserId = book.getAppUser().getAppUserId();
 
-        if (!loginUserId.equals(bookAppUserId) && !bookOptional.get().getIsSharing()) {
+        if (!loginUserId.equals(bookAppUserId) && !book.getIsSharing()) {
             throw new BookNotSharingException();
         }
 
@@ -89,13 +86,10 @@ public class ReadingSessionControllerV1 {
 
     @PostMapping("{bookId}")
     public AddSucessResponse startReadingSession(@PathVariable("bookId") Long bookId) {
-        Optional<Book> bookOptional = bookService.getBookById(bookId);
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException(BOOK_NOT_FOUND_MESSAGE);
-        }
+        Book book = bookService.getBookById(bookId);
 
         Long loginAppUserId = AppUserService.getLoginAppUserId();
-        if (!loginAppUserId.equals(bookOptional.get().getAppUser().getAppUserId())) {
+        if (!loginAppUserId.equals(book.getAppUser().getAppUserId())) {
             throw new BookNotSharingException("독서활동을 추가하시려는 책의 주인이 아니에요");
         }
 
@@ -106,7 +100,7 @@ public class ReadingSessionControllerV1 {
 
         Integer startPage = previousReadingSessionOptional.isEmpty() ? 0 : previousReadingSessionOptional.get().getEndPage();
         AppUser appUser = new AppUser(loginAppUserId);
-        ReadingSession newReadingSession = new ReadingSession(startPage, LocalDateTime.now(), bookOptional.get(), appUser);
+        ReadingSession newReadingSession = new ReadingSession(startPage, LocalDateTime.now(), book, appUser);
 
         readingSessionService.addReadingSession(newReadingSession);
 
@@ -142,10 +136,7 @@ public class ReadingSessionControllerV1 {
                                                @RequestParam("page") Integer readingSessionEndPage,
                                                @RequestParam("time") Integer totalTimeInSecond
     ) {
-        Optional<Book> bookOptional = bookService.getBookById(bookId);
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException("없는 책이에요");
-        }
+        Book book = bookService.getBookById(bookId);
 
         Long loginUserId = AppUserService.getLoginAppUserId();
         Optional<ReadingSession> previousReadingSession = readingSessionService.getPreviousReadingSession(loginUserId);
@@ -162,7 +153,7 @@ public class ReadingSessionControllerV1 {
         updatedReadingSession.setReadTime(totalTimeInSecond / 60);
         readingSessionService.updateReadingSession(updatedReadingSession);
 
-        Book updatedBook = bookOptional.get();
+        Book updatedBook = book;
         updatedBook.setCurrentPage(readingSessionEndPage);
         bookService.editBook(updatedBook);
 
