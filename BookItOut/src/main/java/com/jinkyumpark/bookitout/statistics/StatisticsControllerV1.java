@@ -92,11 +92,9 @@ public class StatisticsControllerV1 {
 
     @GetMapping("/read-time/{day}")
     public ReadTimeResponse getReadTime(@PathVariable("day") Integer dayRange) {
-        List<Integer> readTimeList = new ArrayList<>();
+        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        for (int i = 0; i < dayRange; i++) {
-            readTimeList.add((int) (Math.random() * 100));
-        }
+        List<Integer> readTimeList = readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(dayRange),LocalDateTime.now());
 
         return new ReadTimeResponse(200, readTimeList);
     }
