@@ -13,6 +13,11 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 })
 						display: false,
 					},
 				},
+				scales: {
+					y: {
+						min: 0,
+					},
+				},
 			}}
 			data={{
 				labels: [

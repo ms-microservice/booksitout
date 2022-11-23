@@ -96,7 +96,13 @@ const Reading = ({ token }) => {
 
 	return (
 		<div className='container'>
-			<EndReadingSessionModal isShowingModal={isShowingModal} setIsShowingModal={setIsShowingModal} setTimerOn={setTimerOn} />
+			<EndReadingSessionModal
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				setTimerOn={setTimerOn}
+				token={token}
+				bookId={id}
+			/>
 
 			{book != null && (
 				<div className='text-center'>
@@ -204,7 +210,14 @@ const BookRecordCard = ({ label, conjunctures, recordList }) => {
 	)
 }
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, setTimerOn }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, setTimerOn, token, bookId }) => {
+	const navigate = useNavigate()
+	const [endPage, setEndPage] = useState(-1)
+
+	const READING_SESSION_END_API_URL = `http://localhost/v1/reading-session/${bookId}/end?page=${endPage}&time=${localStorage.getItem(
+		'reading-session-time'
+	)}`
+
 	const hideModal = () => {
 		setIsShowingModal(false)
 		setTimerOn(true)
@@ -212,6 +225,19 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, setTimerOn 
 
 	const endReadingSession = (e) => {
 		e.preventDefault()
+
+		fetch(encodeURI(READING_SESSION_END_API_URL), {
+			method: 'PUT',
+			headers: { Authorization: token },
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				if (data.status.toString().startsWith(2)) {
+					navigate(`/book/detail/${bookId}`)
+				}
+
+				alert(data.message)
+			})
 	}
 
 	return (
@@ -226,7 +252,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, setTimerOn 
 
 					<div className='row justify-content-center mt-3 mb-4'>
 						<div className='col-3'>
-							<Form.Control />
+							<Form.Control onChange={(e) => setEndPage(e.target.value)} />
 						</div>
 					</div>
 

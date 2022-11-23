@@ -71,7 +71,12 @@ const Main = (props) => {
 			methods: 'GET',
 			headers: { Authorization: props.token, 'Content-Type': 'application/json' },
 		})
-			.then((res) => res.json())
+			.then((res) => {
+				if (!res.status.toString().startsWith(2)) {
+					return
+				}
+				return res.json()
+			})
 			.then((data) => setData(data))
 			.catch((e) => console.log(e))
 	}
@@ -82,7 +87,7 @@ const Main = (props) => {
 		}, 500)
 
 		Promise.all([
-			fetchFromApi(LAST_BOOK_API_URL, (data) => data.status.toString().startsWith(2) && setLastBook(data)),
+			fetchFromApi(LAST_BOOK_API_URL, (data) => setLastBook(data)),
 			fetchFromApi(READ_TIME_API_URL, (data) => data.status.toString().startsWith(2) && setReadTime(data.timeSeriesData)),
 			fetchFromApi(STATISTICS_SUMMARY_URL, (data) => data.status.toString().startsWith(2) && setStatistics(data)),
 		]).finally(() => {
