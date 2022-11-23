@@ -2,10 +2,12 @@ package com.jinkyumpark.bookitout.memo;
 
 import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.book.model.Book;
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.memo.request.MemoAddRequest;
+import com.jinkyumpark.bookitout.memo.request.MemoEditRequest;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
+import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -43,5 +45,21 @@ public class MemoControllerV1 {
         memoService.addMemo(memo);
 
         return new AddSucessResponse("메모를 추가했어요");
+    }
+
+    @PutMapping("{memoId}")
+    public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
+                                        @RequestBody @Valid MemoEditRequest memoEditRequest
+    ) {
+        memoService.editMemo(memoId, memoEditRequest.getPage(), memoEditRequest.getContent());
+
+        return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), "메모를 수정했어요");
+    }
+
+    @DeleteMapping("{memoId}")
+    public DeleteSuccessResponse deleteMemo(@PathVariable("memoId") Long memoId) {
+        memoService.deleteMemo(memoId);
+
+        return new DeleteSuccessResponse(String.format("DELETE /v1/memo/%d", memoId), "메모를 지웠어요");
     }
 }
