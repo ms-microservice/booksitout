@@ -1,16 +1,18 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Card, Form } from 'react-bootstrap'
+import { Card, Form, Button } from 'react-bootstrap'
 
 const Join = () => {
-	const JOIN_API_URL = `http://localhost/v1/join`
+	const navigate = useNavigate()
 
+	const JOIN_API_URL = `http://localhost/v1/join`
 	const EMAIL_MESSAGE = `ID로 사용하실 이메일을 입력해 주세요`
+	const EMAIL_VERIFICATION_MESSAGE = `이메일로 온 인증번호를 입력해 주세요`
 	const PASSWORD_MESSAGE = `비밀번호를 입력해 주세요`
 	const NAME_MESSAGE = `이름을 알려주세요`
 
-	const navigate = useNavigate()
 	const [email, setEmail] = useState('')
+	const [emailVerification, setEmailVerification] = useState('')
 	const [password, setPassword] = useState('')
 	const [name, setName] = useState('')
 
@@ -45,57 +47,27 @@ const Join = () => {
 						<h1>📗 회원가입</h1>
 
 						<Form onSubmit={handleJoin}>
-							<Form.Group class='row mt-3'>
-								<label for='email' class='col-sm-2 col-form-label text-start'>
-									이메일
-								</label>
-								<div class='col-sm-10'>
-									<input
-										type='email'
-										class='form-control'
-										placeholder={EMAIL_MESSAGE}
-										onChange={(e) => setEmail(e.target.value)}
-										required
-									/>
-								</div>
-							</Form.Group>
+							<InputWithLabel label='email' displayLabel='이메일' placeholder={EMAIL_MESSAGE} setInputVariable={setEmail} />
 
-							<Form.Group class='row mt-3'>
-								<label for='name' class='col-sm-2 col-form-label text-start'>
-									이름
-								</label>
-								<div class='col-sm-10'>
-									<input
-										type='text'
-										class='form-control'
-										placeholder={NAME_MESSAGE}
-										onChange={(e) => setName(e.target.value)}
-										required
-									/>
-								</div>
-							</Form.Group>
+							<InputWithLabel
+								label='email-verification'
+								displayLabel='인증번호'
+								placeholder={EMAIL_VERIFICATION_MESSAGE}
+								setInputVariable={setEmailVerification}
+								disabled={true}
+							/>
 
-							<Form.Group class='row mt-3'>
-								<label for='inputPassword3' class='col-sm-2 col-form-labe text-start'>
-									비밀번호
-								</label>
-								<div class='col-sm-10'>
-									<input
-										type='password'
-										class='form-control'
-										placeholder={PASSWORD_MESSAGE}
-										onChange={(e) => setPassword(e.target.value)}
-										required
-									/>
-								</div>
-							</Form.Group>
+							<InputWithLabel type='name' displayLabel='이름' placeholder={NAME_MESSAGE} setInputVariable={setName} />
+
+							<InputWithLabel type='password' displayLabel='비밀번호' placeholder={PASSWORD_MESSAGE} setInputVariable={setPassword} />
 
 							<div className='row justify-content-center mt-3'>
 								<div className='col-4'>
-									<button type='submit' className='btn btn-primary w-100'>
+									<Button type='submit' className='w-100'>
 										회원가입
-									</button>
+									</Button>
 								</div>
+
 								<div className='col-4'>
 									<a className='btn btn-success w-100' href='login'>
 										로그인
@@ -107,6 +79,29 @@ const Join = () => {
 				</Card>
 			</div>
 		</div>
+	)
+}
+
+const InputWithLabel = ({ type, displayLabel, placeholder, setInputVariable, disabled = false }) => {
+	return (
+		<Form.Group class='mt-3'>
+			<div className='row'>
+				<label for={type} class='col-sm-2 col-form-label text-start'>
+					{displayLabel}
+				</label>
+
+				<div class='col-sm-10'>
+					<input
+						type={type}
+						class='form-control'
+						placeholder={placeholder}
+						onChange={(e) => setInputVariable(e.target.value)}
+						required
+						disabled={disabled}
+					/>
+				</div>
+			</div>
+		</Form.Group>
 	)
 }
 
