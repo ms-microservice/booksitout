@@ -7,6 +7,7 @@ import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.quotation.request.QuotationAddRequest;
 import com.jinkyumpark.bookitout.quotation.request.QuotationEditRequest;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
@@ -57,5 +58,19 @@ public class QuotationControllerV1 {
         quotationService.editQuotation(quotationId, quotationEditRequest);
 
         return new EditSuccessResponse(String.format("PUT v1/quotation/%d", quotationId), "인용을 수정했어요");
+    }
+
+    @DeleteMapping("{quotationId}")
+    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId) {
+        Quotation quotation = quotationService.getQuotationByQuotationId(quotationId);
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        if (! quotation.getBook().getBookId().equals(loginUserId)) {
+            throw new NotAuthorizeException("인용은 책 주인만 삭제할 수 있어요");
+        }
+
+        quotationService.deleteQuotation(quotationId);
+
+        return new DeleteSuccessResponse(String.format("DELETE v1/quotation/%d", quotation), "인용을 지웠어요");
     }
 }

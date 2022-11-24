@@ -41,4 +41,8 @@ public class QuotationService {
             quotation.setFrom_who(quotationEditRequest.getFromWho());
         }
     }
+
+    public void deleteQuotation(Long quotationId) {
+        quotationRepository.deleteById(quotationId);
+    }
 }
