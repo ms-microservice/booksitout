@@ -2,7 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
 
-const Login = (props) => {
+const Login = ({ setToken }) => {
+	const navigate = useNavigate()
+
 	const LOGIN_API_URL = `http://localhost/login`
 	const INTRODUCTION_URL = `/introduction`
 	const FAQ_URL = `/faq`
@@ -17,15 +19,13 @@ const Login = (props) => {
 	const QNA_CONTENT = `직접 질문하실 수 있어요`
 	const FAQ_QNA_TITLE = `책-it-out에 관한 질문 한 스푼 🥄`
 
-	const navigate = useNavigate()
-
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [stayLogin, setStayLogin] = useState(true)
 
 	const handleLogin = (e) => {
 		e.preventDefault()
-		props.setToken('')
+		setToken('')
 
 		if (password === '') {
 			alert('비밀번호를 입력해 주세요')
@@ -46,22 +46,23 @@ const Login = (props) => {
 				stayLogin: stayLogin,
 			}),
 		})
-			.then((res) => res.json())
-			.then((data) => {
-				if (data.status.toString().startsWith(4)) {
-					alert(data.message)
-					localStorage.setItem('login-token', '')
-					localStorage.setItem('user-name', '')
-				} else if (data.status.toString().startsWith(2)) {
-					localStorage.setItem('login-token', data.token)
-					localStorage.setItem('user-name', data.name)
-					props.setToken(data.token)
-					alert(data.message)
-
-					navigate('/')
+			.then((res) => {
+				if (!res.status.toString().startsWith(2)) {
+					throw new Error()
 				}
+				return res.json()
 			})
-			.catch((e) => console.log(e))
+			.then((data) => {
+				localStorage.setItem('login-token', data.token)
+				localStorage.setItem('user-name', data.name)
+				setToken(data.token)
+				alert(data.message)
+				navigate('/')
+			})
+			.catch(() => {
+				localStorage.setItem('login-token', '')
+				localStorage.setItem('user-name', '')
+			})
 	}
 
 	return (
