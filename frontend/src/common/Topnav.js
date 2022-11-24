@@ -7,10 +7,10 @@ import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 import userIcon from '../resources/images/common/user.png'
 
 const Topnav = ({ token, setToken }) => {
-	const expand = 'lg'
-
 	const navigate = useNavigate()
 	const location = useLocation()
+
+	const expand = 'lg'
 
 	const handleLogout = (e) => {
 		e.preventDefault()
@@ -47,14 +47,14 @@ const Topnav = ({ token, setToken }) => {
 	return (
 		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect>
 			<Container fluid>
-				<Navbar.Brand href='/'>📗 책-it-out</Navbar.Brand>
+				<Navbar.Brand href={token === '' ? '/login' : '/'}>📗 책-it-out</Navbar.Brand>
 
 				<Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}></Navbar.Toggle>
 
 				<Navbar.Collapse id='responsive-navbar-nav'>
 					<Nav className='me-auto text-center'>
 						{urlList.map((url) => (
-							<Nav.Link href={url.url} active={location.pathname.startsWith(url.url)}>
+							<Nav.Link href={token !== '' && url.url} active={location.pathname.startsWith(url.url)}>
 								{url.title}
 							</Nav.Link>
 						))}
@@ -144,6 +144,7 @@ const Topnav = ({ token, setToken }) => {
 const SearchBar = ({ expand = 'lg' }) => {
 	const navigate = useNavigate()
 	const [keyword, setKeyword] = useState('')
+
 	const handleSearch = (e) => {
 		e.preventDefault()
 		if (keyword !== '') {
