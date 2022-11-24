@@ -15,8 +15,8 @@ import javax.persistence.*;
 @Entity(name = "month_statistics")
 @Table(name = "MonthStatistics")
 public class MonthStatistics {
-    @SequenceGenerator(name = "statistics_seq", sequenceName = "statistics_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "statistics_seq")
+    @SequenceGenerator(name = "month_statistics_seq", sequenceName = "month_statistics_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "month_statistics_seq")
     @Column(name = "month_statistics_id")
     @Id
     private Long monthStatisticsId;

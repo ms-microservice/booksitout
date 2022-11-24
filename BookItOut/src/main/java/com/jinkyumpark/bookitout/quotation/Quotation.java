@@ -2,8 +2,8 @@ package com.jinkyumpark.bookitout.quotation;
 
 import com.jinkyumpark.bookitout.book.model.Book;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Entity
 @Table(name = "Quotation")
 public class Quotation {
-
     @Id
     @SequenceGenerator(name = "quotation_seq", sequenceName = "quotation_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "quotation_seq")
@@ -26,16 +25,10 @@ public class Quotation {
     @Column(name = "content", nullable = false)
     private String content;
 
-    @Column(name = "from")
-    private String from;
+    @Column(name = "from_who")
+    private String from_who;
 
     @ManyToOne
-    @JoinColumn(name = "book_id", referencedColumnName = "bookId", foreignKey = @ForeignKey(name = "quotation_book_fk"))
+    @JoinColumn(name = "book_id", referencedColumnName = "book_id", foreignKey = @ForeignKey(name = "quotation_book_fk"))
     private Book book;
-
-    public Quotation(Integer page, String content, Book book) {
-        this.page = page;
-        this.content = content;
-        this.book = book;
-    }
 }

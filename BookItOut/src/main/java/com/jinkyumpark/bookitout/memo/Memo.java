@@ -2,13 +2,12 @@ package com.jinkyumpark.bookitout.memo;
 
 import com.jinkyumpark.bookitout.book.model.Book;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter
-@Setter
+@Getter @Setter
 @NoArgsConstructor
 
 @Entity
@@ -17,6 +16,7 @@ public class Memo {
     @Id
     @SequenceGenerator(name = "memo_seq", sequenceName = "memo_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "memo_seq")
+    @Column(name = "memo_id")
     private Long memoId;
 
     @Column(name = "page", nullable = false)
