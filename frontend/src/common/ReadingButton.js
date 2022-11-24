@@ -35,9 +35,10 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading', time }) => {
 					}}
 				/>
 			) : (
-				<Button style={timeStyle} onClick={() => navigate(url)}>
-					<h6 className='mt-auto mb-auto'>
-						{time > 60 * 60 && `${Math.floor(time / 60 / 60)} : `} {Math.floor(time / 60)} : {time % 60}
+				<Button href={url} style={timeStyle}>
+					<h6 className='mt-1'>
+						{time > 60 * 60 && `${Math.floor((time / 60 / 60) % (60 * 60))}H `}
+						{Math.floor(time / 60) % 60}M {`${time % 60}S`}
 					</h6>
 				</Button>
 			)}
