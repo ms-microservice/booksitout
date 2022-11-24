@@ -5,7 +5,9 @@ import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.quotation.request.QuotationAddRequest;
+import com.jinkyumpark.bookitout.quotation.request.QuotationEditRequest;
 import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
@@ -39,7 +41,7 @@ public class QuotationControllerV1 {
         Book book = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (! book.getAppUser().getAppUserId().equals(loginUserId)) {
+        if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
             throw new NotAuthorizeException();
         }
 
@@ -47,5 +49,13 @@ public class QuotationControllerV1 {
         quotationService.addQuotation(quotation);
 
         return new AddSucessResponse("인용을 추가했어요");
+    }
+
+    @PutMapping("{quotationId}")
+    public EditSuccessResponse editQuotation(@PathVariable("quotationId") Long quotationId,
+                                             @RequestBody @Valid QuotationEditRequest quotationEditRequest) {
+        quotationService.editQuotation(quotationId, quotationEditRequest);
+
+        return new EditSuccessResponse(String.format("PUT v1/quotation/%d", quotationId), "인용을 수정했어요");
     }
 }
