@@ -5,6 +5,7 @@ import { Button } from 'react-bootstrap'
 import Timer from './Timer'
 import BookRecordCard from './BookRecordCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
+import ProgressBar from '../../common/ProgressBar'
 
 const Reading = ({ token, readingSessionTime }) => {
 	const { id } = useParams()
@@ -22,8 +23,8 @@ const Reading = ({ token, readingSessionTime }) => {
 	const TIMER_ON = `timer-on`
 	const [isTimerOn, setIsTimerOn] = useState(localStorage.getItem(TIMER_ON))
 	const toggleTimer = (state = !isTimerOn) => {
-		state == 'true' ? setIsTimerOn(true) : setIsTimerOn(false)
-		state == 'true' ? localStorage.setItem(TIMER_ON, true) : localStorage.setItem(TIMER_ON, false)
+		state == 'true' ? setIsTimerOn(false) : setIsTimerOn(true)
+		state == 'true' ? localStorage.setItem(TIMER_ON, false) : localStorage.setItem(TIMER_ON, true)
 	}
 
 	useEffect(() => {
@@ -97,6 +98,12 @@ const Reading = ({ token, readingSessionTime }) => {
 						<div className='mb-5'>
 							<h2>{book.title}</h2>
 							<h4 className='text-muted'>{book.author}</h4>
+
+							<div className='row justify-content-center'>
+								<div className='col-9'>
+									<ProgressBar book={book} />
+								</div>
+							</div>
 						</div>
 
 						<Timer time={readingSessionTime} />

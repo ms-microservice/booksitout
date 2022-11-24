@@ -145,9 +145,10 @@ public class ReadingSessionControllerV1 {
         }
 
         ReadingSession updatedReadingSession = previousReadingSession.get();
-        if (book.getEndPage() < readingSessionEndPage) {
+        if (book.getCurrentPage() < readingSessionEndPage) {
             throw new BadRequestException("독서활동 페이지가 책의 마지막 페이지보다 커요");
         }
+
         updatedReadingSession.setEndPage(readingSessionEndPage);
         updatedReadingSession.setEndTime(LocalDateTime.now());
         updatedReadingSession.setReadTime(totalTimeInSecond / 60);
