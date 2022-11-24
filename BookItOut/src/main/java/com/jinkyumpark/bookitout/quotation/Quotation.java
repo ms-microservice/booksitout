@@ -31,4 +31,11 @@ public class Quotation {
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", foreignKey = @ForeignKey(name = "quotation_book_fk"))
     private Book book;
+
+    public Quotation(Integer page, String content, String from_who, Book book) {
+        this.page = page;
+        this.content = content;
+        this.from_who = from_who;
+        this.book = book;
+    }
 }

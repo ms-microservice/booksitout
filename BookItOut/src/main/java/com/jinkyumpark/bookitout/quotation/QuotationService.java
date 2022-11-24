@@ -13,4 +13,8 @@ public class QuotationService {
     public List<Quotation> getAllQuotationByBookId(Long bookId) {
         return quotationRepository.findAllByBook_BookId(bookId);
     }
+
+    public void addQuotation(Quotation quotation) {
+        quotationRepository.save(quotation);
+    }
 }

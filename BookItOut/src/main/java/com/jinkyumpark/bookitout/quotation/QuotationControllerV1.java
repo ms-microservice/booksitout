@@ -2,14 +2,15 @@ package com.jinkyumpark.bookitout.quotation;
 
 import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.book.model.Book;
+import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
+import com.jinkyumpark.bookitout.quotation.request.QuotationAddRequest;
+import com.jinkyumpark.bookitout.response.AddSucessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.AllArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @AllArgsConstructor
@@ -30,5 +31,21 @@ public class QuotationControllerV1 {
         }
 
         return quotationService.getAllQuotationByBookId(bookId);
+    }
+
+    @PostMapping("{bookId}")
+    public AddSucessResponse addQuotation(@PathVariable("bookId") Long bookId,
+                                          @RequestBody @Valid QuotationAddRequest quotationAddRequest) {
+        Book book = bookService.getBookById(bookId);
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        if (! book.getAppUser().getAppUserId().equals(loginUserId)) {
+            throw new NotAuthorizeException();
+        }
+
+        Quotation quotation = new Quotation(quotationAddRequest.getPage(), quotationAddRequest.getContent(), quotationAddRequest.getFromWho(), book);
+        quotationService.addQuotation(quotation);
+
+        return new AddSucessResponse("인용을 추가했어요");
     }
 }
