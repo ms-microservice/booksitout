@@ -20,6 +20,7 @@ const BookDetail = ({ token }) => {
 	const BOOK_DELETE_API_URL = `http://localhost/v1/book/${id}`
 	const BOOK_DETAIL_API_URL = `http://localhost/v1/book/${id}`
 	const MEMO_API_URL = `http://localhost/v1/memo/all/${id}`
+	const QUOTATION_API_URL = `http://localhost/v1/quotation/all/${id}`
 
 	const BOOK_EDIT_URL = `/book/edit/${id}`
 
@@ -28,6 +29,8 @@ const BookDetail = ({ token }) => {
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [book, setBook] = useState(null)
 	const [memo, setMemo] = useState(null)
+	const [quotation, setQuotation] = useState(null)
+	const [readingSession, setReadingSession] = useState(null)
 
 	const handleDelete = () => {
 		const confirmation = window.confirm('정말 책을 삭제할까요?')
@@ -75,6 +78,10 @@ const BookDetail = ({ token }) => {
 		})
 			.then((res) => res.json())
 			.then((data) => setMemo(data))
+
+		fetch(QUOTATION_API_URL, { method: 'GET', headers: { Authorization: token } })
+			.then((res) => res.json())
+			.then((data) => setQuotation(data))
 	}, [])
 
 	return (
@@ -161,54 +168,27 @@ const BookDetail = ({ token }) => {
 							</div>
 						</div>
 
-						<Card className='mt-3'>
-							<Card.Body>
-								<h4>독서활동</h4>
-
-								<div className='row justify-content-center mt-5'>
-									<div className='col-6'>
-										<NoContent style={{ width: '150px' }} />
-									</div>
-								</div>
-							</Card.Body>
-						</Card>
-
-						<div className='row'>
-							<div className='col-12'>
-								<Card className='mt-3'>
-									<Card.Body>
-										<h4>메모</h4>
-
-										<div className='row justify-content-center mt-4'>
-											<div className='col-12'>
-												{memo == null || memo.length === 0 ? (
-													<NoContent style={{ width: '150px' }} />
-												) : (
-													<MemoList memoList={memo} />
-												)}
-											</div>
-										</div>
-									</Card.Body>
-								</Card>
-							</div>
-							<div className='col-12'>
-								<Card className='mt-3'>
-									<Card.Body>
-										<h4>인용</h4>
-
-										<div className='row justify-content-center mt-4'>
-											<div className='col-12'>
-												<NoContent style={{ width: '150px' }} />
-											</div>
-										</div>
-									</Card.Body>
-								</Card>
-							</div>
-						</div>
+						<BookRecordCard displayLabel='독서활동' record={readingSession} />
+						<BookRecordCard displayLabel='메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
+						<BookRecordCard displayLabel='인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
 					</div>
 				</div>
 			)}
 		</div>
+	)
+}
+
+const BookRecordCard = ({ displayLabel, record, ListComponent }) => {
+	return (
+		<Card className='mt-3'>
+			<Card.Body>
+				<h4>{displayLabel}</h4>
+
+				<div className='row justify-content-center mt-4'>
+					<div className='col-12'>{record == null || record.length === 0 ? <NoContent style={{ width: '150px' }} /> : ListComponent}</div>
+				</div>
+			</Card.Body>
+		</Card>
 	)
 }
 
@@ -218,7 +198,7 @@ const MemoList = ({ memoList }) => {
 			{memoList.map((memo) => {
 				return (
 					<div className='col-12 col-lg-6 mb-2'>
-						<Card className=''>
+						<Card>
 							<Card.Body>
 								<div className='row'>
 									<div className='col-2'>
@@ -234,6 +214,26 @@ const MemoList = ({ memoList }) => {
 				)
 			})}
 		</div>
+	)
+}
+
+const QuotationList = ({ quotationList }) => {
+	return (
+		<>
+			{quotationList.map((quotation) => {
+				return (
+					<Card className='mb-2'>
+						<Card.Body>
+							<div className='row'>
+								<div className='col-2'>{quotation.page}</div>
+								<div className='col-7 text-start'>{quotation.content}</div>
+								<div className='col-3'>{quotation.from_who}</div>
+							</div>
+						</Card.Body>
+					</Card>
+				)
+			})}
+		</>
 	)
 }
 
