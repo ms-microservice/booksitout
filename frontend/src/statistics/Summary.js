@@ -51,7 +51,7 @@ const Main = (props) => {
 		{
 			id: 3,
 			title: '2022년 목표',
-			element: statistics != null && <Goal goal={{ current: statistics.yearly.totalReadBookCount, goal: statistics.goal }} />,
+			element: statistics != null && <Goal goal={{ current: statistics.yearStatistics.totalReadBookCount, goal: statistics.goal }} />,
 			data: statistics,
 			message: '오류가 났어요',
 			url: '/statistics/goal',

@@ -13,37 +13,37 @@ const SummaryTable = ({ statistics }) => {
 			id: 1,
 			icon: timeIcon,
 			name: '총 독서시간',
-			value: `${statistics.yearly.totalReadTime != null && statistics.yearly.totalReadTime}시간`,
+			value: `${statistics.yearStatistics.totalReadTime != null && statistics.yearStatistics.totalReadTime}시간`,
 		},
 		{
 			id: 2,
 			icon: averageIcon,
 			name: '하루 평균 독서시간',
-			value: `${statistics.daily.averageReadTime != null && statistics.daily.averageReadTime}분`,
+			value: `${statistics.dayStatistics.averageReadTime != null && statistics.dayStatistics.averageReadTime}분`,
 		},
 		{
 			id: 3,
 			icon: bookIcon,
 			name: '읽은 책',
-			value: `${statistics.yearly.totalReadBookCount != null && statistics.yearly.totalReadBookCount}권`,
+			value: `${statistics.yearStatistics.totalReadBookCount != null && statistics.yearStatistics.totalReadBookCount}권`,
 		},
 		{
 			id: 4,
 			icon: starIcon,
 			name: '평균별점',
-			value: `${statistics.yearly.averageStar != null && statistics.yearly.averageStar}`,
+			value: `${statistics.yearStatistics.averageStar != null && statistics.yearStatistics.averageStar}`,
 		},
 		{
 			id: 2,
 			icon: longestDayIcon,
 			name: '책을 가장 많이 읽은 날',
-			value: `${statistics.daily.mostReadTime != null && statistics.daily.mostReadTime}분`,
+			value: `${statistics.dayStatistics.mostReadTime != null && statistics.dayStatistics.mostReadTime}분`,
 		},
 		{
 			id: 2,
 			icon: pageIcon,
 			name: '총 읽은 페이지 수',
-			value: `${statistics.yearly.totalReadPage != null && statistics.yearly.totalReadPage} 페이지`,
+			value: `${statistics.yearStatistics.totalReadPage != null && statistics.yearStatistics.totalReadPage} 페이지`,
 		},
 	]
 
