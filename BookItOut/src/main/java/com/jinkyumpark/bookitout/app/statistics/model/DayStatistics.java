@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class Daily {
+public class DayStatistics {
     private Integer averageReadTime;
     private Integer mostReadTime;
 }
