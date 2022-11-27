@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.app.book.model;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
+@Deprecated
 @Entity
 @Table(name = "author")
 public class Author {
