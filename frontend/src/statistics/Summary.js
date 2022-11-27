@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Container, Alert } from 'react-bootstrap'
+import { Card, Alert } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
@@ -97,7 +97,7 @@ const Main = (props) => {
 	}, [])
 
 	return (
-		<Container>
+		<div className='container'>
 			{initialFetch ? (
 				<></>
 			) : isLoading ? (
@@ -125,7 +125,7 @@ const Main = (props) => {
 					})}
 				</div>
 			)}
-		</Container>
+		</div>
 	)
 }
 
