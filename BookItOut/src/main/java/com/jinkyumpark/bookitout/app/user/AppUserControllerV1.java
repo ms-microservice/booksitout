@@ -2,9 +2,9 @@ package com.jinkyumpark.bookitout.app.user;
 
 import com.jinkyumpark.bookitout.exception.common.ConflictException;
 import com.jinkyumpark.bookitout.exception.common.UnknownException;
-import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
-import com.jinkyumpark.bookitout.user.request.JoinRequest;
-import com.jinkyumpark.bookitout.user.response.JoinSuccessResponse;
+import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
+import com.jinkyumpark.bookitout.app.user.request.JoinRequest;
+import com.jinkyumpark.bookitout.app.user.response.JoinSuccessResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
