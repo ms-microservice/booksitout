@@ -8,17 +8,16 @@ import lombok.Setter;
 
 import javax.persistence.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
+
 @Entity(name = "month_statistics")
 @Table(name = "MonthStatistics")
 public class MonthStatistics {
+    @Id
     @SequenceGenerator(name = "month_statistics_seq", sequenceName = "month_statistics_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "month_statistics_seq")
     @Column(name = "month_statistics_id")
-    @Id
     private Long monthStatisticsId;
 
     @Column(name = "year", nullable = false)
@@ -46,4 +45,14 @@ public class MonthStatistics {
     @ManyToOne
     @JoinColumn(name = "app_user_id", nullable = false, foreignKey = @ForeignKey(name = "statistics_app_user_fk"))
     private AppUser appUser;
+
+    public MonthStatistics(Integer year, Integer month, Integer totalReadMinute, Integer finishedBook, Integer totalStar, Integer maxReadMinute, Integer totalPage) {
+        this.year = year;
+        this.month = month;
+        this.totalReadMinute = totalReadMinute;
+        this.finishedBook = finishedBook;
+        this.totalStar = totalStar;
+        this.maxReadMinute = maxReadMinute;
+        this.totalPage = totalPage;
+    }
 }
