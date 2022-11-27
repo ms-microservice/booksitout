@@ -1,7 +1,6 @@
-import React from 'react'
-import { useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Card } from 'react-bootstrap'
+import { Card, Pagination } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -82,6 +81,12 @@ const BookList = (props) => {
 							</div>
 						)
 					})}
+
+					<Pagination className='pagination justify-content-center mb-5'>
+						<Pagination.Item key={1} active={true}>
+							1
+						</Pagination.Item>
+					</Pagination>
 				</div>
 			)}
 		</div>
