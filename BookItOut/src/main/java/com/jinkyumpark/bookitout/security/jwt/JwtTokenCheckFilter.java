@@ -2,7 +2,7 @@ package com.jinkyumpark.bookitout.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.base.Strings;
-import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
+import com.jinkyumpark.bookitout.app.user.AppUserAuthenticationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

@@ -3,7 +3,7 @@ package com.jinkyumpark.bookitout.security;
 import com.jinkyumpark.bookitout.security.jwt.JwtConfig;
 import com.jinkyumpark.bookitout.security.jwt.JwtTokenCheckFilter;
 import com.jinkyumpark.bookitout.security.jwt.JwtLoginFilter;
-import com.jinkyumpark.bookitout.user.AppUserService;
+import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

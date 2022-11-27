@@ -2,9 +2,9 @@ package com.jinkyumpark.bookitout.security.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.bookitout.exception.common.NotLoginException;
-import com.jinkyumpark.bookitout.user.AppUser;
-import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
-import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
+import com.jinkyumpark.bookitout.app.user.AppUser;
+import com.jinkyumpark.bookitout.app.user.AppUserAuthenticationToken;
+import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;

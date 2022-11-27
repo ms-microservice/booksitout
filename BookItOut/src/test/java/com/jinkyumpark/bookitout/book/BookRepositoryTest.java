@@ -1,8 +1,9 @@
 package com.jinkyumpark.bookitout.book;
 
-import com.jinkyumpark.bookitout.book.model.Book;
-import com.jinkyumpark.bookitout.user.AppUser;
-import com.jinkyumpark.bookitout.user.AppUserRepository;
+import com.jinkyumpark.bookitout.app.book.BookRepository;
+import com.jinkyumpark.bookitout.app.book.model.Book;
+import com.jinkyumpark.bookitout.app.user.AppUser;
+import com.jinkyumpark.bookitout.app.user.AppUserRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
