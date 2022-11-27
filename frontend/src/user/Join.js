@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
+import { JOIN_API_URL } from '../resources/data/urls'
 
 const Join = () => {
 	const navigate = useNavigate()
 
-	const JOIN_API_URL = `http://localhost/v1/join`
 	const EMAIL_MESSAGE = `ID로 사용하실 이메일을 입력해 주세요`
 	const EMAIL_VERIFICATION_MESSAGE = `이메일로 온 인증번호를 입력해 주세요`
 	const PASSWORD_MESSAGE = `비밀번호를 입력해 주세요`

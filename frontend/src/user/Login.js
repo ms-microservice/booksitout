@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
+import { LOGIN_API_URL } from '../resources/data/urls'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()
 
-	const LOGIN_API_URL = `http://localhost/login`
 	const INTRODUCTION_URL = `/introduction`
 	const FAQ_URL = `/faq`
 	const QNA_URL = `/qna`
