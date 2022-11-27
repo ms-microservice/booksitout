@@ -1,11 +1,11 @@
-package com.jinkyumpark.bookitout.statistics.response;
+package com.jinkyumpark.bookitout.app.statistics.model;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class Yearly {
+public class YearStatistics {
     private Integer totalReadTime;
     private Integer totalReadBookCount;
     private Double averageStar;
