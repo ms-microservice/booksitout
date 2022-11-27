@@ -1,7 +1,7 @@
-package com.jinkyumpark.bookitout.book.model;
+package com.jinkyumpark.bookitout.app.book.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.bookitout.user.AppUser;
+import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -9,14 +9,13 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
-@Setter
+@AllArgsConstructor @NoArgsConstructor
+@Getter @Setter
+
+@DynamicInsert
 
 @Entity
 @Table(name = "book")
-@DynamicInsert
 public class Book {
     @Id
     @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
