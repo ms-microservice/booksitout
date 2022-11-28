@@ -9,8 +9,7 @@ import com.jinkyumpark.bookitout.app.book.request.BookEditRequest;
 import com.jinkyumpark.bookitout.app.book.model.BookForm;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
-import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
@@ -22,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -30,70 +28,47 @@ import java.util.Optional;
 public class BookControllerV1 {
     private BookService bookService;
 
-    private final String BOOK_SESSION_NOT_FOUND_MESSAGE = "아직 책-it-out으로 책을 읽으신 적이 없어요. 지금 바로 독서활동을 기록해 보세요!";
     private final String BOOK_ADD_SUCCESS_MESSAGE = "책을 추가했어요";
     private final String BOOK_ADD_FAIL_MESSAGE = "책을 추가할 수 없었어요. 잠시 뒤 다시 시도해 주세요";
+    private final String BOOK_EDIT_SUCCESS_MESSSAGE = "등록하신 책을 수정했어요";
     private final String BOOK_DELETE_SUCCESS_MESSAGE = "해당 책을 지웠어요";
     private final String BOOK_NOT_SHARING_MESSAGE = "해당 책의 등록자가 책을 공유하길 원치 않아요";
 
     @GetMapping("{id}")
     public Book getBookById(@PathVariable("id") Long bookId) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
         Book book = bookService.getBookById(bookId);
+        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (book.getIsSharing() || book.getAppUser().getAppUserId().equals(loginUserId)) {
-            return book;
+        if (!book.getIsSharing() && !book.getAppUser().getAppUserId().equals(loginUserId)) {
+            throw new NotAuthorizeException(BOOK_NOT_SHARING_MESSAGE);
         }
 
-        throw new NotAuthorizeException(BOOK_NOT_SHARING_MESSAGE);
+        return book;
     }
 
     @GetMapping("last")
     public Book getLastBook() {
         Long appUserId = AppUserService.getLoginAppUserId();
-        Optional<Book> bookOptional = bookService.getLastBookByUserid(appUserId);
-
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException(BOOK_SESSION_NOT_FOUND_MESSAGE);
-        }
-
-        return bookOptional.get();
+        return bookService.getLastBookByAppUserid(appUserId);
     }
 
-    @GetMapping("all")
-    public List<Book> getAllBooks(
-            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "size", required = false, defaultValue = "9") Integer size
+    @GetMapping("all/{range}")
+    public List<Book> getAllBooks(@PathVariable(value = "range", required = false) String range,
+                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                  @RequestParam(value = "size", required = false, defaultValue = "10") Integer size
     ) {
         Long loginUserId = AppUserService.getLoginAppUserId();
         Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
 
+        if (range.equals("done")) return bookService.getAllDoneBook(loginUserId, pageRequest);
+        if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginUserId, pageRequest);
+        if (range.equals("give-up")) return bookService.getAllDoneBook(loginUserId, pageRequest); // TODO
         return bookService.getAllBook(loginUserId, pageRequest);
     }
 
-    @GetMapping("all/done")
-    public List<Book> getAllDoneBooks(
-            @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-            @RequestParam(value = "page", required = false, defaultValue = "9") Integer size
-    ) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
-
-        return bookService.getAllDoneBook(loginUserId, pageRequest);
-    }
-
-    @GetMapping("all/not-done")
-    public List<Book> getAllNotDoneBook(@RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                        @RequestParam(value = "size", required = false, defaultValue = "9") Integer size
-    ) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
-
-        return bookService.getAllNotDoneBook(loginUserId, pageRequest);
-    }
-
     @PostMapping
-    public AddSucessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {
+    public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {
+        // TODO : Builder
         Book book = new Book();
         book.setTitle(bookAddRequest.getTitle());
         book.setAuthor(bookAddRequest.getAuthor());
@@ -106,10 +81,12 @@ public class BookControllerV1 {
         book.setForm(BookForm.valueOf(bookAddRequest.getForm()));
 
         Long loginUserId = AppUserService.getLoginAppUserId();
+        AppUser appUser = new AppUser(loginUserId);
+        book.setAppUser(appUser);
 
-        bookService.addBook(book, loginUserId);
+        bookService.addBook(book);
 
-        return new AddSucessResponse(BOOK_ADD_SUCCESS_MESSAGE);
+        return new AddSuccessResponse(BOOK_ADD_SUCCESS_MESSAGE);
     }
 
     @PutMapping("{id}")
@@ -144,12 +121,12 @@ public class BookControllerV1 {
 
         bookService.editBook(editedBook);
 
-        return new EditSuccessResponse("PUT /v1/book/" + bookId, "등록하신 책을 수정했어요");
+        return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), BOOK_EDIT_SUCCESS_MESSSAGE);
     }
 
     @DeleteMapping("{id}")
     public DeleteSuccessResponse deleteBook(@PathVariable("id") Long id) {
-        bookService.deleteBookById(id);
+        bookService.deleteBookByBookId(id);
 
         return new DeleteSuccessResponse("DELETE /v1/book/" + id, BOOK_DELETE_SUCCESS_MESSAGE);
     }
