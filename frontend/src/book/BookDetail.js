@@ -19,6 +19,7 @@ const BookDetail = ({ token }) => {
 
 	const BOOK_DELETE_API_URL = `http://localhost/v1/book/${id}`
 	const BOOK_DETAIL_API_URL = `http://localhost/v1/book/${id}`
+	const READING_SESSION_API_URL = `http://localhost/v1/reading-session/${id}`
 	const MEMO_API_URL = `http://localhost/v1/memo/all/${id}`
 	const QUOTATION_API_URL = `http://localhost/v1/quotation/all/${id}`
 
@@ -72,16 +73,17 @@ const BookDetail = ({ token }) => {
 				setInitialFetch(false)
 			})
 
-		fetch(MEMO_API_URL, {
-			method: 'GET',
-			headers: { Authorization: token },
-		})
+		fetch(MEMO_API_URL, { method: 'GET', headers: { Authorization: token } })
 			.then((res) => res.json())
 			.then((data) => setMemo(data))
 
 		fetch(QUOTATION_API_URL, { method: 'GET', headers: { Authorization: token } })
 			.then((res) => res.json())
 			.then((data) => setQuotation(data))
+
+		fetch(READING_SESSION_API_URL, { method: 'GET', headers: { Authorization: token } })
+			.then((res) => res.json())
+			.then((data) => setReadingSession(data))
 	}, [])
 
 	return (
@@ -168,7 +170,11 @@ const BookDetail = ({ token }) => {
 							</div>
 						</div>
 
-						<BookRecordCard displayLabel='독서활동' record={readingSession} />
+						<BookRecordCard
+							displayLabel='독서활동'
+							record={readingSession}
+							ListComponent={<ReadingSessionList readingSessionList={readingSession} />}
+						/>
 						<BookRecordCard displayLabel='메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
 						<BookRecordCard displayLabel='인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
 					</div>
@@ -234,6 +240,32 @@ const QuotationList = ({ quotationList }) => {
 				)
 			})}
 		</>
+	)
+}
+
+const ReadingSessionList = ({ readingSessionList }) => {
+	return (
+		<div className='row row-eq-height'>
+			{readingSessionList.map((readingSession) => {
+				return (
+					<div className='col-12 col-lg-6'>
+						<Card className='mb-2'>
+							<Card.Body>
+								<div className='row'>
+									<div className='col-5'>22년 11월 5일</div>
+
+									<div className='col-4'>
+										{readingSession.startPage}p ~ {readingSession.endPage}p
+									</div>
+
+									<div className='col-3'>{readingSession.readTime}분</div>
+								</div>
+							</Card.Body>
+						</Card>
+					</div>
+				)
+			})}
+		</div>
 	)
 }
 

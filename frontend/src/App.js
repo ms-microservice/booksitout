@@ -39,14 +39,17 @@ function App() {
 		}
 	}, [location.pathname])
 
-	const TIME_SECONDS = `reading-session-time`
-	const TIMER_ON = `timer-on`
-	const [readingSessionTime, setReadingSessionTime] = useState(localStorage.getItem(TIME_SECONDS))
-	setTimeout(() => {
-		if (localStorage.getItem(TIMER_ON) == 'true' && token != '') {
-			const currentTime = localStorage.getItem(TIME_SECONDS)
-			currentTime == null ? localStorage.setItem(TIME_SECONDS, 0) : localStorage.setItem(TIME_SECONDS, Number(currentTime) + 1)
-			setReadingSessionTime(localStorage.getItem(TIME_SECONDS))
+	const READING_TIME_KEY = `reading-session-time`
+	const TIMER_ON_KEY = `timer-on`
+	const [readingSessionTime, setReadingSessionTime] = useState(localStorage.getItem(READING_TIME_KEY))
+	setInterval(() => {
+		if (localStorage.getItem(TIMER_ON_KEY) === 'true') {
+			const currentTime = localStorage.getItem(READING_TIME_KEY)
+			console.log('WHAT')
+			localStorage.setItem(READING_TIME_KEY, currentTime == null ? 0 : Number(currentTime) + 1)
+			setReadingSessionTime(Number(currentTime))
+		} else {
+			clearInterval()
 		}
 	}, 1000)
 
@@ -57,7 +60,6 @@ function App() {
 			<div style={{ marginBottom: '80px' }} />
 
 			<Routes>
-				<Route path='/' element={<Summary token={token} />} />
 				<Route path='/introduction' element={<Introduction />} />
 				<Route path='/qna' element={<Qna />} />
 				<Route path='/faq' element={<Faq />} />
@@ -66,6 +68,7 @@ function App() {
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings token={token} />} />
 
+				<Route path='/' element={<Summary token={token} />} />
 				<Route path='/book/:range' element={<BookList token={token} />} />
 				<Route path='/book/detail/:id' element={<BookDetail token={token} />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
@@ -80,7 +83,6 @@ function App() {
 			{token !== '' && (
 				<>
 					{!location.pathname.startsWith('/book/add') && <AddButton />}
-
 					<ReadingButton time={readingSessionTime} />
 				</>
 			)}

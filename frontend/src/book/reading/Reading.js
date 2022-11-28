@@ -11,8 +11,8 @@ const Reading = ({ token, readingSessionTime }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
-	const READING_SESSION_CURRENT_API_URL = `http://localhost/v1/reading-session/current`
 	const READING_SESSION_API_URL = `http://localhost/v1/reading-session/${id}`
+	const READING_SESSION_CURRENT_API_URL = `http://localhost/v1/reading-session/current`
 	const MEMO_API_URL = `http://localhost/v1/memo/${id}`
 	const QUOTE_API_URL = `http://localhost/v1/quote/${id}`
 
@@ -20,32 +20,12 @@ const Reading = ({ token, readingSessionTime }) => {
 	const [memoList, setMemoList] = useState(null)
 	const [quoteList, setQuoteList] = useState(null)
 
-	const TIMER_ON = `timer-on`
-	const [isTimerOn, setIsTimerOn] = useState(localStorage.getItem(TIMER_ON))
-	const toggleTimer = (state = !isTimerOn) => {
-		state == 'true' ? setIsTimerOn(false) : setIsTimerOn(true)
-		state == 'true' ? localStorage.setItem(TIMER_ON, false) : localStorage.setItem(TIMER_ON, true)
-	}
+	const TIMER_ON_KEY = `timer-on`
+	const [isTimerOn, setIsTimerOn] = useState(localStorage.getItem(TIMER_ON_KEY) === 'true')
 
-	useEffect(() => {
-		localStorage.setItem(TIMER_ON, isTimerOn)
-	}, [isTimerOn])
-
-	const startReadingSession = () => {
-		fetch(READING_SESSION_API_URL, {
-			method: 'POST',
-			headers: { Authorization: token },
-		})
-			.then((res) => {
-				if (!res.status.toString().startsWith(2)) {
-					throw new Error(res.json())
-				}
-
-				toggleTimer(true)
-			})
-			.catch((e) => {
-				// setBook()
-			})
+	const toggleTimer = (e, state = !(localStorage.getItem(TIMER_ON_KEY) === 'true')) => {
+		setIsTimerOn(state === true)
+		localStorage.setItem(TIMER_ON_KEY, state)
 	}
 
 	useEffect(() => {
@@ -53,23 +33,44 @@ const Reading = ({ token, readingSessionTime }) => {
 			method: 'GET',
 			headers: { Authorization: token },
 		})
-			.then((res) => {
-				if (res.status.toString().startsWith(4)) {
-					startReadingSession()
-					throw new Error()
+			.then(async (res) => {
+				if (res.status.toString().startsWith(2)) {
+					return res.json()
 				}
 				return res.json()
 			})
 			.then((readingSession) => {
+				// POST new ReadingSession
 				if (readingSession.book.bookId == id) {
-					toggleTimer(true)
 					setBook(readingSession.book)
 				} else {
-					alert('아직 진행중인 독서활동이 있어요. 전의 독서활동을 먼저 끝내 주세요')
+					alert('진행중인 독서활동이 있어요')
 					navigate(`/reading/${readingSession.book.bookId}`)
 				}
 			})
-			.catch((e) => console.log(e))
+			.catch((readingSession) => {})
+
+		// fetch(READING_SESSION_API_URL, {
+		// 	method: 'POST',
+		// 	headers: { Authorization: token },
+		// })
+		// 	.then((res) => {
+		// 		if (res.status.toString().startsWith(2)) {
+		// 			return res.json()
+		// 		}
+
+		// 		throw new Error(res.json())
+		// 	})
+		// 	.then((readingSession) => {
+		// 		if (readingSession.book.bookId == id) {
+		// 			toggleTimer(true)
+		// 			setBook(readingSession.book)
+		// 		}
+		// 	})
+		// 	.catch((res) => {
+		// 		alert('진행중인 독서활동이 있어요 ')
+		// 		navigate(`/reading/${res.json().bookId}`)
+		// 	})
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
@@ -80,13 +81,7 @@ const Reading = ({ token, readingSessionTime }) => {
 
 	return (
 		<div className='container'>
-			<EndReadingSessionModal
-				isShowingModal={isShowingModal}
-				setIsShowingModal={setIsShowingModal}
-				setTimerOn={setIsTimerOn}
-				bookId={id}
-				token={token}
-			/>
+			<EndReadingSessionModal isShowingModal={isShowingModal} setIsShowingModal={setIsShowingModal} bookId={id} token={token} />
 
 			{book != null && (
 				<div className='row justify-content-center text-center'>
