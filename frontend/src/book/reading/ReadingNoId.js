@@ -1,12 +1,9 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../common/Loading'
 import { READING_SESSION_CURRENT_API_URL } from '../../resources/data/urls'
 
 const ReadingNoId = ({ token }) => {
-	const READING_SESSION_CHECK_API_URL = `http://localhost/v1/reading-session/current`
-	const READING_SESSION_URL = `/reading/`
-
 	const navigate = useNavigate()
 
 	useEffect(() => {
@@ -22,14 +19,13 @@ const ReadingNoId = ({ token }) => {
 				navigate('/book/not-done')
 			})
 			.then((data) => {
-				console.log(data)
-				navigate(`${READING_SESSION_URL}${data.book.bookId}`)
+				navigate(`/reading/${data.book.bookId}`)
 			})
 	}, [])
 
 	return (
 		<div className='container'>
-			<h1>ReadingNoId</h1>
+			<Loading />
 		</div>
 	)
 }
