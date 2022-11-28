@@ -4,12 +4,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 @ResponseStatus(HttpStatus.ACCEPTED)
-public class UpdateSuccessResponse extends RuntimeException {
-    public UpdateSuccessResponse(String message) {
-        super(message);
+public class UpdateSuccessResponse extends CrudResponse {
+    public UpdateSuccessResponse(String path) {
+        super("업데이트 했어요", HttpStatus.ACCEPTED.value(), path);
     }
 
-    public UpdateSuccessResponse() {
-        super("업데이트 했어요");
+    public UpdateSuccessResponse(String path, String message) {
+        super(message, HttpStatus.ACCEPTED.value(), path);
     }
 }
