@@ -22,8 +22,9 @@ public class StatisticsService {
         return statisticsRepository.findAllByAppUser_AppUserIdAndYearIs(appUserId, year);
     }
 
-    public void addStatistics(MonthStatistics monthStatistics) {
-
+    public void addStatistics(Integer year, Integer month, AppUser appUser) {
+        MonthStatistics monthStatistics = new MonthStatistics(year, month, appUser);
+        statisticsRepository.save(monthStatistics);
     }
 
     @Transactional
