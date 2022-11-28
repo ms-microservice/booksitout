@@ -7,7 +7,7 @@ import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.exception.custom.ReadingSessionIsInProgressException;
-import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.UpdateSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUser;
@@ -120,14 +120,14 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.updateReadingSession(readingSession);
 
-        return new UpdateSuccessResponse("독서활동의 시간을 업데이트했어요");
+        return new UpdateSuccessResponse(String.format("PUT v1/reading-session/%d", readingSessionId), "독서활동의 시간을 업데이트했어요");
     }
 
     @Transactional
     @PutMapping("{bookId}/end")
-    public AddSucessResponse endReadingSession(@PathVariable("bookId") Long bookId,
-                                               @RequestParam("page") Integer readingSessionEndPage,
-                                               @RequestParam("time") Integer totalTimeInSecond
+    public AddSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
+                                                @RequestParam("page") Integer readingSessionEndPage,
+                                                @RequestParam("time") Integer totalTimeInSecond
     ) {
         Book book = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
@@ -145,7 +145,7 @@ public class ReadingSessionControllerV1 {
         book.setCurrentPage(readingSessionEndPage);
         bookService.editBook(book);
 
-        return new AddSucessResponse("독서활동을 종료했어요");
+        return new AddSuccessResponse("독서활동을 종료했어요");
     }
 
     @DeleteMapping("{readingSessionId}")
