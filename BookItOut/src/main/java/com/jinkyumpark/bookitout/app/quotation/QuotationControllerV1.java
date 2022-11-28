@@ -6,9 +6,7 @@ import com.jinkyumpark.bookitout.app.quotation.request.QuotationAddRequest;
 import com.jinkyumpark.bookitout.app.quotation.request.QuotationEditRequest;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
-import com.jinkyumpark.bookitout.quotation.request.QuotationAddRequest;
-import com.jinkyumpark.bookitout.quotation.request.QuotationEditRequest;
-import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
@@ -39,8 +37,8 @@ public class QuotationControllerV1 {
     }
 
     @PostMapping("{bookId}")
-    public AddSucessResponse addQuotation(@PathVariable("bookId") Long bookId,
-                                          @RequestBody @Valid QuotationAddRequest quotationAddRequest) {
+    public AddSuccessResponse addQuotation(@PathVariable("bookId") Long bookId,
+                                           @RequestBody @Valid QuotationAddRequest quotationAddRequest) {
         Book book = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
@@ -51,7 +49,7 @@ public class QuotationControllerV1 {
         Quotation quotation = new Quotation(quotationAddRequest.getPage(), quotationAddRequest.getContent(), quotationAddRequest.getFromWho(), book);
         quotationService.addQuotation(quotation);
 
-        return new AddSucessResponse("인용을 추가했어요");
+        return new AddSuccessResponse("인용을 추가했어요");
     }
 
     @PutMapping("{quotationId}")
