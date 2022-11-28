@@ -14,7 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 @Service
 public class StatisticsService {
-    private StatisticsRepository statisticsRepository;
+    private final StatisticsRepository statisticsRepository;
 
     public Optional<MonthStatistics> getStatisticsByMonth(Long appUserId, Integer year, Integer month) {
         return statisticsRepository.findByAppUser_AppUserIdAndYearIsAndMonthIs(appUserId, year, month);
