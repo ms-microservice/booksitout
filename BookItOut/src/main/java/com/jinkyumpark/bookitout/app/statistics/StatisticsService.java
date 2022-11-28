@@ -1,11 +1,13 @@
 package com.jinkyumpark.bookitout.app.statistics;
 
 import com.jinkyumpark.bookitout.app.statistics.model.MonthStatistics;
+import com.jinkyumpark.bookitout.app.user.AppUser;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
