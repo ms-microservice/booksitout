@@ -12,13 +12,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 @AllArgsConstructor
-@RestController
-@RequestMapping("/v1/statistics")
+@RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
     private StatisticsService statisticsService;
     private ReadingSessionService readingSessionService;
@@ -26,20 +24,14 @@ public class StatisticsControllerV1 {
     @GetMapping("month")
     public MonthStatistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,
                                                 @RequestParam(value = "month", required = false) Integer month) {
-        if (year == null) {
-            year = LocalDateTime.now().getYear();
-        }
-
-        if (month == null) {
-            month = LocalDateTime.now().getMonthValue();
-        }
-
+        if (year == null) year = LocalDateTime.now().getYear();
+        if (month == null) month = LocalDateTime.now().getMonthValue();
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         Optional<MonthStatistics> statisticsOptional = statisticsService.getStatisticsByMonth(loginUserId, year, month);
 
         if (statisticsOptional.isEmpty()) {
-            return null;
+            return new MonthStatistics(year, month, 0, 0, 0, 0, 0);
         }
 
         return statisticsOptional.get();
@@ -63,7 +55,7 @@ public class StatisticsControllerV1 {
         int totalStar = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalStar)
                 .sum();
-        double averageStar = totalStar / (totalReadBookCount == 0 ? 1 : totalReadBookCount* 1.0);
+        double averageStar = totalStar / (totalReadBookCount == 0 ? 1 : totalReadBookCount * 1.0);
 
         int totalReadPage = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalPage)
@@ -72,8 +64,8 @@ public class StatisticsControllerV1 {
         boolean isThisYear = LocalDateTime.now().getYear() == year;
         int averageReadTime = totalReadTime / (
                 isThisYear ?
-                LocalDateTime.now().getDayOfYear()
-                : 365
+                        LocalDateTime.now().getDayOfYear()
+                        : 365
         );
 
         int mostReadTime = monthStatisticsList.stream()
@@ -82,9 +74,9 @@ public class StatisticsControllerV1 {
 
         // TODO : Goal
 
-        Yearly yearly = new Yearly(totalReadTime, totalReadBookCount, averageStar, totalReadPage);
-        Daily daily = new Daily(averageReadTime, mostReadTime);
-        SummaryStatistics summaryStatistics = new SummaryStatistics(HttpStatus.OK.value(), year, yearly, daily, 50);
+        YearStatistics yearStatistics = new YearStatistics(totalReadTime, totalReadBookCount, averageStar, totalReadPage);
+        DayStatistics dayStatistics = new DayStatistics(averageReadTime, mostReadTime);
+        SummaryStatistics summaryStatistics = new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
 
         return summaryStatistics;
     }
@@ -93,7 +85,7 @@ public class StatisticsControllerV1 {
     public ReadTimeResponse getReadTime(@PathVariable("day") Integer dayRange) {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        List<Integer> readTimeList = readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(dayRange),LocalDateTime.now());
+        List<Integer> readTimeList = readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(dayRange), LocalDateTime.now());
 
         return new ReadTimeResponse(200, readTimeList);
     }
