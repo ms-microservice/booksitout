@@ -5,7 +5,7 @@ import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.app.memo.request.MemoAddRequest;
 import com.jinkyumpark.bookitout.app.memo.request.MemoEditRequest;
-import com.jinkyumpark.bookitout.response.AddSucessResponse;
+import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
@@ -36,15 +36,15 @@ public class MemoControllerV1 {
     }
 
     @PostMapping("{bookId}")
-    public AddSucessResponse addMemo(@PathVariable("bookId") Long bookId,
-                                     @RequestBody @Valid MemoAddRequest memoAddRequest
+    public AddSuccessResponse addMemo(@PathVariable("bookId") Long bookId,
+                                      @RequestBody @Valid MemoAddRequest memoAddRequest
     ) {
         Book book = bookService.getBookById(bookId);
         Memo memo = new Memo(memoAddRequest.getPage(), memoAddRequest.getContent(), book);
 
         memoService.addMemo(memo);
 
-        return new AddSucessResponse("메모를 추가했어요");
+        return new AddSuccessResponse("메모를 추가했어요");
     }
 
     @PutMapping("{memoId}")
