@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Alert } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
+import { LAST_BOOK_API_URL, READ_TIME_API_URL, STATISTICS_SUMMARY_URL } from '../resources/data/urls'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -10,10 +11,6 @@ import SummaryTable from './SummaryTable'
 import Goal from './Goal'
 
 const Main = (props) => {
-	const LAST_BOOK_API_URL = `http://localhost/v1/book/last`
-	const READ_TIME_API_URL = `http://localhost/v1/statistics/read-time/14`
-	const STATISTICS_SUMMARY_URL = `http://localhost/v1/statistics/year/2022`
-
 	const [isLoading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [showAlert, setShowAlert] = useState(true)
@@ -73,7 +70,7 @@ const Main = (props) => {
 		})
 			.then((res) => {
 				if (!res.status.toString().startsWith(2)) {
-					return
+					throw new Error()
 				}
 				return res.json()
 			})
@@ -84,7 +81,7 @@ const Main = (props) => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, 500)
+		}, 7000)
 
 		Promise.all([
 			fetchFromApi(LAST_BOOK_API_URL, (data) => setLastBook(data)),

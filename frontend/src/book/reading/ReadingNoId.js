@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import Loading from '../../common/Loading'
+import { READING_SESSION_CURRENT_API_URL } from '../../resources/data/urls'
 
 const ReadingNoId = ({ token }) => {
 	const READING_SESSION_CHECK_API_URL = `http://localhost/v1/reading-session/current`
@@ -8,7 +10,7 @@ const ReadingNoId = ({ token }) => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch(READING_SESSION_CHECK_API_URL, {
+		fetch(READING_SESSION_CURRENT_API_URL, {
 			method: 'GET',
 			headers: { Authorization: token },
 		})

@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
+import { ADD_BOOK_API_URL } from '../resources/data/urls'
 // Resources
 import defaultBookCover from '../resources/images/common/book.png'
 import ImageSearchModal from './ImageSearchModal'
 
 const BookAddForm = (props) => {
-	const ADD_BOOK_API_URL = `http://localhost/v1/book`
-
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false)
 

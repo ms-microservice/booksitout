@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Card, Button } from 'react-bootstrap'
+import { GOOGLE_URL, GOOGLE_CX, GOOGLE_API_KEY } from '../resources/data/googleSearch'
 // Resources
 import Error from '../common/Error'
 import Loading from '../common/Loading'
 import checkIcon from '../resources/images/general/check.png'
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {
-	const GOOGLE_URL = `https://customsearch.googleapis.com/customsearch/v1`
-	const GOOGLE_CX = `453ed0713d27f46bb`
-	const GOOGLE_API_KEY = `AIzaSyC2YmfHVVN3U6ZPHHANULvMSq_eNx97q4Q`
-
 	const coverImageStyle = { maxHeight: '300px', width: '100%', objectPosition: 'center' }
 	const coverSelectedStyle = { opacity: 0.4, maxHeight: '300px', width: '100%', objectPosition: 'center' }
 	const [selectedImageIndex, setSelectedImageIndex] = useState(-1)
