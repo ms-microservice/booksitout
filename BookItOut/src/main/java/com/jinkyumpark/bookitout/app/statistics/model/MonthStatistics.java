@@ -46,6 +46,17 @@ public class MonthStatistics {
     @JoinColumn(name = "app_user_id", nullable = false, foreignKey = @ForeignKey(name = "statistics_app_user_fk"))
     private AppUser appUser;
 
+    public MonthStatistics(Integer year, Integer month, AppUser appUser) {
+        this.year = year;
+        this.month = month;
+        this.totalReadMinute = 0;
+        this.finishedBook = 0;
+        this.totalStar = 0;
+        this.maxReadMinute = 0;
+        this.totalPage = 0;
+        this.appUser = appUser;
+    }
+
     public MonthStatistics(Integer year, Integer month, Integer totalReadMinute, Integer finishedBook, Integer totalStar, Integer maxReadMinute, Integer totalPage) {
         this.year = year;
         this.month = month;
