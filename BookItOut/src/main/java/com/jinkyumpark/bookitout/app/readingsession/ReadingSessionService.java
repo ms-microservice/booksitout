@@ -1,13 +1,11 @@
 package com.jinkyumpark.bookitout.app.readingsession;
 
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
-import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -43,7 +41,12 @@ public class ReadingSessionService {
         return readingSessionRepository.findAllByBook_BookId(bookId);
     }
 
-    public Optional<ReadingSession> getPreviousReadingSession(Long appUserId) {
+    public ReadingSession getCurrentReadingSession(Long appUserId) {
+        return readingSessionRepository.findFirstByAppUser_AppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId)
+                .orElseThrow(() -> new NotFoundException("진행중인 독서활동이 없어요"));
+    }
+
+    public Optional<ReadingSession> getCurrentReadingSessionOptional(Long appUserId) {
         return readingSessionRepository.findFirstByAppUser_AppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId);
     }
 
