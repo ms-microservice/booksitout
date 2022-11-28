@@ -13,8 +13,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -30,16 +28,12 @@ public class BookService {
         return book;
     }
 
-    public Optional<Book> getLastBookByUserid(Long appUserId) {
-        Optional<ReadingSession> readingSessionOptional = readingSessionRepository
-                .findTopByAppUser_AppUserIdOrderByEndTimeDesc(appUserId);
+    public Book getLastBookByAppUserid(Long appUserId) {
+        ReadingSession readingSession = readingSessionRepository
+                .findTopByAppUser_AppUserIdOrderByEndTimeDesc(appUserId)
+                .orElseThrow(() -> new NotFoundException("아직 책-it-out으로 책을 읽으신 적이 없어요. 지금 바로 독서활동을 기록해 보세요!"));
 
-        if (readingSessionOptional.isEmpty()) {
-            return Optional.empty();
-        }
-
-        Book userBook = readingSessionOptional.get().getBook();
-        return Optional.of(userBook);
+        return readingSession.getBook();
     }
 
     public List<Book> getAllBook(Long loginUserId, Pageable pageRequest) {
@@ -54,23 +48,15 @@ public class BookService {
         return bookRepository.findAllNotDoneBooks(loginUserId, pageRequest);
     }
 
-    public void addBook(Book book, Long loginUserId) {
-        Optional<AppUser> loginAppUser = appUserRepository.findById(loginUserId);
-        if (loginAppUser.isEmpty()) {
-            throw new NotLoginException();
-        }
-
-        book.setAppUser(loginAppUser.get());
-
+    public void addBook(Book book) {
         bookRepository.save(book);
     }
 
     @Transactional
     public void editBook(Book editedBook) {
-        Optional<Book> bookOptional = Optional.ofNullable(bookRepository.findById(editedBook.getBookId())
-                .orElseThrow(() -> new NotFoundException("수정하실려는 책이 없어요")));
+        Book bookToEdit = bookRepository.findById(editedBook.getBookId())
+                .orElseThrow(() -> new NotFoundException("수정하실려는 책이 없어요"));
 
-        Book bookToEdit = bookOptional.get();
         if (editedBook.getTitle() != null) {
             bookToEdit.setTitle(editedBook.getTitle());
         }
@@ -95,18 +81,15 @@ public class BookService {
         }
     }
 
-    public void deleteBookById(Long id) {
+    public void deleteBookByBookId(Long bookId) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException("삭제하시려는 책이 없어요. 다시 확인해 주새요"));
+
         Long loginUserId = AppUserService.getLoginAppUserId();
-        Optional<Book> bookOptional = bookRepository.findById(id);
-
-        if (bookOptional.isEmpty()) {
-            throw new NotFoundException("삭제하시려는 책이 없어요. 다시 확인해 주새요");
-        }
-
-        if (!Objects.equals(bookOptional.get().getAppUser().getAppUserId(), loginUserId)) {
+        if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
             throw new NotAuthorizeException("해당 책을 삭제하실 권한이 없어요");
         }
 
-        bookRepository.deleteById(bookOptional.get().getBookId());
+        bookRepository.deleteById(book.getBookId());
     }
 }
