@@ -29,17 +29,24 @@ public class StatisticsService {
 
     @Transactional
     public void updateStatistics(MonthStatistics updatedStatistics) {
-        Optional<MonthStatistics> monthStatisticsOptional = statisticsRepository.findByAppUser_AppUserIdAndYearIsAndMonthIs(
-                updatedStatistics.getAppUser().getAppUserId(),
-                updatedStatistics.getYear(),
-                updatedStatistics.getMonth()
+        Optional<MonthStatistics> monthStatisticsOptional = statisticsRepository
+                .findByAppUser_AppUserIdAndYearIsAndMonthIs(
+                        updatedStatistics.getAppUser().getAppUserId(),
+                        updatedStatistics.getYear(),
+                        updatedStatistics.getMonth()
                 );
 
         if (monthStatisticsOptional.isEmpty()) {
-            throw new NotFoundException("통계를 찾을 수 없어요");
+            addStatistics(updatedStatistics.getYear(), updatedStatistics.getMonth(), updatedStatistics.getAppUser());
         }
 
-        MonthStatistics monthStatistics = monthStatisticsOptional.get();
+        MonthStatistics monthStatistics = statisticsRepository
+                .findByAppUser_AppUserIdAndYearIsAndMonthIs(
+                        updatedStatistics.getAppUser().getAppUserId(),
+                        updatedStatistics.getYear(),
+                        updatedStatistics.getMonth()
+                )
+                .orElseThrow(RuntimeException::new);
 
         monthStatistics.setTotalReadMinute(updatedStatistics.getTotalReadMinute());
         monthStatistics.setFinishedBook(updatedStatistics.getFinishedBook());
