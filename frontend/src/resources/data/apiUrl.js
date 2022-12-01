@@ -8,6 +8,7 @@ const READ_TIME_API_URL = `${API_BASE_URL}/v1/statistics/read-time/14`
 const STATISTICS_SUMMARY_URL = `${API_BASE_URL}/v1/statistics/year/2022`
 
 const ADD_BOOK_API_URL = `${API_BASE_URL}/v1/book`
+const GIVE_UP_BOOK_API_URL = `${API_BASE_URL}/v1/book/give-up/`
 
 const READING_SESSION_CURRENT_API_URL = `${API_BASE_URL}/v1/reading-session/current`
 
@@ -20,4 +21,5 @@ export {
 	STATISTICS_SUMMARY_URL,
 	ADD_BOOK_API_URL,
 	READING_SESSION_CURRENT_API_URL,
+	GIVE_UP_BOOK_API_URL,
 }
