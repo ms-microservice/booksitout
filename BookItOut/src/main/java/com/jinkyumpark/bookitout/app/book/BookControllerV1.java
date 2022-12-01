@@ -124,6 +124,21 @@ public class BookControllerV1 {
         return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), BOOK_EDIT_SUCCESS_MESSSAGE);
     }
 
+    @PutMapping("give-up/{bookId}")
+    @Transactional
+    public EditSuccessResponse giveUpBook(@PathVariable("bookId") Long bookId) {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+        Book book = bookService.getBookById(bookId);
+
+        if (! book.getAppUser().getAppUserId().equals(loginUserId)) {
+            throw new NotAuthorizeException();
+        }
+
+        book.setIsGiveUp(true);
+
+        return new EditSuccessResponse(String.format("v1/book/give-up/%d", bookId));
+    }
+
     @DeleteMapping("{id}")
     public DeleteSuccessResponse deleteBook(@PathVariable("id") Long id) {
         bookService.deleteBookByBookId(id);
