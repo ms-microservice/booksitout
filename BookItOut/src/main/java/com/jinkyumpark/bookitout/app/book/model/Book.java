@@ -79,6 +79,10 @@ public class Book {
     @Column(name = "author", nullable = false)
     private String author;
 
+    @Column(name = "isGiveUp", columnDefinition = "tinyint(1) default 0")
+    @Convert(converter = BooleanTo01Converter.class)
+    private Boolean isGiveUp;
+
     // FK
     @ManyToOne
     @JoinColumn(name = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
