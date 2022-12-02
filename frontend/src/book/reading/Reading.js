@@ -20,9 +20,9 @@ const Reading = ({ token, readingSessionTime }) => {
 	const TIMER_ON_KEY = `timer-on`
 	const [isTimerOn, setIsTimerOn] = useState(localStorage.getItem(TIMER_ON_KEY) === 'true')
 
-	const toggleTimer = (e, state = !(localStorage.getItem(TIMER_ON_KEY) === 'true')) => {
+	const toggleTimer = (state = !(localStorage.getItem(TIMER_ON_KEY) === 'true')) => {
 		setIsTimerOn(state === true)
-		localStorage.setItem(TIMER_ON_KEY, state)
+		localStorage.setItem(TIMER_ON_KEY, state === true)
 	}
 
 	useEffect(() => {
@@ -67,7 +67,7 @@ const Reading = ({ token, readingSessionTime }) => {
 							</div>
 
 							<div className='col-6 col-lg-4'>
-								<Button variant={isTimerOn ? 'danger' : 'success'} className='w-100' onClick={toggleTimer}>
+								<Button variant={isTimerOn ? 'danger' : 'success'} className='w-100' onClick={() => toggleTimer(!isTimerOn)}>
 									{isTimerOn ? '잠시 정지' : '다시 시작'}
 								</Button>
 							</div>
