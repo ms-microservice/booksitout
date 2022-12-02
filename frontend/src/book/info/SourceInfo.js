@@ -2,12 +2,11 @@ import React from 'react'
 import { Card } from 'react-bootstrap'
 
 import subscriptionIcon from '../../resources/images/source/subscription.png'
-import ebookIcon from '../../resources/images/source/ebook.png'
 import notProvidedIcon from '../../resources/images/source/not-provided.png'
 import friendIcon from '../../resources/images/source/friend.png'
 import libraryIcon from '../../resources/images/source/library.png'
 import onlineIcon from '../../resources/images/source/online.png'
-import usedIcon from '../../resources/images/source/used.png'
+import buyNewOfflineIcon from '../../resources/images/source/book-shop.png'
 import bookStoreIcon from '../../resources/images/source/book-store.png'
 import borrowIcon from '../../resources/images/source/borrow.png'
 import othersIcon from '../../resources/images/source/others.png'
@@ -29,7 +28,7 @@ const SourceInfo = ({ source }) => {
 		[('NOT_PROVIDED', '없음')],
 	])
 	const sourceIconMap = new Map([
-		['BUY_NEW_OFFLINE', '서점'],
+		['BUY_NEW_OFFLINE', buyNewOfflineIcon],
 		['BUY_NEW_ONLINE', onlineIcon],
 		['BUY_USED_OFFLINE', bookStoreIcon],
 		['BUY_USED_ONLINE', bookStoreIcon],
