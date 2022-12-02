@@ -1,12 +1,13 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
-import { ADD_BOOK_API_URL } from '../resources/data/urls'
 // Resources
 import defaultBookCover from '../resources/images/common/book.png'
 import ImageSearchModal from './ImageSearchModal'
+// Functions
+import { addBook } from '../resources/functions/book'
 
-const BookAddForm = (props) => {
+const BookAddForm = ({ token }) => {
 	const navigate = useNavigate()
 	const [showModal, setShowModal] = useState(false)
 
@@ -26,50 +27,6 @@ const BookAddForm = (props) => {
 	const [form, setForm] = useState('PHYSICAL')
 	const [source, setSource] = useState('NOT_PROVIDED')
 
-	const addBook = (e) => {
-		e.preventDefault()
-
-		if (endPage == 0) {
-			alert('0은 페이지로 입력할 수 없어요')
-			return
-		}
-
-		fetch(ADD_BOOK_API_URL, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-				Authorization: props.token,
-			},
-			body: JSON.stringify({
-				title: title,
-				author: author,
-				cover: cover,
-				language: language,
-
-				endPage: endPage,
-				category: category,
-
-				form: form,
-				source: source,
-
-				isSharing: isSharing,
-			}),
-		})
-			.then((res) => {
-				return res.json()
-			})
-			.then((data) => {
-				alert(data.message)
-
-				if (data.status.toString().startsWith(2)) {
-					navigate('/book/not-done')
-				}
-			})
-			.catch((e) => {
-				console.log(e)
-			})
-	}
-
 	const openModal = () => {
 		if (title !== '') {
 			setShowModal(true)
@@ -82,7 +39,7 @@ const BookAddForm = (props) => {
 		<div className='container'>
 			<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
 
-			<Form onSubmit={addBook}>
+			<Form onSubmit={(e) => addBook(e, token, navigate, title, author, cover, language, endPage, category, form, source, isSharing)}>
 				<div className='row row-eq-height text-center'>
 					<div className='col-12 col-lg-4 mb-3'>
 						<img src={cover === '' ? defaultBookCover : cover} alt='' className='img-fluid rounded' />
