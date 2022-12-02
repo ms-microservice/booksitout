@@ -1,14 +1,11 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
-import { LOGIN_API_URL } from '../resources/data/urls'
+import { login } from '../resources/functions/user'
+import { INTRODUCTION_URL, FAQ_URL, QNA_URL } from '../resources/data/localUrl'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()
-
-	const INTRODUCTION_URL = `/introduction`
-	const FAQ_URL = `/faq`
-	const QNA_URL = `/qna`
 
 	const EMAIL_PLACEHOLDER_MESSAGE = `이메일을 입력해 주세요`
 	const PASSWORD_PLACEHOLDER_MESSAGE = `비밀번호를 입력해 주세요`
@@ -23,48 +20,6 @@ const Login = ({ setToken }) => {
 	const [password, setPassword] = useState('')
 	const [stayLogin, setStayLogin] = useState(true)
 
-	const handleLogin = (e) => {
-		e.preventDefault()
-		setToken('')
-
-		if (password === '') {
-			alert('비밀번호를 입력해 주세요')
-			return
-		}
-
-		if (password.length < 6) {
-			alert('비밀번호는 6자 이상이에요')
-			return
-		}
-
-		fetch(LOGIN_API_URL, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				email: email,
-				password: password,
-				stayLogin: stayLogin,
-			}),
-		})
-			.then((res) => {
-				if (!res.status.toString().startsWith(2)) {
-					throw new Error()
-				}
-				return res.json()
-			})
-			.then((data) => {
-				localStorage.setItem('login-token', data.token)
-				localStorage.setItem('user-name', data.name)
-				setToken(data.token)
-				alert(data.message)
-				navigate('/')
-			})
-			.catch(() => {
-				localStorage.setItem('login-token', '')
-				localStorage.setItem('user-name', '')
-			})
-	}
-
 	return (
 		<div className='container mt-5'>
 			<div className='row row-eq-height justify-content-center'>
@@ -73,7 +28,7 @@ const Login = ({ setToken }) => {
 						<Card.Body>
 							<h1>📗 로그인</h1>
 
-							<Form onSubmit={handleLogin}>
+							<Form onSubmit={(e) => login(e, navigate, setToken, email, password, stayLogin)}>
 								<Form.Group class='row mt-3'>
 									<div className='col-2'>
 										<label class='col-form-label text-start'>이메일</label>

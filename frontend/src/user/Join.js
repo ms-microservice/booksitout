@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
-import { JOIN_API_URL } from '../resources/data/urls'
+import { join } from '../resources/functions/user'
 
 const Join = () => {
 	const navigate = useNavigate()
@@ -16,29 +16,6 @@ const Join = () => {
 	const [password, setPassword] = useState('')
 	const [name, setName] = useState('')
 
-	const handleJoin = (e) => {
-		e.preventDefault()
-
-		fetch(JOIN_API_URL, {
-			method: 'POST',
-			headers: { 'Content-Type': 'application/json' },
-			body: JSON.stringify({
-				email: email,
-				password: password,
-				name: name,
-			}),
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				alert(data.message)
-
-				if (data.status.toString().startsWith(2)) {
-					navigate('/login')
-				}
-			})
-			.catch((err) => console.log(err))
-	}
-
 	return (
 		<div className='mt-5 container'>
 			<div className='row justify-content-center'>
@@ -46,7 +23,7 @@ const Join = () => {
 					<Card.Body>
 						<h1>📗 회원가입</h1>
 
-						<Form onSubmit={handleJoin}>
+						<Form onSubmit={(e) => join(e, navigate, email, emailVerification, password, name)}>
 							<InputWithLabel label='email' displayLabel='이메일' placeholder={EMAIL_MESSAGE} setInputVariable={setEmail} />
 
 							<InputWithLabel
