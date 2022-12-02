@@ -19,6 +19,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
+import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
 
@@ -62,7 +63,7 @@ public class BookControllerV1 {
 
         if (range.equals("done")) return bookService.getAllDoneBook(loginUserId, pageRequest);
         if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginUserId, pageRequest);
-        if (range.equals("give-up")) return bookService.getAllDoneBook(loginUserId, pageRequest); // TODO
+        if (range.equals("give-up")) return bookService.getAllGiveupBook(loginUserId, pageRequest);
         return bookService.getAllBook(loginUserId, pageRequest);
     }
 
