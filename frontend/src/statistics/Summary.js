@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react'
-import { Card, Alert } from 'react-bootstrap'
 import { Link } from 'react-router-dom'
-import { LAST_BOOK_API_URL, READ_TIME_API_URL, STATISTICS_SUMMARY_URL } from '../resources/data/urls'
+import { Card, Alert } from 'react-bootstrap'
+import { LAST_BOOK_API_URL, READ_TIME_API_URL, STATISTICS_SUMMARY_URL } from '../resources/data/apiUrl'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import HorizontalBookView from '../book/HorizontalBookView'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
-import Goal from './Goal'
+import GoalView from './GoalView'
 
 const Main = (props) => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -48,7 +48,7 @@ const Main = (props) => {
 		{
 			id: 3,
 			title: '2022년 목표',
-			element: statistics != null && <Goal goal={{ current: statistics.yearStatistics.totalReadBookCount, goal: statistics.goal }} />,
+			element: statistics != null && <GoalView goal={{ current: statistics.yearStatistics.totalReadBookCount, goal: statistics.goal }} />,
 			data: statistics,
 			message: '오류가 났어요',
 			url: '/statistics/goal',
