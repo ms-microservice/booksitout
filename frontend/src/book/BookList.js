@@ -14,7 +14,6 @@ import { getBookList } from '../resources/functions/book'
 
 const BookList = (props) => {
 	const { range } = useParams()
-	const BOOK_GET_LIST_API_URL = `http://localhost/v1/book/all/${range}`
 
 	const [initalFetch, setInitialFetch] = useState(true)
 	const [loading, setLoading] = useState(false)
