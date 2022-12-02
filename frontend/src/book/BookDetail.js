@@ -101,17 +101,21 @@ const BookDetail = ({ token }) => {
 								</Button>
 							</div>
 
-							<div className='col-12 mt-3'>
-								<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
-									이어서 읽기
-								</Button>
-							</div>
+							{book.currentPage < book.endPage && (
+								<>
+									<div className='col-12 mt-3'>
+										<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
+											이어서 읽기
+										</Button>
+									</div>
 
-							<div className='col-12 mt-3'>
-								<Button variant='warning' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
-									포기하기
-								</Button>
-							</div>
+									<div className='col-12 mt-3'>
+										<Button variant='warning' className='w-100' onClick={() => giveUpBook(id, token, navigate)}>
+											포기하기
+										</Button>
+									</div>
+								</>
+							)}
 						</div>
 					</div>
 
