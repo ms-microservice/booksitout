@@ -72,6 +72,20 @@ const BookList = (props) => {
 										<a href={`/book/detail/${book.bookId}`} className='text-black text-decoration-none'>
 											{range == 'done' ? (
 												<HorizontalBookView book={book} firstButton={<></>} secondButton={<></>} />
+											) : range == 'give-up' ? (
+												<HorizontalBookView
+													book={book}
+													firstButton={
+														<Button variant='warning' className='w-100'>
+															다시 읽기
+														</Button>
+													}
+													secondButton={
+														<Button variant='danger' className='w-100'>
+															삭제하기
+														</Button>
+													}
+												/>
 											) : (
 												<HorizontalBookView book={book} />
 											)}
