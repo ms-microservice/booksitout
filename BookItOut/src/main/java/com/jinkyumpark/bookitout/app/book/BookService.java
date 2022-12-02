@@ -48,6 +48,10 @@ public class BookService {
         return bookRepository.findAllNotDoneBooks(loginUserId, pageRequest);
     }
 
+    public List<Book> getAllGiveupBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllGiveUpBooks(loginUserId, pageRequest);
+    }
+
     public void addBook(Book book) {
         bookRepository.save(book);
     }
