@@ -6,6 +6,8 @@ import Timer from './Timer'
 import BookRecordCard from './BookRecordCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import ProgressBar from '../../common/ProgressBar'
+// Functions
+import { getCurrentReadingSession } from '../../resources/functions/reading'
 
 const Reading = ({ token, readingSessionTime }) => {
 	const { id } = useParams()
@@ -29,48 +31,7 @@ const Reading = ({ token, readingSessionTime }) => {
 	}
 
 	useEffect(() => {
-		fetch(READING_SESSION_CURRENT_API_URL, {
-			method: 'GET',
-			headers: { Authorization: token },
-		})
-			.then(async (res) => {
-				if (res.status.toString().startsWith(2)) {
-					return res.json()
-				}
-				return res.json()
-			})
-			.then((readingSession) => {
-				// POST new ReadingSession
-				if (readingSession.book.bookId == id) {
-					setBook(readingSession.book)
-				} else {
-					alert('진행중인 독서활동이 있어요')
-					navigate(`/reading/${readingSession.book.bookId}`)
-				}
-			})
-			.catch((readingSession) => {})
-
-		// fetch(READING_SESSION_API_URL, {
-		// 	method: 'POST',
-		// 	headers: { Authorization: token },
-		// })
-		// 	.then((res) => {
-		// 		if (res.status.toString().startsWith(2)) {
-		// 			return res.json()
-		// 		}
-
-		// 		throw new Error(res.json())
-		// 	})
-		// 	.then((readingSession) => {
-		// 		if (readingSession.book.bookId == id) {
-		// 			toggleTimer(true)
-		// 			setBook(readingSession.book)
-		// 		}
-		// 	})
-		// 	.catch((res) => {
-		// 		alert('진행중인 독서활동이 있어요 ')
-		// 		navigate(`/reading/${res.json().bookId}`)
-		// 	})
+		getCurrentReadingSession(id, setBook, toggleTimer, token, navigate)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
