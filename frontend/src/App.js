@@ -33,26 +33,26 @@ function App() {
 
 	const [token, setToken] = useState(localStorage.getItem('login-token'))
 
+	const READING_TIME_KEY = `reading-session-time`
+	const TIMER_ON_KEY = `timer-on`
+	const [readingSessionTime, setReadingSessionTime] = useState(localStorage.getItem(READING_TIME_KEY))
+	useEffect(() => {
+		const interval = setInterval(() => {
+			if (localStorage.getItem(TIMER_ON_KEY) === 'true') {
+				const currentTime = localStorage.getItem(READING_TIME_KEY)
+				localStorage.setItem(READING_TIME_KEY, currentTime == null ? 0 : Number(currentTime) + 1)
+				setReadingSessionTime(Number(currentTime))
+			}
+		}, 1000)
+		return () => clearInterval(interval)
+	})
+
 	const REDIRECT_EXCLUDE_URL = ['join', 'introduction', 'qna', 'faq']
 	useEffect(() => {
 		if (token === '') {
 			!REDIRECT_EXCLUDE_URL.some((url) => location.pathname.includes(url)) && navigate('/login')
 		}
 	}, [location.pathname])
-
-	const READING_TIME_KEY = `reading-session-time`
-	const TIMER_ON_KEY = `timer-on`
-	const [readingSessionTime, setReadingSessionTime] = useState(localStorage.getItem(READING_TIME_KEY))
-	setInterval(() => {
-		if (localStorage.getItem(TIMER_ON_KEY) === 'true') {
-			const currentTime = localStorage.getItem(READING_TIME_KEY)
-			console.log('WHAT')
-			localStorage.setItem(READING_TIME_KEY, currentTime == null ? 0 : Number(currentTime) + 1)
-			setReadingSessionTime(Number(currentTime))
-		} else {
-			clearInterval()
-		}
-	}, 1000)
 
 	return (
 		<div className='App'>
