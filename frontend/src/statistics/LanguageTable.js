@@ -27,7 +27,7 @@ const LanguageTable = ({ languageData }) => {
 
 	return (
 		<table className='table table-hover mt-3'>
-			<thead className='table-success'>
+			<thead className='table-dark'>
 				<tr>
 					<th></th>
 					<th>언어</th>
