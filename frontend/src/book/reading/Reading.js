@@ -13,11 +13,6 @@ const Reading = ({ token, readingSessionTime }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
-	const READING_SESSION_API_URL = `http://localhost/v1/reading-session/${id}`
-	const READING_SESSION_CURRENT_API_URL = `http://localhost/v1/reading-session/current`
-	const MEMO_API_URL = `http://localhost/v1/memo/${id}`
-	const QUOTE_API_URL = `http://localhost/v1/quote/${id}`
-
 	const [book, setBook] = useState(null)
 	const [memoList, setMemoList] = useState(null)
 	const [quoteList, setQuoteList] = useState(null)
