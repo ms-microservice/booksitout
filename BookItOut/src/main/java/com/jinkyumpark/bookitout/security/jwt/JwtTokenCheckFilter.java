@@ -70,9 +70,8 @@ public class JwtTokenCheckFilter extends OncePerRequestFilter {
             Authentication authentication = new AppUserAuthenticationToken(username, null, simpleGrantedAuthorities, appUserId);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
-
         } catch (JwtException e) {
-            throw new IllegalStateException(String.format("Token %s가 변조됐어요", token));
+            throw new IllegalStateException("Token is not valid");
         }
 
         filterChain.doFilter(request, response);
