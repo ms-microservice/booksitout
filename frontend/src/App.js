@@ -25,6 +25,7 @@ import Faq from './info/Faq'
 import Qna from './info/Qna'
 // search
 import Search from './search/Search'
+import Goal from './statistics/Goal'
 
 function App() {
 	const location = useLocation()
@@ -73,9 +74,11 @@ function App() {
 				<Route path='/book/detail/:id' element={<BookDetail token={token} />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
-				<Route path='/statistics' element={<Statistics token={token} />} />
 				<Route path='/reading' element={<ReadingNoId token={token} />} />
 				<Route path='/reading/:id' element={<Reading token={token} readingSessionTime={readingSessionTime} />} />
+
+				<Route path='/statistics' element={<Statistics token={token} />} />
+				<Route path='/statistics/goal' element={<Goal token={token} />} />
 
 				<Route path='/search/:key' element={<Search />} />
 			</Routes>
