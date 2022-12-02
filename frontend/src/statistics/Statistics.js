@@ -54,8 +54,6 @@ const Statistics = ({ token }) => {
 
 	return (
 		<div className='container'>
-			<Alert variant='success'>{ALERT_MESSAGE}</Alert>
-
 			<div className='row row-eq-height'>
 				<div className='col-12 col-lg-6 mb-4'>
 					<Card className='h-100'>
