@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.app.qna;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,7 +25,15 @@ public class Qna {
     @Column(name = "answer")
     private String answer;
 
+    @Column(name = "password")
+    @JsonIgnore
+    private String password;
+
     @ManyToOne
     @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "qna_app_user_fk"))
     private AppUser appUser;
+
+    public Qna(String question) {
+        this.question = question;
+    }
 }
