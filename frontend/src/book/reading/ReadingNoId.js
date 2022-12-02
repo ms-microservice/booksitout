@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import Loading from '../../common/Loading'
-import { READING_SESSION_CURRENT_API_URL } from '../../resources/data/urls'
+import { READING_SESSION_CURRENT_API_URL } from '../../resources/data/apiUrl'
 
 const ReadingNoId = ({ token }) => {
 	const navigate = useNavigate()
