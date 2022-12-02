@@ -35,19 +35,18 @@ public class JwtTokenCheckFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())
-        ) {
-            if (!request.getRequestURI().contains("join")) {
-                response.setCharacterEncoding("UTF-8");
-                response.setContentType("application/json");
-                response.setStatus(HttpStatus.FORBIDDEN.value());
-
-                Map<String, String> responseMessage = Map.of("timestamp", new Date().toString(), "message", "로그인 해 주세요");
-                ObjectMapper mapper = new ObjectMapper();
-                response.getWriter().write(mapper.writeValueAsString(responseMessage));
-                response.getWriter().flush();
-                return;
-            }
+        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
+//            if (!request.getRequestURI().contains("join")) {
+//                response.setCharacterEncoding("UTF-8");
+//                response.setContentType("application/json");
+//                response.setStatus(HttpStatus.FORBIDDEN.value());
+//
+//                Map<String, String> responseMessage = Map.of("timestamp", new Date().toString(), "message", "로그인 해 주세요");
+//                ObjectMapper mapper = new ObjectMapper();
+//                response.getWriter().write(mapper.writeValueAsString(responseMessage));
+//                response.getWriter().flush();
+//                return;
+//            }
 
             filterChain.doFilter(request, response);
             return;
