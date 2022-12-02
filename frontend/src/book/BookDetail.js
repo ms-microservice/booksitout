@@ -11,13 +11,13 @@ import Error from '../common/Error'
 import Loading from '../common/Loading'
 import NoContent from '../common/NoContent'
 
+import { deleteBook, giveUpBook } from '../resources/functions/book'
 import defaultBookCover from '../resources/images/common/book.png'
 
 const BookDetail = ({ token }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
-	const BOOK_DELETE_API_URL = `http://localhost/v1/book/${id}`
 	const BOOK_DETAIL_API_URL = `http://localhost/v1/book/${id}`
 	const READING_SESSION_API_URL = `http://localhost/v1/reading-session/${id}`
 	const MEMO_API_URL = `http://localhost/v1/memo/all/${id}`
@@ -28,28 +28,11 @@ const BookDetail = ({ token }) => {
 	const [notFound, setNotFound] = useState(true)
 	const [loading, setLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
+
 	const [book, setBook] = useState(null)
 	const [memo, setMemo] = useState(null)
 	const [quotation, setQuotation] = useState(null)
 	const [readingSession, setReadingSession] = useState(null)
-
-	const handleDelete = () => {
-		const confirmation = window.confirm('정말 책을 삭제할까요?')
-
-		if (confirmation) {
-			fetch(BOOK_DELETE_API_URL, {
-				method: 'DELETE',
-				headers: { Authorization: token },
-			}).then((res) => {
-				if (res.status.toString().startsWith(2)) {
-					alert('책을 삭제 했어요')
-					navigate('/book/not-done')
-				} else {
-					alert('알 수 없는 이유로 실패했어요 다시 시도해 주세요')
-				}
-			})
-		}
-	}
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -84,6 +67,8 @@ const BookDetail = ({ token }) => {
 		fetch(READING_SESSION_API_URL, { method: 'GET', headers: { Authorization: token } })
 			.then((res) => res.json())
 			.then((data) => setReadingSession(data))
+
+		console.log(book)
 	}, [])
 
 	return (
@@ -111,7 +96,7 @@ const BookDetail = ({ token }) => {
 							</div>
 
 							<div className='col-6'>
-								<Button variant='danger' className='w-100' onClick={handleDelete}>
+								<Button variant='danger' className='w-100' onClick={() => deleteBook(id, token, navigate)}>
 									삭제하기
 								</Button>
 							</div>
