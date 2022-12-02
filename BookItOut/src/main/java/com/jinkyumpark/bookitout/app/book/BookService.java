@@ -5,7 +5,6 @@ import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.readingsession.ReadingSessionRepository;
-import com.jinkyumpark.bookitout.app.user.AppUserRepository;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
@@ -19,7 +18,6 @@ import java.util.List;
 public class BookService {
     private BookRepository bookRepository;
     private ReadingSessionRepository readingSessionRepository;
-    private AppUserRepository appUserRepository;
 
     public Book getBookById(Long id) {
         Book book = bookRepository.findById(id)
