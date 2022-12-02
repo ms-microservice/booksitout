@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { Card, Pagination } from 'react-bootstrap'
+import { Button, Card, Pagination } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -9,6 +9,8 @@ import HorizontalBookView from './HorizontalBookView'
 // Images
 import kimchiImage from '../resources/images/general/kimchi.png'
 import bookShelfImage from '../resources/images/common/bookshelf.png'
+// Functions
+import { getBookList } from '../resources/functions/book'
 
 const BookList = (props) => {
 	const { range } = useParams()
@@ -22,23 +24,7 @@ const BookList = (props) => {
 
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 5000)
-
-		fetch(BOOK_GET_LIST_API_URL, {
-			headers: { Authorization: props.token },
-		})
-			.then((res) => {
-				if (res.status.toString().startsWith(2)) {
-					return res.json()
-				}
-
-				return
-			})
-			.then((data) => setBookList(data))
-			.catch((e) => setError(true))
-			.finally(() => {
-				setLoading(false)
-				setInitialFetch(false)
-			})
+		getBookList(props.token, range, setBookList, setError, setLoading, setInitialFetch)
 	}, [])
 
 	return (
