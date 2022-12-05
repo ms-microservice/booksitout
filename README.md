@@ -1,5 +1,6 @@
-# 바로 사용해 보기
+<img align="center" width="400" height="300" src="https://www.jinkyumpark.com/static/media/book-it-out.1b62adcff460809f72c7.png">
 
+# 바로 사용해 보기
 https://book.jinkyumpark.com
 
 # 책-it-out (book-it-out)
@@ -7,8 +8,6 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 어렸을때는 친했지만, 어느세 책과 멀어진 사람들에게는 책 읽는 즐거움을 다시.
 책을 좋아하는 책 벌레들에게는 나의 독서 활동을 기록할 수 있는,
 책에 관한 모든 것이 있는 종합 책 플렛폼입니다.
-
-<img width="400" height="300" src="https://www.jinkyumpark.com/static/media/book-it-out.1b62adcff460809f72c7.png">
 
 # 주요기능
 
