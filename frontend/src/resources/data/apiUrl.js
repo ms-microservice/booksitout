@@ -1,10 +1,10 @@
 const API_BASE_URL = `http://localhost`
 
+const LOGIN_API_URL = `${API_BASE_URL}/login`
 const JOIN_API_URL = `${API_BASE_URL}/v1/join`
-const LOGIN_API_URL = `${API_BASE_URL}/v1/login`
 
 const LAST_BOOK_API_URL = `${API_BASE_URL}/v1/book/last`
-const READ_TIME_API_URL = `${API_BASE_URL}/v1/statistics/read-time/14`
+const READ_TIME_API_URL = `${API_BASE_URL}/v1/statistics/read-time/13`
 const STATISTICS_SUMMARY_URL = `${API_BASE_URL}/v1/statistics/year/2022`
 
 const ADD_BOOK_API_URL = `${API_BASE_URL}/v1/book`
