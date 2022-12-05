@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
 import { deleteReadingSession } from '../../resources/functions/reading'
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, readingSessionTime, token }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, token }) => {
 	const navigate = useNavigate()
 	const [endPage, setEndPage] = useState(-1)
 
@@ -31,7 +31,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, rea
 
 	const hideModal = () => {
 		setIsShowingModal(false)
-		localStorage.setItem('timer-on', true)
+		toggleTimer(true)
 	}
 
 	return (

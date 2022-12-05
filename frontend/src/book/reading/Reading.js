@@ -41,7 +41,13 @@ const Reading = ({ token, readingSessionTime }) => {
 
 	return (
 		<div className='container'>
-			<EndReadingSessionModal isShowingModal={isShowingModal} setIsShowingModal={setIsShowingModal} bookId={id} token={token} />
+			<EndReadingSessionModal
+				isShowingModal={isShowingModal}
+				setIsShowingModal={setIsShowingModal}
+				bookId={id}
+				toggleTimer={toggleTimer}
+				token={token}
+			/>
 
 			{book != null && (
 				<div className='row justify-content-center text-center'>
