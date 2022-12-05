@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
+import { deleteReadingSession } from '../../resources/functions/reading'
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, token }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, readingSessionTime, token }) => {
 	const navigate = useNavigate()
 	const [endPage, setEndPage] = useState(-1)
 
@@ -51,7 +52,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tok
 
 					<div className='row justify-content-center'>
 						<div className='col-12 col-md-4 mt-2'>
-							<Button variant='warning' className='w-100'>
+							<Button variant='warning' className='w-100' onClick={() => deleteReadingSession(token, navigate)}>
 								그냥 끝내기
 							</Button>
 						</div>
