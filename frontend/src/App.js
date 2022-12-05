@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 // common
 import Topnav from './common/Topnav'
 import AddButton from './common/AddButton'
@@ -56,6 +57,10 @@ function App() {
 
 	return (
 		<div className='App'>
+			<div>
+				<Toaster />
+			</div>
+
 			<Topnav token={token} setToken={setToken} />
 
 			<div style={{ marginBottom: '80px' }} />
