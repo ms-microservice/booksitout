@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -21,6 +22,17 @@ public class GoalControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         return goalService.getGoalByYear(loginUserId, year);
+    }
+
+    @GetMapping
+    public List<Goal> getGoalByDuration(@RequestParam(value = "duratin", required = false) Integer duration) {
+        if (duration == null) duration = 5;
+
+        Long loginUserId = AppUserService.getLoginAppUserId();
+        Integer endYear = LocalDateTime.now().getYear();
+        Integer startYear = endYear - duration;
+
+        return goalService.getGoalByStartYearAndEndYear(loginUserId, startYear, endYear);
     }
 
     @PostMapping
