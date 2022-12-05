@@ -1,4 +1,5 @@
 import { JOIN_API_URL, LOGIN_API_URL } from '../data/apiUrl'
+import toast from 'react-hot-toast'
 
 const join = (e, navigate, email, emailVerification, password, name) => {
 	e.preventDefault()
@@ -14,13 +15,13 @@ const join = (e, navigate, email, emailVerification, password, name) => {
 	})
 		.then((res) => res.json())
 		.then((data) => {
-			alert(data.message)
+			toast.success(data.message)
 
 			if (data.status.toString().startsWith(2)) {
 				navigate('/login')
 			}
 		})
-		.catch((err) => console.log(err))
+		.catch((err) => toast.error(err))
 }
 
 const login = (e, navigate, setToken, email, password, stayLogin) => {
@@ -56,13 +57,23 @@ const login = (e, navigate, setToken, email, password, stayLogin) => {
 			localStorage.setItem('login-token', data.token)
 			localStorage.setItem('user-name', data.name)
 			setToken(data.token)
-			alert(data.message)
+			toast(data.message, { icon: '✋' })
 			navigate('/')
 		})
 		.catch(() => {
 			localStorage.setItem('login-token', '')
 			localStorage.setItem('user-name', '')
+			toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')
 		})
 }
 
-export { join, login }
+const logout = (e, setToken, navigate) => {
+	e.preventDefault()
+	localStorage.setItem('login-token', '')
+	localStorage.setItem('user-name', '')
+	setToken('')
+	toast.success('로그아웃했어요')
+	navigate('/login')
+}
+
+export { join, login, logout }
