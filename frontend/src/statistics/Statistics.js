@@ -1,13 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Alert, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import DateLineChart from './DateLineChart'
 import LanguageTable from './LanguageTable'
 
 const Statistics = ({ token }) => {
-	const [readTimeDuration, setReadTimeDuration] = useState(30)
+	const [readTimeDuration, setReadTimeDuration] = useState(29)
 	const READTIME_API_URL = `http://localhost/v1/statistics/read-time/${readTimeDuration}`
-
-	const ALERT_MESSAGE = `${localStorage.getItem('user-name')}님이 열심히 한 독서활동을 다 보여 드릴게요!`
 
 	const [readTimeList, setReadTimeList] = useState(null)
 	const [languageData, setLanguageData] = useState([
