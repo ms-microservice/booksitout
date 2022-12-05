@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @AllArgsConstructor
 @Service
@@ -23,5 +24,16 @@ public class GoalService {
 
     public void addGoal(Goal newGoal) {
         goalRepository.save(newGoal);
+    }
+
+    public void deleteGoal(Long loginUserId, Integer year) {
+        GoalId goalId = new GoalId(loginUserId, year);
+        Optional<Goal> goalOptional = goalRepository.findByGoalId(goalId);
+
+        if (goalOptional.isEmpty()) {
+            throw new NotFoundException("지우실려는 목표가 없어요");
+        }
+
+        goalRepository.deleteByGoalId(goalId);
     }
 }

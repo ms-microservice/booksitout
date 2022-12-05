@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.app.goal;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
+import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -49,5 +50,14 @@ public class GoalControllerV1 {
         goalService.addGoal(newGoal);
 
         return new AddSuccessResponse(String.format("POST v1/goal/%d/%d", year, goal), "목표를 설정했어요");
+    }
+
+    @DeleteMapping("{year}")
+    public DeleteSuccessResponse deleteGoal(@PathVariable("year") Integer year) {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        goalService.deleteGoal(loginUserId, year);
+
+        return new DeleteSuccessResponse(String.format("DELETE v1/goal/%d", year), "목표를 지웠어요");
     }
 }
