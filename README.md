@@ -9,7 +9,8 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 책을 좋아하는 책 벌레들에게는 나의 독서 활동을 기록할 수 있는,
 책에 관한 모든 것이 있는 종합 책 플렛폼입니다.
 
-![alt text](https://www.jinkyumpark.com/static/media/book-it-out.1b62adcff460809f72c7.png)
+<img align="right" width="100" height="100" src="https://www.jinkyumpark.com/static/media/book-it-out.1b62adcff460809f72c7.png">
+
 # 주요기능
 
 -   내 독서활동을 기록 : 책을 읽을 떄 기록을 누르고, 끝날 때 종료를 누르면 내 독서활동을 기록해 줘요. 독서 중간중간에는 인상깊은 구절을 써 두거나, 내 생각을 메모할 수 있어요.
