@@ -8,6 +8,8 @@ import EndReadingSessionModal from './EndReadingSessionModal'
 import ProgressBar from '../../common/ProgressBar'
 // Functions
 import { getCurrentReadingSession } from '../../resources/functions/reading'
+import { getMemo } from '../../resources/functions/memo'
+import { getQuotation } from '../../resources/functions/quotation'
 
 const Reading = ({ token, readingSessionTime }) => {
 	const { id } = useParams()
@@ -27,6 +29,8 @@ const Reading = ({ token, readingSessionTime }) => {
 
 	useEffect(() => {
 		getCurrentReadingSession(id, setBook, toggleTimer, token, navigate)
+		getMemo(id, token, setMemoList)
+		getQuotation(id, token, setQuoteList)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
