@@ -1,4 +1,5 @@
 import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL } from '../data/apiUrl'
+import toast from 'react-hot-toast'
 
 const getBookList = (token, range, setBookList, setError, setLoading, setInitialFetch) => {
 	fetch(`${API_BASE_URL}/v1/book/all/${range}`, {
@@ -24,7 +25,7 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 	e.preventDefault()
 
 	if (endPage == 0) {
-		alert('0은 페이지로 입력할 수 없어요')
+		toast.error('0은 페이지로 입력할 수 없어요')
 		return
 	}
 
@@ -53,9 +54,8 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 			return res.json()
 		})
 		.then((data) => {
-			alert(data.message)
-
 			if (data.status.toString().startsWith(2)) {
+				toast.success(data.message)
 				navigate('/book/not-done')
 			}
 		})
@@ -87,10 +87,10 @@ const deleteBook = (bookId, token, navigate) => {
 			headers: { Authorization: token },
 		}).then((res) => {
 			if (res.status.toString().startsWith(2)) {
-				alert('책을 삭제 했어요')
+				toast.success('책을 삭제 했어요')
 				navigate('/book/not-done')
 			} else {
-				alert('알 수 없는 이유로 실패했어요 다시 시도해 주세요')
+				toast.error('알 수 없는 이유로 실패했어요 다시 시도해 주세요')
 			}
 		})
 	}
