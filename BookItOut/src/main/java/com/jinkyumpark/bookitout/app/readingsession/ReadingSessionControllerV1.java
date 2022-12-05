@@ -134,7 +134,11 @@ public class ReadingSessionControllerV1 {
         ReadingSession previousReadingSession = readingSessionService.getCurrentReadingSession(loginUserId);
 
         if (book.getCurrentPage() >= readingSessionEndPage) {
-            throw new BadRequestException("독서활동 페이지가 책의 마지막 페이지보다 커요");
+            throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
+        }
+
+        if (book.getEndPage() < readingSessionEndPage) {
+            throw new BadRequestException("책의 마지막 페이지보다 커요");
         }
 
         previousReadingSession.setEndPage(readingSessionEndPage);
