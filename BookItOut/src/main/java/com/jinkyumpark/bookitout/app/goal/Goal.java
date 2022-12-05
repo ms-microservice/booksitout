@@ -22,4 +22,9 @@ public class Goal {
     private AppUser appUser;
 
     private Integer goal;
+
+    public Goal(GoalId goalId, Integer goal) {
+        this.goalId = goalId;
+        this.goal = goal;
+    }
 }

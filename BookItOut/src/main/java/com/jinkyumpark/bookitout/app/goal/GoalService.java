@@ -4,6 +4,7 @@ import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +25,14 @@ public class GoalService {
 
     public void addGoal(Goal newGoal) {
         goalRepository.save(newGoal);
+    }
+
+    @Transactional
+    public void editGoal(Goal editedGoal) {
+        Goal goal = goalRepository.findByGoalId(editedGoal.getGoalId())
+                .orElseThrow(() -> new NotFoundException("수정하려는 목표가 없어요"));
+
+        goal.setGoal(editedGoal.getGoal());
     }
 
     public void deleteGoal(Long loginUserId, Integer year) {

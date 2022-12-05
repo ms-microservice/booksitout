@@ -4,6 +4,7 @@ import com.jinkyumpark.bookitout.app.user.AppUser;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
+import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import lombok.AllArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -50,6 +51,21 @@ public class GoalControllerV1 {
         goalService.addGoal(newGoal);
 
         return new AddSuccessResponse(String.format("POST v1/goal/%d/%d", year, goal), "목표를 설정했어요");
+    }
+
+    @PutMapping("{year}")
+    public EditSuccessResponse editGoal(
+            @PathVariable("year") Integer year,
+            @RequestParam("goal") Integer goal
+    ) {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        GoalId goalId = new GoalId(loginUserId, year);
+        Goal editedGoal = new Goal(goalId, goal);
+
+        goalService.editGoal(editedGoal);
+
+        return new EditSuccessResponse(String.format("PUT v1/goal/%d?goal=%d", year, goal), String.format("%d년의 목표를 %d로 수정했어요", year, goal));
     }
 
     @DeleteMapping("{year}")
