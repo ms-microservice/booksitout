@@ -13,6 +13,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 @AllArgsConstructor
 @RestController
@@ -30,6 +31,11 @@ public class QnaControllerV1 {
 
         PageRequest pageRequest = PageRequest.of(page, size);
         return qnaService.getAllQnaPage(pageRequest);
+    }
+
+    @GetMapping("all/{userid}")
+    public List<Qna> getAllQnaByUserId(@PathVariable("userid") Long userId) {
+        return qnaService.getAllQnaByUserid(userId);
     }
 
     @PostMapping

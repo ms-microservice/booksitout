@@ -5,6 +5,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @AllArgsConstructor
 @Service
 public class QnaService {
@@ -12,6 +14,10 @@ public class QnaService {
 
     public Page<Qna> getAllQnaPage(PageRequest pageRequest) {
         return qnaRepository.findAll(pageRequest);
+    }
+
+    public List<Qna> getAllQnaByUserid(Long userId) {
+        return qnaRepository.findAllByAppUser_AppUserId(userId);
     }
 
     public void addQna(Qna qna) {
