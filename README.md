@@ -18,18 +18,18 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   책 추천 : 내가 읽은 책, 혹은 내가 입력한 키워드를 바탕으로 책을 추천해 줘요.
 -   좋은 UX : 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? 공공 API를 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책-it-out이 대신 책을 찾아드려요. 도서 예약도 대신 해 드릴 수 있어요.
 
-# 사용된 기술
+# 사용된 기술 (최신 버전 기준)
 
 ## DB
 
 -   MySQL
+-   JPA (Hibernate)
 
 ## Server
 
--   Spring Boot
 -   Gradle
+-   Spring Boot
 -   Spring Security
--   JPA
 -   JUnit, Mockito, AssertJ
 -   Lombok
 
@@ -42,54 +42,13 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ## DevOps
 
 -   Docker
+-   AWS EBS
 
 # 버전역사
 
 ## Version 1 (22년 10월 29일 ~)
 
--   책 관리 : 독서활동 측정, 읽은 책 별점/리뷰
+-   소개 : 소개 페이지, QNA/FAQ
+-   책 관리 : 책 등록, 메모/인용 추가, 읽은 책 별점/리뷰
+-   독서활동 측정 : 책 읽을 떄 마다 타이머로 측정해 통계 제시
 -   Authentication, Authorization : Spring Security를 활용한 안전한 보안
-
-## Version 2
-
--   주요 OAuth 연동
-    -   Kakao
-    -   Naver
-    -   Google
-
-## Version 3
-
--   읽고 싶은 책 관리
-
-## Version 4
-
--   서울 주요 도서관 책 검색
-
-## Version 5
-
--   주요 온라인 서점, 주요 중고책 검색
-
-## Version 6
-
--   주요 전자책 검색
-
-## Version 7
-
--   주요 책 구독 서비스 검색
-
-## Version 8
-
--   읽은 책 불러오기
-
-## Version 9
-
--   공유기능
-
-## Version 10
-
--   책 커뮤니티 기능
-
-## Version 11
-
--   키워드 기반 책 추천
--   AI 기반 책 추천
