@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import { HiUserCircle as UserIcon, HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
+import { logout } from '../resources/functions/user'
 
 import userIcon from '../resources/images/common/user.png'
 
@@ -11,15 +12,6 @@ const Topnav = ({ token, setToken }) => {
 	const location = useLocation()
 
 	const expand = 'lg'
-
-	const handleLogout = (e) => {
-		e.preventDefault()
-		localStorage.setItem('login-token', '')
-		localStorage.setItem('user-name', '')
-		setToken('')
-		alert('로그아웃했어요')
-		navigate('/login')
-	}
 
 	const urlList = [
 		{
@@ -72,7 +64,7 @@ const Topnav = ({ token, setToken }) => {
 										{token === '' || token == null ? (
 											<div className='col-xs-10 col-8'>로그인</div>
 										) : (
-											<div className='col-xs-10 col-8' onClick={handleLogout}>
+											<div className='col-xs-10 col-8' onClick={(e) => logout(e, setToken, navigate)}>
 												로그아웃
 											</div>
 										)}
@@ -128,7 +120,7 @@ const Topnav = ({ token, setToken }) => {
 								</>
 							) : (
 								<>
-									<NavDropdown.Item onClick={handleLogout}>로그아웃</NavDropdown.Item>
+									<NavDropdown.Item onClick={(e) => logout(e, setToken, navigate)}>로그아웃</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item href='/settings'>설정</NavDropdown.Item>
 								</>
