@@ -81,7 +81,7 @@ const Main = (props) => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, 7000)
+		}, 5000)
 
 		Promise.all([
 			fetchFromApi(LAST_BOOK_API_URL, (data) => setLastBook(data)),
