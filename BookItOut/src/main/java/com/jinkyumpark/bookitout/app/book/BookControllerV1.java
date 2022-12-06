@@ -63,6 +63,7 @@ public class BookControllerV1 {
 
         if (range.equals("not-started")) return bookService.getAllNotStartedBook(loginUserId, pageRequest);
         if (range.equals("started")) return bookService.getAllStartedBook(loginUserId, pageRequest);
+        if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginUserId, pageRequest);
         if (range.equals("done")) return bookService.getAllDoneBook(loginUserId, pageRequest);
         if (range.equals("give-up")) return bookService.getAllGiveUpBook(loginUserId, pageRequest);
 
