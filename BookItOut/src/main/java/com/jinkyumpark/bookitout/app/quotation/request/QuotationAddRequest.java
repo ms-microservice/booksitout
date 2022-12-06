@@ -15,7 +15,5 @@ public class QuotationAddRequest {
     @NotBlank
     private String content;
 
-    @NotNull
-    @NotBlank
     private String fromWho;
 }
