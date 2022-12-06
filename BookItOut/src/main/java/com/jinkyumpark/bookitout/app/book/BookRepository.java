@@ -12,14 +12,20 @@ import java.util.List;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b where b.appUser.appUserId = ?1")
-    List<Book> findAllBooksByAppUserId(Long appUserId, Pageable pageRequest);
+    List<Book> findAllBooks(Long appUserId, Pageable pageRequest);
+
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0")
+    List<Book> findAllNotStartedBooks(Long appUserId, Pageable pageRequest);
+
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage")
+    List<Book> findAllStartedBooks(Long appUserId, Pageable pageRequest);
 
     @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.currentPage = b.endPage")
     List<Book> findAllDoneBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true")
-    List<Book> findAllGiveUpBooks(Long appUserId, Pageable pageRequest);
-
     @Query("select b from Book b where b.appUser.appUserId = :appUserId and not b.currentPage = b.endPage")
     List<Book> findAllNotDoneBooks(Long appUserId, Pageable pageRequest);
+
+    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage")
+    List<Book> findAllGiveUpBooks(Long appUserId, Pageable pageRequest);
 }

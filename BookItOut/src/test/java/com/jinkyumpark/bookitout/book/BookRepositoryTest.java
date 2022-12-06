@@ -37,7 +37,7 @@ class BookRepositoryTest {
 
         // When
         underTest.saveAll(testBookList);
-        List<Book> resultBookList = underTest.findAllBooksByAppUserId(appUserId, Pageable.unpaged());
+        List<Book> resultBookList = underTest.findAllBooks(appUserId, Pageable.unpaged());
 
         // Then
         assertThat(resultBookList)
@@ -61,7 +61,7 @@ class BookRepositoryTest {
 
         // When
         underTest.saveAll(testBookList);
-        List<Book> resultBookList = underTest.findAllBooksByAppUserId(targetAppUserId, Pageable.unpaged());
+        List<Book> resultBookList = underTest.findAllBooks(targetAppUserId, Pageable.unpaged());
 
         // Then
         assertThat(resultBookList)

@@ -34,19 +34,27 @@ public class BookService {
         return readingSession.getBook();
     }
 
-    public List<Book> getAllBook(Long loginUserId, Pageable pageRequest) {
-        return bookRepository.findAllBooksByAppUserId(loginUserId, pageRequest);
+    public List<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllDoneBook(Long loginUserId, Pageable pageRequest) {
-        return bookRepository.findAllDoneBooks(loginUserId, pageRequest);
+    public List<Book> getAllNotStartedBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllNotStartedBooks(loginUserId, pageRequest);
+    }
+
+    public List<Book> getAllStartedBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllStartedBooks(loginUserId, pageRequest);
     }
 
     public List<Book> getAllNotDoneBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllNotDoneBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllGiveupBook(Long loginUserId, Pageable pageRequest) {
+    public List<Book> getAllDoneBook(Long loginUserId, Pageable pageRequest) {
+        return bookRepository.findAllDoneBooks(loginUserId, pageRequest);
+    }
+
+    public List<Book> getAllGiveUpBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllGiveUpBooks(loginUserId, pageRequest);
     }
 

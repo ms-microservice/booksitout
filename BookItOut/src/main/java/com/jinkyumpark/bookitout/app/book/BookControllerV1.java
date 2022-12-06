@@ -61,10 +61,12 @@ public class BookControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
         Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
 
+        if (range.equals("not-started")) return bookService.getAllNotStartedBook(loginUserId, pageRequest);
+        if (range.equals("started")) return bookService.getAllStartedBook(loginUserId, pageRequest);
         if (range.equals("done")) return bookService.getAllDoneBook(loginUserId, pageRequest);
-        if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginUserId, pageRequest);
-        if (range.equals("give-up")) return bookService.getAllGiveupBook(loginUserId, pageRequest);
-        return bookService.getAllBook(loginUserId, pageRequest);
+        if (range.equals("give-up")) return bookService.getAllGiveUpBook(loginUserId, pageRequest);
+
+        return bookService.getAllBooks(loginUserId, pageRequest);
     }
 
     @PostMapping
