@@ -4,6 +4,7 @@ import { Button, Container, Form, Navbar, Nav, NavDropdown } from 'react-bootstr
 import { HiUserCircle as UserIcon, HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 import { logout } from '../resources/functions/user'
+import { search } from '../resources/functions/search'
 
 import userIcon from '../resources/images/common/user.png'
 
@@ -142,17 +143,8 @@ const SearchBar = ({ expand = 'lg' }) => {
 	const navigate = useNavigate()
 	const [keyword, setKeyword] = useState('')
 
-	const handleSearch = (e) => {
-		e.preventDefault()
-		if (keyword !== '') {
-			navigate(`/search/${keyword}`)
-		} else {
-			alert('검색어를 입력해 주세요')
-		}
-	}
-
 	return (
-		<Form className='d-flex' onSubmit={handleSearch}>
+		<Form className='d-flex' onSubmit={(e) => search(keyword, e, navigate)}>
 			<Form.Control
 				type='search'
 				placeholder='책 검색'
