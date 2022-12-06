@@ -120,7 +120,7 @@ const BookDetail = ({ token }) => {
 					</div>
 
 					<div className='col-12 col-md-8 mb-5'>
-						<div className='row mb-4'>
+						<div className='row mb-4 mt-5'>
 							<h2>{book.title}</h2>
 							<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
 
@@ -146,16 +146,24 @@ const BookDetail = ({ token }) => {
 
 						<div className='row justify-content-center'>
 							<div className='col-3 col-xl-2'>
-								<LanguageInfo language={book.language} />
+								<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
+									<LanguageInfo language={book.language} />
+								</a>
 							</div>
 							<div className='col-3 col-xl-2'>
-								<CategoryInfo category={book.category} />
+								<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
+									<CategoryInfo category={book.category} />
+								</a>
 							</div>
 							<div className='col-3 col-xl-2'>
-								<FormInfo form={book.form} />
+								<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
+									<FormInfo form={book.form} />
+								</a>
 							</div>
 							<div className='col-3 col-xl-2'>
-								<SourceInfo source={book.source} />
+								<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
+									<SourceInfo source={book.source} />
+								</a>
 							</div>
 						</div>
 
