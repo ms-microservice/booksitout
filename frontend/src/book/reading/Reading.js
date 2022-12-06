@@ -3,25 +3,21 @@ import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
 // Components
 import Timer from './Timer'
-import BookRecordCard from './BookRecordCard'
+import MemoCard from './MemoCard'
+import QuotationCard from './QuotationCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import ProgressBar from '../../common/ProgressBar'
 // Functions
 import { getCurrentReadingSession } from '../../resources/functions/reading'
-import { getMemo } from '../../resources/functions/memo'
-import { getQuotation } from '../../resources/functions/quotation'
 
 const Reading = ({ token, readingSessionTime }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
 	const [book, setBook] = useState(null)
-	const [memoList, setMemoList] = useState(null)
-	const [quoteList, setQuoteList] = useState(null)
 
 	const TIMER_ON_KEY = `timer-on`
 	const [isTimerOn, setIsTimerOn] = useState(localStorage.getItem(TIMER_ON_KEY) === 'true')
-
 	const toggleTimer = (state = !(localStorage.getItem(TIMER_ON_KEY) === 'true')) => {
 		setIsTimerOn(state === true)
 		localStorage.setItem(TIMER_ON_KEY, state === true)
@@ -29,8 +25,6 @@ const Reading = ({ token, readingSessionTime }) => {
 
 	useEffect(() => {
 		getCurrentReadingSession(id, setBook, toggleTimer, token, navigate)
-		getMemo(id, token, setMemoList)
-		getQuotation(id, token, setQuoteList)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
@@ -85,11 +79,11 @@ const Reading = ({ token, readingSessionTime }) => {
 
 						<div className='row justify-content-center mb-4'>
 							<div className='col-12 col-lg-10 mt-3'>
-								<BookRecordCard label='메모' conjunctures={['가', '를']} recordList={memoList} />
+								<MemoCard bookId={id} />
 							</div>
 
 							<div className='col-12 col-lg-10 mt-3'>
-								<BookRecordCard label='인용' conjunctures={['이', '을']} recordList={quoteList} />
+								<QuotationCard bookId={id} />
 							</div>
 						</div>
 					</div>
