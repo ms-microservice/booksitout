@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.app.goal;
 
-import com.jinkyumpark.bookitout.app.user.AppUser;
+import com.jinkyumpark.bookitout.app.goal.response.GoalResponse;
+import com.jinkyumpark.bookitout.app.statistics.StatisticsService;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
@@ -10,31 +11,38 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
-@RestController
-@RequestMapping("/v1/goal")
+@RestController @RequestMapping("/v1/goal")
 public class GoalControllerV1 {
     private final GoalService goalService;
+    private final StatisticsService statisticsService;
 
     @GetMapping("{year}")
-    public Goal getGoalByYear(@PathVariable(value = "year", required = false) Integer year) {
+    public GoalResponse getGoalByYear(@PathVariable(value = "year", required = false) Integer year) {
         if (year == null) year = LocalDateTime.now().getYear();
 
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        return goalService.getGoalByYear(loginUserId, year);
+        Goal goal = goalService.getGoalByYear(loginUserId, year);
+
+        return new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), goal.getCurrent());
     }
 
     @GetMapping
-    public List<Goal> getGoalByDuration(@RequestParam(value = "duratin", required = false) Integer duration) {
+    public List<GoalResponse> getGoalByDuration(@RequestParam(value = "duration", required = false) Integer duration) {
         if (duration == null) duration = 5;
 
         Long loginUserId = AppUserService.getLoginAppUserId();
         Integer endYear = LocalDateTime.now().getYear();
         Integer startYear = endYear - duration;
 
-        return goalService.getGoalByStartYearAndEndYear(loginUserId, startYear, endYear);
+        return goalService
+                .getGoalByStartYearAndEndYear(loginUserId, startYear, endYear)
+                .stream()
+                .map(goal -> new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), goal.getCurrent()))
+                .collect(Collectors.toList());
     }
 
     @PostMapping
@@ -46,9 +54,9 @@ public class GoalControllerV1 {
 
         Long loginUserId = AppUserService.getLoginAppUserId();
         GoalId goalId = new GoalId(loginUserId, year);
-        Goal newGoal = new Goal(goalId, new AppUser(loginUserId), goal);
+        Goal newGoal = new Goal(goalId, goal);
 
-        goalService.addGoal(newGoal);
+        goalService.addGoal(loginUserId, newGoal);
 
         return new AddSuccessResponse(String.format("POST v1/goal/%d/%d", year, goal), "목표를 설정했어요");
     }
