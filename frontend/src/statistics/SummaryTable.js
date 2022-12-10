@@ -13,7 +13,7 @@ const SummaryTable = ({ statistics }) => {
 			id: 1,
 			icon: timeIcon,
 			name: '총 독서시간',
-			value: `${statistics.yearStatistics.totalReadTime != null && statistics.yearStatistics.totalReadTime}시간`,
+			value: `${statistics.yearStatistics.totalReadTime != null && Math.round(statistics.yearStatistics.totalReadTime / 60, 2)}시간`,
 		},
 		{
 			id: 2,
