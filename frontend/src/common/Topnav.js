@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { HiUserCircle as UserIcon, HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
+import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 import { logout } from '../resources/functions/user'
 import { search } from '../resources/functions/search'
@@ -18,7 +18,7 @@ const Topnav = ({ token, setToken }) => {
 		{
 			id: 1,
 			url: '/book/not-started',
-			title: '시작 안한 책',
+			title: '시작 안 한 책',
 		},
 		{
 			id: 1,
