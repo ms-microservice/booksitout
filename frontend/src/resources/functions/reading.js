@@ -30,7 +30,9 @@ const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
 		})
 }
 
-const startReadingSession = (bookId, toggleTimer, setBook, token, navigate) => {
+const startReadingSession = (bookId, toggleTimer, setBook) => {
+	const token = localStorage.getItem('login-token')
+
 	fetch(READING_SESSION_API_URL + bookId, {
 		method: 'POST',
 		headers: { Authorization: token },
@@ -42,14 +44,12 @@ const startReadingSession = (bookId, toggleTimer, setBook, token, navigate) => {
 			setBook(readingSession)
 			toggleTimer(true)
 		})
-		.catch((res) => {
-			// alert('진행중인 독서활동이 있어요 ')
-			// navigate(`/reading/${res.json().bookId}`)
-		})
 }
 
-const deleteReadingSession = (token, navigate) => {
-	fetch(READING_SESSION_CURRENT_API_URL, {
+const deleteReadingSession = (navigate) => {
+	const token = localStorage.getItem('login-token')
+
+	return fetch(READING_SESSION_CURRENT_API_URL, {
 		method: 'GET',
 		headers: { Authorization: token },
 	})
