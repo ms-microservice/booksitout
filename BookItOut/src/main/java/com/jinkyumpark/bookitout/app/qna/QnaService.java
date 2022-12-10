@@ -34,7 +34,7 @@ public class QnaService {
     @Transactional
     public void editQna(Qna editedQna) {
         Qna qna = qnaRepository.findById(editedQna.getQnaId())
-                .orElseThrow(() -> new NotFoundException("수정하려는 QNA가 없어요"));
+                .orElseThrow(() -> new NotFoundException("QNA to edit not found"));
 
         if (editedQna.getPassword() != null) {
             qna.setPassword(editedQna.getPassword());
