@@ -76,4 +76,14 @@ const logout = (e, setToken, navigate) => {
 	navigate('/login')
 }
 
-export { join, login, logout }
+const getToken = () => {
+	return localStorage.getItem('login-token')
+}
+
+const getIsLoggedIn = () => {
+	const token = getToken()
+
+	return !(token == null || token == '' || typeof token == 'undefined')
+}
+
+export { join, login, logout, getToken, getIsLoggedIn }
