@@ -28,13 +28,7 @@ public class StatisticsControllerV1 {
         if (month == null) month = LocalDateTime.now().getMonthValue();
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        Optional<MonthStatistics> statisticsOptional = statisticsService.getStatisticsByMonth(loginUserId, year, month);
-
-        if (statisticsOptional.isEmpty()) {
-            return new MonthStatistics(year, month, 0, 0, 0, 0, 0);
-        }
-
-        return statisticsOptional.get();
+        return statisticsService.getStatisticsByMonth(loginUserId, year, month);
     }
 
     @GetMapping("year/{year}")
@@ -44,7 +38,7 @@ public class StatisticsControllerV1 {
 
         List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginUserId, year);
 
-        int totalReadTime = monthStatisticsList.stream()
+        int totalReadTimeMinute = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalReadMinute)
                 .sum();
 
@@ -62,7 +56,7 @@ public class StatisticsControllerV1 {
                 .sum();
 
         boolean isThisYear = LocalDateTime.now().getYear() == year;
-        int averageReadTime = totalReadTime / (
+        int averageReadTime = totalReadTimeMinute / (
                 isThisYear ?
                         LocalDateTime.now().getDayOfYear()
                         : 365
@@ -74,7 +68,7 @@ public class StatisticsControllerV1 {
 
         // TODO : Goal
 
-        YearStatistics yearStatistics = new YearStatistics(totalReadTime, totalReadBookCount, averageStar, totalReadPage);
+        YearStatistics yearStatistics = new YearStatistics(totalReadTimeMinute, totalReadBookCount, averageStar, totalReadPage);
         DayStatistics dayStatistics = new DayStatistics(averageReadTime, mostReadTime);
         SummaryStatistics summaryStatistics = new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
 
@@ -82,11 +76,9 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("/read-time/{day}")
-    public ReadTimeResponse getReadTime(@PathVariable("day") Integer dayRange) {
+    public List<Integer> getReadTime(@PathVariable("day") Integer dayRange) {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        List<Integer> readTimeList = readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(dayRange), LocalDateTime.now());
-
-        return new ReadTimeResponse(200, readTimeList);
+        return readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(dayRange + 1), LocalDateTime.now());
     }
 }

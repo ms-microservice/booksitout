@@ -2,6 +2,10 @@ package com.jinkyumpark.bookitout.app.readingsession;
 
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.app.book.BookService;
+import com.jinkyumpark.bookitout.app.goal.Goal;
+import com.jinkyumpark.bookitout.app.goal.GoalService;
+import com.jinkyumpark.bookitout.app.statistics.StatisticsService;
+import com.jinkyumpark.bookitout.app.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.exception.common.BadRequestException;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
@@ -18,6 +22,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -28,8 +33,8 @@ import java.util.Optional;
 public class ReadingSessionControllerV1 {
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
-
-    private final String BOOK_NOT_FOUND_MESSAGE = "해당 id의 책이 없어요";
+    private final StatisticsService statisticsService;
+    private final GoalService goalService;
 
     @GetMapping
     public ReadingSession getReadingSession(@RequestParam("reading-session-id") Long readingSessionId) {
@@ -101,7 +106,7 @@ public class ReadingSessionControllerV1 {
     }
 
     @PutMapping("{sessionId}")
-    public UpdateSuccessResponse updateReadtime(@PathVariable("sessionId") Long readingSessionId,
+    public UpdateSuccessResponse updateReadTime(@PathVariable("sessionId") Long readingSessionId,
                                                 @RequestParam(value = "time") Integer readTime
     ) {
         Long loginUserId = AppUserService.getLoginAppUserId();
@@ -133,13 +138,10 @@ public class ReadingSessionControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
         ReadingSession previousReadingSession = readingSessionService.getCurrentReadingSession(loginUserId);
 
-        if (book.getCurrentPage() >= readingSessionEndPage) {
-            throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
-        }
+        if (book.getCurrentPage() >= readingSessionEndPage) throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
+        if (book.getEndPage() < readingSessionEndPage) throw new BadRequestException("책의 마지막 페이지보다 커요");
 
-        if (book.getEndPage() < readingSessionEndPage) {
-            throw new BadRequestException("책의 마지막 페이지보다 커요");
-        }
+        Integer readingSessionPage = readingSessionEndPage - book.getCurrentPage() + 1;
 
         previousReadingSession.setEndPage(readingSessionEndPage);
         previousReadingSession.setEndTime(LocalDateTime.now());
@@ -148,6 +150,19 @@ public class ReadingSessionControllerV1 {
 
         book.setCurrentPage(readingSessionEndPage);
         bookService.editBook(book);
+
+        Integer currentYear = LocalDate.now().getYear();
+        Integer currentMonth = LocalDate.now().getMonthValue();
+        MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginUserId, currentYear, currentMonth);
+        statistics.setTotalReadMinute(statistics.getTotalReadMinute() + (totalTimeInSecond / 60));
+        statistics.setTotalPage(statistics.getTotalPage() + readingSessionPage);
+        if (statistics.getMaxReadMinute() < totalTimeInSecond / 60) statistics.setMaxReadMinute(totalTimeInSecond / 60);
+        if (book.getEndPage().equals(readingSessionEndPage)) {
+            statistics.setFinishedBook(statistics.getFinishedBook() + 1);
+            Optional<Goal> goalOptional = goalService.getGoalByYearOptional(loginUserId, currentYear);
+            goalOptional.ifPresent(goal -> goal.setCurrent(goal.getCurrent() + 1));
+        }
+        statisticsService.updateStatistics(statistics);
 
         return new AddSuccessResponse("독서활동을 종료했어요");
     }

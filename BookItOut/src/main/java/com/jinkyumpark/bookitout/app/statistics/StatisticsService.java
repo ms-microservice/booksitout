@@ -1,13 +1,12 @@
 package com.jinkyumpark.bookitout.app.statistics;
 
 import com.jinkyumpark.bookitout.app.statistics.model.MonthStatistics;
+import com.jinkyumpark.bookitout.app.statistics.model.MonthStatisticsId;
 import com.jinkyumpark.bookitout.app.user.AppUser;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.time.Month;
 import java.util.List;
 import java.util.Optional;
 
@@ -16,38 +15,43 @@ import java.util.Optional;
 public class StatisticsService {
     private final StatisticsRepository statisticsRepository;
 
-    public Optional<MonthStatistics> getStatisticsByMonth(Long appUserId, Integer year, Integer month) {
-        return statisticsRepository.findByAppUser_AppUserIdAndYearIsAndMonthIs(appUserId, year, month);
+    public MonthStatistics getStatisticsByMonth(Long appUserId, Integer year, Integer month) {
+        MonthStatisticsId monthStatisticsId = new MonthStatisticsId(appUserId, year, month);
+        Optional<MonthStatistics> monthStatisticsOptional = statisticsRepository.findByMonthStatisticsId(monthStatisticsId);
+
+        if (monthStatisticsOptional.isEmpty()) {
+            addStatistics(appUserId, year, month);
+            return new MonthStatistics(year, month, new AppUser(appUserId));
+        }
+
+        return monthStatisticsOptional.get();
     }
 
     public List<MonthStatistics> getStatisticsByYear(Long appUserId, Integer year) {
-        return statisticsRepository.findAllByAppUser_AppUserIdAndYearIs(appUserId, year);
+        return statisticsRepository.findAllStatisticsOfYear(appUserId, year);
     }
 
-    public void addStatistics(Integer year, Integer month, AppUser appUser) {
-        MonthStatistics monthStatistics = new MonthStatistics(year, month, appUser);
+    public void addStatistics(Long appUserId, Integer year, Integer month) {
+        MonthStatistics monthStatistics = new MonthStatistics(year, month, new AppUser(appUserId));
         statisticsRepository.save(monthStatistics);
     }
 
     @Transactional
     public void updateStatistics(MonthStatistics updatedStatistics) {
+        MonthStatisticsId monthStatisticsId = new MonthStatisticsId(
+                updatedStatistics.getMonthStatisticsId().getAppUserId(),
+                updatedStatistics.getMonthStatisticsId().getYear(),
+                updatedStatistics.getMonthStatisticsId().getMonth()
+        );
         Optional<MonthStatistics> monthStatisticsOptional = statisticsRepository
-                .findByAppUser_AppUserIdAndYearIsAndMonthIs(
-                        updatedStatistics.getAppUser().getAppUserId(),
-                        updatedStatistics.getYear(),
-                        updatedStatistics.getMonth()
-                );
+                .findByMonthStatisticsId(monthStatisticsId);
 
         if (monthStatisticsOptional.isEmpty()) {
-            addStatistics(updatedStatistics.getYear(), updatedStatistics.getMonth(), updatedStatistics.getAppUser());
+            addStatistics(updatedStatistics.getAppUser().getAppUserId(), updatedStatistics.getMonthStatisticsId().getYear(), updatedStatistics.getMonthStatisticsId().getMonth());
         }
 
         MonthStatistics monthStatistics = statisticsRepository
-                .findByAppUser_AppUserIdAndYearIsAndMonthIs(
-                        updatedStatistics.getAppUser().getAppUserId(),
-                        updatedStatistics.getYear(),
-                        updatedStatistics.getMonth()
-                )
+                .findByMonthStatisticsId(monthStatisticsId)
                 .orElseThrow(RuntimeException::new);
 
         monthStatistics.setTotalReadMinute(updatedStatistics.getTotalReadMinute());

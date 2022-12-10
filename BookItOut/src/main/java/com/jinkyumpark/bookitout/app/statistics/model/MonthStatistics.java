@@ -1,30 +1,29 @@
 package com.jinkyumpark.bookitout.app.statistics.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
 
-@Entity(name = "month_statistics")
-@Table(name = "MonthStatistics")
+@DynamicInsert
+@Entity(name = "month_statistics") @Table(name = "MonthStatistics")
 public class MonthStatistics {
-    @Id
-    @SequenceGenerator(name = "month_statistics_seq", sequenceName = "month_statistics_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "month_statistics_seq")
-    @Column(name = "month_statistics_id")
-    private Long monthStatisticsId;
+    @EmbeddedId
+    private MonthStatisticsId monthStatisticsId;
 
-    @Column(name = "year", nullable = false)
-    private Integer year;
-
-    @Column(name = "month", nullable = false)
-    private Integer month;
+    @JsonIgnore
+    @ManyToOne
+    @MapsId("appUserId")
+    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "month_statistics_app_user_fk"))
+    private AppUser appUser;
 
     @Column(name = "total_read_minute")
     private Integer totalReadMinute;
@@ -41,29 +40,13 @@ public class MonthStatistics {
     @Column(name = "total_page")
     private Integer totalPage;
 
-    // FK
-    @ManyToOne
-    @JoinColumn(name = "app_user_id", nullable = false, foreignKey = @ForeignKey(name = "statistics_app_user_fk"))
-    private AppUser appUser;
-
     public MonthStatistics(Integer year, Integer month, AppUser appUser) {
-        this.year = year;
-        this.month = month;
+        monthStatisticsId = new MonthStatisticsId(appUser.getAppUserId(), year, month);
         this.totalReadMinute = 0;
         this.finishedBook = 0;
         this.totalStar = 0;
         this.maxReadMinute = 0;
         this.totalPage = 0;
         this.appUser = appUser;
-    }
-
-    public MonthStatistics(Integer year, Integer month, Integer totalReadMinute, Integer finishedBook, Integer totalStar, Integer maxReadMinute, Integer totalPage) {
-        this.year = year;
-        this.month = month;
-        this.totalReadMinute = totalReadMinute;
-        this.finishedBook = finishedBook;
-        this.totalStar = totalStar;
-        this.maxReadMinute = maxReadMinute;
-        this.totalPage = totalPage;
     }
 }
