@@ -1,4 +1,4 @@
-import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL } from '../data/apiUrl'
+import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../data/apiUrl'
 import toast from 'react-hot-toast'
 
 const getBookList = (token, range, setBookList, setError, setLoading, setInitialFetch) => {
@@ -18,6 +18,28 @@ const getBookList = (token, range, setBookList, setError, setLoading, setInitial
 		.finally(() => {
 			setLoading(false)
 			setInitialFetch(false)
+		})
+}
+
+const getLastBook = () => {
+	const token = localStorage.getItem('login-token')
+
+	return fetch(LAST_BOOK_API_URL, {
+		method: 'GET',
+		headers: { Authorization: token },
+	})
+		.then((res) => {
+			if (!res.status.toString().startsWith(2)) {
+				throw new Error()
+			}
+
+			return res.json()
+		})
+		.then((book) => {
+			return book
+		})
+		.catch(() => {
+			return null
 		})
 }
 
@@ -96,4 +118,4 @@ const deleteBook = (bookId, token, navigate) => {
 	}
 }
 
-export { giveUpBook, getBookList, addBook, deleteBook }
+export { giveUpBook, getLastBook, getBookList, addBook, deleteBook }
