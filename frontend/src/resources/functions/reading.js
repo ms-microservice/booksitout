@@ -3,7 +3,9 @@ import toast from 'react-hot-toast'
 const READING_SESSION_API_URL = `http://localhost/v1/reading-session/`
 const READING_SESSION_CURRENT_API_URL = `http://localhost/v1/reading-session/current`
 
-const getCurrentReadingSession = (bookId, setBook, toggleTimer, token, navigate) => {
+const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
+	const token = localStorage.getItem('login-token')
+
 	fetch(READING_SESSION_CURRENT_API_URL, {
 		method: 'GET',
 		headers: { Authorization: token },
@@ -19,12 +21,12 @@ const getCurrentReadingSession = (bookId, setBook, toggleTimer, token, navigate)
 				setBook(readingSession.book)
 				toggleTimer(true)
 			} else {
-				alert('진행중인 독서활동이 있어요')
+				toast.error('진행중인 독서활동이 있어요')
 				navigate(`/reading/${readingSession.book.bookId}`)
 			}
 		})
 		.catch(() => {
-			startReadingSession(bookId, toggleTimer, setBook, token, navigate)
+			startReadingSession(bookId, toggleTimer, setBook, navigate)
 		})
 }
 

@@ -24,7 +24,7 @@ const Reading = ({ token, readingSessionTime }) => {
 	}
 
 	useEffect(() => {
-		getCurrentReadingSession(id, setBook, toggleTimer, token, navigate)
+		getCurrentReadingSession(id, setBook, toggleTimer, navigate)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
