@@ -35,9 +35,11 @@ public class QnaControllerV1 {
         return qnaService.getAllQnaPage(pageRequest);
     }
 
-    @GetMapping("all/{userid}")
-    public List<Qna> getAllQnaByUserId(@PathVariable("userid") Long userId) {
-        return qnaService.getAllQnaByUserid(userId);
+    @GetMapping("all/user")
+    public List<Qna> getAllQnaByUserId() {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        return qnaService.getAllQnaByUserid(loginUserId);
     }
 
     @PostMapping
