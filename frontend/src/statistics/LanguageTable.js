@@ -1,4 +1,5 @@
 import React from 'react'
+import Error from '../common/Error'
 // Icons
 import koreanIcon from '../resources/images/language/korea.png'
 import englishIcon from '../resources/images/language/usa.png'
@@ -26,35 +27,41 @@ const LanguageTable = ({ languageData }) => {
 	])
 
 	return (
-		<table className='table table-hover mt-3'>
-			<thead className='table-dark'>
-				<tr>
-					<th></th>
-					<th>언어</th>
-					<th>다 읽은 책</th>
-					<th>아직 못 읽은 책</th>
-				</tr>
-			</thead>
-
-			<tbody>
-				{languageData.map((language) => {
-					return (
+		<>
+			{languageData == null ? (
+				<Error />
+			) : (
+				<table className='table table-hover mt-3'>
+					<thead className='table-dark'>
 						<tr>
-							<td className='col-1'>
-								<img src={languageImageMap.get(language.title)} alt='' className='img-fluid' style={{ width: '30px' }} />
-							</td>
-							<td className='col-3'>
-								<p>{languageTextMap.get(language.title)}</p>
-							</td>
-
-							<td className='col-4'>{language.done}권</td>
-
-							<td className='col-4'>{language.notDone}권</td>
+							<th></th>
+							<th>언어</th>
+							<th>다 읽은 책</th>
+							<th>아직 못 읽은 책</th>
 						</tr>
-					)
-				})}
-			</tbody>
-		</table>
+					</thead>
+
+					<tbody>
+						{languageData.map((language) => {
+							return (
+								<tr>
+									<td className='col-1'>
+										<img src={languageImageMap.get(language.language)} alt='' className='img-fluid' style={{ width: '30px' }} />
+									</td>
+									<td className='col-3'>
+										<p>{languageTextMap.get(language.language)}</p>
+									</td>
+
+									<td className='col-4'>{language.doneBook}권</td>
+
+									<td className='col-4'>{language.notDoneBook}권</td>
+								</tr>
+							)
+						})}
+					</tbody>
+				</table>
+			)}
+		</>
 	)
 }
 
