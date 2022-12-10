@@ -1,5 +1,7 @@
 package com.jinkyumpark.bookitout.app.goal;
 
+import com.jinkyumpark.bookitout.app.statistics.StatisticsService;
+import com.jinkyumpark.bookitout.app.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import java.util.Optional;
 @Service
 public class GoalService {
     private final GoalRepository goalRepository;
+    private final StatisticsService statisticsService;
 
     public Goal getGoalByYear(Long loginUserId, Integer year) {
         GoalId goalId = new GoalId(loginUserId, year);
@@ -19,11 +22,20 @@ public class GoalService {
                 .orElseThrow(() -> new NotFoundException("목표가 설정되지 않았어요. 목표를 설정해 주세요"));
     }
 
+    public Optional<Goal> getGoalByYearOptional(Long loginUserId, Integer year) {
+        GoalId goalId = new GoalId(loginUserId, year);
+        return goalRepository.findByGoalId(goalId);
+    }
+
     public List<Goal> getGoalByStartYearAndEndYear(Long loginUserId, Integer startYear, Integer endYear) {
         return goalRepository.findAllByAppUser_AppUserIdAndGoalId_YearBetween(loginUserId, startYear, endYear);
     }
 
-    public void addGoal(Goal newGoal) {
+    public void addGoal(Long appUserId, Goal newGoal) {
+        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(appUserId, newGoal.getGoalId().getYear());
+        Integer totalBookReadDuringYear = monthStatisticsList.stream().mapToInt(MonthStatistics::getFinishedBook).sum();
+        newGoal.setCurrent(totalBookReadDuringYear);
+
         goalRepository.save(newGoal);
     }
 
