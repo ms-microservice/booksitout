@@ -7,6 +7,7 @@ import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.readingsession.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -27,11 +28,16 @@ public class BookService {
     }
 
     public Book getLastBookByAppUserid(Long appUserId) {
-        ReadingSession readingSession = readingSessionRepository
-                .findTopByAppUser_AppUserIdOrderByEndTimeDesc(appUserId)
-                .orElseThrow(() -> new NotFoundException("아직 책-it-out으로 책을 읽으신 적이 없어요. 지금 바로 독서활동을 기록해 보세요!"));
+        PageRequest pageRequest = PageRequest.of(0, 1);
 
-        return readingSession.getBook();
+        List<ReadingSession> readingSessionList = readingSessionRepository
+                .findAllBookNotDoneReadingSession(appUserId, pageRequest);
+
+        if (readingSessionList.size() < 1) {
+            throw new NotFoundException("Last Reading Session not present; possible cause : never used book-it-out, last book read is done");
+        }
+
+        return readingSessionList.get(0).getBook();
     }
 
     public List<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {

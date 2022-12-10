@@ -11,7 +11,10 @@ import java.util.Optional;
 
 @Repository
 public interface ReadingSessionRepository extends JpaRepository<ReadingSession, Long> {
-    Optional<ReadingSession> findTopByAppUser_AppUserIdOrderByEndTimeDesc(Long appUserId);
+
+    @Query("select r from ReadingSession r where r.appUser.appUserId = ?1 and r.book.currentPage < r.book.endPage order by r.endTime desc")
+    List<ReadingSession> findAllBookNotDoneReadingSession(Long appUserId, Pageable pageable);
+
     List<ReadingSession> findAllByAppUser_AppUserIdAndStartTimeBetween(Long appUserId, LocalDateTime startTime, LocalDateTime endTime);
 
     List<ReadingSession> findAllByBook_BookId(Long bookId);
