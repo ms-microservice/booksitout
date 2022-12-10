@@ -127,6 +127,8 @@ const Topnav = ({ token, setToken }) => {
 							) : (
 								<>
 									<NavDropdown.Item onClick={(e) => logout(e, setToken, navigate)}>로그아웃</NavDropdown.Item>
+									<NavDropdown.Item onClick={() => navigate('/qna')}>QNA</NavDropdown.Item>
+									<NavDropdown.Item onClick={() => navigate('/faq')}>FAQ</NavDropdown.Item>
 									<NavDropdown.Divider />
 									<NavDropdown.Item href='/settings'>설정</NavDropdown.Item>
 								</>
