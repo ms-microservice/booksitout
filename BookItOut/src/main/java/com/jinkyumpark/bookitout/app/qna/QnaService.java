@@ -1,10 +1,12 @@
 package com.jinkyumpark.bookitout.app.qna;
 
+import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import javax.transaction.Transactional;
 import java.util.List;
 
 @AllArgsConstructor
@@ -28,6 +30,25 @@ public class QnaService {
         return qnaRepository.findById(qnaId)
                 .orElseThrow();
     }
+
+    @Transactional
+    public void editQna(Qna editedQna) {
+        Qna qna = qnaRepository.findById(editedQna.getQnaId())
+                .orElseThrow(() -> new NotFoundException("수정하려는 QNA가 없어요"));
+
+        if (editedQna.getPassword() != null) {
+            qna.setPassword(editedQna.getPassword());
+        }
+
+        if (editedQna.getQuestion() != null) {
+            qna.setQuestion(editedQna.getQuestion());
+        }
+
+        if (editedQna.getAnswer() != null) {
+            qna.setAnswer(editedQna.getAnswer());
+        }
+    }
+
 
     public void deleteQnaById(Long qnaId) {
         qnaRepository.deleteById(qnaId);
