@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { Card, Alert } from 'react-bootstrap'
-import { LAST_BOOK_API_URL, READ_TIME_API_URL, STATISTICS_SUMMARY_URL } from '../resources/data/apiUrl'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -9,6 +8,11 @@ import HorizontalBookView from '../book/HorizontalBookView'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
 import GoalView from './GoalView'
+// Functions
+import { getLastBook } from '../resources/functions/book'
+import { getReadTime, getStatisticsSummary } from '../resources/functions/statistics'
+import { getGoal } from '../resources/functions/goal'
+import NoContent from '../common/NoContent'
 
 const Main = (props) => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -17,6 +21,7 @@ const Main = (props) => {
 
 	const [lastBook, setLastBook] = useState(null)
 	const [readTime, setReadTime] = useState(null)
+	const [goal, setGoal] = useState(null)
 	const [statistics, setStatistics] = useState(null)
 
 	const uiData = [
@@ -34,8 +39,8 @@ const Main = (props) => {
 				/>
 			),
 			data: lastBook,
-			message: '마지막으로 읽은 책이 없어요',
-			url: `/book/detail/${lastBook != null && lastBook.bookId}`,
+			error: <NoContent message='마지막으로 읽은 책이 없어요' />,
+			url: lastBook == null ? `/book/not-done` : `/book/detail/${lastBook != null && lastBook.bookId}`,
 		},
 		{
 			id: 2,
@@ -48,9 +53,9 @@ const Main = (props) => {
 		{
 			id: 3,
 			title: '2022년 목표',
-			element: statistics != null && <GoalView goal={{ current: statistics.yearStatistics.totalReadBookCount, goal: statistics.goal }} />,
+			element: statistics != null && <GoalView goal={goal} />,
 			data: statistics,
-			message: '오류가 났어요',
+			error: <Error message='오류가 났어요' />,
 			url: '/statistics/goal',
 		},
 		{
@@ -58,35 +63,21 @@ const Main = (props) => {
 			title: '2022년 독서 요약',
 			element: statistics != null && <SummaryTable statistics={statistics} />,
 			data: statistics,
-			message: '오류가 났어요',
+			error: <Error message='오류가 났어요' />,
 			url: '/statistics',
 		},
 	]
 
-	const fetchFromApi = (url, setData) => {
-		fetch(url, {
-			methods: 'GET',
-			headers: { Authorization: props.token, 'Content-Type': 'application/json' },
-		})
-			.then((res) => {
-				if (!res.status.toString().startsWith(2)) {
-					throw new Error()
-				}
-				return res.json()
-			})
-			.then((data) => setData(data))
-			.catch((e) => console.log(e))
-	}
-
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, 5000)
+		}, 500)
 
 		Promise.all([
-			fetchFromApi(LAST_BOOK_API_URL, (data) => setLastBook(data)),
-			fetchFromApi(READ_TIME_API_URL, (data) => data.status.toString().startsWith(2) && setReadTime(data.timeSeriesData)),
-			fetchFromApi(STATISTICS_SUMMARY_URL, (data) => data.status.toString().startsWith(2) && setStatistics(data)),
+			getLastBook().then((book) => setLastBook(book)),
+			getReadTime(14).then((readTime) => setReadTime(readTime)),
+			getGoal(2022).then((res) => setGoal(res)),
+			getStatisticsSummary().then((stats) => setStatistics(stats)),
 		]).finally(() => {
 			setInitialFetch(false)
 			setIsLoading(false)
@@ -112,11 +103,7 @@ const Main = (props) => {
 					{uiData.map((ui) => {
 						return (
 							<div className='col-lg-12 col-xl-6 mb-4'>
-								{ui.data == null ? (
-									<CardWithTitle title={ui.title} element={<Error message={ui.message} />} />
-								) : (
-									<CardWithTitle title={ui.title} element={ui.element} url={ui.url} />
-								)}
+								<CardWithTitle title={ui.title} element={ui.data == null ? ui.error : ui.element} url={ui.url} />
 							</div>
 						)
 					})}
