@@ -84,4 +84,28 @@ const deleteReadingSession = (token, navigate) => {
 		})
 }
 
-export { startReadingSession, getCurrentReadingSession, deleteReadingSession }
+const endReadingSession = (bookId, endPage, e, navigate) => {
+	e.preventDefault()
+
+	const token = localStorage.getItem('login-token')
+	const READING_SESSION_END_API_URL = `http://localhost/v1/reading-session/${bookId}/end?page=${endPage}&time=${localStorage.getItem(
+		'reading-session-time'
+	)}`
+
+	fetch(encodeURI(READING_SESSION_END_API_URL), {
+		method: 'PUT',
+		headers: { Authorization: token },
+	})
+		.then((res) => res.json())
+		.then((data) => {
+			if (data.status.toString().startsWith(2)) {
+				localStorage.removeItem('reading-session-time')
+				navigate(`/book/detail/${bookId}`)
+				toast.success(data.message)
+			} else {
+				toast.error(data.message)
+			}
+		})
+}
+
+export { startReadingSession, endReadingSession, getCurrentReadingSession, deleteReadingSession }
