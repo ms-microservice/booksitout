@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 // Book Info
 import CategoryInfo from './info/CategoryInfo'
 import LanguageInfo from './info/LanguageInfo'
