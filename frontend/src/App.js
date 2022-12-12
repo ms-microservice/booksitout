@@ -1,32 +1,30 @@
 import { useState, useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { Toaster } from 'react-hot-toast'
-// common
-import Topnav from './common/Topnav'
-import AddButton from './common/AddButton'
-import ReadingButton from './common/ReadingButton'
-// user
-import Login from './user/Login'
-import Join from './user/Join'
-import Settings from './user/Settings'
-// book
-import BookList from './book/BookList'
-import BookDetail from './book/BookDetail'
-import BookAddForm from './book/BookAddForm'
-import BookEditForm from './book/BookEditForm'
-// Reading
-import Reading from './book/reading/Reading'
-import ReadingNoId from './book/reading/ReadingNoId'
-// statistics
-import Summary from './statistics/Summary'
-import Statistics from './statistics/Statistics'
-// informations
-import Introduction from './info/Introduction'
-import Faq from './info/Faq'
-import Qna from './info/Qna'
-// search
-import Search from './search/Search'
-import Goal from './statistics/Goal'
+import { Toaster, useToasterStore, toast } from 'react-hot-toast'
+// Components
+import Topnav from './components/common/Topnav'
+import AddButton from './components/common/AddButton'
+import ReadingButton from './components/common/ReadingButton'
+import Login from './components/user/Login'
+import Join from './components/user/Join'
+import Settings from './components/user/Settings'
+import BookList from './components/book/BookList'
+import BookDetail from './components/book/BookDetail'
+import BookAddForm from './components/book/BookAddForm'
+import BookEditForm from './components/book/BookEditForm'
+import Reading from './components/reading/Reading'
+import ReadingNoId from './components/reading/ReadingNoId'
+import Main from './components/statistics/Main'
+import Statistics from './components/statistics/Statistics'
+import Introduction from './components/info/Introduction'
+import Faq from './components/info/Faq'
+import Qna from './components/info/Qna'
+import Search from './components/search/Search'
+import Goal from './components/statistics/Goal'
+// Functions
+import { getToken } from './functions/user'
+// URL
+import { REDIRECT_EXCLUDE_URL } from './url/localUrl'
 
 function App() {
 	const location = useLocation()
@@ -47,7 +45,6 @@ function App() {
 		return () => clearInterval(interval)
 	})
 
-	const REDIRECT_EXCLUDE_URL = ['join', 'introduction', 'qna', 'faq']
 	useEffect(() => {
 		if (token === '') {
 			!REDIRECT_EXCLUDE_URL.some((url) => location.pathname.includes(url)) && navigate('/login')
@@ -82,7 +79,7 @@ function App() {
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings token={token} />} />
 
-				<Route path='/' element={<Summary token={token} />} />
+				<Route path='/' element={<Main token={token} />} />
 				<Route path='/book/:range' element={<BookList token={token} />} />
 				<Route path='/book/detail/:id' element={<BookDetail token={token} />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
