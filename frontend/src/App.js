@@ -31,8 +31,7 @@ import Goal from './statistics/Goal'
 function App() {
 	const location = useLocation()
 	const navigate = useNavigate()
-
-	const [token, setToken] = useState(localStorage.getItem('login-token'))
+	const [token, setToken] = useState(getToken())
 
 	const READING_TIME_KEY = `reading-session-time`
 	const TIMER_ON_KEY = `timer-on`
