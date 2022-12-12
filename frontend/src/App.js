@@ -55,6 +55,15 @@ function App() {
 		}
 	}, [location.pathname])
 
+	const TOAST_LIMIT = 3
+	const { toasts } = useToasterStore()
+	useEffect(() => {
+		toasts
+			.filter((t) => t.visible)
+			.filter((_, i) => i >= TOAST_LIMIT)
+			.forEach((t) => toast.dismiss(t.id))
+	}, [toasts])
+
 	return (
 		<div className='App'>
 			<div>
