@@ -1,0 +1,248 @@
+import React, { useState, useEffect } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Card, Button } from 'react-bootstrap'
+// Components
+import LanguageInfo from './book-info/LanguageInfo'
+import CategoryInfo from './book-info/CategoryInfo'
+import SourceInfo from './book-info/SourceInfo'
+import FormInfo from './book-info/FormInfo'
+// Components (Common)
+import Error from '../common/Error'
+import Loading from '../common/Loading'
+import NoContent from '../common/NoContent'
+// Images
+import defaultBookCover from '../../resources/images/common/book.png'
+// Functions
+import { deleteBook, getBook, giveUpBook } from '../../functions/book'
+// Urls
+import { API_BASE_URL } from '../../url/apiUrl'
+import { getMemo } from '../../functions/memo'
+import { getQuotation } from '../../functions/quotation'
+import { getAllReadingSessionOfBook } from '../../functions/reading'
+
+const BookDetail = ({ token }) => {
+	const { id } = useParams()
+	const navigate = useNavigate()
+
+	const BOOK_EDIT_URL = `/book/edit/${id}`
+
+	const [loading, setLoading] = useState(true)
+	const [initialFetch, setInitialFetch] = useState(true)
+
+	const [book, setBook] = useState(null)
+	const [memo, setMemo] = useState(null)
+	const [quotation, setQuotation] = useState(null)
+	const [readingSession, setReadingSession] = useState(null)
+
+	useEffect(() => {
+		setTimeout(() => {
+			setInitialFetch(false)
+		}, 5000)
+
+		Promise.all([
+			getBook(id).then((book) => setBook(book)),
+			getMemo(id).then((memoList) => setMemo(memoList)),
+			getQuotation(id).then((quotationList) => setQuotation(quotationList)),
+			getAllReadingSessionOfBook(id).then((readingSessionList) => setReadingSession(readingSessionList)),
+		]).finally(() => {
+			setLoading(false)
+			setInitialFetch(false)
+		})
+	}, [])
+
+	return (
+		<div className='container'>
+			{initialFetch ? (
+				<></>
+			) : loading ? (
+				<Loading message='' />
+			) : book == null ? (
+				<NoContent message='책이 없어요 다시 확인해 주세요' />
+			) : (
+				<div className='row text-center'>
+					<div className='col-12 col-md-4 mb-5'>
+						<img
+							src={book.cover == '' ? defaultBookCover : book.cover}
+							alt=''
+							className={`img-fluid rounded  ${book.cover != '' && 'border'}`}
+						/>
+
+						<div className='row mt-3'>
+							<div className='col-6'>
+								<Button variant='warning' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
+									수정하기
+								</Button>
+							</div>
+
+							<div className='col-6'>
+								<Button variant='danger' className='w-100' onClick={() => deleteBook(id, token, navigate)}>
+									삭제하기
+								</Button>
+							</div>
+
+							{book.currentPage < book.endPage && (
+								<>
+									<div className='col-12 mt-3'>
+										<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
+											이어서 읽기
+										</Button>
+									</div>
+
+									<div className='col-12 mt-3'>
+										<Button variant='warning' className='w-100' onClick={() => giveUpBook(id, token, navigate)}>
+											포기하기
+										</Button>
+									</div>
+								</>
+							)}
+						</div>
+					</div>
+
+					<div className='col-12 col-md-8 mb-5'>
+						<div className='row mb-4 mt-5'>
+							<h2>{book.title}</h2>
+							<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
+
+							<div className='row justify-content-center align-items-center'>
+								<div className='col-9'>
+									<div className='progress mt-3 mb-3'>
+										<div
+											className='progress-bar'
+											role='progressbar'
+											style={{
+												width: ((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100 + '%',
+											}}
+											aria-valuenow={book.currentPage}
+											aria-valuemin={0}
+											aria-valuemax={book.endPage}></div>
+									</div>
+								</div>
+								<div className='col-2 align-middle'>
+									<span className='align-middle'>{`${book.currentPage == null ? 0 : book.currentPage} / ${book.endPage}`}</span>
+								</div>
+							</div>
+						</div>
+
+						<div className='row justify-content-center'>
+							<div className='col-3 col-xl-2'>
+								<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
+									<LanguageInfo language={book.language} />
+								</a>
+							</div>
+							<div className='col-3 col-xl-2'>
+								<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
+									<CategoryInfo category={book.category} />
+								</a>
+							</div>
+							<div className='col-3 col-xl-2'>
+								<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
+									<FormInfo form={book.form} />
+								</a>
+							</div>
+							<div className='col-3 col-xl-2'>
+								<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
+									<SourceInfo source={book.source} />
+								</a>
+							</div>
+						</div>
+
+						<BookRecordCard
+							displayLabel='독서활동'
+							record={readingSession}
+							ListComponent={<ReadingSessionList readingSessionList={readingSession} />}
+						/>
+						<BookRecordCard displayLabel='메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
+						<BookRecordCard displayLabel='인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
+					</div>
+				</div>
+			)}
+		</div>
+	)
+}
+
+const BookRecordCard = ({ displayLabel, record, ListComponent }) => {
+	return (
+		<Card className='mt-3'>
+			<Card.Body>
+				<h4>{displayLabel}</h4>
+
+				<div className='row justify-content-center mt-4'>
+					<div className='col-12'>{record == null || record.length === 0 ? <NoContent style={{ width: '150px' }} /> : ListComponent}</div>
+				</div>
+			</Card.Body>
+		</Card>
+	)
+}
+
+const MemoList = ({ memoList }) => {
+	return (
+		<div className='row row-eq-height'>
+			{memoList.map((memo) => {
+				return (
+					<div className='col-12 col-lg-6 mb-2'>
+						<Card>
+							<Card.Body>
+								<div className='row'>
+									<div className='col-2'>
+										<h6 className='mt-1'>{memo.page}</h6>
+									</div>
+									<div className='col-10'>
+										<div className='text-start'>{memo.content}</div>
+									</div>
+								</div>
+							</Card.Body>
+						</Card>
+					</div>
+				)
+			})}
+		</div>
+	)
+}
+
+const QuotationList = ({ quotationList }) => {
+	return (
+		<>
+			{quotationList.map((quotation) => {
+				return (
+					<Card className='mb-2'>
+						<Card.Body>
+							<div className='row'>
+								<div className='col-2'>{quotation.page}</div>
+								<div className='col-7 text-start'>{quotation.content}</div>
+								<div className='col-3'>{quotation.from_who}</div>
+							</div>
+						</Card.Body>
+					</Card>
+				)
+			})}
+		</>
+	)
+}
+
+const ReadingSessionList = ({ readingSessionList }) => {
+	return (
+		<div className='row row-eq-height'>
+			{readingSessionList.map((readingSession) => {
+				return (
+					<div className='col-12 col-lg-6'>
+						<Card className='mb-2'>
+							<Card.Body>
+								<div className='row'>
+									<div className='col-5'>22년 11월 5일</div>
+
+									<div className='col-4'>
+										{readingSession.startPage}p ~ {readingSession.endPage}p
+									</div>
+
+									<div className='col-3'>{readingSession.readTime}분</div>
+								</div>
+							</Card.Body>
+						</Card>
+					</div>
+				)
+			})}
+		</div>
+	)
+}
+
+export default BookDetail
