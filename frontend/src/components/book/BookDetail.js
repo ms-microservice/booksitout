@@ -103,22 +103,9 @@ const BookDetail = ({ token }) => {
 							<h2>{book.title}</h2>
 							<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
 
-							<div className='row justify-content-center align-items-center'>
-								<div className='col-9'>
-									<div className='progress mt-3 mb-3'>
-										<div
-											className='progress-bar'
-											role='progressbar'
-											style={{
-												width: ((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100 + '%',
-											}}
-											aria-valuenow={book.currentPage}
-											aria-valuemin={0}
-											aria-valuemax={book.endPage}></div>
-									</div>
-								</div>
-								<div className='col-2 align-middle'>
-									<span className='align-middle'>{`${book.currentPage == null ? 0 : book.currentPage} / ${book.endPage}`}</span>
+							<div className='row justify-content-center'>
+								<div className='col-12 col-lg-11'>
+									<PageProgressBar book={book} />
 								</div>
 							</div>
 						</div>
