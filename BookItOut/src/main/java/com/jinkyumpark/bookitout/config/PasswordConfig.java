@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.security;
+package com.jinkyumpark.bookitout.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
