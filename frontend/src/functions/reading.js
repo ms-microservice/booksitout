@@ -25,6 +25,7 @@ const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
 			} else {
 				toast.error('진행중인 독서활동이 있어요')
 				navigate(`/reading/${readingSession.book.bookId}`)
+				setBook(readingSession.book)
 			}
 		})
 		.catch(() => {
