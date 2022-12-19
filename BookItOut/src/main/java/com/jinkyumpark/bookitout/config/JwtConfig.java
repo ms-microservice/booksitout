@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.security.jwt;
+package com.jinkyumpark.bookitout.config;
 
 import lombok.Getter;
 import lombok.NoArgsConstructor;
