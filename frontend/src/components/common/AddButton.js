@@ -8,7 +8,7 @@ const AddButton = ({ bottomStyle = '120px', url = '/book/add' }) => {
 	const addButtonStyle = {
 		position: 'fixed',
 		bottom: bottomStyle,
-		right: '40px',
+		right: '2.5%',
 		width: '60px',
 		height: '60px',
 		borderRadius: '50px',
