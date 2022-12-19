@@ -40,7 +40,7 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 
 ### DevOps
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
-![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) (EBS, S3)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) (EBS, EC2, RDS, S3)
 
 # 🆚 버전역사
 ## Version 1 (22년 10월 29일 ~)
