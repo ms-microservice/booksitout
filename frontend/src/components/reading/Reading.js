@@ -45,11 +45,11 @@ const Reading = ({ token, readingSessionTime }) => {
 
 			{book != null && (
 				<div className='row justify-content-center text-center'>
-					<div className='col-4 col-lg-4'>
+					<div className='col-12 col-lg-6 col-xl-4'>
 						<img src={book.cover} alt='' className='img-fluid rounded w-100 border' />
 					</div>
 
-					<div className='col-12 col-lg-8 mt-5'>
+					<div className='col-12 col-lg-12 col-xl-8 mt-5 mb-5'>
 						<div className='mb-5'>
 							<h2>{book.title}</h2>
 							<h4 className='text-muted'>{book.author}</h4>
