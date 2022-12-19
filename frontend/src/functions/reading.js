@@ -6,7 +6,7 @@ const READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/`
 const READING_SESSION_CURRENT_API_URL = `${API_BASE_URL}/v1/reading-session/current`
 
 const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
-	const token = localStorage.getItem('login-token')
+	const token = getToken()
 
 	fetch(READING_SESSION_CURRENT_API_URL, {
 		method: 'GET',
