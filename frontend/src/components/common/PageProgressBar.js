@@ -1,9 +1,9 @@
 import React from 'react'
 
-const ProgressBar = ({ book }) => {
+const PageProgressBar = ({ book }) => {
 	return (
 		<div className='row align-items-center'>
-			<div className='col-9'>
+			<div className='col-8 col-md-9'>
 				<div className='progress mt-3 mb-3'>
 					<div
 						className='progress-bar'
@@ -17,11 +17,11 @@ const ProgressBar = ({ book }) => {
 				</div>
 			</div>
 
-			<div className='col-3 align-middle'>
+			<div className='col-4 col-md-3 align-middle'>
 				<span className='align-middle'>{`${book.currentPage == null ? 0 : book.currentPage} / ${book.endPage}`}</span>
 			</div>
 		</div>
 	)
 }
 
-export default ProgressBar
+export default PageProgressBar
