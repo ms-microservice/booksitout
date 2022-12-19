@@ -34,33 +34,31 @@ const Login = ({ setToken }) => {
 
 							<Form onSubmit={(e) => login(e, navigate, setToken, email, password, stayLogin)}>
 								<Form.Group class='row mt-3'>
-									<div className='col-2'>
+									<div className='col-3 col-lg-2'>
 										<label class='col-form-label text-start'>이메일</label>
 									</div>
 
-									<div class='col-10'>
+									<div class='col-9 col-lg-10'>
 										<input
-											type='email'
+											type='text'
 											class='form-control'
 											placeholder={EMAIL_PLACEHOLDER_MESSAGE}
 											onChange={(e) => setEmail(e.target.value)}
-											required
 										/>
 									</div>
 								</Form.Group>
 
 								<Form.Group class='row mt-3'>
-									<div className='col-2'>
+									<div className='col-3 col-lg-2'>
 										<label class='text-start'>비밀번호</label>
 									</div>
 
-									<div class='col-10'>
+									<div class='col-9 col-lg-10'>
 										<input
 											type='password'
 											class='form-control'
 											placeholder={PASSWORD_PLACEHOLDER_MESSAGE}
 											onChange={(e) => setPassword(e.target.value)}
-											required
 										/>
 									</div>
 								</Form.Group>
@@ -79,13 +77,13 @@ const Login = ({ setToken }) => {
 								</div>
 
 								<div className='row justify-content-center mt-3'>
-									<div className='col-4'>
+									<div className='col-6 col-lg-4'>
 										<Button varnt='success' type='submit' className='w-100'>
 											로그인
 										</Button>
 									</div>
 
-									<div className='col-4'>
+									<div className='col-6 col-lg-4'>
 										<Button variant='danger' className='w-100' href='join'>
 											회원가입
 										</Button>
@@ -96,7 +94,7 @@ const Login = ({ setToken }) => {
 					</Card>
 				</div>
 
-				<div className='col-12 col-lg-6 mb-4'>
+				<div className='col-12 col-lg-6 mb-5'>
 					<a href={INTRODUCTION_URL} className='text-decoration-none text-black h-100'>
 						<Card className='h-100'>
 							<Card.Body className='text-center'>
@@ -108,23 +106,24 @@ const Login = ({ setToken }) => {
 					</a>
 				</div>
 
-				<div className='col-12 col-lg-6 mb-4'>
+				<div className='col-12 col-lg-6 mb-5'>
 					<Card className='h-100'>
 						<Card.Body className='text-center'>
 							<h4 className='text-center'>{FAQ_QNA_TITLE}</h4>
 
-							<div className='row mt-3'>
+							<div className='row row-eq-height mt-3'>
 								<div className='col-12 col-md-6'>
 									<a href={FAQ_URL} className='text-decoration-none text-black'>
-										<Card>
+										<Card className='mb-3'>
 											<Card.Header>{FAQ_TITLE}</Card.Header>
 											<Card.Body>{FAQ_CONTENT}</Card.Body>
 										</Card>
 									</a>
 								</div>
+
 								<div className='col-12 col-md-6'>
 									<a href={QNA_URL} className='text-decoration-none text-black'>
-										<Card>
+										<Card className='mb-3'>
 											<Card.Header>{QNA_TITLE}</Card.Header>
 											<Card.Body>{QNA_CONTENT}</Card.Body>
 										</Card>
