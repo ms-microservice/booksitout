@@ -79,11 +79,11 @@ const Reading = ({ token, readingSessionTime }) => {
 
 						<div className='row justify-content-center mb-4'>
 							<div className='col-12 col-lg-10 mt-3'>
-								<MemoCard bookId={id} />
+								<MemoCard bookId={id} currentPage={book.currentPage} />
 							</div>
 
 							<div className='col-12 col-lg-10 mt-3'>
-								<QuotationCard bookId={id} />
+								<QuotationCard bookId={id} currentPage={book.currentPage} />
 							</div>
 						</div>
 					</div>
