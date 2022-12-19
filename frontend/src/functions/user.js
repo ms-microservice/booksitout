@@ -63,13 +63,23 @@ const login = (e, navigate, setToken, email, password, stayLogin) => {
 	toast.dismiss()
 	setToken('')
 
+	if (email === '') {
+		toast.error('이메일을 입력해 주세요')
+		return
+	}
+
+	if (!email.includes('@')) {
+		toast.error('이메일 형식에 맞지 않아요')
+		return
+	}
+
 	if (password === '') {
-		alert('비밀번호를 입력해 주세요')
+		toast.error('비밀번호를 입력해 주세요')
 		return
 	}
 
 	if (password.length < 6) {
-		alert('비밀번호는 6자 이상이에요')
+		toast.error('비밀번호는 6자 이상이에요')
 		return
 	}
 
