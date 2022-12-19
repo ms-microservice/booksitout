@@ -6,10 +6,10 @@ import NoContent from '../common/NoContent'
 // Functions
 import { addQuotation, getQuotation } from '../../functions/quotation'
 
-const QuotationCard = ({ bookId }) => {
+const QuotationCard = ({ bookId, currentPage }) => {
 	const [quoteList, setQuoteList] = useState(null)
 
-	const [page, setPage] = useState(0)
+	const [page, setPage] = useState(currentPage)
 	const [content, setContent] = useState('')
 	const [fromWho, setFromWho] = useState('')
 
