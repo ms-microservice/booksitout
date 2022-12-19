@@ -19,6 +19,8 @@ const HorizontalBookView = ({
 		</a>
 	),
 }) => {
+	const bookInfoStyle = 'col-4 col-md-4 mb-2'
+
 	return (
 		<div className='row row-eq-height mt-3'>
 			<div className='col-4 align-self-center'>
@@ -35,16 +37,16 @@ const HorizontalBookView = ({
 				<PageProgressBar book={book} />
 
 				<div className='row text-center mt-4 justify-content-center'>
-					<div className='col-4'>
-						<LanguageInfo language={book.language} />
+					<div className={bookInfoStyle}>
+						<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
 					</div>
 
-					<div className='col-4'>
-						<CategoryInfo category={book.category} />
+					<div className={bookInfoStyle}>
+						<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
 					</div>
 
-					<div className='col-4'>
-						<FormInfo form={book.form} />
+					<div className={bookInfoStyle}>
+						<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
 					</div>
 				</div>
 
