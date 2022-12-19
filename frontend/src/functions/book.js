@@ -105,7 +105,7 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 }
 
 const editBook = (book) => {
-	const BOOK_EDIT_API_URL = `http://localhost/v1/book/${book.bookId}`
+	const BOOK_EDIT_API_URL = `${API_BASE_URL}/v1/book/${book.bookId}`
 	const token = getToken()
 
 	return fetch(BOOK_EDIT_API_URL, {

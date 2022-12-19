@@ -1,6 +1,7 @@
 import toast from 'react-hot-toast'
-const QUOTATION_API_URL = `http://localhost/v1/quotation/`
-const QUOTATION_ALL_API_URL = `http://localhost/v1/quotation/all/`
+import { API_BASE_URL } from '../url/apiUrl'
+const QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/`
+const QUOTATION_ALL_API_URL = `${API_BASE_URL}/v1/quotation/all/`
 
 const getQuotation = (bookId) => {
 	const token = localStorage.getItem('login-token')

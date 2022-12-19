@@ -90,7 +90,7 @@ const endReadingSession = (bookId, endPage, e, navigate) => {
 	e.preventDefault()
 
 	const token = localStorage.getItem('login-token')
-	const READING_SESSION_END_API_URL = `http://localhost/v1/reading-session/${bookId}/end?page=${endPage}&time=${localStorage.getItem(
+	const READING_SESSION_END_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/end?page=${endPage}&time=${localStorage.getItem(
 		'reading-session-time'
 	)}`
 

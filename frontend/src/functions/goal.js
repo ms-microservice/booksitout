@@ -1,4 +1,5 @@
-const GOAL_API_URL = `http://localhost/v1/goal/`
+import { API_BASE_URL } from '../url/apiUrl'
+const GOAL_API_URL = `${API_BASE_URL}/v1/goal/`
 
 const getGoal = (year) => {
 	const token = localStorage.getItem('login-token')

@@ -1,7 +1,8 @@
 import toast from 'react-hot-toast'
+import { API_BASE_URL } from '../url/apiUrl'
 
-const MEMO_GET_ALL_API_URL = `http://localhost/v1/memo/all/`
-const MEMO_API_URL = `http://localhost/v1/memo/`
+const MEMO_GET_ALL_API_URL = `${API_BASE_URL}/v1/memo/all/`
+const MEMO_API_URL = `${API_BASE_URL}/v1/memo/`
 
 const getMemo = (bookId) => {
 	const token = localStorage.getItem('login-token')
