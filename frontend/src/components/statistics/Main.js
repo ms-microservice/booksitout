@@ -13,6 +13,8 @@ import NoContent from '../common/NoContent'
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
+// Settings
+import { INITIAL_FETCH_TIME } from '../../settings/settings'
 
 const Main = () => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -71,7 +73,7 @@ const Main = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, 500)
+		}, INITIAL_FETCH_TIME)
 
 		Promise.all([
 			getLastBook().then((book) => setLastBook(book)),
