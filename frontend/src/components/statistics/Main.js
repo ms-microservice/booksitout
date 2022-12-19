@@ -104,7 +104,7 @@ const Main = () => {
 
 					{cardData.map((ui) => {
 						return (
-							<div className='col-lg-12 col-xl-6 mb-4'>
+							<div className='col-12 col-xl-6 mb-4'>
 								<CardWithTitle title={ui.title} element={ui.data == null ? ui.error : ui.element} url={ui.url} />
 							</div>
 						)
