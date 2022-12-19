@@ -3,13 +3,13 @@ import NoContent from '../common/NoContent'
 import { Card, Button, Form } from 'react-bootstrap'
 import { getMemo, addMemo } from '../../functions/memo'
 
-const MemoCard = ({ bookId }) => {
+const MemoCard = ({ bookId, currentPage }) => {
 	const [memoList, setMemoList] = useState(null)
 	useEffect(() => {
 		getMemo(bookId).then((memos) => setMemoList(memos))
 	}, [])
 
-	const [page, setPage] = useState(0)
+	const [page, setPage] = useState(currentPage)
 	const [content, setContent] = useState('')
 
 	const addMemoFunction = (e) => {
@@ -56,7 +56,7 @@ const MemoCard = ({ bookId }) => {
 					<div className='row'>
 						<div className='col-3 col-md-2'>
 							<Form.Control
-								type='number'
+								type='text'
 								placeholder='Page'
 								className='h-100'
 								required
