@@ -6,7 +6,7 @@ import Timer from './Timer'
 import MemoCard from './MemoCard'
 import QuotationCard from './QuotationCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
-import ProgressBar from '../common/ProgressBar'
+import PageProgressBar from '../common/PageProgressBar'
 // Functions
 import { getCurrentReadingSession } from '../../functions/reading'
 
@@ -56,7 +56,7 @@ const Reading = ({ token, readingSessionTime }) => {
 
 							<div className='row justify-content-center'>
 								<div className='col-9'>
-									<ProgressBar book={book} />
+									<PageProgressBar book={book} />
 								</div>
 							</div>
 						</div>
