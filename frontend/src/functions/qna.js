@@ -14,11 +14,11 @@ const getAllQna = () => {
 			}
 			return res.json()
 		})
-		.then((qna) => {
-			return qna
+		.then((qnaList) => {
+			return qnaList
 		})
 		.catch(() => {
-			return null
+			return []
 		})
 }
 
@@ -41,6 +41,9 @@ const getMyQna = () => {
 		})
 		.then((userQnaList) => {
 			return userQnaList
+		})
+		.catch(() => {
+			return []
 		})
 }
 
