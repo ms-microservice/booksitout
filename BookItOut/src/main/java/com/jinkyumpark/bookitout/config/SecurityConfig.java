@@ -1,8 +1,7 @@
-package com.jinkyumpark.bookitout.security;
+package com.jinkyumpark.bookitout.config;
 
-import com.jinkyumpark.bookitout.security.jwt.JwtConfig;
-import com.jinkyumpark.bookitout.security.jwt.JwtTokenCheckFilter;
-import com.jinkyumpark.bookitout.security.jwt.JwtLoginFilter;
+import com.jinkyumpark.bookitout.security.filters.JwtTokenFilter;
+import com.jinkyumpark.bookitout.security.filters.JwtLoginFilter;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -25,7 +24,7 @@ import javax.crypto.SecretKey;
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
     private final AppUserService appUserService;
     private final SecretKey secretKey;
@@ -39,11 +38,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 
                 .and()
-                .cors().configurationSource(corsConfigurationSource())
+                .cors()
+//                .configurationSource(corsConfigurationSource())
                 .and()
 
                 .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, secretKey))
-                .addFilterAfter(new JwtTokenCheckFilter(secretKey, jwtConfig), JwtLoginFilter.class)
+                .addFilterAfter(new JwtTokenFilter(secretKey, jwtConfig), JwtLoginFilter.class)
 
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
