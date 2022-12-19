@@ -4,6 +4,33 @@ import toast from 'react-hot-toast'
 const join = (e, navigate, email, emailVerification, password, name) => {
 	e.preventDefault()
 
+	if (email === '') {
+		toast.error('아이디로 사용하실 이메일을 입력해 주세요')
+		return
+	}
+
+	if (!email.includes('@')) {
+		toast.error('올바른 이메일 형식이 아니에요')
+		return
+	}
+
+	if (name === '') {
+		toast.error('이름을 입력해 주세요')
+		return
+	}
+
+	if (password === '') {
+		toast.error('비밀번호를 입력해 주세요')
+		return
+	}
+
+	if (password.length < 6) {
+		toast.error('6자리 이상의 비밀번호를 입력해 주세요')
+		return
+	}
+
+	toast.loading('가입하고 있어요')
+
 	fetch(JOIN_API_URL, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },

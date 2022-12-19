@@ -71,7 +71,6 @@ const InputWithLabel = ({ type, displayLabel, placeholder, setInputVariable, dis
 						class='form-control'
 						placeholder={placeholder}
 						onChange={(e) => setInputVariable(e.target.value)}
-						required
 						disabled={disabled}
 					/>
 				</div>
