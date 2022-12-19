@@ -1,10 +1,10 @@
 import React from 'react'
 // Book Info
-import CategoryInfo from './book-info/CategoryInfo'
-import LanguageInfo from './book-info/LanguageInfo'
-import FormInfo from './book-info/FormInfo'
+import BookInfoIcon from './book-info/BookInfoIcon'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
+import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from './book-info/bookInfoEnum'
+import PageProgressBar from '../common/PageProgressBar'
 
 const HorizontalBookView = ({
 	book,
@@ -22,8 +22,8 @@ const HorizontalBookView = ({
 	const bookInfoStyle = 'col-4 col-md-4 mb-2'
 
 	return (
-		<div className='row row-eq-height mt-3'>
-			<div className='col-4 align-self-center'>
+		<div className='row row-eq-height justify-content-center mt-3'>
+			<div className='mb-4 col-8 col-lg-4 align-self-center'>
 				<img
 					className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
 					src={book.cover === '' ? defaultBookCover : book.cover}
@@ -31,7 +31,7 @@ const HorizontalBookView = ({
 				/>
 			</div>
 
-			<div className='col-8'>
+			<div className='col-12 col-lg-8'>
 				<h4>{book.title}</h4>
 				<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
 				<PageProgressBar book={book} />
