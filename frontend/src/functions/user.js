@@ -40,15 +40,22 @@ const join = (e, navigate, email, emailVerification, password, name) => {
 			name: name,
 		}),
 	})
-		.then((res) => res.json())
-		.then((data) => {
-			toast.success(data.message)
-
-			if (data.status.toString().startsWith(2)) {
-				navigate('/login')
+		.then((res) => {
+			if (!res.status.toString().startsWith(2)) {
+				throw new Error()
 			}
+
+			return res.json()
 		})
-		.catch((err) => toast.error(err))
+		.then(() => {
+			toast.dismiss()
+			toast.success(`책-it-out에 오신걸 환영해요, ${name}님!`)
+			navigate('/login')
+		})
+		.catch(() => {
+			toast.dismiss()
+			toast.error('이미 있는 이메일이거나 오류가 났어요')
+		})
 }
 
 const login = (e, navigate, setToken, email, password, stayLogin) => {
