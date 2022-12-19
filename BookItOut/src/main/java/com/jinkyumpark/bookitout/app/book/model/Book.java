@@ -79,7 +79,7 @@ public class Book {
     @Column(name = "author", nullable = false)
     private String author;
 
-    @Column(name = "isGiveUp", columnDefinition = "tinyint(1) default 0")
+    @Column(name = "isGiveUp")
     @Convert(converter = BooleanTo01Converter.class)
     private Boolean isGiveUp;
 
