@@ -46,8 +46,12 @@ function App() {
 	})
 
 	useEffect(() => {
-		if (token === '') {
+		if (token === '' || token == null) {
 			!REDIRECT_EXCLUDE_URL.some((url) => location.pathname.includes(url)) && navigate('/login')
+		} else {
+			if (location.pathname.startsWith('/login') || location.pathname.startsWith('/join')) {
+				navigate('/')
+			}
 		}
 	}, [location.pathname])
 
