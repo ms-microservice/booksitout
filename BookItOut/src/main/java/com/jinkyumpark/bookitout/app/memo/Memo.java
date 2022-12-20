@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.app.memo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import lombok.Getter;
 import lombok.Setter;
@@ -25,6 +26,7 @@ public class Memo {
     @Column(name = "content", nullable = false)
     private String content;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", foreignKey = @ForeignKey(name = "memo_book_fk"))
     private Book book;

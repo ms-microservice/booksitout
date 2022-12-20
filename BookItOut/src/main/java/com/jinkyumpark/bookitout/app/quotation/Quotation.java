@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.app.quotation;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +29,7 @@ public class Quotation {
     @Column(name = "from_who")
     private String from_who;
 
+    @JsonIgnore
     @ManyToOne
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", foreignKey = @ForeignKey(name = "quotation_book_fk"))
     private Book book;
