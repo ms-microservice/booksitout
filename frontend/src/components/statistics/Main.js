@@ -17,9 +17,16 @@ import { getGoal } from '../../functions/goal'
 import { INITIAL_FETCH_TIME } from '../../settings/settings'
 
 const Main = () => {
+	const getDateDifferenceInDays = (date1, date2) => {
+		const differenceInTime = Math.abs(date2 - date1)
+		const differenceInDays = differenceInTime / (1000 * 60 * 60 * 24)
+
+		return differenceInDays
+	}
+
 	const [isLoading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
-	const [showAlert, setShowAlert] = useState(true)
+	const [showAlert, setShowAlert] = useState(getDateDifferenceInDays(new Date(), new Date(localStorage.getItem('main-alert'))) < 1 ? false : true)
 
 	const [lastBook, setLastBook] = useState(null)
 	const [readTime, setReadTime] = useState(null)
@@ -49,6 +56,7 @@ const Main = () => {
 			title: '최근 2주간 독서시간',
 			element: readTime != null && <DateLineChart startDate={new Date().setDate(new Date().getDate() - 14)} data={readTime} />,
 			data: readTime,
+			error: <Error message='오류가 났어요' />,
 			message: '오류가 났어요',
 			url: '/statistics',
 		},
@@ -86,6 +94,11 @@ const Main = () => {
 		})
 	}, [])
 
+	const closeAlert = () => {
+		setShowAlert(false)
+		localStorage.setItem('main-alert', new Date())
+	}
+
 	return (
 		<div className='container'>
 			{initialFetch ? (
@@ -96,7 +109,7 @@ const Main = () => {
 				<div className='row row-eq-height'>
 					<div className='container'>
 						{showAlert && (
-							<Alert variant='success' dismissible onClose={() => setShowAlert(false)}>
+							<Alert variant='success' dismissible onClose={() => closeAlert()}>
 								{`어서오세요, ${localStorage.getItem('user-name')}님! 오늘도 마음의 양식을 섭취하러 오셨군요 😉`}
 							</Alert>
 						)}
