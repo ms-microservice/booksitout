@@ -68,7 +68,7 @@ const Topnav = ({ token, setToken }) => {
 					<Nav className={`d-inline d-${expand}-none text-center`}>
 						<Nav.Link href='/login'>
 							<div className='row justify-content-center'>
-								<div className='col-3  col-md-2'>
+								<div className='col-4 col-md-2'>
 									<div className='row'>
 										<div className='col-4'>
 											<LoginIcon className='me-2 ' />
@@ -89,7 +89,7 @@ const Topnav = ({ token, setToken }) => {
 						{(token === '' || token == null) && (
 							<Nav.Link href='/join'>
 								<div className='row justify-content-center'>
-									<div className='col-3  col-md-2'>
+									<div className='col-4  col-md-2'>
 										<div className='row'>
 											<div className='col-4'>
 												<JoinIcon className='me-2 ' />
