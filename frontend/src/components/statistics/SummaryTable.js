@@ -36,7 +36,7 @@ const SummaryTable = ({ statistics }) => {
 		{
 			id: 2,
 			icon: longestDayIcon,
-			name: '책을 가장 많이 읽은 날',
+			name: '가장 많이 읽은 날',
 			value: `${statistics.dayStatistics.mostReadTime != null && statistics.dayStatistics.mostReadTime}분`,
 		},
 		{
