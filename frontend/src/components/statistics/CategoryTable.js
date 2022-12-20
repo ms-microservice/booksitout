@@ -22,7 +22,7 @@ const CategoryTable = ({ categoryData }) => {
 						{categoryData.map((category) => {
 							return (
 								<tr>
-									<td className='col-1'>
+									<td className='col-2 col-md-1'>
 										<img src={getCategoryIcon(category.category)} alt='' className='img-fluid' style={{ width: '30px' }} />
 									</td>
 									<td className='col-3'>
