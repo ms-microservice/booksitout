@@ -14,7 +14,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.appUser.appUserId = ?1")
     List<Book> findAllBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0")
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0 and not b.isGiveUp = true")
     List<Book> findAllNotStartedBooks(Long appUserId, Pageable pageRequest);
 
     @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage")
