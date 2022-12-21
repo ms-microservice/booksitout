@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
 import ImageSearchModal from './ImageSearchModal'
@@ -28,7 +29,7 @@ const BookAddForm = ({ token }) => {
 		if (title !== '') {
 			setShowModal(true)
 		} else {
-			alert('표지를 검색하기 위해 책 제목을 입력해 주세요')
+			toast.error('표지를 검색하기 위해 책 제목을 입력해 주세요')
 		}
 	}
 
@@ -67,7 +68,7 @@ const BookAddForm = ({ token }) => {
 						</Form.Group>
 
 						<div className='row'>
-							<div className='col-4'>
+							<div className='col-6 col-md-4'>
 								<Form.Group className='mb-3' onChange={(e) => setLanguage(e.target.value)}>
 									<Form.Label>책 언어</Form.Label>
 									<Form.Select>
@@ -82,7 +83,7 @@ const BookAddForm = ({ token }) => {
 								</Form.Group>
 							</div>
 
-							<div className='col-4'>
+							<div className='col-6 col-md-4'>
 								<Form.Group>
 									<Form.Label>장르</Form.Label>
 									<Form.Select onChange={(e) => setCategory(e.target.value)}>
@@ -104,27 +105,25 @@ const BookAddForm = ({ token }) => {
 								</Form.Group>
 							</div>
 
-							<div className='col-4'>
+							<div className='col-6 col-md-4'>
 								<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
 									<Form.Label>총 페이지 수</Form.Label>
 									<Form.Control type='number' placeholder={PAGE_MESSAGE} required />
 								</Form.Group>
 							</div>
-						</div>
 
-						<div className='row mt-5'>
 							<div className='col-6'>
 								<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
 									<Form.Label>책 형태</Form.Label>
 									<Form.Select>
-										<option value='PHYSICAL'>종이책</option>
-										<option value='EBOOK'>전자책</option>
-										<option value='AUDIO'>오디오북</option>
+										<option value='PHYSICAL'>📄 종이책</option>
+										<option value='EBOOK'>🔋 전자책</option>
+										<option value='AUDIO'>🎧 오디오북</option>
 									</Form.Select>
 								</Form.Group>
 							</div>
 
-							<div className='col-6'>
+							<div className='col-12 col-md-6'>
 								<Form.Group className='mb-3' onChange={(e) => setSource(e.target.value)}>
 									<Form.Label>책은 어디서 얻었나요?</Form.Label>
 									<Form.Select>
@@ -155,10 +154,12 @@ const BookAddForm = ({ token }) => {
 							/>
 						</Form.Group>
 
-						<div className='row justify-content-center mt-5 container'>
-							<Button variant='success' type='submit'>
-								등록하기
-							</Button>
+						<div className='row justify-content-center mt-5'>
+							<div className='col-12'>
+								<Button variant='success' type='submit' className='w-100'>
+									등록하기
+								</Button>
+							</div>
 						</div>
 					</div>
 				</div>
