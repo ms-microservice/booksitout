@@ -1,5 +1,5 @@
 import React from 'react'
-import { Card } from 'react-bootstrap'
+import { Card, Button } from 'react-bootstrap'
 import parse from 'html-react-parser'
 // Images
 import startIcon from '../../resources/images/introduction/start.png'
@@ -49,19 +49,23 @@ const Introduction = () => {
 
 	return (
 		<div className='container'>
-			<h1 className='text-center'>책에 관한 모든 것, 📗-it-out!</h1>
+			<h1 className='text-center'>책에 관한 모든 것, 📗 책-it-out!</h1>
 
-			<div className='row mt-4 mb-5 justify-content-center'>
-				<div className='col-6 mb-5'>
+			<div className='row justify-content-center mt-4 mb-5'>
+				<div className='col-12 col-md-6 mb-5'>
 					<div className='row'>
 						<div className='col-6'>
-							<a className='btn btn-success w-100' href='/login'>
-								로그인
+							<a href='/login' className='w-100'>
+								<Button variant='success' className='w-100'>
+									로그인
+								</Button>
 							</a>
 						</div>
 						<div className='col-6'>
-							<a className='btn btn-danger w-100' href='/join'>
-								회원가입
+							<a className='w-100' href='/join'>
+								<Button variant='danger' className='w-100'>
+									회원가입
+								</Button>
 							</a>
 						</div>
 					</div>
