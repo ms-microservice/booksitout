@@ -43,7 +43,7 @@ const SummaryTable = ({ statistics }) => {
 			id: 2,
 			icon: pageIcon,
 			name: '총 읽은 페이지 수',
-			value: `${statistics.yearStatistics.totalReadPage != null && statistics.yearStatistics.totalReadPage} 페이지`,
+			value: `${statistics.yearStatistics.totalReadPage != null && statistics.yearStatistics.totalReadPage} P`,
 		},
 	]
 
