@@ -17,7 +17,7 @@ const PageProgressBar = ({ book }) => {
 				</div>
 			</div>
 
-			<div className='col-4 col-md-3 align-middle'>
+			<div className='col-4 col-md-3 text-end'>
 				<span className='align-middle'>{`${book.currentPage == null ? 0 : book.currentPage} / ${book.endPage}`}</span>
 			</div>
 		</div>
