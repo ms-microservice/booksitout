@@ -218,7 +218,7 @@ const MemoList = ({ memoList }) => {
 		<div className='row row-eq-height'>
 			{memoList.map((memo) => {
 				return (
-					<div className='col-12 col-lg-6 mb-2'>
+					<div className='col-12 mb-2'>
 						<Card style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
 							<Card.Body>
 								<div className='row'>
@@ -246,11 +246,11 @@ const QuotationList = ({ quotationList }) => {
 					<Card className='mb-2'>
 						<Card.Body>
 							<div className='row'>
-								<div className='col-2'>{quotation.page}</div>
-								<div className='col-7 text-start'>{quotation.content}</div>
-								<div className='col-3'>{quotation.from_who}</div>
+								<div className='col-3 col-md-2'>{quotation.page} P</div>
+								<div className='col-9 col-md-10 text-start'>{quotation.content}</div>
 							</div>
 						</Card.Body>
+						<Card.Footer>{quotation.from_who}</Card.Footer>
 					</Card>
 				)
 			})}
