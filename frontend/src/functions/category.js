@@ -12,8 +12,8 @@ import othersIcon from '../resources/images/common/others.png'
 const categoryKoreanDisplayNameMap = new Map([
 	['PHILOSOPHY', '철학'],
 	['RELIGION', '종교'],
-	['SOCIAL_SCIENCE', '사회과학'],
-	['NATURAL_SCIENCE', '자연과학'],
+	['SOCIAL_SCIENCE', '사회'],
+	['NATURAL_SCIENCE', '과학'],
 	['TECHNOLOGY', '기술'],
 	['ART', '예술'],
 	['LANGUAGE', '언어'],
