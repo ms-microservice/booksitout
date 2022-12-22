@@ -59,11 +59,15 @@ const BookDetail = ({ token }) => {
 			) : (
 				<div className='row text-center'>
 					<div className='col-12 col-md-4 mb-5'>
-						<img
-							src={book.cover == '' ? defaultBookCover : book.cover}
-							alt=''
-							className={`img-fluid rounded  ${book.cover != '' && 'border'}`}
-						/>
+						<div className='row justify-content-center'>
+							<div className='col-8'>
+								<img
+									src={book.cover == '' ? defaultBookCover : book.cover}
+									alt=''
+									className={`img-fluid rounded  ${book.cover != '' && 'border'}`}
+								/>
+							</div>
+						</div>
 
 						<div className='row mt-3'>
 							<div className='col-6'>
