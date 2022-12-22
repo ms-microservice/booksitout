@@ -34,7 +34,7 @@ const Reading = ({ token, readingSessionTime }) => {
 	}
 
 	return (
-		<div className='container'>
+		<div className='container' style={{ marginBottom: '100px' }}>
 			<EndReadingSessionModal
 				isShowingModal={isShowingModal}
 				setIsShowingModal={setIsShowingModal}

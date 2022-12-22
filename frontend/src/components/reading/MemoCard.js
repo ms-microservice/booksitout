@@ -53,8 +53,8 @@ const MemoCard = ({ bookId, currentPage }) => {
 
 			<Card.Footer>
 				<Form onSubmit={addMemoFunction}>
-					<div className='row'>
-						<div className='col-3 col-md-2'>
+					<div className='row justify-content-end'>
+						<div className='col-3 col-sm-2'>
 							<Form.Control
 								type='text'
 								placeholder='Page'
@@ -65,7 +65,7 @@ const MemoCard = ({ bookId, currentPage }) => {
 							/>
 						</div>
 
-						<div className='col-7 col-md-8'>
+						<div className='col-9 col-sm-8'>
 							<Form.Control
 								type='text'
 								placeholder={`메모를 입력해 주세요`}
@@ -75,7 +75,7 @@ const MemoCard = ({ bookId, currentPage }) => {
 							/>
 						</div>
 
-						<div className='col-2'>
+						<div className='col-4 col-sm-2 mt-2 mt-sm-0'>
 							<Button type='submit' variant='success' className='w-100 h-100'>
 								등록
 							</Button>

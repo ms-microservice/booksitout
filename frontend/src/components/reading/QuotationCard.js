@@ -66,7 +66,7 @@ const QuotationCard = ({ bookId, currentPage }) => {
 			<Card.Footer>
 				<Form onSubmit={(e) => handleAdd(e)}>
 					<div className='row'>
-						<div className='col-3 col-md-2'>
+						<div className='col-3 col-sm-2'>
 							<Form.Control
 								type='text'
 								placeholder='Page'
@@ -77,7 +77,7 @@ const QuotationCard = ({ bookId, currentPage }) => {
 							/>
 						</div>
 
-						<div className='col-4 col-md-5'>
+						<div className='col-9 col-sm-5'>
 							<Form.Control
 								type='text'
 								placeholder={`인용을 입력해 주세요`}
@@ -87,11 +87,11 @@ const QuotationCard = ({ bookId, currentPage }) => {
 							/>
 						</div>
 
-						<div className='col-3 col-md-3'>
+						<div className='col-8 col-sm-3 mt-2 mt-sm-0'>
 							<Form.Control type='text' placeholder='누가 말했나요?' onChange={(e) => setFromWho(e.target.value)} value={fromWho} />
 						</div>
 
-						<div className='col-2'>
+						<div className='col-4 col-sm-2 mt-2 mt-sm-0'>
 							<Button type='submit' variant='success' className='w-100 h-100'>
 								등록
 							</Button>
