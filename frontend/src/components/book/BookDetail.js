@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Components
 import Error from '../common/Error'
 import Loading from '../common/Loading'
@@ -11,7 +12,7 @@ import AddButton from '../common/AddButton'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
-import { deleteBook, getBook, giveUpBook } from '../../functions/book'
+import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../functions/book'
 // Urls
 import { getMemo } from '../../functions/memo'
 import { getQuotation } from '../../functions/quotation'
@@ -73,7 +74,7 @@ const BookDetail = ({ token }) => {
 
 						<div className='row mt-3'>
 							<div className='col-6'>
-								<Button variant='warning' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
+								<Button variant='danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
 									수정하기
 								</Button>
 							</div>
@@ -84,7 +85,9 @@ const BookDetail = ({ token }) => {
 								</Button>
 							</div>
 
-							{book.currentPage < book.endPage && (
+							{book.currentPage === book.endPage ? (
+								<></>
+							) : book.currentPage < book.endPage && !book.isGiveUp ? (
 								<>
 									<div className='col-12 mt-3'>
 										<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
@@ -93,8 +96,41 @@ const BookDetail = ({ token }) => {
 									</div>
 
 									<div className='col-12 mt-3'>
-										<Button variant='warning' className='w-100' onClick={() => giveUpBook(id, token, navigate)}>
+										<Button
+											variant='danger'
+											className='w-100'
+											onClick={() => {
+												const confirm = window.confirm('책을 포기할까요?')
+
+												if (confirm) {
+													giveUpBook(id, token, navigate)
+												}
+											}}>
 											포기하기
+										</Button>
+									</div>
+								</>
+							) : (
+								<>
+									<div className='col-12 mt-3'>
+										<Button
+											variant='success'
+											className='w-100'
+											onClick={() => {
+												const confirm = window.confirm('책을 다시 읽을까요?')
+
+												if (confirm) {
+													unGiveUpBook(id).then((success) => {
+														if (success) {
+															toast.success('책을 다시 읽을 수 있어요')
+															navigate('/book/not-done')
+														} else {
+															toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+														}
+													})
+												}
+											}}>
+											다시 읽기 (포기 취소)
 										</Button>
 									</div>
 								</>

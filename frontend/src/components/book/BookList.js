@@ -72,7 +72,7 @@ const BookList = (props) => {
 												<HorizontalBookView
 													book={book}
 													firstButton={
-														<Button variant='warning' className='w-100'>
+														<Button variant='success' className='w-100'>
 															다시 읽기
 														</Button>
 													}

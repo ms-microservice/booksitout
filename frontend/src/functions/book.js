@@ -148,6 +148,24 @@ const giveUpBook = (bookId, token, navigate) => {
 	})
 }
 
+const unGiveUpBook = (bookId) => {
+	const token = getToken()
+	const UN_GIVEUP_BOOK_API_URL = `${API_BASE_URL}/v1/book/un-give-up/${bookId}`
+
+	return fetch(UN_GIVEUP_BOOK_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token },
+	}).then((res) => {
+		const status = res.status.toString()
+
+		if (status.startsWith(2)) {
+			return true
+		} else {
+			return false
+		}
+	})
+}
+
 const deleteBook = (bookId, token, navigate) => {
 	const confirmation = window.confirm('정말 책을 삭제할까요?')
 
@@ -166,4 +184,4 @@ const deleteBook = (bookId, token, navigate) => {
 	}
 }
 
-export { giveUpBook, getLastBook, getBookList, addBook, deleteBook, getBook, editBook }
+export { giveUpBook, getLastBook, getBookList, addBook, deleteBook, getBook, editBook, unGiveUpBook }
