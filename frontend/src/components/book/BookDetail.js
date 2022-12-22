@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, Button } from 'react-bootstrap'
+import { Card, Button, ProgressBar } from 'react-bootstrap'
 // Components
 import BookInfoIcon from './book-info/BookInfoIcon'
 import PageProgressBar from '../common/PageProgressBar'
@@ -17,6 +17,7 @@ import { getMemo } from '../../functions/memo'
 import { getQuotation } from '../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../functions/reading'
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from './book-info/bookInfoEnum'
+import AddButton from '../common/AddButton'
 
 const BookDetail = ({ token }) => {
 	const { id } = useParams()
@@ -216,14 +217,22 @@ const ReadingSessionList = ({ readingSessionList }) => {
 					<div className='col-12 col-lg-6'>
 						<Card className='mb-2'>
 							<Card.Body>
-								<div className='row'>
-									<div className='col-5'>22년 11월 5일</div>
+								<div className='row justify-content-center'>
+									<div className='col-8 col-md-6'>🗓️ 22년 11월 5일</div>
 
-									<div className='col-4'>
-										{readingSession.startPage}p ~ {readingSession.endPage}p
+									<div className='col-4 col-md-6'>⏰ {readingSession.readTime}분</div>
+
+									<div className='col-6 mt-3'>
+										📃 {readingSession.startPage}p - {readingSession.endPage}p
 									</div>
 
-									<div className='col-3'>{readingSession.readTime}분</div>
+									<ProgressBar className='p-0'>
+										<ProgressBar
+											style={{ backgroundColor: 'rgb(234, 236, 239)' }}
+											now={(readingSession.startPage / readingSession.book.endPage) * 100}
+										/>
+										<ProgressBar now={(readingSession.endPage / readingSession.book.endPage) * 100} />
+									</ProgressBar>
 								</div>
 							</Card.Body>
 						</Card>
