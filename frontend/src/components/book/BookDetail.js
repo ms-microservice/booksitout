@@ -218,7 +218,14 @@ const ReadingSessionList = ({ readingSessionList }) => {
 						<Card className='mb-2'>
 							<Card.Body>
 								<div className='row justify-content-center'>
-									<div className='col-8 col-md-6'>🗓️ 22년 11월 5일</div>
+									<div className='col-8 col-md-6'>
+										🗓️{' '}
+										{readingSession.startTime
+											.substring(2, readingSession.startTime.indexOf('T'))
+											.replace('-', '년 ')
+											.replace('-', '월 ')
+											.concat('일')}
+									</div>
 
 									<div className='col-4 col-md-6'>⏰ {readingSession.readTime}분</div>
 
