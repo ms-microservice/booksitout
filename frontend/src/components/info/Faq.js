@@ -29,7 +29,7 @@ const Faq = () => {
 	]
 
 	return (
-		<div className='container mt-5'>
+		<div className='container mt-5 mb-5'>
 			<h3>자주 묻는 질문</h3>
 
 			{faqList.map((faq) => {
