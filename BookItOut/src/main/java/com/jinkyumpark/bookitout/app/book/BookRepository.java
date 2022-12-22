@@ -14,16 +14,16 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.appUser.appUserId = ?1")
     List<Book> findAllBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0 and not b.isGiveUp = true")
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0 and b.isGiveUp = false")
     List<Book> findAllNotStartedBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage")
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage and b.isGiveUp = false")
     List<Book> findAllStartedBooks(Long appUserId, Pageable pageRequest);
 
     @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.currentPage = b.endPage")
     List<Book> findAllDoneBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and not b.currentPage = b.endPage")
+    @Query("select b from Book b where b.appUser.appUserId = :appUserId and not b.currentPage = b.endPage and b.isGiveUp = false")
     List<Book> findAllNotDoneBooks(Long appUserId, Pageable pageRequest);
 
     @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage")
