@@ -10,15 +10,17 @@ const Settings = () => {
 						<Card.Body className='text-center'>
 							<h3 className='mb-4'>개인 정보 수정</h3>
 							<div className='row'>
-								<div className='col-4'>
+								<div className='col-12 col-md-4 mt-2'>
 									<Button variant='danger' className='w-100'>
 										이메일 변경
 									</Button>
 								</div>
-								<div className='col-4'>
+
+								<div className='col-12 col-md-4 mt-2'>
 									<Button className='w-100'>비밀번호 변경</Button>
 								</div>
-								<div className='col-4'>
+
+								<div className='col-12 col-md-4 mt-2'>
 									<Button className='w-100'>이름 변경</Button>
 								</div>
 							</div>
