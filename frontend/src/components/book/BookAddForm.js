@@ -34,7 +34,7 @@ const BookAddForm = ({ token }) => {
 	}
 
 	return (
-		<div className='container'>
+		<div className='container mb-5'>
 			<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
 
 			<Form onSubmit={(e) => addBook(e, token, navigate, title, author, cover, language, endPage, category, form, source, isSharing)}>
