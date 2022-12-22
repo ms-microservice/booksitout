@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
 // Components
-import BookInfoIcon from './book-info/BookInfoIcon'
-import PageProgressBar from '../common/PageProgressBar'
-// Components (Common)
 import Error from '../common/Error'
 import Loading from '../common/Loading'
 import NoContent from '../common/NoContent'
+import BookInfoIcon from './book-info/BookInfoIcon'
+import PageProgressBar from '../common/PageProgressBar'
+import AddButton from '../common/AddButton'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
@@ -16,8 +16,9 @@ import { deleteBook, getBook, giveUpBook } from '../../functions/book'
 import { getMemo } from '../../functions/memo'
 import { getQuotation } from '../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../functions/reading'
+// Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from './book-info/bookInfoEnum'
-import AddButton from '../common/AddButton'
+import { MEMO_BACKGROUND_COLOR } from '../../settings/color'
 
 const BookDetail = ({ token }) => {
 	const { id } = useParams()
@@ -170,7 +171,7 @@ const MemoList = ({ memoList }) => {
 			{memoList.map((memo) => {
 				return (
 					<div className='col-12 col-lg-6 mb-2'>
-						<Card>
+						<Card style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
 							<Card.Body>
 								<div className='row'>
 									<div className='col-2'>

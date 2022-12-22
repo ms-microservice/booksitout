@@ -1,0 +1,3 @@
+const MEMO_BACKGROUND_COLOR = `rgb(248, 188, 48)`
+
+export { MEMO_BACKGROUND_COLOR }
