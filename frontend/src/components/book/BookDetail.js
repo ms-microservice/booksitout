@@ -153,22 +153,34 @@ const BookDetail = ({ token }) => {
 						<div className='row justify-content-center'>
 							<div className='col-6 col-xl-2 mb-2'>
 								<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
-									<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
+									<BookInfoIcon
+										infoType={LANGUAGE_INFO}
+										infoData={book.language}
+										responsiveImageStyle='col-6 col-md-8 align-self-center'
+									/>
 								</a>
 							</div>
 							<div className='col-6 col-xl-2 mb-2'>
 								<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
-									<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
+									<BookInfoIcon
+										infoType={CATEGORY_INFO}
+										infoData={book.category}
+										responsiveImageStyle='col-6 col-md-8 align-self-center'
+									/>
 								</a>
 							</div>
 							<div className='col-6 col-xl-2 mb-2'>
 								<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
-									<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
+									<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle='col-6 col-md-8 align-self-center' />
 								</a>
 							</div>
 							<div className='col-6 col-xl-2 mb-2'>
 								<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
-									<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} />
+									<BookInfoIcon
+										infoType={SOURCE_INFO}
+										infoData={book.source}
+										responsiveImageStyle='col-6 col-md-8 align-self-center'
+									/>
 								</a>
 							</div>
 						</div>
