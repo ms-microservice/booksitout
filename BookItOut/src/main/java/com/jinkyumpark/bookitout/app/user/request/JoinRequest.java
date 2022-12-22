@@ -1,13 +1,15 @@
 package com.jinkyumpark.bookitout.app.user.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.Email;
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+@NoArgsConstructor @AllArgsConstructor
 @Getter
 public class JoinRequest {
     @NotNull
@@ -23,4 +25,7 @@ public class JoinRequest {
     @NotNull
     @NotBlank(message = "이름을 입력해 주세요")
     private String name;
+
+    @NotNull
+    private Integer code;
 }

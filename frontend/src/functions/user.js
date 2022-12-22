@@ -1,7 +1,33 @@
-import { JOIN_API_URL, LOGIN_API_URL } from '../url/apiUrl'
+import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../url/apiUrl'
 import toast from 'react-hot-toast'
 
-const join = (e, navigate, email, emailVerification, password, name) => {
+const verifyEmail = (email) => {
+	const EMAIL_VERIFICATION_API_URL = `${API_BASE_URL}/v1/join/email-verification/${email}`
+
+	toast.loading('잠시만 기다려 주세요')
+
+	return fetch(EMAIL_VERIFICATION_API_URL, {
+		method: 'POST',
+	}).then((res) => {
+		const status = res.status.toString()
+		toast.dismiss()
+
+		if (status == 409) {
+			toast.error('이미 가입된 이메일이에요')
+			return false
+		} else if (status == 200) {
+			toast.success('인증번호를 보냈어요. 메일을 확인해 주세요')
+			return true
+		} else if (status == 202) {
+			toast.success('가입중인 이메일이에요. 이미 보낸 인증번호를 입력해 주세요')
+			return true
+		} else {
+			return false
+		}
+	})
+}
+
+const join = (e, navigate, email, emailVerificationCode, password, name) => {
 	e.preventDefault()
 
 	if (email === '') {
@@ -20,7 +46,7 @@ const join = (e, navigate, email, emailVerification, password, name) => {
 		return
 	}
 
-	if (emailVerification == '') {
+	if (emailVerificationCode == '') {
 		toast.error('이메일 인증을 진행해 주세요')
 		return
 	}
@@ -47,13 +73,15 @@ const join = (e, navigate, email, emailVerification, password, name) => {
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
 			email: email,
+			code: emailVerificationCode,
 			password: password,
 			name: name,
 		}),
 	})
 		.then((res) => {
-			if (!res.status.toString().startsWith(2)) {
-				throw new Error()
+			const status = res.status.toString()
+			if (!status.startsWith(2)) {
+				throw new Error(status)
 			}
 
 			return res.json()
@@ -63,9 +91,17 @@ const join = (e, navigate, email, emailVerification, password, name) => {
 			toast.success(`책-it-out에 오신걸 환영해요, ${name}님!`)
 			navigate('/login')
 		})
-		.catch(() => {
+		.catch((err) => {
+			const status = err.toString()
 			toast.dismiss()
-			toast.error('이미 있는 이메일이거나 오류가 났어요')
+
+			if (status.includes('400')) {
+				toast.error('이메일 인증번호가 일치하지 않아요. 다시 확인해 주세요')
+			} else if (status.includes('412')) {
+				toast.error('이메일 인증을 진행해 주세요')
+			} else {
+				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+			}
 		})
 }
 
@@ -147,4 +183,4 @@ const getIsLoggedIn = () => {
 	return !(token == null || token == '' || typeof token == 'undefined')
 }
 
-export { join, login, logout, getToken, getIsLoggedIn }
+export { join, login, logout, getToken, getIsLoggedIn, verifyEmail }
