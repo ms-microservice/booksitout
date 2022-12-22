@@ -14,7 +14,7 @@ const CategoryTable = ({ categoryData }) => {
 							<th></th>
 							<th>장르</th>
 							<th>다 읽은 책</th>
-							<th>아직 못 읽은 책</th>
+							<th>읽는 중</th>
 						</tr>
 					</thead>
 

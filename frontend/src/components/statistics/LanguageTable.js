@@ -15,7 +15,7 @@ const LanguageTable = ({ languageData }) => {
 							<th></th>
 							<th>언어</th>
 							<th>다 읽은 책</th>
-							<th>아직 못 읽은 책</th>
+							<th>읽는 중</th>
 						</tr>
 					</thead>
 
