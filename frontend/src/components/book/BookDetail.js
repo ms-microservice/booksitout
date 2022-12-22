@@ -2,10 +2,8 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button } from 'react-bootstrap'
 // Components
-import LanguageInfo from './book-info/LanguageInfo'
-import CategoryInfo from './book-info/CategoryInfo'
-import SourceInfo from './book-info/SourceInfo'
-import FormInfo from './book-info/FormInfo'
+import BookInfoIcon from './book-info/BookInfoIcon'
+import PageProgressBar from '../common/PageProgressBar'
 // Components (Common)
 import Error from '../common/Error'
 import Loading from '../common/Loading'
@@ -15,10 +13,10 @@ import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
 import { deleteBook, getBook, giveUpBook } from '../../functions/book'
 // Urls
-import { API_BASE_URL } from '../../url/apiUrl'
 import { getMemo } from '../../functions/memo'
 import { getQuotation } from '../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../functions/reading'
+import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from './book-info/bookInfoEnum'
 
 const BookDetail = ({ token }) => {
 	const { id } = useParams()
@@ -113,22 +111,22 @@ const BookDetail = ({ token }) => {
 						<div className='row justify-content-center'>
 							<div className='col-3 col-xl-2'>
 								<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
-									<LanguageInfo language={book.language} />
+									<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
 								</a>
 							</div>
 							<div className='col-3 col-xl-2'>
 								<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
-									<CategoryInfo category={book.category} />
+									<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
 								</a>
 							</div>
 							<div className='col-3 col-xl-2'>
 								<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
-									<FormInfo form={book.form} />
+									<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
 								</a>
 							</div>
 							<div className='col-3 col-xl-2'>
 								<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
-									<SourceInfo source={book.source} />
+									<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} />
 								</a>
 							</div>
 						</div>
