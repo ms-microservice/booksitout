@@ -1,7 +1,12 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 
-const BookInfoIcon = ({ infoType, infoData, responsiveImageStyle = 'col-9 col-md-8', responsiveTextStyle = 'col-12 col-md-12' }) => {
+const BookInfoIcon = ({
+	infoType,
+	infoData,
+	responsiveImageStyle = 'col-4 col-md-8 align-self-center',
+	responsiveTextStyle = 'col-6 col-md-12 mt-2 mt-md-0',
+}) => {
 	return (
 		<Card>
 			<Card.Body>
