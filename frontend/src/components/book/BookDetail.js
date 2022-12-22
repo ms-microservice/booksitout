@@ -101,7 +101,7 @@ const BookDetail = ({ token }) => {
 					</div>
 
 					<div className='col-12 col-md-8 mb-5'>
-						<div className='row mb-4 mt-5'>
+						<div className='row mb-4'>
 							<h2>{book.title}</h2>
 							<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
 
