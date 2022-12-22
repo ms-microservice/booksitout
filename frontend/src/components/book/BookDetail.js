@@ -60,7 +60,7 @@ const BookDetail = ({ token }) => {
 			) : book == null ? (
 				<NoContent message='책이 없어요 다시 확인해 주세요' />
 			) : (
-				<div className='row text-center'>
+				<div className='row text-center' style={{ marginBottom: '200px' }}>
 					<div className='col-12 col-md-4 mb-5'>
 						<div className='row justify-content-center'>
 							<div className='col-8'>
