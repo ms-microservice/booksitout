@@ -54,7 +54,7 @@ public class GoalControllerV1 {
 
         Long loginUserId = AppUserService.getLoginAppUserId();
         GoalId goalId = new GoalId(loginUserId, year);
-        Goal newGoal = new Goal(goalId, goal);
+        Goal newGoal = new Goal(goalId, goal, loginUserId);
 
         goalService.addGoal(loginUserId, newGoal);
 
@@ -69,7 +69,7 @@ public class GoalControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         GoalId goalId = new GoalId(loginUserId, year);
-        Goal editedGoal = new Goal(goalId, goal);
+        Goal editedGoal = new Goal(goalId, goal, loginUserId);
 
         goalService.editGoal(editedGoal);
 

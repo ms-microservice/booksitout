@@ -28,8 +28,9 @@ public class Goal {
     @ColumnDefault("0")
     private Integer current;
 
-    public Goal(GoalId goalId, Integer goal) {
+    public Goal(GoalId goalId, Integer goal, Long appUserId) {
         this.goalId = goalId;
         this.goal = goal;
+        this.appUser = new AppUser(appUserId);
     }
 }
