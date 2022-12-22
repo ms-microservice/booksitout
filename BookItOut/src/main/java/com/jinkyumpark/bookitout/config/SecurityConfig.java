@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .and()
                 .cors()
-//                .configurationSource(corsConfigurationSource())
+                .configurationSource(corsConfigurationSource())
                 .and()
 
                 .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, secretKey))
@@ -47,7 +47,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/login", "/**/join", "/**/login", "/**/qna/**").permitAll()
+                .antMatchers("/login", "/**/join/**", "/**/login", "/**/qna/**").permitAll()
 
                 .anyRequest()
                 .authenticated();
