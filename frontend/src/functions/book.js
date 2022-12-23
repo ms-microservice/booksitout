@@ -200,4 +200,36 @@ const addRating = (bookId, rating) => {
 	})
 }
 
-export { giveUpBook, getLastBook, getBookList, addBook, deleteBook, getBook, editBook, unGiveUpBook, addRating }
+const addReview = (bookId, review) => {
+	const token = getToken()
+	const ADD_REVIEW_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
+
+	return fetch(ADD_REVIEW_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			review: review,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+const addSummary = (bookId, summary) => {
+	const token = getToken()
+	const ADD_SUMMARY_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
+
+	return fetch(ADD_SUMMARY_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			summary: summary,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+export { giveUpBook, getLastBook, getBookList, addBook, deleteBook, getBook, editBook, unGiveUpBook, addRating, addReview, addSummary }

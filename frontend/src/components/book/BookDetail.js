@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
 import toast from 'react-hot-toast'
+
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
 import Error from '../common/Error'
@@ -9,8 +10,8 @@ import Loading from '../common/Loading'
 import NoContent from '../common/NoContent'
 import BookInfoIcon from './book-info/BookInfoIcon'
 import PageProgressBar from '../common/PageProgressBar'
-import AddButton from '../common/AddButton'
-import RatingModal from './RatingModal'
+import AddRatingModal from './AddRatingModal'
+import AddSummaryModal from './AddSummaryModal'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
@@ -22,6 +23,7 @@ import { getAllReadingSessionOfBook } from '../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from './book-info/bookInfoEnum'
 import { MEMO_BACKGROUND_COLOR } from '../../settings/color'
+import AddReviewModal from './AddReviewModal'
 
 const BookDetail = ({ token }) => {
 	const { id } = useParams()
@@ -54,6 +56,8 @@ const BookDetail = ({ token }) => {
 	}, [])
 
 	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
+	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+	const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false)
 
 	return (
 		<div className='container'>
@@ -65,7 +69,9 @@ const BookDetail = ({ token }) => {
 				<NoContent message='책이 없어요 다시 확인해 주세요' />
 			) : (
 				<div className='row text-center' style={{ marginBottom: '150px' }}>
-					<RatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
+					<AddRatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
+					<AddReviewModal isModalOpen={isReviewModalOpen} setIsModalOpen={setIsReviewModalOpen} book={book} setBook={setBook} />
+					<AddSummaryModal isModalOpen={isSummaryModalOpen} setIsModalOpen={setIsSummaryModalOpen} book={book} setBook={setBook} />
 
 					<div className='col-12 col-md-4 mb-5'>
 						<div className='row justify-content-center'>
@@ -113,6 +119,26 @@ const BookDetail = ({ token }) => {
 												</div>
 											}
 										</>
+									)}
+
+									{book.review == null ? (
+										<div className='col-12 mt-3'>
+											<Button className='w-100' onClick={() => setIsReviewModalOpen(true)}>
+												감상 추가하기
+											</Button>
+										</div>
+									) : (
+										<></>
+									)}
+
+									{book.summary == null ? (
+										<div className='col-12 mt-3'>
+											<Button className='w-100' onClick={() => setIsSummaryModalOpen(true)}>
+												요약 추가하기
+											</Button>
+										</div>
+									) : (
+										<></>
 									)}
 								</>
 							) : book.currentPage < book.endPage && !book.isGiveUp ? (
@@ -213,13 +239,33 @@ const BookDetail = ({ token }) => {
 							</div>
 						</div>
 
+						{book.summary != null && (
+							<Card className='mt-2'>
+								<Card.Body>
+									<h4>✅ 요약</h4>
+
+									{book.summary}
+								</Card.Body>
+							</Card>
+						)}
+
+						{book.review != null && (
+							<Card className='mt-2'>
+								<Card.Body>
+									<h4>💬 감상</h4>
+
+									{book.review}
+								</Card.Body>
+							</Card>
+						)}
+
 						<BookRecordCard
-							displayLabel='독서활동'
+							displayLabel='🤓 독서활동'
 							record={readingSession}
 							ListComponent={<ReadingSessionList readingSessionList={readingSession} />}
 						/>
-						<BookRecordCard displayLabel='메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
-						<BookRecordCard displayLabel='인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
+						<BookRecordCard displayLabel='📋 메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
+						<BookRecordCard displayLabel='🗣️ 인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
 					</div>
 				</div>
 			)}

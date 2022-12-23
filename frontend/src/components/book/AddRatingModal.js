@@ -1,65 +1,54 @@
 import React, { useState } from 'react'
-import { Button, Modal, Form } from 'react-bootstrap'
-import { AiOutlineStar as StarIcon, AiFillStar as StarFillIcon } from 'react-icons/ai'
-
+import { Button, Modal } from 'react-bootstrap'
+import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 import toast from 'react-hot-toast'
+import { addRating } from '../../functions/book'
 
-import { addBookRating } from '../../functions/book'
-
-const AddRatingModal = ({ book, setBook, isShowingModal, setIsShowingModal }) => {
+const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 	const [rating, setRating] = useState(0)
 
-	const addRating = (e) => {
-		e.preventDefault()
-
+	const handleAddRating = () => {
 		if (rating === 0) {
-			toast.error('별점을 입력해 주세요')
-			return
+			toast.error('별점을 선택해 주세요')
 		}
 
-		const success = addBookRating(book.bookId, rating)
-		if (success) {
-			let newBook = { ...book }
-			newBook.rating = rating
-			setBook(newBook)
-
-			setIsShowingModal(false)
-		}
+		addRating(book.bookId, rating).then((success) => {
+			if (success) {
+				setBook({
+					...book,
+					rating: rating,
+				})
+				toast.success('별점을 추가했어요')
+				setIsModalOpen(false)
+			} else {
+				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+			}
+		})
 	}
 
 	return (
-		<Modal show={isShowingModal} centered fullscreen='md-down'>
-			<Modal.Header
-				closeButton
-				onHide={() => {
-					setIsShowingModal(false)
-					setRating(0)
-				}}>
-				<h3>별점 추가하기</h3>
+		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+			<Modal.Header closeButton className='text-center'>
+				<h4 className='w-100'>별점 추가하기</h4>
 			</Modal.Header>
-
 			<Modal.Body>
-				<Form onSubmit={addRating}>
-					<div className='mt-4 mt-md-0 row justify-content-center'>
-						{[1, 2, 3, 4, 5].map((starCount) => {
-							return (
-								<div className='col-2 col-md-1'>
-									<h1
-										className='text-warning'
-										onClick={() => {
-											setRating(starCount)
-										}}>
-										{starCount <= rating ? <StarFillIcon /> : <StarIcon />}
-									</h1>
-								</div>
-							)
-						})}
-					</div>
+				<div className='row justify-content-center'>
+					{[1, 2, 3, 4, 5].map((starCount) => {
+						return (
+							<div className='col-2 text-center'>
+								<h1 onClick={() => setRating(starCount)}>
+									{starCount <= rating ? <StarFillIcon className='text-warning' /> : <StarIcon />}
+								</h1>
+							</div>
+						)
+					})}
 
-					<Button type='submit' variant='warning' className='mt-5 mt-md-3 w-100'>
-						추가하기
-					</Button>
-				</Form>
+					<div className='col-12 col-md-10'>
+						<Button variant='warning' className='w-100 mt-4' onClick={() => handleAddRating()}>
+							별점 추가하기
+						</Button>
+					</div>
+				</div>
 			</Modal.Body>
 		</Modal>
 	)
