@@ -2,19 +2,13 @@ package com.jinkyumpark.bookitout.app.readingsession;
 
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.app.user.AppUser;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-
+@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 @Entity
 @Table(name = "ReadingSession")
 public class ReadingSession {
@@ -54,5 +48,16 @@ public class ReadingSession {
         this.startTime = startTime;
         this.book = book;
         this.appUser = appUser;
+    }
+
+    @Builder
+    public ReadingSession(Integer startPage, Integer endPage, LocalDateTime startTime, LocalDateTime endTime, Integer readTime, AppUser appUser, Book book) {
+        this.startPage = startPage;
+        this.endPage = endPage;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.readTime = readTime;
+        this.appUser = appUser;
+        this.book = book;
     }
 }

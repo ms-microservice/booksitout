@@ -4,6 +4,7 @@ import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.app.book.BookService;
 import com.jinkyumpark.bookitout.app.goal.Goal;
 import com.jinkyumpark.bookitout.app.goal.GoalService;
+import com.jinkyumpark.bookitout.app.readingsession.request.AddReadingSessionRequest;
 import com.jinkyumpark.bookitout.app.statistics.StatisticsService;
 import com.jinkyumpark.bookitout.app.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.exception.common.BadRequestException;
@@ -19,9 +20,12 @@ import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.transaction.Transactional;
+import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -83,7 +87,7 @@ public class ReadingSessionControllerV1 {
         return readingSessionService.getCurrentReadingSession(loginUserId);
     }
 
-    @PostMapping("{bookId}")
+    @PostMapping("{bookId}/start")
     public Book startReadingSession(@PathVariable("bookId") Long bookId) {
         Book book = bookService.getBookById(bookId);
         Long loginAppUserId = AppUserService.getLoginAppUserId();
@@ -103,6 +107,35 @@ public class ReadingSessionControllerV1 {
         readingSessionService.addReadingSession(newReadingSession);
 
         return book;
+    }
+
+    @PostMapping("{bookId}")
+    public ResponseEntity<String> addReadingSession(@PathVariable("bookId") Long bookId,
+                                                            @Valid @RequestBody AddReadingSessionRequest addReadingSessionRequest) {
+        Book book = bookService.getBookById(bookId);
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        if (! book.getAppUser().getAppUserId().equals(loginUserId)) {
+            throw new NotAuthorizeException();
+        }
+
+        if (! book.getCurrentPage().equals(addReadingSessionRequest.getStartPage())) {
+            throw new BadRequestException("");
+        }
+
+        ReadingSession readingSession = ReadingSession.builder()
+                .startPage(addReadingSessionRequest.getStartPage())
+                .endPage(addReadingSessionRequest.getEndPage())
+                .startTime(addReadingSessionRequest.getStartDate().atStartOfDay())
+                .endTime(addReadingSessionRequest.getStartDate().atStartOfDay())
+                .readTime(addReadingSessionRequest.getReadTime())
+                .appUser(new AppUser(loginUserId))
+                .book(book)
+                .build();
+
+        readingSessionService.addReadingSession(readingSession);
+
+        return new ResponseEntity<>("added", HttpStatus.CREATED);
     }
 
     @PutMapping("{sessionId}")
