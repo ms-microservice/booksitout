@@ -22,7 +22,9 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 
 	return (
 		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
-			<Modal.Header closeButton></Modal.Header>
+			<Modal.Header closeButton className='text-center'>
+				<h4 className='w-100'>독서활동 자세히 보기</h4>
+			</Modal.Header>
 
 			{readingSession != null && (
 				<Modal.Body>
@@ -51,10 +53,11 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 					</div>
 					<div className='row'>
 						<div className='col-6'>
-							<Button variant='warning' className='w-100'>
+							<Button variant='warning' className='w-100' disabled>
 								수정하기
 							</Button>
 						</div>
+
 						<div className='col-6' onClick={() => handleDeleteReadingSession()}>
 							<Button variant='danger' className='w-100'>
 								삭제하기
