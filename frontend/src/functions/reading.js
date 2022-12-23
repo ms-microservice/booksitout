@@ -35,8 +35,9 @@ const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
 
 const startReadingSession = (bookId, toggleTimer, setBook) => {
 	const token = localStorage.getItem('login-token')
+	const START_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/start`
 
-	fetch(READING_SESSION_API_URL + bookId, {
+	fetch(START_READING_SESSION_API_URL, {
 		method: 'POST',
 		headers: { Authorization: token },
 	})
@@ -49,7 +50,7 @@ const startReadingSession = (bookId, toggleTimer, setBook) => {
 		})
 }
 
-const deleteReadingSession = (navigate) => {
+const endReadingSessionWithoutSaving = (navigate) => {
 	const token = localStorage.getItem('login-token')
 
 	return fetch(READING_SESSION_CURRENT_API_URL, {
@@ -121,4 +122,44 @@ const getAllReadingSessionOfBook = (bookId) => {
 		})
 }
 
-export { startReadingSession, endReadingSession, getCurrentReadingSession, deleteReadingSession, getAllReadingSessionOfBook }
+const addReadingSession = (bookId, year, month, day, startPage, endPage, readTime) => {
+	const token = getToken()
+	const ADD_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}`
+
+	return fetch(ADD_READING_SESSION_API_URL, {
+		method: 'POST',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			startDate: `${year}-${month}-${day}`,
+			startPage: startPage,
+			endPage: endPage,
+			readTime: readTime,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+const deleteReadingSession = (readingSessionId) => {
+	const token = getToken()
+	const DELETE_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${readingSessionId}`
+
+	return fetch(DELETE_READING_SESSION_API_URL, {
+		method: 'DELETE',
+		headers: { Authorization: token },
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+export {
+	startReadingSession,
+	endReadingSession,
+	getCurrentReadingSession,
+	endReadingSessionWithoutSaving,
+	getAllReadingSessionOfBook,
+	addReadingSession,
+	deleteReadingSession,
+}
