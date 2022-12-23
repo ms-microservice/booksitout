@@ -1,28 +1,18 @@
 import React from 'react'
-import { useNavigate } from 'react-router-dom'
 import { AiFillPlusCircle as AddIcon } from 'react-icons/ai'
+import '../../resources/css/button.css'
 
-const AddButton = ({ bottomStyle = '120px', url = '/book/add' }) => {
-	const navigate = useNavigate()
-
+const AddButton = ({ size, color = 'primary', onClick }) => {
 	const addButtonStyle = {
-		position: 'fixed',
-		bottom: bottomStyle,
 		right: '2.5%',
-		width: '60px',
-		height: '60px',
+		width: `${size}px`,
+		height: `${size}px`,
 		borderRadius: '50px',
+		position: 'absolute',
+		top: '20px',
 	}
 
-	return (
-		<AddIcon
-			className='btn btn-success'
-			style={addButtonStyle}
-			onClick={() => {
-				navigate(url)
-			}}
-		/>
-	)
+	return <AddIcon id='addButton' className={`text-${color} p-0`} style={addButtonStyle} onClick={() => onClick()} />
 }
 
 export default AddButton
