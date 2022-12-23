@@ -3,7 +3,6 @@ import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { Toaster, useToasterStore, toast } from 'react-hot-toast'
 // Components
 import Topnav from './components/common/Topnav'
-import AddButton from './components/common/AddButton'
 import ReadingButton from './components/common/ReadingButton'
 import Login from './components/user/Login'
 import Join from './components/user/Join'
@@ -25,6 +24,7 @@ import Goal from './components/statistics/Goal'
 import { getToken } from './functions/user'
 // URL
 import { REDIRECT_EXCLUDE_URL } from './url/localUrl'
+import FloatingAddButton from './components/common/FloatingAddButton'
 
 function App() {
 	const location = useLocation()
@@ -85,7 +85,7 @@ function App() {
 
 				<Route path='/' element={<Main token={token} />} />
 				<Route path='/book/:range' element={<BookList token={token} />} />
-				<Route path='/book/detail/:id' element={<BookDetail token={token} />} />
+				<Route path='/book/detail/:id' element={<BookDetail />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
 				<Route path='/reading' element={<ReadingNoId token={token} />} />
@@ -99,7 +99,7 @@ function App() {
 
 			{token !== '' && (
 				<>
-					{!location.pathname.startsWith('/book/add') && <AddButton />}
+					{!location.pathname.startsWith('/book/add') && <FloatingAddButton />}
 					<ReadingButton time={readingSessionTime} />
 				</>
 			)}
