@@ -2,20 +2,20 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
-import Error from '../common/Error'
 import Loading from '../common/Loading'
 import NoContent from '../common/NoContent'
 import BookInfoIcon from './book-info/BookInfoIcon'
 import PageProgressBar from '../common/PageProgressBar'
 import AddRatingModal from './AddRatingModal'
 import AddSummaryModal from './AddSummaryModal'
+import AddReviewModal from './AddReviewModal'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../functions/book'
+import { getToken } from '../../functions/user'
 // Urls
 import { getMemo } from '../../functions/memo'
 import { getQuotation } from '../../functions/quotation'
@@ -23,13 +23,12 @@ import { getAllReadingSessionOfBook } from '../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from './book-info/bookInfoEnum'
 import { MEMO_BACKGROUND_COLOR } from '../../settings/color'
-import AddReviewModal from './AddReviewModal'
+import AddButton from '../common/AddButton'
+import AddReadingSessionModal from './AddReadingSessionModal'
+import ReadingSessionDetailModal from './ReadingSessionDetailModal'
 
-const BookDetail = ({ token }) => {
+const BookDetail = () => {
 	const { id } = useParams()
-	const navigate = useNavigate()
-
-	const BOOK_EDIT_URL = `/book/edit/${id}`
 
 	const [loading, setLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
@@ -59,6 +58,11 @@ const BookDetail = ({ token }) => {
 	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
 	const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false)
 
+	const [isAddReadingSessionModalOpen, setIsAddReadingSessionModalOpen] = useState(false)
+
+	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
+	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
+
 	return (
 		<div className='container'>
 			{initialFetch ? (
@@ -68,176 +72,37 @@ const BookDetail = ({ token }) => {
 			) : book == null ? (
 				<NoContent message='책이 없어요 다시 확인해 주세요' />
 			) : (
-				<div className='row text-center' style={{ marginBottom: '150px' }}>
+				<div className='row text-center mt-5' style={{ marginBottom: '150px' }}>
 					<AddRatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
 					<AddReviewModal isModalOpen={isReviewModalOpen} setIsModalOpen={setIsReviewModalOpen} book={book} setBook={setBook} />
 					<AddSummaryModal isModalOpen={isSummaryModalOpen} setIsModalOpen={setIsSummaryModalOpen} book={book} setBook={setBook} />
+					<AddReadingSessionModal
+						isModalOpen={isAddReadingSessionModalOpen}
+						setIsModalOpen={setIsAddReadingSessionModalOpen}
+						book={book}
+						readingSessionList={readingSession}
+						setReadingSessionList={setReadingSession}
+					/>
+					<ReadingSessionDetailModal
+						isModalOpen={isReadingSessionDetailModalOpen}
+						setIsModalOpen={setIsReadingSessionDetailModalOpen}
+						readingSession={selectedReadingSession}
+						readingSessionList={readingSession}
+						setReadingSessionList={setReadingSession}
+					/>
 
 					<div className='col-12 col-md-4 mb-5'>
-						<div className='row justify-content-center'>
-							<div className='col-8'>
-								<img
-									src={book.cover == '' ? defaultBookCover : book.cover}
-									alt=''
-									className={`img-fluid rounded  ${book.cover != '' && 'border'}`}
-								/>
-							</div>
-						</div>
-
-						<div className='row mt-3'>
-							<div className='col-6'>
-								<Button variant='danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
-									수정하기
-								</Button>
-							</div>
-
-							<div className='col-6'>
-								<Button variant='danger' className='w-100' onClick={() => deleteBook(id, token, navigate)}>
-									삭제하기
-								</Button>
-							</div>
-
-							{book.currentPage === book.endPage ? (
-								<>
-									{book.rating == null ? (
-										<div className='col-12 mt-3'>
-											<Button variant='warning' className='w-100' onClick={() => setIsRatingModalOpen(true)}>
-												별점 추가하기
-											</Button>
-										</div>
-									) : (
-										<>
-											{
-												<div className='row justify-content-center mt-4'>
-													{[1, 2, 3, 4, 5].map((rate) => {
-														return (
-															<div className='col-2 text-center text-warning'>
-																<h1>{rate <= book.rating ? <StarFillIcon /> : <StarIcon />}</h1>
-															</div>
-														)
-													})}
-												</div>
-											}
-										</>
-									)}
-
-									{book.review == null ? (
-										<div className='col-12 mt-3'>
-											<Button className='w-100' onClick={() => setIsReviewModalOpen(true)}>
-												감상 추가하기
-											</Button>
-										</div>
-									) : (
-										<></>
-									)}
-
-									{book.summary == null ? (
-										<div className='col-12 mt-3'>
-											<Button className='w-100' onClick={() => setIsSummaryModalOpen(true)}>
-												요약 추가하기
-											</Button>
-										</div>
-									) : (
-										<></>
-									)}
-								</>
-							) : book.currentPage < book.endPage && !book.isGiveUp ? (
-								<>
-									<div className='col-12 mt-3'>
-										<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${id}`)}>
-											이어서 읽기
-										</Button>
-									</div>
-
-									<div className='col-12 mt-3'>
-										<Button
-											variant='danger'
-											className='w-100'
-											onClick={() => {
-												const confirm = window.confirm('책을 포기할까요?')
-
-												if (confirm) {
-													giveUpBook(id, token, navigate)
-												}
-											}}>
-											포기하기
-										</Button>
-									</div>
-								</>
-							) : (
-								<>
-									<div className='col-12 mt-3'>
-										<Button
-											variant='success'
-											className='w-100'
-											onClick={() => {
-												const confirm = window.confirm('책을 다시 읽을까요?')
-
-												if (confirm) {
-													unGiveUpBook(id).then((success) => {
-														if (success) {
-															toast.success('책을 다시 읽을 수 있어요')
-															navigate('/book/not-done')
-														} else {
-															toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-														}
-													})
-												}
-											}}>
-											다시 읽기 (포기 취소)
-										</Button>
-									</div>
-								</>
-							)}
-						</div>
+						<BookCover book={book} />
+						<BookButtons
+							book={book}
+							setIsRatingModalOpen={setIsRatingModalOpen}
+							setIsReviewModalOpen={setIsReviewModalOpen}
+							setIsSummaryModalOpen={setIsSummaryModalOpen}
+						/>
 					</div>
 
-					<div className='col-12 col-md-8 mb-5'>
-						<div className='row mb-4'>
-							<h2>{book.title}</h2>
-							<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
-
-							<div className='row justify-content-center'>
-								<div className='col-12 col-lg-11'>
-									<PageProgressBar book={book} />
-								</div>
-							</div>
-						</div>
-
-						<div className='row justify-content-center'>
-							<div className='col-6 col-xl-2 mb-2'>
-								<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
-									<BookInfoIcon
-										infoType={LANGUAGE_INFO}
-										infoData={book.language}
-										responsiveImageStyle='col-6 col-md-8 align-self-center'
-									/>
-								</a>
-							</div>
-							<div className='col-6 col-xl-2 mb-2'>
-								<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
-									<BookInfoIcon
-										infoType={CATEGORY_INFO}
-										infoData={book.category}
-										responsiveImageStyle='col-6 col-md-8 align-self-center'
-									/>
-								</a>
-							</div>
-							<div className='col-6 col-xl-2 mb-2'>
-								<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
-									<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle='col-6 col-md-8 align-self-center' />
-								</a>
-							</div>
-							<div className='col-6 col-xl-2 mb-2'>
-								<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
-									<BookInfoIcon
-										infoType={SOURCE_INFO}
-										infoData={book.source}
-										responsiveImageStyle='col-6 col-md-8 align-self-center'
-									/>
-								</a>
-							</div>
-						</div>
+					<div className='col-12 col-md-8 mt-0 mt-md-5'>
+						<BookDescription book={book} />
 
 						{book.summary != null && (
 							<Card className='mt-2'>
@@ -259,17 +124,205 @@ const BookDetail = ({ token }) => {
 							</Card>
 						)}
 
-						<BookRecordCard
-							displayLabel='🤓 독서활동'
-							record={readingSession}
-							ListComponent={<ReadingSessionList readingSessionList={readingSession} />}
-						/>
+						<Card className='mt-3'>
+							<Card.Body>
+								<h4>🤓 독서활동</h4>
+
+								<AddButton
+									size='30'
+									color='success'
+									onClick={() => {
+										setIsAddReadingSessionModalOpen(true)
+									}}
+								/>
+
+								<div className='row justify-content-center mt-4'>
+									<div className='col-12'>
+										{readingSession == null || readingSession.length === 0 ? (
+											<NoContent style={{ width: '150px' }} />
+										) : (
+											<ReadingSessionList
+												readingSessionList={readingSession}
+												setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
+												setSelectedReadingSession={setSelectedReadingSession}
+											/>
+										)}
+									</div>
+								</div>
+							</Card.Body>
+						</Card>
+
 						<BookRecordCard displayLabel='📋 메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
 						<BookRecordCard displayLabel='🗣️ 인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
 					</div>
 				</div>
 			)}
 		</div>
+	)
+}
+
+const BookCover = ({ book }) => {
+	return (
+		<div className='row justify-content-center'>
+			<div className='col-8'>
+				<img src={book.cover == '' ? defaultBookCover : book.cover} alt='' className={`img-fluid rounded  ${book.cover != '' && 'border'}`} />
+			</div>
+		</div>
+	)
+}
+
+const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
+	const navigate = useNavigate()
+	const BOOK_EDIT_URL = `/book/edit/${book.bookId}`
+	const token = getToken()
+
+	return (
+		<div className='row mt-3'>
+			<div className='col-6'>
+				<Button variant='danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
+					수정하기
+				</Button>
+			</div>
+
+			<div className='col-6'>
+				<Button variant='danger' className='w-100' onClick={() => deleteBook(book.bookId, token, navigate)}>
+					삭제하기
+				</Button>
+			</div>
+
+			{book.currentPage === book.endPage ? (
+				<>
+					{book.rating == null ? (
+						<div className='col-12 mt-3'>
+							<Button variant='warning' className='w-100' onClick={() => setIsRatingModalOpen(true)}>
+								별점 추가하기
+							</Button>
+						</div>
+					) : (
+						<>
+							{
+								<div className='row justify-content-center mt-4'>
+									{[1, 2, 3, 4, 5].map((rate) => {
+										return (
+											<div className='col-2 text-center text-warning'>
+												<h1>{rate <= book.rating ? <StarFillIcon /> : <StarIcon />}</h1>
+											</div>
+										)
+									})}
+								</div>
+							}
+						</>
+					)}
+
+					{book.review == null ? (
+						<div className='col-12 mt-3'>
+							<Button className='w-100' onClick={() => setIsReviewModalOpen(true)}>
+								감상 추가하기
+							</Button>
+						</div>
+					) : (
+						<></>
+					)}
+
+					{book.summary == null ? (
+						<div className='col-12 mt-3'>
+							<Button className='w-100' onClick={() => setIsSummaryModalOpen(true)}>
+								요약 추가하기
+							</Button>
+						</div>
+					) : (
+						<></>
+					)}
+				</>
+			) : book.currentPage < book.endPage && !book.isGiveUp ? (
+				<>
+					<div className='col-12 mt-3'>
+						<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${book.bookId}`)}>
+							이어서 읽기
+						</Button>
+					</div>
+
+					<div className='col-12 mt-3'>
+						<Button
+							variant='danger'
+							className='w-100'
+							onClick={() => {
+								const confirm = window.confirm('책을 포기할까요?')
+
+								if (confirm) {
+									giveUpBook(book.bookId, token, navigate)
+								}
+							}}>
+							포기하기
+						</Button>
+					</div>
+				</>
+			) : (
+				<>
+					<div className='col-12 mt-3'>
+						<Button
+							variant='success'
+							className='w-100'
+							onClick={() => {
+								const confirm = window.confirm('책을 다시 읽을까요?')
+
+								if (confirm) {
+									unGiveUpBook(book.bookId).then((success) => {
+										if (success) {
+											toast.success('책을 다시 읽을 수 있어요')
+											navigate('/book/not-done')
+										} else {
+											toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+										}
+									})
+								}
+							}}>
+							다시 읽기 (포기 취소)
+						</Button>
+					</div>
+				</>
+			)}
+		</div>
+	)
+}
+
+const BookDescription = ({ book }) => {
+	return (
+		<>
+			<div className='row mb-4'>
+				<h2>{book.title}</h2>
+				<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
+
+				<div className='row justify-content-center'>
+					<div className='col-12 col-lg-11'>
+						<PageProgressBar book={book} />
+					</div>
+				</div>
+			</div>
+
+			<div className='row justify-content-center'>
+				<div className='col-6 col-xl-2 mb-2'>
+					<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
+						<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} responsiveImageStyle='col-6 col-md-8 align-self-center' />
+					</a>
+				</div>
+				<div className='col-6 col-xl-2 mb-2'>
+					<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
+						<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} responsiveImageStyle='col-6 col-md-8 align-self-center' />
+					</a>
+				</div>
+				<div className='col-6 col-xl-2 mb-2'>
+					<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
+						<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle='col-6 col-md-8 align-self-center' />
+					</a>
+				</div>
+				<div className='col-6 col-xl-2 mb-2'>
+					<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
+						<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} responsiveImageStyle='col-6 col-md-8 align-self-center' />
+					</a>
+				</div>
+			</div>
+		</>
 	)
 }
 
@@ -332,13 +385,18 @@ const QuotationList = ({ quotationList }) => {
 	)
 }
 
-const ReadingSessionList = ({ readingSessionList }) => {
+const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, setSelectedReadingSession }) => {
 	return (
 		<div className='row row-eq-height'>
 			{readingSessionList.map((readingSession) => {
 				return (
 					<div className='col-12 col-lg-6'>
-						<Card className='mb-2'>
+						<Card
+							className='mb-2'
+							onClick={() => {
+								setIsReadingSessionModalOpen(true)
+								setSelectedReadingSession(readingSession)
+							}}>
 							<Card.Body>
 								<div className='row justify-content-center'>
 									<div className='col-8 col-md-6'>
