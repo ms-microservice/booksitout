@@ -140,10 +140,10 @@ const giveUpBook = (bookId, token, navigate) => {
 		headers: { Authorization: token },
 	}).then((res) => {
 		if (res.status.toString().startsWith(2)) {
-			alert('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
+			toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
 			navigate('/book/give-up')
 		} else {
-			alert('오류가 났어요 다시 시도해 주세요')
+			toast.error('오류가 났어요 다시 시도해 주세요')
 		}
 	})
 }
