@@ -184,4 +184,20 @@ const deleteBook = (bookId, token, navigate) => {
 	}
 }
 
-export { giveUpBook, getLastBook, getBookList, addBook, deleteBook, getBook, editBook, unGiveUpBook }
+const addRating = (bookId, rating) => {
+	const token = getToken()
+	const ADD_RATING_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
+
+	return fetch(ADD_RATING_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			rating: rating,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+export { giveUpBook, getLastBook, getBookList, addBook, deleteBook, getBook, editBook, unGiveUpBook, addRating }

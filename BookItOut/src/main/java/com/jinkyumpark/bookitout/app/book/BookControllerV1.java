@@ -94,36 +94,40 @@ public class BookControllerV1 {
     }
 
     @PutMapping("{id}")
+    @Transactional
     public EditSuccessResponse editBook(@PathVariable("id") Long bookId, @RequestBody @Valid BookEditRequest bookEditRequest) {
+        Book bookToEdit = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        Book editedBook = new Book();
-        editedBook.setBookId(bookId);
+        if (! bookToEdit.getAppUser().getAppUserId().equals(loginUserId)) {
+            throw new NotAuthorizeException();
+        }
 
         if (bookEditRequest.getTitle() != null) {
-            editedBook.setTitle(bookEditRequest.getTitle());
+            bookToEdit.setTitle(bookEditRequest.getTitle());
         }
         if (bookEditRequest.getCover() != null) {
-            editedBook.setCover(bookEditRequest.getCover());
+            bookToEdit.setCover(bookEditRequest.getCover());
         }
         if (bookEditRequest.getSummary() != null) {
-            editedBook.setSummary(bookEditRequest.getSummary());
+            bookToEdit.setSummary(bookEditRequest.getSummary());
         }
-
-        editedBook.setLanguage(BookLanguage.valueOf(bookEditRequest.getLanguage()));
-
+        if (bookEditRequest.getLanguage() != null) {
+            bookToEdit.setLanguage(BookLanguage.valueOf(bookEditRequest.getLanguage()));
+        }
         if (bookEditRequest.getSource() != null) {
             BookSource bookSource = BookSource.valueOf(bookEditRequest.getSource());
-            editedBook.setSource(bookSource);
+            bookToEdit.setSource(bookSource);
         }
         if (bookEditRequest.getReview() != null) {
-            editedBook.setReview(bookEditRequest.getReview());
+            bookToEdit.setReview(bookEditRequest.getReview());
         }
         if (bookEditRequest.getIsSharing() != null) {
-            editedBook.setIsSharing(bookEditRequest.getIsSharing());
+            bookToEdit.setIsSharing(bookEditRequest.getIsSharing());
         }
-
-        bookService.editBook(editedBook);
+        if (bookEditRequest.getRating() != null) {
+            bookToEdit.setRating(bookEditRequest.getRating());
+        }
 
         return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), BOOK_EDIT_SUCCESS_MESSSAGE);
     }
@@ -134,7 +138,7 @@ public class BookControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
         Book book = bookService.getBookById(bookId);
 
-        if (! book.getAppUser().getAppUserId().equals(loginUserId)) {
+        if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
             throw new NotAuthorizeException();
         }
 
@@ -149,7 +153,7 @@ public class BookControllerV1 {
         Book book = bookService.getBookById(bookId);
         Long longinUserId = AppUserService.getLoginAppUserId();
 
-        if (! book.getAppUser().getAppUserId().equals(longinUserId)) {
+        if (!book.getAppUser().getAppUserId().equals(longinUserId)) {
             throw new NotAuthorizeException();
         }
 
@@ -157,6 +161,8 @@ public class BookControllerV1 {
 
         return new EditSuccessResponse(String.format("v1/book/un-give-up/%d", bookId));
     }
+
+    @PutMapping("")
 
     @DeleteMapping("{id}")
     public DeleteSuccessResponse deleteBook(@PathVariable("id") Long id) {

@@ -16,6 +16,7 @@ public class BookEditRequest {
     private String cover;
     private String source;
     private Boolean isSharing;
+    private Integer rating;
 
     private String summary;
     private String review;

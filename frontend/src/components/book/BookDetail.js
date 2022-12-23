@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
 import toast from 'react-hot-toast'
+import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
 import Error from '../common/Error'
 import Loading from '../common/Loading'
@@ -9,6 +10,7 @@ import NoContent from '../common/NoContent'
 import BookInfoIcon from './book-info/BookInfoIcon'
 import PageProgressBar from '../common/PageProgressBar'
 import AddButton from '../common/AddButton'
+import RatingModal from './RatingModal'
 // Images
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
@@ -51,6 +53,8 @@ const BookDetail = ({ token }) => {
 		})
 	}, [])
 
+	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
+
 	return (
 		<div className='container'>
 			{initialFetch ? (
@@ -61,6 +65,8 @@ const BookDetail = ({ token }) => {
 				<NoContent message='책이 없어요 다시 확인해 주세요' />
 			) : (
 				<div className='row text-center' style={{ marginBottom: '200px' }}>
+					<RatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
+
 					<div className='col-12 col-md-4 mb-5'>
 						<div className='row justify-content-center'>
 							<div className='col-8'>
@@ -86,7 +92,29 @@ const BookDetail = ({ token }) => {
 							</div>
 
 							{book.currentPage === book.endPage ? (
-								<></>
+								<>
+									{book.rating == null ? (
+										<div className='col-12 mt-3'>
+											<Button variant='warning' className='w-100' onClick={() => setIsRatingModalOpen(true)}>
+												별점 추가하기
+											</Button>
+										</div>
+									) : (
+										<>
+											{
+												<div className='row justify-content-center mt-4'>
+													{[1, 2, 3, 4, 5].map((rate) => {
+														return (
+															<div className='col-2 text-center text-warning'>
+																<h1>{rate <= book.rating ? <StarFillIcon /> : <StarIcon />}</h1>
+															</div>
+														)
+													})}
+												</div>
+											}
+										</>
+									)}
+								</>
 							) : book.currentPage < book.endPage && !book.isGiveUp ? (
 								<>
 									<div className='col-12 mt-3'>
