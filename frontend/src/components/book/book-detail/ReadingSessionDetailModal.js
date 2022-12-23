@@ -1,6 +1,6 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
-import { deleteReadingSession } from '../../functions/reading'
+import { deleteReadingSession } from '../../../functions/reading'
 import toast from 'react-hot-toast'
 
 const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession, readingSessionList, setReadingSessionList }) => {

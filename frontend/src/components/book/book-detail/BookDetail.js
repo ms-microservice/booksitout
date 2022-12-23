@@ -4,28 +4,29 @@ import { Card, Button, ProgressBar } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
-import Loading from '../common/Loading'
-import NoContent from '../common/NoContent'
-import BookInfoIcon from './book-info/BookInfoIcon'
-import PageProgressBar from '../common/PageProgressBar'
+import Loading from '../../common/Loading'
+import NoContent from '../../common/NoContent'
+import BookInfoIcon from '../book-info/BookInfoIcon'
+import PageProgressBar from '../../common/PageProgressBar'
 import AddRatingModal from './AddRatingModal'
 import AddSummaryModal from './AddSummaryModal'
 import AddReviewModal from './AddReviewModal'
 // Images
-import defaultBookCover from '../../resources/images/common/book.png'
+import defaultBookCover from '../../../resources/images/common/book.png'
 // Functions
-import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../functions/book'
-import { getToken } from '../../functions/user'
+import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
+import { getToken } from '../../../functions/user'
 // Urls
-import { getMemo } from '../../functions/memo'
-import { getQuotation } from '../../functions/quotation'
-import { getAllReadingSessionOfBook } from '../../functions/reading'
+import { getMemo } from '../../../functions/memo'
+import { getQuotation } from '../../../functions/quotation'
+import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
-import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from './book-info/bookInfoEnum'
-import { MEMO_BACKGROUND_COLOR } from '../../settings/color'
-import AddButton from '../common/AddButton'
+import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
+import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
+import AddButton from '../../common/AddButton'
 import AddReadingSessionModal from './AddReadingSessionModal'
 import ReadingSessionDetailModal from './ReadingSessionDetailModal'
+import AddMemoModal from './AddMemoModal'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -56,12 +57,15 @@ const BookDetail = () => {
 
 	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
 	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
+
 	const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false)
+	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
 
 	const [isAddReadingSessionModalOpen, setIsAddReadingSessionModalOpen] = useState(false)
+	const [isAddMemoModalOpen, setIsAddMemoModalOpen] = useState(false)
 
-	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
+	const [selectedMemo, setSelectedMemo] = useState(null)
 
 	return (
 		<div className='container'>
@@ -89,6 +93,13 @@ const BookDetail = () => {
 						readingSession={selectedReadingSession}
 						readingSessionList={readingSession}
 						setReadingSessionList={setReadingSession}
+					/>
+					<AddMemoModal
+						isModalOpen={isAddMemoModalOpen}
+						setIsModalOpen={setIsAddMemoModalOpen}
+						book={book}
+						memoList={memo}
+						setMemoList={setMemo}
 					/>
 
 					<div className='col-12 col-md-4 mb-5'>
@@ -124,35 +135,24 @@ const BookDetail = () => {
 							</Card>
 						)}
 
-						<Card className='mt-3'>
-							<Card.Body>
-								<h4>🤓 독서활동</h4>
-
-								<AddButton
-									size='30'
-									color='success'
-									onClick={() => {
-										setIsAddReadingSessionModalOpen(true)
-									}}
+						<BookRecordCard
+							displayLabel='🤓 독서활동'
+							record={readingSession}
+							ListComponent={
+								<ReadingSessionList
+									readingSessionList={readingSession}
+									setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
+									setSelectedReadingSession={setSelectedReadingSession}
 								/>
-
-								<div className='row justify-content-center mt-4'>
-									<div className='col-12'>
-										{readingSession == null || readingSession.length === 0 ? (
-											<NoContent style={{ width: '150px' }} />
-										) : (
-											<ReadingSessionList
-												readingSessionList={readingSession}
-												setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
-												setSelectedReadingSession={setSelectedReadingSession}
-											/>
-										)}
-									</div>
-								</div>
-							</Card.Body>
-						</Card>
-
-						<BookRecordCard displayLabel='📋 메모' record={memo} ListComponent={<MemoList memoList={memo} />} />
+							}
+							setIsAddModalOpen={setIsAddReadingSessionModalOpen}
+						/>
+						<BookRecordCard
+							displayLabel='📋 메모'
+							record={memo}
+							ListComponent={<MemoList memoList={memo} />}
+							setIsAddModalOpen={setIsAddMemoModalOpen}
+						/>
 						<BookRecordCard displayLabel='🗣️ 인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
 					</div>
 				</div>
@@ -326,9 +326,17 @@ const BookDescription = ({ book }) => {
 	)
 }
 
-const BookRecordCard = ({ displayLabel, record, ListComponent }) => {
+const BookRecordCard = ({ displayLabel, record, ListComponent, setIsAddModalOpen }) => {
 	return (
 		<Card className='mt-3'>
+			<AddButton
+				size='30'
+				color='success'
+				onClick={() => {
+					setIsAddModalOpen(true)
+				}}
+			/>
+
 			<Card.Body>
 				<h4>{displayLabel}</h4>
 

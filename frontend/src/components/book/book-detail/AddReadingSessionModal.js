@@ -1,8 +1,8 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { addReadingSession } from '../../functions/reading'
-import '../../resources/css/input.css'
+import { addReadingSession } from '../../../functions/reading'
+import '../../../resources/css/input.css'
 
 const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, readingSessionList, setReadingSessionList }) => {
 	const [startPage, setStartPage] = useState(null)

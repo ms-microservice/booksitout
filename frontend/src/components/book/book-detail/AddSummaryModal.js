@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { addSummary } from '../../functions/book'
+import { addSummary } from '../../../functions/book'
 
 const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 	const [summary, setSummary] = useState('')
