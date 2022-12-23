@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
 import { deleteReadingSession } from '../../functions/reading'
 import { endReadingSession } from '../../functions/reading'
+import '../../resources/css/input.css'
 
 const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, token }) => {
 	const navigate = useNavigate()
@@ -25,7 +26,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tog
 
 					<div className='row justify-content-center mt-3 mb-4'>
 						<div className='col-3'>
-							<Form.Control onChange={(e) => setEndPage(e.target.value)} />
+							<Form.Control type='number' onChange={(e) => setEndPage(e.target.value)} />
 						</div>
 					</div>
 
