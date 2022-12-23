@@ -15,7 +15,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tog
 	}
 
 	return (
-		<Modal show={isShowingModal} onHide={hideModal} size='lg' centered backdrop='static' fullscreen='md-down'>
+		<Modal show={isShowingModal} onHide={hideModal} size='lg' centered fullscreen='md-down'>
 			<Modal.Header className='text-center' closeButton>
 				<Modal.Title className='w-100'>독서활동 끝내기</Modal.Title>
 			</Modal.Header>
@@ -26,7 +26,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tog
 
 					<div className='row justify-content-center mt-3 mb-4'>
 						<div className='col-3'>
-							<Form.Control type='number' onChange={(e) => setEndPage(e.target.value)} />
+							<Form.Control type='number' onChange={(e) => setEndPage(e.target.value)} autoFocus />
 						</div>
 					</div>
 
