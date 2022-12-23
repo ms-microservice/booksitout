@@ -64,7 +64,7 @@ const BookDetail = ({ token }) => {
 			) : book == null ? (
 				<NoContent message='책이 없어요 다시 확인해 주세요' />
 			) : (
-				<div className='row text-center' style={{ marginBottom: '200px' }}>
+				<div className='row text-center' style={{ marginBottom: '150px' }}>
 					<RatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
 
 					<div className='col-12 col-md-4 mb-5'>
