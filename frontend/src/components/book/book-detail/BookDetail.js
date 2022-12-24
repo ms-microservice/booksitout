@@ -11,6 +11,11 @@ import PageProgressBar from '../../common/PageProgressBar'
 import AddRatingModal from './AddRatingModal'
 import AddSummaryModal from './AddSummaryModal'
 import AddReviewModal from './AddReviewModal'
+import AddButton from '../../common/AddButton'
+import AddReadingSessionModal from './AddReadingSessionModal'
+import ReadingSessionDetailModal from './ReadingSessionDetailModal'
+import AddMemoModal from './AddMemoModal'
+import AddQuotationModal from './AddQuotationModal'
 // Images
 import defaultBookCover from '../../../resources/images/common/book.png'
 // Functions
@@ -23,10 +28,6 @@ import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
 import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
-import AddButton from '../../common/AddButton'
-import AddReadingSessionModal from './AddReadingSessionModal'
-import ReadingSessionDetailModal from './ReadingSessionDetailModal'
-import AddMemoModal from './AddMemoModal'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -63,6 +64,7 @@ const BookDetail = () => {
 
 	const [isAddReadingSessionModalOpen, setIsAddReadingSessionModalOpen] = useState(false)
 	const [isAddMemoModalOpen, setIsAddMemoModalOpen] = useState(false)
+	const [isAddQuotationModalOpen, setIsAddQuotationModalOpen] = useState(false)
 
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
 	const [selectedMemo, setSelectedMemo] = useState(null)
@@ -100,6 +102,13 @@ const BookDetail = () => {
 						book={book}
 						memoList={memo}
 						setMemoList={setMemo}
+					/>
+					<AddQuotationModal
+						isModalOpen={isAddQuotationModalOpen}
+						setIsModalOpen={setIsAddQuotationModalOpen}
+						book={book}
+						quotationList={quotation}
+						setQuotationList={setQuotation}
 					/>
 
 					<div className='col-12 col-md-4 mb-5'>
@@ -153,7 +162,12 @@ const BookDetail = () => {
 							ListComponent={<MemoList memoList={memo} />}
 							setIsAddModalOpen={setIsAddMemoModalOpen}
 						/>
-						<BookRecordCard displayLabel='🗣️ 인용' record={quotation} ListComponent={<QuotationList quotationList={quotation} />} />
+						<BookRecordCard
+							displayLabel='🗣️ 인용'
+							record={quotation}
+							ListComponent={<QuotationList quotationList={quotation} />}
+							setIsAddModalOpen={setIsAddQuotationModalOpen}
+						/>
 					</div>
 				</div>
 			)}
