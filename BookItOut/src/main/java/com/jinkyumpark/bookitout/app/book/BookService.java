@@ -64,6 +64,13 @@ public class BookService {
         return bookRepository.findAllGiveUpBooks(loginUserId, pageRequest);
     }
 
+    public Book getCurrentReadingSessionBook(Long loginUserId) {
+        ReadingSession currentReadingSession = readingSessionRepository.getCurrentReadingSessionEager(loginUserId)
+                .orElseThrow(() -> new NotFoundException(""));
+
+        return currentReadingSession.getBook();
+    }
+
     public void addBook(Book book) {
         bookRepository.save(book);
     }
