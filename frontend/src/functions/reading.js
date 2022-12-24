@@ -5,56 +5,49 @@ import { getToken } from './user'
 const READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/`
 const READING_SESSION_CURRENT_API_URL = `${API_BASE_URL}/v1/reading-session/current`
 
-const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate, setReadingSessionId) => {
-	const token = getToken()
+const getBookOfCurrentReadingSession = () => {
+	const BOOK_CURRENT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/book/current-reading-session`
 
-	fetch(READING_SESSION_CURRENT_API_URL, {
+	return fetch(BOOK_CURRENT_READING_SESSION_API_URL, {
 		method: 'GET',
-		headers: { Authorization: token },
+		headers: { Authorization: getToken() },
 	})
 		.then((res) => {
 			if (res.status.toString().startsWith(2)) {
 				return res.json()
-			}
-			throw new Error()
-		})
-		.then((readingSession) => {
-			if (readingSession.book.bookId == bookId) {
-				setBook(readingSession.book)
-				setReadingSessionId(readingSession.readingSessionId)
 			} else {
-				toast.error('진행중인 독서활동이 있어요')
-				navigate(`/reading/${readingSession.book.bookId}`)
-				setBook(readingSession.book)
+				return null
 			}
 		})
-		.catch(() => {
-			startReadingSession(bookId, toggleTimer, setBook, navigate, setReadingSessionId)
+		.then((book) => {
+			return book
 		})
 }
 
-const startReadingSession = (bookId, toggleTimer, setBook, setReadingSessionId) => {
-	const token = localStorage.getItem('login-token')
+const startReadingSession = (bookId) => {
+	const token = getToken()
 	const START_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/start`
 
-	fetch(START_READING_SESSION_API_URL, {
+	return fetch(START_READING_SESSION_API_URL, {
 		method: 'POST',
 		headers: { Authorization: token },
 	})
 		.then((res) => {
 			return res.json()
 		})
-		.then((readingSession) => {
-			setReadingSessionId(readingSession.readingSessionId)
-			setBook(readingSession.book)
-			toggleTimer(true)
+		.then((book) => {
+			if (book == null) {
+				return [false, null]
+			} else {
+				return [true, book]
+			}
 		})
 }
 
-const endReadingSessionWithoutSaving = (readingSessionId) => {
+const endReadingSessionWithoutSaving = () => {
 	const token = getToken()
 
-	return fetch(`${API_BASE_URL}/v1/reading-session/${readingSessionId}`, {
+	return fetch(`${API_BASE_URL}/v1/reading-session/not-saving`, {
 		method: 'DELETE',
 		headers: { Authorization: token },
 	}).then((res) => {
@@ -137,9 +130,9 @@ const deleteReadingSession = (readingSessionId) => {
 export {
 	startReadingSession,
 	endReadingSession,
-	getCurrentReadingSession,
 	endReadingSessionWithoutSaving,
 	getAllReadingSessionOfBook,
 	addReadingSession,
 	deleteReadingSession,
+	getBookOfCurrentReadingSession,
 }

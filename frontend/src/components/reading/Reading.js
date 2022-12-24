@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Components
 import Timer from './Timer'
 import MemoCard from './MemoCard'
@@ -8,7 +9,7 @@ import QuotationCard from './QuotationCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 // Functions
-import { getCurrentReadingSession } from '../../functions/reading'
+import { getBookOfCurrentReadingSession, getCurrentReadingSession, startReadingSession } from '../../functions/reading'
 import { getIsTimerOn, turnOffTimer, turnOnTimer } from '../../functions/timer'
 
 const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
@@ -28,9 +29,28 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 		}
 	}
 
-	const [readingSessionId, setReadingSessionId] = useState(null)
 	useEffect(() => {
-		getCurrentReadingSession(id, setBook, toggleTimer, navigate, setReadingSessionId)
+		getBookOfCurrentReadingSession().then((book) => {
+			if (book == null) {
+				// Start Reading Session
+				startReadingSession(id).then((res) => {
+					if (res[0]) {
+						toggleTimer(true)
+						setBook(res[1])
+					} else {
+						toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+					}
+				})
+			} else {
+				if (id != book.bookId) {
+					toast.error('진행중인 독서활동이 있어요')
+					navigate(`/reading/${book.bookId}`)
+				}
+				setBook(book)
+			}
+		})
+
+		// getCurrentReadingSession(id, setBook, toggleTimer, navigate, setReadingSessionId)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
@@ -44,9 +64,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 			<EndReadingSessionModal
 				isShowingModal={isShowingModal}
 				setIsShowingModal={setIsShowingModal}
-				bookId={id}
 				toggleTimer={toggleTimer}
-				readingSessionId={readingSessionId}
 				setTime={setReadingSessionTime}
 				book={book}
 			/>

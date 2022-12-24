@@ -6,7 +6,7 @@ import { endReadingSessionWithoutSaving } from '../../functions/reading'
 import { endReadingSession } from '../../functions/reading'
 import '../../resources/css/input.css'
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, readingSessionId, setTime, book }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer, setTime, book }) => {
 	const navigate = useNavigate()
 	const [endPage, setEndPage] = useState(-1)
 
@@ -47,7 +47,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tog
 								variant='warning'
 								className='w-100'
 								onClick={() => {
-									endReadingSessionWithoutSaving(readingSessionId).then((success) => {
+									endReadingSessionWithoutSaving().then((success) => {
 										if (success) {
 											toast.success('독서활동을 저장하지 않고 끝냈어요')
 											localStorage.removeItem('reading-session-time')
