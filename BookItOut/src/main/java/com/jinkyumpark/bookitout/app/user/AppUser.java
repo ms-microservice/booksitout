@@ -1,19 +1,22 @@
 package com.jinkyumpark.bookitout.app.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.app.book.model.Book;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.Collection;
+import java.util.List;
 
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor @AllArgsConstructor
 @Entity
-@Table(name = "App_User", uniqueConstraints = {
+@Table(name = "app_user", uniqueConstraints = {
         @UniqueConstraint(name = "app_user_email_unique", columnNames = "email")
 })
 public class AppUser implements UserDetails {
@@ -26,18 +29,26 @@ public class AppUser implements UserDetails {
     @Column(name = "email", unique = true, nullable = false)
     private String email;
     @Column(name = "password")
+    @JsonIgnore
     private String password;
 
     @Column(name = "name")
     private String name;
 
     @Column(name = "email_verification_code")
+    @JsonIgnore
     private Integer emailVerificationCode;
 
     @Column(name = "register_date")
     @CreationTimestamp
+    @JsonIgnore
     private LocalDateTime registerDate;
 
+    @OneToMany(mappedBy = "appUser", cascade = { CascadeType.REMOVE }, fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<Book> bookList;
+
+    // Constructors
     @Builder
     public AppUser(Long appUserId, String email, String password) {
         this.appUserId = appUserId;

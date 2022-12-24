@@ -17,10 +17,10 @@ public class Goal {
     @EmbeddedId
     private GoalId goalId;
 
-    @JsonIgnore
     @ManyToOne
     @MapsId("appUserId")
     @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "goal_app_user_fk"))
+    @JsonIgnore
     private AppUser appUser;
 
     private Integer goal;

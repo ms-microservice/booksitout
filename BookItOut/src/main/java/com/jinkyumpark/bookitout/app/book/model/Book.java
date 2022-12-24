@@ -1,6 +1,9 @@
 package com.jinkyumpark.bookitout.app.book.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.app.memo.Memo;
+import com.jinkyumpark.bookitout.app.quotation.Quotation;
+import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -8,6 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
@@ -83,8 +87,20 @@ public class Book {
     @Convert(converter = BooleanTo01Converter.class)
     private Boolean isGiveUp;
 
-    // FK
     @ManyToOne
-    @JoinColumn(name = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
+    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
+    @JsonIgnore
     private AppUser appUser;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
+    private List<Memo> memoList;
+
+    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
+    @JsonIgnore
+    private List<Quotation> quotationList;
+
+    @OneToMany(targetEntity = ReadingSession.class, mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
+    @JsonIgnore
+    private List<ReadingSession> readingSessionList;
 }

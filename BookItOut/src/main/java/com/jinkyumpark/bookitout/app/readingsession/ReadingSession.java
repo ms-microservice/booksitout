@@ -1,10 +1,12 @@
 package com.jinkyumpark.bookitout.app.readingsession;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.*;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter @Setter
@@ -34,15 +36,17 @@ public class ReadingSession {
     private Integer readTime;
 
     // FK
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
+    @JsonIgnore
     private AppUser appUser;
 
-    @ManyToOne
-    @JoinColumn(name = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "book_id", referencedColumnName = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
+    @JsonIgnore
     private Book book;
 
-    // Required Args Constructor
+    @Builder
     public ReadingSession(Integer startPage, LocalDateTime startTime, Book book, AppUser appUser) {
         this.startPage = startPage;
         this.startTime = startTime;
