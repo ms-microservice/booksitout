@@ -48,6 +48,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				toggleTimer={toggleTimer}
 				readingSessionId={readingSessionId}
 				setTime={setReadingSessionTime}
+				book={book}
 			/>
 
 			{book != null && (
