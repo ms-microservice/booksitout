@@ -1,5 +1,4 @@
-// const API_BASE_URL = `https://api.jinkyumpark.com`
-const API_BASE_URL = `http://localhost`
+const API_BASE_URL = process.env.REACT_APP_API_URL
 
 const LOGIN_API_URL = `${API_BASE_URL}/login`
 const JOIN_API_URL = `${API_BASE_URL}/v1/join`
