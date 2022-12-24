@@ -162,12 +162,10 @@ public class BookControllerV1 {
         return new EditSuccessResponse(String.format("v1/book/un-give-up/%d", bookId));
     }
 
-    @PutMapping("")
+    @DeleteMapping("{bookId}")
+    public DeleteSuccessResponse deleteBook(@PathVariable("bookId") Long bookId) {
+        bookService.deleteBookByBookId(bookId);
 
-    @DeleteMapping("{id}")
-    public DeleteSuccessResponse deleteBook(@PathVariable("id") Long id) {
-        bookService.deleteBookByBookId(id);
-
-        return new DeleteSuccessResponse("DELETE /v1/book/" + id, BOOK_DELETE_SUCCESS_MESSAGE);
+        return new DeleteSuccessResponse(String.format("DELETE /v1/book/%d", bookId), BOOK_DELETE_SUCCESS_MESSAGE);
     }
 }
