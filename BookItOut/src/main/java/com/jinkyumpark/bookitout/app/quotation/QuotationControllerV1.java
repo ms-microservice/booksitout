@@ -65,12 +65,12 @@ public class QuotationControllerV1 {
         Quotation quotation = quotationService.getQuotationByQuotationId(quotationId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (! quotation.getBook().getBookId().equals(loginUserId)) {
+        if (! quotation.getBook().getAppUser().getAppUserId().equals(loginUserId)) {
             throw new NotAuthorizeException("인용은 책 주인만 삭제할 수 있어요");
         }
 
         quotationService.deleteQuotation(quotationId);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/quotation/%d", quotation), "인용을 지웠어요");
+        return new DeleteSuccessResponse(String.format("DELETE v1/quotation/%d", quotationId), "인용을 지웠어요");
     }
 }

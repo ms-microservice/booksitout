@@ -29,6 +29,7 @@ import { getAllReadingSessionOfBook } from '../../../functions/reading'
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
 import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
 import MemoDetailModal from './MemoDetailModal'
+import QuotationDetailModal from './QuotationDetailModal'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -67,9 +68,11 @@ const BookDetail = () => {
 
 	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
 	const [isMemoDetailModalOpen, setIsMemoDetailModalOpen] = useState(false)
+	const [isQuotationDetailModalOpen, setIsQuotationDetailModalOpen] = useState(false)
 
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
 	const [selectedMemo, setSelectedMemo] = useState(null)
+	const [seletedQuotation, setSelectedQuotation] = useState(null)
 
 	return (
 		<div className='container'>
@@ -118,6 +121,13 @@ const BookDetail = () => {
 						memo={selectedMemo}
 						memoList={memo}
 						setMemoList={setMemo}
+					/>
+					<QuotationDetailModal
+						isModalOpen={isQuotationDetailModalOpen}
+						setIsModalOpen={setIsQuotationDetailModalOpen}
+						quotation={seletedQuotation}
+						quotationList={quotation}
+						setQuotationList={setQuotation}
 					/>
 
 					<div className='col-12 col-md-4 mb-5'>
@@ -176,7 +186,13 @@ const BookDetail = () => {
 						<BookRecordCard
 							displayLabel='🗣️ 인용'
 							record={quotation}
-							ListComponent={<QuotationList quotationList={quotation} />}
+							ListComponent={
+								<QuotationList
+									quotationList={quotation}
+									setIsQuotationDetailModalOpen={setIsQuotationDetailModalOpen}
+									setSelectedQuotation={setSelectedQuotation}
+								/>
+							}
 							setIsAddModalOpen={setIsAddQuotationModalOpen}
 						/>
 					</div>
@@ -406,18 +422,24 @@ const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 	)
 }
 
-const QuotationList = ({ quotationList }) => {
+const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelectedQuotation }) => {
 	return (
 		<>
 			{quotationList.map((quotation) => {
 				return (
-					<Card className='mb-3'>
+					<Card
+						className='mb-3'
+						onClick={() => {
+							setSelectedQuotation(quotation)
+							setIsQuotationDetailModalOpen(true)
+						}}>
 						<Card.Body>
 							<div className='row'>
 								<div className='col-3 col-md-2'>{quotation.page} P</div>
 								<div className='col-9 col-md-10 text-start'>{quotation.content}</div>
 							</div>
 						</Card.Body>
+
 						<Card.Footer>{quotation.from_who == null || quotation.from_who === '' ? '-' : quotation.from_who}</Card.Footer>
 					</Card>
 				)

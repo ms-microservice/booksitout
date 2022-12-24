@@ -1,5 +1,7 @@
 import toast from 'react-hot-toast'
 import { API_BASE_URL } from '../url/apiUrl'
+import { getToken } from './user'
+
 const QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/`
 const QUOTATION_ALL_API_URL = `${API_BASE_URL}/v1/quotation/all/`
 
@@ -34,4 +36,17 @@ const addQuotation = (bookId, quotation) => {
 	})
 }
 
-export { getQuotation, addQuotation }
+const deleteQuotation = (quotationId) => {
+	const token = getToken()
+	const DELETE_QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/${quotationId}`
+
+	return fetch(DELETE_QUOTATION_API_URL, {
+		method: 'DELETE',
+		headers: { Authorization: token },
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+export { getQuotation, addQuotation, deleteQuotation }
