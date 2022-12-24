@@ -45,7 +45,7 @@ function App() {
 			}
 		}, 1000)
 		return () => clearInterval(interval)
-	})
+	}, [])
 
 	useEffect(() => {
 		if (token === '' || token == null) {
