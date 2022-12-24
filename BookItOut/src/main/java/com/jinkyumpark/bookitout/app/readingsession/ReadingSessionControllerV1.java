@@ -88,7 +88,7 @@ public class ReadingSessionControllerV1 {
     }
 
     @PostMapping("{bookId}/start")
-    public ReadingSession startReadingSession(@PathVariable("bookId") Long bookId) {
+    public Book startReadingSession(@PathVariable("bookId") Long bookId) {
         Book book = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
@@ -106,7 +106,7 @@ public class ReadingSessionControllerV1 {
         ReadingSession newReadingSession = new ReadingSession(startPage, LocalDateTime.now(), book, appUser);
         readingSessionService.addReadingSession(newReadingSession);
 
-        return readingSessionService.getCurrentReadingSession(loginUserId);
+        return book;
     }
 
     @PostMapping("{bookId}")
