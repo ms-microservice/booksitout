@@ -3,26 +3,28 @@ import { useNavigate } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 // URL
-import { READING_SESSION_CURRENT_API_URL } from '../../settings/urls/apiUrl'
 import { getToken } from '../../functions/user'
+import { API_BASE_URL } from '../../settings/urls/apiUrl'
 
 const ReadingNoId = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		fetch(READING_SESSION_CURRENT_API_URL, {
+		const BOOK_CURRENT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/book/current-reading-session`
+
+		fetch(BOOK_CURRENT_READING_SESSION_API_URL, {
 			method: 'GET',
 			headers: { Authorization: getToken() },
 		})
 			.then((res) => {
 				if (res.status.toString().startsWith(2)) {
 					return res.json()
+				} else {
+					navigate('/book/not-done')
 				}
-
-				navigate('/book/not-done')
 			})
-			.then((data) => {
-				navigate(`/reading/${data.book.bookId}`)
+			.then((book) => {
+				navigate(`/reading/${book.bookId}`)
 			})
 	}, [])
 
