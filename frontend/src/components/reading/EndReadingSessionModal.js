@@ -6,13 +6,23 @@ import { endReadingSessionWithoutSaving } from '../../functions/reading'
 import { endReadingSession } from '../../functions/reading'
 import '../../resources/css/input.css'
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, readingSessionId, setTime }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, readingSessionId, setTime, book }) => {
 	const navigate = useNavigate()
 	const [endPage, setEndPage] = useState(-1)
 
 	const hideModal = () => {
 		setIsShowingModal(false)
 		toggleTimer(true)
+	}
+
+	const handleEndReadingSession = (e) => {
+		e.preventDefault()
+
+		endReadingSession(book, endPage).then((success) => {
+			if (success) {
+				navigate(`/book/detail/${book.bookId}`)
+			}
+		})
 	}
 
 	return (
@@ -22,7 +32,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tog
 			</Modal.Header>
 
 			<Modal.Body>
-				<Form onSubmit={(e) => endReadingSession(bookId, endPage, e, navigate)}>
+				<Form onSubmit={(e) => handleEndReadingSession(e)}>
 					<h5 className='text-center'>끝내는 페이지</h5>
 
 					<div className='row justify-content-center mt-3 mb-4'>
