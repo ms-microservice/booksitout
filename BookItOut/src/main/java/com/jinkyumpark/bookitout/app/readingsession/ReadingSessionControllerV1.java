@@ -210,6 +210,17 @@ public class ReadingSessionControllerV1 {
         return new AddSuccessResponse("독서활동을 종료했어요");
     }
 
+    @DeleteMapping("not-saving")
+    public DeleteSuccessResponse deleteReadingSessionWithoutSaving() {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        ReadingSession currentReadingSession = readingSessionService.getCurrentReadingSession(loginUserId);
+        readingSessionService.deleteReadingSession(currentReadingSession.getReadingSessionId());
+
+        return new DeleteSuccessResponse("DELETE v1/reading-session/not-saving");
+    }
+
+
     @DeleteMapping("{readingSessionId}")
     @Transactional
     public DeleteSuccessResponse deleteReadingSession(@PathVariable("readingSessionId") Long readingSessionId) {
