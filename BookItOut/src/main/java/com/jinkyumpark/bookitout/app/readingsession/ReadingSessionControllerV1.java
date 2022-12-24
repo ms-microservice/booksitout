@@ -201,19 +201,19 @@ public class ReadingSessionControllerV1 {
     }
 
     @DeleteMapping("{readingSessionId}")
+    @Transactional
     public DeleteSuccessResponse deleteReadingSession(@PathVariable("readingSessionId") Long readingSessionId) {
-        Optional<ReadingSession> readingSessionOptional = readingSessionService.getReadingSessionByReadingSessionId(readingSessionId);
-        if (readingSessionOptional.isEmpty()) {
-            throw new NotFoundException("지우실려는 독서활동이 없어요");
-        }
-
+        ReadingSession readingSession = readingSessionService.getReadingSessionByReadingSessionId(readingSessionId)
+                .orElseThrow(() -> new NotFoundException("지우실려는 독서활동이 없어요"));
         Long loginUserId = AppUserService.getLoginAppUserId();
-        Long readingSessionAppUserId = readingSessionOptional.get().getBook().getAppUser().getAppUserId();
+
+        Long readingSessionAppUserId = readingSession.getBook().getAppUser().getAppUserId();
         if (!loginUserId.equals(readingSessionAppUserId)) {
             throw new NotAuthorizeException("독서활동을 지우실 권한이 없어요");
         }
 
         readingSessionService.deleteReadingSession(readingSessionId);
+        readingSession.getBook().setCurrentPage(readingSession.getStartPage());
 
         return new DeleteSuccessResponse("독서활동을 지웠어요");
     }
