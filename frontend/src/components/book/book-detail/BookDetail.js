@@ -171,6 +171,7 @@ const BookDetail = () => {
 									readingSessionList={readingSession}
 									setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
 									setSelectedReadingSession={setSelectedReadingSession}
+									bookEndPage={book.endPage}
 								/>
 							}
 							setIsAddModalOpen={setIsAddReadingSessionModalOpen}
@@ -448,7 +449,7 @@ const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelect
 	)
 }
 
-const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, setSelectedReadingSession }) => {
+const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, setSelectedReadingSession, bookEndPage }) => {
 	return (
 		<div className='row row-eq-height'>
 			{readingSessionList.map((readingSession) => {
@@ -480,9 +481,9 @@ const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, 
 									<ProgressBar className='p-0'>
 										<ProgressBar
 											style={{ backgroundColor: 'rgb(234, 236, 239)' }}
-											now={(readingSession.startPage / readingSession.book.endPage) * 100}
+											now={(readingSession.startPage / bookEndPage) * 100}
 										/>
-										<ProgressBar now={(readingSession.endPage / readingSession.book.endPage) * 100} />
+										<ProgressBar now={(readingSession.endPage / bookEndPage) * 100} />
 									</ProgressBar>
 								</div>
 							</Card.Body>
