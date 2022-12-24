@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../url/apiUrl'
+import { API_BASE_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
 import toast from 'react-hot-toast'
 

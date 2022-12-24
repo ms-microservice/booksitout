@@ -1,4 +1,4 @@
-import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../url/apiUrl'
+import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../settings/urls/apiUrl'
 import toast from 'react-hot-toast'
 
 const verifyEmail = (email) => {
@@ -22,6 +22,7 @@ const verifyEmail = (email) => {
 			toast.success('가입중인 이메일이에요. 이미 보낸 인증번호를 입력해 주세요')
 			return true
 		} else {
+			toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			return false
 		}
 	})
@@ -46,7 +47,7 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 		return
 	}
 
-	if (emailVerificationCode == '') {
+	if (emailVerificationCode === '') {
 		toast.error('이메일 인증을 진행해 주세요')
 		return
 	}

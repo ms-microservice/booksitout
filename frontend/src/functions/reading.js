@@ -1,5 +1,5 @@
 import toast from 'react-hot-toast'
-import { API_BASE_URL } from '../url/apiUrl'
+import { API_BASE_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
 
 const READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/`

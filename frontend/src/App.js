@@ -20,11 +20,11 @@ import Faq from './components/info/Faq'
 import Qna from './components/info/Qna'
 import Search from './components/search/Search'
 import Goal from './components/statistics/Goal'
+import FloatingAddButton from './components/common/FloatingAddButton'
 // Functions
 import { getToken } from './functions/user'
-// URL
-import { REDIRECT_EXCLUDE_URL } from './url/localUrl'
-import FloatingAddButton from './components/common/FloatingAddButton'
+// Settings
+import { REDIRECT_EXCLUDE_URL } from './settings/urls/localUrl'
 
 function App() {
 	const location = useLocation()

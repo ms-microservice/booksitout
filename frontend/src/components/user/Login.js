@@ -4,7 +4,7 @@ import { Card, Form, Button } from 'react-bootstrap'
 // Functions
 import { login } from '../../functions/user'
 // Urls
-import { INTRODUCTION_URL, FAQ_URL, QNA_URL } from '../../url/localUrl'
+import { INTRODUCTION_URL, FAQ_URL, QNA_URL } from '../../settings/urls/localUrl'
 // Messages
 import {
 	EMAIL_PLACEHOLDER_MESSAGE,

@@ -1,4 +1,4 @@
-import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../url/apiUrl'
+import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../settings/urls/apiUrl'
 import toast from 'react-hot-toast'
 import { getToken } from './user'
 

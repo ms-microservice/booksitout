@@ -1,4 +1,4 @@
-// const API_BASE_URL = `http://api.book.jinkyumpark.com`
+// const API_BASE_URL = `https://api.jinkyumpark.com`
 const API_BASE_URL = `http://localhost`
 
 const LOGIN_API_URL = `${API_BASE_URL}/login`

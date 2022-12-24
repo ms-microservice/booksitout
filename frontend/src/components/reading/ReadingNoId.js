@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 // URL
-import { READING_SESSION_CURRENT_API_URL } from '../../url/apiUrl'
+import { READING_SESSION_CURRENT_API_URL } from '../../settings/urls/apiUrl'
 
 const ReadingNoId = ({ token }) => {
 	const navigate = useNavigate()

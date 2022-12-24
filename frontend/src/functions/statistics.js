@@ -1,4 +1,4 @@
-import { API_BASE_URL, STATISTICS_SUMMARY_URL } from '../url/apiUrl'
+import { API_BASE_URL, STATISTICS_SUMMARY_URL } from '../settings/urls/apiUrl'
 import { getToken } from '../functions/user'
 
 const getReadTime = (duration) => {

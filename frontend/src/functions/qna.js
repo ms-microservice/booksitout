@@ -1,5 +1,5 @@
 import { getToken } from './user'
-import { API_BASE_URL } from '../url/apiUrl'
+import { API_BASE_URL } from '../settings/urls/apiUrl'
 
 const QNA_ALL_API_URL = `${API_BASE_URL}/v1/qna/all`
 const QNA_USER_API_URL = `${API_BASE_URL}/v1/qna/user`

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Modal, Card, Button } from 'react-bootstrap'
-import { GOOGLE_URL, GOOGLE_CX, GOOGLE_API_KEY } from '../../url/googleSearch'
+import { GOOGLE_URL, GOOGLE_CX, GOOGLE_API_KEY } from '../../settings/googleSearch'
 // Resources
 import Error from '../common/Error'
 import Loading from '../common/Loading'
