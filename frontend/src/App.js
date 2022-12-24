@@ -4,42 +4,44 @@ import { Toaster, useToasterStore, toast } from 'react-hot-toast'
 // Components
 import Topnav from './components/common/Topnav'
 import ReadingButton from './components/common/ReadingButton'
+import FloatingAddButton from './components/common/FloatingAddButton'
 import Login from './components/user/Login'
 import Join from './components/user/Join'
 import Settings from './components/user/Settings'
+import Main from './components/statistics/Main'
 import BookList from './components/book/BookList'
 import BookDetail from './components/book/book-detail/BookDetail'
 import BookAddForm from './components/book/BookAddForm'
 import BookEditForm from './components/book/BookEditForm'
 import Reading from './components/reading/Reading'
 import ReadingNoId from './components/reading/ReadingNoId'
-import Main from './components/statistics/Main'
 import Statistics from './components/statistics/Statistics'
 import Introduction from './components/info/Introduction'
 import Faq from './components/info/Faq'
 import Qna from './components/info/Qna'
 import Search from './components/search/Search'
 import Goal from './components/statistics/Goal'
-import FloatingAddButton from './components/common/FloatingAddButton'
 // Functions
 import { getToken } from './functions/user'
 // Settings
 import { REDIRECT_EXCLUDE_URL } from './settings/urls/localUrl'
+import { TOAST_LIMIT } from './settings/settings'
+import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 
 function App() {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const [token, setToken] = useState(getToken())
 
-	const READING_TIME_KEY = `reading-session-time`
-	const TIMER_ON_KEY = `timer-on`
-	const [readingSessionTime, setReadingSessionTime] = useState(localStorage.getItem(READING_TIME_KEY))
+	const [readingSessionTime, setReadingSessionTime] = useState(Math.round(getTimerSecond()))
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (localStorage.getItem(TIMER_ON_KEY) === 'true') {
-				const currentTime = localStorage.getItem(READING_TIME_KEY)
-				localStorage.setItem(READING_TIME_KEY, currentTime == null ? 0 : Number(currentTime) + 1)
-				setReadingSessionTime(Number(currentTime))
+			if (getIsTimerOn()) {
+				const currentTime = getTimerSecond()
+				updateTimerSecond(currentTime == null ? 0 : Number(currentTime) + 1)
+				setReadingSessionTime(Math.round(Number(currentTime)))
+			} else {
+				updateReadingTimeDate()
 			}
 		}, 1000)
 		return () => clearInterval(interval)
@@ -55,7 +57,6 @@ function App() {
 		}
 	}, [location.pathname])
 
-	const TOAST_LIMIT = 3
 	const { toasts } = useToasterStore()
 	useEffect(() => {
 		toasts
@@ -81,18 +82,22 @@ function App() {
 
 				<Route path='/login' element={<Login setToken={setToken} />} />
 				<Route path='/join' element={<Join />} />
-				<Route path='/settings' element={<Settings token={token} />} />
+				<Route path='/settings' element={<Settings />} />
 
 				<Route path='/' element={<Main token={token} />} />
 				<Route path='/book/:range' element={<BookList token={token} />} />
 				<Route path='/book/detail/:id' element={<BookDetail />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
-				<Route path='/reading' element={<ReadingNoId token={token} />} />
-				<Route path='/reading/:id' element={<Reading token={token} readingSessionTime={readingSessionTime} />} />
 
-				<Route path='/statistics' element={<Statistics token={token} />} />
-				<Route path='/statistics/goal' element={<Goal token={token} />} />
+				<Route path='/reading' element={<ReadingNoId />} />
+				<Route
+					path='/reading/:id'
+					element={<Reading readingSessionTime={readingSessionTime} setReadingSessionTime={setReadingSessionTime} />}
+				/>
+
+				<Route path='/statistics' element={<Statistics />} />
+				<Route path='/statistics/goal' element={<Goal />} />
 
 				<Route path='/search/:key' element={<Search />} />
 			</Routes>

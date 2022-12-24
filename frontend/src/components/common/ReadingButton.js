@@ -26,7 +26,7 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading', time }) => {
 
 	return (
 		<>
-			{time == null || time === '' ? (
+			{time == null || time === '' || time === 0 ? (
 				<BookIcon
 					className='btn btn-primary'
 					style={readingButtonStyle}

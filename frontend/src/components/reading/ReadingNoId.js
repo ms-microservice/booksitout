@@ -4,14 +4,15 @@ import { useNavigate } from 'react-router-dom'
 import Loading from '../common/Loading'
 // URL
 import { READING_SESSION_CURRENT_API_URL } from '../../settings/urls/apiUrl'
+import { getToken } from '../../functions/user'
 
-const ReadingNoId = ({ token }) => {
+const ReadingNoId = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
 		fetch(READING_SESSION_CURRENT_API_URL, {
 			method: 'GET',
-			headers: { Authorization: token },
+			headers: { Authorization: getToken() },
 		})
 			.then((res) => {
 				if (res.status.toString().startsWith(2)) {

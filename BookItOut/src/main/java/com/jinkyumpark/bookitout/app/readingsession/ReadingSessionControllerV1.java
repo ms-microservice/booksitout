@@ -88,25 +88,25 @@ public class ReadingSessionControllerV1 {
     }
 
     @PostMapping("{bookId}/start")
-    public Book startReadingSession(@PathVariable("bookId") Long bookId) {
+    public ReadingSession startReadingSession(@PathVariable("bookId") Long bookId) {
         Book book = bookService.getBookById(bookId);
-        Long loginAppUserId = AppUserService.getLoginAppUserId();
+        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (!loginAppUserId.equals(book.getAppUser().getAppUserId())) {
+        if (!loginUserId.equals(book.getAppUser().getAppUserId())) {
             throw new BookNotSharingException("독서활동을 추가하시려는 책의 주인이 아니에요");
         }
 
-        Optional<ReadingSession> currentReadingSessionOptional = readingSessionService.getCurrentReadingSessionOptional(loginAppUserId);
+        Optional<ReadingSession> currentReadingSessionOptional = readingSessionService.getCurrentReadingSessionOptional(loginUserId);
         if (currentReadingSessionOptional.isPresent()) {
             throw new ReadingSessionIsInProgressException(currentReadingSessionOptional.get().getBook().getBookId());
         }
 
         Integer startPage = book.getCurrentPage();
-        AppUser appUser = new AppUser(loginAppUserId);
+        AppUser appUser = new AppUser(loginUserId);
         ReadingSession newReadingSession = new ReadingSession(startPage, LocalDateTime.now(), book, appUser);
         readingSessionService.addReadingSession(newReadingSession);
 
-        return book;
+        return readingSessionService.getCurrentReadingSession(loginUserId);
     }
 
     @PostMapping("{bookId}")

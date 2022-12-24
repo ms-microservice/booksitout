@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
-import { deleteReadingSession } from '../../functions/reading'
+import toast from 'react-hot-toast'
+import { endReadingSessionWithoutSaving } from '../../functions/reading'
 import { endReadingSession } from '../../functions/reading'
 import '../../resources/css/input.css'
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, token }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, toggleTimer, readingSessionId, setTime }) => {
 	const navigate = useNavigate()
 	const [endPage, setEndPage] = useState(-1)
 
@@ -32,7 +33,23 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, bookId, tog
 
 					<div className='row justify-content-center'>
 						<div className='col-12 col-md-4 mt-2'>
-							<Button variant='warning' className='w-100' onClick={() => deleteReadingSession(navigate)}>
+							<Button
+								variant='warning'
+								className='w-100'
+								onClick={() => {
+									endReadingSessionWithoutSaving(readingSessionId).then((success) => {
+										if (success) {
+											toast.success('독서활동을 저장하지 않고 끝냈어요')
+											localStorage.removeItem('reading-session-time')
+											localStorage.removeItem('reading-session-date')
+											localStorage.removeItem('timer-on')
+											setTime(0)
+											navigate('/book/not-done')
+										} else {
+											toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+										}
+									})
+								}}>
 								그냥 끝내기
 							</Button>
 						</div>

@@ -9,22 +9,28 @@ import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 // Functions
 import { getCurrentReadingSession } from '../../functions/reading'
+import { getIsTimerOn, turnOffTimer, turnOnTimer } from '../../functions/timer'
 
-const Reading = ({ token, readingSessionTime }) => {
+const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
 	const [book, setBook] = useState(null)
 
-	const TIMER_ON_KEY = `timer-on`
-	const [isTimerOn, setIsTimerOn] = useState(localStorage.getItem(TIMER_ON_KEY) === 'true')
-	const toggleTimer = (state = !(localStorage.getItem(TIMER_ON_KEY) === 'true')) => {
-		setIsTimerOn(state === true)
-		localStorage.setItem(TIMER_ON_KEY, state === true)
+	const [isTimerOn, setIsTimerOn] = useState(getIsTimerOn())
+	const toggleTimer = (state = !getIsTimerOn()) => {
+		if (state) {
+			setIsTimerOn(true)
+			turnOnTimer()
+		} else {
+			setIsTimerOn(false)
+			turnOffTimer()
+		}
 	}
 
+	const [readingSessionId, setReadingSessionId] = useState(null)
 	useEffect(() => {
-		getCurrentReadingSession(id, setBook, toggleTimer, navigate)
+		getCurrentReadingSession(id, setBook, toggleTimer, navigate, setReadingSessionId)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
@@ -40,7 +46,8 @@ const Reading = ({ token, readingSessionTime }) => {
 				setIsShowingModal={setIsShowingModal}
 				bookId={id}
 				toggleTimer={toggleTimer}
-				token={token}
+				readingSessionId={readingSessionId}
+				setTime={setReadingSessionTime}
 			/>
 
 			{book != null && (

@@ -5,7 +5,7 @@ import { getToken } from './user'
 const READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/`
 const READING_SESSION_CURRENT_API_URL = `${API_BASE_URL}/v1/reading-session/current`
 
-const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
+const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate, setReadingSessionId) => {
 	const token = getToken()
 
 	fetch(READING_SESSION_CURRENT_API_URL, {
@@ -21,7 +21,7 @@ const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
 		.then((readingSession) => {
 			if (readingSession.book.bookId == bookId) {
 				setBook(readingSession.book)
-				toggleTimer(true)
+				setReadingSessionId(readingSession.readingSessionId)
 			} else {
 				toast.error('진행중인 독서활동이 있어요')
 				navigate(`/reading/${readingSession.book.bookId}`)
@@ -29,11 +29,11 @@ const getCurrentReadingSession = (bookId, setBook, toggleTimer, navigate) => {
 			}
 		})
 		.catch(() => {
-			startReadingSession(bookId, toggleTimer, setBook, navigate)
+			startReadingSession(bookId, toggleTimer, setBook, navigate, setReadingSessionId)
 		})
 }
 
-const startReadingSession = (bookId, toggleTimer, setBook) => {
+const startReadingSession = (bookId, toggleTimer, setBook, setReadingSessionId) => {
 	const token = localStorage.getItem('login-token')
 	const START_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/start`
 
@@ -45,56 +45,30 @@ const startReadingSession = (bookId, toggleTimer, setBook) => {
 			return res.json()
 		})
 		.then((readingSession) => {
-			setBook(readingSession)
+			setReadingSessionId(readingSession.readingSessionId)
+			setBook(readingSession.book)
 			toggleTimer(true)
 		})
 }
 
-const endReadingSessionWithoutSaving = (navigate) => {
-	const token = localStorage.getItem('login-token')
+const endReadingSessionWithoutSaving = (readingSessionId) => {
+	const token = getToken()
 
-	return fetch(READING_SESSION_CURRENT_API_URL, {
-		method: 'GET',
+	return fetch(`${API_BASE_URL}/v1/reading-session/${readingSessionId}`, {
+		method: 'DELETE',
 		headers: { Authorization: token },
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
 	})
-		.then((res) => {
-			if (res.status.toString().startsWith(4)) {
-				throw new Error()
-			} else {
-				return res.json()
-			}
-		})
-		.then((currentReadingSession) => {
-			return currentReadingSession.readingSessionId
-		})
-		.then((readingSessionId) => {
-			fetch(READING_SESSION_API_URL + readingSessionId, {
-				method: 'DELETE',
-				headers: { Authorization: token },
-			}).then((res) => {
-				if (res.status.toString().startsWith(2)) {
-					localStorage.removeItem('reading-session-time')
-
-					toast.success('독서활동을 저장하지 않고 끝냈어요')
-					navigate('/book/not-done')
-				} else {
-					toast.error('오류가 났어요 다시 시도해 주세요')
-				}
-			})
-		})
-		.catch((e) => {
-			toast.error('오류가 났어요')
-			return
-		})
 }
 
 const endReadingSession = (bookId, endPage, e, navigate) => {
 	e.preventDefault()
 
 	const token = localStorage.getItem('login-token')
-	const READING_SESSION_END_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/end?page=${endPage}&time=${localStorage.getItem(
-		'reading-session-time'
-	)}`
+	const readingTime = Math.round(localStorage.getItem('reading-session-time'))
+	const READING_SESSION_END_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/end?page=${endPage}&time=${readingTime}`
 
 	fetch(encodeURI(READING_SESSION_END_API_URL), {
 		method: 'PUT',
@@ -104,6 +78,7 @@ const endReadingSession = (bookId, endPage, e, navigate) => {
 		.then((data) => {
 			if (data.status.toString().startsWith(2)) {
 				localStorage.removeItem('reading-session-time')
+
 				navigate(`/book/detail/${bookId}`)
 				toast.success(data.message)
 			} else {
