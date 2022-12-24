@@ -1,7 +1,8 @@
 import React from 'react'
 import toast from 'react-hot-toast'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Card } from 'react-bootstrap'
 import { deleteMemo } from '../../../functions/memo'
+import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
 
 const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, memoList, setMemoList }) => {
 	const handleEditMemo = () => {}
@@ -30,11 +31,11 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, memoList, setMemoL
 					</Modal.Header>
 
 					<Modal.Body>
-						<div className='row justify-content-center'>
-							{memo.page}
-							<br />
-							{memo.content}
-						</div>
+						<Card className='text-center' style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
+							<Card.Header>{memo.page} P</Card.Header>
+
+							<Card.Body>{memo.content}</Card.Body>
+						</Card>
 
 						<div className='row mt-3'>
 							<div className='col-6'>

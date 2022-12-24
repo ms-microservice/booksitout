@@ -1,6 +1,6 @@
 import React from 'react'
 import toast from 'react-hot-toast'
-import { Modal, Button } from 'react-bootstrap'
+import { Modal, Button, Card } from 'react-bootstrap'
 import { deleteQuotation } from '../../../functions/quotation'
 
 const QuotationDetailModal = ({ isModalOpen, setIsModalOpen, quotation, quotationList, setQuotationList }) => {
@@ -28,11 +28,11 @@ const QuotationDetailModal = ({ isModalOpen, setIsModalOpen, quotation, quotatio
 
 			<Modal.Body>
 				{quotation != null && (
-					<>
-						{quotation.page}
-						{quotation.content}
-						{quotation.from_who}
-					</>
+					<Card className='text-center'>
+						<Card.Header>{quotation.page}</Card.Header>
+						<Card.Body>{quotation.content}</Card.Body>
+						<Card.Footer>{quotation.from_who == null || quotation.from_who === '' ? '-' : quotation.from_who}</Card.Footer>
+					</Card>
 				)}
 
 				<div className='row mt-3'>
