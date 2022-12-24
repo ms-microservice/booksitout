@@ -110,18 +110,17 @@ public class ReadingSessionControllerV1 {
     }
 
     @PostMapping("{bookId}")
+    @Transactional
     public ResponseEntity<String> addReadingSession(@PathVariable("bookId") Long bookId,
-                                                            @Valid @RequestBody AddReadingSessionRequest addReadingSessionRequest) {
+                                                    @Valid @RequestBody AddReadingSessionRequest addReadingSessionRequest) {
         Book book = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (! book.getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException();
-        }
+        if (!book.getAppUser().getAppUserId().equals(loginUserId)) throw new NotAuthorizeException();
+        if (!book.getCurrentPage().equals(addReadingSessionRequest.getStartPage())) throw new BadRequestException("");
+        if (book.getEndPage() < addReadingSessionRequest.getEndPage()) throw new BadRequestException("");
 
-        if (! book.getCurrentPage().equals(addReadingSessionRequest.getStartPage())) {
-            throw new BadRequestException("");
-        }
+        book.setCurrentPage(addReadingSessionRequest.getEndPage());
 
         ReadingSession readingSession = ReadingSession.builder()
                 .startPage(addReadingSessionRequest.getStartPage())
@@ -132,6 +131,17 @@ public class ReadingSessionControllerV1 {
                 .appUser(new AppUser(loginUserId))
                 .book(book)
                 .build();
+
+        MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginUserId, addReadingSessionRequest.getStartDate().getYear(), addReadingSessionRequest.getStartDate().getMonthValue());
+        statistics.setTotalReadMinute(statistics.getTotalReadMinute() + (addReadingSessionRequest.getReadTime()));
+        statistics.setTotalPage(statistics.getTotalPage() + addReadingSessionRequest.getEndPage() - addReadingSessionRequest.getStartPage());
+        if (statistics.getMaxReadMinute() < addReadingSessionRequest.getReadTime())
+            statistics.setMaxReadMinute(addReadingSessionRequest.getReadTime() / 60);
+        if (book.getEndPage().equals(addReadingSessionRequest.getEndPage())) {
+            statistics.setFinishedBook(statistics.getFinishedBook() + 1);
+            Optional<Goal> goalOptional = goalService.getGoalByYearOptional(loginUserId, addReadingSessionRequest.getStartDate().getYear());
+            goalOptional.ifPresent(goal -> goal.setCurrent(goal.getCurrent() + 1));
+        }
 
         readingSessionService.addReadingSession(readingSession);
 
