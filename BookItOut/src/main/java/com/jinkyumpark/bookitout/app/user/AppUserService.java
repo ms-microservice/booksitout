@@ -24,7 +24,7 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository
                 .findAppUserByEmail(username)
                 .orElseThrow(() ->
-                    new UsernameNotFoundException("해당 id의 유저를 찾을 수 없어요")
+                    new UsernameNotFoundException("No App User found")
                 );
     }
 
@@ -39,7 +39,7 @@ public class AppUserService implements UserDetailsService {
     public static Long getLoginAppUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (! authentication.isAuthenticated()) {
-            throw new NotLoginException("로그인해 주세요");
+            throw new NotLoginException("Please Login");
         }
 
         AppUserAuthenticationToken token = ((AppUserAuthenticationToken) authentication);
@@ -67,7 +67,7 @@ public class AppUserService implements UserDetailsService {
     @Transactional
     public void updateUser(AppUser appUser) {
         AppUser existingAppUser = appUserRepository.findAppUserByEmail(appUser.getEmail())
-                .orElseThrow(() -> new NotFoundException("Not Found"));
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
 
         existingAppUser.setPassword(appUser.getPassword());
         existingAppUser.setName(appUser.getName());
