@@ -235,6 +235,15 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.deleteReadingSession(readingSessionId);
         readingSession.getBook().setCurrentPage(readingSession.getStartPage());
+        MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginUserId, readingSession.getStartTime().getYear(), readingSession.getStartTime().getMonthValue());
+        statistics.setTotalReadMinute(statistics.getTotalReadMinute() - readingSession.getReadTime());
+        statistics.setTotalPage(statistics.getTotalPage() - (readingSession.getEndPage() - readingSession.getStartPage()));
+
+        if (readingSession.getEndPage().equals(readingSession.getBook().getEndPage())) {
+            Goal goal = goalService.getGoalByYear(loginUserId, readingSession.getStartTime().getYear());
+            goal.setCurrent(goal.getCurrent() - 1);
+            statistics.setFinishedBook(statistics.getFinishedBook() - 1);
+        }
 
         return new DeleteSuccessResponse("독서활동을 지웠어요");
     }
