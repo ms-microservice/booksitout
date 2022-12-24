@@ -47,7 +47,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             return authenticationManager.authenticate(authentication);
 
         } catch (IOException e) {
-            throw new NotLoginException("Email과 비밀번호를 입력해 주세요");
+            throw new NotLoginException("Email or Password Not Present");
         }
     }
 
