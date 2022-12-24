@@ -14,7 +14,22 @@ const HorizontalBookView = ({
 		</a>
 	),
 	secondButton = (
-		<a href='/book/' className='btn btn-danger w-100'>
+		<Button
+			variant='danger'
+			className='w-100'
+			onClick={() => {
+				const confirm = window.confirm('책을 포기할까요?')
+
+				if (confirm) {
+					giveUpBook(book.bookId).then((success) => {
+						if (success) {
+							toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
+						} else {
+							toast.error('오류가 났어요 다시 시도해 주세요')
+						}
+					})
+				}
+			}}>
 			이 책 포기하기
 		</a>
 	),

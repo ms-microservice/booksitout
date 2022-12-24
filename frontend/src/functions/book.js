@@ -134,16 +134,18 @@ const editBook = (book) => {
 	})
 }
 
-const giveUpBook = (bookId, token, navigate) => {
-	fetch(GIVE_UP_BOOK_API_URL + bookId, {
+const giveUpBook = (bookId) => {
+	const token = getToken()
+
+	return fetch(GIVE_UP_BOOK_API_URL + bookId, {
 		method: 'PUT',
 		headers: { Authorization: token },
 	}).then((res) => {
 		if (res.status.toString().startsWith(2)) {
 			toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
-			navigate('/book/give-up')
+			return true
 		} else {
-			toast.error('오류가 났어요 다시 시도해 주세요')
+			return false
 		}
 	})
 }
