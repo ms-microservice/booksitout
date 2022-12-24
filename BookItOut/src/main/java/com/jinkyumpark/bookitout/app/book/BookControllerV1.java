@@ -70,6 +70,12 @@ public class BookControllerV1 {
         return bookService.getAllBooks(loginUserId, pageRequest);
     }
 
+    @GetMapping("current-reading-session")
+    public Book getCurrentReadingSessionBook() {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+        return bookService.getCurrentReadingSessionBook(loginUserId);
+    }
+
     @PostMapping
     public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {
         // TODO : Builder
