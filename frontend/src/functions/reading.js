@@ -63,14 +63,12 @@ const endReadingSessionWithoutSaving = (readingSessionId) => {
 	})
 }
 
-const endReadingSession = (bookId, endPage, e, navigate) => {
-	e.preventDefault()
-
+const endReadingSession = (book, endPage) => {
 	const token = localStorage.getItem('login-token')
 	const readingTime = Math.round(localStorage.getItem('reading-session-time'))
-	const READING_SESSION_END_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/end?page=${endPage}&time=${readingTime}`
+	const READING_SESSION_END_API_URL = `${API_BASE_URL}/v1/reading-session/${book.bookId}/end?page=${endPage}&time=${readingTime}`
 
-	fetch(encodeURI(READING_SESSION_END_API_URL), {
+	return fetch(encodeURI(READING_SESSION_END_API_URL), {
 		method: 'PUT',
 		headers: { Authorization: token },
 	})
@@ -79,18 +77,25 @@ const endReadingSession = (bookId, endPage, e, navigate) => {
 			if (data.status.toString().startsWith(2)) {
 				localStorage.removeItem('reading-session-time')
 
-				navigate(`/book/detail/${bookId}`)
-				toast.success(data.message)
+				if (book.endPage == endPage) {
+					toast.success('책을 다 읽으셨어요! 별점, 감상, 요약을 추가해 보세요!')
+				} else {
+					toast.success(data.message)
+				}
+
+				return true
 			} else {
 				toast.error(data.message)
+				return false
 			}
 		})
 }
 
 const getAllReadingSessionOfBook = (bookId) => {
 	const token = getToken()
+	const ALL_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}`
 
-	return fetch(`${API_BASE_URL}/v1/reading-session/${bookId}`, { method: 'GET', headers: { Authorization: token } })
+	return fetch(ALL_READING_SESSION_API_URL, { method: 'GET', headers: { Authorization: token } })
 		.then((res) => res.json())
 		.then((readingSessionList) => {
 			return readingSessionList
