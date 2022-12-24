@@ -28,6 +28,7 @@ import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
 import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
+import MemoDetailModal from './MemoDetailModal'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -58,13 +59,14 @@ const BookDetail = () => {
 
 	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
 	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
-
 	const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false)
-	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
 
 	const [isAddReadingSessionModalOpen, setIsAddReadingSessionModalOpen] = useState(false)
 	const [isAddMemoModalOpen, setIsAddMemoModalOpen] = useState(false)
 	const [isAddQuotationModalOpen, setIsAddQuotationModalOpen] = useState(false)
+
+	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
+	const [isMemoDetailModalOpen, setIsMemoDetailModalOpen] = useState(false)
 
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
 	const [selectedMemo, setSelectedMemo] = useState(null)
@@ -89,13 +91,6 @@ const BookDetail = () => {
 						readingSessionList={readingSession}
 						setReadingSessionList={setReadingSession}
 					/>
-					<ReadingSessionDetailModal
-						isModalOpen={isReadingSessionDetailModalOpen}
-						setIsModalOpen={setIsReadingSessionDetailModalOpen}
-						readingSession={selectedReadingSession}
-						readingSessionList={readingSession}
-						setReadingSessionList={setReadingSession}
-					/>
 					<AddMemoModal
 						isModalOpen={isAddMemoModalOpen}
 						setIsModalOpen={setIsAddMemoModalOpen}
@@ -109,6 +104,20 @@ const BookDetail = () => {
 						book={book}
 						quotationList={quotation}
 						setQuotationList={setQuotation}
+					/>
+					<ReadingSessionDetailModal
+						isModalOpen={isReadingSessionDetailModalOpen}
+						setIsModalOpen={setIsReadingSessionDetailModalOpen}
+						readingSession={selectedReadingSession}
+						readingSessionList={readingSession}
+						setReadingSessionList={setReadingSession}
+					/>
+					<MemoDetailModal
+						isModalOpen={isMemoDetailModalOpen}
+						setIsModalOpen={setIsMemoDetailModalOpen}
+						memo={selectedMemo}
+						memoList={memo}
+						setMemoList={setMemo}
 					/>
 
 					<div className='col-12 col-md-4 mb-5'>
@@ -159,7 +168,9 @@ const BookDetail = () => {
 						<BookRecordCard
 							displayLabel='📋 메모'
 							record={memo}
-							ListComponent={<MemoList memoList={memo} />}
+							ListComponent={
+								<MemoList memoList={memo} setIsMemoDetailModalOpen={setIsMemoDetailModalOpen} setSelectedMemo={setSelectedMemo} />
+							}
 							setIsAddModalOpen={setIsAddMemoModalOpen}
 						/>
 						<BookRecordCard
@@ -364,18 +375,24 @@ const BookRecordCard = ({ displayLabel, record, ListComponent, setIsAddModalOpen
 	)
 }
 
-const MemoList = ({ memoList }) => {
+const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 	return (
 		<div className='row row-eq-height'>
 			{memoList.map((memo) => {
 				return (
 					<div className='col-12 mb-2'>
-						<Card style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
+						<Card
+							style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}
+							onClick={() => {
+								setIsMemoDetailModalOpen(true)
+								setSelectedMemo(memo)
+							}}>
 							<Card.Body>
 								<div className='row'>
 									<div className='col-2'>
 										<h6 className='mt-1'>{memo.page}</h6>
 									</div>
+
 									<div className='col-10'>
 										<div className='text-start'>{memo.content}</div>
 									</div>

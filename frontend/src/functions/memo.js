@@ -1,5 +1,6 @@
 import toast from 'react-hot-toast'
 import { API_BASE_URL } from '../url/apiUrl'
+import { getToken } from './user'
 
 const MEMO_GET_ALL_API_URL = `${API_BASE_URL}/v1/memo/all/`
 const MEMO_API_URL = `${API_BASE_URL}/v1/memo/`
@@ -39,4 +40,17 @@ const addMemo = (memo, bookId) => {
 		})
 }
 
-export { getMemo, addMemo }
+const deleteMemo = (memoId) => {
+	const token = getToken()
+	const DELETE_MEMO_API_URL = `${API_BASE_URL}/v1/memo/${memoId}`
+
+	return fetch(DELETE_MEMO_API_URL, {
+		method: 'DELETE',
+		headers: { Authorization: token },
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+export { getMemo, addMemo, deleteMemo }
