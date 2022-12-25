@@ -9,8 +9,7 @@ import com.google.common.net.HttpHeaders;
 import org.springframework.stereotype.Component;
 
 @NoArgsConstructor
-@Getter
-@Setter
+@Getter @Setter
 
 @Component
 @ConfigurationProperties(prefix = "application.jwt")
