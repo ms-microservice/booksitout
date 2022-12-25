@@ -117,8 +117,15 @@ public class ReadingSessionControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         if (!book.getAppUser().getAppUserId().equals(loginUserId)) throw new NotAuthorizeException();
-        if (!book.getCurrentPage().equals(addReadingSessionRequest.getStartPage())) throw new BadRequestException("");
-        if (book.getEndPage() < addReadingSessionRequest.getEndPage()) throw new BadRequestException("");
+        if (
+                ! book.getCurrentPage().equals(addReadingSessionRequest.getStartPage() - 1)
+                && addReadingSessionRequest.getStartPage() != 0
+        ) {
+            throw new BadRequestException("");
+        }
+        if (book.getEndPage() < addReadingSessionRequest.getEndPage()) {
+            throw new BadRequestException("");
+        }
 
         book.setCurrentPage(addReadingSessionRequest.getEndPage());
 
@@ -233,8 +240,12 @@ public class ReadingSessionControllerV1 {
             throw new NotAuthorizeException("독서활동을 지우실 권한이 없어요");
         }
 
+        if (!readingSession.getEndPage().equals(readingSession.getBook().getCurrentPage())) {
+            throw new BadRequestException("가장 최근의 독서활동만 지우실 수 있어요");
+        }
+
         readingSessionService.deleteReadingSession(readingSessionId);
-        readingSession.getBook().setCurrentPage(readingSession.getStartPage());
+        readingSession.getBook().setCurrentPage(readingSession.getStartPage() - 1);
         MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginUserId, readingSession.getStartTime().getYear(), readingSession.getStartTime().getMonthValue());
         statistics.setTotalReadMinute(statistics.getTotalReadMinute() - readingSession.getReadTime());
         statistics.setTotalPage(statistics.getTotalPage() - (readingSession.getEndPage() - readingSession.getStartPage()));
