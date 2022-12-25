@@ -56,13 +56,15 @@ const Faq = () => {
 			<div className='row justify-content-center mt-5'>
 				<div className='col-6 col-lg-4'>
 					<a href='/login' className='w-100'>
-						<Button className='w-100'>로그인하기</Button>
+						<Button variant='success' className='w-100'>
+							로그인하기
+						</Button>
 					</a>
 				</div>
 
 				<div className='col-6 col-lg-4'>
 					<a href='/join' className='w-100'>
-						<Button variant='danger' className='w-100'>
+						<Button variant='primary' className='w-100'>
 							회원가입하기
 						</Button>
 					</a>

@@ -78,7 +78,7 @@ const Login = ({ setToken }) => {
 
 								<div className='row justify-content-center mt-3'>
 									<div className='col-6 col-lg-4'>
-										<Button varnt='success' type='submit' className='w-100'>
+										<Button variant='success' type='submit' className='w-100'>
 											로그인
 										</Button>
 									</div>
