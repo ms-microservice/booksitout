@@ -19,7 +19,7 @@ const verifyEmail = (email) => {
 			toast.success('인증번호를 보냈어요. 메일을 확인해 주세요')
 			return true
 		} else if (status == 202) {
-			toast.success('가입중인 이메일이에요. 이미 보낸 인증번호를 입력해 주세요')
+			toast.success('가입중인 이메일이에요. 메일함에 있는 인증번호를 입력해 주세요')
 			return true
 		} else {
 			toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
