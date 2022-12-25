@@ -14,7 +14,7 @@ import java.util.Collection;
 import java.util.List;
 
 @Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 @Entity
 @Table(name = "app_user", uniqueConstraints = {
         @UniqueConstraint(name = "app_user_email_unique", columnNames = "email")
