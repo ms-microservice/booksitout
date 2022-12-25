@@ -31,7 +31,7 @@ public class AppUserControllerV1 {
     public ResponseEntity<String> verifyEmail(@PathVariable("email") @Email String email) {
         Optional<AppUser> appUserOptional = appUserService.getUserByEmail(email);
         if (appUserOptional.isPresent()) {
-            if (appUserOptional.get().getPassword() == null) {
+            if (appUserOptional.get().getEmailVerificationCode() != null) {
                 return new ResponseEntity<>(HttpStatus.ACCEPTED);
             }
 
@@ -39,10 +39,13 @@ public class AppUserControllerV1 {
         }
 
         Integer verificationCode = appUserService.getVerificationCode(VERIFICATION_CODE_LENGTH);
+
+        String EMAIL_SUBJECT = "Book it out에 가입하기 위해 인증번호를 입력해 주세요";
+        String EMAIL_CONTENT = String.valueOf(verificationCode);
         Mail mail = Mail.builder()
                 .toAddress(email)
-                .subject("Book it out에 가입하기 위해 인증번호를 입력해 주세요")
-                .content(String.valueOf(verificationCode))
+                .subject(EMAIL_SUBJECT)
+                .content(EMAIL_CONTENT)
                 .build();
         emailService.sendEmail(mail);
 
