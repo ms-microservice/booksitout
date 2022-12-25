@@ -5,37 +5,35 @@ import { addReadingSession } from '../../../functions/reading'
 import '../../../resources/css/input.css'
 
 const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, readingSessionList, setReadingSessionList }) => {
-	const [startPage, setStartPage] = useState(null)
 	const [endPage, setEndPage] = useState(null)
 	const [readTime, setReadTime] = useState(null)
 	const [year, setYear] = useState(new Date().getFullYear())
 	const [month, setMonth] = useState(new Date().getMonth() + (1 % 12))
 	const [day, setDay] = useState(new Date().getDate())
 
+	const getStartPage = () => {
+		return book.currentPage === 0 ? 0 : Number(book.currentPage) + 1
+	}
+
 	const handleAddReadingSession = (e) => {
 		e.preventDefault()
 
-		if (startPage == null) {
-			toast.error('시작 페이지를 입력해 주세요')
-			return
-		}
-
-		if (endPage == null) {
+		if (endPage == null || endPage === '') {
 			toast.error('끝 페이지를 입력해 주세요')
 			return
 		}
 
-		if (readTime == null) {
+		if (readTime == null || readTime === '') {
 			toast.error('독서 활동 시간을 입력해 주세요')
 			return
 		}
 
-		addReadingSession(book.bookId, year, month, day, startPage, endPage, readTime).then((success) => {
+		addReadingSession(book.bookId, year, month, day, getStartPage(), endPage, readTime).then((success) => {
 			if (success) {
 				setReadingSessionList([
 					...readingSessionList,
 					{
-						startPage: startPage,
+						startPage: getStartPage(),
 						endPage: endPage,
 						startTime: `${year}-${month}-${day}T`,
 						endTime: `${year}-${month}-${day}T`,
@@ -56,7 +54,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 	}
 
 	const getDayCountOfMonth = (year, month) => {
-		return new Date(year, month, 0).getDate(book.bookId, year, month, day, startPage, endPage, readTime)
+		return new Date(year, month, 0).getDate(year, month)
 	}
 
 	return (
@@ -97,13 +95,13 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 					</div>
 
 					<Form.Label>시작 페이지</Form.Label>
-					<Form.Control className='mb-2' type='number' value={book.currentPage} disabled />
+					<Form.Control className='mb-2' type='number' value={getStartPage()} disabled />
 
 					<Form.Label>끝 페이지</Form.Label>
 					<Form.Control className='mb-2' type='number' onChange={(e) => setEndPage(e.target.value)} />
 
 					<Form.Label>⏰ 시간 (분)</Form.Label>
-					<Form.Control className='mb-2' type='number' onChange={(e) => setReadTime(e.target.value)} />
+					<Form.Control className='mb-2' type='number' value={readTime} onChange={(e) => setReadTime(e.target.value)} />
 
 					<Button variant='success' type='submit' className='w-100 mt-2'>
 						추가하기
