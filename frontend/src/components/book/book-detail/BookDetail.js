@@ -499,19 +499,18 @@ const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, 
 												.replace('-', '월 ')
 												.concat('일')}
 										</div>
-
-										<div className='col-4 col-md-6'>⏰ {readingSession.readTime}분</div>
-
+										<div className='col-4 col-lg-6'>⏰ {readingSession.readTime}분</div>
 										<div className='col-6 mt-3'>
 											📃 {readingSession.startPage}p - {readingSession.endPage}p
 										</div>
-
 										<ProgressBar className='p-0'>
 											<ProgressBar
 												style={{ backgroundColor: 'rgb(234, 236, 239)' }}
 												now={(readingSession.startPage / bookEndPage) * 100}
 											/>
-											<ProgressBar now={(readingSession.endPage / bookEndPage) * 100} />
+											<ProgressBar
+												now={(readingSession.endPage / bookEndPage) * 100 - (readingSession.startPage / bookEndPage) * 100}
+											/>
 										</ProgressBar>
 									</div>
 								</Card.Body>
