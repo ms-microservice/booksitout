@@ -12,12 +12,13 @@ import ImageSearchModal from './ImageSearchModal'
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
 import { editBook, getBook } from '../../functions/book'
+import { API_BASE_URL } from '../../settings/urls/apiUrl'
 
 const BookEditForm = ({ token }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
-	const BOOK_GET_API_URL = `http://localhost/v1/book/${id}`
-	const BOOK_EDIT_API_URL = `http://localhost/v1/book/${id}`
+	const BOOK_GET_API_URL = `${API_BASE_URL}/v1/book/${id}`
+	const BOOK_EDIT_API_URL = `${API_BASE_URL}/v1/book/${id}`
 	const BOOK_DETAIL_URL = `/book/detail/${id}`
 
 	// Messages
