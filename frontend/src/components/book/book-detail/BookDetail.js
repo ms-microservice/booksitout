@@ -432,11 +432,11 @@ const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 							}}>
 							<Card.Body>
 								<div className='row'>
-									<div className='col-2'>
-										<h6 className='mt-1'>{memo.page}</h6>
+									<div className='col-3 col-md-2'>
+										<h6 className='mt-1'>{memo.page}P</h6>
 									</div>
 
-									<div className='col-10'>
+									<div className='col-9 col-md-10'>
 										<div className='text-start'>{memo.content}</div>
 									</div>
 								</div>
@@ -478,45 +478,47 @@ const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelect
 const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, setSelectedReadingSession, bookEndPage }) => {
 	return (
 		<div className='row row-eq-height'>
-			{readingSessionList.map((readingSession) => {
-				return (
-					<div className='col-12 col-lg-6'>
-						<Card
-							className='mb-2'
-							onClick={() => {
-								setIsReadingSessionModalOpen(true)
-								setSelectedReadingSession(readingSession)
-							}}>
-							<Card.Body>
-								<div className='row justify-content-center'>
-									<div className='col-8 col-md-6'>
-										🗓️{' '}
-										{readingSession.startTime
-											.substring(2, readingSession.startTime.indexOf('T'))
-											.replace('-', '년 ')
-											.replace('-', '월 ')
-											.concat('일')}
+			{readingSessionList
+				.filter((r) => r.endPage != null)
+				.map((readingSession) => {
+					return (
+						<div className='col-12 col-lg-6'>
+							<Card
+								className='mb-2'
+								onClick={() => {
+									setIsReadingSessionModalOpen(true)
+									setSelectedReadingSession(readingSession)
+								}}>
+								<Card.Body>
+									<div className='row justify-content-center'>
+										<div className='col-8 col-md-6'>
+											🗓️{' '}
+											{readingSession.startTime
+												.substring(2, readingSession.startTime.indexOf('T'))
+												.replace('-', '년 ')
+												.replace('-', '월 ')
+												.concat('일')}
+										</div>
+
+										<div className='col-4 col-md-6'>⏰ {readingSession.readTime}분</div>
+
+										<div className='col-6 mt-3'>
+											📃 {readingSession.startPage}p - {readingSession.endPage}p
+										</div>
+
+										<ProgressBar className='p-0'>
+											<ProgressBar
+												style={{ backgroundColor: 'rgb(234, 236, 239)' }}
+												now={(readingSession.startPage / bookEndPage) * 100}
+											/>
+											<ProgressBar now={(readingSession.endPage / bookEndPage) * 100} />
+										</ProgressBar>
 									</div>
-
-									<div className='col-4 col-md-6'>⏰ {readingSession.readTime}분</div>
-
-									<div className='col-6 mt-3'>
-										📃 {readingSession.startPage}p - {readingSession.endPage}p
-									</div>
-
-									<ProgressBar className='p-0'>
-										<ProgressBar
-											style={{ backgroundColor: 'rgb(234, 236, 239)' }}
-											now={(readingSession.startPage / bookEndPage) * 100}
-										/>
-										<ProgressBar now={(readingSession.endPage / bookEndPage) * 100} />
-									</ProgressBar>
-								</div>
-							</Card.Body>
-						</Card>
-					</div>
-				)
-			})}
+								</Card.Body>
+							</Card>
+						</div>
+					)
+				})}
 		</div>
 	)
 }

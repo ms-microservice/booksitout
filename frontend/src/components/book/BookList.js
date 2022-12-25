@@ -84,7 +84,7 @@ const BookList = (props) => {
 																	unGiveUpBook(book.bookId).then((success) => {
 																		if (success) {
 																			toast.success('이제 책을 다시 읽을 수 있어요')
-																			navigate(`book/detail/${book.bookId}`)
+																			navigate(`/book/detail/${book.bookId}`)
 																		} else {
 																			toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 																		}
@@ -99,8 +99,7 @@ const BookList = (props) => {
 															variant='danger'
 															className='w-100'
 															onClick={() => {
-																const confirm =
-																	window.confirm('정말 이 책을 삭제할까요?')
+																const confirm = window.confirm('정말 이 책을 삭제할까요?')
 
 																if (confirm) {
 																	deleteBook(book.bookId).then((success) => {

@@ -56,8 +56,7 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 						<h5 className='mb-3'>
 							📃 {readingSession.startPage}P 부터 {readingSession.endPage}P 까지
 						</h5>
-
-						<h5 className='mb-3'>📃 {readingSession.endPage - readingSession.startPage + 1} 페이지 읽었어요</h5>
+						<h5 className='mb-3'>📃 {readingSession.endPage - readingSession.startPage + 1}P 읽었어요</h5>
 					</div>
 					<div className='row'>
 						<div className='col-6'>

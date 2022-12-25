@@ -38,7 +38,7 @@ const Main = () => {
 
 		Promise.all([
 			getLastBook().then((book) => setLastBook(book)),
-			getReadTime(14).then((readTime) => setReadTime(readTime)),
+			getReadTime(7).then((readTime) => setReadTime(readTime)),
 			getGoal(new Date().getFullYear()).then((res) => setGoal(res)),
 			getStatisticsSummary().then((stats) => setStatistics(stats)),
 		]).finally(() => {
@@ -78,17 +78,17 @@ const Main = () => {
 			</Card.Body>
 		</Card>,
 		<Card className='h-100'>
-			<Card.Body>
-				<h3>최근 2주간 독서시간</h3>
+			<a href='/statistics' className='text-decoration-none text-black'>
+				<Card.Body>
+					<h3>최근 1주일 독서시간</h3>
 
-				{readTime == null ? (
-					<Error message='오류가 났어요' />
-				) : (
-					<a href='/statistics'>
-						<DateLineChart startDate={new Date().setDate(new Date().getDate() - 14)} data={readTime} />
-					</a>
-				)}
-			</Card.Body>
+					{readTime == null ? (
+						<Error message='오류가 났어요' />
+					) : (
+						<DateLineChart startDate={new Date().setDate(new Date().getDate() - 7)} data={readTime} duration={7} />
+					)}
+				</Card.Body>
+			</a>
 		</Card>,
 		<Card className='h-100'>
 			<Card.Body>
@@ -127,7 +127,7 @@ const Main = () => {
 					)}
 
 					{componentList.map((component) => {
-						return <div className='col-12 col-md-6 mb-4'>{component}</div>
+						return <div className='col-12 col-lg-6 mb-4'>{component}</div>
 					})}
 				</div>
 			)}
