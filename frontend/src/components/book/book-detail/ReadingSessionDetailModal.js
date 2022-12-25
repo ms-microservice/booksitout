@@ -30,27 +30,34 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 			{readingSession != null && (
 				<Modal.Body>
 					<div className='row'>
-						<h5>
+						<h5 className='mb-3'>
 							🗓️{' '}
 							{readingSession.startTime
 								.replace('-', '년 ')
 								.replace('-', '월 ')
 								.replace('T', '일 ')
 								.replace(':', '시 ')
-								.replace(':', '분 ')}
+								.replace(':', '분 ')
+								.substring(0, 21)}{' '}
+							부터
 						</h5>
-						<h5>
+						<h5 className='mb-3'>
 							🗓️{' '}
 							{readingSession.endTime
 								.replace('-', '년 ')
 								.replace('-', '월 ')
 								.replace('T', '일 ')
 								.replace(':', '시 ')
-								.replace(':', '분 ')}
+								.replace(':', '분 ')
+								.substring(0, 21)}{' '}
+							까지
 						</h5>
-						<h5>⏰ {readingSession.readTime}</h5>
-						<h5>📃 {readingSession.startPage}</h5>
-						<h5>📃 {readingSession.endPage}</h5>
+						<h5 className='mb-3'>⏰ {readingSession.readTime}분동안</h5>
+						<h5 className='mb-3'>
+							📃 {readingSession.startPage}P 부터 {readingSession.endPage}P 까지
+						</h5>
+
+						<h5 className='mb-3'>📃 {readingSession.endPage - readingSession.startPage + 1} 페이지 읽었어요</h5>
 					</div>
 					<div className='row'>
 						<div className='col-6'>
