@@ -5,6 +5,11 @@ import toast from 'react-hot-toast'
 
 const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession, readingSessionList, setReadingSessionList, book, setBook }) => {
 	const handleDeleteReadingSession = () => {
+		if (book.currentPage != readingSession.endPage) {
+			toast.error('가장 최근의 독서활동만 지울 수 있어요')
+			return
+		}
+
 		const confirm = window.confirm('이 독서활동을 지울까요?')
 
 		if (confirm) {
