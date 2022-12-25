@@ -50,7 +50,7 @@ public class AppUserService implements UserDetailsService {
         StringBuilder code = new StringBuilder();
 
         for (int i = 0; i < length; i++) {
-            code.append((int) (Math.random() * 10));
+            code.append((int) (Math.random() * 9) + 1);
         }
         return Integer.parseInt(code.toString());
     }
