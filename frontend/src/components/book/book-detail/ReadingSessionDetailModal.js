@@ -52,7 +52,7 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 								.substring(0, 21)}{' '}
 							까지
 						</h5>
-						<h5 className='mb-3'>⏰ {readingSession.readTime}분동안</h5>
+						<h5 className='mb-3'>⏰ {readingSession.readTime}분 동안</h5>
 						<h5 className='mb-3'>
 							📃 {readingSession.startPage}P 부터 {readingSession.endPage}P 까지
 						</h5>
