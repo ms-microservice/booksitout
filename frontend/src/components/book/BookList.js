@@ -11,7 +11,7 @@ import HorizontalBookView from './HorizontalBookView'
 import kimchiImage from '../../resources/images/general/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
-import { getBookList, unGiveUpBook } from '../../functions/book'
+import { deleteBook, getBookList, giveUpBook, unGiveUpBook } from '../../functions/book'
 
 const BookList = (props) => {
 	const { range } = useParams()
@@ -69,12 +69,7 @@ const BookList = (props) => {
 									<Card.Body>
 										<>
 											{range == 'done' ? (
-												<HorizontalBookView
-													book={book}
-													firstButton={<></>}
-													secondButton={<></>}
-													link={`/book/detail/${book.bookId}`}
-												/>
+												<HorizontalBookView book={book} link={`/book/detail/${book.bookId}`} />
 											) : range == 'give-up' ? (
 												<HorizontalBookView
 													book={book}
@@ -100,14 +95,60 @@ const BookList = (props) => {
 														</Button>
 													}
 													secondButton={
-														<Button variant='danger' className='w-100'>
+														<Button
+															variant='danger'
+															className='w-100'
+															onClick={() => {
+																const confirm =
+																	window.confirm('정말 이 책을 삭제할까요?')
+
+																if (confirm) {
+																	deleteBook(book.bookId).then((success) => {
+																		if (success) {
+																			toast.success('책을 삭제했어요')
+																			setBookList(bookList.filter((b) => b.bookId != book.bookId))
+																		} else {
+																			toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+																		}
+																	})
+																}
+															}}>
 															삭제하기
 														</Button>
 													}
 													link={`/book/detail/${book.bookId}`}
 												/>
 											) : (
-												<HorizontalBookView book={book} link={`/book/detail/${book.bookId}`} />
+												<HorizontalBookView
+													book={book}
+													link={`/book/detail/${book.bookId}`}
+													firstButton={
+														<a href={`/reading/${book.bookId}`} className='btn btn-primary w-100'>
+															이어서 읽기
+														</a>
+													}
+													secondButton={
+														<Button
+															variant='danger'
+															className='w-100'
+															onClick={() => {
+																const confirm = window.confirm('책을 포기할까요?')
+
+																if (confirm) {
+																	giveUpBook(book.bookId).then((success) => {
+																		if (success) {
+																			toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
+																			setBookList(bookList.filter((b) => b.bookId != book.bookId))
+																		} else {
+																			toast.error('오류가 났어요 다시 시도해 주세요')
+																		}
+																	})
+																}
+															}}>
+															이 책 포기하기
+														</Button>
+													}
+												/>
 											)}
 										</>
 									</Card.Body>

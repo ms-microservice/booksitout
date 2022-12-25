@@ -169,21 +169,12 @@ const unGiveUpBook = (bookId) => {
 }
 
 const deleteBook = (bookId, token, navigate) => {
-	const confirmation = window.confirm('정말 책을 삭제할까요?')
-
-	if (confirmation) {
-		fetch(BOOK_DELETE_API_URL + bookId, {
-			method: 'DELETE',
-			headers: { Authorization: token },
-		}).then((res) => {
-			if (res.status.toString().startsWith(2)) {
-				toast.success('책을 삭제 했어요')
-				navigate('/book/not-done')
-			} else {
-				toast.error('알 수 없는 이유로 실패했어요 다시 시도해 주세요')
-			}
-		})
-	}
+	return fetch(BOOK_DELETE_API_URL + bookId, {
+		method: 'DELETE',
+		headers: { Authorization: token },
+	}).then((res) => {
+		return res.status.toString().startsWith(2)
+	})
 }
 
 const addRating = (bookId, rating) => {

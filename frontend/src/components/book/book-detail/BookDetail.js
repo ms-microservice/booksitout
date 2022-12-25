@@ -230,7 +230,23 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 			</div>
 
 			<div className='col-6'>
-				<Button variant='danger' className='w-100' onClick={() => deleteBook(book.bookId, token, navigate)}>
+				<Button
+					variant='danger'
+					className='w-100'
+					onClick={() => {
+						const confirm = window.confirm('정말 책을 삭제할까요?')
+
+						if (confirm) {
+							deleteBook(book.bookId, token, navigate).then((success) => {
+								if (success) {
+									toast.success('책을 삭제 했어요')
+									navigate('/book/not-done')
+								} else {
+									toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+								}
+							})
+						}
+					}}>
 					삭제하기
 				</Button>
 			</div>
