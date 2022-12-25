@@ -2,8 +2,9 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
-// URL
+// Functions
 import { getToken } from '../../functions/user'
+// Settings
 import { API_BASE_URL } from '../../settings/urls/apiUrl'
 
 const ReadingNoId = () => {

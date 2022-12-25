@@ -2,9 +2,9 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
 // Functions
-import { join, verifyEmail } from '../../functions/user'
+import { isEmailValid, join, verifyEmail } from '../../functions/user'
 // Messages
-import { EMAIL_MESSAGE, EMAIL_VERIFICATION_MESSAGE, PASSWORD_MESSAGE, NAME_MESSAGE } from '../../messages/joinMessages'
+import { EMAIL_MESSAGE, EMAIL_VERIFICATION_MESSAGE, PASSWORD_MESSAGE, NAME_MESSAGE } from '../../messages/userMessage'
 
 const Join = () => {
 	const navigate = useNavigate()
@@ -15,14 +15,7 @@ const Join = () => {
 	const [name, setName] = useState('')
 
 	const [isEmailSent, setIsEmailSent] = useState(false)
-
-	const handleVerifyEmail = () => {
-		verifyEmail(email).then((success) => {
-			if (success) {
-				setIsEmailSent(true)
-			}
-		})
-	}
+	const handleVerifyEmail = () => verifyEmail(email).then((success) => success && setIsEmailSent(true))
 
 	return (
 		<div className='mt-5 container'>
@@ -48,16 +41,7 @@ const Join = () => {
 									</div>
 
 									<div className='col-12 col-sm-3 mt-3 mt-sm-0'>
-										<Button
-											className='w-100'
-											onClick={() => handleVerifyEmail()}
-											disabled={
-												!email
-													.toLowerCase()
-													.match(
-														/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-													)
-											}>
+										<Button className='w-100' onClick={() => handleVerifyEmail()} disabled={!isEmailValid(email)}>
 											인증번호 보내기
 										</Button>
 									</div>
@@ -71,9 +55,7 @@ const Join = () => {
 								setInputVariable={setEmailVerification}
 								disabled={!isEmailSent}
 							/>
-
 							<InputWithLabel type='name' displayLabel='이름' placeholder={NAME_MESSAGE} setInputVariable={setName} />
-
 							<InputWithLabel type='password' displayLabel='비밀번호' placeholder={PASSWORD_MESSAGE} setInputVariable={setPassword} />
 
 							<div className='row justify-content-center mt-3'>

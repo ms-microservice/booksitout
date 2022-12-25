@@ -2,9 +2,14 @@ import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
+// Resources
+import '../../resources/css/input.css'
+// Functions
 import { endReadingSessionWithoutSaving } from '../../functions/reading'
 import { endReadingSession } from '../../functions/reading'
-import '../../resources/css/input.css'
+// Messages
+import { ERROR_MESSAGE } from '../../messages/commonMessages'
+import { READING_END_NO_SAVING_SUCCESS } from '../../messages/readingMessages'
 
 const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer, setTime, book }) => {
 	const navigate = useNavigate()
@@ -17,10 +22,20 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 
 	const handleEndReadingSession = (e) => {
 		e.preventDefault()
+		endReadingSession(book, endPage).then((success) => success && navigate(`/book/detail/${book.bookId}`))
+	}
 
-		endReadingSession(book, endPage).then((success) => {
+	const handleEndWithoutSaving = () => {
+		endReadingSessionWithoutSaving().then((success) => {
 			if (success) {
+				toast.success(READING_END_NO_SAVING_SUCCESS)
+				localStorage.removeItem('reading-session-time')
+				localStorage.removeItem('reading-session-date')
+				localStorage.removeItem('timer-on')
+				setTime(null)
 				navigate(`/book/detail/${book.bookId}`)
+			} else {
+				toast.error(ERROR_MESSAGE)
 			}
 		})
 	}
@@ -43,23 +58,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 
 					<div className='row justify-content-center'>
 						<div className='col-12 col-md-4 mt-2'>
-							<Button
-								variant='warning'
-								className='w-100'
-								onClick={() => {
-									endReadingSessionWithoutSaving().then((success) => {
-										if (success) {
-											toast.success('독서활동을 저장하지 않고 끝냈어요')
-											localStorage.removeItem('reading-session-time')
-											localStorage.removeItem('reading-session-date')
-											localStorage.removeItem('timer-on')
-											setTime(0)
-											navigate('/book/not-done')
-										} else {
-											toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-										}
-									})
-								}}>
+							<Button variant='warning' className='w-100' onClick={() => handleEndWithoutSaving()}>
 								그냥 끝내기
 							</Button>
 						</div>

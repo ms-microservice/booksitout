@@ -5,7 +5,7 @@ import { getToken } from './user'
 const MEMO_GET_ALL_API_URL = `${API_BASE_URL}/v1/memo/all/`
 const MEMO_API_URL = `${API_BASE_URL}/v1/memo/`
 
-const getMemo = (bookId) => {
+const getMemoListOfBook = (bookId) => {
 	const token = localStorage.getItem('login-token')
 
 	return fetch(MEMO_GET_ALL_API_URL + bookId, {
@@ -53,4 +53,4 @@ const deleteMemo = (memoId) => {
 	})
 }
 
-export { getMemo, addMemo, deleteMemo }
+export { getMemoListOfBook, addMemo, deleteMemo }

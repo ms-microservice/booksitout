@@ -15,7 +15,7 @@ import {
 	QNA_TITLE,
 	QNA_CONTENT,
 	FAQ_QNA_TITLE,
-} from '../../messages/loginMessages'
+} from '../../messages/userMessage'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()

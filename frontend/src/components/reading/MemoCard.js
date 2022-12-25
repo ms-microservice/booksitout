@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from 'react'
-import NoContent from '../common/NoContent'
 import { Card, Button, Form } from 'react-bootstrap'
-import { getMemo, addMemo } from '../../functions/memo'
+// Components
+import NoContent from '../common/NoContent'
+// Functions
+import { getMemoListOfBook, addMemo } from '../../functions/memo'
+import { MEMO_CONTENT_PLACEHOLDER, MEMO_EMPTY } from '../../messages/readingMessages'
 
-const MemoCard = ({ bookId, currentPage }) => {
+const MemoCard = ({ bookId, currentPage: bookCurrentPage }) => {
 	const [memoList, setMemoList] = useState(null)
 	useEffect(() => {
-		getMemo(bookId).then((memos) => setMemoList(memos))
+		getMemoListOfBook(bookId).then((memos) => setMemoList(memos))
 	}, [])
 
-	const [page, setPage] = useState(currentPage)
+	const [page, setPage] = useState(bookCurrentPage)
 	const [content, setContent] = useState('')
 
 	const addMemoFunction = (e) => {
@@ -17,7 +20,7 @@ const MemoCard = ({ bookId, currentPage }) => {
 
 		const memo = {
 			content: content,
-			page: page,
+			page: page === 0 || page === '' ? null : page,
 		}
 
 		addMemo(memo, bookId).then((isSuccess) => {
@@ -34,8 +37,8 @@ const MemoCard = ({ bookId, currentPage }) => {
 				<h4 className='mb-4'>메모</h4>
 
 				<div className='row row-eq-height'>
-					{memoList == null || memoList.length == 0 ? (
-						<NoContent message={`메모가 없어요`} style={{ width: '100px' }} />
+					{memoList == null || memoList.length === 0 ? (
+						<NoContent message={MEMO_EMPTY} style={{ width: '100px' }} />
 					) : (
 						memoList.map((record) => {
 							return (
@@ -68,7 +71,7 @@ const MemoCard = ({ bookId, currentPage }) => {
 						<div className='col-9 col-sm-8'>
 							<Form.Control
 								type='text'
-								placeholder={`메모를 입력해 주세요`}
+								placeholder={MEMO_CONTENT_PLACEHOLDER}
 								required
 								onChange={(e) => setContent(e.target.value)}
 								value={content}

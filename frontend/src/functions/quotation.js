@@ -5,7 +5,7 @@ import { getToken } from './user'
 const QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/`
 const QUOTATION_ALL_API_URL = `${API_BASE_URL}/v1/quotation/all/`
 
-const getQuotation = (bookId) => {
+const getQuotationListOfBook = (bookId) => {
 	const token = localStorage.getItem('login-token')
 
 	return fetch(QUOTATION_ALL_API_URL + bookId, {
@@ -49,4 +49,4 @@ const deleteQuotation = (quotationId) => {
 	})
 }
 
-export { getQuotation, addQuotation, deleteQuotation }
+export { getQuotationListOfBook, addQuotation, deleteQuotation }

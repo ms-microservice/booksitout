@@ -1,14 +1,16 @@
 import React from 'react'
 // Components
-import NoContent from '../common/NoContent'
+import NoContent from '../../common/NoContent'
 // Resources
-import goalIcon from '../../resources/images/general/goal.png'
+import goalIcon from '../../../resources/images/general/goal.png'
+// Messages
+import { GOAL_EMPTY } from '../../../messages/statisticsMessages'
 
 const GoalView = ({ goal }) => {
 	return (
 		<div className='row text-center' style={{ height: '80%' }}>
 			{goal == null ? (
-				<NoContent message='목표가 설정되지 않았어요' />
+				<NoContent message={GOAL_EMPTY} />
 			) : (
 				<>
 					<div className='col-6 align-self-center'>

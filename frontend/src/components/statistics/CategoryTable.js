@@ -1,5 +1,7 @@
 import React from 'react'
+// Components
 import Error from '../common/Error'
+// Functions
 import { getCategoryIcon, getCategoryKoreanDisplayName } from '../..//functions/category'
 
 const CategoryTable = ({ categoryData }) => {
@@ -25,6 +27,7 @@ const CategoryTable = ({ categoryData }) => {
 									<td className='col-2 col-md-1'>
 										<img src={getCategoryIcon(category.category)} alt='' className='img-fluid' style={{ width: '30px' }} />
 									</td>
+
 									<td className='col-3'>
 										<p>{getCategoryKoreanDisplayName(category.category)}</p>
 									</td>

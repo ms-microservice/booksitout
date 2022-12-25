@@ -22,8 +22,8 @@ import defaultBookCover from '../../../resources/images/common/book.png'
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
 import { getToken } from '../../../functions/user'
 // Urls
-import { getMemo } from '../../../functions/memo'
-import { getQuotation } from '../../../functions/quotation'
+import { getMemoListOfBook } from '../../../functions/memo'
+import { getQuotationListOfBook } from '../../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
@@ -49,8 +49,8 @@ const BookDetail = () => {
 
 		Promise.all([
 			getBook(id).then((book) => setBook(book)),
-			getMemo(id).then((memoList) => setMemo(memoList)),
-			getQuotation(id).then((quotationList) => setQuotation(quotationList)),
+			getMemoListOfBook(id).then((memoList) => setMemo(memoList)),
+			getQuotationListOfBook(id).then((quotationList) => setQuotation(quotationList)),
 			getAllReadingSessionOfBook(id).then((readingSessionList) => setReadingSession(readingSessionList)),
 		]).finally(() => {
 			setLoading(false)

@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Form } from 'react-bootstrap'
 // Components
+import Error from '../common/Error'
+import Loading from '../common/Loading'
+
 import CategoryTable from './CategoryTable'
 import LanguageTable from './LanguageTable'
 import SummaryTable from './SummaryTable'
 import DateLineChart from './DateLineChart'
-import Error from '../common/Error'
-import Loading from '../common/Loading'
+import GoalView from './goal/GoalView'
 // Functions
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatisticsSummary } from '../../functions/statistics'
-import GoalView from './GoalView'
 import { getGoal } from '../../functions/goal'
 
 const Statistics = () => {

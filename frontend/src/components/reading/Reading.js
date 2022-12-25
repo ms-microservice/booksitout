@@ -9,8 +9,9 @@ import QuotationCard from './QuotationCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 // Functions
-import { getBookOfCurrentReadingSession, getCurrentReadingSession, startReadingSession } from '../../functions/reading'
+import { getBookOfCurrentReadingSession, startReadingSession } from '../../functions/reading'
 import { getIsTimerOn, turnOffTimer, turnOnTimer } from '../../functions/timer'
+import { ERROR_MESSAGE } from '../../messages/commonMessages'
 
 const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 	const { id } = useParams()
@@ -32,13 +33,12 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 	useEffect(() => {
 		getBookOfCurrentReadingSession().then((book) => {
 			if (book == null) {
-				// Start Reading Session
 				startReadingSession(id).then((res) => {
 					if (res[0]) {
 						toggleTimer(true)
 						setBook(res[1])
 					} else {
-						toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+						toast.error(ERROR_MESSAGE)
 					}
 				})
 			} else {
@@ -49,12 +49,10 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				setBook(book)
 			}
 		})
-
-		// getCurrentReadingSession(id, setBook, toggleTimer, navigate, setReadingSessionId)
 	}, [])
 
 	const [isShowingModal, setIsShowingModal] = useState(false)
-	const showModal = () => {
+	const showEndReadingSessionModal = () => {
 		setIsShowingModal(true)
 		toggleTimer(false)
 	}
@@ -91,7 +89,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 
 						<div className='row justify-content-center mb-4 mt-4'>
 							<div className='col-6 col-lg-4'>
-								<Button variant='primary' className='w-100' onClick={showModal}>
+								<Button variant='primary' className='w-100' onClick={() => showEndReadingSessionModal()}>
 									독서 끝내기
 								</Button>
 							</div>

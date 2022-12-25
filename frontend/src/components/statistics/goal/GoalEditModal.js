@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { addGoal } from '../../functions/goal'
+import { addGoal } from '../../../functions/goal'
 
 const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, currentBook, previousGoal }) => {
 	const [goal, setGoal] = useState(0)
@@ -39,7 +39,7 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 			</Modal.Header>
 
 			<Modal.Body>
-				<Form onSubmit={handleEditGoal}>
+				<Form onSubmit={() => handleEditGoal}>
 					<Form.Control placeholder={`수정할 목표 (그 전 목표 : ${previousGoal})`} onChange={(e) => setGoal(e.target.value)} />
 
 					<div className='row justify-content-center mt-3'>

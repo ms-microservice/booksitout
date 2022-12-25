@@ -4,7 +4,13 @@ import toast from 'react-hot-toast'
 // Components
 import NoContent from '../common/NoContent'
 // Functions
-import { addQuotation, getQuotation } from '../../functions/quotation'
+import { addQuotation, getQuotationListOfBook } from '../../functions/quotation'
+import {
+	QUOTATION_ADD_ERROR_CONTENT_NULL,
+	QUOTATION_CONTENT_PLACEHOLDER,
+	QUOTATION_EMPTY,
+	QUOTATION_FROM_WHO_PLACEHOLDER,
+} from '../../messages/readingMessages'
 
 const QuotationCard = ({ bookId, currentPage }) => {
 	const [quoteList, setQuoteList] = useState(null)
@@ -17,7 +23,8 @@ const QuotationCard = ({ bookId, currentPage }) => {
 		e.preventDefault()
 
 		if (content === '') {
-			toast.error('내용을 입력해 주세요')
+			toast.error(QUOTATION_ADD_ERROR_CONTENT_NULL)
+			return
 		}
 
 		const quotation = {
@@ -36,7 +43,7 @@ const QuotationCard = ({ bookId, currentPage }) => {
 	}
 
 	useEffect(() => {
-		getQuotation(bookId).then((quotes) => setQuoteList(quotes))
+		getQuotationListOfBook(bookId).then((quotes) => setQuoteList(quotes))
 	}, [])
 
 	return (
@@ -45,8 +52,8 @@ const QuotationCard = ({ bookId, currentPage }) => {
 				<h4 className='mb-4'>인용</h4>
 
 				<div className='row row-eq-height'>
-					{quoteList == null || quoteList.length == 0 ? (
-						<NoContent message={`인용이 없어요`} style={{ width: '100px' }} />
+					{quoteList == null || quoteList.length === 0 ? (
+						<NoContent message={QUOTATION_EMPTY} style={{ width: '100px' }} />
 					) : (
 						quoteList.map((record) => {
 							return (
@@ -71,16 +78,16 @@ const QuotationCard = ({ bookId, currentPage }) => {
 								type='text'
 								placeholder='Page'
 								className='h-100'
-								required
 								onChange={(e) => setPage(e.target.value)}
 								value={page}
+								required
 							/>
 						</div>
 
 						<div className='col-9 col-sm-5'>
 							<Form.Control
 								type='text'
-								placeholder={`인용을 입력해 주세요`}
+								placeholder={QUOTATION_CONTENT_PLACEHOLDER}
 								required
 								onChange={(e) => setContent(e.target.value)}
 								value={content}
@@ -88,7 +95,12 @@ const QuotationCard = ({ bookId, currentPage }) => {
 						</div>
 
 						<div className='col-8 col-sm-3 mt-2 mt-sm-0'>
-							<Form.Control type='text' placeholder='누가 말했나요?' onChange={(e) => setFromWho(e.target.value)} value={fromWho} />
+							<Form.Control
+								type='text'
+								placeholder={QUOTATION_FROM_WHO_PLACEHOLDER}
+								onChange={(e) => setFromWho(e.target.value)}
+								value={fromWho}
+							/>
 						</div>
 
 						<div className='col-4 col-sm-2 mt-2 mt-sm-0'>

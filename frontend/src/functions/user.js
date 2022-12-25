@@ -1,28 +1,48 @@
 import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../settings/urls/apiUrl'
 import toast from 'react-hot-toast'
+import { ERROR_MESSAGE } from '../messages/commonMessages'
+import {
+	JOIN_ERROR_EMAIL_CODE_INCORRECT,
+	JOIN_ERROR_EMAIL_FORMAT_INVALID,
+	JOIN_ERROR_EMAIL_NOT_VERIFIED,
+	JOIN_ERROR_ID_NULL,
+	JOIN_ERROR_NAME_NULL,
+	JOIN_ERROR_PW_NULL,
+	JOIN_ERROR_PW_SHORT,
+	JOIN_LOADING,
+	VERIFY_FAIL_ALREADY_REGISTRED,
+	VERIFY_SUCCESS_ALREADY_SENT,
+	VERIFY_SUCCESS_SENT,
+} from '../messages/userMessage'
+
+const isEmailValid = (email) => {
+	return email
+		.toLowerCase()
+		.match(
+			/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+		)
+}
 
 const verifyEmail = (email) => {
 	const EMAIL_VERIFICATION_API_URL = `${API_BASE_URL}/v1/join/email-verification/${email}`
-
 	toast.loading('잠시만 기다려 주세요')
 
 	return fetch(EMAIL_VERIFICATION_API_URL, {
 		method: 'POST',
 	}).then((res) => {
-		const status = res.status.toString()
-		toast.dismiss()
+		const status = res.status
 
-		if (status == 409) {
-			toast.error('이미 가입된 이메일이에요')
+		if (status === 409) {
+			toast.error(VERIFY_FAIL_ALREADY_REGISTRED)
 			return false
-		} else if (status == 200) {
-			toast.success('인증번호를 보냈어요. 메일을 확인해 주세요')
+		} else if (status === 200) {
+			toast.success(VERIFY_SUCCESS_SENT)
 			return true
-		} else if (status == 202) {
-			toast.success('가입중인 이메일이에요. 메일함에 있는 인증번호를 입력해 주세요')
+		} else if (status === 202) {
+			toast.success(VERIFY_SUCCESS_ALREADY_SENT)
 			return true
 		} else {
-			toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+			toast.error(ERROR_MESSAGE)
 			return false
 		}
 	})
@@ -32,7 +52,7 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 	e.preventDefault()
 
 	if (email === '') {
-		toast.error('아이디로 사용하실 이메일을 입력해 주세요')
+		toast.error(JOIN_ERROR_ID_NULL)
 		return
 	}
 
@@ -43,31 +63,31 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 			)
 	) {
-		toast.error('올바른 이메일 형식이 아니에요')
+		toast.error(JOIN_ERROR_EMAIL_FORMAT_INVALID)
 		return
 	}
 
 	if (emailVerificationCode === '') {
-		toast.error('이메일 인증을 진행해 주세요')
+		toast.error(JOIN_ERROR_EMAIL_NOT_VERIFIED)
 		return
 	}
 
 	if (name === '') {
-		toast.error('이름을 입력해 주세요')
+		toast.error(JOIN_ERROR_NAME_NULL)
 		return
 	}
 
 	if (password === '') {
-		toast.error('비밀번호를 입력해 주세요')
+		toast.error(JOIN_ERROR_PW_NULL)
 		return
 	}
 
 	if (password.length < 6) {
-		toast.error('6자리 이상의 비밀번호를 입력해 주세요')
+		toast.error(JOIN_ERROR_PW_SHORT)
 		return
 	}
 
-	toast.loading('가입하고 있어요')
+	toast.loading(JOIN_LOADING)
 
 	fetch(JOIN_API_URL, {
 		method: 'POST',
@@ -88,20 +108,18 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 			return res.json()
 		})
 		.then(() => {
-			toast.dismiss()
 			toast.success(`책-it-out에 오신걸 환영해요, ${name}님!`)
 			navigate('/login')
 		})
 		.catch((err) => {
 			const status = err.toString()
-			toast.dismiss()
 
 			if (status.includes('400')) {
-				toast.error('이메일 인증번호가 일치하지 않아요. 다시 확인해 주세요')
+				toast.error(JOIN_ERROR_EMAIL_CODE_INCORRECT)
 			} else if (status.includes('412')) {
-				toast.error('이메일 인증을 진행해 주세요')
+				toast.error(JOIN_ERROR_EMAIL_NOT_VERIFIED)
 			} else {
-				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+				toast.error(ERROR_MESSAGE)
 			}
 		})
 }
@@ -189,4 +207,4 @@ const getIsLoggedIn = () => {
 	return !(token == null || token == '' || typeof token == 'undefined')
 }
 
-export { join, login, logout, getToken, getIsLoggedIn, verifyEmail }
+export { join, login, logout, getToken, getIsLoggedIn, verifyEmail, isEmailValid }

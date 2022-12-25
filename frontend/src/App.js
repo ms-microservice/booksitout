@@ -20,7 +20,7 @@ import Introduction from './components/info/Introduction'
 import Faq from './components/info/Faq'
 import Qna from './components/info/Qna'
 import Search from './components/search/Search'
-import Goal from './components/statistics/Goal'
+import Goal from './components/statistics/goal/Goal'
 // Functions
 import { getToken } from './functions/user'
 // Settings

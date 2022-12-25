@@ -3,28 +3,25 @@ import { Card, Alert } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
+import NoContent from '../common/NoContent'
+
 import HorizontalBookView from '../book/HorizontalBookView'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
-import GoalView from './GoalView'
-import NoContent from '../common/NoContent'
+import GoalView from './goal/GoalView'
 // Functions
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
+import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
 // Settings
 import { INITIAL_FETCH_TIME } from '../../settings/settings'
+import { LAST_BOOK_EMPTY } from '../../messages/statisticsMessages'
 
 const Main = () => {
-	const getDateDifferenceInDays = (date1, date2) => {
-		const differenceInTime = Math.abs(date2 - date1)
-		const differenceInDays = differenceInTime / (1000 * 60 * 60 * 24)
-		return differenceInDays
-	}
-
 	const [isLoading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
-	const [showAlert, setShowAlert] = useState(getDateDifferenceInDays(new Date(), new Date(localStorage.getItem('main-alert'))) < 1 ? false : true)
+	const [showAlert, setShowAlert] = useState(getIsAlertShowing())
 
 	const [lastBook, setLastBook] = useState(null)
 	const [readTime, setReadTime] = useState(null)
@@ -49,7 +46,7 @@ const Main = () => {
 
 	const closeAlert = () => {
 		setShowAlert(false)
-		localStorage.setItem('main-alert', new Date())
+		updateAlertCloseTime()
 	}
 
 	const componentList = [
@@ -58,7 +55,7 @@ const Main = () => {
 				<h3>마지막으로 읽은 책</h3>
 
 				{lastBook == null ? (
-					<NoContent message='마지막으로 읽은 책이 없어요' />
+					<NoContent message={LAST_BOOK_EMPTY} />
 				) : (
 					<HorizontalBookView
 						book={lastBook}
@@ -121,7 +118,7 @@ const Main = () => {
 					{showAlert && (
 						<div className='container'>
 							<Alert variant='success' dismissible onClose={() => closeAlert()}>
-								{`어서오세요, ${localStorage.getItem('user-name')}님! 오늘도 마음의 양식을 섭취하러 오셨군요 😉`}
+								{getAlertMessage()}
 							</Alert>
 						</div>
 					)}

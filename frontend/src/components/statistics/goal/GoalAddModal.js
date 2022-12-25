@@ -1,7 +1,16 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { addGoal, getGoal } from '../../functions/goal'
+// Functions
+import { addGoal, getGoal } from '../../../functions/goal'
+// Messages
+import { ERROR_MESSAGE } from '../../../messages/commonMessages'
+import {
+	GOAL_ADD_ERROR_GOAL_NOT_NUMBER,
+	GOAL_ADD_ERROR_GOAL_NULL,
+	GOAL_ADD_ERROR_GOAL_SMALL,
+	GOAL_ADD_PLACEHOLDER,
+} from '../../../messages/statisticsMessages'
 
 const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 	const [goal, setGoal] = useState('')
@@ -10,17 +19,17 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 		e.preventDefault()
 
 		if (goal === '') {
-			toast.error('목표를 입력해 주세요')
+			toast.error(GOAL_ADD_ERROR_GOAL_NULL)
 			return
 		}
 
 		if (isNaN(goal)) {
-			toast.error('목표는 숫자만 입력할 수 있어요')
+			toast.error(GOAL_ADD_ERROR_GOAL_NOT_NUMBER)
 			return
 		}
 
 		if (Number(goal) < 2) {
-			toast.error('2권 이상의 목표를 입력해 주세요')
+			toast.error(GOAL_ADD_ERROR_GOAL_SMALL)
 			return
 		}
 
@@ -31,6 +40,7 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 					setIsModalOpen(false)
 				})
 			} else {
+				toast.error(ERROR_MESSAGE)
 			}
 		})
 	}
@@ -43,7 +53,7 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddGoal(e)}>
-					<Form.Control placeholder='이번년도에 몇 권 읽고 싶은지 알려주세요' onChange={(e) => setGoal(e.target.value)} />
+					<Form.Control placeholder={GOAL_ADD_PLACEHOLDER} onChange={(e) => setGoal(e.target.value)} />
 
 					<div className='row justify-content-center mt-3'>
 						<div className='col-12 col-md-5 mt-2'>

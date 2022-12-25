@@ -1,20 +1,23 @@
-import React, { useState } from 'react'
-import { useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
 // Components
-import NoContent from '../common/NoContent'
+import NoContent from '../../common/NoContent'
+import Loading from '../../common/Loading'
 import GoalView from './GoalView'
 import GoalAddModal from './GoalAddModal'
-import Loading from '../common/Loading'
-// Functions
-import { deleteGoal, getGoalList } from '../../functions/goal'
 import GoalEditModal from './GoalEditModal'
+// Functions
+import { getGoalList, deleteGoal } from '../../../functions/goal'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../settings/settings'
+import { INITIAL_FETCH_TIME } from '../../../settings/settings'
+import { GOAL_DELETE_CONFIRM } from '../../../messages/statisticsMessages'
 
 const Goal = () => {
 	const [intialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
+
+	const [isGoalModalOpen, setIsGoalModalOpen] = useState(false)
+	const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false)
 
 	const currentYear = new Date().getFullYear()
 
@@ -23,14 +26,10 @@ const Goal = () => {
 	const [highlightBookList, setHighlightBookList] = useState([])
 
 	const handleDeleteGoal = () => {
-		const confirm = window.confirm('목표를 삭제할까요?')
+		const confirm = window.confirm(GOAL_DELETE_CONFIRM)
 
 		if (confirm) {
-			deleteGoal(currentYear).then((success) => {
-				if (success) {
-					setCurrentYearGoal(null)
-				}
-			})
+			deleteGoal(currentYear).then((success) => success && setCurrentYearGoal(null))
 		}
 	}
 
@@ -54,9 +53,6 @@ const Goal = () => {
 			})
 	}, [])
 
-	const [isGoalModalOpen, setIsGoalModalOpen] = useState(false)
-	const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false)
-
 	return (
 		<div className='container'>
 			{intialFetch ? (
@@ -66,7 +62,6 @@ const Goal = () => {
 			) : (
 				<div className='row row-eq-height'>
 					<GoalAddModal isModalOpen={isGoalModalOpen} setIsModalOpen={setIsGoalModalOpen} setCurrentYearGoal={setCurrentYearGoal} />
-
 					{currentYearGoal != null && (
 						<GoalEditModal
 							isModalOpen={isGoalEditModalOpen}
@@ -104,8 +99,9 @@ const Goal = () => {
 													목표 수정하기
 												</Button>
 											</div>
+
 											<div className='col-6'>
-												<Button variant='danger' className='w-100' onClick={handleDeleteGoal}>
+												<Button variant='danger' className='w-100' onClick={() => handleDeleteGoal}>
 													목표 삭제하기
 												</Button>
 											</div>
@@ -129,7 +125,9 @@ const Goal = () => {
 
 								<div className='row justify-content-center'>
 									<div className='col-12 col-lg-8'>
-										<Button className='mt-3 w-100'>최고의 책 직접 선정하기</Button>
+										<Button className='mt-3 w-100' disabled>
+											최고의 책 직접 선정하기
+										</Button>
 									</div>
 								</div>
 							</Card.Body>

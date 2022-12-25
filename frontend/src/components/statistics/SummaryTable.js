@@ -65,6 +65,7 @@ const SummaryTable = ({ statistics }) => {
 								/>
 								{stat.name}
 							</th>
+
 							<td className='col-4 h5'>{stat.value}</td>
 						</tr>
 					)

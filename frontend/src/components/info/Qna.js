@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
 import parse from 'html-react-parser'
-// Common Components
+// Components
 import NoContent from '../common/NoContent'
 import Error from '../common/Error'
 import Loading from '../common/Loading'
 // Functions
 import { getAllQna, getMyQna } from '../../functions/qna'
 import { getIsLoggedIn } from '../../functions/user'
+// Settings
+import { INITIAL_FETCH_TIME } from '../../settings/settings'
 
 const Qna = () => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -18,7 +20,7 @@ const Qna = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, 5000)
+		}, INITIAL_FETCH_TIME)
 
 		Promise.all(
 			getAllQna().then((qnaList) => setAllQnaList([...qnaList.content])),
@@ -44,7 +46,6 @@ const Qna = () => {
 					<h3>질문과 답변</h3>
 
 					<h4 className='text-muted mt-5 mb-3'>내가 남긴 질문</h4>
-
 					{!getIsLoggedIn() ? (
 						<Error message='내가 남긴 질문을 보려면 로그인 해 주세요' />
 					) : myQna == null || myQna.length === 0 ? (
@@ -54,7 +55,6 @@ const Qna = () => {
 					)}
 
 					<h4 className='text-muted mt-5 mb-3'>다른 사람이 남긴 질문</h4>
-
 					{allQnaList == null ? (
 						<Error />
 					) : allQnaList.length == 0 ? (

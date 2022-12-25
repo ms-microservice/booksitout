@@ -39,7 +39,7 @@ const AddReviewModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 				<Form onSubmit={(e) => handleAddReview(e)}>
 					<Form.Control as='textarea' placeholder='여기에 감상을 입력해 주세요' onChange={(e) => setReview(e.target.value)} autoFocus />
 
-					<Button type='submit' className='mt-3 w-100'>
+					<Button variant='success' type='submit' className='mt-3 w-100'>
 						추가하기
 					</Button>
 				</Form>

@@ -1,4 +1,5 @@
 import React from 'react'
+// Components
 import Error from '../common/Error'
 // Functions
 import { getLangaugeImage, getLanguageKoreanLabel } from '../../functions/language'
@@ -26,6 +27,7 @@ const LanguageTable = ({ languageData }) => {
 									<td className='col-2 col-1'>
 										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid' style={{ width: '30px' }} />
 									</td>
+
 									<td className='col-3'>
 										<p>{getLanguageKoreanLabel(language.language)}</p>
 									</td>

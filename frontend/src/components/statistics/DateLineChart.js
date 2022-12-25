@@ -5,19 +5,17 @@ import { Line } from 'react-chartjs-2'
 const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 }) => {
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
+	const getDifferenceBetweenDatesInDays = (date1, date2) => {
+		const differenceInTime = Math.abs(date2 - date1)
+		const differenceInDays = Math.ceil(differenceInTime / (1000 * 60 * 60 * 60 * 24))
+		return differenceInDays
+	}
+
 	return (
 		<Line
 			options={{
-				plugins: {
-					legend: {
-						display: false,
-					},
-				},
-				scales: {
-					y: {
-						min: 0,
-					},
-				},
+				plugins: { legend: { display: false } },
+				scales: { y: { min: 0 } },
 			}}
 			data={{
 				labels: [

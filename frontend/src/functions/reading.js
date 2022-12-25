@@ -2,9 +2,6 @@ import toast from 'react-hot-toast'
 import { API_BASE_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
 
-const READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/`
-const READING_SESSION_CURRENT_API_URL = `${API_BASE_URL}/v1/reading-session/current`
-
 const getBookOfCurrentReadingSession = () => {
 	const BOOK_CURRENT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/book/current-reading-session`
 
