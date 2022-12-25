@@ -167,11 +167,16 @@ const login = (e, navigate, setToken, email, password, stayLogin) => {
 
 const logout = (e, setToken, navigate) => {
 	e.preventDefault()
-	localStorage.setItem('login-token', '')
-	localStorage.setItem('user-name', '')
-	setToken('')
-	toast.success('로그아웃했어요')
-	navigate('/login')
+
+	if (localStorage.getItem('reading-session-time') == null) {
+		localStorage.setItem('login-token', '')
+		localStorage.setItem('user-name', '')
+		setToken('')
+		toast.success('로그아웃했어요')
+		navigate('/login')
+	} else {
+		toast.error('독서활동이 진행중이에요. 지금 로그아웃하면 독서활동이 사라져요. 독서활동을 먼저 끝내 주세요')
+	}
 }
 
 const getToken = () => {
