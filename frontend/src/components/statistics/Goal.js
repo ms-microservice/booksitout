@@ -73,6 +73,7 @@ const Goal = () => {
 							setIsModalOpen={setIsGoalEditModalOpen}
 							setCurrentYearGoal={setCurrentYearGoal}
 							currentBook={currentYearGoal.current}
+							previousGoal={currentYearGoal.goal}
 						/>
 					)}
 
