@@ -40,10 +40,7 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 
 			<Modal.Body>
 				<Form onSubmit={handleEditGoal}>
-					<Form.Control
-						placeholder={`수정하고 싶은 목표를 입력해 주세요 (그 전 목표 : ${currentBook})`}
-						onChange={(e) => setGoal(e.target.value)}
-					/>
+					<Form.Control placeholder={`수정할 목표 (그 전 목표 : ${currentBook})`} onChange={(e) => setGoal(e.target.value)} />
 
 					<div className='row justify-content-center mt-3'>
 						<div className='col-12 col-md-5 mt-2'>
