@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import { addReadingSession } from '../../../functions/reading'
 import '../../../resources/css/input.css'
 
-const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, readingSessionList, setReadingSessionList }) => {
+const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, readingSessionList, setReadingSessionList }) => {
 	const [startPage, setStartPage] = useState(null)
 	const [endPage, setEndPage] = useState(null)
 	const [readTime, setReadTime] = useState(null)
@@ -42,6 +42,11 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, readingSess
 						readTime: readTime,
 					},
 				])
+
+				setBook({
+					...book,
+					currentPage: endPage,
+				})
 				setIsModalOpen(false)
 				toast.success('독서활동을 직접 추가했어요')
 			} else {
@@ -92,7 +97,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, readingSess
 					</div>
 
 					<Form.Label>시작 페이지</Form.Label>
-					<Form.Control className='mb-2' type='number' onChange={(e) => setStartPage(e.target.value)} />
+					<Form.Control className='mb-2' type='number' value={book.currentPage} disabled />
 
 					<Form.Label>끝 페이지</Form.Label>
 					<Form.Control className='mb-2' type='number' onChange={(e) => setEndPage(e.target.value)} />

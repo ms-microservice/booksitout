@@ -91,6 +91,7 @@ const BookDetail = () => {
 						isModalOpen={isAddReadingSessionModalOpen}
 						setIsModalOpen={setIsAddReadingSessionModalOpen}
 						book={book}
+						setBook={setBook}
 						readingSessionList={readingSession}
 						setReadingSessionList={setReadingSession}
 					/>
@@ -114,6 +115,8 @@ const BookDetail = () => {
 						readingSession={selectedReadingSession}
 						readingSessionList={readingSession}
 						setReadingSessionList={setReadingSession}
+						book={book}
+						setBook={setBook}
 					/>
 					<MemoDetailModal
 						isModalOpen={isMemoDetailModalOpen}

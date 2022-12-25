@@ -3,7 +3,7 @@ import { Modal, Button } from 'react-bootstrap'
 import { deleteReadingSession } from '../../../functions/reading'
 import toast from 'react-hot-toast'
 
-const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession, readingSessionList, setReadingSessionList }) => {
+const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession, readingSessionList, setReadingSessionList, book, setBook }) => {
 	const handleDeleteReadingSession = () => {
 		const confirm = window.confirm('이 독서활동을 지울까요?')
 
@@ -12,6 +12,7 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 				if (success) {
 					toast.success('독서활동을 지웠어요')
 					setReadingSessionList(readingSessionList.filter((reading) => reading.readingSessionId !== readingSession.readingSessionId))
+					setBook({ ...book, currentPage: readingSession.startPage })
 					setIsModalOpen(false)
 				} else {
 					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
