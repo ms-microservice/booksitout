@@ -62,6 +62,11 @@ const Main = () => {
 				) : (
 					<HorizontalBookView
 						book={lastBook}
+						firstButton={
+							<a href={`/reading/${lastBook.bookId}`} className='btn btn-primary w-100'>
+								이어서 읽기
+							</a>
+						}
 						secondButton={
 							<a href='/book/all' className='btn btn-warning w-100'>
 								다른 책 읽기
