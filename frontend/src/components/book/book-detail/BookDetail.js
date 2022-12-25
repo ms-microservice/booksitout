@@ -430,15 +430,13 @@ const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 								setIsMemoDetailModalOpen(true)
 								setSelectedMemo(memo)
 							}}>
+							<Card.Header>
+								<h6 className='mt-1'>{memo.page}P</h6>
+							</Card.Header>
+
 							<Card.Body>
 								<div className='row'>
-									<div className='col-3 col-md-2'>
-										<h6 className='mt-1'>{memo.page}P</h6>
-									</div>
-
-									<div className='col-9 col-md-10'>
-										<div className='text-start'>{memo.content}</div>
-									</div>
+									<div className='text-start'>{memo.content}</div>
 								</div>
 							</Card.Body>
 						</Card>
