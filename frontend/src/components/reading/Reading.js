@@ -71,7 +71,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 
 			{book != null && (
 				<div className='row justify-content-center text-center'>
-					<div className='col-12 col-lg-6 col-xl-4'>
+					<div className='col-8 col-lg-6 col-xl-4'>
 						<img src={book.cover} alt='' className='img-fluid rounded w-100 border' />
 					</div>
 
@@ -81,7 +81,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 							<h4 className='text-muted'>{book.author}</h4>
 
 							<div className='row justify-content-center'>
-								<div className='col-9'>
+								<div className='col-11 col-md-9'>
 									<PageProgressBar book={book} />
 								</div>
 							</div>
