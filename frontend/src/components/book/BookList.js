@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
+import toast from 'react-hot-toast'
+import { useParams, useNavigate } from 'react-router-dom'
 import { Button, Card, Pagination } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
@@ -10,10 +11,11 @@ import HorizontalBookView from './HorizontalBookView'
 import kimchiImage from '../../resources/images/general/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
-import { getBookList } from '../../functions/book'
+import { getBookList, unGiveUpBook } from '../../functions/book'
 
 const BookList = (props) => {
 	const { range } = useParams()
+	const navigate = useNavigate()
 
 	const [initalFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(false)
@@ -65,14 +67,35 @@ const BookList = (props) => {
 							<div className='col-12 col-xl-6 mb-5'>
 								<Card className='h-100'>
 									<Card.Body>
-										<a href={`/book/detail/${book.bookId}`} className='text-black text-decoration-none'>
+										<>
 											{range == 'done' ? (
-												<HorizontalBookView book={book} firstButton={<></>} secondButton={<></>} />
+												<HorizontalBookView
+													book={book}
+													firstButton={<></>}
+													secondButton={<></>}
+													link={`/book/detail/${book.bookId}`}
+												/>
 											) : range == 'give-up' ? (
 												<HorizontalBookView
 													book={book}
 													firstButton={
-														<Button variant='success' className='w-100'>
+														<Button
+															variant='success'
+															className='w-100'
+															onClick={() => {
+																const confirm = window.confirm('책을 다시 읽을까요?')
+
+																if (confirm) {
+																	unGiveUpBook(book.bookId).then((success) => {
+																		if (success) {
+																			toast.success('이제 책을 다시 읽을 수 있어요')
+																			navigate(`book/detail/${book.bookId}`)
+																		} else {
+																			toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+																		}
+																	})
+																}
+															}}>
 															다시 읽기
 														</Button>
 													}
@@ -81,11 +104,12 @@ const BookList = (props) => {
 															삭제하기
 														</Button>
 													}
+													link={`/book/detail/${book.bookId}`}
 												/>
 											) : (
-												<HorizontalBookView book={book} />
+												<HorizontalBookView book={book} link={`/book/detail/${book.bookId}`} />
 											)}
-										</a>
+										</>
 									</Card.Body>
 								</Card>
 							</div>
