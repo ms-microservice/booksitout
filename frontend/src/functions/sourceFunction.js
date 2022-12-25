@@ -21,7 +21,7 @@ const sourceKoreanLabelMap = new Map([
 	['SUBSCRIPTION', '구독'],
 
 	['OTHERS', '기타'],
-	[('NOT_PROVIDED', '없음')],
+	['NOT_PROVIDED', '모름'],
 ])
 const sourceIconMap = new Map([
 	['BUY_NEW_OFFLINE', buyNewOfflineIcon],
