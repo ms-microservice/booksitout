@@ -14,6 +14,8 @@ import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,13 +29,9 @@ import java.util.List;
 @RestController
 @RequestMapping("/v1/book")
 public class BookControllerV1 {
-    private BookService bookService;
+    private final MessageSourceAccessor messageSource;
 
-    private final String BOOK_ADD_SUCCESS_MESSAGE = "책을 추가했어요";
-    private final String BOOK_ADD_FAIL_MESSAGE = "책을 추가할 수 없었어요. 잠시 뒤 다시 시도해 주세요";
-    private final String BOOK_EDIT_SUCCESS_MESSSAGE = "등록하신 책을 수정했어요";
-    private final String BOOK_DELETE_SUCCESS_MESSAGE = "해당 책을 지웠어요";
-    private final String BOOK_NOT_SHARING_MESSAGE = "해당 책의 등록자가 책을 공유하길 원치 않아요";
+    private BookService bookService;
 
     @GetMapping("{id}")
     public Book getBookById(@PathVariable("id") Long bookId) {
@@ -41,7 +39,7 @@ public class BookControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         if (!book.getIsSharing() && !book.getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException(BOOK_NOT_SHARING_MESSAGE);
+            throw new NotAuthorizeException(messageSource.getMessage("book.get.fail.not-sharing"));
         }
 
         return book;
@@ -96,7 +94,7 @@ public class BookControllerV1 {
 
         bookService.addBook(book);
 
-        return new AddSuccessResponse(BOOK_ADD_SUCCESS_MESSAGE);
+        return new AddSuccessResponse(messageSource.getMessage("book.add.success"));
     }
 
     @PutMapping("{id}")
@@ -135,7 +133,7 @@ public class BookControllerV1 {
             bookToEdit.setRating(bookEditRequest.getRating());
         }
 
-        return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), BOOK_EDIT_SUCCESS_MESSSAGE);
+        return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), messageSource.getMessage("book.update.success"));
     }
 
     @PutMapping("give-up/{bookId}")
@@ -172,6 +170,6 @@ public class BookControllerV1 {
     public DeleteSuccessResponse deleteBook(@PathVariable("bookId") Long bookId) {
         bookService.deleteBookByBookId(bookId);
 
-        return new DeleteSuccessResponse(String.format("DELETE /v1/book/%d", bookId), BOOK_DELETE_SUCCESS_MESSAGE);
+        return new DeleteSuccessResponse(String.format("DELETE /v1/book/%d", bookId), messageSource.getMessage("book.delete.success"));
     }
 }
