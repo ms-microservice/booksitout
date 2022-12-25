@@ -17,14 +17,14 @@ public class MessageConfig {
     @Bean
     public LocaleResolver defaultLocaleResolver() {
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.KOREAN);
+        localeResolver.setDefaultLocale(Locale.ENGLISH);
 
         return localeResolver;
     }
 
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
-        Locale.setDefault(Locale.KOREAN); // 제공하지 않는 언어로 들어왔을 때 처리
+        Locale.setDefault(Locale.ENGLISH);
 
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:/messages/messages");
@@ -36,8 +36,7 @@ public class MessageConfig {
     }
 
     @Bean
-    public MessageSourceAccessor messageSourceAccessor (
-            @Autowired ReloadableResourceBundleMessageSource messageSource) {
+    public MessageSourceAccessor messageSourceAccessor(@Autowired ReloadableResourceBundleMessageSource messageSource) {
         return new MessageSourceAccessor(messageSource);
     }
 }
