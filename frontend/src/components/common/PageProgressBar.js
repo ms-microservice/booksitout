@@ -1,20 +1,15 @@
 import React from 'react'
+import { ProgressBar } from 'react-bootstrap'
 
 const PageProgressBar = ({ book }) => {
 	return (
 		<div className='row align-items-center'>
 			<div className='col-8 col-md-9'>
-				<div className='progress mt-3 mb-3'>
-					<div
-						className='progress-bar'
-						role='progressbar'
-						style={{
-							width: ((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100 + '%',
-						}}
-						aria-valuenow={book.currentPage}
-						aria-valuemin={0}
-						aria-valuemax={book.endPage}></div>
-				</div>
+				<ProgressBar
+					className='mt-3 mb-3'
+					now={((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100}
+					label={`${Math.round(((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100)}%`}
+				/>
 			</div>
 
 			<div className='col-4 col-md-3 text-end'>
