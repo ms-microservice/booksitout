@@ -39,7 +39,7 @@ const MemoCard = ({ bookId, currentPage }) => {
 					) : (
 						memoList.map((record) => {
 							return (
-								<div className='col-6 col-md-4 mb-3'>
+								<div className='col-12 col-md-6'>
 									<Card className='h-100'>
 										<Card.Header>{record.page}</Card.Header>
 										<Card.Body className='d-flex align-items-center justify-content-center'>{record.content}</Card.Body>

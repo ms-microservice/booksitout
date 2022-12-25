@@ -50,7 +50,7 @@ const QuotationCard = ({ bookId, currentPage }) => {
 					) : (
 						quoteList.map((record) => {
 							return (
-								<div className='col-6 col-md-4 mb-3'>
+								<div className='col-12 col-md-6'>
 									<Card className='h-100'>
 										<Card.Header>{record.page}</Card.Header>
 
