@@ -48,6 +48,7 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   책 관리 : 책 등록, 메모/인용 추가, 읽은 책 별점/리뷰
 -   독서활동 측정 : 책 읽을 떄 마다 타이머로 측정해 통계 제시
 -   Authentication, Authorization : Spring Security를 활용한 안전한 보안
+- Gradle, Docker, AWS EBS, Github Actions를 사용한 CI/CD
 
 ### Architecture Diagram
 <p align="center">
