@@ -38,15 +38,11 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
 
-      - name: Install node modules
-        run: |
-          cd frontend
-          npm install
-
       - name: Deploy React
-        run: |
-          cd frontend
-          npm run deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./public
 
       - name: Set up Java
         uses: actions/setup-java@v1
