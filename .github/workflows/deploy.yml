@@ -45,6 +45,7 @@ jobs:
 
       - name: Deploy React
         run: |
+          cd frontend
           npm run deploy
 
       - name: Set up Java
@@ -58,7 +59,9 @@ jobs:
           mysql -e 'CREATE DATABASE ${{ env.MYSQL_DB }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PW }}
 
       - name: Build Spring Project with Gradle
-        run: ./gradlew clean build
+        run: |
+          cd BookItOut
+          ./gradlew clean build
 
       - name: Docker Login
         uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
@@ -66,8 +69,8 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_PW }}
 
-      - name: Build Docker Image
-        run: docker build --no-cache --platform amd64 -t jinkpark/book-it-out:v1-amd64 .
-
-      - name: Push to Docker Hub
-        run: docker push jinkpark/book-it-out:v1-amd64
+      - name: Build and Push Docker Image
+        run: |
+          cd BookItOut
+          docker build --no-cache --platform amd64 -t jinkpark/book-it-out:v1-amd64 .
+          docker push jinkpark/book-it-out:v1-amd64
