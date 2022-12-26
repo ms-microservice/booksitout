@@ -31,12 +31,6 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
 
-      # - name: Deploy React
-      #   uses: peaceiris/actions-gh-pages@v3
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     publish_dir: ./public
-
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
@@ -46,6 +40,8 @@ jobs:
       #   run: |
       #     sudo /etc/init.d/mysql start
       #     mysql -e 'CREATE DATABASE ${{ env.MYSQL_DB }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PW }}
+
+
 
       - name: Build Spring Project with Gradle
         run: |
@@ -63,7 +59,7 @@ jobs:
           cd BookItOut
           docker build --platform amd64 -t jinkpark/book-it-out:v1-amd64\
           --build-arg JWT_KEY=$JWT_SECRET_KEY \
-          --build-argDB_URL=$DB_URL \
+          --build-arg DB_URL=$DB_URL \
           --build-arg DB_ID=$DB_ID \
           --build-arg DB_PW=$DB_PW \
           --build-arg EMAIL_ID=$EMAIL_ID \
@@ -76,3 +72,10 @@ jobs:
           DB_PW: ${{ secrets.DB_PW }}
           EMAIL_ID: ${{ secrets.EMAIL_ID }}
           EMAIL_PW: ${{ secrets.EMAIL_PW }}
+
+      # - name: Deploy React
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./public
+
