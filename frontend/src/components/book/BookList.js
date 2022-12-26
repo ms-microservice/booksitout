@@ -40,7 +40,7 @@ const BookList = (props) => {
 	}, [])
 
 	return (
-		<div className='container'>
+		<div className='container-lg'>
 			{initalFetch ? (
 				<></>
 			) : isLoading ? (
@@ -64,7 +64,7 @@ const BookList = (props) => {
 				<div className='row row-eq-height'>
 					{bookList.map((book) => {
 						return (
-							<div className='col-12 col-xl-6 mb-5'>
+							<div className='col-12 col-md-6 mb-5'>
 								<Card className='h-100'>
 									<Card.Body>
 										<>

@@ -13,7 +13,9 @@ const PageProgressBar = ({ book }) => {
 			</div>
 
 			<div className='col-4 col-md-3 text-end'>
-				<span className='align-middle'>{`${book.currentPage == null ? 0 : book.currentPage} / ${book.endPage}`}</span>
+				<span className='align-middle' style={{ whiteSpace: 'nowrap' }}>{`${book.currentPage == null ? 0 : book.currentPage} / ${
+					book.endPage
+				}`}</span>
 			</div>
 		</div>
 	)

@@ -4,7 +4,7 @@ import { Card } from 'react-bootstrap'
 const BookInfoIcon = ({
 	infoType,
 	infoData,
-	responsiveImageStyle = 'col-9 col-md-8 align-self-center',
+	responsiveImageStyle = 'col-9 col-md-10 align-self-center',
 	responsiveTextStyle = 'col-12 col-md-12 mt-2 mt-md-0',
 }) => {
 	return (
@@ -16,7 +16,9 @@ const BookInfoIcon = ({
 					</div>
 
 					<div className={responsiveTextStyle}>
-						<h5 className='text-center mb-0'>{infoType.textFunction(infoData)}</h5>
+						<h6 className='text-center mb-0' style={{ whiteSpace: 'nowrap' }}>
+							{infoType.textFunction(infoData)}
+						</h6>
 					</div>
 				</div>
 			</Card.Body>

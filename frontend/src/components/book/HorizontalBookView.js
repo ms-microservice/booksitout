@@ -7,7 +7,7 @@ import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from './book-info/bookInfoEnu
 import PageProgressBar from '../common/PageProgressBar'
 
 const HorizontalBookView = ({ book, firstButton = <></>, secondButton = <></>, link = '' }) => {
-	const bookInfoStyle = 'col-4 col-md-4 mb-2'
+	const bookInfoStyle = 'col-4 mb-2'
 
 	return (
 		<div className='row row-eq-height justify-content-center mt-3 text-decoration-none text-black'>
