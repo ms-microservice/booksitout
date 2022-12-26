@@ -39,11 +39,12 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install node modules
-        run: npm install
+        run: |
+          cd frontend
+          npm install
 
       - name: Deploy React
         run: |
-          cd frontend
           npm run deploy
 
       - name: Set up Java
