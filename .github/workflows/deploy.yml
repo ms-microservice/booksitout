@@ -38,6 +38,9 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
 
+      - name: Install node modules
+        run: npm install
+
       - name: Deploy React
         run: |
           cd frontend
@@ -53,9 +56,17 @@ jobs:
           sudo /etc/init.d/mysql start
           mysql -e 'CREATE DATABASE ${{ env.MYSQL_DB }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PW }}
 
+      - name: Build Spring Project with Gradle
+        run: ./gradlew clean build
+
       - name: Docker Login
         uses: docker/login-action@f3364599c6aa293cdc2b8391b1b56d0c30e45c8a
         with:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_PW }}
-          
+
+      - name: Build Docker Image
+        run: docker build --no-cache --platform amd64 -t jinkpark/book-it-out:v1-amd64 .
+
+      - name: Push to Docker Hub
+        run: docker push jinkpark/book-it-out:v1-amd64
