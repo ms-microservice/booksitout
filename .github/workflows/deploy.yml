@@ -61,7 +61,9 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           cd BookItOut
-          docker build --no-cache --platform amd64 --jwtcode=$JWT_SECRET_KEY --dburl=$DB_URL --dbid=$DB_ID --dbpw=$DB_PW --emailid=$EMAIL_ID --emailpw=$EMAIL_PW -t jinkpark/book-it-out:v1-amd64 .
+          docker build --no-cache --platform amd64 \
+          --build-arg JWT_KEY=$JWT_SECRET_KEY DB_URL=$DB_URL DB_ID=$DB_ID DB_PW=$DB_PW EMAIL_ID=$EMAIL_ID EMAIL_PW=$EMAIL_PW \
+          -t jinkpark/book-it-out:v1-amd64 .
           docker push jinkpark/book-it-out:v1-amd64
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
