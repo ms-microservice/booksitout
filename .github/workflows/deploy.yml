@@ -5,13 +5,6 @@ on:
     branches: [main]
 
 env:
-  JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-  DB_URL: ${{ secrets.DB_URL }}
-  DB_USERNAME: ${{ secrets.DB_ID }}
-  DB_PASSWORD: ${{ secrets.DB_PW }}
-  EMAIL_USERNAME: ${{ secrets.EMAIL_ID }}
-  EMAIL_PASSWORD: ${{ secrets.EMAIL_PW }}
-
   MYSQL_DB: book
   MYSQL_USER: book
   MYSQL_PW: bookitout
@@ -72,7 +65,8 @@ jobs:
           docker push jinkpark/book-it-out:v1-amd64
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-          DB_URL: ${{ DB_URL }}
+          DB_URL: ${{ secrets.DB_URL }}
+          DB_ID: ${{ secrets.DB_ID }}
           DB_PW: ${{ secrets.DB_PW }}
           EMAIL_ID: ${{ secrets.EMAIL_ID }}
           EMAIL_PW: ${{ secrets.EMAIL_PW }}
