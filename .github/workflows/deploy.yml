@@ -18,7 +18,7 @@ jobs:
     services:
       mysql:
         image: mysql:5.7
-        env: 
+        env:
           MYSQL_DATABASE: ${{ env.MYSQL_DB }}
           MYSQL_USER: ${{ env.MYSQL_USER }}
           MYSQL_PASSWORD: ${{ env.MYSQL_PW }}
@@ -61,7 +61,7 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           cd BookItOut
-          docker build --no-cache --platform amd64 -t jinkpark/book-it-out:v1-amd64 .
+          docker build --no-cache --platform amd64 --jwtcode=$JWT_SECRET_KEY --dburl=$DB_URL --dbid=$DB_ID --dbpw=$DB_PW --emailid=$EMAIL_ID --emailpw=$EMAIL_PW -t jinkpark/book-it-out:v1-amd64 .
           docker push jinkpark/book-it-out:v1-amd64
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
