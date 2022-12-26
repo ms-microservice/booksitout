@@ -6,11 +6,11 @@ on:
 
 env:
   JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
-  BOOK_IT_OUT_DB_URL: ${{ secrets.DB_URL }}
-  BOOK_IT_OUT_DB_USERNAME: ${{ secrets.DB_ID }}
-  BOOK_IT_OUT_DB_PASSWORD: ${{ secrets.DB_PW }}
-  BOOK_IT_OUT_EMAIL_USERNAME: ${{ secrets.EMAIL_ID }}
-  BOOK_IT_OUT_EMAIL_PASSWORD: ${{ secrets.EMAIL_PW }}
+  DB_URL: ${{ secrets.DB_URL }}
+  DB_USERNAME: ${{ secrets.DB_ID }}
+  DB_PASSWORD: ${{ secrets.DB_PW }}
+  EMAIL_USERNAME: ${{ secrets.EMAIL_ID }}
+  EMAIL_PASSWORD: ${{ secrets.EMAIL_PW }}
 
   MYSQL_DB: book
   MYSQL_USER: book
@@ -70,3 +70,9 @@ jobs:
           cd BookItOut
           docker build --no-cache --platform amd64 -t jinkpark/book-it-out:v1-amd64 .
           docker push jinkpark/book-it-out:v1-amd64
+        env:
+          JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
+          DB_URL: ${{ DB_URL }}
+          DB_PW: ${{ secrets.DB_PW }}
+          EMAIL_ID: ${{ secrets.EMAIL_ID }}
+          EMAIL_PW: ${{ secrets.EMAIL_PW }}
