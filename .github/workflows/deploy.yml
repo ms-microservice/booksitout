@@ -41,7 +41,7 @@ jobs:
       #     sudo /etc/init.d/mysql start
       #     mysql -e 'CREATE DATABASE ${{ env.MYSQL_DB }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PW }}
 
-
+#      - name : Run tests
 
       - name: Build Spring Project with Gradle
         run: |
@@ -57,13 +57,14 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           cd BookItOut
-          docker build --platform amd64 -t jinkpark/book-it-out:v1-amd64\
+          docker build --platform amd64 \
           --build-arg JWT_KEY=$JWT_SECRET_KEY \
           --build-arg DB_URL=$DB_URL \
           --build-arg DB_ID=$DB_ID \
           --build-arg DB_PW=$DB_PW \
           --build-arg EMAIL_ID=$EMAIL_ID \
-          --build-arg EMAIL_PW=$EMAIL_PW .
+          --build-arg EMAIL_PW=$EMAIL_PW \
+          -t jinkpark/book-it-out:v1-amd64 .
           docker push jinkpark/book-it-out:v1-amd64
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
@@ -73,9 +74,10 @@ jobs:
           EMAIL_ID: ${{ secrets.EMAIL_ID }}
           EMAIL_PW: ${{ secrets.EMAIL_PW }}
 
+#      - name : Deploy to AWS
+
       # - name: Deploy React
       #   uses: peaceiris/actions-gh-pages@v3
       #   with:
       #     github_token: ${{ secrets.GITHUB_TOKEN }}
       #     publish_dir: ./public
-
