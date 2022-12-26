@@ -92,7 +92,7 @@ const Main = () => {
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
 					<h3>2022년 목표</h3>
 
-					{statistics != null && <GoalView goal={goal} />}
+					{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
 				</a>
 			</Card.Body>
 		</Card>,

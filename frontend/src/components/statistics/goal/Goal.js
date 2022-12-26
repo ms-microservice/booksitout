@@ -101,7 +101,7 @@ const Goal = () => {
 											</div>
 
 											<div className='col-6'>
-												<Button variant='danger' className='w-100' onClick={() => handleDeleteGoal}>
+												<Button variant='danger' className='w-100' onClick={() => handleDeleteGoal()}>
 													목표 삭제하기
 												</Button>
 											</div>

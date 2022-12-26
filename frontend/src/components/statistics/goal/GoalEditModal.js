@@ -39,7 +39,7 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 			</Modal.Header>
 
 			<Modal.Body>
-				<Form onSubmit={() => handleEditGoal}>
+				<Form onSubmit={(e) => handleEditGoal(e)}>
 					<Form.Control placeholder={`수정할 목표 (그 전 목표 : ${previousGoal})`} onChange={(e) => setGoal(e.target.value)} />
 
 					<div className='row justify-content-center mt-3'>
