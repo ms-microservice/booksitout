@@ -38,21 +38,21 @@ jobs:
       - name: Checkout main branch
         uses: actions/checkout@v2
 
-      - name: Deploy React
-        uses: peaceiris/actions-gh-pages@v3
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+      # - name: Deploy React
+      #   uses: peaceiris/actions-gh-pages@v3
+      #   with:
+      #     github_token: ${{ secrets.GITHUB_TOKEN }}
+      #     publish_dir: ./public
 
       - name: Set up Java
         uses: actions/setup-java@v1
         with:
           java-version: ${{ env.JAVA_VERSION }}
 
-      - name: Set up MySQL
-        run: |
-          sudo /etc/init.d/mysql start
-          mysql -e 'CREATE DATABASE ${{ env.MYSQL_DB }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PW }}
+      # - name: Set up MySQL
+      #   run: |
+      #     sudo /etc/init.d/mysql start
+      #     mysql -e 'CREATE DATABASE ${{ env.MYSQL_DB }};' -u${{ env.MYSQL_USER }} -p${{ env.MYSQL_PW }}
 
       - name: Build Spring Project with Gradle
         run: |
