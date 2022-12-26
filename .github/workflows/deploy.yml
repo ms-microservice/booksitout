@@ -58,8 +58,3 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_PW }}
-
-      # - name: Build with Gradle
-      # - name: Build Docker Image
-      # - name: Push to Docker Hub
-      # - name: Deploy to AWS
