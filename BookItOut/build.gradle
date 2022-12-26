@@ -19,16 +19,37 @@ repositories {
 }
 
 dependencies {
-	implementation 'org.springframework.boot:spring-boot-starter-web:2.7.5'
-	implementation 'org.springframework.boot:spring-boot-starter-data-jpa:2.7.5'
-	implementation 'mysql:mysql-connector-java:8.0.30'
-	implementation 'org.projectlombok:lombok:1.18.24'
+	// Web
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation "org.springframework.boot:spring-boot-starter-validation"
+	annotationProcessor "org.springframework.boot:spring-boot-configuration-processor"
 
-//	implementation 'org.springframework.boot:spring-boot-starter-validation'
-//	compileOnly 'org.projectlombok:lombok'
-//	annotationProcessor 'org.projectlombok:lombok'
-//	runtimeOnly 'com.mysql:mysql-connector-j'
-//	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	// DB
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'mysql:mysql-connector-java'
+	testRuntimeOnly 'com.h2database:h2'
+
+	// Lombok
+	implementation 'org.projectlombok:lombok:1.18.24'
+	annotationProcessor 'org.projectlombok:lombok'
+	compileOnly 'org.projectlombok:lombok'
+
+	// Security
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	implementation "javax.xml.bind:jaxb-api"
+	compileOnly 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// Guava
+	implementation 'com.google.guava:guava:31.1-jre'
+
+	// Email
+	implementation 'org.springframework.boot:spring-boot-starter-mail'
+
+	// Testing
+	implementation 'org.springframework.boot:spring-boot-starter-test'
+	implementation 'org.springframework.boot:spring-boot-starter-validation'
 }
 
 tasks.named('test') {
