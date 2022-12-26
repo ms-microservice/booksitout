@@ -16,7 +16,7 @@ env:
   MYSQL_USER: book
   MYSQL_PW: bookitout
   MYSQL_ROOT_PW: root
-  JAVA_VERSION: 19
+  JAVA_VERSION: 1.15
 
 jobs:
   deploy:
