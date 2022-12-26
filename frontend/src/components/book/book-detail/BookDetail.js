@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, Button, ProgressBar } from 'react-bootstrap'
+import { Card, Button, ProgressBar, Alert, Badge } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
@@ -73,6 +73,17 @@ const BookDetail = () => {
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
 	const [selectedMemo, setSelectedMemo] = useState(null)
 	const [seletedQuotation, setSelectedQuotation] = useState(null)
+
+	const getTotalReadTIme = (readingSessionList) => {
+		return readingSessionList.map((r) => r.readTime).reduce((pre, cur) => pre + cur, 0)
+	}
+
+	const getRemainReadTime = (book, readingSessionList) => {
+		const averageReadTimePerPage = Number(book.currentPage) / getTotalReadTIme(readingSessionList)
+		const bookRemainPage = book.endPage - book.currentPage
+
+		return Math.round(bookRemainPage * averageReadTimePerPage)
+	}
 
 	return (
 		<div className='container'>
@@ -166,19 +177,82 @@ const BookDetail = () => {
 							</Card>
 						)}
 
-						<BookRecordCard
-							displayLabel='🤓 독서활동'
-							record={readingSession}
-							ListComponent={
-								<ReadingSessionList
-									readingSessionList={readingSession}
-									setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
-									setSelectedReadingSession={setSelectedReadingSession}
-									bookEndPage={book.endPage}
-								/>
-							}
-							setIsAddModalOpen={setIsAddReadingSessionModalOpen}
-						/>
+						<Card className='mt-3'>
+							{book.currentPage !== 0 && (
+								<>
+									<div
+										className='bg-secondary text-white d-none d-xl-block'
+										style={{
+											left: '2.5%',
+											width: `100px`,
+											height: `30px`,
+											borderRadius: '5px',
+											position: 'absolute',
+											top: '15px',
+										}}>
+										총 {getTotalReadTIme(readingSession)}분
+									</div>
+								</>
+							)}
+
+							{book.currentPage !== 0 && book.currentPage !== book.endPage && (
+								<>
+									<div
+										className='bg-secondary text-white d-block d-xl-none'
+										style={{
+											left: '2.5%',
+											width: `100px`,
+											height: `30px`,
+											borderRadius: '5px',
+											position: 'absolute',
+											top: '15px',
+										}}>
+										앞으로 {getRemainReadTime(book, readingSession)}분
+									</div>
+
+									<div
+										className='bg-secondary text-white d-none d-xl-block'
+										style={{
+											left: '15%',
+											width: `100px`,
+											height: `30px`,
+											borderRadius: '5px',
+											position: 'absolute',
+											top: '15px',
+										}}>
+										앞으로 {getRemainReadTime(book, readingSession)}분
+									</div>
+								</>
+							)}
+
+							<AddButton
+								size='30'
+								color='success'
+								onClick={() => {
+									setIsAddReadingSessionModalOpen(true)
+								}}
+							/>
+
+							<Card.Body>
+								<h4>🤓 독서활동</h4>
+
+								<div className='row justify-content-center mt-4'>
+									<div className='col-12'>
+										{readingSession == null || readingSession.length === 0 ? (
+											<NoContent style={{ width: '150px' }} />
+										) : (
+											<ReadingSessionList
+												readingSessionList={readingSession}
+												book={book}
+												setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
+												setSelectedReadingSession={setSelectedReadingSession}
+											/>
+										)}
+									</div>
+								</div>
+							</Card.Body>
+						</Card>
+
 						<BookRecordCard
 							displayLabel='📋 메모'
 							record={memo}
@@ -187,6 +261,7 @@ const BookDetail = () => {
 							}
 							setIsAddModalOpen={setIsAddMemoModalOpen}
 						/>
+
 						<BookRecordCard
 							displayLabel='🗣️ 인용'
 							record={quotation}
@@ -210,7 +285,11 @@ const BookCover = ({ book }) => {
 	return (
 		<div className='row justify-content-center'>
 			<div className='col-8 col-md-12 col-lg-10'>
-				<img src={book.cover == '' ? defaultBookCover : book.cover} alt='' className={`img-fluid rounded  ${book.cover != '' && 'border'}`} />
+				<img
+					src={book.cover === '' ? defaultBookCover : book.cover}
+					alt=''
+					className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
+				/>
 			</div>
 		</div>
 	)
@@ -473,7 +552,7 @@ const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelect
 	)
 }
 
-const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, setSelectedReadingSession, bookEndPage }) => {
+const ReadingSessionList = ({ readingSessionList, book, setIsReadingSessionModalOpen, setSelectedReadingSession }) => {
 	return (
 		<div className='row row-eq-height'>
 			{readingSessionList
@@ -504,10 +583,13 @@ const ReadingSessionList = ({ readingSessionList, setIsReadingSessionModalOpen, 
 										<ProgressBar className='p-0'>
 											<ProgressBar
 												style={{ backgroundColor: 'rgb(234, 236, 239)' }}
-												now={(readingSession.startPage / bookEndPage) * 100}
+												now={(readingSession.startPage / book.endPage) * 100}
 											/>
 											<ProgressBar
-												now={(readingSession.endPage / bookEndPage) * 100 - (readingSession.startPage / bookEndPage) * 100}
+												now={(readingSession.endPage / book.endPage) * 100 - (readingSession.startPage / book.endPage) * 100}
+												label={`${Math.round(
+													(readingSession.endPage / book.endPage) * 100 - (readingSession.startPage / book.endPage) * 100
+												)}%`}
 											/>
 										</ProgressBar>
 									</div>

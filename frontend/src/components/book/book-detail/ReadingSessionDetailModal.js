@@ -37,26 +37,37 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 					<div className='row'>
 						<h5 className='mb-3'>
 							🗓️{' '}
-							{readingSession.startTime
-								.replace('-', '년 ')
-								.replace('-', '월 ')
-								.replace('T', '일 ')
-								.replace(':', '시 ')
-								.replace(':', '분 ')
-								.substring(0, 21)}{' '}
-							부터
+							{readingSession.endTime.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null
+								? readingSession.startTime
+										.replace('-', '년 ')
+										.replace('-', '월 ')
+										.replace('T', '일 ')
+										.replace(':', '시 ')
+										.replace(':', '분 ')
+										.substring(0, 21)
+								: readingSession.startTime
+										.replace('-', '년 ')
+										.replace('-', '월 ')
+										.replace('T', '일 ')
+										.replace(':', '시 ')
+										.replace(':', '분 ')
+										.substring(0, 14)}
+							{readingSession.endTime.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null ? '부터' : ''}
 						</h5>
-						<h5 className='mb-3'>
-							🗓️{' '}
-							{readingSession.endTime
-								.replace('-', '년 ')
-								.replace('-', '월 ')
-								.replace('T', '일 ')
-								.replace(':', '시 ')
-								.replace(':', '분 ')
-								.substring(0, 21)}{' '}
-							까지
-						</h5>
+						{readingSession.endTime.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null && (
+							<h5>
+								🗓️{' '}
+								{readingSession.endTime
+									.replace('-', '년 ')
+									.replace('-', '월 ')
+									.replace('T', '일 ')
+									.replace(':', '시 ')
+									.replace(':', '분 ')
+									.substring(0, 21)}{' '}
+								까지
+							</h5>
+						)}
+
 						<h5 className='mb-3'>⏰ {readingSession.readTime}분 동안</h5>
 						<h5 className='mb-3'>
 							📃 {readingSession.startPage}P 부터 {readingSession.endPage}P 까지
