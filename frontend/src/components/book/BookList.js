@@ -45,20 +45,20 @@ const BookList = (props) => {
 				<></>
 			) : isLoading ? (
 				<Loading message='잠시만 기다려 주세요' />
-			) : error ? (
+			) : error || bookList == null ? (
 				<Error />
-			) : bookList == null || bookList.length == 0 ? (
+			) : bookList.length == 0 ? (
 				<NoContent
 					message={
-						range == 'not-done'
+						range === 'not-done'
 							? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!`
-							: range == 'done'
+							: range === 'done'
 							? `아직 다 읽은 책이 없어요`
-							: range == 'give-up'
+							: range === 'give-up'
 							? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
 							: `텅 비어 있어요`
 					}
-					icon={range == 'give-up' ? kimchiImage : bookShelfImage}
+					icon={range === 'give-up' ? kimchiImage : bookShelfImage}
 				/>
 			) : (
 				<div className='row row-eq-height'>
@@ -68,9 +68,9 @@ const BookList = (props) => {
 								<Card className='h-100'>
 									<Card.Body>
 										<>
-											{range == 'done' ? (
+											{range === 'done' ? (
 												<HorizontalBookView book={book} link={`/book/detail/${book.bookId}`} />
-											) : range == 'give-up' ? (
+											) : range === 'give-up' ? (
 												<HorizontalBookView
 													book={book}
 													firstButton={
