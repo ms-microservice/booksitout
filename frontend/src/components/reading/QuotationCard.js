@@ -1,10 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Card, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Components
 import NoContent from '../common/NoContent'
 // Functions
-import { addQuotation, getQuotationListOfBook } from '../../functions/quotation'
+import { addQuotation } from '../../functions/quotation'
+// Messages
 import {
 	QUOTATION_ADD_ERROR_CONTENT_NULL,
 	QUOTATION_CONTENT_PLACEHOLDER,
@@ -12,10 +13,8 @@ import {
 	QUOTATION_FROM_WHO_PLACEHOLDER,
 } from '../../messages/readingMessages'
 
-const QuotationCard = ({ bookId, currentPage }) => {
-	const [quoteList, setQuoteList] = useState(null)
-
-	const [page, setPage] = useState(currentPage)
+const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuotation, setIsModalOpen }) => {
+	const [page, setPage] = useState(book.currentPage)
 	const [content, setContent] = useState('')
 	const [fromWho, setFromWho] = useState('')
 
@@ -33,18 +32,14 @@ const QuotationCard = ({ bookId, currentPage }) => {
 			fromWho: fromWho,
 		}
 
-		addQuotation(bookId, quotation).then((isSuccess) => {
+		addQuotation(book.bookId, quotation).then((isSuccess) => {
 			if (isSuccess) {
-				setQuoteList([...quoteList, quotation])
+				setQuotationList([...quotationList, quotation])
 				setContent('')
 				setFromWho('')
 			}
 		})
 	}
-
-	useEffect(() => {
-		getQuotationListOfBook(bookId).then((quotes) => setQuoteList(quotes))
-	}, [])
 
 	return (
 		<Card>
@@ -52,16 +47,21 @@ const QuotationCard = ({ bookId, currentPage }) => {
 				<h4 className='mb-4'>인용</h4>
 
 				<div className='row row-eq-height'>
-					{quoteList == null || quoteList.length === 0 ? (
+					{quotationList == null || quotationList.length === 0 ? (
 						<NoContent message={QUOTATION_EMPTY} style={{ width: '100px' }} />
 					) : (
-						quoteList.map((record) => {
+						quotationList.map((quotation) => {
 							return (
-								<div className='col-12 col-md-6'>
-									<Card className='h-100'>
-										<Card.Header>{record.page}</Card.Header>
+								<div className='col-12 col-md-6 mb-3'>
+									<Card
+										className='h-100'
+										onClick={() => {
+											setIsModalOpen(true)
+											setSelectedQuotation(quotation)
+										}}>
+										<Card.Header>{quotation.page}</Card.Header>
 
-										<Card.Body className='d-flex align-items-center justify-content-center'>{record.content}</Card.Body>
+										<Card.Body className='d-flex align-items-center justify-content-center'>{quotation.content}</Card.Body>
 									</Card>
 								</div>
 							)

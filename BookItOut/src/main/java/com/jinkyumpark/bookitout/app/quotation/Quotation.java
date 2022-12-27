@@ -21,7 +21,7 @@ public class Quotation {
     @Column(name = "quotation_id")
     private Long quotationId;
 
-    @Column(name = "page", nullable = false)
+    @Column(name = "page")
     private Integer page;
 
     @Column(name = "content", nullable = false)

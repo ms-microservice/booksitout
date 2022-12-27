@@ -52,10 +52,10 @@ const ReadingSessionDetailModal = ({ isModalOpen, setIsModalOpen, readingSession
 										.replace(':', '시 ')
 										.replace(':', '분 ')
 										.substring(0, 14)}
-							{readingSession.endTime.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null ? '부터' : ''}
+							{readingSession.endTime.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null ? ' 부터' : ''}
 						</h5>
 						{readingSession.endTime.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null && (
-							<h5>
+							<h5 className='mb-3'>
 								🗓️{' '}
 								{readingSession.endTime
 									.replace('-', '년 ')

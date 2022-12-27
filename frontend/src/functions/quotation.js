@@ -19,7 +19,7 @@ const getQuotationListOfBook = (bookId) => {
 }
 
 const addQuotation = (bookId, quotation) => {
-	const token = localStorage.getItem('login-token')
+	const token = getToken()
 
 	return fetch(QUOTATION_API_URL + bookId, {
 		method: 'POST',
@@ -36,6 +36,24 @@ const addQuotation = (bookId, quotation) => {
 	})
 }
 
+const editQuotation = (editedQuotation) => {
+	const QUOTATION_EDIT_API_URL = `${API_BASE_URL}/v1/quotation/${editedQuotation.quotationId}`
+	const token = getToken()
+
+	return fetch(QUOTATION_EDIT_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			page: editedQuotation.page,
+			content: editedQuotation.content,
+			fromWho: editedQuotation.fromWho,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
 const deleteQuotation = (quotationId) => {
 	const token = getToken()
 	const DELETE_QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/${quotationId}`
@@ -49,4 +67,4 @@ const deleteQuotation = (quotationId) => {
 	})
 }
 
-export { getQuotationListOfBook, addQuotation, deleteQuotation }
+export { getQuotationListOfBook, addQuotation, editQuotation, deleteQuotation }

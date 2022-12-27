@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.app.quotation;
 
 import com.jinkyumpark.bookitout.app.quotation.request.QuotationEditRequest;
+import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -29,17 +30,12 @@ public class QuotationService {
 
     @Transactional
     public void editQuotation(Long quotationId, QuotationEditRequest quotationEditRequest) {
-        Quotation quotation = this.getQuotationByQuotationId(quotationId);
+        Quotation existingQuotation = quotationRepository.findById(quotationId)
+                .orElseThrow(() -> new NotFoundException(""));
 
-        if (quotationEditRequest.getContent() != null) {
-            quotation.setContent(quotation.getContent());
-        }
-        if (quotationEditRequest.getPage() != null) {
-            quotation.setPage(quotationEditRequest.getPage());
-        }
-        if (quotationEditRequest.getFromWho() != null) {
-            quotation.setFrom_who(quotationEditRequest.getFromWho());
-        }
+            existingQuotation.setContent(quotationEditRequest.getContent());
+            existingQuotation.setPage(quotationEditRequest.getPage());
+            existingQuotation.setFrom_who(quotationEditRequest.getFromWho());
     }
 
     public void deleteQuotation(Long quotationId) {

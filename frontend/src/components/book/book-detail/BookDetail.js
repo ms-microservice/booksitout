@@ -30,6 +30,7 @@ import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-in
 import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
 import MemoDetailModal from './MemoDetailModal'
 import QuotationDetailModal from './QuotationDetailModal'
+import { INITIAL_FETCH_TIME } from '../../../settings/settings'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -45,7 +46,7 @@ const BookDetail = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, 5000)
+		}, INITIAL_FETCH_TIME)
 
 		Promise.all([
 			getBook(id).then((book) => setBook(book)),
@@ -79,7 +80,7 @@ const BookDetail = () => {
 	}
 
 	const getRemainReadTime = (book, readingSessionList) => {
-		const averageReadTimePerPage = book.currentPage / getTotalReadTIme(readingSessionList)
+		const averageReadTimePerPage = Number(getTotalReadTIme(readingSessionList)) / book.currentPage
 		const bookRemainPage = book.endPage - book.currentPage
 
 		return Math.round(bookRemainPage * averageReadTimePerPage)
@@ -133,6 +134,7 @@ const BookDetail = () => {
 						isModalOpen={isMemoDetailModalOpen}
 						setIsModalOpen={setIsMemoDetailModalOpen}
 						memo={selectedMemo}
+						setMemo={setSelectedMemo}
 						memoList={memo}
 						setMemoList={setMemo}
 					/>
@@ -140,6 +142,7 @@ const BookDetail = () => {
 						isModalOpen={isQuotationDetailModalOpen}
 						setIsModalOpen={setIsQuotationDetailModalOpen}
 						quotation={seletedQuotation}
+						setQuotation={setSelectedQuotation}
 						quotationList={quotation}
 						setQuotationList={setQuotation}
 					/>
@@ -539,7 +542,7 @@ const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelect
 						}}>
 						<Card.Body>
 							<div className='row'>
-								<div className='col-3 col-md-2'>{quotation.page} P</div>
+								<div className='col-3 col-md-2'>{quotation.page == null ? '-' : `${quotation.page} P`}</div>
 								<div className='col-9 col-md-10 text-start'>{quotation.content}</div>
 							</div>
 						</Card.Body>

@@ -1,18 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Card, Button, Form } from 'react-bootstrap'
 // Components
 import NoContent from '../common/NoContent'
 // Functions
-import { getMemoListOfBook, addMemo } from '../../functions/memo'
+import { addMemo } from '../../functions/memo'
 import { MEMO_CONTENT_PLACEHOLDER, MEMO_EMPTY } from '../../messages/readingMessages'
 
-const MemoCard = ({ bookId, currentPage: bookCurrentPage }) => {
-	const [memoList, setMemoList] = useState(null)
-	useEffect(() => {
-		getMemoListOfBook(bookId).then((memos) => setMemoList(memos))
-	}, [])
-
-	const [page, setPage] = useState(bookCurrentPage)
+const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen }) => {
+	const [page, setPage] = useState(book.currentPage)
 	const [content, setContent] = useState('')
 
 	const addMemoFunction = (e) => {
@@ -23,7 +18,7 @@ const MemoCard = ({ bookId, currentPage: bookCurrentPage }) => {
 			page: page === 0 || page === '' ? null : page,
 		}
 
-		addMemo(memo, bookId).then((isSuccess) => {
+		addMemo(memo, book.bookId).then((isSuccess) => {
 			if (isSuccess) {
 				setMemoList([...memoList, memo])
 				setContent('')
@@ -40,12 +35,17 @@ const MemoCard = ({ bookId, currentPage: bookCurrentPage }) => {
 					{memoList == null || memoList.length === 0 ? (
 						<NoContent message={MEMO_EMPTY} style={{ width: '100px' }} />
 					) : (
-						memoList.map((record) => {
+						memoList.map((memo) => {
 							return (
-								<div className='col-12 col-md-6'>
-									<Card className='h-100'>
-										<Card.Header>{record.page}</Card.Header>
-										<Card.Body className='d-flex align-items-center justify-content-center'>{record.content}</Card.Body>
+								<div className='col-12 col-md-6 mb-3'>
+									<Card
+										className='h-100'
+										onClick={() => {
+											setIsModalOpen(true)
+											setSelectedMemo(memo)
+										}}>
+										<Card.Header>{memo.page}</Card.Header>
+										<Card.Body className='d-flex align-items-center justify-content-center'>{memo.content}</Card.Body>
 									</Card>
 								</div>
 							)
