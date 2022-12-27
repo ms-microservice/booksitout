@@ -28,7 +28,15 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 			return
 		}
 
-		addReadingSession(book.bookId, year, month, day, getStartPage(), endPage, readTime).then((success) => {
+		addReadingSession(
+			book.bookId,
+			year,
+			(month.length === 1 ? '0' : '') + month,
+			(day.length === 1 ? '0' : '') + day,
+			getStartPage(),
+			endPage,
+			readTime
+		).then((success) => {
 			if (success) {
 				setReadingSessionList([
 					...readingSessionList,

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
-import { Card, Button, ProgressBar, Alert, Badge } from 'react-bootstrap'
+import { Card, Button, ProgressBar } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
@@ -79,7 +79,7 @@ const BookDetail = () => {
 	}
 
 	const getRemainReadTime = (book, readingSessionList) => {
-		const averageReadTimePerPage = Number(book.currentPage) / getTotalReadTIme(readingSessionList)
+		const averageReadTimePerPage = book.currentPage / getTotalReadTIme(readingSessionList)
 		const bookRemainPage = book.endPage - book.currentPage
 
 		return Math.round(bookRemainPage * averageReadTimePerPage)
