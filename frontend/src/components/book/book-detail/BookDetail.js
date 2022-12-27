@@ -86,7 +86,7 @@ const BookDetail = () => {
 	}
 
 	return (
-		<div className='container'>
+		<div className='container-lg'>
 			{initialFetch ? (
 				<></>
 			) : loading ? (

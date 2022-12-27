@@ -23,10 +23,10 @@ import Search from './components/search/Search'
 import Goal from './components/statistics/goal/Goal'
 // Functions
 import { getToken } from './functions/user'
+import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 // Settings
 import { REDIRECT_EXCLUDE_URL } from './settings/urls/localUrl'
 import { TOAST_LIMIT } from './settings/settings'
-import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 
 function App() {
 	const location = useLocation()
