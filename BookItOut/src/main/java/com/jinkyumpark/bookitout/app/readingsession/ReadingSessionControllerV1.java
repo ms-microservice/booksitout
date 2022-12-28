@@ -5,6 +5,7 @@ import com.jinkyumpark.bookitout.app.book.BookService;
 import com.jinkyumpark.bookitout.app.goal.Goal;
 import com.jinkyumpark.bookitout.app.goal.GoalService;
 import com.jinkyumpark.bookitout.app.readingsession.request.AddReadingSessionRequest;
+import com.jinkyumpark.bookitout.app.readingsession.request.ReadingSessionEditRequest;
 import com.jinkyumpark.bookitout.app.statistics.StatisticsService;
 import com.jinkyumpark.bookitout.app.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.exception.common.BadRequestException;
@@ -14,6 +15,7 @@ import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.exception.custom.ReadingSessionIsInProgressException;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
+import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.response.UpdateSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
@@ -42,7 +44,7 @@ public class ReadingSessionControllerV1 {
 
     @GetMapping
     public ReadingSession getReadingSession(@RequestParam("reading-session-id") Long readingSessionId) {
-        Optional<ReadingSession> readingSessionOptional = readingSessionService.getReadingSessionByReadingSessionId(readingSessionId);
+        Optional<ReadingSession> readingSessionOptional = readingSessionService.getReadingSessionOptionalByReadingSessionId(readingSessionId);
         if (readingSessionOptional.isEmpty()) {
             throw new NotFoundException("찾으시는 독서활동이 없어요");
         }
@@ -118,8 +120,8 @@ public class ReadingSessionControllerV1 {
 
         if (!book.getAppUser().getAppUserId().equals(loginUserId)) throw new NotAuthorizeException();
         if (
-                ! book.getCurrentPage().equals(addReadingSessionRequest.getStartPage() - 1)
-                && addReadingSessionRequest.getStartPage() != 0
+                !book.getCurrentPage().equals(addReadingSessionRequest.getStartPage() - 1)
+                        && addReadingSessionRequest.getStartPage() != 0
         ) {
             throw new BadRequestException("");
         }
@@ -161,7 +163,7 @@ public class ReadingSessionControllerV1 {
     ) {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        Optional<ReadingSession> readingSessionOptional = readingSessionService.getReadingSessionByReadingSessionId(readingSessionId);
+        Optional<ReadingSession> readingSessionOptional = readingSessionService.getReadingSessionOptionalByReadingSessionId(readingSessionId);
         if (readingSessionOptional.isEmpty()) {
             throw new NotFoundException("독서활동을 찾을 수 없어요");
         }
@@ -217,6 +219,38 @@ public class ReadingSessionControllerV1 {
         return new AddSuccessResponse("독서활동을 종료했어요");
     }
 
+    @PutMapping("{readingSessionId}/all")
+    @Transactional
+    public EditSuccessResponse editReadingSession(@PathVariable("readingSessionId") Long readingSessionId,
+                                                  @RequestBody @Valid ReadingSessionEditRequest readingSessionEditRequest
+    ) {
+        ReadingSession existingReadingSession = readingSessionService.getReadingSessionOptionalByReadingSessionId(readingSessionId)
+                .orElseThrow(() -> new NotFoundException(""));
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        if (!existingReadingSession.getAppUser().getAppUserId().equals(loginUserId)) {
+            throw new NotAuthorizeException();
+        }
+
+        if (readingSessionEditRequest.getStartTime() != null) {
+            existingReadingSession.setStartTime(readingSessionEditRequest.getStartTime());
+        }
+
+        if (readingSessionEditRequest.getEndTime() != null) {
+            existingReadingSession.setEndTime(readingSessionEditRequest.getEndTime());
+        }
+
+        if (readingSessionEditRequest.getReadTime() != null) {
+            existingReadingSession.setReadTime(readingSessionEditRequest.getReadTime());
+        }
+
+        if (readingSessionEditRequest.getEndPage() != null) {
+            existingReadingSession.setEndPage(readingSessionEditRequest.getEndPage());
+        }
+
+        return new EditSuccessResponse(String.format("PUT /v1/reading-session/%d", readingSessionId), "success");
+    }
+
     @DeleteMapping("not-saving")
     public DeleteSuccessResponse deleteReadingSessionWithoutSaving() {
         Long loginUserId = AppUserService.getLoginAppUserId();
@@ -231,7 +265,7 @@ public class ReadingSessionControllerV1 {
     @DeleteMapping("{readingSessionId}")
     @Transactional
     public DeleteSuccessResponse deleteReadingSession(@PathVariable("readingSessionId") Long readingSessionId) {
-        ReadingSession readingSession = readingSessionService.getReadingSessionByReadingSessionId(readingSessionId)
+        ReadingSession readingSession = readingSessionService.getReadingSessionOptionalByReadingSessionId(readingSessionId)
                 .orElseThrow(() -> new NotFoundException("지우실려는 독서활동이 없어요"));
         Long loginUserId = AppUserService.getLoginAppUserId();
 

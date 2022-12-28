@@ -125,6 +125,7 @@ const BookDetail = () => {
 						isModalOpen={isReadingSessionDetailModalOpen}
 						setIsModalOpen={setIsReadingSessionDetailModalOpen}
 						readingSession={selectedReadingSession}
+						setReadingSession={setSelectedReadingSession}
 						readingSessionList={readingSession}
 						setReadingSessionList={setReadingSession}
 						book={book}

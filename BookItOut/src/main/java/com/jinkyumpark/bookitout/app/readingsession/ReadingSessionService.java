@@ -58,7 +58,7 @@ public class ReadingSessionService {
         readingSessionRepository.deleteById(readingSessionId);
     }
 
-    public Optional<ReadingSession> getReadingSessionByReadingSessionId(Long readingSessionId) {
+    public Optional<ReadingSession> getReadingSessionOptionalByReadingSessionId(Long readingSessionId) {
         return readingSessionRepository.findById(readingSessionId);
     }
 

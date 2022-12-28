@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { addReadingSession } from '../../../functions/reading'
+import { getDayCountOfMonth } from '../../../functions/date'
 import '../../../resources/css/input.css'
 
 const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, readingSessionList, setReadingSessionList }) => {
@@ -59,10 +60,6 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			}
 		})
-	}
-
-	const getDayCountOfMonth = (year, month) => {
-		return new Date(year, month, 0).getDate(year, month)
 	}
 
 	return (
