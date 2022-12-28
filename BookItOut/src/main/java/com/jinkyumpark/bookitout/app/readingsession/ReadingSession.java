@@ -47,6 +47,12 @@ public class ReadingSession {
     private Book book;
 
     @Builder
+    public ReadingSession(Long readingSessionId, Integer readTime) {
+        this.readingSessionId = readingSessionId;
+        this.readTime = readTime;
+    }
+
+    @Builder
     public ReadingSession(Integer startPage, LocalDateTime startTime, Book book, AppUser appUser) {
         this.startPage = startPage;
         this.startTime = startTime;
