@@ -61,6 +61,7 @@ const SummaryTable = ({ statistics }) => {
 									style={{
 										width: '30px',
 										height: '30px',
+										whiteSpace: 'nowrap',
 									}}
 								/>
 								{stat.name}

@@ -19,13 +19,8 @@ const Topnav = ({ token, setToken }) => {
 
 	const urlList = [
 		{
-			id: 0,
-			url: '/book/not-started',
-			title: '시작 안 한 책',
-		},
-		{
 			id: 1,
-			url: '/book/started',
+			url: '/book/not-done/all',
 			title: '읽고 있는 책',
 		},
 		{

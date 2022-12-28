@@ -96,7 +96,7 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 		.then((data) => {
 			if (data.status.toString().startsWith(2)) {
 				toast.success(data.message)
-				navigate('/book/not-done')
+				navigate('/book/not-done/all')
 			}
 		})
 		.catch((e) => {

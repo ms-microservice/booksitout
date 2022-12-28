@@ -4,4 +4,8 @@ const getDateDifferenceInDays = (date1, date2) => {
 	return differenceInDays
 }
 
-export { getDateDifferenceInDays }
+const getDayCountOfMonth = (year, month) => {
+	return new Date(year, month, 0).getDate(year, month)
+}
+
+export { getDateDifferenceInDays, getDayCountOfMonth }

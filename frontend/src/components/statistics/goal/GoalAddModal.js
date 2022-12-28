@@ -11,6 +11,8 @@ import {
 	GOAL_ADD_ERROR_GOAL_SMALL,
 	GOAL_ADD_PLACEHOLDER,
 } from '../../../messages/statisticsMessages'
+// Resources
+import '../../../resources/css/input.css'
 
 const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 	const [goal, setGoal] = useState('')
@@ -53,7 +55,7 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddGoal(e)}>
-					<Form.Control placeholder={GOAL_ADD_PLACEHOLDER} onChange={(e) => setGoal(e.target.value)} />
+					<Form.Control type='number' placeholder={GOAL_ADD_PLACEHOLDER} onChange={(e) => setGoal(e.target.value)} />
 
 					<div className='row justify-content-center mt-3'>
 						<div className='col-12 col-md-5 mt-2'>

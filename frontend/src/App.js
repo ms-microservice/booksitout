@@ -23,10 +23,10 @@ import Search from './components/search/Search'
 import Goal from './components/statistics/goal/Goal'
 // Functions
 import { getToken } from './functions/user'
+import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 // Settings
 import { REDIRECT_EXCLUDE_URL } from './settings/urls/localUrl'
 import { TOAST_LIMIT } from './settings/settings'
-import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 
 function App() {
 	const location = useLocation()
@@ -85,7 +85,8 @@ function App() {
 				<Route path='/settings' element={<Settings />} />
 
 				<Route path='/' element={<Main token={token} />} />
-				<Route path='/book/:range' element={<BookList token={token} />} />
+				<Route path='/book/:range' element={<BookList />} />
+				<Route path='/book/:range/:rangeDetail' element={<BookList />} />
 				<Route path='/book/detail/:id' element={<BookDetail />} />
 				<Route path='book/add' element={<BookAddForm token={token} />} />
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />

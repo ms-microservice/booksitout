@@ -26,18 +26,22 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 	}
 
 	const handleEndWithoutSaving = () => {
-		endReadingSessionWithoutSaving().then((success) => {
-			if (success) {
-				toast.success(READING_END_NO_SAVING_SUCCESS)
-				localStorage.removeItem('reading-session-time')
-				localStorage.removeItem('reading-session-date')
-				localStorage.removeItem('timer-on')
-				setTime(null)
-				navigate(`/book/detail/${book.bookId}`)
-			} else {
-				toast.error(ERROR_MESSAGE)
-			}
-		})
+		const confirm = window.confirm('독서활동을 저장하지 않고 끝낼까요?')
+
+		if (confirm) {
+			endReadingSessionWithoutSaving().then((success) => {
+				if (success) {
+					toast.success(READING_END_NO_SAVING_SUCCESS)
+					localStorage.removeItem('reading-session-time')
+					localStorage.removeItem('reading-session-date')
+					localStorage.removeItem('timer-on')
+					setTime(null)
+					navigate(`/book/detail/${book.bookId}`)
+				} else {
+					toast.error(ERROR_MESSAGE)
+				}
+			})
+		}
 	}
 
 	return (

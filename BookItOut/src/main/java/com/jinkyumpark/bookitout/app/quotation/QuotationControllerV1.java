@@ -54,7 +54,8 @@ public class QuotationControllerV1 {
 
     @PutMapping("{quotationId}")
     public EditSuccessResponse editQuotation(@PathVariable("quotationId") Long quotationId,
-                                             @RequestBody @Valid QuotationEditRequest quotationEditRequest) {
+                                             @RequestBody @Valid QuotationEditRequest quotationEditRequest
+    ) {
         quotationService.editQuotation(quotationId, quotationEditRequest);
 
         return new EditSuccessResponse(String.format("PUT v1/quotation/%d", quotationId), "인용을 수정했어요");

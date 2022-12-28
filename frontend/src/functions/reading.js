@@ -111,6 +111,20 @@ const addReadingSession = (bookId, year, month, day, startPage, endPage, readTim
 	})
 }
 
+const editReadingSession = (editedReadingSession) => {
+	const EDIT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${editedReadingSession.readingSessionId}/all`
+	const token = getToken()
+
+	return fetch(EDIT_READING_SESSION_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
 const deleteReadingSession = (readingSessionId) => {
 	const token = getToken()
 	const DELETE_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${readingSessionId}`
@@ -131,5 +145,6 @@ export {
 	getAllReadingSessionOfBook,
 	addReadingSession,
 	deleteReadingSession,
+	editReadingSession,
 	getBookOfCurrentReadingSession,
 }

@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { addReadingSession } from '../../../functions/reading'
+import { getDayCountOfMonth } from '../../../functions/date'
 import '../../../resources/css/input.css'
 
 const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, readingSessionList, setReadingSessionList }) => {
@@ -23,12 +24,20 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 			return
 		}
 
-		if (readTime == null || readTime === '') {
+		if (readTime == null || readTime === '' || readTime == 0) {
 			toast.error('독서 활동 시간을 입력해 주세요')
 			return
 		}
 
-		addReadingSession(book.bookId, year, month, day, getStartPage(), endPage, readTime).then((success) => {
+		addReadingSession(
+			book.bookId,
+			year,
+			(month.length === 1 ? '0' : '') + month,
+			(day.length === 1 ? '0' : '') + day,
+			getStartPage(),
+			endPage,
+			readTime
+		).then((success) => {
 			if (success) {
 				setReadingSessionList([
 					...readingSessionList,
@@ -51,10 +60,6 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			}
 		})
-	}
-
-	const getDayCountOfMonth = (year, month) => {
-		return new Date(year, month, 0).getDate(year, month)
 	}
 
 	return (

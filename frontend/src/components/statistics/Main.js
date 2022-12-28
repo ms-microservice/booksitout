@@ -75,9 +75,9 @@ const Main = () => {
 			</Card.Body>
 		</Card>,
 		<Card className='h-100'>
-			<a href='/statistics' className='text-decoration-none text-black'>
-				<Card.Body>
-					<h3>최근 1주일 독서시간</h3>
+			<a href='/statistics' className='text-decoration-none text-black h-100'>
+				<Card.Body className='h-100'>
+					<h3 className='mb-4 mb-md-5 mb-lg-4'>최근 1주일 독서시간</h3>
 
 					{readTime == null ? (
 						<Error message='오류가 났어요' />
@@ -92,7 +92,7 @@ const Main = () => {
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
 					<h3>2022년 목표</h3>
 
-					{statistics != null && <GoalView goal={goal} />}
+					{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
 				</a>
 			</Card.Body>
 		</Card>,
@@ -108,7 +108,7 @@ const Main = () => {
 	]
 
 	return (
-		<div className='container'>
+		<div className='container-lg'>
 			{initialFetch ? (
 				<></>
 			) : isLoading ? (
@@ -124,7 +124,7 @@ const Main = () => {
 					)}
 
 					{componentList.map((component) => {
-						return <div className='col-12 col-lg-6 mb-4'>{component}</div>
+						return <div className='col-12 col-md-6 mb-4'>{component}</div>
 					})}
 				</div>
 			)}

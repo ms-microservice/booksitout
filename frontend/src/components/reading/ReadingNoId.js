@@ -21,7 +21,7 @@ const ReadingNoId = () => {
 				if (res.status.toString().startsWith(2)) {
 					return res.json()
 				} else {
-					navigate('/book/not-done')
+					navigate('/book/not-done/all')
 				}
 			})
 			.then((book) => {

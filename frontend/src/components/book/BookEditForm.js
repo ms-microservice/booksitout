@@ -167,7 +167,7 @@ const BookEditForm = ({ token }) => {
 								</Form.Group>
 
 								<div className='row'>
-									<div className='col-4'>
+									<div className='col-6 col-md-4'>
 										<Form.Group className='mb-3' onChange={(e) => setLanguage(e.target.value)}>
 											<Form.Label>책 언어</Form.Label>
 											<Form.Select value={language}>
@@ -182,7 +182,14 @@ const BookEditForm = ({ token }) => {
 										</Form.Group>
 									</div>
 
-									<div className='col-4'>
+									<div className='col-6 col-md-4'>
+										<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
+											<Form.Label>총 페이지 수</Form.Label>
+											<Form.Control type='number' placeholder={PAGE_MESSAGE} required value={endPage} />
+										</Form.Group>
+									</div>
+
+									<div className='col-12 col-md-4'>
 										<Form.Group>
 											<Form.Label>장르</Form.Label>
 											<Form.Select onChange={(e) => setCategory(e.target.value)} value={category}>
@@ -203,16 +210,9 @@ const BookEditForm = ({ token }) => {
 											</Form.Select>
 										</Form.Group>
 									</div>
-
-									<div className='col-4'>
-										<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
-											<Form.Label>총 페이지 수</Form.Label>
-											<Form.Control type='number' placeholder={PAGE_MESSAGE} required value={endPage} />
-										</Form.Group>
-									</div>
 								</div>
 
-								<div className='row mt-5'>
+								<div className='row mt-4'>
 									<div className='col-6'>
 										<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
 											<Form.Label>책 형태</Form.Label>
@@ -256,7 +256,7 @@ const BookEditForm = ({ token }) => {
 									/>
 								</Form.Group>
 
-								<div className='row justify-content-center mt-5 container'>
+								<div className='row justify-content-center mt-5'>
 									<div className='col-6'>
 										<Button variant='danger' onClick={() => navigate(BOOK_DETAIL_URL)} className='w-100'>
 											취소

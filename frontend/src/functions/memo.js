@@ -40,6 +40,23 @@ const addMemo = (memo, bookId) => {
 		})
 }
 
+const editMemo = (editedMemo) => {
+	const MEMO_EDIT_API_URL = `${API_BASE_URL}/v1/memo/${editedMemo.memoId}`
+	const token = getToken()
+
+	return fetch(MEMO_EDIT_API_URL, {
+		method: 'PUT',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			page: editedMemo.page,
+			content: editedMemo.content,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
 const deleteMemo = (memoId) => {
 	const token = getToken()
 	const DELETE_MEMO_API_URL = `${API_BASE_URL}/v1/memo/${memoId}`
@@ -53,4 +70,4 @@ const deleteMemo = (memoId) => {
 	})
 }
 
-export { getMemoListOfBook, addMemo, deleteMemo }
+export { getMemoListOfBook, addMemo, editMemo, deleteMemo }
