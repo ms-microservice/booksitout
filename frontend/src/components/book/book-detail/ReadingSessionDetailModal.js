@@ -77,8 +77,9 @@ const ReadingSessionDetailModal = ({
 			}
 		})
 	}
+
 	const handleDeleteReadingSession = () => {
-		if (book.currentPage != readingSession.endPage) {
+		if (book.currentPage !== readingSession.endPage) {
 			toast.error('가장 최근의 독서활동만 지울 수 있어요')
 			return
 		}
@@ -90,7 +91,7 @@ const ReadingSessionDetailModal = ({
 				if (success) {
 					toast.success('독서활동을 지웠어요')
 					setReadingSessionList(readingSessionList.filter((reading) => reading.readingSessionId !== readingSession.readingSessionId))
-					setBook({ ...book, currentPage: readingSession.startPage })
+					setBook({ ...book, currentPage: readingSession.startPage - 1 })
 					setIsModalOpen(false)
 				} else {
 					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')

@@ -24,7 +24,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 			return
 		}
 
-		if (readTime == null || readTime === '') {
+		if (readTime == null || readTime === '' || readTime == 0) {
 			toast.error('독서 활동 시간을 입력해 주세요')
 			return
 		}
