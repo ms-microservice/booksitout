@@ -8,6 +8,7 @@ import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -78,6 +79,15 @@ public class Book {
     @ColumnDefault(value = "1")
     @Enumerated(value = EnumType.ORDINAL)
     private BookCategory category;
+
+    @JsonIgnore
+    @Column(name = "last_modified")
+    @LastModifiedDate
+    private LocalDateTime lastModified;
+
+    public Book(Long bookId) {
+        this.bookId = bookId;
+    }
 
     // TODO : change to FK
     @Column(name = "author", nullable = false)

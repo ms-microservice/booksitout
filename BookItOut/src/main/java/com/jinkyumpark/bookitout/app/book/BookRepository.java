@@ -11,21 +11,21 @@ import java.util.List;
 @Repository
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1")
+    @Query("select b from Book b where b.appUser.appUserId = ?1 order by b.lastModified")
     List<Book> findAllBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0 and b.isGiveUp = false")
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0 and b.isGiveUp = false order by b.lastModified")
     List<Book> findAllNotStartedBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage and b.isGiveUp = false")
+    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage and b.isGiveUp = false order by b.lastModified")
     List<Book> findAllStartedBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.currentPage = b.endPage")
+    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.currentPage = b.endPage order by b.lastModified")
     List<Book> findAllDoneBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and not b.currentPage = b.endPage and b.isGiveUp = false")
+    @Query("select b from Book b where b.appUser.appUserId = :appUserId and not b.currentPage = b.endPage and b.isGiveUp = false order by b.lastModified")
     List<Book> findAllNotDoneBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage")
+    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage order by b.lastModified")
     List<Book> findAllGiveUpBooks(Long appUserId, Pageable pageRequest);
 }
