@@ -41,14 +41,15 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ### DevOps
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) (EBS, EC2, RDS, S3)
+![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
 # 🆚 버전역사
 ## Version 1 (22년 10월 29일 ~)
 -   소개 : 소개 페이지, QNA/FAQ
--   책 관리 : 책 등록, 메모/인용 추가, 읽은 책 별점/리뷰
+-   책 관리 : 책 등록, 메모/인용 추가, 읽은 책 별점/리뷰 (Google 검색 API 활용)
 -   독서활동 측정 : 책 읽을 떄 마다 타이머로 측정해 통계 제시
--   Authentication, Authorization : Spring Security를 활용한 안전한 보안
-- Gradle, Docker, AWS EBS, Github Actions를 사용한 CI/CD
+-   Security : Spring Security, Http-only Cookie로 저장하는 JWT
+-   Gradle, Docker, AWS EBS, Github Actions를 사용한 CI/CD
 
 ### Architecture Diagram
 <p align="center">
