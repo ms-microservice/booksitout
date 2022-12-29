@@ -4,7 +4,7 @@ import com.jinkyumpark.bookitout.exception.common.*;
 import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.app.user.request.JoinRequest;
 import com.jinkyumpark.bookitout.app.user.response.JoinSuccessResponse;
-import com.jinkyumpark.bookitout.util.email.EmailSenderService;
+import com.jinkyumpark.bookitout.util.email.EmailSenderGmail;
 import com.jinkyumpark.bookitout.util.email.Mail;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -23,7 +23,7 @@ public class AppUserControllerV1 {
 
     private AppUserService appUserService;
     private PasswordEncoder passwordEncoder;
-    private EmailSenderService emailService;
+    private EmailSenderGmail emailService;
 
     private final Integer VERIFICATION_CODE_LENGTH = 5;
 

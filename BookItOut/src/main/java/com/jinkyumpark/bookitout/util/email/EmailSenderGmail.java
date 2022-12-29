@@ -1,17 +1,23 @@
 package com.jinkyumpark.bookitout.util.email;
 
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+@PropertySource("classpath:application.properties")
+
 @Service
-@AllArgsConstructor
-public class EmailSenderService {
+public class EmailSenderGmail implements EmailSender {
     private JavaMailSender javaMailSender;
+    private final String BOOK_IT_OUT_OFFICIAL_EMAIL;
 
-    private final String BOOK_IT_OUT_OFFICIAL_EMAIL = "jinpark1025@gmail.com";
+    public EmailSenderGmail(@Value("${spring.mail.username}") String BOOK_IT_OUT_OFFICIAL_EMAIL) {
+        this.BOOK_IT_OUT_OFFICIAL_EMAIL = BOOK_IT_OUT_OFFICIAL_EMAIL;
+    }
 
+    @Override
     public void sendEmail(Mail mail) {
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setFrom(BOOK_IT_OUT_OFFICIAL_EMAIL);
