@@ -81,14 +81,14 @@ public class ReadingSessionService {
 
         if (!book.getAppUser().getAppUserId().equals(loginUserId))
             throw new NotAuthorizeException("독서활동을 추가하시려는 책의 주인이 아니에요");
-        if (! newReadingSession.getStartPage().equals(book.getCurrentPage() + 1) && book.getCurrentPage() != 0)
+        if (!newReadingSession.getStartPage().equals(book.getCurrentPage() + 1) && book.getCurrentPage() != 0)
             throw new BadRequestException("독서활동 시작 페이지는 바로 전 독서활동 페이지 바로 뒤여야만 해요");
         Optional<ReadingSession> currentReadingSessionOptional = this.getCurrentReadingSessionOptional(loginUserId);
         if (currentReadingSessionOptional.isPresent())
             throw new ReadingSessionIsInProgressException(currentReadingSessionOptional.get().getBook().getBookId());
-        if (newReadingSession.getEndPage() > book.getEndPage())
+        if (newReadingSession.getEndPage() != null && newReadingSession.getEndPage() > book.getEndPage())
             throw new BadRequestException("독서활동 페이지는 책 마지막 페이지보다 클 수 없어요");
-        if (newReadingSession.getEndPage() < 0 || newReadingSession.getStartPage() < 0)
+        if (newReadingSession.getEndPage() != null && newReadingSession.getEndPage() < 0 || newReadingSession.getStartPage() < 0)
             throw new BadRequestException("독서활동 페이지는 반드시 0보다 커야 해요");
 
         readingSessionRepository.save(newReadingSession);
@@ -122,7 +122,7 @@ public class ReadingSessionService {
 
         if (!loginUserId.equals(readingSessionAppUserId))
             throw new NotAuthorizeException("독서활동을 지우실 권한이 없어요");
-        if (!readingSession.getEndPage().equals(readingSession.getBook().getCurrentPage()))
+        if (readingSession.getEndPage() != null && !readingSession.getEndPage().equals(readingSession.getBook().getCurrentPage()))
             throw new BadRequestException("가장 최근의 독서활동만 지우실 수 있어요");
 
         readingSessionRepository.deleteById(readingSessionId);
@@ -154,9 +154,9 @@ public class ReadingSessionService {
 
         if (!previousReadingSession.getAppUser().getAppUserId().equals(loginUserId))
             throw new NotAuthorizeException("해당 독서활동을 수정할 권한이 없어요");
-        if (previousReadingSession.getBook().getCurrentPage() >= previousReadingSession.getEndPage())
+        if (previousReadingSession.getEndPage() != null && previousReadingSession.getBook().getCurrentPage() >= previousReadingSession.getEndPage())
             throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
-        if (previousReadingSession.getBook().getEndPage() < previousReadingSession.getEndPage())
+        if (previousReadingSession.getEndPage() != null && previousReadingSession.getBook().getEndPage() < previousReadingSession.getEndPage())
             throw new BadRequestException("책의 마지막 페이지보다 커요");
         if (!previousReadingSession.getBook().getCurrentPage().equals(previousReadingSession.getEndPage()) && previousReadingSession.getEndPage() != null)
             throw new BadRequestException("가장 최근의 독서활동만 수정할 수 있어요");
@@ -173,7 +173,10 @@ public class ReadingSessionService {
             monthStatistics.setTotalPage(monthStatistics.getTotalPage() - previousReadingPage + currentReadingPage);
         }
         if (updatedReadingSession.getReadTime() != null) {
-            monthStatistics.setTotalReadMinute(monthStatistics.getTotalReadMinute() - previousReadingSession.getReadTime() + updatedReadingSession.getReadTime());
+            monthStatistics.setTotalReadMinute(
+                    monthStatistics.getTotalReadMinute() + updatedReadingSession.getReadTime()
+                    - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime())
+            );
         }
         if (updatedReadingSession.getReadTime() != null && monthStatistics.getMaxReadMinute() < updatedReadingSession.getReadTime()) {
             monthStatistics.setMaxReadMinute(updatedReadingSession.getReadTime());
