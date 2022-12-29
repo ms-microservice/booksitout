@@ -238,7 +238,7 @@ const BookDetail = () => {
 							/>
 
 							<Card.Body>
-								<h4>🤓 독서활동</h4>
+								<h4>📚 독서활동</h4>
 
 								<div className='row justify-content-center mt-4'>
 									<div className='col-12'>
@@ -519,7 +519,7 @@ const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 
 							<Card.Body>
 								<div className='row'>
-									<div className='text-start'>{memo.content}</div>
+									<div className='text-center'>{memo.content}</div>
 								</div>
 							</Card.Body>
 						</Card>
@@ -580,7 +580,7 @@ const ReadingSessionList = ({ readingSessionList, book, setIsReadingSessionModal
 												.replace('-', '월 ')
 												.concat('일')}
 										</div>
-										<div className='col-4 col-lg-6'>⏰ {readingSession.readTime}분</div>
+										<div className='col-4 col-lg-6'>⌛️ {readingSession.readTime}분</div>
 										<div className='col-6 mt-3'>
 											📃 {readingSession.startPage}p - {readingSession.endPage}p
 										</div>

@@ -192,7 +192,7 @@ const ReadingSessionDetailModal = ({
 									)}
 
 									<div className='row text-center'>
-										<div className='col-3 mt-1'>⏰ 독서시간</div>
+										<div className='col-3 mt-1'>⌛️ 독서시간</div>
 										<div className='col-9'>
 											<Form.Control
 												className='mb-2'
@@ -292,7 +292,7 @@ const ReadingSessionInfo = ({ readingSession }) => {
 				</h5>
 			)}
 
-			<h5 className='mb-3'>⏰ {readingSession.readTime}분 동안</h5>
+			<h5 className='mb-3'>⌛️ {readingSession.readTime}분 동안</h5>
 			<h5 className='mb-3'>
 				📃 {readingSession.startPage}P 부터 {readingSession.endPage}P 까지
 			</h5>
