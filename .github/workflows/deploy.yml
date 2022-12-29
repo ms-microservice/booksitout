@@ -31,7 +31,7 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo, message, commit
+          fields: repo, commit, took
           text: 'CI/CD have started'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -54,7 +54,7 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo, message, commit
+          fields: repo, commit, took
           text: 'SUCCESS : Spring Boot Build with Gradle'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
@@ -88,7 +88,7 @@ jobs:
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
-          fields: repo, message, commit
+          fields: repo, commit, took
           text: 'SUCCESS : Pushed to Dockerhub'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
