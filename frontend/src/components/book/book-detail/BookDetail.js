@@ -87,7 +87,7 @@ const BookDetail = () => {
 	}
 
 	return (
-		<div className='container-lg'>
+		<div className='container-xl'>
 			{initialFetch ? (
 				<></>
 			) : loading ? (
@@ -288,7 +288,7 @@ const BookDetail = () => {
 const BookCover = ({ book }) => {
 	return (
 		<div className='row justify-content-center'>
-			<div className='col-8 col-md-12 col-lg-10'>
+			<div className='col-8 col-md-12 col-lg-12'>
 				<img
 					src={book.cover === '' ? defaultBookCover : book.cover}
 					alt=''

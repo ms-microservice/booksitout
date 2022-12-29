@@ -34,18 +34,6 @@ public class JwtTokenFilter extends OncePerRequestFilter {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
         if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
-//            if (!request.getRequestURI().contains("join")) {
-//                response.setCharacterEncoding("UTF-8");
-//                response.setContentType("application/json");
-//                response.setStatus(HttpStatus.FORBIDDEN.value());
-//
-//                Map<String, String> responseMessage = Map.of("timestamp", new Date().toString(), "message", "로그인 해 주세요");
-//                ObjectMapper mapper = new ObjectMapper();
-//                response.getWriter().write(mapper.writeValueAsString(responseMessage));
-//                response.getWriter().flush();
-//                return;
-//            }
-
             filterChain.doFilter(request, response);
             return;
         }
@@ -59,12 +47,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
 
             Claims body = claimsJws.getBody();
             String username = body.getSubject();
-            List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
             Long appUserId = Long.valueOf((Integer) body.get("appUserId"));
-
+            List<Map<String, String>> authorities = (List<Map<String, String>>) body.get("authorities");
             Set<SimpleGrantedAuthority> simpleGrantedAuthorities = authorities.stream()
                     .map(m -> new SimpleGrantedAuthority(m.get("authority")))
                     .collect(Collectors.toSet());
+
             Authentication authentication = new AppUserAuthenticationToken(username, null, simpleGrantedAuthorities, appUserId);
 
             SecurityContextHolder.getContext().setAuthentication(authentication);

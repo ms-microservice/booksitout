@@ -4,6 +4,7 @@ import { Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Components
 import Loading from '../common/Loading'
+import Error from '../common/Error'
 import Timer from './Timer'
 import MemoCard from './MemoCard'
 import QuotationCard from './QuotationCard'
@@ -26,6 +27,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
+	const [isError, setIsError] = useState(false)
 
 	const [book, setBook] = useState(null)
 
@@ -69,6 +71,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 							toggleTimer(true)
 							setBook(res[1])
 						} else {
+							setIsError(true)
 							toast.error(ERROR_MESSAGE)
 						}
 					})
@@ -119,6 +122,8 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				<></>
 			) : isLoading ? (
 				<Loading />
+			) : isError ? (
+				<Error />
 			) : (
 				book != null && (
 					<div className='row justify-content-center text-center'>
