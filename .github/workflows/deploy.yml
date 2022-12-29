@@ -91,6 +91,10 @@ jobs:
           EMAIL_ID: ${{ secrets.EMAIL_ID }}
           EMAIL_PW: ${{ secrets.EMAIL_PW }}
 
+      - name: Generate Build Number
+        id: build-number
+        run: echo "::set-output name=BUILD_NUMBER::$(date '+%-d.%-m.%Y.%-H.%-M.%-S')"
+
       - uses: 8398a7/action-slack@v3
         with:
           status: ${{ job.status }}
@@ -109,7 +113,7 @@ jobs:
           application_name: ${{ env.EB_APPLICATION_NAME }}
           deployment_package: ${{ env.EB_DEPLOYMENT_PACKAGE }}
           use_existing_version_if_available: true
-          version_label: ${{ (git rev-parse --short "$GITHUB_SHA") }}
+          version_label: ${{ steps.build-number.outputs.BUILD_NUMBER }}
           wait_for_deployment: 60
 
       - uses: 8398a7/action-slack@v3
