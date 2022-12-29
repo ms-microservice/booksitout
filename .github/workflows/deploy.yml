@@ -14,7 +14,7 @@ env:
   AWS_REGION: ap-northeast-2
   EB_ENVIRONMENT_NAME: Bookitout-env
   EB_APPLICATION_NAME: book-it-out
-  EB_DEPLOYMENT_PACKAGE: ./BookitOut/docker-compose.yml
+  EB_DEPLOYMENT_PACKAGE: ./docker-compose.yml
 
 jobs:
   deploy:
