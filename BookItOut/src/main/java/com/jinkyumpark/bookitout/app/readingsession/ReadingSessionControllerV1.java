@@ -98,7 +98,7 @@ public class ReadingSessionControllerV1 {
         Integer startPage = book.getCurrentPage();
         AppUser appUser = new AppUser(loginUserId);
         ReadingSession newReadingSession = ReadingSession.builder()
-                .startPage(startPage)
+                .startPage(startPage + 1)
                 .startTime(LocalDateTime.now())
                 .book(book)
                 .appUser(appUser)
