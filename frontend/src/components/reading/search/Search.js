@@ -1,6 +1,6 @@
 import React from 'react'
 // Components
-import Error from '../common/Error'
+import Error from '../../common/Error'
 
 const Search = () => {
 	return (
