@@ -32,7 +32,7 @@ jobs:
         with:
           status: ${{ job.status }}
           fields: repo, commit, took
-          text: 'CI/CD have started'
+          text: 'CI/CD starting'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
@@ -94,4 +94,28 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
 
       # - name : Deploy to AWS
-      # - name: Deploy React
+
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'Frontend deployment starting'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+
+      - name: Install React App Dependencies
+        run: |
+          cd frontend
+          npm install
+
+      - name: Deploy Docs
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GH_TOKEN }}
+          publish_dir: ./
+
+      - uses: 8398a7/action-slack@v3
+        with:
+          status: ${{ job.status }}
+          text: 'SUCCESS : React App to Github Pages'
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
