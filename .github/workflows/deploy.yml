@@ -99,8 +99,6 @@ jobs:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
         if: always()
 
-      # - name : Generate docker-compose.yml
-
       - name: Deploy to AWS EBS
         uses: einaregilsson/beanstalk-deploy@v21
         with:
@@ -111,7 +109,7 @@ jobs:
           application_name: ${{ env.EB_APPLICATION_NAME }}
           deployment_package: ${{ env.EB_DEPLOYMENT_PACKAGE }}
           use_existing_version_if_available: true
-          version_label: v1
+          version_label: $(git rev-parse --short "$GITHUB_SHA")
           wait_for_deployment: 60
 
       - uses: 8398a7/action-slack@v3
