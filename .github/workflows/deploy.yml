@@ -35,6 +35,7 @@ jobs:
           text: 'CI/CD starting'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
 
       - name: Checkout main branch
         uses: actions/checkout@v2
@@ -57,6 +58,7 @@ jobs:
           text: 'SUCCESS : Spring Boot Build with Gradle'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
 
       - name: Docker Login
         uses: docker/login-action@v2
@@ -90,21 +92,13 @@ jobs:
           text: 'SUCCESS : Pushed to Dockerhub'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-
-      # - name : Deploy to AWS
-
-      - uses: 8398a7/action-slack@v3
-        with:
-          status: ${{ job.status }}
-          text: 'Frontend Deployment Starting'
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
 
       - name: Install React App Dependencies
         run: |
           cd frontend
           npm install
-          npm build
+          npm run build
 
       - name: Deploy Docs
         uses: peaceiris/actions-gh-pages@v3
@@ -118,3 +112,4 @@ jobs:
           text: 'SUCCESS : Deploy React App to Github Pages'
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        if: always()
