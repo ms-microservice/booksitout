@@ -30,6 +30,11 @@ const startReadingSession = (bookId) => {
 		headers: { Authorization: token },
 	})
 		.then((res) => {
+			const status = res.status.toString()
+			if (!status.startsWith(2)) {
+				throw new Error()
+			}
+
 			return res.json()
 		})
 		.then((book) => {
@@ -38,6 +43,9 @@ const startReadingSession = (bookId) => {
 			} else {
 				return [true, book]
 			}
+		})
+		.catch(() => {
+			return [false, null]
 		})
 }
 
