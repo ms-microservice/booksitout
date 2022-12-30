@@ -14,6 +14,7 @@ import { INITIAL_FETCH_TIME } from '../../../settings/settings'
 import { GOAL_DELETE_CONFIRM } from '../../../messages/statisticsMessages'
 // Resources
 import goalIcon from '../../../resources/images/general/goal.png'
+import GoalPastAddModal from './GoalPastAddModal'
 
 const Goal = () => {
 	const [intialFetch, setInitialFetch] = useState(true)
@@ -21,6 +22,7 @@ const Goal = () => {
 
 	const [isGoalModalOpen, setIsGoalModalOpen] = useState(false)
 	const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false)
+	const [isPastGoalAddModalOpen, setIsPastGoalAddModalOpen] = useState(false)
 
 	const currentYear = new Date().getFullYear()
 
@@ -41,7 +43,7 @@ const Goal = () => {
 			setInitialFetch(false)
 		}, INITIAL_FETCH_TIME)
 
-		getGoalList()
+		getGoalList(6)
 			.then((goalListData) => {
 				setGoalList(goalListData)
 
@@ -74,6 +76,12 @@ const Goal = () => {
 							previousGoal={currentYearGoal.goal}
 						/>
 					)}
+					<GoalPastAddModal
+						isModalOpen={isPastGoalAddModalOpen}
+						setIsModalOpen={setIsPastGoalAddModalOpen}
+						goalList={goalList}
+						setGoalList={setGoalList}
+					/>
 
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
@@ -142,13 +150,21 @@ const Goal = () => {
 							<Card.Body>
 								<h2 className='mb-4'>과거 목표</h2>
 
-								<AddButton size='30' color='success' onClick={() => {}} right='2%' />
+								<AddButton
+									size='30'
+									color='success'
+									onClick={() => {
+										setIsPastGoalAddModalOpen(true)
+									}}
+									right='2%'
+								/>
 
 								{goalList.length < 2 ? (
 									<NoContent message='과거 목표가 없어요' />
 								) : (
 									<div className='row text-center'>
 										{goalList
+											.filter((goal) => goal.year != new Date().getFullYear())
 											.sort((a, b) => b.year - a.year)
 											.map((goal) => {
 												return (

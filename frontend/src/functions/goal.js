@@ -8,8 +8,8 @@ const GOAL_ADD_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 
 const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
 const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
 
-const getGoalList = () => {
-	const GOAL_LIST_API_URL = `${API_BASE_URL}/v1/goal`
+const getGoalList = (duration = 5) => {
+	const GOAL_LIST_API_URL = `${API_BASE_URL}/v1/goal?duration=${duration}`
 	const token = getToken()
 
 	return fetch(GOAL_LIST_API_URL, {
