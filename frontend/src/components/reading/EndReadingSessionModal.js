@@ -22,6 +22,22 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 
 	const handleEndReadingSession = (e) => {
 		e.preventDefault()
+
+		if (endPage === -1 || endPage === '') {
+			toast.error('끝내는 페이지를 입력해 주세요')
+			return
+		}
+
+		if (endPage <= 0) {
+			toast.error('페이지는 0보다 작을 수 없어요')
+			return
+		}
+
+		if (endPage == book.currentPage) {
+			toast.error('1쪽이라도 읽어야 독서활동을 끝낼 수 있어요')
+			return
+		}
+
 		endReadingSession(book, endPage).then((success) => success && navigate(`/book/detail/${book.bookId}`))
 	}
 
