@@ -4,9 +4,11 @@ import com.jinkyumpark.bookitout.exception.common.*;
 import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.app.user.request.JoinRequest;
 import com.jinkyumpark.bookitout.app.user.response.JoinSuccessResponse;
-import com.jinkyumpark.bookitout.util.email.EmailSenderGmail;
+import com.jinkyumpark.bookitout.util.email.EmailSender;
 import com.jinkyumpark.bookitout.util.email.Mail;
 import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,16 +18,26 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.Optional;
 
-@AllArgsConstructor
 @RestController
 @RequestMapping("/v1")
 public class AppUserControllerV1 {
 
     private AppUserService appUserService;
     private PasswordEncoder passwordEncoder;
-    private EmailSenderGmail emailService;
+    private EmailSender emailService;
 
-    private final Integer VERIFICATION_CODE_LENGTH = 5;
+    private final Integer VERIFICATION_CODE_LENGTH;
+
+    public AppUserControllerV1(AppUserService appUserService,
+                               PasswordEncoder passwordEncoder,
+                               EmailSender emailService,
+                               @Value("${mail.verification-code.length}") Integer VERIFICATION_CODE_LENGTH)
+    {
+        this.appUserService = appUserService;
+        this.passwordEncoder = passwordEncoder;
+        this.emailService = emailService;
+        this.VERIFICATION_CODE_LENGTH = VERIFICATION_CODE_LENGTH;
+    }
 
     @PostMapping("join/email-verification/{email}")
     public ResponseEntity<String> verifyEmail(@PathVariable("email") @Email String email) {
