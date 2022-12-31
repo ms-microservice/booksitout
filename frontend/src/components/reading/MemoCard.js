@@ -44,7 +44,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 											setIsModalOpen(true)
 											setSelectedMemo(memo)
 										}}>
-										<Card.Header>{memo.page}</Card.Header>
+										<Card.Header>{memo.page}P</Card.Header>
 										<Card.Body className='d-flex align-items-center justify-content-center'>{memo.content}</Card.Body>
 									</Card>
 								</div>
@@ -60,11 +60,11 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 						<div className='col-3 col-sm-2'>
 							<Form.Control
 								type='text'
-								placeholder='Page'
+								placeholder='PAGE'
 								className='h-100'
 								required
 								onChange={(e) => setPage(e.target.value)}
-								value={page}
+								value={page == 0 ? '' : page}
 							/>
 						</div>
 

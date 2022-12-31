@@ -217,7 +217,7 @@ const BookDetail = () => {
 									<div
 										className='bg-secondary text-white d-none d-xl-block'
 										style={{
-											left: '15%',
+											left: '17%',
 											width: `100px`,
 											height: `30px`,
 											borderRadius: '5px',
@@ -421,7 +421,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 									unGiveUpBook(book.bookId).then((success) => {
 										if (success) {
 											toast.success('책을 다시 읽을 수 있어요')
-											navigate('/book/not-done')
+											navigate('/book/not-done/all')
 										} else {
 											toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 										}

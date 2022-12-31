@@ -59,7 +59,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 											setIsModalOpen(true)
 											setSelectedQuotation(quotation)
 										}}>
-										<Card.Header>{quotation.page}</Card.Header>
+										<Card.Header>{quotation.page}P</Card.Header>
 
 										<Card.Body className='d-flex align-items-center justify-content-center'>{quotation.content}</Card.Body>
 									</Card>
@@ -76,11 +76,10 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 						<div className='col-3 col-sm-2'>
 							<Form.Control
 								type='text'
-								placeholder='Page'
+								placeholder='PAGE'
 								className='h-100'
 								onChange={(e) => setPage(e.target.value)}
-								value={page}
-								required
+								value={page == 0 ? '' : page}
 							/>
 						</div>
 
