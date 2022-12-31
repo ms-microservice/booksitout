@@ -169,7 +169,7 @@ const Goal = () => {
 											.map((goal) => {
 												return (
 													<div
-														className='col-4 col-md-3 col-lg-2 mb-4'
+														className='col-6 col-sm-4 col-md-3 col-lg-2 mb-4'
 														style={{ opacity: goal.year === new Date().getFullYear() ? '1' : '0.5' }}>
 														<h3 className='mb-0'>{`${goal.year}년`}</h3>
 
