@@ -18,13 +18,14 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 
 	const handleAddReadingSession = (e) => {
 		e.preventDefault()
+		console.log(readTime)
 
 		if (endPage == null || endPage === '') {
 			toast.error('끝 페이지를 입력해 주세요')
 			return
 		}
 
-		if (readTime == null || readTime === '' || readTime == 0) {
+		if (readTime == null || readTime === '' || readTime === 0) {
 			toast.error('독서 활동 시간을 입력해 주세요')
 			return
 		}
@@ -106,7 +107,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 					<Form.Control className='mb-2' type='number' onChange={(e) => setEndPage(e.target.value)} />
 
 					<Form.Label>⏰ 시간 (분)</Form.Label>
-					<Form.Control className='mb-2' type='number' value={readTime} onChange={(e) => setReadTime(e.target.value)} />
+					<Form.Control className='mb-2' type='number' onChange={(e) => setReadTime(e.target.value)} />
 
 					<Button variant='success' type='submit' className='w-100 mt-2'>
 						추가하기

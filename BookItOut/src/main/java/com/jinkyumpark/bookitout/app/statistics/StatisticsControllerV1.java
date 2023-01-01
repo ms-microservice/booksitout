@@ -82,11 +82,11 @@ public class StatisticsControllerV1 {
         return summaryStatistics;
     }
 
-    @GetMapping("/read-time/{day}")
-    public List<Integer> getReadTime(@PathVariable("day") Integer dayRange) {
+    @GetMapping("read-time/{duration}")
+    public List<Integer> getReadTime(@PathVariable("duration") Integer duration) {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
-        return readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(dayRange - 1), LocalDateTime.now());
+        return readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(duration - 1), LocalDateTime.now());
     }
 
     @GetMapping("language")

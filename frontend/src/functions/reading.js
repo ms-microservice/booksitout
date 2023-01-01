@@ -104,11 +104,13 @@ const addReadingSession = (bookId, year, month, day, startPage, endPage, readTim
 	const token = getToken()
 	const ADD_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}`
 
+	console.log(readTime)
+
 	return fetch(ADD_READING_SESSION_API_URL, {
 		method: 'POST',
 		headers: { Authorization: token, 'Content-Type': 'application/json' },
 		body: JSON.stringify({
-			startDate: `${year}-${month}-${day}`,
+			startDate: `${year}-${(month.length === 1 ? '0' : '') + month}-${(day.length === 1 ? '0' : '') + day}`,
 			startPage: startPage,
 			endPage: endPage,
 			readTime: readTime,

@@ -4,7 +4,7 @@ const LOGIN_API_URL = `${API_BASE_URL}/login`
 const JOIN_API_URL = `${API_BASE_URL}/v1/join`
 
 const LAST_BOOK_API_URL = `${API_BASE_URL}/v1/book/last`
-const STATISTICS_SUMMARY_URL = `${API_BASE_URL}/v1/statistics/year/2022`
+const STATISTICS_SUMMARY_URL = `${API_BASE_URL}/v1/statistics/year/${new Date().getFullYear()}`
 
 const ADD_BOOK_API_URL = `${API_BASE_URL}/v1/book`
 const GIVE_UP_BOOK_API_URL = `${API_BASE_URL}/v1/book/give-up/`
