@@ -1,6 +1,5 @@
 package com.jinkyumpark.bookitout.app.readingsession;
 
-import com.jinkyumpark.bookitout.app.book.BookRepository;
 import com.jinkyumpark.bookitout.app.book.BookService;
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.app.goal.Goal;
@@ -13,16 +12,19 @@ import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.exception.custom.ReadingSessionIsInProgressException;
 import lombok.AllArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+
+import static java.time.temporal.ChronoUnit.DAYS;
 
 @AllArgsConstructor
+@Slf4j
+
 @Service
 public class ReadingSessionService {
     private ReadingSessionRepository readingSessionRepository;
@@ -37,18 +39,18 @@ public class ReadingSessionService {
     ) {
         List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUser_AppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
 
-        List<Integer> readingTimeList = new ArrayList<>();
-        for (int i = startDate.getDayOfYear(); i <= endDate.getDayOfYear(); i++) {
-            int finalI = i;
-            Integer totalReadTime = Math.toIntExact(readingSessionList.stream()
-                    .filter(r -> r.getStartTime().getDayOfYear() == finalI)
-                    .mapToLong(r -> r.getReadTime() == null ? 0 : r.getReadTime())
-                    .sum());
-
-            readingTimeList.add(totalReadTime);
+        Map<Integer, Integer> readTimeMap = new HashMap<>();
+        for (ReadingSession readingSession : readingSessionList) {
+            readTimeMap.merge(readingSession.getStartTime().getDayOfYear(), readingSession.getReadTime(), Integer::sum);
         }
 
-        return readingTimeList;
+        List<Integer> readTimeList = new ArrayList<>();
+        for (int i = 0; i <= DAYS.between(startDate, endDate); i++) {
+            int key = startDate.plusDays(i).getDayOfYear();
+            readTimeList.add(readTimeMap.getOrDefault(key, 0));
+        }
+
+        return readTimeList;
     }
 
     public List<ReadingSession> getReadingSessionByBookId(Long bookId) {
@@ -175,7 +177,7 @@ public class ReadingSessionService {
         if (updatedReadingSession.getReadTime() != null) {
             monthStatistics.setTotalReadMinute(
                     monthStatistics.getTotalReadMinute() + updatedReadingSession.getReadTime()
-                    - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime())
+                            - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime())
             );
         }
         if (updatedReadingSession.getReadTime() != null && monthStatistics.getMaxReadMinute() < updatedReadingSession.getReadTime()) {

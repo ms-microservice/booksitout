@@ -90,7 +90,7 @@ const Main = () => {
 		<Card className='h-100'>
 			<Card.Body>
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
-					<h3>2022년 목표</h3>
+					<h3>{new Date().getFullYear()}년 목표</h3>
 
 					{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
 				</a>
@@ -99,7 +99,7 @@ const Main = () => {
 		<Card>
 			<Card.Body>
 				<a href='/statistics' className='text-decoration-none text-black'>
-					<h4>2022년 독서 요약</h4>
+					<h4>{new Date().getFullYear()}년 독서 요약</h4>
 
 					{statistics == null ? <Error message='오류가 났어요' /> : <SummaryTable statistics={statistics} />}
 				</a>

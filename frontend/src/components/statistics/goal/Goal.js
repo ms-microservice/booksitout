@@ -126,7 +126,7 @@ const Goal = () => {
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
 							<Card.Body>
-								<h2>2022년 최고의 책</h2>
+								<h2>{new Date().getFullYear()}년 최고의 책</h2>
 
 								{highlightBookList.length === 0 ? (
 									<NoContent message={`${currentYear}년은 아직 최고의 책이 없어요`} style={{ width: '150px' }} />

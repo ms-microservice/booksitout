@@ -60,8 +60,8 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 											setSelectedQuotation(quotation)
 										}}>
 										<Card.Header>{quotation.page}P</Card.Header>
-
 										<Card.Body className='d-flex align-items-center justify-content-center'>{quotation.content}</Card.Body>
+										<Card.Footer>{quotation.fromWho == null || quotation.fromWho === '' ? '-' : quotation.fromWho}</Card.Footer>
 									</Card>
 								</div>
 							)

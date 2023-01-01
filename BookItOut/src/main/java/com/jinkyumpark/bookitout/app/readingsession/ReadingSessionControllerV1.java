@@ -117,7 +117,7 @@ public class ReadingSessionControllerV1 {
                 .endPage(addReadingSessionRequest.getEndPage())
                 .startTime(addReadingSessionRequest.getStartDate().atStartOfDay())
                 .endTime(addReadingSessionRequest.getStartDate().atStartOfDay())
-                .readTime(addReadingSessionRequest.getReadTime() / 60)
+                .readTime(addReadingSessionRequest.getReadTime())
                 .appUser(new AppUser(loginUserId))
                 .book(new Book(bookId))
                 .build();
