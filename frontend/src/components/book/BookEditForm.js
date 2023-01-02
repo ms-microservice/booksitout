@@ -11,14 +11,13 @@ import ImageSearchModal from './ImageSearchModal'
 // Resources
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
-import { editBook, getBook } from '../../functions/book'
+import { editBook } from '../../functions/book'
 import { API_BASE_URL } from '../../settings/urls/apiUrl'
+import { getToken } from '../../functions/user'
 
-const BookEditForm = ({ token }) => {
+const BookEditForm = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
-	const BOOK_GET_API_URL = `${API_BASE_URL}/v1/book/${id}`
-	const BOOK_EDIT_API_URL = `${API_BASE_URL}/v1/book/${id}`
 	const BOOK_DETAIL_URL = `/book/detail/${id}`
 
 	// Messages
@@ -49,6 +48,8 @@ const BookEditForm = ({ token }) => {
 	const [source, setSource] = useState('NOT_PROVIDED')
 
 	useEffect(() => {
+		const BOOK_GET_API_URL = `${API_BASE_URL}/v1/book/${id}`
+
 		setTimeout(() => {
 			setInitialFetch(false)
 		}, 5000)
@@ -56,7 +57,7 @@ const BookEditForm = ({ token }) => {
 		fetch(BOOK_GET_API_URL, {
 			method: 'GET',
 			headers: {
-				Authorization: token,
+				Authorization: getToken(),
 			},
 		})
 			.then((res) => {
@@ -83,7 +84,7 @@ const BookEditForm = ({ token }) => {
 				setIsLoading(false)
 				setInitialFetch(false)
 			})
-	}, [])
+	}, [id])
 
 	const handleEdit = (e) => {
 		e.preventDefault()

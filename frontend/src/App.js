@@ -55,7 +55,7 @@ function App() {
 				navigate('/')
 			}
 		}
-	}, [location.pathname])
+	}, [location.pathname, navigate, token])
 
 	const { toasts } = useToasterStore()
 	useEffect(() => {

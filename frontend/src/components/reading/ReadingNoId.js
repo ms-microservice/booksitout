@@ -27,7 +27,7 @@ const ReadingNoId = () => {
 			.then((book) => {
 				navigate(`/reading/${book.bookId}`)
 			})
-	}, [])
+	}, [navigate])
 
 	return (
 		<div className='container'>
