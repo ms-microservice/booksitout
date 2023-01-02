@@ -130,7 +130,7 @@ const BookAddForm = ({ token }) => {
 										<option value='NOT_PROVIDED'>말하고 싶지 않아요</option>
 
 										<option value='BUY_NEW_OFFLINE'>새 책 - 온라인 서점</option>
-										<option value='BIY_NEW_ONLINE'>새 책 - 오프라인 서점</option>
+										<option value='BUY_NEW_ONLINE'>새 책 - 오프라인 서점</option>
 										<option value='BUY_USED_OFFLINE'>중고책 - 오프라인 서점 (알라딘 등)</option>
 										<option value='BUY_USED_ONLINE'>중고책 - 온라인 서점</option>
 
