@@ -64,7 +64,7 @@ const BookList = () => {
 								navigate(`/book/not-done/${key}`)
 							}}>
 							<Tab eventKey='all' title='전체'>
-								{bookList.length == 0 ? (
+								{bookList.length === 0 ? (
 									<NoContent
 										message={
 											range === 'not-done'
@@ -81,8 +81,9 @@ const BookList = () => {
 									<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
 								)}
 							</Tab>
+
 							<Tab eventKey='not-started' title='시작 안 함'>
-								{bookList.length == 0 ? (
+								{bookList.length === 0 ? (
 									<NoContent
 										message={
 											range === 'not-done'
@@ -103,8 +104,9 @@ const BookList = () => {
 									<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
 								)}
 							</Tab>
+
 							<Tab eventKey='started' title='시작함'>
-								{bookList.length == 0 ? (
+								{bookList.length === 0 ? (
 									<NoContent
 										message={
 											range === 'not-done'
