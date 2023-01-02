@@ -41,7 +41,7 @@ public class ReadingSessionService {
 
         Map<Integer, Integer> readTimeMap = new HashMap<>();
         for (ReadingSession readingSession : readingSessionList) {
-            readTimeMap.merge(readingSession.getStartTime().getDayOfYear(), readingSession.getReadTime(), Integer::sum);
+            readTimeMap.merge(readingSession.getStartTime().getDayOfYear(), readingSession.getReadTime() == null ? 0 : readingSession.getReadTime(), Integer::sum);
         }
 
         List<Integer> readTimeList = new ArrayList<>();
