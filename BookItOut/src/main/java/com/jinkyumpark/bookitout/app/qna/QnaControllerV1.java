@@ -55,7 +55,6 @@ public class QnaControllerV1 {
             qna.setAppUser(new AppUser(qnaAddRequest.getAppUserId()));
         }
 
-
         qnaService.addQna(qna);
 
         return new AddSuccessResponse("POST v1/qna", "QNA를 추가했어요");

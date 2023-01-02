@@ -27,7 +27,7 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 			return
 		}
 
-		if (content == null || content == '') {
+		if (content == null || content === '') {
 			toast.error('내용을 입력해 주세요')
 			return
 		}

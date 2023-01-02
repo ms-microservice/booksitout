@@ -9,7 +9,7 @@ const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 	const handleAddSummary = (e) => {
 		e.preventDefault()
 
-		if (summary == '') {
+		if (summary === '') {
 			toast.error('요약을 입력해 주세요')
 		}
 

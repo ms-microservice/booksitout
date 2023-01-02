@@ -42,7 +42,7 @@ const BookList = () => {
 				setInitialFetch(false)
 				setIsLoading(false)
 			})
-	}, [location.pathname])
+	}, [location.pathname, range, rangeDetail])
 
 	return (
 		<div className='container-lg'>
@@ -202,7 +202,7 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 															deleteBook(book.bookId).then((success) => {
 																if (success) {
 																	toast.success('책을 삭제했어요')
-																	setBookList(bookList.filter((b) => b.bookId != book.bookId))
+																	setBookList(bookList.filter((b) => b.bookId !== book.bookId))
 																} else {
 																	toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 																}
@@ -234,7 +234,7 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 															giveUpBook(book.bookId).then((success) => {
 																if (success) {
 																	toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
-																	setBookList(bookList.filter((b) => b.bookId != book.bookId))
+																	setBookList(bookList.filter((b) => b.bookId !== book.bookId))
 																} else {
 																	toast.error('오류가 났어요 다시 시도해 주세요')
 																}

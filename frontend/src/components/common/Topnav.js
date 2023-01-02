@@ -53,7 +53,7 @@ const Topnav = ({ token, setToken }) => {
 								href={token !== '' && url.url}
 								active={location.pathname.startsWith(url.url)}
 								onClick={() => {
-									token == '' && toast.error('로그인 해 주세요')
+									token === '' && toast.error('로그인 해 주세요')
 								}}>
 								{url.title}
 							</Nav.Link>
