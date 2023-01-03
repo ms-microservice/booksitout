@@ -38,6 +38,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 			return
 		}
 
+		toast.loading('추가하고 있어요')
 		endReadingSession(book, endPage).then((success) => success && navigate(`/book/detail/${book.bookId}`))
 	}
 
