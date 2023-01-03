@@ -70,7 +70,14 @@ const Statistics = () => {
 									<div className='col-6'>
 										<Form>
 											<Form.Select>
-												<option>2022년</option>
+												{Array.from(
+													{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
+													(_, i) => i + Number(localStorage.getItem('register-year'))
+												)
+													.reverse()
+													.map((year) => {
+														return <option value={year}>{`${year}년`}</option>
+													})}
 											</Form.Select>
 										</Form>
 									</div>

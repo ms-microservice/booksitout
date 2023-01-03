@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jinkyumpark.bookitout.config.JwtConfig;
 import com.jinkyumpark.bookitout.exception.common.NotLoginException;
 import com.jinkyumpark.bookitout.app.user.AppUser;
@@ -20,6 +21,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
@@ -72,16 +74,20 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
         response.addHeader(jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix() + token);
 
         String appUserName = ((AppUser) authResult.getPrincipal()).getName();
+        LocalDateTime registerDate = ((AppUser) authResult.getPrincipal()).getRegisterDate();
 
         Map<String, Object> successMessage = Map.of(
                 "timestamp", new Date().toString(),
                 "status", 200,
                 "message", String.format("어서오세요, %s님!", appUserName),
                 "token", jwtConfig.getTokenPrefix() + token,
-                "name", appUserName
+                "name", appUserName,
+                "registerDate", registerDate
         );
 
         ObjectMapper mapper = new ObjectMapper();
+        mapper.registerModule(new JavaTimeModule());
+
         response.getWriter().write(mapper.writeValueAsString(successMessage));
         response.getWriter().flush();
     }
