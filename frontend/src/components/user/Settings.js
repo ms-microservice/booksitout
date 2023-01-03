@@ -1,9 +1,14 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Card, Button } from 'react-bootstrap'
+import ChangeNameModal from './ChageNameModal'
 
 const Settings = () => {
+	const [isNameModalOpen, setIsNameModalOpen] = useState(false)
+
 	return (
 		<div className='container'>
+			<ChangeNameModal isModalOpen={isNameModalOpen} setIsModalOpen={setIsNameModalOpen} />
+
 			<div className='row row-eq-height justify-content-center'>
 				<div className='col-12 col-md-6'>
 					<Card>
@@ -23,7 +28,7 @@ const Settings = () => {
 								</div>
 
 								<div className='col-12 col-md-4 mt-2'>
-									<Button className='w-100' disabled>
+									<Button className='w-100' onClick={() => setIsNameModalOpen(true)}>
 										이름 변경
 									</Button>
 								</div>

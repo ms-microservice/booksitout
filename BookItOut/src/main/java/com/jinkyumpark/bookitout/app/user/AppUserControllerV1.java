@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.app.user;
 
+import com.jinkyumpark.bookitout.app.user.request.ChangeNameRequest;
 import com.jinkyumpark.bookitout.exception.common.*;
 import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.app.user.request.JoinRequest;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
@@ -84,5 +86,20 @@ public class AppUserControllerV1 {
 
     @PostMapping("login")
     public void login(@RequestBody @Valid EmailPasswordLoginRequest loginRequest) {
+    }
+    @PostMapping("change-name")
+    public ResponseEntity<String> changeName(@RequestBody @Valid ChangeNameRequest changeNameRequest) {
+        Long loginAppUserId = AppUserService.getLoginAppUserId();
+        String loginAppUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+
+        AppUser editedAppUser = AppUser.builder()
+                .appUserId(loginAppUserId)
+                .email(loginAppUserEmail)
+                .name(changeNameRequest.getName())
+                .build();
+
+        appUserService.updateUser(editedAppUser);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }
 }

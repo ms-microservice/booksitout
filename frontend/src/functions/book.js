@@ -69,6 +69,8 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 		return
 	}
 
+	toast.loading('책을 추가하고 있어요')
+
 	fetch(ADD_BOOK_API_URL, {
 		method: 'POST',
 		headers: {
