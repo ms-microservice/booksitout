@@ -8,7 +8,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-@AllArgsConstructor @NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Builder
 @Getter @Setter @EqualsAndHashCode
 
 @Entity(name = "Goal") @Table(name = "goal")
@@ -28,6 +28,7 @@ public class Goal {
     @ColumnDefault("0")
     private Integer current;
 
+    @Builder
     public Goal(GoalId goalId, Integer goal, Long appUserId) {
         this.goalId = goalId;
         this.goal = goal;

@@ -169,6 +169,7 @@ const login = (e, navigate, setToken, email, password, stayLogin) => {
 		.then((data) => {
 			localStorage.setItem('login-token', data.token)
 			localStorage.setItem('user-name', data.name)
+			localStorage.setItem('register-year', data.registerDate[0])
 			setToken(data.token)
 
 			toast.dismiss()
