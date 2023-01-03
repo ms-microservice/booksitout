@@ -78,7 +78,12 @@ public class AppUserControllerV1 {
         }
 
         String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
-        AppUser appUser = new AppUser(joinRequest.getEmail(), encodedPassword, joinRequest.getName());
+        AppUser appUser = AppUser.builder()
+                .email(joinRequest.getEmail())
+                .password(encodedPassword)
+                .name(joinRequest.getName())
+                .emailVerificationCode(null)
+                .build();
 
         appUserService.updateUser(appUser);
         return new JoinSuccessResponse(String.format("책-it-out에 오신걸 환경해요, %s님!", joinRequest.getName()), "api/v1/join");
