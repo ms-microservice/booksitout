@@ -18,8 +18,14 @@ public class GoalService {
 
     public Goal getGoalByYear(Long loginUserId, Integer year) {
         GoalId goalId = new GoalId(loginUserId, year);
-        return goalRepository.findByGoalId(goalId)
+
+        Goal goal = goalRepository.findByGoalId(goalId)
                 .orElseThrow(() -> new NotFoundException("목표가 설정되지 않았어요. 목표를 설정해 주세요"));
+
+
+        if (goal.getGoal() <= 0) throw new IllegalStateException("목표가 1보다 작아요. 다시 설정해 주세요");
+
+        return goal;
     }
 
     public Optional<Goal> getGoalByYearOptional(Long loginUserId, Integer year) {
