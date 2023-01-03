@@ -69,7 +69,12 @@ public class AppUserService implements UserDetailsService {
         AppUser existingAppUser = appUserRepository.findAppUserByEmail(appUser.getEmail())
                 .orElseThrow(() -> new NotFoundException("User Not Found"));
 
-        existingAppUser.setPassword(appUser.getPassword());
-        existingAppUser.setName(appUser.getName());
+        if (appUser.getPassword() != null) {
+            existingAppUser.setPassword(appUser.getPassword());
+        }
+
+        if (appUser.getName() != null) {
+            existingAppUser.setName(appUser.getName());
+        }
     }
 }

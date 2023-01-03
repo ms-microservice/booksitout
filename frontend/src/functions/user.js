@@ -207,4 +207,24 @@ const getIsLoggedIn = () => {
 	return !(token == null || token == '' || typeof token == 'undefined')
 }
 
-export { join, login, logout, getToken, getIsLoggedIn, verifyEmail, isEmailValid }
+const changeName = (name) => {
+	const CHANGE_NAME_API_URL = `${API_BASE_URL}/v1/change-name`
+	const token = getToken()
+
+	return fetch(CHANGE_NAME_API_URL, {
+		method: 'POST',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			name: name,
+		}),
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+const updateLocalStorageName = (name) => {
+	localStorage.setItem('user-name', name)
+}
+
+export { join, login, logout, getToken, getIsLoggedIn, verifyEmail, isEmailValid, changeName, updateLocalStorageName }
