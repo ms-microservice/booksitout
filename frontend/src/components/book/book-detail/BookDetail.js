@@ -31,6 +31,7 @@ import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
 import MemoDetailModal from './MemoDetailModal'
 import QuotationDetailModal from './QuotationDetailModal'
 import { INITIAL_FETCH_TIME } from '../../../settings/settings'
+import Quotation from '../../common/Quotation'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -535,21 +536,13 @@ const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelect
 		<>
 			{quotationList.map((quotation) => {
 				return (
-					<Card
-						className='mb-3'
+					<Quotation
+						quotation={quotation}
 						onClick={() => {
 							setSelectedQuotation(quotation)
 							setIsQuotationDetailModalOpen(true)
-						}}>
-						<Card.Body>
-							<div className='row'>
-								<div className='col-3 col-md-2'>{quotation.page == null ? '-' : `${quotation.page} P`}</div>
-								<div className='col-9 col-md-10 text-start'>{quotation.content}</div>
-							</div>
-						</Card.Body>
-
-						<Card.Footer>{quotation.from_who == null || quotation.from_who === '' ? '-' : quotation.from_who}</Card.Footer>
-					</Card>
+						}}
+					/>
 				)
 			})}
 		</>

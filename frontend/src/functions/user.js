@@ -228,4 +228,46 @@ const updateLocalStorageName = (name) => {
 	localStorage.setItem('user-name', name)
 }
 
-export { join, login, logout, getToken, getIsLoggedIn, verifyEmail, isEmailValid, changeName, updateLocalStorageName }
+const requestChangePasswordVerificationCode = () => {
+	const token = getToken()
+	const CHANGE_PASSWORD_VERIFY_API_URL = `${API_BASE_URL}/v1/change-password/verification`
+
+	return fetch(CHANGE_PASSWORD_VERIFY_API_URL, {
+		method: 'POST',
+		headers: { Authorization: token },
+	}).then((res) => {
+		const status = res.status.toString()
+		return status.startsWith(2)
+	})
+}
+
+const changePassword = (verificationCode, oldPassword, newPassword) => {
+	const token = getToken()
+	const CHANGE_PASSWORD_API_URL = `${API_BASE_URL}/v1/change-password`
+
+	return fetch(CHANGE_PASSWORD_API_URL, {
+		method: 'POST',
+		headers: { Authorization: token, 'Content-Type': 'application/json' },
+		body: JSON.stringify({
+			code: verificationCode,
+			oldPassword: oldPassword,
+			newPassword: newPassword,
+		}),
+	}).then((res) => {
+		return res.status.toString()
+	})
+}
+
+export {
+	join,
+	login,
+	logout,
+	getToken,
+	getIsLoggedIn,
+	verifyEmail,
+	isEmailValid,
+	changeName,
+	updateLocalStorageName,
+	requestChangePasswordVerificationCode,
+	changePassword,
+}

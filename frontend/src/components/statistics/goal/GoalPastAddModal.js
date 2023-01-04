@@ -25,9 +25,6 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 			return
 		}
 
-		console.log(goalYear)
-		console.log(goal)
-
 		addGoal(goalYear, goal).then((success) => {
 			if (success) {
 				setIsModalOpen(false)

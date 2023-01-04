@@ -10,6 +10,7 @@ import { logout } from '../../functions/user'
 import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
+import logo from '../../resources/images/common/logo.png'
 
 const Topnav = ({ token, setToken }) => {
 	const navigate = useNavigate()
@@ -43,7 +44,10 @@ const Topnav = ({ token, setToken }) => {
 	return (
 		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect>
 			<Container fluid>
-				<Navbar.Brand href={token === '' ? '/login' : '/'}>📗 책-it-out</Navbar.Brand>
+				<Navbar.Brand href={token === '' ? '/login' : '/'}>
+					<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px' }} />
+					책잇아웃
+				</Navbar.Brand>
 				<Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}></Navbar.Toggle>
 
 				<Navbar.Collapse id='responsive-navbar-nav'>

@@ -29,7 +29,7 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 
 	return (
 		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
-			<Modal.Header className='text-center'>
+			<Modal.Header className='text-center' closeButton>
 				<h4 className='w-100'>이름 변경하기</h4>
 			</Modal.Header>
 

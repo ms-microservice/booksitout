@@ -1,15 +1,14 @@
 package com.jinkyumpark.bookitout.app.user;
 
 import com.jinkyumpark.bookitout.app.user.request.ChangeNameRequest;
+import com.jinkyumpark.bookitout.app.user.request.ChangePasswordRequest;
 import com.jinkyumpark.bookitout.exception.common.*;
 import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.app.user.request.JoinRequest;
 import com.jinkyumpark.bookitout.app.user.response.JoinSuccessResponse;
 import com.jinkyumpark.bookitout.util.email.EmailSender;
 import com.jinkyumpark.bookitout.util.email.Mail;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -78,7 +77,12 @@ public class AppUserControllerV1 {
         }
 
         String encodedPassword = passwordEncoder.encode(joinRequest.getPassword());
-        AppUser appUser = new AppUser(joinRequest.getEmail(), encodedPassword, joinRequest.getName());
+        AppUser appUser = AppUser.builder()
+                .email(joinRequest.getEmail())
+                .password(encodedPassword)
+                .name(joinRequest.getName())
+                .emailVerificationCode(null)
+                .build();
 
         appUserService.updateUser(appUser);
         return new JoinSuccessResponse(String.format("책-it-out에 오신걸 환경해요, %s님!", joinRequest.getName()), "api/v1/join");
@@ -87,6 +91,51 @@ public class AppUserControllerV1 {
     @PostMapping("login")
     public void login(@RequestBody @Valid EmailPasswordLoginRequest loginRequest) {
     }
+
+    @PostMapping("change-password/verification")
+    public ResponseEntity<String> changePasswordVerification() {
+        String loginUserEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        Long loginUserId = AppUserService.getLoginAppUserId();
+
+        Integer verificationCode = appUserService.getVerificationCode(VERIFICATION_CODE_LENGTH);
+
+        AppUser appUser = AppUser.builder()
+                .appUserId(loginUserId)
+                .email(loginUserEmail)
+                .emailVerificationCode(verificationCode)
+                .build();
+        appUserService.updateUser(appUser);
+
+        String EMAIL_SUBJECT = "비밀번호를 변경하기 위해 인증번호를 입력해 주세요";
+        String EMAIL_CONTENT = String.valueOf(verificationCode);
+        Mail mail = Mail.builder()
+                .toAddress(loginUserEmail)
+                .subject(EMAIL_SUBJECT)
+                .content(EMAIL_CONTENT)
+                .build();
+        emailService.sendEmail(mail);
+
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PostMapping("change-password")
+    public ResponseEntity<String> changePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
+        Long loginUserId = AppUserService.getLoginAppUserId();
+        AppUser loginAppUser = appUserService.getAppUserById(loginUserId);
+
+        if (! loginAppUser.getEmailVerificationCode().equals(changePasswordRequest.getCode())) {
+            return new ResponseEntity<>("인증번호가 일치하지 않아요. 다시 확인해 주세요", HttpStatus.BAD_REQUEST);
+        }
+
+        String encodedPassword = passwordEncoder.encode(changePasswordRequest.getNewPassword());
+        loginAppUser.setPassword(encodedPassword);
+        loginAppUser.setEmailVerificationCode(null);
+
+        appUserService.updateUser(loginAppUser);
+
+        return new ResponseEntity<>(HttpStatus.ACCEPTED);
+    }
+
     @PostMapping("change-name")
     public ResponseEntity<String> changeName(@RequestBody @Valid ChangeNameRequest changeNameRequest) {
         Long loginAppUserId = AppUserService.getLoginAppUserId();
