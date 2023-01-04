@@ -57,7 +57,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     protected void successfulAuthentication(HttpServletRequest request,
                                             HttpServletResponse response,
                                             FilterChain chain,
-                                            Authentication authResult) throws IOException, ServletException {
+                                            Authentication authResult) throws IOException {
         String token = Jwts.builder()
                 .setSubject(authResult.getName())
                 .claim("appUserId", ((AppUser) authResult.getPrincipal()).getAppUserId())
@@ -95,7 +95,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     protected void unsuccessfulAuthentication(HttpServletRequest request,
                                               HttpServletResponse response,
-                                              AuthenticationException failed) throws IOException, ServletException {
+                                              AuthenticationException failed) throws IOException {
         response.setStatus(401);
         response.setCharacterEncoding("UTF-8");
         response.setContentType("application/json");
