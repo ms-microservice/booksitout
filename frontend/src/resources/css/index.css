@@ -4,8 +4,20 @@ body {
 		sans-serif;
 	-webkit-font-smoothing: antialiased;
 	-moz-osx-font-smoothing: grayscale;
+
+	padding: 16px;
+	padding-left: env(safe-area-inset-left);
+	padding-right: env(safe-area-inset-right);
 }
 
 code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+@supports (padding: max(0px)) {
+	body,
+	header {
+		padding-left: min(0vmin, env(safe-area-inset-left));
+		padding-right: min(0vmin, env(safe-area-inset-right));
+	}
 }
