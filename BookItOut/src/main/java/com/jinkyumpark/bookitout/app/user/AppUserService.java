@@ -24,12 +24,17 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository
                 .findAppUserByEmail(username)
                 .orElseThrow(() ->
-                    new UsernameNotFoundException("No App User found")
+                        new UsernameNotFoundException("No App User found")
                 );
     }
 
     public Optional<AppUser> getUserByEmail(String email) {
         return appUserRepository.findAppUserByEmail(email);
+    }
+
+    public AppUser getAppUserById(Long appUserId) {
+        return appUserRepository.findById(appUserId)
+                .orElseThrow(() -> new NotFoundException(""));
     }
 
     public AppUser addUser(AppUser appUser) {
@@ -38,7 +43,7 @@ public class AppUserService implements UserDetailsService {
 
     public static Long getLoginAppUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (! authentication.isAuthenticated()) {
+        if (!authentication.isAuthenticated()) {
             throw new NotLoginException("Please Login");
         }
 
@@ -75,6 +80,10 @@ public class AppUserService implements UserDetailsService {
 
         if (appUser.getName() != null) {
             existingAppUser.setName(appUser.getName());
+        }
+
+        if (appUser.getEmailVerificationCode() != null) {
+            existingAppUser.setEmailVerificationCode(appUser.getEmailVerificationCode());
         }
     }
 }
