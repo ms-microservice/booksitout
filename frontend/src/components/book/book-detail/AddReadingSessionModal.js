@@ -18,7 +18,6 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 
 	const handleAddReadingSession = (e) => {
 		e.preventDefault()
-		console.log(readTime)
 
 		if (endPage == null || endPage === '') {
 			toast.error('끝 페이지를 입력해 주세요')

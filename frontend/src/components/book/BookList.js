@@ -31,7 +31,6 @@ const BookList = () => {
 
 		getBookList(range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range)
 			.then((list) => {
-				console.log(list)
 				if (list == null) {
 					setError(true)
 				} else {
