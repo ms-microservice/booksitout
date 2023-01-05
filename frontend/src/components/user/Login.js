@@ -40,7 +40,8 @@ const Login = ({ setToken }) => {
 
 									<div class='col-9 col-lg-10'>
 										<input
-											type='text'
+											maxlength='30'
+											type='email'
 											class='form-control'
 											placeholder={EMAIL_PLACEHOLDER_MESSAGE}
 											onChange={(e) => setEmail(e.target.value)}
