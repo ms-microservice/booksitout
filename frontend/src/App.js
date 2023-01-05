@@ -66,7 +66,7 @@ function App() {
 	}, [toasts])
 
 	return (
-		<div className='App' style={{ marginTop: '75px' }}>
+		<div className='App'>
 			<div>
 				<Toaster />
 			</div>
