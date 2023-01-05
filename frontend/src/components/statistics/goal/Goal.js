@@ -159,7 +159,7 @@ const Goal = () => {
 									right='2%'
 								/>
 
-								{goalList.length < 2 ? (
+								{goalList.filter((g) => g.year != new Date().getFullYear()).length === 0 ? (
 									<NoContent message='과거 목표가 없어요' />
 								) : (
 									<div className='row text-center'>

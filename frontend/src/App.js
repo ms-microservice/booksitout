@@ -38,8 +38,8 @@ function App() {
 		const interval = setInterval(() => {
 			if (getIsTimerOn()) {
 				const currentTime = getTimerSecond()
-				updateTimerSecond(currentTime == null ? 0 : Number(currentTime) + 1)
-				setReadingSessionTime(Math.round(Number(currentTime)))
+				updateTimerSecond(currentTime == null ? 1 : Number(currentTime) + 1)
+				setReadingSessionTime(Math.round(Number(currentTime == null ? 1 : currentTime)))
 			} else {
 				updateReadingTimeDate()
 			}
@@ -66,7 +66,7 @@ function App() {
 	}, [toasts])
 
 	return (
-		<div className='App' style={{ marginTop: '75px' }}>
+		<div className='App'>
 			<div>
 				<Toaster />
 			</div>

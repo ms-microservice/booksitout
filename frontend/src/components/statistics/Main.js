@@ -114,7 +114,7 @@ const Main = () => {
 			) : isLoading ? (
 				<Loading />
 			) : (
-				<div className='row row-eq-height mt-5 mb-5'>
+				<div className='row row-eq-height mb-5'>
 					{showAlert && (
 						<div className='container'>
 							<Alert variant='success' dismissible onClose={() => closeAlert()}>

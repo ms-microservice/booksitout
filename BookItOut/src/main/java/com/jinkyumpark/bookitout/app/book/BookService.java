@@ -83,7 +83,9 @@ public class BookService {
         if (editedBook.getTitle() != null) {
             bookToEdit.setTitle(editedBook.getTitle());
         }
-        bookToEdit.setLanguage(editedBook.getLanguage());
+        if (editedBook.getLanguage() != null) {
+            bookToEdit.setLanguage(editedBook.getLanguage());
+        }
         if (editedBook.getCover() != null) {
             bookToEdit.setCover(editedBook.getCover());
         }

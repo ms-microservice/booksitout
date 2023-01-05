@@ -57,6 +57,8 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 	const [selectedQuotation, setSelectedQuotation] = useState(null)
 
 	useEffect(() => {
+		toggleTimer(true)
+
 		setTimeout(() => {
 			setInitialFetch(false)
 		}, INITIAL_FETCH_TIME)
@@ -66,9 +68,9 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				if (book == null) {
 					getMemoListOfBook(id).then((memos) => setMemoList(memos))
 					getQuotationListOfBook(id).then((quotes) => setQuotationList(quotes))
+
 					startReadingSession(id).then((res) => {
 						if (res[0]) {
-							toggleTimer(true)
 							setBook(res[1])
 						} else {
 							setIsError(true)
