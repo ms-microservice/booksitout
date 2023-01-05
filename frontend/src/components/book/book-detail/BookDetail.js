@@ -335,7 +335,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 				</Button>
 			</div>
 
-			{book.currentPage === book.endPage ? (
+			{book.currentPage == book.endPage ? (
 				<>
 					{book.rating == null ? (
 						<div className='col-12 mt-3'>
