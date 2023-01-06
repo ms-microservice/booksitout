@@ -75,7 +75,6 @@ public class ReadingSessionService {
     }
 
     // INSERT, UPDATE, DELETE
-
     @Transactional
     public void addReadingSession(ReadingSession newReadingSession) {
         Book book = bookService.getBookById(newReadingSession.getBook().getBookId());
@@ -102,7 +101,8 @@ public class ReadingSessionService {
                 newReadingSession.getStartTime().getYear(),
                 newReadingSession.getStartTime().getMonthValue()
         );
-        if (newReadingSession.getEndPage() != null) book.setCurrentPage(newReadingSession.getEndPage());
+        if (newReadingSession.getEndPage() != null)
+            book.setCurrentPage(newReadingSession.getEndPage());
         if (newReadingSession.getReadTime() != null)
             monthStatistics.setTotalReadMinute(monthStatistics.getTotalReadMinute() + newReadingSession.getReadTime());
         if (newReadingSession.getReadTime() != null && monthStatistics.getMaxReadMinute() < newReadingSession.getReadTime())
@@ -165,6 +165,7 @@ public class ReadingSessionService {
 
         Book book = bookService.getBookById(previousReadingSession.getBook().getBookId());
         MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, previousReadingSession.getStartTime().getYear(), previousReadingSession.getStartTime().getMonthValue());
+
         if (updatedReadingSession.getEndPage() != null) {
             previousReadingSession.setEndPage(updatedReadingSession.getEndPage());
             book.setCurrentPage(previousReadingSession.getEndPage());
@@ -184,15 +185,13 @@ public class ReadingSessionService {
             monthStatistics.setMaxReadMinute(updatedReadingSession.getReadTime());
         }
         if (updatedReadingSession.getEndPage() != null &&
-                updatedReadingSession.getEndPage().equals(book.getEndPage()) &&
-                !previousReadingSession.getEndPage().equals(book.getEndPage())
+                updatedReadingSession.getEndPage().equals(book.getEndPage())
         ) {
             monthStatistics.setFinishedBook(monthStatistics.getFinishedBook() + 1);
             Integer readingSessionYear = updatedReadingSession.getStartTime() == null ? previousReadingSession.getStartTime().getYear() : updatedReadingSession.getStartTime().getYear();
             Goal goal = goalService.getGoalByYear(loginUserId, readingSessionYear);
             goal.setCurrent(goal.getCurrent() + 1);
         }
-
 
         previousReadingSession.setReadTime(updatedReadingSession.getReadTime());
         previousReadingSession.setEndTime(updatedReadingSession.getEndTime());

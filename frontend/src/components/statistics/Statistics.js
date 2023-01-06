@@ -25,6 +25,8 @@ const Statistics = () => {
 
 	const [goalSelectedYear, setGoalSelectedYear] = useState(new Date().getFullYear())
 
+	const [statisticsSelectedYear, setStatisticsSelectedYear] = useState(new Date().getFullYear())
+
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
@@ -32,7 +34,7 @@ const Statistics = () => {
 
 		Promise.all([
 			getReadTime(30).then((readTime) => setReadTimeList(readTime)),
-			getStatisticsSummary().then((stats) => setStatisticsData(stats)),
+			getStatisticsSummary(statisticsSelectedYear).then((stats) => setStatisticsData(stats)),
 			getLangaugeStatistics().then((languageStats) => setLanguageData(languageStats)),
 			getCategoryStatistics().then((categoryStats) => setCategoryData(categoryStats)),
 			getGoal(goalSelectedYear).then((goal) => setGoalData(goal)),
@@ -41,6 +43,10 @@ const Statistics = () => {
 			setIsLoading(false)
 		})
 	}, [])
+
+	useEffect(() => {
+		getStatisticsSummary(statisticsSelectedYear).then((stats) => setStatisticsData(stats))
+	}, [statisticsSelectedYear])
 
 	return (
 		<div className='container'>
@@ -69,7 +75,7 @@ const Statistics = () => {
 
 									<div className='col-6'>
 										<Form>
-											<Form.Select>
+											<Form.Select onChange={(e) => setStatisticsSelectedYear(e.target.value)}>
 												{Array.from(
 													{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
 													(_, i) => i + Number(localStorage.getItem('register-year'))
