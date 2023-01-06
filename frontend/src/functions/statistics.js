@@ -1,4 +1,4 @@
-import { API_BASE_URL, STATISTICS_SUMMARY_URL } from '../settings/urls/apiUrl'
+import { API_BASE_URL } from '../settings/urls/apiUrl'
 import { getToken } from '../functions/user'
 
 const getReadTime = (duration) => {
@@ -24,8 +24,9 @@ const getReadTime = (duration) => {
 		})
 }
 
-const getStatisticsSummary = () => {
+const getStatisticsSummary = (year) => {
 	const token = localStorage.getItem('login-token')
+	const STATISTICS_SUMMARY_URL = `${API_BASE_URL}/v1/statistics/year/${year}`
 
 	return fetch(STATISTICS_SUMMARY_URL, {
 		method: 'GET',

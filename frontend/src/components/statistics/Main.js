@@ -37,7 +37,7 @@ const Main = () => {
 			getLastBook().then((book) => setLastBook(book)),
 			getReadTime(7).then((readTime) => setReadTime(readTime)),
 			getGoal(new Date().getFullYear()).then((res) => setGoal(res)),
-			getStatisticsSummary().then((stats) => setStatistics(stats)),
+			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats)),
 		]).finally(() => {
 			setInitialFetch(false)
 			setIsLoading(false)
