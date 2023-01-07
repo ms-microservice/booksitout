@@ -76,34 +76,31 @@ public class BookService {
     }
 
     @Transactional
-    public void editBook(Book editedBook) {
+    public void editBook(Long loginUserId, Book editedBook) {
         Book bookToEdit = bookRepository.findById(editedBook.getBookId())
                 .orElseThrow(() -> new NotFoundException("수정하실려는 책이 없어요"));
 
-        if (editedBook.getTitle() != null) {
+        if (! loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
+            throw new NotAuthorizeException("");
+
+        if (editedBook.getTitle() != null)
             bookToEdit.setTitle(editedBook.getTitle());
-        }
-        if (editedBook.getLanguage() != null) {
+        if (editedBook.getLanguage() != null)
             bookToEdit.setLanguage(editedBook.getLanguage());
-        }
-        if (editedBook.getCover() != null) {
+        if (editedBook.getCover() != null)
             bookToEdit.setCover(editedBook.getCover());
-        }
-        if (editedBook.getSummary() != null) {
+        if (editedBook.getSummary() != null)
             bookToEdit.setCover(editedBook.getCover());
-        }
-        if (editedBook.getSource() != null) {
+        if (editedBook.getSource() != null)
             bookToEdit.setSource(editedBook.getSource());
-        }
-        if (editedBook.getReview() != null) {
+        if (editedBook.getReview() != null)
             bookToEdit.setReview(editedBook.getReview());
-        }
-        if (editedBook.getIsSharing() != null) {
+        if (editedBook.getIsSharing() != null)
             bookToEdit.setIsSharing(editedBook.getIsSharing());
-        }
-        if (editedBook.getCurrentPage() != null) {
+        if (editedBook.getCurrentPage() != null)
             bookToEdit.setCurrentPage(editedBook.getCurrentPage());
-        }
+        if (editedBook.getEndPage() != null)
+            bookToEdit.setEndPage(editedBook.getEndPage());
     }
 
     public void deleteBookByBookId(Long bookId) {

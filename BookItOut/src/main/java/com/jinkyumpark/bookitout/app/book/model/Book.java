@@ -87,10 +87,6 @@ public class Book {
     @LastModifiedDate
     private LocalDateTime lastModified;
 
-    public Book(Long bookId) {
-        this.bookId = bookId;
-    }
-
     // TODO : change to FK
     @Column(name = "author", nullable = false)
     private String author;
@@ -115,4 +111,8 @@ public class Book {
     @OneToMany(targetEntity = ReadingSession.class, mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     @JsonIgnore
     private List<ReadingSession> readingSessionList;
+
+    public Book(Long bookId) {
+        this.bookId = bookId;
+    }
 }
