@@ -98,40 +98,22 @@ public class BookControllerV1 {
     }
 
     @PutMapping("{id}")
-    @Transactional
     public EditSuccessResponse editBook(@PathVariable("id") Long bookId, @RequestBody @Valid BookEditRequest bookEditRequest) {
-        Book bookToEdit = bookService.getBookById(bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
+        Book editedBook = Book.builder()
+                .bookId(bookId)
+                .title(bookEditRequest.getTitle())
+                .cover(bookEditRequest.getCover())
+                .summary(bookEditRequest.getSummary())
+                .language(bookEditRequest.getLanguage() != null ? BookLanguage.valueOf(bookEditRequest.getLanguage()) : null)
+                .source(bookEditRequest.getSource() != null ? BookSource.valueOf(bookEditRequest.getSource()) : null)
+                .review(bookEditRequest.getReview())
+                .isSharing(bookEditRequest.getIsSharing())
+                .rating(bookEditRequest.getRating())
+                .endPage(bookEditRequest.getEndPage())
+                .build();
 
-        if (! bookToEdit.getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException();
-        }
-
-        if (bookEditRequest.getTitle() != null) {
-            bookToEdit.setTitle(bookEditRequest.getTitle());
-        }
-        if (bookEditRequest.getCover() != null) {
-            bookToEdit.setCover(bookEditRequest.getCover());
-        }
-        if (bookEditRequest.getSummary() != null) {
-            bookToEdit.setSummary(bookEditRequest.getSummary());
-        }
-        if (bookEditRequest.getLanguage() != null) {
-            bookToEdit.setLanguage(BookLanguage.valueOf(bookEditRequest.getLanguage()));
-        }
-        if (bookEditRequest.getSource() != null) {
-            BookSource bookSource = BookSource.valueOf(bookEditRequest.getSource());
-            bookToEdit.setSource(bookSource);
-        }
-        if (bookEditRequest.getReview() != null) {
-            bookToEdit.setReview(bookEditRequest.getReview());
-        }
-        if (bookEditRequest.getIsSharing() != null) {
-            bookToEdit.setIsSharing(bookEditRequest.getIsSharing());
-        }
-        if (bookEditRequest.getRating() != null) {
-            bookToEdit.setRating(bookEditRequest.getRating());
-        }
+        bookService.editBook(loginUserId, editedBook);
 
         return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), messageSource.getMessage("book.update.success"));
     }

@@ -65,7 +65,7 @@ const Main = () => {
 							</a>
 						}
 						secondButton={
-							<a href='/book/all' className='btn btn-warning w-100'>
+							<a href='/book/not-done/all' className='btn btn-warning w-100'>
 								다른 책 읽기
 							</a>
 						}

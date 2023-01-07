@@ -119,17 +119,7 @@ const Statistics = () => {
 							<Card className='h-100'>
 								<Card.Body>
 									<div className='row'>
-										<div className='col-6'>
-											<h3>목표 달성 현황</h3>
-										</div>
-
-										<div className='col-6'>
-											<Form>
-												<Form.Select>
-													<option>2022년</option>
-												</Form.Select>
-											</Form>
-										</div>
+										<h3>목표 달성 현황</h3>
 									</div>
 
 									<div className='mt-5 mb-5'>

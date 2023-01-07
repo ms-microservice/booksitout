@@ -114,8 +114,8 @@ const editBook = (book) => {
 	return fetch(BOOK_EDIT_API_URL, {
 		method: 'PUT',
 		headers: {
-			'Content-Type': 'application/json',
 			Authorization: token,
+			'Content-Type': 'application/json',
 		},
 		body: JSON.stringify({
 			title: book.title,
