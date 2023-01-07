@@ -112,7 +112,7 @@ const BookEditForm = () => {
 	}
 
 	return (
-		<div className='container'>
+		<div className='container mb-5'>
 			{initalFetch ? (
 				<></>
 			) : isLoading ? (
@@ -184,13 +184,6 @@ const BookEditForm = () => {
 									</div>
 
 									<div className='col-6 col-md-4'>
-										<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
-											<Form.Label>총 페이지 수</Form.Label>
-											<Form.Control type='number' placeholder={PAGE_MESSAGE} required value={endPage} />
-										</Form.Group>
-									</div>
-
-									<div className='col-12 col-md-4'>
 										<Form.Group>
 											<Form.Label>장르</Form.Label>
 											<Form.Select onChange={(e) => setCategory(e.target.value)} value={category}>
@@ -211,21 +204,26 @@ const BookEditForm = () => {
 											</Form.Select>
 										</Form.Group>
 									</div>
-								</div>
 
-								<div className='row mt-4'>
-									<div className='col-6'>
-										<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
-											<Form.Label>책 형태</Form.Label>
-											<Form.Select value={form}>
-												<option value='PHYSICAL'>종이책</option>
-												<option value='EBOOK'>전자책</option>
-												<option value='AUDIO'>오디오북</option>
-											</Form.Select>
+									<div className='col-6 col-md-4'>
+										<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
+											<Form.Label>총 페이지 수</Form.Label>
+											<Form.Control type='number' placeholder={PAGE_MESSAGE} required value={endPage} />
 										</Form.Group>
 									</div>
 
 									<div className='col-6'>
+										<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
+											<Form.Label>책 형태</Form.Label>
+											<Form.Select value={form}>
+												<option value='PHYSICAL'>📃 종이책</option>
+												<option value='EBOOK'>🔋 전자책</option>
+												<option value='AUDIO'>🎧 오디오북</option>
+											</Form.Select>
+										</Form.Group>
+									</div>
+
+									<div className='col-12 col-md-6'>
 										<Form.Group className='mb-3' onChange={(e) => setSource(e.target.value)}>
 											<Form.Label>책은 어디서 얻었나요?</Form.Label>
 											<Form.Select value={source}>
