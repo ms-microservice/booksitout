@@ -41,6 +41,7 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 					setCurrentYearGoal({ goal: goal, current: goalData.current })
 					setIsModalOpen(false)
 				})
+				toast.success('목표를 추가했어요')
 			} else {
 				toast.error(ERROR_MESSAGE)
 			}
