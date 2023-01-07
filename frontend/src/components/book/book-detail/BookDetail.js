@@ -439,7 +439,8 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 }
 
 const BookDescription = ({ book }) => {
-	const infoIconStyle = `col-4 col-lg-3 col-xl-6 align-self-center`
+	const infoIconStyle = `col-4 col-md-8 col-lg-6 col-xl-8 align-self-center`
+	const infoCardStyle = `col-6 col-md-3 col-lg-3 col-xl-2 mb-2`
 
 	return (
 		<>
@@ -455,22 +456,22 @@ const BookDescription = ({ book }) => {
 			</div>
 
 			<div className='row justify-content-center'>
-				<div className='col-6 col-xl-2 mb-2'>
+				<div className={infoCardStyle}>
 					<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
 						<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} responsiveImageStyle={infoIconStyle} />
 					</a>
 				</div>
-				<div className='col-6 col-xl-2 mb-2'>
+				<div className={infoCardStyle}>
 					<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
 						<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} responsiveImageStyle={infoIconStyle} />
 					</a>
 				</div>
-				<div className='col-6 col-xl-2 mb-2'>
+				<div className={infoCardStyle}>
 					<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
 						<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle={infoIconStyle} />
 					</a>
 				</div>
-				<div className='col-6 col-xl-2 mb-2'>
+				<div className={infoCardStyle}>
 					<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
 						<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} responsiveImageStyle={infoIconStyle} />
 					</a>
