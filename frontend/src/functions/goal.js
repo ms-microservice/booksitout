@@ -62,10 +62,8 @@ const addGoal = (year, goal) => {
 		const status = res.status.toString()
 
 		if (status.startsWith(2)) {
-			toast.success(GOAL_ADD_SUCCESS_MESSAGE)
 			return true
 		} else {
-			toast.error(GOAL_ADD_FAIL_MESSAGE)
 			return false
 		}
 	})

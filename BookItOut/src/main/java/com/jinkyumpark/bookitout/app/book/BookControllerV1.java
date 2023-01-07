@@ -16,6 +16,7 @@ import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -52,7 +53,7 @@ public class BookControllerV1 {
     }
 
     @GetMapping("all/{range}")
-    public List<Book> getAllBooks(@PathVariable(value = "range", required = false) String range,
+    public Page<Book> getAllBooks(@PathVariable(value = "range", required = false) String range,
                                   @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                   @RequestParam(value = "size", required = false, defaultValue = "10") Integer size
     ) {

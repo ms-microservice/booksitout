@@ -15,6 +15,7 @@ import { GOAL_DELETE_CONFIRM } from '../../../messages/statisticsMessages'
 // Resources
 import goalIcon from '../../../resources/images/general/goal.png'
 import GoalPastAddModal from './GoalPastAddModal'
+import GoalPastEditModal from './GoalPastEditModal'
 
 const Goal = () => {
 	const [intialFetch, setInitialFetch] = useState(true)
@@ -23,6 +24,9 @@ const Goal = () => {
 	const [isGoalModalOpen, setIsGoalModalOpen] = useState(false)
 	const [isGoalEditModalOpen, setIsGoalEditModalOpen] = useState(false)
 	const [isPastGoalAddModalOpen, setIsPastGoalAddModalOpen] = useState(false)
+	const [isPastGoalEditModalOpen, setIsPastGoalEditModalOpen] = useState(false)
+
+	const [selectedEditGoal, setSelectedEditGoal] = useState(null)
 
 	const currentYear = new Date().getFullYear()
 
@@ -82,6 +86,15 @@ const Goal = () => {
 						goalList={goalList}
 						setGoalList={setGoalList}
 					/>
+					{selectedEditGoal != null && (
+						<GoalPastEditModal
+							isModalOpen={isPastGoalEditModalOpen}
+							setIsModalOpen={setIsPastGoalEditModalOpen}
+							selectedGoal={selectedEditGoal}
+							goalList={goalList}
+							setGoalList={setGoalList}
+						/>
+					)}
 
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
@@ -169,6 +182,10 @@ const Goal = () => {
 											.map((goal) => {
 												return (
 													<div
+														onClick={() => {
+															setSelectedEditGoal(goal)
+															setIsPastGoalEditModalOpen(true)
+														}}
 														className='col-6 col-sm-4 col-md-3 col-lg-2 mb-4'
 														style={{ opacity: goal.year === new Date().getFullYear() ? '1' : '0.5' }}>
 														<h3 className='mb-0'>{`${goal.year}년`}</h3>
