@@ -156,7 +156,7 @@ public class ReadingSessionService {
 
         if (!previousReadingSession.getAppUser().getAppUserId().equals(loginUserId))
             throw new NotAuthorizeException("해당 독서활동을 수정할 권한이 없어요");
-        if (previousReadingSession.getEndPage() != null && previousReadingSession.getBook().getCurrentPage() >= previousReadingSession.getEndPage())
+        if (previousReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() <= previousReadingSession.getStartPage() && previousReadingSession.getStartPage() != 0)
             throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
         if (previousReadingSession.getEndPage() != null && previousReadingSession.getBook().getEndPage() < previousReadingSession.getEndPage())
             throw new BadRequestException("책의 마지막 페이지보다 커요");
@@ -172,10 +172,11 @@ public class ReadingSessionService {
         }
         if (previousReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() != null) {
             Integer previousReadingPage = previousReadingSession.getEndPage() - previousReadingSession.getStartPage() + 1;
-            Integer currentReadingPage = updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage() + 1;
+            Integer currentReadingPage = updatedReadingSession.getEndPage() - previousReadingSession.getStartPage() + 1;
             monthStatistics.setTotalPage(monthStatistics.getTotalPage() - previousReadingPage + currentReadingPage);
         }
         if (updatedReadingSession.getReadTime() != null) {
+            previousReadingSession.setReadTime(updatedReadingSession.getReadTime());
             monthStatistics.setTotalReadMinute(
                     monthStatistics.getTotalReadMinute() + updatedReadingSession.getReadTime()
                             - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime())
@@ -193,7 +194,8 @@ public class ReadingSessionService {
             goal.setCurrent(goal.getCurrent() + 1);
         }
 
-        previousReadingSession.setReadTime(updatedReadingSession.getReadTime());
-        previousReadingSession.setEndTime(updatedReadingSession.getEndTime());
+        if (updatedReadingSession.getEndTime() != null) {
+            previousReadingSession.setEndTime(updatedReadingSession.getEndTime());
+        }
     }
 }
