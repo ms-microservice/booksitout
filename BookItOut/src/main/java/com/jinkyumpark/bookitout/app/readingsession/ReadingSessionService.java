@@ -137,7 +137,7 @@ public class ReadingSessionService {
                 readingSession.getStartTime().getMonthValue()
         );
         if (readingSession.getEndPage() != null) {
-            book.setCurrentPage(readingSession.getStartPage() - 1);
+            book.setCurrentPage(readingSession.getStartPage() == 0 ? 0 : readingSession.getEndPage() - 1);
             statistics.setTotalPage(statistics.getTotalPage() - (readingSession.getEndPage() - readingSession.getStartPage()));
         }
         if (readingSession.getReadTime() != null)

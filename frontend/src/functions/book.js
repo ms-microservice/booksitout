@@ -1,12 +1,12 @@
-import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../settings/urls/apiUrl'
 import toast from 'react-hot-toast'
+import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
 import { ERROR_MESSAGE } from '../messages/commonMessages'
 
-const getBookList = (range) => {
+const getBookList = (range, page) => {
 	const token = getToken()
 
-	return fetch(`${API_BASE_URL}/v1/book/all/${range}`, {
+	return fetch(`${API_BASE_URL}/v1/book/all/${range}?page=${page}`, {
 		method: 'GET',
 		headers: { Authorization: token },
 	})
@@ -16,8 +16,8 @@ const getBookList = (range) => {
 			}
 			return res.json()
 		})
-		.then((bookList) => {
-			return bookList
+		.then((pageBookList) => {
+			return pageBookList
 		})
 }
 

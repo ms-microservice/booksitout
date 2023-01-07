@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
-import { useParams, useNavigate, useLocation } from 'react-router-dom'
+import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
 import { Button, Card, Pagination, Tab, Tabs } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
@@ -14,9 +14,8 @@ import bookShelfImage from '../../resources/images/common/bookshelf.png'
 import { deleteBook, getBookList, giveUpBook, unGiveUpBook } from '../../functions/book'
 
 const BookList = () => {
-	const { range } = useParams()
-	const { rangeDetail } = useParams()
-
+	const { range, rangeDetail } = useParams()
+	const [params] = useSearchParams()
 	const navigate = useNavigate()
 	const location = useLocation()
 
@@ -25,23 +24,30 @@ const BookList = () => {
 	const [error, setError] = useState(false)
 
 	const [bookList, setBookList] = useState(null)
+	const [maxPage, setMaxPage] = useState(0)
+	const [currentPage, setCurrentPage] = useState(params.get('page') == null ? 1 : Number(params.get('page')))
+
+	useEffect(() => {
+		setCurrentPage(params.get('page') == null ? 1 : Number(params.get('page')))
+	}, [params])
 
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 5000)
 
-		getBookList(range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range)
-			.then((list) => {
-				if (list == null) {
+		getBookList(range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range, currentPage - 1)
+			.then((pageList) => {
+				if (pageList == null) {
 					setError(true)
 				} else {
-					setBookList(list)
+					setBookList(pageList.content)
+					setMaxPage(pageList.totalPages)
 				}
 			})
 			.finally(() => {
 				setInitialFetch(false)
 				setIsLoading(false)
 			})
-	}, [location.pathname, range, rangeDetail])
+	}, [location.pathname, range, rangeDetail, currentPage])
 
 	return (
 		<div className='container-lg'>
@@ -142,9 +148,13 @@ const BookList = () => {
 
 					{bookList.length !== 0 && (
 						<Pagination className='pagination justify-content-center mb-5'>
-							<Pagination.Item key={1} active={true}>
-								1
-							</Pagination.Item>
+							{Array.from({ length: maxPage }, (_, i) => i + 1).map((p) => {
+								return (
+									<Pagination.Item key={p} active={p == currentPage} onClick={() => navigate(`${location.pathname}?page=${p}`)}>
+										{p}
+									</Pagination.Item>
+								)
+							})}
 						</Pagination>
 					)}
 				</>

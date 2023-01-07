@@ -94,7 +94,7 @@ public class StatisticsControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         PageRequest pageRequest = PageRequest.of(0, 10000);
-        List<Book> allBookList = bookService.getAllBooks(loginUserId, pageRequest);
+        List<Book> allBookList = bookService.getAllBooks(loginUserId, pageRequest).getContent();
 
         Map<BookLanguage, Integer> doneBookLanguageMap = new HashMap<>();
         allBookList.stream()
@@ -131,7 +131,7 @@ public class StatisticsControllerV1 {
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         PageRequest pageRequest = PageRequest.of(0, 10000);
-        List<Book> allBookList = bookService.getAllBooks(loginUserId, pageRequest);
+        List<Book> allBookList = bookService.getAllBooks(loginUserId, pageRequest).getContent();
 
         Map<BookCategory, Integer> doneCategoryMap = new HashMap<>();
         allBookList.stream()

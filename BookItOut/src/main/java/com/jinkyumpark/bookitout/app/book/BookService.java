@@ -7,6 +7,7 @@ import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.readingsession.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -40,27 +41,27 @@ public class BookService {
         return readingSessionList.get(0).getBook();
     }
 
-    public List<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {
+    public Page<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllNotStartedBook(Long loginUserId, Pageable pageRequest) {
+    public Page<Book> getAllNotStartedBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllNotStartedBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllStartedBook(Long loginUserId, Pageable pageRequest) {
+    public Page<Book> getAllStartedBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllStartedBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllNotDoneBook(Long loginUserId, Pageable pageRequest) {
+    public Page<Book> getAllNotDoneBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllNotDoneBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllDoneBook(Long loginUserId, Pageable pageRequest) {
+    public Page<Book> getAllDoneBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllDoneBooks(loginUserId, pageRequest);
     }
 
-    public List<Book> getAllGiveUpBook(Long loginUserId, Pageable pageRequest) {
+    public Page<Book> getAllGiveUpBook(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllGiveUpBooks(loginUserId, pageRequest);
     }
 
