@@ -5,7 +5,6 @@ import toast from 'react-hot-toast'
 // Resources
 import '../../../resources/css/input.css'
 import { getDayCountOfMonth } from '../../../functions/date'
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
 // Functions
 
 const ReadingSessionDetailModal = ({
@@ -41,13 +40,14 @@ const ReadingSessionDetailModal = ({
 	const [readTime, setReadTime] = useState(null)
 	const [endPage, setEndPage] = useState(null)
 
-	const handleEditReadingSession = () => {
+	const handleEditReadingSession = (e) => {
+		e.preventDefault()
+
 		if (
 			(year == null && month == null && day == null && readTime == null && endPage == null) ||
 			(readTime == readingSession.readTime && endPage == readingSession.endPage)
 		) {
 			toast.error('수정사항이 없어요')
-			setIsEditMode(false)
 			return
 		}
 
@@ -55,25 +55,31 @@ const ReadingSessionDetailModal = ({
 			readingSessionId: readingSession.readingSessionId,
 			startTime: readingSession.startTime,
 			endTime: readingSession.endTime,
-			readTime: readTime == readingSession.readTime ? null : readTime,
-			endPage: endPage == readingSession.endPage ? null : endPage,
+			readTime: readTime === readingSession.readTime ? null : readTime,
+			endPage: endPage === readingSession.endPage ? null : endPage,
 		}
 
-		editReadingSession(editedReadingSession).then((success) => {
-			if (success) {
+		editReadingSession(editedReadingSession).then((res) => {
+			if (res.status.toString().startsWith(2)) {
 				toast.success('독서활동을 수정했어요')
 				setReadingSession(editedReadingSession)
 				setReadingSessionList(
 					readingSessionList.map((r) => {
 						if (r.readingSessionId == readingSession.readingSessionId) {
-							return editedReadingSession
+							return {
+								...r,
+								readingSessionId: r.readingSessionId,
+								readTime: readTime == null ? r.readTime : readTime,
+								endPage: endPage == null ? r.endPage : endPage,
+							}
 						} else {
 							return r
 						}
 					})
 				)
+				setIsModalOpen(false)
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(res.message)
 			}
 		})
 	}
@@ -107,7 +113,8 @@ const ReadingSessionDetailModal = ({
 				setIsModalOpen(false)
 				setIsEditMode(false)
 			}}
-			fullscreen='md-down'>
+			fullscreen='md-down'
+			size={isEditMode ? 'lg' : 'md'}>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>독서활동 자세히 보기</h4>
 			</Modal.Header>
@@ -117,7 +124,7 @@ const ReadingSessionDetailModal = ({
 					<div className='row'>
 						{isEditMode ? (
 							<>
-								<Form>
+								<Form onSubmit={(e) => handleEditReadingSession(e)}>
 									{isReadingSessionManuallyAdded(readingSession.endTime) ? (
 										<div className='row text-center'>
 											<div className='col-3 mt-1'>🗓️ 독서날짜</div>
@@ -221,6 +228,20 @@ const ReadingSessionDetailModal = ({
 											/>
 										</div>
 									</div>
+
+									<div className='row'>
+										<div className='col-6'>
+											<Button variant='success' type='submit' className='w-100'>
+												수정완료
+											</Button>
+										</div>
+
+										<div className='col-6' onClick={() => setIsEditMode(false)}>
+											<Button variant='danger' className='w-100'>
+												수정취소
+											</Button>
+										</div>
+									</div>
 								</Form>
 							</>
 						) : (
@@ -228,28 +249,21 @@ const ReadingSessionDetailModal = ({
 						)}
 					</div>
 
-					<div className='row'>
-						<div className='col-6'>
-							<Button
-								disabled
-								variant={isEditMode ? 'success' : 'warning'}
-								className='w-100'
-								onClick={() => {
-									if (isEditMode) {
-										handleEditReadingSession()
-									}
-									setIsEditMode(!isEditMode)
-								}}>
-								{isEditMode ? '수정완료' : '수정하기'}
-							</Button>
-						</div>
+					{!isEditMode && (
+						<div className='row'>
+							<div className='col-6'>
+								<Button variant='warning' className='w-100' onClick={() => setIsEditMode(!isEditMode)}>
+									수정하기
+								</Button>
+							</div>
 
-						<div className='col-6' onClick={() => handleDeleteReadingSession()}>
-							<Button variant='danger' className='w-100'>
-								삭제하기
-							</Button>
+							<div className='col-6' onClick={() => handleDeleteReadingSession()}>
+								<Button variant='danger' className='w-100'>
+									삭제하기
+								</Button>
+							</div>
 						</div>
-					</div>
+					)}
 				</Modal.Body>
 			)}
 		</Modal>

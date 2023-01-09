@@ -21,6 +21,8 @@ const ReadingNoId = () => {
 				if (res.status.toString().startsWith(2)) {
 					return res.json()
 				} else {
+					localStorage.removeItem('timer-on')
+					localStorage.removeItem('reading-session-time')
 					navigate('/book/not-done/all')
 				}
 			})

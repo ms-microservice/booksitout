@@ -126,11 +126,14 @@ const editReadingSession = (editedReadingSession) => {
 	return fetch(EDIT_READING_SESSION_API_URL, {
 		method: 'PUT',
 		headers: { Authorization: token, 'Content-Type': 'application/json' },
-		body: JSON.stringify({}),
-	}).then((res) => {
-		const status = res.status.toString()
-		return status.startsWith(2)
+		body: JSON.stringify(editedReadingSession),
 	})
+		.then((res) => {
+			return res.json()
+		})
+		.then((res) => {
+			return res
+		})
 }
 
 const deleteReadingSession = (readingSessionId) => {
