@@ -2,47 +2,48 @@ package com.jinkyumpark.bookitout.app.memo;
 
 import com.jinkyumpark.bookitout.app.book.BookService;
 import com.jinkyumpark.bookitout.app.book.model.Book;
+import com.jinkyumpark.bookitout.app.user.LoginAppUser;
+import com.jinkyumpark.bookitout.app.user.LoginUser;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.app.memo.request.MemoAddRequest;
 import com.jinkyumpark.bookitout.app.memo.request.MemoEditRequest;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
-import com.jinkyumpark.bookitout.app.user.AppUserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
+
 @RestController
 @RequestMapping("/v1/memo")
 public class MemoControllerV1 {
-    private MemoService memoService;
-    private BookService bookService;
+    private final MessageSourceAccessor messageSource;
+    private final MemoService memoService;
+    private final BookService bookService;
 
     @GetMapping("all/{bookId}")
-    public List<Memo> getAllMemoByBookId(@PathVariable("bookId") Long bookId) {
-        Book book = bookService.getBookById(bookId);
-        Long loginUserId = AppUserService.getLoginAppUserId();
+    public List<Memo> getAllMemoByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
 
-        if (!book.getAppUser().getAppUserId().equals(loginUserId) && !book.getIsSharing()) {
-            throw new BookNotSharingException("해당 책은 공유를 허용하지 않았어요");
+        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
+            throw new BookNotSharingException(messageSource.getMessage("memo.get.fail.not-sharing"));
         }
 
-        List<Memo> memoList = memoService.getAllMemoByBookId(bookId);
-        return memoList;
+        return memoService.getAllMemoByBookId(bookId);
     }
 
     @PostMapping("{bookId}")
     public AddSuccessResponse addMemo(@PathVariable("bookId") Long bookId,
-                                      @RequestBody @Valid MemoAddRequest memoAddRequest
-    ) {
-        Book book = bookService.getBookById(bookId);
-        Memo memo = new Memo(memoAddRequest.getPage(), memoAddRequest.getContent(), book);
-
-        memoService.addMemo(memo);
+                                      @RequestBody @Valid MemoAddRequest memoAddRequest,
+                                      @LoginUser LoginAppUser loginAppUser
+                                      ) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
+        Long memoId = memoService.addMemo(memoAddRequest, book);
 
         return new AddSuccessResponse("메모를 추가했어요");
     }
@@ -51,7 +52,7 @@ public class MemoControllerV1 {
     public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
                                         @RequestBody @Valid MemoEditRequest memoEditRequest
     ) {
-        memoService.editMemo(memoId, memoEditRequest.getPage(), memoEditRequest.getContent());
+        memoService.editMemo(memoId, memoEditRequest);
 
         return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), "메모를 수정했어요");
     }

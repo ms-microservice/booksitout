@@ -2,14 +2,14 @@ package com.jinkyumpark.bookitout.app.memo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.app.book.model.Book;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 
 @Entity
@@ -37,5 +37,10 @@ public class Memo {
         this.page = page;
         this.content = content;
         this.book = book;
+    }
+
+    public void editMemo(String content, Integer page) {
+        if (content != null) this.content = content;
+        if (page != null) this.page = page;
     }
 }

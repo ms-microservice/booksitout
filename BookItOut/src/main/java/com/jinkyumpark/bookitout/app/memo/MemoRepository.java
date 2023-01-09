@@ -9,5 +9,5 @@ import java.util.List;
 @Repository
 public interface MemoRepository extends JpaRepository<Memo, Long> {
     @Query("select m from Memo m where m.book.bookId = ?1")
-    List<Memo> findAllByBook_BookId(Long bookId);
+    List<Memo> findAllMemoByBookId(Long bookId);
 }
