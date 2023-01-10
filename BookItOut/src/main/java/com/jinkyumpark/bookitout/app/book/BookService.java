@@ -1,12 +1,15 @@
 package com.jinkyumpark.bookitout.app.book;
 
 import com.jinkyumpark.bookitout.app.book.model.Book;
+import com.jinkyumpark.bookitout.app.user.LoginAppUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.readingsession.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -15,15 +18,22 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
+
 @Service
 public class BookService {
-    private BookRepository bookRepository;
-    private ReadingSessionRepository readingSessionRepository;
+    private final MessageSourceAccessor messageSource;
 
-    public Book getBookById(Long id) {
+    private final BookRepository bookRepository;
+    private final ReadingSessionRepository readingSessionRepository;
+
+    public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException("해당 ID의 책이 없어요"));
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.fail.not-found")));
+
+        if (!loginAppUser.getId().equals(book.getAppUser().getAppUserId())) {
+            throw new NotAuthorizeException(messageSource.getMessage("book.get.fail.not-authorize"));
+        }
 
         return book;
     }
@@ -35,7 +45,7 @@ public class BookService {
                 .findAllBookNotDoneReadingSession(appUserId, pageRequest);
 
         if (readingSessionList.size() < 1) {
-            throw new NotFoundException("Last Reading Session not present; possible cause : never used book-it-out, last book read is done");
+            throw new NotFoundException(messageSource.getMessage("book.get.fail.last-reading-session.not-found"));
         }
 
         return readingSessionList.get(0).getBook();
@@ -79,10 +89,10 @@ public class BookService {
     @Transactional
     public void editBook(Long loginUserId, Book editedBook) {
         Book bookToEdit = bookRepository.findById(editedBook.getBookId())
-                .orElseThrow(() -> new NotFoundException("수정하실려는 책이 없어요"));
+                .orElseThrow(() -> new NotFoundException("book.get.fail.not-found"));
 
-        if (! loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
-            throw new NotAuthorizeException("");
+        if (!loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
+            throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
         if (editedBook.getTitle() != null)
             bookToEdit.setTitle(editedBook.getTitle());
@@ -106,11 +116,11 @@ public class BookService {
 
     public void deleteBookByBookId(Long bookId) {
         Book book = bookRepository.findById(bookId)
-                .orElseThrow(() -> new NotFoundException("삭제하시려는 책이 없어요. 다시 확인해 주새요"));
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.delete.fail.not-found")));
 
         Long loginUserId = AppUserService.getLoginAppUserId();
         if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException("해당 책을 삭제하실 권한이 없어요");
+            throw new NotAuthorizeException(messageSource.getMessage("book.delete.fail.not-authorize"));
         }
 
         bookRepository.deleteById(book.getBookId());

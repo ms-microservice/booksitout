@@ -115,4 +115,16 @@ public class Book {
     public Book(Long bookId) {
         this.bookId = bookId;
     }
+
+    public void addReadingSession(ReadingSession readingSession) {
+        if (readingSession.getEndPage() != null) this.currentPage = readingSession.getEndPage();
+    }
+
+    public void deleteReadingSession(ReadingSession readingSession) {
+        if (readingSession.getEndPage() != null) this.currentPage = readingSession.getStartPage() == 0 ? 0 : readingSession.getStartPage() - 1;
+    }
+
+    public void updateReadingSession(ReadingSession readingSession) {
+        if (readingSession.getEndPage() != null) this.currentPage = readingSession.getEndPage();
+    }
 }
