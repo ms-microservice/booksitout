@@ -27,11 +27,9 @@ import javax.transaction.Transactional;
 import javax.validation.Valid;
 
 @AllArgsConstructor
-@RestController
-@RequestMapping("/v1/book")
+@RestController @RequestMapping("/v1/book")
 public class BookControllerV1 {
     private final MessageSourceAccessor messageSource;
-
     private BookService bookService;
 
     @GetMapping("{id}")
@@ -66,28 +64,24 @@ public class BookControllerV1 {
     }
 
     @GetMapping("current-reading-session")
-    public Book getCurrentReadingSessionBook() {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        return bookService.getCurrentReadingSessionBook(loginUserId);
+    public Book getCurrentReadingSessionBook(@LoginUser LoginAppUser loginAppUser) {
+        return bookService.getCurrentReadingSessionBook(loginAppUser.getId());
     }
 
     @PostMapping
-    public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest) {
-        // TODO : Builder
-        Book book = new Book();
-        book.setTitle(bookAddRequest.getTitle());
-        book.setAuthor(bookAddRequest.getAuthor());
-        book.setEndPage(bookAddRequest.getEndPage());
-        book.setSource(BookSource.valueOf(bookAddRequest.getSource()));
-        book.setCover(bookAddRequest.getCover());
-        book.setCategory(BookCategory.valueOf(bookAddRequest.getCategory()));
-        book.setLanguage(BookLanguage.valueOf(bookAddRequest.getLanguage()));
-        book.setIsSharing(bookAddRequest.getIsSharing());
-        book.setForm(BookForm.valueOf(bookAddRequest.getForm()));
-
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        AppUser appUser = new AppUser(loginUserId);
-        book.setAppUser(appUser);
+    public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest, @LoginUser LoginAppUser loginAppUser) {
+        Book book = Book.builder()
+                .title(bookAddRequest.getTitle())
+                .author(bookAddRequest.getAuthor())
+                .endPage(bookAddRequest.getEndPage())
+                .source(BookSource.valueOf(bookAddRequest.getSource()))
+                .cover(bookAddRequest.getCover())
+                .category(BookCategory.valueOf(bookAddRequest.getCategory()))
+                .language(BookLanguage.valueOf(bookAddRequest.getLanguage()))
+                .isSharing(bookAddRequest.getIsSharing())
+                .form(BookForm.valueOf(bookAddRequest.getForm()))
+                .appUser(new AppUser(loginAppUser.getId()))
+                .build();
 
         bookService.addBook(book);
 

@@ -11,7 +11,10 @@ import com.jinkyumpark.bookitout.model.Qna;
 import com.jinkyumpark.bookitout.response.common.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.EditSuccessResponse;
-import lombok.AllArgsConstructor;
+import com.jinkyumpark.bookitout.user.LoginAppUser;
+import com.jinkyumpark.bookitout.user.LoginUser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.web.bind.annotation.*;
@@ -19,17 +22,15 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.util.List;
 
-@AllArgsConstructor
-@RestController
-@RequestMapping("/v1/qna")
+@RequiredArgsConstructor
+@RestController @RequestMapping("/v1/qna")
 public class QnaControllerV1 {
+    private final MessageSourceAccessor messageSource;
     private final QnaService qnaService;
 
     @GetMapping("all")
-    public Page<Qna> getAllQna(
-            @RequestParam(value = "page", required = false) Integer page,
-            @RequestParam(value = "size", required = false) Integer size
-    ) {
+    public Page<Qna> getAllQna(@RequestParam(value = "page", required = false) Integer page,
+                               @RequestParam(value = "size", required = false) Integer size) {
         if (page == null) page = 0;
         if (size == null) size = 10;
 
@@ -38,19 +39,17 @@ public class QnaControllerV1 {
     }
 
     @GetMapping("all/user")
-    public List<Qna> getAllQnaByUserId() {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-
-        return qnaService.getAllQnaByUserid(loginUserId);
+    public List<Qna> getAllQnaByUserId(@LoginUser LoginAppUser loginAppUser) {
+        return qnaService.getAllQnaByUserid(loginAppUser.getId());
     }
 
     @PostMapping
     public AddSuccessResponse addQna(@RequestBody @Valid QnaAddRequest qnaAddRequest) {
         Qna qna = new Qna(qnaAddRequest.getQuestion());
+
         if (qnaAddRequest.getAppUserId() == null) {
-            if (qnaAddRequest.getPassword() == null) {
-                throw new BadRequestException("로그인하거나 QNA에 비밀번호를 설정해 주세요");
-            }
+            if (qnaAddRequest.getPassword() == null)
+                throw new BadRequestException(messageSource.getMessage("qna.add.fail.no-credential"));
 
             qna.setPassword(qnaAddRequest.getPassword());
         } else {
@@ -59,14 +58,12 @@ public class QnaControllerV1 {
 
         qnaService.addQna(qna);
 
-        return new AddSuccessResponse("POST v1/qna", "QNA를 추가했어요");
+        return new AddSuccessResponse("POST v1/qna", messageSource.getMessage("qna.add.success"));
     }
 
     @PutMapping("{qnaId}")
-    public EditSuccessResponse editQna(
-            @PathVariable("qnaId") Long qnaId,
-            @RequestBody @Valid QnaEditRequest qnaEditRequest
-    ) {
+    public EditSuccessResponse editQna(@PathVariable("qnaId") Long qnaId,
+                                       @RequestBody @Valid QnaEditRequest qnaEditRequest) {
         Qna qna = qnaService.getQnaById(qnaId);
 
         if (qna.getAppUser() != null) {
@@ -74,14 +71,14 @@ public class QnaControllerV1 {
             if (!qna.getAppUser().getAppUserId().equals(appUserId)) {
                 throw new NotAuthorizeException();
             }
-        } else if (! qna.getPassword().equals(qnaEditRequest.getPassword())) {
+        } else if (!qna.getPassword().equals(qnaEditRequest.getPassword())) {
             throw new NotAuthorizeException();
         }
 
         qna.setQuestion(qna.getQuestion());
         qnaService.editQna(qna);
 
-        return new EditSuccessResponse(String.format("PUT v1/qna/%d", qnaId), "QNA를 수정했어요");
+        return new EditSuccessResponse(String.format("PUT v1/qna/%d", qnaId), messageSource.getMessage("qna.edit.success"));
     }
 
     @DeleteMapping("{qnaId}")
@@ -91,17 +88,16 @@ public class QnaControllerV1 {
         if (qna.getAppUser() != null) {
             Long loginAppUser = AppUserService.getLoginAppUserId();
             if (!qna.getAppUser().getAppUserId().equals(loginAppUser)) {
-                throw new NotAuthorizeException("QNA는 남긴 사람만 지울 수 있어요");
+                throw new NotAuthorizeException(messageSource.getMessage("qna.delete.fail.not-authorize"));
             }
         }
 
-        if (qna.getAppUser() == null) {
-            if (!qna.getPassword().equals(password)) {
-                throw new NotAuthorizeException("비밀번호가 일치하지 않아요");
-            }
+        if (qna.getAppUser() == null && !qna.getPassword().equals(password)) {
+            throw new NotAuthorizeException(messageSource.getMessage("qna.delete.fail.wrong-pw"));
         }
 
         qnaService.deleteQnaById(qnaId);
-        return new DeleteSuccessResponse(String.format("DELETE v1/qna/%d", qnaId), "QNA를 지웠어요");
+
+        return new DeleteSuccessResponse(String.format("DELETE v1/qna/%d", qnaId), messageSource.getMessage("qna.delete.success"));
     }
 }

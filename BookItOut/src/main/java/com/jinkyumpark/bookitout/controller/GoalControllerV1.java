@@ -9,16 +9,18 @@ import com.jinkyumpark.bookitout.model.goal.Goal;
 import com.jinkyumpark.bookitout.response.common.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.EditSuccessResponse;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @RestController @RequestMapping("/v1/goal")
 public class GoalControllerV1 {
+    private final MessageSourceAccessor messageSource;
     private final GoalService goalService;
 
     @GetMapping("{year}")
@@ -57,7 +59,7 @@ public class GoalControllerV1 {
 
         goalService.addGoal(loginAppUser.getId(), newGoal);
 
-        return new AddSuccessResponse(String.format("POST v1/goal/%d/%d", year, goal), "목표를 설정했어요");
+        return new AddSuccessResponse(String.format("POST v1/goal/%d/%d", year, goal), messageSource.getMessage("goal.add.success"));
     }
 
     @PutMapping("{year}")
@@ -71,13 +73,13 @@ public class GoalControllerV1 {
 
         goalService.editGoal(editedGoal);
 
-        return new EditSuccessResponse(String.format("PUT v1/goal/%d?goal=%d", year, goal), String.format("%d년의 목표를 %d로 수정했어요", year, goal));
+        return new EditSuccessResponse(String.format("PUT v1/goal/%d?goal=%d", year, goal), messageSource.getMessage("goal.edit.success"));
     }
 
     @DeleteMapping("{year}")
     public DeleteSuccessResponse deleteGoal(@PathVariable("year") Integer year, @LoginUser LoginAppUser loginAppUser) {
         goalService.deleteGoal(loginAppUser.getId(), year);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/goal/%d", year), "목표를 지웠어요");
+        return new DeleteSuccessResponse(String.format("DELETE v1/goal/%d", year), messageSource.getMessage("goal.delete.success"));
     }
 }

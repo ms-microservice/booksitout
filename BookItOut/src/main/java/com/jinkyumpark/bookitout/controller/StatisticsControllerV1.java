@@ -13,7 +13,9 @@ import com.jinkyumpark.bookitout.response.statistics.LanguageStatisticsResponse;
 import com.jinkyumpark.bookitout.response.statistics.SummaryStatistics;
 import com.jinkyumpark.bookitout.model.statistics.YearStatistics;
 import com.jinkyumpark.bookitout.user.AppUserService;
-import lombok.AllArgsConstructor;
+import com.jinkyumpark.bookitout.user.LoginAppUser;
+import com.jinkyumpark.bookitout.user.LoginUser;
+import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -21,30 +23,28 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
-@AllArgsConstructor
-@RestController
-@RequestMapping("/v1/statistics")
+@RequiredArgsConstructor
+@RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
-    private StatisticsService statisticsService;
-    private ReadingSessionService readingSessionService;
-    private BookService bookService;
+    private final StatisticsService statisticsService;
+    private final ReadingSessionService readingSessionService;
+    private final BookService bookService;
 
     @GetMapping("month")
     public MonthStatistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,
-                                                @RequestParam(value = "month", required = false) Integer month) {
+                                                @RequestParam(value = "month", required = false) Integer month,
+                                                @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
         if (month == null) month = LocalDateTime.now().getMonthValue();
-        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        return statisticsService.getStatisticsByMonth(loginUserId, year, month);
+        return statisticsService.getStatisticsByMonth(loginAppUser.getId(), year, month);
     }
 
     @GetMapping("year/{year}")
-    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year) {
+    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year, @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
-        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginUserId, year);
+        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginAppUser.getId(), year);
 
         int totalReadTimeMinute = monthStatisticsList.stream()
                 .mapToInt(MonthStatistics::getTotalReadMinute)
@@ -84,10 +84,8 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("read-time/{duration}")
-    public List<Integer> getReadTime(@PathVariable("duration") Integer duration) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-
-        return readingSessionService.getReadTimeByDateRange(loginUserId, LocalDateTime.now().minusDays(duration - 1), LocalDateTime.now());
+    public List<Integer> getReadTime(@PathVariable("duration") Integer duration, @LoginUser LoginAppUser loginAppUser) {
+        return readingSessionService.getReadTimeByDateRange(loginAppUser.getId(), LocalDateTime.now().minusDays(duration - 1), LocalDateTime.now());
     }
 
     @GetMapping("language")
@@ -128,11 +126,9 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("category")
-    public List<CategoryStatisticsResponse> getBookCategoryStatistics() {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-
+    public List<CategoryStatisticsResponse> getBookCategoryStatistics(@LoginUser LoginAppUser loginAppUser) {
         PageRequest pageRequest = PageRequest.of(0, 10000);
-        List<Book> allBookList = bookService.getAllBooks(loginUserId, pageRequest).getContent();
+        List<Book> allBookList = bookService.getAllBooks(loginAppUser.getId(), pageRequest).getContent();
 
         Map<BookCategory, Integer> doneCategoryMap = new HashMap<>();
         allBookList.stream()
@@ -159,6 +155,7 @@ public class StatisticsControllerV1 {
                 BookCategory.LITERATURE,
                 BookCategory.HISTORY
         );
+
         for (BookCategory category : bookCategoryList) {
             Integer doneCategory = doneCategoryMap.getOrDefault(category, 0);
             Integer notDoneCategory = notDoneCategoryMap.getOrDefault(category, 0);

@@ -17,7 +17,8 @@ import com.jinkyumpark.bookitout.response.common.UpdateSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import com.jinkyumpark.bookitout.service.ReadingSessionService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
@@ -29,16 +30,17 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
-@RestController
-@RequestMapping("/v1/reading-session")
+@RequiredArgsConstructor
+@RestController @RequestMapping("/v1/reading-session")
 public class ReadingSessionControllerV1 {
+    private final MessageSourceAccessor messageSource;
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
 
     @GetMapping
     public ReadingSession getReadingSession(@RequestParam("reading-session-id") Long readingSessionId) {
         Optional<ReadingSession> readingSessionOptional = readingSessionService.getReadingSessionOptionalByReadingSessionId(readingSessionId);
+
         if (readingSessionOptional.isEmpty()) {
             throw new NotFoundException("찾으시는 독서활동이 없어요");
         }
@@ -49,38 +51,31 @@ public class ReadingSessionControllerV1 {
     @GetMapping("{bookId}")
     public List<ReadingSession> getReadingSessionByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
-
-        Long loginUserId = AppUserService.getLoginAppUserId();
         Long bookAppUserId = book.getAppUser().getAppUserId();
 
-        if (!loginUserId.equals(bookAppUserId) && !book.getIsSharing()) {
-            throw new BookNotSharingException();
+        if (!loginAppUser.getId().equals(bookAppUserId) && !book.getIsSharing()) {
+            throw new BookNotSharingException(messageSource.getMessage("reading.get.fail.not-sharing"));
         }
 
-        List<ReadingSession> readingSessionList = readingSessionService.getReadingSessionByBookId(bookId);
-        return readingSessionList;
+        return readingSessionService.getReadingSessionByBookId(bookId);
     }
 
     @GetMapping("{userid}/all")
     public List<ReadingSession> getAllRecentReadingSessionByUserId(@PathVariable("userid") Long requestAppUserId,
                                                                    @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                                                   @RequestParam(value = "size", required = false, defaultValue = "10") Integer size
-    ) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        if (!loginUserId.equals(requestAppUserId)) {
-            throw new NotAuthorizeException("해당 유저의 독서활동을 조회할 권한이 없어요");
+                                                                   @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+                                                                   @LoginUser LoginAppUser loginAppUser) {
+        if (!loginAppUser.getId().equals(requestAppUserId)) {
+            throw new NotAuthorizeException(messageSource.getMessage("reading.get.fail.not-authorize"));
         }
 
         Pageable pageRequest = PageRequest.of(page, size);
-        List<ReadingSession> recentReadingSessionList = readingSessionService.getRecentReadingSessions(requestAppUserId, pageRequest);
-
-        return recentReadingSessionList;
+        return readingSessionService.getRecentReadingSessions(requestAppUserId, pageRequest);
     }
 
     @GetMapping("current")
-    public ReadingSession getCurrentReadingSession() {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        return readingSessionService.getCurrentReadingSession(loginUserId);
+    public ReadingSession getCurrentReadingSession(@LoginUser LoginAppUser loginAppUser) {
+        return readingSessionService.getCurrentReadingSession(loginAppUser.getId());
     }
 
     @PostMapping("{bookId}/start")
@@ -125,7 +120,6 @@ public class ReadingSessionControllerV1 {
                                                 @RequestParam(value = "time") Integer readTime,
                                                 @LoginUser LoginAppUser loginAppUser
     ) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
         ReadingSession updatedReadingSession = ReadingSession.builder()
                 .readingSessionId(readingSessionId)
                 .readTime(readTime)
@@ -133,7 +127,7 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.updateReadingSession(updatedReadingSession, loginAppUser);
 
-        return new UpdateSuccessResponse(String.format("PUT v1/reading-session/%d", readingSessionId), "독서활동의 시간을 업데이트했어요");
+        return new UpdateSuccessResponse(String.format("PUT v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.edit.read-time.success"));
     }
 
     @PutMapping("{bookId}/end")
@@ -165,7 +159,6 @@ public class ReadingSessionControllerV1 {
                                                   @RequestBody @Valid ReadingSessionEditRequest readingSessionEditRequest,
                                                   @LoginUser LoginAppUser loginAppUser
     ) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
         ReadingSession updatedReadingSession = ReadingSession.builder()
                 .readingSessionId(readingSessionId)
                 .startTime(readingSessionEditRequest.getStartTime())
@@ -176,7 +169,7 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.updateReadingSession(updatedReadingSession, loginAppUser);
 
-        return new EditSuccessResponse(String.format("PUT /v1/reading-session/%d", readingSessionId), "success");
+        return new EditSuccessResponse(String.format("PUT /v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.edit.manual.success"));
     }
 
     @DeleteMapping("not-saving")
@@ -191,6 +184,6 @@ public class ReadingSessionControllerV1 {
     public DeleteSuccessResponse deleteReadingSession(@PathVariable("readingSessionId") Long readingSessionId, @LoginUser LoginAppUser loginAppUser) {
         readingSessionService.deleteReadingSession(readingSessionId, loginAppUser);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/reading-session/%d", readingSessionId), "독서활동을 지웠어요");
+        return new DeleteSuccessResponse(String.format("DELETE v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.delete.manual.success"));
     }
 }

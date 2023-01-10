@@ -20,9 +20,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-
-@RestController
-@RequestMapping("/v1/memo")
+@RestController @RequestMapping("/v1/memo")
 public class MemoControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final MemoService memoService;
@@ -40,29 +38,25 @@ public class MemoControllerV1 {
     }
 
     @PostMapping("{bookId}")
-    public AddSuccessResponse addMemo(@PathVariable("bookId") Long bookId,
-                                      @RequestBody @Valid MemoAddRequest memoAddRequest,
-                                      @LoginUser LoginAppUser loginAppUser
-                                      ) {
+    public AddSuccessResponse addMemo(@PathVariable("bookId") Long bookId, @RequestBody @Valid MemoAddRequest memoAddRequest,
+                                      @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
         Long memoId = memoService.addMemo(memoAddRequest, book);
 
-        return new AddSuccessResponse("메모를 추가했어요");
+        return new AddSuccessResponse(messageSource.getMessage("memo.add.success"));
     }
 
     @PutMapping("{memoId}")
-    public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
-                                        @RequestBody @Valid MemoEditRequest memoEditRequest
-    ) {
+    public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId, @RequestBody @Valid MemoEditRequest memoEditRequest) {
         memoService.editMemo(memoId, memoEditRequest);
 
-        return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), "메모를 수정했어요");
+        return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), messageSource.getMessage("memo.edit.success"));
     }
 
     @DeleteMapping("{memoId}")
     public DeleteSuccessResponse deleteMemo(@PathVariable("memoId") Long memoId) {
         memoService.deleteMemo(memoId);
 
-        return new DeleteSuccessResponse(String.format("DELETE /v1/memo/%d", memoId), "메모를 지웠어요");
+        return new DeleteSuccessResponse(String.format("DELETE /v1/memo/%d", memoId), messageSource.getMessage("memo.delete.success"));
     }
 }

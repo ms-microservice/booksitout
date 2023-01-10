@@ -14,26 +14,26 @@ import com.jinkyumpark.bookitout.response.common.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.EditSuccessResponse;
 import com.jinkyumpark.bookitout.user.AppUserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import java.util.List;
 
-@AllArgsConstructor
-
-@RestController
-@RequestMapping("/v1/quotation")
+@RequiredArgsConstructor
+@RestController @RequestMapping("/v1/quotation")
 public class QuotationControllerV1 {
-    QuotationService quotationService;
-    BookService bookService;
+    private final MessageSourceAccessor messageSource;
+    private final QuotationService quotationService;
+    private final BookService bookService;
 
     @GetMapping("all/{bookId}")
     public List<Quotation> getAllQuotationByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
         if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
-            throw new BookNotSharingException();
+            throw new BookNotSharingException(messageSource.getMessage("quotation.get.fail.not-sharing"));
         }
 
         return quotationService.getAllQuotationByBookId(bookId);
@@ -44,38 +44,35 @@ public class QuotationControllerV1 {
                                            @RequestBody @Valid QuotationAddRequest quotationAddRequest,
                                            @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
-        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
+        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
             throw new NotAuthorizeException();
         }
 
         Quotation quotation = new Quotation(quotationAddRequest.getPage(), quotationAddRequest.getContent(), quotationAddRequest.getFromWho(), book);
         quotationService.addQuotation(quotation);
 
-        return new AddSuccessResponse("인용을 추가했어요");
+        return new AddSuccessResponse(messageSource.getMessage("quotation.add.success"));
     }
 
     @PutMapping("{quotationId}")
     public EditSuccessResponse editQuotation(@PathVariable("quotationId") Long quotationId,
-                                             @RequestBody @Valid QuotationEditRequest quotationEditRequest
-    ) {
+                                             @RequestBody @Valid QuotationEditRequest quotationEditRequest) {
         quotationService.editQuotation(quotationId, quotationEditRequest);
 
-        return new EditSuccessResponse(String.format("PUT v1/quotation/%d", quotationId), "인용을 수정했어요");
+        return new EditSuccessResponse(String.format("PUT v1/quotation/%d", quotationId), messageSource.getMessage("quotation.edit.success"));
     }
 
     @DeleteMapping("{quotationId}")
-    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId) {
+    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId, @LoginUser LoginAppUser loginAppUser) {
         Quotation quotation = quotationService.getQuotationByQuotationId(quotationId);
-        Long loginUserId = AppUserService.getLoginAppUserId();
 
-        if (! quotation.getBook().getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException("인용은 책 주인만 삭제할 수 있어요");
+        if (!quotation.getBook().getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+            throw new NotAuthorizeException(messageSource.getMessage("quotation.delete.fail.not-authorize"));
         }
 
         quotationService.deleteQuotation(quotationId);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/quotation/%d", quotationId), "인용을 지웠어요");
+        return new DeleteSuccessResponse(String.format("DELETE v1/quotation/%d", quotationId), messageSource.getMessage("quotation.delete.success"));
     }
 }
