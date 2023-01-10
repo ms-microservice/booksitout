@@ -82,13 +82,12 @@ public class ReadingSessionControllerV1 {
     public Book startReadingSession(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
-        Integer startPage = book.getCurrentPage();
-        AppUser appUser = new AppUser(loginAppUser.getId());
+        Integer startPage = book.getCurrentPage() + 1;
         ReadingSession newReadingSession = ReadingSession.builder()
-                .startPage(startPage + 1)
+                .startPage(startPage)
                 .startTime(LocalDateTime.now())
                 .book(book)
-                .appUser(appUser)
+                .appUser(new AppUser(loginAppUser.getId()))
                 .build();
 
         readingSessionService.addReadingSession(newReadingSession, loginAppUser);
@@ -99,7 +98,6 @@ public class ReadingSessionControllerV1 {
     public ResponseEntity<String> addReadingSession(@PathVariable("bookId") Long bookId,
                                                     @Valid @RequestBody AddReadingSessionRequest addReadingSessionRequest,
                                                     @LoginUser LoginAppUser loginAppUser) {
-
         ReadingSession newReadingSession = ReadingSession.builder()
                 .startPage(addReadingSessionRequest.getStartPage())
                 .endPage(addReadingSessionRequest.getEndPage())

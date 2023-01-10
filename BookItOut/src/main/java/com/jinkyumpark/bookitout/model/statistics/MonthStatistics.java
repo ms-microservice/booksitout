@@ -60,7 +60,7 @@ public class MonthStatistics {
     }
 
     public void deleteReadingSession(ReadingSession readingSession, Book book) {
-        if (readingSession.getEndPage().equals(book.getEndPage())) this.finishedBook--;
+        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage())) this.finishedBook--;
         if (readingSession.getReadTime() != null) this.totalReadMinute -= readingSession.getReadTime();
         if (readingSession.getEndPage() != null) this.totalPage -= readingSession.getEndPage() - readingSession.getStartPage();
     }

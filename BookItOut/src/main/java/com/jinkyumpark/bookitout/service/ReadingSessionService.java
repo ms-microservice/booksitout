@@ -77,6 +77,8 @@ public class ReadingSessionService {
     @Transactional
     public void addReadingSession(ReadingSession newReadingSession, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, newReadingSession.getBook().getBookId());
+        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), newReadingSession.getStartTime().getYear(), newReadingSession.getStartTime().getMonthValue());
+        Goal goal = goalService.getGoalByYear(newReadingSession.getStartTime().getYear(), loginAppUser);
 
         if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()))
             throw new NotAuthorizeException("독서활동을 추가하시려는 책의 주인이 아니에요");
@@ -89,13 +91,11 @@ public class ReadingSessionService {
             throw new BadRequestException("독서활동 페이지는 책 마지막 페이지보다 클 수 없어요");
         if (newReadingSession.getEndPage() != null && newReadingSession.getEndPage() < 0 || newReadingSession.getStartPage() < 0)
             throw new BadRequestException("독서활동 페이지는 반드시 0보다 커야 해요");
-        if (newReadingSession.getReadTime() == null && newReadingSession.getEndPage() == null)
-            return;
 
         readingSessionRepository.save(newReadingSession);
 
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), newReadingSession.getStartTime().getYear(), newReadingSession.getStartTime().getMonthValue());
-        Goal goal = goalService.getGoalByYear(newReadingSession.getStartTime().getYear(), loginAppUser);
+        if (newReadingSession.getReadTime() == null && newReadingSession.getEndPage() == null)
+            return;
 
         book.addReadingSession(newReadingSession);
         monthStatistics.addReadingSession(newReadingSession);
