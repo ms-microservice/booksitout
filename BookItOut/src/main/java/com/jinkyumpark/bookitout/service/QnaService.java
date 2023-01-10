@@ -3,7 +3,8 @@ package com.jinkyumpark.bookitout.service;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.model.Qna;
 import com.jinkyumpark.bookitout.repository.QnaRepository;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
@@ -11,9 +12,10 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class QnaService {
+    private final MessageSourceAccessor messageSource;
     private final QnaRepository qnaRepository;
 
     public Page<Qna> getAllQnaPage(PageRequest pageRequest) {
@@ -36,7 +38,7 @@ public class QnaService {
     @Transactional
     public void editQna(Qna editedQna) {
         Qna qna = qnaRepository.findById(editedQna.getQnaId())
-                .orElseThrow(() -> new NotFoundException("QNA to edit not found"));
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("qna.edit.fail.not-found")));
 
         if (editedQna.getPassword() != null) {
             qna.setPassword(editedQna.getPassword());

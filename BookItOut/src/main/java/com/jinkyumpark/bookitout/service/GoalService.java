@@ -14,11 +14,9 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
-
 @Service
 public class GoalService {
     private final MessageSourceAccessor messageSource;
-
     private final GoalRepository goalRepository;
     private final StatisticsService statisticsService;
 

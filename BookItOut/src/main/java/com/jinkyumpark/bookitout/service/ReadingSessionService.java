@@ -13,7 +13,9 @@ import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.exception.custom.ReadingSessionIsInProgressException;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -23,21 +25,18 @@ import java.util.*;
 
 import static java.time.temporal.ChronoUnit.DAYS;
 
-@AllArgsConstructor
-@Slf4j
-
+@RequiredArgsConstructor
 @Service
 public class ReadingSessionService {
-    private ReadingSessionRepository readingSessionRepository;
-    private BookService bookService;
-    private StatisticsService statisticsService;
-    private GoalService goalService;
+    private final MessageSourceAccessor messageSource;
+    private final ReadingSessionRepository readingSessionRepository;
+    private final BookService bookService;
+    private final StatisticsService statisticsService;
+    private final GoalService goalService;
 
-    public List<Integer> getReadTimeByDateRange(
-            Long appUserId,
-            LocalDateTime startDate,
-            LocalDateTime endDate
-    ) {
+    public List<Integer> getReadTimeByDateRange(Long appUserId,
+                                                LocalDateTime startDate,
+                                                LocalDateTime endDate) {
         List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUser_AppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
 
         Map<Integer, Integer> readTimeMap = new HashMap<>();
@@ -60,7 +59,7 @@ public class ReadingSessionService {
 
     public ReadingSession getCurrentReadingSession(Long appUserId) {
         return readingSessionRepository.findFirstByAppUser_AppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId)
-                .orElseThrow(() -> new NotFoundException("진행중인 독서활동이 없어요"));
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("reading.get.current.fail.not-found")));
     }
 
     public Optional<ReadingSession> getCurrentReadingSessionOptional(Long appUserId) {
@@ -75,7 +74,6 @@ public class ReadingSessionService {
         return readingSessionRepository.findAllRecentReadingSession(appUserId, pageRequest);
     }
 
-    // INSERT, UPDATE, DELETE
     @Transactional
     public void addReadingSession(ReadingSession newReadingSession, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, newReadingSession.getBook().getBookId());

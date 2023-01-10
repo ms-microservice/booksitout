@@ -5,15 +5,18 @@ import com.jinkyumpark.bookitout.model.statistics.MonthStatisticsId;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.repository.StatisticsRepository;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class StatisticsService {
+    private final MessageSourceAccessor messageSource;
     private final StatisticsRepository statisticsRepository;
 
     public MonthStatistics getStatisticsByMonth(Long appUserId, Integer year, Integer month) {
