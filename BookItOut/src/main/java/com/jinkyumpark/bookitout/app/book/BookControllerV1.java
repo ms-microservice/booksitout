@@ -8,6 +8,8 @@ import com.jinkyumpark.bookitout.app.book.request.BookAddRequest;
 import com.jinkyumpark.bookitout.app.book.request.BookEditRequest;
 import com.jinkyumpark.bookitout.app.book.model.BookForm;
 import com.jinkyumpark.bookitout.app.user.AppUser;
+import com.jinkyumpark.bookitout.app.user.LoginAppUser;
+import com.jinkyumpark.bookitout.app.user.LoginUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
@@ -35,15 +37,11 @@ public class BookControllerV1 {
     private BookService bookService;
 
     @GetMapping("{id}")
-    public Book getBookById(@PathVariable("id") Long bookId) {
-        Book book = bookService.getBookById(bookId);
-        Long loginUserId = AppUserService.getLoginAppUserId();
-
-        if (!book.getIsSharing() && !book.getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException(messageSource.getMessage("book.get.fail.not-sharing"));
-        }
-
-        return book;
+    public Book getBookById(
+            @PathVariable("id") Long bookId,
+            @LoginUser LoginAppUser loginAppUSer
+    ) {
+        return bookService.getBookById(loginAppUSer, bookId);
     }
 
     @GetMapping("last")
@@ -121,14 +119,8 @@ public class BookControllerV1 {
 
     @PutMapping("give-up/{bookId}")
     @Transactional
-    public EditSuccessResponse giveUpBook(@PathVariable("bookId") Long bookId) {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        Book book = bookService.getBookById(bookId);
-
-        if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
-            throw new NotAuthorizeException();
-        }
-
+    public EditSuccessResponse giveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
         book.setIsGiveUp(true);
 
         return new EditSuccessResponse(String.format("v1/book/give-up/%d", bookId));
@@ -136,14 +128,8 @@ public class BookControllerV1 {
 
     @PutMapping("un-give-up/{bookId}")
     @Transactional
-    public EditSuccessResponse unGiveUpBook(@PathVariable("bookId") Long bookId) {
-        Book book = bookService.getBookById(bookId);
-        Long longinUserId = AppUserService.getLoginAppUserId();
-
-        if (!book.getAppUser().getAppUserId().equals(longinUserId)) {
-            throw new NotAuthorizeException();
-        }
-
+    public EditSuccessResponse unGiveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
         book.setIsGiveUp(false);
 
         return new EditSuccessResponse(String.format("v1/book/un-give-up/%d", bookId));

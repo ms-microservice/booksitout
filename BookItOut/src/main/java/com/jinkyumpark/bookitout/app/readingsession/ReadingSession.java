@@ -40,34 +40,14 @@ public class ReadingSession {
     @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
     @JsonIgnore
     private AppUser appUser;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
     @JsonIgnore
     private Book book;
 
-    @Builder
-    public ReadingSession(Long readingSessionId, Integer readTime) {
-        this.readingSessionId = readingSessionId;
-        this.readTime = readTime;
-    }
-
-    @Builder
-    public ReadingSession(Integer startPage, LocalDateTime startTime, Book book, AppUser appUser) {
-        this.startPage = startPage;
-        this.startTime = startTime;
-        this.book = book;
-        this.appUser = appUser;
-    }
-
-    @Builder
-    public ReadingSession(Integer startPage, Integer endPage, LocalDateTime startTime, LocalDateTime endTime, Integer readTime, AppUser appUser, Book book) {
-        this.startPage = startPage;
-        this.endPage = endPage;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.readTime = readTime;
-        this.appUser = appUser;
-        this.book = book;
+    public void updateReadingSession(ReadingSession readingSession) {
+        if (readingSession.getEndPage() != null) this.endPage = readingSession.getEndPage();
+        if (readingSession.getReadTime() != null) this.readTime = readingSession.getReadTime();
+        if (readingSession.getEndTime() != null) this.endTime = readingSession.getEndTime();
     }
 }

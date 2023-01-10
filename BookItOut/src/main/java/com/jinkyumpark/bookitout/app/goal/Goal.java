@@ -1,6 +1,8 @@
 package com.jinkyumpark.bookitout.app.goal;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.app.book.model.Book;
+import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -9,7 +11,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
 @AllArgsConstructor @NoArgsConstructor @Builder
-@Getter @Setter @EqualsAndHashCode
+@Getter
 
 @Entity(name = "Goal") @Table(name = "goal")
 @DynamicInsert
@@ -33,5 +35,29 @@ public class Goal {
         this.goalId = goalId;
         this.goal = goal;
         this.appUser = new AppUser(appUserId);
+    }
+
+    public void bookDone() {
+        this.current++;
+    }
+
+    public void deleteDoneBook() {
+        this.current--;
+    }
+
+    public void setNewCurrent(Integer current) {
+        this.current = current;
+    }
+
+    public void editGoal(Integer goal) {
+        this.goal = goal;
+    }
+
+    public void addReadingSession(ReadingSession readingSession, Book book) {
+        if (readingSession.getEndPage() != null && book.getEndPage().equals(readingSession.getEndPage())) this.current++;
+    }
+
+    public void deleteReadingSession(ReadingSession readingSession, Book book) {
+        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage())) this.current--;
     }
 }

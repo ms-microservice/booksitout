@@ -4,6 +4,8 @@ import com.jinkyumpark.bookitout.app.book.BookService;
 import com.jinkyumpark.bookitout.app.book.model.Book;
 import com.jinkyumpark.bookitout.app.quotation.request.QuotationAddRequest;
 import com.jinkyumpark.bookitout.app.quotation.request.QuotationEditRequest;
+import com.jinkyumpark.bookitout.app.user.LoginAppUser;
+import com.jinkyumpark.bookitout.app.user.LoginUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.response.AddSuccessResponse;
@@ -11,6 +13,7 @@ import com.jinkyumpark.bookitout.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.app.user.AppUserService;
 import lombok.AllArgsConstructor;
+import lombok.extern.java.Log;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -25,11 +28,10 @@ public class QuotationControllerV1 {
     BookService bookService;
 
     @GetMapping("all/{bookId}")
-    public List<Quotation> getAllQuotationByBookId(@PathVariable("bookId") Long bookId) {
-        Book book = bookService.getBookById(bookId);
-        Long loginUserId = AppUserService.getLoginAppUserId();
+    public List<Quotation> getAllQuotationByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
 
-        if (!book.getAppUser().getAppUserId().equals(loginUserId) && !book.getIsSharing()) {
+        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
             throw new BookNotSharingException();
         }
 
@@ -38,8 +40,9 @@ public class QuotationControllerV1 {
 
     @PostMapping("{bookId}")
     public AddSuccessResponse addQuotation(@PathVariable("bookId") Long bookId,
-                                           @RequestBody @Valid QuotationAddRequest quotationAddRequest) {
-        Book book = bookService.getBookById(bookId);
+                                           @RequestBody @Valid QuotationAddRequest quotationAddRequest,
+                                           @LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
 
         if (!book.getAppUser().getAppUserId().equals(loginUserId)) {

@@ -1,12 +1,15 @@
 package com.jinkyumpark.bookitout.app.statistics.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.app.book.model.Book;
+import com.jinkyumpark.bookitout.app.readingsession.ReadingSession;
 import com.jinkyumpark.bookitout.app.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.validator.internal.constraintvalidators.bv.time.futureorpresent.FutureOrPresentValidatorForOffsetDateTime;
 
 import javax.persistence.*;
 
@@ -48,5 +51,30 @@ public class MonthStatistics {
         this.maxReadMinute = 0;
         this.totalPage = 0;
         this.appUser = appUser;
+    }
+
+    public void addReadingSession(ReadingSession readingSession) {
+        if (readingSession.getReadTime() != null) this.totalReadMinute += readingSession.getReadTime();
+        if (readingSession.getEndPage() != null) this.totalPage += readingSession.getEndPage() - readingSession.getStartPage() + 1;
+        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(readingSession.getBook().getEndPage())) this.finishedBook++;
+        if (readingSession.getReadTime() != null && this.maxReadMinute < readingSession.getReadTime()) this.maxReadMinute = readingSession.getReadTime();
+    }
+
+    public void deleteReadingSession(ReadingSession readingSession, Book book) {
+        if (readingSession.getEndPage().equals(book.getEndPage())) this.finishedBook--;
+        if (readingSession.getReadTime() != null) this.totalReadMinute -= readingSession.getReadTime();
+        if (readingSession.getEndPage() != null) this.totalPage -= readingSession.getEndPage() - readingSession.getStartPage();
+    }
+
+    public void updateReadingSession(ReadingSession previousReadingSession, ReadingSession updatedReadingSession, Book book) {
+        if (previousReadingSession.getEndPage() == null && updatedReadingSession.getEndPage() != null) this.totalPage += updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage();
+        if (previousReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() != null) {
+            Integer previousPage = previousReadingSession.getEndPage() - previousReadingSession.getStartPage() + 1;
+            Integer updatedPage = updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage() + 1;
+            this.totalPage = this.totalPage - previousPage + updatedPage;
+        }
+        if (updatedReadingSession.getReadTime() != null) this.totalReadMinute += updatedReadingSession.getReadTime() - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime());
+        if (updatedReadingSession.getEndPage() != null && updatedReadingSession.getEndPage().equals(book.getEndPage())) this.finishedBook++;
+        if (updatedReadingSession.getReadTime() != null && this.maxReadMinute < updatedReadingSession.getReadTime()) this.maxReadMinute = updatedReadingSession.getReadTime();
     }
 }

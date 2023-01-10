@@ -14,7 +14,7 @@ public interface GoalRepository extends PagingAndSortingRepository<Goal, Long> {
     Optional<Goal> findByGoalId(GoalId goalId);
 
     @Query("select g from Goal g where g.appUser.appUserId = ?1 and g.goalId.year between ?2 and ?3")
-    List<Goal> findAllByAppUser_AppUserIdAndGoalId_YearBetween(Long appUserId, Integer startYear, Integer endYear);
+    List<Goal> findGoalsBetween(Long appUserId, Integer startYear, Integer endYear);
 
     @Transactional
     @Modifying
