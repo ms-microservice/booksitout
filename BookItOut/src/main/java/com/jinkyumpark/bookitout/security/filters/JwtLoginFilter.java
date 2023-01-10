@@ -4,9 +4,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jinkyumpark.bookitout.config.JwtConfig;
 import com.jinkyumpark.bookitout.exception.common.NotLoginException;
-import com.jinkyumpark.bookitout.app.user.AppUser;
-import com.jinkyumpark.bookitout.app.user.AppUserAuthenticationToken;
-import com.jinkyumpark.bookitout.app.user.request.EmailPasswordLoginRequest;
+import com.jinkyumpark.bookitout.user.AppUser;
+import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
+import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,7 +16,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 import javax.crypto.SecretKey;
 import javax.servlet.FilterChain;
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;

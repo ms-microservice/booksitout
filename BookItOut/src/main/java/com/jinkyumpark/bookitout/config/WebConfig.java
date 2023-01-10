@@ -1,6 +1,6 @@
 package com.jinkyumpark.bookitout.config;
 
-import com.jinkyumpark.bookitout.app.user.LoginUserArgumentResolver;
+import com.jinkyumpark.bookitout.user.LoginUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;

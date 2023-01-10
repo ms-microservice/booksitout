@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.security.filters;
 
 import com.google.common.base.Strings;
-import com.jinkyumpark.bookitout.app.user.AppUserAuthenticationToken;
+import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.config.JwtConfig;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
