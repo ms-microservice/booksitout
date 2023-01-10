@@ -5,6 +5,7 @@ import com.jinkyumpark.bookitout.repository.BookRepository;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.goal.Goal;
 import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
+import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
 import com.jinkyumpark.bookitout.exception.common.BadRequestException;
@@ -27,7 +28,7 @@ import static java.time.temporal.ChronoUnit.DAYS;
 
 @Service
 public class ReadingSessionService {
-    private BookRepository.ReadingSessionRepository readingSessionRepository;
+    private ReadingSessionRepository readingSessionRepository;
     private BookService bookService;
     private StatisticsService statisticsService;
     private GoalService goalService;

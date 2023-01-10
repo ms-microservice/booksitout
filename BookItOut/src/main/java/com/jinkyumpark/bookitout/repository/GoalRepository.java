@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Optional;
 
 public interface GoalRepository extends PagingAndSortingRepository<Goal, Long> {
-
     @Query("select g from Goal g where g.goalId = ?1")
     Optional<Goal> findByGoalId(GoalId goalId);
 

@@ -1,6 +1,7 @@
 package com.jinkyumpark.bookitout.service;
 
 import com.jinkyumpark.bookitout.model.book.Book;
+import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
@@ -18,13 +19,11 @@ import javax.transaction.Transactional;
 import java.util.List;
 
 @RequiredArgsConstructor
-
 @Service
 public class BookService {
     private final MessageSourceAccessor messageSource;
-
     private final BookRepository bookRepository;
-    private final BookRepository.ReadingSessionRepository readingSessionRepository;
+    private final ReadingSessionRepository readingSessionRepository;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)

@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
 public interface StatisticsRepository extends JpaRepository<MonthStatistics, Long> {
     @Query("select m from month_statistics m where m.monthStatisticsId = ?1")
     Optional<MonthStatistics> findByMonthStatisticsId(MonthStatisticsId monthStatisticsId);
