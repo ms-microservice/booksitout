@@ -7,16 +7,13 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
 @PropertySource("classpath:application.properties")
-
 @Service
 public class EmailSender {
     private final JavaMailSender javaMailSender;
     private final String BOOK_IT_OUT_OFFICIAL_EMAIL;
 
-    public EmailSender(
-            JavaMailSender javaMailSender,
-            @Value("${spring.mail.username}") String BOOK_IT_OUT_OFFICIAL_EMAIL
-    ) {
+    public EmailSender(JavaMailSender javaMailSender,
+                       @Value("${spring.mail.username}") String BOOK_IT_OUT_OFFICIAL_EMAIL) {
         this.javaMailSender = javaMailSender;
         this.BOOK_IT_OUT_OFFICIAL_EMAIL = BOOK_IT_OUT_OFFICIAL_EMAIL;
     }

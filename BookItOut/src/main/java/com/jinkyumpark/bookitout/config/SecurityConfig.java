@@ -3,7 +3,7 @@ package com.jinkyumpark.bookitout.config;
 import com.jinkyumpark.bookitout.security.filters.JwtTokenFilter;
 import com.jinkyumpark.bookitout.security.filters.JwtLoginFilter;
 import com.jinkyumpark.bookitout.user.AppUserService;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -20,10 +20,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.SecretKey;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final PasswordEncoder passwordEncoder;
