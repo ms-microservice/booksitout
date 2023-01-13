@@ -10,11 +10,11 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-@AllArgsConstructor @NoArgsConstructor @Builder
 @Getter
+@NoArgsConstructor @AllArgsConstructor @Builder
 
-@Entity(name = "Goal") @Table(name = "goal")
 @DynamicInsert
+@Entity(name = "Goal") @Table(name = "goal")
 public class Goal {
     @EmbeddedId
     private GoalId goalId;

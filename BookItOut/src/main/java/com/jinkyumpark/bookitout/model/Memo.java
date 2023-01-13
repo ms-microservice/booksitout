@@ -11,8 +11,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor
 
-@Entity
-@Table(name = "Memo")
+@Entity @Table(name = "Memo")
 public class Memo {
     @Id
     @SequenceGenerator(name = "memo_seq", sequenceName = "memo_seq", allocationSize = 1)

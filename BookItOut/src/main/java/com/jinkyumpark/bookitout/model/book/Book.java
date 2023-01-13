@@ -15,14 +15,13 @@ import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
-@AllArgsConstructor @NoArgsConstructor @Builder
 @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
 
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 
-@Entity
-@Table(name = "book")
+@Entity @Table(name = "book")
 public class Book {
     @Id
     @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
