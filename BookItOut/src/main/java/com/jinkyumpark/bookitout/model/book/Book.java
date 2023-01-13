@@ -127,4 +127,12 @@ public class Book {
     public void updateReadingSession(ReadingSession readingSession) {
         if (readingSession.getEndPage() != null) this.currentPage = readingSession.getEndPage();
     }
+
+    public void giveUpBook() {
+        this.isGiveUp = true;
+    }
+
+    public void unGiveUpBook() {
+        this.isGiveUp = false;
+    }
 }

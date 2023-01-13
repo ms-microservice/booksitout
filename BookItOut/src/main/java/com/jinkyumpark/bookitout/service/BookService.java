@@ -6,7 +6,6 @@ import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.model.ReadingSession;
-import com.jinkyumpark.bookitout.user.AppUserService;
 import com.jinkyumpark.bookitout.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -75,13 +74,26 @@ public class BookService {
 
     public Book getCurrentReadingSessionBook(Long loginUserId) {
         ReadingSession currentReadingSession = readingSessionRepository.getCurrentReadingSessionEager(loginUserId)
-                .orElseThrow(() -> new NotFoundException(""));
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.reading-session.fail.not-found")));
 
         return currentReadingSession.getBook();
     }
 
     public void addBook(Book book) {
         bookRepository.save(book);
+    }
+
+    @Transactional
+    public void giveUpUnGiveUpBook(Long bookId, boolean giveUpState, LoginAppUser loginAppUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
+
+        if (! book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+        }
+
+        if (giveUpState) book.giveUpBook();
+        else book.unGiveUpBook();
     }
 
     @Transactional
@@ -112,12 +124,12 @@ public class BookService {
             bookToEdit.setEndPage(editedBook.getEndPage());
     }
 
-    public void deleteBookByBookId(Long bookId) {
+    @Transactional
+    public void deleteBookByBookId(Long bookId, LoginAppUser loginAppUser) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.delete.fail.not-found")));
 
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        if (!book.getAppUser().getAppUserId().equals(loginUserId)) {
+        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
             throw new NotAuthorizeException(messageSource.getMessage("book.delete.fail.not-authorize"));
         }
 
