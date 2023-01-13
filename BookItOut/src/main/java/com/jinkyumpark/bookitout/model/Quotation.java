@@ -11,8 +11,7 @@ import javax.persistence.*;
 @Getter @Setter
 @NoArgsConstructor
 
-@Entity
-@Table(name = "Quotation")
+@Entity @Table(name = "Quotation")
 public class Quotation {
     @Id
     @SequenceGenerator(name = "quotation_seq", sequenceName = "quotation_seq", allocationSize = 1)

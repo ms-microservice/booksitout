@@ -1,5 +1,7 @@
 package com.jinkyumpark.bookitout.request;
 
+import com.jinkyumpark.bookitout.model.Qna;
+import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -17,4 +19,12 @@ public class QnaAddRequest {
 
     private Long appUserId;
     private String password;
+
+    public Qna toEntity() {
+        return Qna.builder()
+                .question(question)
+                .appUser(new AppUser(appUserId))
+                .password(password)
+                .build();
+    }
 }

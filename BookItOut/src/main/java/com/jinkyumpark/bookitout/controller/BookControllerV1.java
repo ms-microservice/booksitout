@@ -110,26 +110,22 @@ public class BookControllerV1 {
     }
 
     @PutMapping("give-up/{bookId}")
-    @Transactional
     public EditSuccessResponse giveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
-        Book book = bookService.getBookById(loginAppUser, bookId);
-        book.setIsGiveUp(true);
+        bookService.giveUpUnGiveUpBook(bookId, true, loginAppUser);
 
         return new EditSuccessResponse(String.format("v1/book/give-up/%d", bookId));
     }
 
     @PutMapping("un-give-up/{bookId}")
-    @Transactional
     public EditSuccessResponse unGiveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
-        Book book = bookService.getBookById(loginAppUser, bookId);
-        book.setIsGiveUp(false);
+        bookService.giveUpUnGiveUpBook(bookId, false, loginAppUser);
 
         return new EditSuccessResponse(String.format("v1/book/un-give-up/%d", bookId));
     }
 
     @DeleteMapping("{bookId}")
-    public DeleteSuccessResponse deleteBook(@PathVariable("bookId") Long bookId) {
-        bookService.deleteBookByBookId(bookId);
+    public DeleteSuccessResponse deleteBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+        bookService.deleteBookByBookId(bookId, loginAppUser);
 
         return new DeleteSuccessResponse(String.format("DELETE /v1/book/%d", bookId), messageSource.getMessage("book.delete.success"));
     }

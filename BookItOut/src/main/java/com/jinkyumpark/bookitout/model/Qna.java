@@ -1,17 +1,16 @@
 package com.jinkyumpark.bookitout.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.request.QnaEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
-@Getter @Setter
-@Entity(name = "Qna")
-@Table(name = "qna")
+@Getter
+@NoArgsConstructor @AllArgsConstructor @Builder
+
+@Entity(name = "Qna") @Table(name = "qna")
 public class Qna {
     @SequenceGenerator(name = "qna_seq", sequenceName = "qna_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "qna_seq")
@@ -36,5 +35,10 @@ public class Qna {
 
     public Qna(String question) {
         this.question = question;
+    }
+
+    public void editQna(QnaEditRequest qnaEditRequest) {
+        if (qnaEditRequest.getPassword() != null) this.password = qnaEditRequest.getPassword();
+        if (qnaEditRequest.getQuestion() != null) this.question = qnaEditRequest.getQuestion();
     }
 }

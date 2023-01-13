@@ -12,8 +12,8 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-@AllArgsConstructor @NoArgsConstructor
 @Getter @Setter
+@NoArgsConstructor @AllArgsConstructor
 
 @DynamicInsert
 @Entity(name = "month_statistics") @Table(name = "MonthStatistics")

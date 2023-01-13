@@ -10,8 +10,8 @@ import java.time.LocalDateTime;
 
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor @Builder
-@Entity
-@Table(name = "ReadingSession")
+
+@Entity @Table(name = "ReadingSession")
 public class ReadingSession {
     @Id
     @SequenceGenerator(name = "reading_session_seq", sequenceName = "reading_session_seq", allocationSize = 1)
@@ -39,6 +39,7 @@ public class ReadingSession {
     @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
     @JsonIgnore
     private AppUser appUser;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))
     @JsonIgnore

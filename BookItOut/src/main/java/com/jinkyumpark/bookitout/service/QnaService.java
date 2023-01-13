@@ -1,8 +1,12 @@
 package com.jinkyumpark.bookitout.service;
 
+import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.model.Qna;
 import com.jinkyumpark.bookitout.repository.QnaRepository;
+import com.jinkyumpark.bookitout.request.QnaAddRequest;
+import com.jinkyumpark.bookitout.request.QnaEditRequest;
+import com.jinkyumpark.bookitout.user.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
@@ -26,8 +30,8 @@ public class QnaService {
         return qnaRepository.findAllByAppUser_AppUserId(userId);
     }
 
-    public void addQna(Qna qna) {
-        qnaRepository.save(qna);
+    public void addQna(QnaAddRequest qnaAddRequest) {
+        qnaRepository.save(qnaAddRequest.toEntity());
     }
 
     public Qna getQnaById(Long qnaId) {
@@ -36,21 +40,16 @@ public class QnaService {
     }
 
     @Transactional
-    public void editQna(Qna editedQna) {
-        Qna qna = qnaRepository.findById(editedQna.getQnaId())
+    public void editQna(QnaEditRequest qnaEditRequest, LoginAppUser loginAppUser) {
+        Qna qna = qnaRepository.findById(qnaEditRequest.getQnaId())
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("qna.edit.fail.not-found")));
 
-        if (editedQna.getPassword() != null) {
-            qna.setPassword(editedQna.getPassword());
-        }
+        if (qna.getAppUser() != null && !qna.getAppUser().getAppUserId().equals(loginAppUser.getId()))
+            throw new NotAuthorizeException();
+        if (!qna.getPassword().equals(qnaEditRequest.getPassword()))
+            throw new NotAuthorizeException();
 
-        if (editedQna.getQuestion() != null) {
-            qna.setQuestion(editedQna.getQuestion());
-        }
-
-        if (editedQna.getAnswer() != null) {
-            qna.setAnswer(editedQna.getAnswer());
-        }
+        qna.editQna(qnaEditRequest);
     }
 
 
