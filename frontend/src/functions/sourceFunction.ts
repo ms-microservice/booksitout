@@ -8,14 +8,14 @@ import bookStoreIcon from '../resources/images/source/book-store.png'
 import borrowIcon from '../resources/images/source/borrow.png'
 import othersIcon from '../resources/images/source/others.png'
 
-const sourceKoreanLabelMap = new Map([
+const sourceKoreanLabelMap: Map<string, string> = new Map([
 	['BUY_NEW_OFFLINE', '서점'],
 	['BUY_NEW_ONLINE', '온라인'],
 	['BUY_USED_OFFLINE', '중고서점'],
 	['BUY_USED_ONLINE', '중고'],
 
 	['LIBRARY', '도서관'],
-	[('BORROW_STORE', '유료 책방')],
+	['BORROW_STORE', '유료 책방'],
 	['BORROW_FRIENDS', '지인'],
 
 	['SUBSCRIPTION', '구독'],
@@ -23,6 +23,7 @@ const sourceKoreanLabelMap = new Map([
 	['OTHERS', '기타'],
 	['NOT_PROVIDED', '모름'],
 ])
+
 const sourceIconMap = new Map([
 	['BUY_NEW_OFFLINE', buyNewOfflineIcon],
 	['BUY_NEW_ONLINE', onlineIcon],
@@ -39,11 +40,11 @@ const sourceIconMap = new Map([
 	['NOT_PROVIDED', notProvidedIcon],
 ])
 
-const getSourceImage = (source) => {
+const getSourceImage = (source: string) => {
 	return sourceIconMap.get(source)
 }
 
-const getSourceKoreanLabel = (source) => {
+const getSourceKoreanLabel = (source: string) => {
 	return sourceKoreanLabelMap.get(source)
 }
 
