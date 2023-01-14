@@ -22,21 +22,25 @@ const Topnav = ({ token, setToken }) => {
 		{
 			id: 1,
 			url: '/book/not-done/all',
+			activeUrl: '/book/not-done',
 			title: '읽고 있는 책',
 		},
 		{
 			id: 2,
 			url: '/book/done',
+			activeUrl: '/book/done',
 			title: '다 읽은 책',
 		},
 		{
 			id: 3,
 			url: '/book/give-up',
+			activeUrl: '/book/give-up',
 			title: '포기한 책',
 		},
 		{
 			id: 4,
 			url: '/statistics',
+			activeUrl: '/statistics',
 			title: '독서통계',
 		},
 	]
@@ -55,7 +59,7 @@ const Topnav = ({ token, setToken }) => {
 						{urlList.map((url) => (
 							<Nav.Link
 								href={token !== '' && url.url}
-								active={location.pathname.startsWith(url.url)}
+								active={location.pathname.startsWith(url.activeUrl)}
 								onClick={() => {
 									token === '' && toast.error('로그인 해 주세요')
 								}}>
