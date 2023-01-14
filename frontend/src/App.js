@@ -27,6 +27,7 @@ import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate 
 // Settings
 import { REDIRECT_EXCLUDE_URL } from './settings/urls/localUrl'
 import { TOAST_LIMIT } from './settings/settings'
+import { getDateDifferenceInDays } from './functions/date'
 
 function App() {
 	const location = useLocation()
@@ -54,6 +55,12 @@ function App() {
 			if (location.pathname.startsWith('/login') || location.pathname.startsWith('/join')) {
 				navigate('/')
 			}
+		}
+
+		if (localStorage.getItem('login-date') && getDateDifferenceInDays(new Date(localStorage.getItem('login-date')), new Date()) >= 7) {
+			localStorage.clear()
+			navigate('/login')
+			toast.error('다시 로그인 해  주세요')
 		}
 	}, [location.pathname, navigate, token])
 
