@@ -150,7 +150,13 @@ const BookList = () => {
 						<Pagination className='pagination justify-content-center mb-5'>
 							{Array.from({ length: maxPage }, (_, i) => i + 1).map((p) => {
 								return (
-									<Pagination.Item key={p} active={p == currentPage} onClick={() => navigate(`${location.pathname}?page=${p}`)}>
+									<Pagination.Item
+										key={p}
+										active={p == currentPage}
+										onClick={() => {
+											navigate(`${location.pathname}?page=${p}`)
+											window.scrollTo(0, 0)
+										}}>
 										{p}
 									</Pagination.Item>
 								)
