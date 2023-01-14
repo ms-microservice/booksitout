@@ -48,7 +48,9 @@ const getLastBook = () => {
 		headers: { Authorization: token },
 	})
 		.then((res) => {
-			if (!res.status.toString().startsWith(2)) {
+			const status = res.status.toString()
+
+			if (!status.startsWith('2')) {
 				throw new Error()
 			}
 
