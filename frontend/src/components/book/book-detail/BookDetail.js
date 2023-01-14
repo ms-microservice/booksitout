@@ -457,24 +457,24 @@ const BookDescription = ({ book }) => {
 
 			<div className='row justify-content-center'>
 				<div className={infoCardStyle}>
-					<a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'>
-						<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} responsiveImageStyle={infoIconStyle} />
-					</a>
+					{/* <a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'> */}
+					<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} responsiveImageStyle={infoIconStyle} />
+					{/* </a> */}
 				</div>
 				<div className={infoCardStyle}>
-					<a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'>
-						<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} responsiveImageStyle={infoIconStyle} />
-					</a>
+					{/* <a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'> */}
+					<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} responsiveImageStyle={infoIconStyle} />
+					{/* </a> */}
 				</div>
 				<div className={infoCardStyle}>
-					<a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'>
-						<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle={infoIconStyle} />
-					</a>
+					{/* <a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'> */}
+					<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle={infoIconStyle} />
+					{/* </a> */}
 				</div>
 				<div className={infoCardStyle}>
-					<a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'>
-						<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} responsiveImageStyle={infoIconStyle} />
-					</a>
+					{/* <a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'> */}
+					<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} responsiveImageStyle={infoIconStyle} />
+					{/* </a> */}
 				</div>
 			</div>
 		</>

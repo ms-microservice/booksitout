@@ -23,9 +23,8 @@ const Statistics = () => {
 	const [categoryData, setCategoryData] = useState(null)
 	const [goalData, setGoalData] = useState(null)
 
-	const [goalSelectedYear, setGoalSelectedYear] = useState(new Date().getFullYear())
-
 	const [statisticsSelectedYear, setStatisticsSelectedYear] = useState(new Date().getFullYear())
+	const [isStatisticsLoading, setIsStatisticsLoading] = useState(false)
 
 	useEffect(() => {
 		setTimeout(() => {
@@ -37,15 +36,35 @@ const Statistics = () => {
 			getStatisticsSummary(statisticsSelectedYear).then((stats) => setStatisticsData(stats)),
 			getLangaugeStatistics().then((languageStats) => setLanguageData(languageStats)),
 			getCategoryStatistics().then((categoryStats) => setCategoryData(categoryStats)),
-			getGoal(goalSelectedYear).then((goal) => setGoalData(goal)),
+			getGoal(new Date().getFullYear()).then((goal) => setGoalData(goal)),
 		]).finally(() => {
 			setInitialFetch(false)
 			setIsLoading(false)
+			setIsStatisticsLoading(false)
 		})
 	}, [])
 
 	useEffect(() => {
-		getStatisticsSummary(statisticsSelectedYear).then((stats) => setStatisticsData(stats))
+		setIsStatisticsLoading(true)
+
+		let isSecondPassed = false
+		let isLoadingDone = false
+		setTimeout(() => {
+			isSecondPassed = true
+			if (isLoadingDone) {
+				setIsStatisticsLoading(false)
+			}
+		}, 500)
+
+		getStatisticsSummary(statisticsSelectedYear)
+			.then((stats) => setStatisticsData(stats))
+			.then(() => {
+				if (isSecondPassed) {
+					setIsStatisticsLoading(false)
+				} else {
+					isLoadingDone = true
+				}
+			})
 	}, [statisticsSelectedYear])
 
 	return (
@@ -87,9 +106,17 @@ const Statistics = () => {
 											</Form.Select>
 										</Form>
 									</div>
-								</div>
 
-								{statisticsData == null ? <Error /> : <SummaryTable statistics={statisticsData} />}
+									{isStatisticsLoading ? (
+										<div className='col-12 mt-5 w-100'>
+											<Loading textSize='h2' />
+										</div>
+									) : statisticsData == null ? (
+										<Error />
+									) : (
+										<SummaryTable statistics={statisticsData} />
+									)}
+								</div>
 							</Card.Body>
 						</Card>
 					</div>

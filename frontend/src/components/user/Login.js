@@ -70,7 +70,7 @@ const Login = ({ setToken }) => {
 											setStayLogin(!stayLogin)
 										}}>
 										<label class='form-check-label' for='stay-login'>
-											로그인 유지하기
+											일주일간 로그인 유지하기
 										</label>
 
 										<input type='checkbox' class='form-check-input' checked={stayLogin} value={stayLogin} />

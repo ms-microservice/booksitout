@@ -131,6 +131,14 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 					<div className='row justify-content-center text-center'>
 						<div className='col-8 col-lg-6 col-xl-4'>
 							<img src={book.cover} alt='' className='img-fluid rounded w-100 border' />
+							<Button
+								variant='secondary'
+								className='w-100 mt-3'
+								onClick={() => {
+									navigate(`/book/detail/${id}`)
+								}}>
+								책 상세 페이지로
+							</Button>
 						</div>
 
 						<div className='col-12 col-lg-12 col-xl-8 mt-5 mb-5'>

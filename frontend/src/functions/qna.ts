@@ -9,7 +9,7 @@ const getAllQna = () => {
 		method: 'GET',
 	})
 		.then((res) => {
-			if (!res.status.toString().startsWith(2)) {
+			if (!res.status.toString().startsWith('2')) {
 				throw new Error()
 			}
 			return res.json()
@@ -25,7 +25,7 @@ const getAllQna = () => {
 const getMyQna = () => {
 	const token = getToken()
 
-	if (token == '' || token == null) {
+	if (token === '' || token == null) {
 		return null
 	}
 
@@ -34,7 +34,7 @@ const getMyQna = () => {
 		headers: { Authorization: token },
 	})
 		.then((res) => {
-			if (!res.status.toString().startsWith(2)) {
+			if (!res.status.toString().startsWith('2')) {
 				throw new Error()
 			}
 			return res.json()
