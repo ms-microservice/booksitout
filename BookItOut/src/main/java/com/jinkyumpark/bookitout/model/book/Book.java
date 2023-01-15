@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.Memo;
 import com.jinkyumpark.bookitout.model.Quotation;
 import com.jinkyumpark.bookitout.model.ReadingSession;
-import com.jinkyumpark.bookitout.request.BookEditRequest;
+import com.jinkyumpark.bookitout.request.book.BookEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;

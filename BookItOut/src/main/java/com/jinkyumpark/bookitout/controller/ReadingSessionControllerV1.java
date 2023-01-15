@@ -3,8 +3,8 @@ package com.jinkyumpark.bookitout.controller;
 import com.jinkyumpark.bookitout.model.ReadingSession;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.service.BookService;
-import com.jinkyumpark.bookitout.request.AddReadingSessionRequest;
-import com.jinkyumpark.bookitout.request.ReadingSessionEditRequest;
+import com.jinkyumpark.bookitout.request.reading.ReadingAddRequest;
+import com.jinkyumpark.bookitout.request.reading.ReadingEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
@@ -96,14 +96,14 @@ public class ReadingSessionControllerV1 {
 
     @PostMapping("{bookId}")
     public ResponseEntity<String> addReadingSession(@PathVariable("bookId") Long bookId,
-                                                    @Valid @RequestBody AddReadingSessionRequest addReadingSessionRequest,
+                                                    @Valid @RequestBody ReadingAddRequest readingAddRequest,
                                                     @LoginUser LoginAppUser loginAppUser) {
         ReadingSession newReadingSession = ReadingSession.builder()
-                .startPage(addReadingSessionRequest.getStartPage())
-                .endPage(addReadingSessionRequest.getEndPage())
-                .startTime(addReadingSessionRequest.getStartDate().atStartOfDay())
-                .endTime(addReadingSessionRequest.getStartDate().atStartOfDay())
-                .readTime(addReadingSessionRequest.getReadTime())
+                .startPage(readingAddRequest.getStartPage())
+                .endPage(readingAddRequest.getEndPage())
+                .startTime(readingAddRequest.getStartDate().atStartOfDay())
+                .endTime(readingAddRequest.getStartDate().atStartOfDay())
+                .readTime(readingAddRequest.getReadTime())
                 .appUser(new AppUser(loginAppUser.getId()))
                 .book(new Book(bookId))
                 .build();
@@ -153,14 +153,14 @@ public class ReadingSessionControllerV1 {
 
     @PutMapping("{readingSessionId}/all")
     public EditSuccessResponse editReadingSession(@PathVariable("readingSessionId") Long readingSessionId,
-                                                  @RequestBody @Valid ReadingSessionEditRequest readingSessionEditRequest,
+                                                  @RequestBody @Valid ReadingEditRequest readingEditRequest,
                                                   @LoginUser LoginAppUser loginAppUser) {
         ReadingSession updatedReadingSession = ReadingSession.builder()
                 .readingSessionId(readingSessionId)
-                .startTime(readingSessionEditRequest.getStartTime())
-                .endTime(readingSessionEditRequest.getEndTime())
-                .readTime(readingSessionEditRequest.getReadTime())
-                .endPage(readingSessionEditRequest.getEndPage())
+                .startTime(readingEditRequest.getStartTime())
+                .endTime(readingEditRequest.getEndTime())
+                .readTime(readingEditRequest.getReadTime())
+                .endPage(readingEditRequest.getEndPage())
                 .build();
 
         readingSessionService.updateReadingSession(updatedReadingSession, loginAppUser);

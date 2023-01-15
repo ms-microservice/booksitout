@@ -2,7 +2,7 @@ package com.jinkyumpark.bookitout.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.book.Book;
-import com.jinkyumpark.bookitout.request.QuotationEditRequest;
+import com.jinkyumpark.bookitout.request.quotation.QuotationEditRequest;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 

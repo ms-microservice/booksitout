@@ -1,6 +1,6 @@
 package com.jinkyumpark.bookitout.service;
 
-import com.jinkyumpark.bookitout.request.QuotationEditRequest;
+import com.jinkyumpark.bookitout.request.quotation.QuotationEditRequest;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
 import com.jinkyumpark.bookitout.model.Quotation;
 import com.jinkyumpark.bookitout.repository.QuotationRepository;

@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.quotation;
 
 import lombok.Getter;
 import lombok.Setter;

@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.qna;
 
 import com.jinkyumpark.bookitout.model.Qna;
 import com.jinkyumpark.bookitout.user.AppUser;

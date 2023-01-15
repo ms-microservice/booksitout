@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.bookitout.request.QnaEditRequest;
+import com.jinkyumpark.bookitout.request.qna.QnaEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 

@@ -1,11 +1,10 @@
 package com.jinkyumpark.bookitout.service;
 
+import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.model.book.Book;
-import com.jinkyumpark.bookitout.model.book.BookLanguage;
-import com.jinkyumpark.bookitout.model.book.BookSource;
 import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
-import com.jinkyumpark.bookitout.request.BookEditRequest;
+import com.jinkyumpark.bookitout.request.book.BookEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
@@ -34,7 +33,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.fail.not-found")));
 
         if (!loginAppUser.getId().equals(book.getAppUser().getAppUserId())) {
-            throw new NotAuthorizeException(messageSource.getMessage("book.get.fail.not-authorize"));
+            throw new BookNotSharingException(messageSource.getMessage("book.get.fail.not-sharing"));
         }
 
         return book;

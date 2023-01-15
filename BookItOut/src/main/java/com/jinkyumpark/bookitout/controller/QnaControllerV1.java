@@ -1,8 +1,8 @@
 package com.jinkyumpark.bookitout.controller;
 
 import com.jinkyumpark.bookitout.service.QnaService;
-import com.jinkyumpark.bookitout.request.QnaAddRequest;
-import com.jinkyumpark.bookitout.request.QnaEditRequest;
+import com.jinkyumpark.bookitout.request.qna.QnaAddRequest;
+import com.jinkyumpark.bookitout.request.qna.QnaEditRequest;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import com.jinkyumpark.bookitout.exception.common.BadRequestException;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;

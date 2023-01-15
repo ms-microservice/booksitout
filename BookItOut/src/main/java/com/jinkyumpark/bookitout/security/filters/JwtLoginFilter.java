@@ -8,7 +8,7 @@ import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import io.jsonwebtoken.Jwts;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
@@ -24,7 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.Map;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;

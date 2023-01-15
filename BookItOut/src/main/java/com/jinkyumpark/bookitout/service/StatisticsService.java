@@ -2,7 +2,7 @@ package com.jinkyumpark.bookitout.service;
 
 import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.model.statistics.MonthStatisticsId;
-import com.jinkyumpark.bookitout.request.StatisticsEditRequest;
+import com.jinkyumpark.bookitout.request.statistics.StatisticsEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.repository.StatisticsRepository;
 import lombok.RequiredArgsConstructor;

@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.reading;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -9,7 +9,7 @@ import java.time.LocalDate;
 
 @Builder
 @Getter @Setter
-public class AddReadingSessionRequest {
+public class ReadingAddRequest {
     @NotNull
     private LocalDate startDate;
 

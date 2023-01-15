@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.qna;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -19,8 +19,7 @@ import javax.validation.Valid;
 import javax.validation.constraints.Email;
 import java.util.Optional;
 
-@RestController
-@RequestMapping("/v1")
+@RestController @RequestMapping("/v1")
 public class AppUserControllerV1 {
 
     private AppUserService appUserService;

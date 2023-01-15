@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.statistics;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
