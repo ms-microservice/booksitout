@@ -16,6 +16,7 @@ import com.jinkyumpark.bookitout.user.AppUserService;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
+    private final MessageSourceAccessor messageSource;
     private final StatisticsService statisticsService;
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
@@ -41,7 +43,8 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("year/{year}")
-    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year, @LoginUser LoginAppUser loginAppUser) {
+    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year,
+                                                 @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
 
         List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginAppUser.getId(), year);
@@ -84,7 +87,8 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("read-time/{duration}")
-    public List<Integer> getReadTime(@PathVariable("duration") Integer duration, @LoginUser LoginAppUser loginAppUser) {
+    public List<Integer> getReadTime(@PathVariable("duration") Integer duration,
+                                     @LoginUser LoginAppUser loginAppUser) {
         return readingSessionService.getReadTimeByDateRange(loginAppUser.getId(), LocalDateTime.now().minusDays(duration - 1), LocalDateTime.now());
     }
 

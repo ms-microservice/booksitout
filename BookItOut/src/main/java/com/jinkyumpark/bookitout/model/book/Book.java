@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.Memo;
 import com.jinkyumpark.bookitout.model.Quotation;
 import com.jinkyumpark.bookitout.model.ReadingSession;
+import com.jinkyumpark.bookitout.request.BookEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -133,5 +134,26 @@ public class Book {
 
     public void unGiveUpBook() {
         this.isGiveUp = false;
+    }
+
+    public void editBook(BookEditRequest bookEditRequest) {
+        if (bookEditRequest.getTitle() != null)
+            this.title = bookEditRequest.getTitle();
+        if (bookEditRequest.getLanguage() != null)
+            this.language = BookLanguage.valueOf(bookEditRequest.getLanguage());
+        if (bookEditRequest.getCover() != null)
+            this.cover = bookEditRequest.getCover();
+        if (bookEditRequest.getSummary() != null)
+            this.cover = bookEditRequest.getCover();
+        if (bookEditRequest.getSource() != null)
+            this.source = BookSource.valueOf(bookEditRequest.getSource());
+        if (bookEditRequest.getReview() != null)
+            this.review = bookEditRequest.getReview();
+        if (bookEditRequest.getIsSharing() != null)
+            this.isSharing = bookEditRequest.getIsSharing();
+        if (bookEditRequest.getEndPage() != null)
+            this.endPage = bookEditRequest.getEndPage();
+        if (bookEditRequest.getRating() != null)
+            this.rating = bookEditRequest.getRating();
     }
 }

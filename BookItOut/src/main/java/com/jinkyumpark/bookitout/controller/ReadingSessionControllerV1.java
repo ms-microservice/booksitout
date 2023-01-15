@@ -132,8 +132,7 @@ public class ReadingSessionControllerV1 {
     public AddSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
                                                 @RequestParam("page") Integer readingSessionEndPage,
                                                 @RequestParam("time") Integer totalTimeInSecond,
-                                                @LoginUser LoginAppUser loginAppUser
-    ) {
+                                                @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
         Long loginUserId = AppUserService.getLoginAppUserId();
         ReadingSession previousReadingSession = readingSessionService.getCurrentReadingSession(loginUserId);
@@ -155,8 +154,7 @@ public class ReadingSessionControllerV1 {
     @PutMapping("{readingSessionId}/all")
     public EditSuccessResponse editReadingSession(@PathVariable("readingSessionId") Long readingSessionId,
                                                   @RequestBody @Valid ReadingSessionEditRequest readingSessionEditRequest,
-                                                  @LoginUser LoginAppUser loginAppUser
-    ) {
+                                                  @LoginUser LoginAppUser loginAppUser) {
         ReadingSession updatedReadingSession = ReadingSession.builder()
                 .readingSessionId(readingSessionId)
                 .startTime(readingSessionEditRequest.getStartTime())

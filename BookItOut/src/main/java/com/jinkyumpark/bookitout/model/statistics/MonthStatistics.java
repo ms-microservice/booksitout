@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.model.statistics;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.ReadingSession;
+import com.jinkyumpark.bookitout.request.BookEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -75,5 +76,10 @@ public class MonthStatistics {
         if (updatedReadingSession.getReadTime() != null) this.totalReadMinute += updatedReadingSession.getReadTime() - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime());
         if (updatedReadingSession.getEndPage() != null && updatedReadingSession.getEndPage().equals(book.getEndPage())) this.finishedBook++;
         if (updatedReadingSession.getReadTime() != null && this.maxReadMinute < updatedReadingSession.getReadTime()) this.maxReadMinute = updatedReadingSession.getReadTime();
+    }
+
+    public void editBook(BookEditRequest bookEditRequest) {
+        if (bookEditRequest.getRating() != null)
+            this.totalStar += bookEditRequest.getRating();
     }
 }

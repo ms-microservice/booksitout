@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.service;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.book.BookLanguage;
 import com.jinkyumpark.bookitout.model.book.BookSource;
+import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.request.BookEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
@@ -26,6 +27,7 @@ public class BookService {
     private final MessageSourceAccessor messageSource;
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
+    private final StatisticsService statisticsService;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
@@ -96,6 +98,7 @@ public class BookService {
         }
 
         book.giveUpBook();
+
     }
 
     @Transactional
@@ -118,22 +121,10 @@ public class BookService {
         if (!loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
             throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
-        if (bookEditRequest.getTitle() != null)
-            bookToEdit.setTitle(bookEditRequest.getTitle());
-        if (bookEditRequest.getLanguage() != null)
-            bookToEdit.setLanguage(BookLanguage.valueOf(bookEditRequest.getLanguage()));
-        if (bookEditRequest.getCover() != null)
-            bookToEdit.setCover(bookEditRequest.getCover());
-        if (bookEditRequest.getSummary() != null)
-            bookToEdit.setCover(bookEditRequest.getCover());
-        if (bookEditRequest.getSource() != null)
-            bookToEdit.setSource(BookSource.valueOf(bookEditRequest.getSource()));
-        if (bookEditRequest.getReview() != null)
-            bookToEdit.setReview(bookEditRequest.getReview());
-        if (bookEditRequest.getIsSharing() != null)
-            bookToEdit.setIsSharing(bookEditRequest.getIsSharing());
-        if (bookEditRequest.getEndPage() != null)
-            bookToEdit.setEndPage(bookEditRequest.getEndPage());
+        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getAddDate().getYear(), bookToEdit.getAddDate().getMonthValue());
+
+        bookToEdit.editBook(bookEditRequest);
+        monthStatistics.editBook(bookEditRequest);
     }
 
     @Transactional

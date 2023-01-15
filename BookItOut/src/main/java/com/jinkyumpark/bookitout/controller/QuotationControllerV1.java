@@ -64,7 +64,8 @@ public class QuotationControllerV1 {
     }
 
     @DeleteMapping("{quotationId}")
-    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId, @LoginUser LoginAppUser loginAppUser) {
+    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId,
+                                                 @LoginUser LoginAppUser loginAppUser) {
         Quotation quotation = quotationService.getQuotationByQuotationId(quotationId);
 
         if (!quotation.getBook().getAppUser().getAppUserId().equals(loginAppUser.getId())) {

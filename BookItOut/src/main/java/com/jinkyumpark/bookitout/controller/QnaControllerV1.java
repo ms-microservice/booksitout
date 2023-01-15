@@ -22,8 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/v1/qna")
+@RestController @RequestMapping("/v1/qna")
 public class QnaControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final QnaService qnaService;
