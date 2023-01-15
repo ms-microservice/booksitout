@@ -14,9 +14,6 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
-import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
-import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import javax.crypto.SecretKey;
 
@@ -29,6 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final AppUserService appUserService;
     private final SecretKey secretKey;
     private final JwtConfig jwtConfig;
+    private final CorsConfig corsConfig;
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
@@ -36,10 +34,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .csrf().disable()
                 .formLogin().disable()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-
                 .and()
+
                 .cors()
-                .configurationSource(corsConfigurationSource())
+                .configurationSource(corsConfig.corsConfigurationSource())
                 .and()
 
                 .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, secretKey))
@@ -53,22 +51,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authenticated();
     }
 
-    @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
-        CorsConfiguration configuration = new CorsConfiguration();
-
-        configuration.addAllowedOrigin("*");
-        configuration.addAllowedHeader("*");
-        configuration.addAllowedMethod("*");
-
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", configuration);
-
-        return source;
-    }
-
     @Override
-    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+    protected void configure(AuthenticationManagerBuilder auth) {
         auth.authenticationProvider(daoAuthenticationProvider());
     }
 
