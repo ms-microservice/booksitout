@@ -17,14 +17,14 @@ public class MessageConfig {
     @Bean
     public LocaleResolver defaultLocaleResolver() {
         AcceptHeaderLocaleResolver localeResolver = new AcceptHeaderLocaleResolver();
-        localeResolver.setDefaultLocale(Locale.ENGLISH);
+        localeResolver.setDefaultLocale(Locale.KOREAN);
 
         return localeResolver;
     }
 
     @Bean
     public ReloadableResourceBundleMessageSource messageSource() {
-        Locale.setDefault(Locale.ENGLISH);
+        Locale.setDefault(Locale.KOREAN);
 
         ReloadableResourceBundleMessageSource messageSource = new ReloadableResourceBundleMessageSource();
         messageSource.setBasename("classpath:/messages/messages");
