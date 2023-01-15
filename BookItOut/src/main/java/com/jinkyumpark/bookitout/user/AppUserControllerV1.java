@@ -2,7 +2,7 @@ package com.jinkyumpark.bookitout.user;
 
 import com.jinkyumpark.bookitout.user.request.ChangeNameRequest;
 import com.jinkyumpark.bookitout.user.request.ChangePasswordRequest;
-import com.jinkyumpark.bookitout.exception.common.*;
+import com.jinkyumpark.bookitout.exception.http.*;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.user.request.JoinRequest;
 import com.jinkyumpark.bookitout.user.response.JoinSuccessResponse;

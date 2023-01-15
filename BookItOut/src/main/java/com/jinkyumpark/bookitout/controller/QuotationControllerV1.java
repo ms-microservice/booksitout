@@ -8,7 +8,7 @@ import com.jinkyumpark.bookitout.request.quotation.QuotationAddRequest;
 import com.jinkyumpark.bookitout.request.quotation.QuotationEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.response.common.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.DeleteSuccessResponse;

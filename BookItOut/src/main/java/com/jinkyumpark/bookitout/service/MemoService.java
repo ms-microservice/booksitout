@@ -5,7 +5,7 @@ import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.repository.MemoRepository;
 import com.jinkyumpark.bookitout.request.memo.MemoAddRequest;
 import com.jinkyumpark.bookitout.request.memo.MemoEditRequest;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;

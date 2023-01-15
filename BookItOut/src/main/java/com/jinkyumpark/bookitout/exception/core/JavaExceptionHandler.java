@@ -14,7 +14,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class JavaExceptionHandler {
 
-    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     @ExceptionHandler(value = IllegalStateException.class)
     public ResponseEntity<Map<String, Object>> handleException(IllegalStateException e, HttpServletRequest request) {
         HttpHeaders responseHeaders = new HttpHeaders();

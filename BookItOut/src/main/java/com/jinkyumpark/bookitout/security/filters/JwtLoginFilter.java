@@ -3,7 +3,7 @@ package com.jinkyumpark.bookitout.security.filters;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jinkyumpark.bookitout.config.JwtConfig;
-import com.jinkyumpark.bookitout.exception.common.NotLoginException;
+import com.jinkyumpark.bookitout.exception.http.NotLoginException;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;

@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.user;
 
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
-import com.jinkyumpark.bookitout.exception.common.NotLoginException;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.NotLoginException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;

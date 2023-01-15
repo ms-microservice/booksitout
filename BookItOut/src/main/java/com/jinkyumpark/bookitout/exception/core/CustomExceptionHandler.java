@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.exception.core;
 
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -14,7 +15,7 @@ import java.util.Map;
 @RestControllerAdvice
 public class CustomExceptionHandler {
 
-    @ExceptionHandler(value = BookNotSharingException.class)
+    @ExceptionHandler(value = {BookNotSharingException.class, NotAuthorizeException.class})
     public ResponseEntity<Map<String, Object>> handleException(BookNotSharingException e, HttpServletRequest request) {
         HttpHeaders responseHeaders = new HttpHeaders();
         HttpStatus httpStatus = HttpStatus.FORBIDDEN;

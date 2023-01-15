@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.service;
 
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.model.Qna;
 import com.jinkyumpark.bookitout.repository.QnaRepository;
 import com.jinkyumpark.bookitout.request.qna.QnaAddRequest;

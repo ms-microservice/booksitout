@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.exception.common;
+package com.jinkyumpark.bookitout.exception.http;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
