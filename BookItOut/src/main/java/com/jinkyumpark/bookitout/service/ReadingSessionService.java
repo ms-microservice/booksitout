@@ -1,20 +1,17 @@
 package com.jinkyumpark.bookitout.service;
 
 import com.jinkyumpark.bookitout.model.ReadingSession;
-import com.jinkyumpark.bookitout.repository.BookRepository;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.goal.Goal;
 import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
-import com.jinkyumpark.bookitout.exception.common.BadRequestException;
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.BadRequestException;
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.exception.custom.ReadingSessionIsInProgressException;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;

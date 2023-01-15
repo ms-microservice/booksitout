@@ -1,10 +1,13 @@
 package com.jinkyumpark.bookitout.service;
 
+import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.model.book.Book;
+import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
+import com.jinkyumpark.bookitout.request.book.BookEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.model.ReadingSession;
 import com.jinkyumpark.bookitout.repository.BookRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,13 +26,14 @@ public class BookService {
     private final MessageSourceAccessor messageSource;
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
+    private final StatisticsService statisticsService;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.fail.not-found")));
 
         if (!loginAppUser.getId().equals(book.getAppUser().getAppUserId())) {
-            throw new NotAuthorizeException(messageSource.getMessage("book.get.fail.not-authorize"));
+            throw new BookNotSharingException(messageSource.getMessage("book.get.fail.not-sharing"));
         }
 
         return book;
@@ -84,7 +88,7 @@ public class BookService {
     }
 
     @Transactional
-    public void giveUpUnGiveUpBook(Long bookId, boolean giveUpState, LoginAppUser loginAppUser) {
+    public void giveUpBook(Long bookId, LoginAppUser loginAppUser) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
@@ -92,36 +96,34 @@ public class BookService {
             throw new NotAuthorizeException("book.edit.fail.not-authorize");
         }
 
-        if (giveUpState) book.giveUpBook();
-        else book.unGiveUpBook();
+        book.giveUpBook();
+
     }
 
     @Transactional
-    public void editBook(Long loginUserId, Book editedBook) {
-        Book bookToEdit = bookRepository.findById(editedBook.getBookId())
+    public void unGiveUpBook(Long bookId, LoginAppUser loginAppUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
+
+        if (! book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+        }
+
+        book.unGiveUpBook();
+    }
+
+    @Transactional
+    public void editBook(Long bookId, BookEditRequest bookEditRequest, Long loginUserId) {
+        Book bookToEdit = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("book.get.fail.not-found"));
 
         if (!loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
             throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
-        if (editedBook.getTitle() != null)
-            bookToEdit.setTitle(editedBook.getTitle());
-        if (editedBook.getLanguage() != null)
-            bookToEdit.setLanguage(editedBook.getLanguage());
-        if (editedBook.getCover() != null)
-            bookToEdit.setCover(editedBook.getCover());
-        if (editedBook.getSummary() != null)
-            bookToEdit.setCover(editedBook.getCover());
-        if (editedBook.getSource() != null)
-            bookToEdit.setSource(editedBook.getSource());
-        if (editedBook.getReview() != null)
-            bookToEdit.setReview(editedBook.getReview());
-        if (editedBook.getIsSharing() != null)
-            bookToEdit.setIsSharing(editedBook.getIsSharing());
-        if (editedBook.getCurrentPage() != null)
-            bookToEdit.setCurrentPage(editedBook.getCurrentPage());
-        if (editedBook.getEndPage() != null)
-            bookToEdit.setEndPage(editedBook.getEndPage());
+        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getAddDate().getYear(), bookToEdit.getAddDate().getMonthValue());
+
+        bookToEdit.editBook(bookEditRequest);
+        monthStatistics.editBook(bookEditRequest);
     }
 
     @Transactional

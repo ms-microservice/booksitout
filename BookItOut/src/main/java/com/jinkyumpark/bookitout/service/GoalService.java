@@ -2,7 +2,7 @@ package com.jinkyumpark.bookitout.service;
 
 import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.model.goal.Goal;
 import com.jinkyumpark.bookitout.model.goal.GoalId;
 import com.jinkyumpark.bookitout.repository.GoalRepository;

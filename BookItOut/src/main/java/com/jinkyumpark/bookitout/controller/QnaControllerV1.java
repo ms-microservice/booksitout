@@ -1,11 +1,11 @@
 package com.jinkyumpark.bookitout.controller;
 
 import com.jinkyumpark.bookitout.service.QnaService;
-import com.jinkyumpark.bookitout.request.QnaAddRequest;
-import com.jinkyumpark.bookitout.request.QnaEditRequest;
+import com.jinkyumpark.bookitout.request.qna.QnaAddRequest;
+import com.jinkyumpark.bookitout.request.qna.QnaEditRequest;
 import com.jinkyumpark.bookitout.user.AppUserService;
-import com.jinkyumpark.bookitout.exception.common.BadRequestException;
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
+import com.jinkyumpark.bookitout.exception.http.BadRequestException;
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.model.Qna;
 import com.jinkyumpark.bookitout.response.common.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.DeleteSuccessResponse;
@@ -22,8 +22,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/v1/qna")
+@RestController @RequestMapping("/v1/qna")
 public class QnaControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final QnaService qnaService;

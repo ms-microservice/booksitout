@@ -4,16 +4,15 @@ import com.jinkyumpark.bookitout.service.QuotationService;
 import com.jinkyumpark.bookitout.model.Quotation;
 import com.jinkyumpark.bookitout.service.BookService;
 import com.jinkyumpark.bookitout.model.book.Book;
-import com.jinkyumpark.bookitout.request.QuotationAddRequest;
-import com.jinkyumpark.bookitout.request.QuotationEditRequest;
+import com.jinkyumpark.bookitout.request.quotation.QuotationAddRequest;
+import com.jinkyumpark.bookitout.request.quotation.QuotationEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
-import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
+import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
 import com.jinkyumpark.bookitout.response.common.AddSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.response.common.EditSuccessResponse;
-import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
@@ -64,7 +63,8 @@ public class QuotationControllerV1 {
     }
 
     @DeleteMapping("{quotationId}")
-    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId, @LoginUser LoginAppUser loginAppUser) {
+    public DeleteSuccessResponse deleteQuotation(@PathVariable("quotationId") Long quotationId,
+                                                 @LoginUser LoginAppUser loginAppUser) {
         Quotation quotation = quotationService.getQuotationByQuotationId(quotationId);
 
         if (!quotation.getBook().getAppUser().getAppUserId().equals(loginAppUser.getId())) {

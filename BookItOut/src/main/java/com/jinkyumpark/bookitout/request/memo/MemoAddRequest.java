@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.memo;
 
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.Memo;

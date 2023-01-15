@@ -3,16 +3,17 @@ package com.jinkyumpark.bookitout.model.statistics;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.ReadingSession;
+import com.jinkyumpark.bookitout.request.book.BookEditRequest;
+import com.jinkyumpark.bookitout.request.statistics.StatisticsEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor @AllArgsConstructor
 
 @DynamicInsert
@@ -75,5 +76,23 @@ public class MonthStatistics {
         if (updatedReadingSession.getReadTime() != null) this.totalReadMinute += updatedReadingSession.getReadTime() - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime());
         if (updatedReadingSession.getEndPage() != null && updatedReadingSession.getEndPage().equals(book.getEndPage())) this.finishedBook++;
         if (updatedReadingSession.getReadTime() != null && this.maxReadMinute < updatedReadingSession.getReadTime()) this.maxReadMinute = updatedReadingSession.getReadTime();
+    }
+
+    public void editBook(BookEditRequest bookEditRequest) {
+        if (bookEditRequest.getRating() != null)
+            this.totalStar += bookEditRequest.getRating();
+    }
+
+    public void editStatistics(StatisticsEditRequest statisticsEditRequest) {
+        if (statisticsEditRequest.getTotalReadMinute() != null)
+            this.totalReadMinute += statisticsEditRequest.getTotalReadMinute();
+        if (statisticsEditRequest.getBookFinished())
+            this.finishedBook += 1;
+        if (statisticsEditRequest.getTotalStar() != null)
+            this.totalStar += statisticsEditRequest.getTotalStar();
+        if (statisticsEditRequest.getMaxReadMinute() != null)
+            this.maxReadMinute = statisticsEditRequest.getMaxReadMinute();
+        if (statisticsEditRequest.getTotalPage() != null)
+            this.totalPage += statisticsEditRequest.getTotalPage();
     }
 }

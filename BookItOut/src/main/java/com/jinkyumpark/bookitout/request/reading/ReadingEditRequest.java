@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.reading;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Getter @Setter
-public class ReadingSessionEditRequest {
+public class ReadingEditRequest {
     private LocalDateTime startTime;
     private LocalDateTime endTime;
     private Integer readTime;

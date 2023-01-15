@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.exception.common;
+package com.jinkyumpark.bookitout.exception.http;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -8,7 +8,6 @@ public class NotLoginException extends RuntimeException {
     public NotLoginException() {
         super("로그인 해 주세요!");
     }
-
     public NotLoginException(String message) {
         super(message);
     }

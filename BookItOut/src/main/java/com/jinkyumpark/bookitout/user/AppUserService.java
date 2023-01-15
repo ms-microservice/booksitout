@@ -1,8 +1,8 @@
 package com.jinkyumpark.bookitout.user;
 
-import com.jinkyumpark.bookitout.exception.common.NotFoundException;
-import com.jinkyumpark.bookitout.exception.common.NotLoginException;
-import lombok.AllArgsConstructor;
+import com.jinkyumpark.bookitout.exception.http.NotFoundException;
+import com.jinkyumpark.bookitout.exception.http.NotLoginException;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -13,10 +13,9 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.Optional;
 
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Service
 public class AppUserService implements UserDetailsService {
-
     private final AppUserRepository appUserRepository;
 
     @Override

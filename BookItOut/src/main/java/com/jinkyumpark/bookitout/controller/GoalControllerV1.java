@@ -18,7 +18,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@RestController @RequestMapping("/v1/goal")
+@RestController
+@RequestMapping("/v1/goal")
 public class GoalControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final GoalService goalService;
@@ -47,11 +48,9 @@ public class GoalControllerV1 {
     }
 
     @PostMapping
-    public AddSuccessResponse addGoal(
-            @RequestParam(value = "year", required = false) Integer year,
-            @RequestParam(value = "goal") Integer goal,
-            @LoginUser LoginAppUser loginAppUser
-    ) {
+    public AddSuccessResponse addGoal(@RequestParam(value = "year", required = false) Integer year,
+                                      @RequestParam(value = "goal") Integer goal,
+                                      @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
 
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
@@ -63,11 +62,9 @@ public class GoalControllerV1 {
     }
 
     @PutMapping("{year}")
-    public EditSuccessResponse editGoal(
-            @PathVariable("year") Integer year,
-            @RequestParam("goal") Integer goal,
-            @LoginUser LoginAppUser loginAppUser
-    ) {
+    public EditSuccessResponse editGoal(@PathVariable("year") Integer year,
+                                        @RequestParam("goal") Integer goal,
+                                        @LoginUser LoginAppUser loginAppUser) {
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
         Goal editedGoal = new Goal(goalId, goal, loginAppUser.getId());
 

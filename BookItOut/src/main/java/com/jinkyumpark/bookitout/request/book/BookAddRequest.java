@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.request;
+package com.jinkyumpark.bookitout.request.book;
 
 import com.jinkyumpark.bookitout.model.book.BookSource;
 import com.jinkyumpark.bookitout.model.book.BookForm;

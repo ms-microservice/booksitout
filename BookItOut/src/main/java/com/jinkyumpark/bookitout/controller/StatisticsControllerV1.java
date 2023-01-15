@@ -16,6 +16,7 @@ import com.jinkyumpark.bookitout.user.AppUserService;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.user.LoginUser;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
@@ -26,6 +27,7 @@ import java.util.*;
 @RequiredArgsConstructor
 @RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
+    private final MessageSourceAccessor messageSource;
     private final StatisticsService statisticsService;
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
@@ -41,7 +43,8 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("year/{year}")
-    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year, @LoginUser LoginAppUser loginAppUser) {
+    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year,
+                                                 @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
 
         List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginAppUser.getId(), year);
@@ -78,22 +81,23 @@ public class StatisticsControllerV1 {
 
         YearStatistics yearStatistics = new YearStatistics(totalReadTimeMinute, totalReadBookCount, averageStar, totalReadPage);
         DayStatistics dayStatistics = new DayStatistics(averageReadTime, mostReadTime);
-        SummaryStatistics summaryStatistics = new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
 
-        return summaryStatistics;
+        return new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
     }
 
     @GetMapping("read-time/{duration}")
-    public List<Integer> getReadTime(@PathVariable("duration") Integer duration, @LoginUser LoginAppUser loginAppUser) {
-        return readingSessionService.getReadTimeByDateRange(loginAppUser.getId(), LocalDateTime.now().minusDays(duration - 1), LocalDateTime.now());
+    public List<Integer> getReadTime(@PathVariable("duration") Integer duration,
+                                     @LoginUser LoginAppUser loginAppUser) {
+        LocalDateTime today = LocalDateTime.now();
+        LocalDateTime durationDateFromToday = today.minusDays(duration - 1);
+
+        return readingSessionService.getReadTimeByDateRange(loginAppUser.getId(), durationDateFromToday, today);
     }
 
     @GetMapping("language")
-    public List<LanguageStatisticsResponse> getBookLanguageStatistics() {
-        Long loginUserId = AppUserService.getLoginAppUserId();
-
+    public List<LanguageStatisticsResponse> getBookLanguageStatistics(@LoginUser LoginAppUser loginAppUser) {
         PageRequest pageRequest = PageRequest.of(0, 10000);
-        List<Book> allBookList = bookService.getAllBooks(loginUserId, pageRequest).getContent();
+        List<Book> allBookList = bookService.getAllBooks(loginAppUser.getId(), pageRequest).getContent();
 
         Map<BookLanguage, Integer> doneBookLanguageMap = new HashMap<>();
         allBookList.stream()
