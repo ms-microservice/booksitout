@@ -38,7 +38,8 @@ public class MemoControllerV1 {
     }
 
     @PostMapping("{bookId}")
-    public AddSuccessResponse addMemo(@PathVariable("bookId") Long bookId, @RequestBody @Valid MemoAddRequest memoAddRequest,
+    public AddSuccessResponse addMemo(@PathVariable("bookId") Long bookId,
+                                      @RequestBody @Valid MemoAddRequest memoAddRequest,
                                       @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
         Long memoId = memoService.addMemo(memoAddRequest, book);
@@ -47,15 +48,17 @@ public class MemoControllerV1 {
     }
 
     @PutMapping("{memoId}")
-    public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId, @RequestBody @Valid MemoEditRequest memoEditRequest) {
-        memoService.editMemo(memoId, memoEditRequest);
+    public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
+                                        @RequestBody @Valid MemoEditRequest memoEditRequest,
+                                        @LoginUser LoginAppUser loginAppUser) {
+        memoService.editMemo(memoId, memoEditRequest, loginAppUser);
 
         return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), messageSource.getMessage("memo.edit.success"));
     }
 
     @DeleteMapping("{memoId}")
-    public DeleteSuccessResponse deleteMemo(@PathVariable("memoId") Long memoId) {
-        memoService.deleteMemo(memoId);
+    public DeleteSuccessResponse deleteMemo(@PathVariable("memoId") Long memoId, @LoginUser LoginAppUser loginAppUser) {
+        memoService.deleteMemo(memoId, loginAppUser);
 
         return new DeleteSuccessResponse(String.format("DELETE /v1/memo/%d", memoId), messageSource.getMessage("memo.delete.success"));
     }

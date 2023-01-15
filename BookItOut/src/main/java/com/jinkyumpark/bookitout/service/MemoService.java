@@ -6,6 +6,7 @@ import com.jinkyumpark.bookitout.repository.MemoRepository;
 import com.jinkyumpark.bookitout.request.MemoAddRequest;
 import com.jinkyumpark.bookitout.request.MemoEditRequest;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
+import com.jinkyumpark.bookitout.user.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -33,14 +34,15 @@ public class MemoService {
     }
 
     @Transactional
-    public void editMemo(Long memoId, MemoEditRequest memoEditRequest) {
+    public void editMemo(Long memoId, MemoEditRequest memoEditRequest, LoginAppUser loginAppUser) {
         Memo existingMemo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("memo.edit.fail.not-found")));
 
         existingMemo.editMemo(memoEditRequest.getContent(), memoEditRequest.getPage());
     }
 
-    public void deleteMemo(Long memoId) {
+    @Transactional
+    public void deleteMemo(Long memoId, LoginAppUser loginAppUser) {
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("memo.delete.fail.not-found")));
 
