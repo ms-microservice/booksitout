@@ -34,12 +34,10 @@ public class QuotationService {
 
     @Transactional
     public void editQuotation(Long quotationId, QuotationEditRequest quotationEditRequest) {
-        Quotation existingQuotation = quotationRepository.findById(quotationId)
+        Quotation quotation = quotationRepository.findById(quotationId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("quotation.edit.fail.not-found")));
 
-            existingQuotation.setContent(quotationEditRequest.getContent());
-            existingQuotation.setPage(quotationEditRequest.getPage());
-            existingQuotation.setFrom_who(quotationEditRequest.getFromWho());
+        quotation.editQuotation(quotationEditRequest);
     }
 
     public void deleteQuotation(Long quotationId) {

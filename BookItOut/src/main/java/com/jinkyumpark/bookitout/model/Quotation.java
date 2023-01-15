@@ -2,13 +2,13 @@ package com.jinkyumpark.bookitout.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.book.Book;
+import com.jinkyumpark.bookitout.request.QuotationEditRequest;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor
 
 @Entity @Table(name = "Quotation")
@@ -26,17 +26,26 @@ public class Quotation {
     private String content;
 
     @Column(name = "from_who")
-    private String from_who;
+    private String fromWho;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", foreignKey = @ForeignKey(name = "quotation_book_fk"))
     @JsonIgnore
     private Book book;
 
-    public Quotation(Integer page, String content, String from_who, Book book) {
+    public Quotation(Integer page, String content, String fromWho, Book book) {
         this.page = page;
         this.content = content;
-        this.from_who = from_who;
+        this.fromWho = fromWho;
         this.book = book;
+    }
+
+    public void editQuotation(QuotationEditRequest quotationEditRequest) {
+        if (quotationEditRequest.getContent() != null)
+            this.content = quotationEditRequest.getContent();
+        if (quotationEditRequest.getPage() != null)
+            this.page = quotationEditRequest.getPage();
+        if (quotationEditRequest.getFromWho() != null)
+            this.fromWho = quotationEditRequest.getFromWho();
     }
 }

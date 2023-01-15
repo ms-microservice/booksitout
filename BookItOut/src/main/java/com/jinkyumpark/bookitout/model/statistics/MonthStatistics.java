@@ -4,16 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.model.book.Book;
 import com.jinkyumpark.bookitout.model.ReadingSession;
 import com.jinkyumpark.bookitout.request.BookEditRequest;
+import com.jinkyumpark.bookitout.request.StatisticsEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 
-@Getter @Setter
+@Getter
 @NoArgsConstructor @AllArgsConstructor
 
 @DynamicInsert
@@ -81,5 +81,18 @@ public class MonthStatistics {
     public void editBook(BookEditRequest bookEditRequest) {
         if (bookEditRequest.getRating() != null)
             this.totalStar += bookEditRequest.getRating();
+    }
+
+    public void editStatistics(StatisticsEditRequest statisticsEditRequest) {
+        if (statisticsEditRequest.getTotalReadMinute() != null)
+            this.totalReadMinute += statisticsEditRequest.getTotalReadMinute();
+        if (statisticsEditRequest.getBookFinished())
+            this.finishedBook += 1;
+        if (statisticsEditRequest.getTotalStar() != null)
+            this.totalStar += statisticsEditRequest.getTotalStar();
+        if (statisticsEditRequest.getMaxReadMinute() != null)
+            this.maxReadMinute = statisticsEditRequest.getMaxReadMinute();
+        if (statisticsEditRequest.getTotalPage() != null)
+            this.totalPage += statisticsEditRequest.getTotalPage();
     }
 }

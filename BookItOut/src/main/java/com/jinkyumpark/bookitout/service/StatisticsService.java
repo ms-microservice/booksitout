@@ -2,9 +2,9 @@ package com.jinkyumpark.bookitout.service;
 
 import com.jinkyumpark.bookitout.model.statistics.MonthStatistics;
 import com.jinkyumpark.bookitout.model.statistics.MonthStatisticsId;
+import com.jinkyumpark.bookitout.request.StatisticsEditRequest;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.repository.StatisticsRepository;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -41,27 +41,19 @@ public class StatisticsService {
     }
 
     @Transactional
-    public void updateStatistics(MonthStatistics updatedStatistics) {
-        MonthStatisticsId monthStatisticsId = new MonthStatisticsId(
-                updatedStatistics.getMonthStatisticsId().getAppUserId(),
-                updatedStatistics.getMonthStatisticsId().getYear(),
-                updatedStatistics.getMonthStatisticsId().getMonth()
-        );
+    public void updateStatistics(Integer year, Integer month, StatisticsEditRequest statisticsEditRequest, Long loginUserId) {
+        MonthStatisticsId monthStatisticsId = new MonthStatisticsId(loginUserId, year, month);
         Optional<MonthStatistics> monthStatisticsOptional = statisticsRepository
                 .findByMonthStatisticsId(monthStatisticsId);
 
         if (monthStatisticsOptional.isEmpty()) {
-            addStatistics(updatedStatistics.getAppUser().getAppUserId(), updatedStatistics.getMonthStatisticsId().getYear(), updatedStatistics.getMonthStatisticsId().getMonth());
+            addStatistics(loginUserId, year, month);
         }
 
         MonthStatistics monthStatistics = statisticsRepository
                 .findByMonthStatisticsId(monthStatisticsId)
                 .orElseThrow(RuntimeException::new);
 
-        monthStatistics.setTotalReadMinute(updatedStatistics.getTotalReadMinute());
-        monthStatistics.setFinishedBook(updatedStatistics.getFinishedBook());
-        monthStatistics.setTotalStar(updatedStatistics.getTotalStar());
-        monthStatistics.setMaxReadMinute(updatedStatistics.getMaxReadMinute());
-        monthStatistics.setTotalPage(updatedStatistics.getTotalPage());
+        monthStatistics.editStatistics(statisticsEditRequest);
     }
 }
