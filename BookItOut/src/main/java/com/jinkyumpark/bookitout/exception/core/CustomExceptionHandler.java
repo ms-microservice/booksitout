@@ -2,7 +2,6 @@ package com.jinkyumpark.bookitout.exception.core;
 
 import com.jinkyumpark.bookitout.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.custom.BookNotSharingException;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -17,9 +16,8 @@ public class CustomExceptionHandler {
 
     @ExceptionHandler(value = {BookNotSharingException.class, NotAuthorizeException.class})
     public ResponseEntity<Map<String, Object>> handleException(BookNotSharingException e, HttpServletRequest request) {
-        HttpHeaders responseHeaders = new HttpHeaders();
-        HttpStatus httpStatus = HttpStatus.FORBIDDEN;
-        Integer statusCode = HttpStatus.FORBIDDEN.value();
+        HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
+        Integer statusCode = HttpStatus.UNAUTHORIZED.value();
 
         Map<String, Object> responseMap = Map.of(
                 "timestamp", LocalDateTime.now(),
@@ -29,6 +27,6 @@ public class CustomExceptionHandler {
                 "path", String.format("%s %s", request.getMethod(), request.getRequestURI())
         );
 
-        return new ResponseEntity<>(responseMap, responseHeaders, httpStatus);
+        return new ResponseEntity<>(responseMap, httpStatus);
     }
 }
