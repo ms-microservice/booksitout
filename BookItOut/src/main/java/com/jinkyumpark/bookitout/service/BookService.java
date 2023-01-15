@@ -1,7 +1,10 @@
 package com.jinkyumpark.bookitout.service;
 
 import com.jinkyumpark.bookitout.model.book.Book;
+import com.jinkyumpark.bookitout.model.book.BookLanguage;
+import com.jinkyumpark.bookitout.model.book.BookSource;
 import com.jinkyumpark.bookitout.repository.ReadingSessionRepository;
+import com.jinkyumpark.bookitout.request.BookEditRequest;
 import com.jinkyumpark.bookitout.user.LoginAppUser;
 import com.jinkyumpark.bookitout.exception.common.NotAuthorizeException;
 import com.jinkyumpark.bookitout.exception.common.NotFoundException;
@@ -84,7 +87,7 @@ public class BookService {
     }
 
     @Transactional
-    public void giveUpUnGiveUpBook(Long bookId, boolean giveUpState, LoginAppUser loginAppUser) {
+    public void giveUpBook(Long bookId, LoginAppUser loginAppUser) {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
@@ -92,36 +95,45 @@ public class BookService {
             throw new NotAuthorizeException("book.edit.fail.not-authorize");
         }
 
-        if (giveUpState) book.giveUpBook();
-        else book.unGiveUpBook();
+        book.giveUpBook();
     }
 
     @Transactional
-    public void editBook(Long loginUserId, Book editedBook) {
-        Book bookToEdit = bookRepository.findById(editedBook.getBookId())
+    public void unGiveUpBook(Long bookId, LoginAppUser loginAppUser) {
+        Book book = bookRepository.findById(bookId)
+                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
+
+        if (! book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+        }
+
+        book.unGiveUpBook();
+    }
+
+    @Transactional
+    public void editBook(Long bookId, BookEditRequest bookEditRequest, Long loginUserId) {
+        Book bookToEdit = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("book.get.fail.not-found"));
 
         if (!loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
             throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
-        if (editedBook.getTitle() != null)
-            bookToEdit.setTitle(editedBook.getTitle());
-        if (editedBook.getLanguage() != null)
-            bookToEdit.setLanguage(editedBook.getLanguage());
-        if (editedBook.getCover() != null)
-            bookToEdit.setCover(editedBook.getCover());
-        if (editedBook.getSummary() != null)
-            bookToEdit.setCover(editedBook.getCover());
-        if (editedBook.getSource() != null)
-            bookToEdit.setSource(editedBook.getSource());
-        if (editedBook.getReview() != null)
-            bookToEdit.setReview(editedBook.getReview());
-        if (editedBook.getIsSharing() != null)
-            bookToEdit.setIsSharing(editedBook.getIsSharing());
-        if (editedBook.getCurrentPage() != null)
-            bookToEdit.setCurrentPage(editedBook.getCurrentPage());
-        if (editedBook.getEndPage() != null)
-            bookToEdit.setEndPage(editedBook.getEndPage());
+        if (bookEditRequest.getTitle() != null)
+            bookToEdit.setTitle(bookEditRequest.getTitle());
+        if (bookEditRequest.getLanguage() != null)
+            bookToEdit.setLanguage(BookLanguage.valueOf(bookEditRequest.getLanguage()));
+        if (bookEditRequest.getCover() != null)
+            bookToEdit.setCover(bookEditRequest.getCover());
+        if (bookEditRequest.getSummary() != null)
+            bookToEdit.setCover(bookEditRequest.getCover());
+        if (bookEditRequest.getSource() != null)
+            bookToEdit.setSource(BookSource.valueOf(bookEditRequest.getSource()));
+        if (bookEditRequest.getReview() != null)
+            bookToEdit.setReview(bookEditRequest.getReview());
+        if (bookEditRequest.getIsSharing() != null)
+            bookToEdit.setIsSharing(bookEditRequest.getIsSharing());
+        if (bookEditRequest.getEndPage() != null)
+            bookToEdit.setEndPage(bookEditRequest.getEndPage());
     }
 
     @Transactional
