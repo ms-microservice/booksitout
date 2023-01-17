@@ -20,6 +20,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.Year;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -77,8 +78,16 @@ public class StatisticsControllerV1 {
 
         // TODO : Goal
 
-        YearStatistics yearStatistics = new YearStatistics(totalReadTimeMinute, totalReadBookCount, averageStar, totalReadPage);
-        DayStatistics dayStatistics = new DayStatistics(averageReadTime, mostReadTime);
+        YearStatistics yearStatistics = YearStatistics.builder()
+                .totalReadTime(totalReadTimeMinute)
+                .totalReadBookCount(totalReadBookCount)
+                .averageStar(averageStar)
+                .totalReadPage(totalReadPage)
+                .build();
+        DayStatistics dayStatistics = DayStatistics.builder()
+                .averageReadTime(averageReadTime)
+                .mostReadTime(mostReadTime)
+                .build();
 
         return new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
     }

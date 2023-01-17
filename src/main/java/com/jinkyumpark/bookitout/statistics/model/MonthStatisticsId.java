@@ -8,7 +8,7 @@ import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 @AllArgsConstructor @NoArgsConstructor
-@Getter @Setter @EqualsAndHashCode
+@Getter
 @Embeddable
 public class MonthStatisticsId implements Serializable {
     @JsonIgnore

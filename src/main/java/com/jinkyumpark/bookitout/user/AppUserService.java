@@ -58,9 +58,8 @@ public class AppUserService implements UserDetailsService {
         return Integer.parseInt(code.toString());
     }
 
+    @Transactional
     public void addEmailVerificationCode(String email, Integer code) {
-
-
         AppUser appUser = AppUser.builder()
                 .email(email)
                 .emailVerificationCode(code)

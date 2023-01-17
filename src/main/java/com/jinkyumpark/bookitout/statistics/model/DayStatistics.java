@@ -1,11 +1,11 @@
 package com.jinkyumpark.bookitout.statistics.model;
 
-import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 
-@AllArgsConstructor
+@Builder
 @Getter
 public class DayStatistics {
-    private Integer averageReadTime;
-    private Integer mostReadTime;
+    private final Integer averageReadTime;
+    private final Integer mostReadTime;
 }
