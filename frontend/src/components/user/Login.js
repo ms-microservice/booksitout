@@ -6,16 +6,7 @@ import { login } from '../../functions/user'
 // Urls
 import { INTRODUCTION_URL, FAQ_URL, QNA_URL } from '../../settings/urls/localUrl'
 // Messages
-import {
-	EMAIL_PLACEHOLDER_MESSAGE,
-	PASSWORD_PLACEHOLDER_MESSAGE,
-	INTRODUCTION_TITLE,
-	FAQ_TITLE,
-	FAQ_CONTENT,
-	QNA_TITLE,
-	QNA_CONTENT,
-	FAQ_QNA_TITLE,
-} from '../../messages/userMessage'
+import userMessage from '../../messages/userMessage'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()
@@ -43,7 +34,7 @@ const Login = ({ setToken }) => {
 											maxlength='30'
 											type='email'
 											class='form-control'
-											placeholder={EMAIL_PLACEHOLDER_MESSAGE}
+											placeholder={userMessage.login.placeHolder.email}
 											onChange={(e) => setEmail(e.target.value)}
 										/>
 									</div>
@@ -58,7 +49,7 @@ const Login = ({ setToken }) => {
 										<input
 											type='password'
 											class='form-control'
-											placeholder={PASSWORD_PLACEHOLDER_MESSAGE}
+											placeholder={userMessage.login.placeHolder.password}
 											onChange={(e) => setPassword(e.target.value)}
 										/>
 									</div>
@@ -99,7 +90,7 @@ const Login = ({ setToken }) => {
 					<a href={INTRODUCTION_URL} className='text-decoration-none text-black h-100'>
 						<Card className='h-100'>
 							<Card.Body className='text-center'>
-								<h4>{INTRODUCTION_TITLE}</h4>
+								<h4>{userMessage.login.label.introduction}</h4>
 
 								<h6 className='mt-5 mb-4'>책 읽는 모든 이들을 위한 곳, 책-it-out을 더 알고 싶으면 여기를 클릭해 주세요</h6>
 							</Card.Body>
@@ -110,14 +101,14 @@ const Login = ({ setToken }) => {
 				<div className='col-12 col-lg-6 mb-5'>
 					<Card className='h-100'>
 						<Card.Body className='text-center'>
-							<h4 className='text-center'>{FAQ_QNA_TITLE}</h4>
+							<h4 className='text-center'>{userMessage.login.label.faqQna}</h4>
 
 							<div className='row row-eq-height mt-3'>
 								<div className='col-12 col-md-6'>
 									<a href={FAQ_URL} className='text-decoration-none text-black'>
 										<Card className='mb-3'>
-											<Card.Header>{FAQ_TITLE}</Card.Header>
-											<Card.Body>{FAQ_CONTENT}</Card.Body>
+											<Card.Header>{userMessage.login.label.faq.title}</Card.Header>
+											<Card.Body>{userMessage.login.label.faq.content}</Card.Body>
 										</Card>
 									</a>
 								</div>
@@ -125,8 +116,8 @@ const Login = ({ setToken }) => {
 								<div className='col-12 col-md-6'>
 									<a href={QNA_URL} className='text-decoration-none text-black'>
 										<Card className='mb-3'>
-											<Card.Header>{QNA_TITLE}</Card.Header>
-											<Card.Body>{QNA_CONTENT}</Card.Body>
+											<Card.Header>{userMessage.login.label.qna.title}</Card.Header>
+											<Card.Body>{userMessage.login.label.qna.content}</Card.Body>
 										</Card>
 									</a>
 								</div>

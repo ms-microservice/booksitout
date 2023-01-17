@@ -4,7 +4,7 @@ import { Card, Form, Button } from 'react-bootstrap'
 // Functions
 import { isEmailValid, join, verifyEmail } from '../../functions/user'
 // Messages
-import { EMAIL_MESSAGE, EMAIL_VERIFICATION_MESSAGE, PASSWORD_MESSAGE, NAME_MESSAGE } from '../../messages/userMessage'
+import userMessage from '../../messages/userMessage'
 
 const Join = () => {
 	const navigate = useNavigate()
@@ -35,7 +35,7 @@ const Join = () => {
 										<input
 											type='text'
 											class='form-control'
-											placeholder={EMAIL_MESSAGE}
+											placeholder={userMessage.join.placeHolder.email}
 											onChange={(e) => setEmail(e.target.value)}
 										/>
 									</div>
@@ -51,12 +51,22 @@ const Join = () => {
 							<InputWithLabel
 								label='email-verification'
 								displayLabel='인증번호'
-								placeholder={EMAIL_VERIFICATION_MESSAGE}
+								placeholder={userMessage.join.placeHolder.emailVerification}
 								setInputVariable={setEmailVerification}
 								disabled={!isEmailSent}
 							/>
-							<InputWithLabel type='name' displayLabel='이름' placeholder={NAME_MESSAGE} setInputVariable={setName} />
-							<InputWithLabel type='password' displayLabel='비밀번호' placeholder={PASSWORD_MESSAGE} setInputVariable={setPassword} />
+							<InputWithLabel
+								type='name'
+								displayLabel='이름'
+								placeholder={userMessage.join.placeHolder.name}
+								setInputVariable={setName}
+							/>
+							<InputWithLabel
+								type='password'
+								displayLabel='비밀번호'
+								placeholder={userMessage.join.placeHolder.password}
+								setInputVariable={setPassword}
+							/>
 
 							<div className='row justify-content-center mt-3'>
 								<div className='col-12 col-md-4 mt-2'>

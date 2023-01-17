@@ -1,19 +1,7 @@
 import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../settings/urls/apiUrl'
 import toast from 'react-hot-toast'
 import { ERROR_MESSAGE } from '../messages/commonMessages'
-import {
-	JOIN_ERROR_EMAIL_CODE_INCORRECT,
-	JOIN_ERROR_EMAIL_FORMAT_INVALID,
-	JOIN_ERROR_EMAIL_NOT_VERIFIED,
-	JOIN_ERROR_ID_NULL,
-	JOIN_ERROR_NAME_NULL,
-	JOIN_ERROR_PW_NULL,
-	JOIN_ERROR_PW_SHORT,
-	JOIN_LOADING,
-	VERIFY_FAIL_ALREADY_REGISTRED,
-	VERIFY_SUCCESS_ALREADY_SENT,
-	VERIFY_SUCCESS_SENT,
-} from '../messages/userMessage'
+import userMessage from '../messages/userMessage'
 
 const isEmailValid = (email) => {
 	return email
@@ -33,13 +21,13 @@ const verifyEmail = (email) => {
 		const status = res.status
 
 		if (status === 409) {
-			toast.error(VERIFY_FAIL_ALREADY_REGISTRED)
+			toast.error(userMessage.verfiyEmail.fail.alreadyRegistered)
 			return false
 		} else if (status === 200) {
-			toast.success(VERIFY_SUCCESS_SENT)
+			toast.success(userMessage.verfiyEmail.success.sent)
 			return true
 		} else if (status === 202) {
-			toast.success(VERIFY_SUCCESS_ALREADY_SENT)
+			toast.success(userMessage.verfiyEmail.success.alreadySent)
 			return true
 		} else {
 			toast.error(ERROR_MESSAGE)
@@ -52,7 +40,7 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 	e.preventDefault()
 
 	if (email === '') {
-		toast.error(JOIN_ERROR_ID_NULL)
+		toast.error(userMessage.join.error.email.null)
 		return
 	}
 
@@ -63,31 +51,31 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 			)
 	) {
-		toast.error(JOIN_ERROR_EMAIL_FORMAT_INVALID)
+		toast.error(userMessage.join.error.email.invalid)
 		return
 	}
 
 	if (emailVerificationCode === '') {
-		toast.error(JOIN_ERROR_EMAIL_NOT_VERIFIED)
+		toast.error(userMessage.join.error.email.notVerified)
 		return
 	}
 
 	if (name === '') {
-		toast.error(JOIN_ERROR_NAME_NULL)
+		toast.error(userMessage.join.error.name.null)
 		return
 	}
 
 	if (password === '') {
-		toast.error(JOIN_ERROR_PW_NULL)
+		toast.error(userMessage.join.error.pw.null)
 		return
 	}
 
 	if (password.length < 6) {
-		toast.error(JOIN_ERROR_PW_SHORT)
+		toast.error(userMessage.join.error.pw.short)
 		return
 	}
 
-	toast.loading(JOIN_LOADING)
+	toast.loading(userMessage.join.loading)
 
 	fetch(JOIN_API_URL, {
 		method: 'POST',
@@ -115,9 +103,9 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 			const status = err.toString()
 
 			if (status.includes('400')) {
-				toast.error(JOIN_ERROR_EMAIL_CODE_INCORRECT)
+				toast.error(userMessage.join.error.email.codeNotMatch)
 			} else if (status.includes('412')) {
-				toast.error(JOIN_ERROR_EMAIL_NOT_VERIFIED)
+				toast.error(userMessage.join.error.email.notVerified)
 			} else {
 				toast.error(ERROR_MESSAGE)
 			}
