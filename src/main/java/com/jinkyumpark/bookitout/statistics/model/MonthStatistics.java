@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
+import com.jinkyumpark.bookitout.reading.ReadingSessionDto;
 import com.jinkyumpark.bookitout.statistics.StatisticsDto;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.AllArgsConstructor;
@@ -66,7 +67,7 @@ public class MonthStatistics {
         if (readingSession.getEndPage() != null) this.totalPage -= readingSession.getEndPage() - readingSession.getStartPage();
     }
 
-    public void updateReadingSession(ReadingSession previousReadingSession, ReadingSession updatedReadingSession, Book book) {
+    public void updateReadingSession(ReadingSession previousReadingSession, ReadingSessionDto updatedReadingSession, Book book) {
         if (previousReadingSession.getEndPage() == null && updatedReadingSession.getEndPage() != null) this.totalPage += updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage();
         if (previousReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() != null) {
             Integer previousPage = previousReadingSession.getEndPage() - previousReadingSession.getStartPage() + 1;

@@ -114,14 +114,13 @@ public class ReadingSessionControllerV1 {
     @PutMapping("{sessionId}")
     public UpdateSuccessResponse updateReadTime(@PathVariable("sessionId") Long readingSessionId,
                                                 @RequestParam(value = "time") Integer readTime,
-                                                @LoginUser LoginAppUser loginAppUser
-    ) {
-        ReadingSession updatedReadingSession = ReadingSession.builder()
-                .readingSessionId(readingSessionId)
+                                                @LoginUser LoginAppUser loginAppUser) {
+
+        ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .readTime(readTime)
                 .build();
 
-        readingSessionService.updateReadingSession(updatedReadingSession, loginAppUser);
+        readingSessionService.updateReadingSession(readingSessionId, readingSessionDto, loginAppUser);
 
         return new UpdateSuccessResponse(String.format("PUT v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.edit.read-time.success"));
     }
@@ -131,20 +130,13 @@ public class ReadingSessionControllerV1 {
                                                 @RequestParam("page") Integer readingSessionEndPage,
                                                 @RequestParam("time") Integer totalTimeInSecond,
                                                 @LoginUser LoginAppUser loginAppUser) {
-        Book book = bookService.getBookById(loginAppUser, bookId);
-        Long loginUserId = AppUserService.getLoginAppUserId();
-        ReadingSession previousReadingSession = readingSessionService.getCurrentReadingSession(loginUserId);
-
-        ReadingSession updatedReadingSession = ReadingSession.builder()
-                .readingSessionId(previousReadingSession.getReadingSessionId())
+        ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .endPage(readingSessionEndPage)
-                .endTime(LocalDateTime.now())
                 .readTime(totalTimeInSecond / 60)
-                .startPage(book.getCurrentPage() + 1)
-                .endPage(readingSessionEndPage)
+                .endTime(LocalDateTime.now())
                 .build();
 
-        readingSessionService.updateReadingSession(updatedReadingSession, loginAppUser);
+        readingSessionService.endCurrentReadingSession(readingSessionDto, loginAppUser);
 
         return new AddSuccessResponse("독서활동을 종료했어요");
     }
@@ -153,15 +145,14 @@ public class ReadingSessionControllerV1 {
     public EditSuccessResponse editReadingSession(@PathVariable("readingSessionId") Long readingSessionId,
                                                   @RequestBody @Valid ReadingEditRequest readingEditRequest,
                                                   @LoginUser LoginAppUser loginAppUser) {
-        ReadingSession updatedReadingSession = ReadingSession.builder()
-                .readingSessionId(readingSessionId)
+        ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .startTime(readingEditRequest.getStartTime())
                 .endTime(readingEditRequest.getEndTime())
                 .readTime(readingEditRequest.getReadTime())
                 .endPage(readingEditRequest.getEndPage())
                 .build();
 
-        readingSessionService.updateReadingSession(updatedReadingSession, loginAppUser);
+        readingSessionService.updateReadingSession(readingSessionId, readingSessionDto, loginAppUser);
 
         return new EditSuccessResponse(String.format("PUT /v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.edit.manual.success"));
     }

@@ -4,14 +4,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor
 
-@Entity @Table(name = "ReadingSession")
+@DynamicUpdate
+@Entity @Table
 public class ReadingSession {
     @Id
     @SequenceGenerator(name = "reading_session_seq", sequenceName = "reading_session_seq", allocationSize = 1)
@@ -19,22 +21,26 @@ public class ReadingSession {
     @Column(name = "reading_session_id")
     private Long readingSessionId;
 
-    @Column(name = "start_page")
     private Integer startPage;
-
-    @Column(name = "end_page")
     private Integer endPage;
 
     @Column(name = "start_time", updatable = false, nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime startTime;
 
-    @Column(name = "end_time")
     private LocalDateTime endTime;
-
-    @Column(name = "read_time")
     private Integer readTime;
 
-    // FK
+    @Builder
+    public ReadingSession(Integer startPage, Integer endPage, LocalDateTime startTime, LocalDateTime endTime, Integer readTime, AppUser appUser, Book book) {
+        this.startPage = startPage;
+        this.endPage = endPage;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.readTime = readTime;
+        this.appUser = appUser;
+        this.book = book;
+    }
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
     @JsonIgnore
@@ -45,9 +51,11 @@ public class ReadingSession {
     @JsonIgnore
     private Book book;
 
-    public void updateReadingSession(ReadingSession readingSession) {
-        if (readingSession.getEndPage() != null) this.endPage = readingSession.getEndPage();
-        if (readingSession.getReadTime() != null) this.readTime = readingSession.getReadTime();
-        if (readingSession.getEndTime() != null) this.endTime = readingSession.getEndTime();
-    }
+   public void updateReadingSession(ReadingSessionDto readingSessionDto) {
+        this.readTime = readingSessionDto.getReadTime();
+        this.startTime = readingSessionDto.getStartTime();
+        this.endTime = readingSessionDto.getEndTime();
+        this.startPage = readingSessionDto.getStartPage();
+        this.endPage = readingSessionDto.getEndPage();
+   }
 }

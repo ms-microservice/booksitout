@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.common;
+package com.jinkyumpark.bookitout.common.info;
 
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,13 +12,12 @@ import java.util.Map;
 public class InfoController {
 
     @GetMapping
-    public Map<String, Object> root() {
-        Map<String, Object> response = new HashMap<>();
+    public InfoResponse mainPage() {
+        InfoResponse infoResponse = InfoResponse.builder()
+                .message("private api for book-it-out, you must access from https://book.jinkyumpark.com")
+                .build();
 
-        response.put("timestamp", new Date());
-        response.put("message", "Private API for book-it-out");
-
-        return response;
+        return infoResponse;
     }
 
 }

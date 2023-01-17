@@ -5,6 +5,7 @@ import com.jinkyumpark.bookitout.memo.Memo;
 import com.jinkyumpark.bookitout.quotation.Quotation;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
+import com.jinkyumpark.bookitout.reading.ReadingSessionDto;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -124,7 +125,7 @@ public class Book {
         if (readingSession.getEndPage() != null) this.currentPage = readingSession.getStartPage() == 0 ? 0 : readingSession.getStartPage() - 1;
     }
 
-    public void updateReadingSession(ReadingSession readingSession) {
+    public void updateReadingSession(ReadingSessionDto readingSession) {
         if (readingSession.getEndPage() != null) this.currentPage = readingSession.getEndPage();
     }
 

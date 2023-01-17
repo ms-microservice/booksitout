@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.goal.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
+import com.jinkyumpark.bookitout.reading.ReadingSessionDto;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -59,5 +60,9 @@ public class Goal {
 
     public void deleteReadingSession(ReadingSession readingSession, Book book) {
         if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage())) this.current--;
+    }
+
+    public void updateReadingSession(ReadingSessionDto readingSessionDto, Book book) {
+        if (readingSessionDto.getEndPage().equals(book.getEndPage())) this.current++;
     }
 }
