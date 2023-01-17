@@ -1,12 +1,13 @@
-package com.jinkyumpark.bookitout.security.filters;
+package com.jinkyumpark.bookitout.config.security.filters;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
-import com.jinkyumpark.bookitout.config.JwtConfig;
+import com.jinkyumpark.bookitout.config.security.JwtConfig;
 import com.jinkyumpark.bookitout.exception.http.NotLoginException;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
+import com.jinkyumpark.bookitout.util.jwt.JwtUtils;
 import io.jsonwebtoken.Jwts;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -28,7 +29,7 @@ import java.util.Map;
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
-    private final SecretKey secretKey;
+    private final JwtUtils jwtUtils;
 
     private static Boolean stayLogin = false;
 
@@ -57,16 +58,11 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
-        String token = Jwts.builder()
-                .setSubject(authResult.getName())
-                .claim("appUserId", ((AppUser) authResult.getPrincipal()).getAppUserId())
-                .claim("authorities", authResult.getAuthorities())
-                .setIssuedAt(new Date())
-                .setExpiration(java.sql.Date.valueOf(LocalDate.now().plusDays(
-                        stayLogin ? jwtConfig.getTokenExpirationAfterDaysStayLogin() : jwtConfig.getTokenExpirationAfterDays()
-                )))
-                .signWith(secretKey)
-                .compact();
+        String token = jwtUtils.generateAccessToken(authResult.getName(),
+                ((AppUser) authResult.getPrincipal()).getAppUserId(),
+                authResult.getAuthorities(),
+                stayLogin
+        );
 
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
