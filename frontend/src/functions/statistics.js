@@ -1,8 +1,8 @@
-import { API_BASE_URL } from '../settings/urls/apiUrl'
+import urls from '../settings/urls'
 import { getToken } from '../functions/user'
 
 const getReadTime = (duration) => {
-	const READ_TIME_API_URL = `${API_BASE_URL}/v1/statistics/read-time/${duration}`
+	const READ_TIME_API_URL = `${urls.api.base}/v1/statistics/read-time/${duration}`
 	const token = localStorage.getItem('login-token')
 
 	return fetch(READ_TIME_API_URL, {
@@ -26,7 +26,7 @@ const getReadTime = (duration) => {
 
 const getStatisticsSummary = (year) => {
 	const token = localStorage.getItem('login-token')
-	const STATISTICS_SUMMARY_URL = `${API_BASE_URL}/v1/statistics/year/${year}`
+	const STATISTICS_SUMMARY_URL = `${urls.api.base}/v1/statistics/year/${year}`
 
 	return fetch(STATISTICS_SUMMARY_URL, {
 		method: 'GET',
@@ -50,7 +50,7 @@ const getStatisticsSummary = (year) => {
 const getLangaugeStatistics = () => {
 	const token = getToken()
 
-	return fetch(`${API_BASE_URL}/v1/statistics/language`, {
+	return fetch(`${urls.api.base}/v1/statistics/language`, {
 		method: 'GET',
 		headers: { Authorization: token },
 	})
@@ -65,7 +65,7 @@ const getLangaugeStatistics = () => {
 const getCategoryStatistics = () => {
 	const token = getToken()
 
-	return fetch(`${API_BASE_URL}/v1/statistics/category`, {
+	return fetch(`${urls.api.base}/v1/statistics/category`, {
 		method: 'GET',
 		headers: { Authorization: token },
 	})

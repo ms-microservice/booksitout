@@ -1,9 +1,9 @@
 import toast from 'react-hot-toast'
-import { API_BASE_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
+import urls from '../settings/urls'
 
 const getBookOfCurrentReadingSession = () => {
-	const BOOK_CURRENT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/book/current-reading-session`
+	const BOOK_CURRENT_READING_SESSION_API_URL = `${urls.api.base}/v1/book/current-reading-session`
 
 	return fetch(BOOK_CURRENT_READING_SESSION_API_URL, {
 		method: 'GET',
@@ -23,7 +23,7 @@ const getBookOfCurrentReadingSession = () => {
 
 const startReadingSession = (bookId) => {
 	const token = getToken()
-	const START_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}/start`
+	const START_READING_SESSION_API_URL = `${urls.api.base}/v1/reading-session/${bookId}/start`
 
 	return fetch(START_READING_SESSION_API_URL, {
 		method: 'POST',
@@ -52,7 +52,7 @@ const startReadingSession = (bookId) => {
 const endReadingSessionWithoutSaving = () => {
 	const token = getToken()
 
-	return fetch(`${API_BASE_URL}/v1/reading-session/not-saving`, {
+	return fetch(`${urls.api.base}/v1/reading-session/not-saving`, {
 		method: 'DELETE',
 		headers: { Authorization: token },
 	}).then((res) => {
@@ -64,7 +64,7 @@ const endReadingSessionWithoutSaving = () => {
 const endReadingSession = (book, endPage) => {
 	const token = localStorage.getItem('login-token')
 	const readingTime = Math.round(localStorage.getItem('reading-session-time'))
-	const READING_SESSION_END_API_URL = `${API_BASE_URL}/v1/reading-session/${book.bookId}/end?page=${endPage}&time=${readingTime}`
+	const READING_SESSION_END_API_URL = `${urls.api.base}/v1/reading-session/${book.bookId}/end?page=${endPage}&time=${readingTime}`
 
 	return fetch(encodeURI(READING_SESSION_END_API_URL), {
 		method: 'PUT',
@@ -91,7 +91,7 @@ const endReadingSession = (book, endPage) => {
 
 const getAllReadingSessionOfBook = (bookId) => {
 	const token = getToken()
-	const ALL_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}`
+	const ALL_READING_SESSION_API_URL = `${urls.api.base}/v1/reading-session/${bookId}`
 
 	return fetch(ALL_READING_SESSION_API_URL, { method: 'GET', headers: { Authorization: token } })
 		.then((res) => res.json())
@@ -102,7 +102,7 @@ const getAllReadingSessionOfBook = (bookId) => {
 
 const addReadingSession = (bookId, year, month, day, startPage, endPage, readTime) => {
 	const token = getToken()
-	const ADD_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${bookId}`
+	const ADD_READING_SESSION_API_URL = `${urls.api.base}/v1/reading-session/${bookId}`
 
 	return fetch(ADD_READING_SESSION_API_URL, {
 		method: 'POST',
@@ -120,7 +120,7 @@ const addReadingSession = (bookId, year, month, day, startPage, endPage, readTim
 }
 
 const editReadingSession = (editedReadingSession) => {
-	const EDIT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${editedReadingSession.readingSessionId}/all`
+	const EDIT_READING_SESSION_API_URL = `${urls.api.base}/v1/reading-session/${editedReadingSession.readingSessionId}/all`
 	const token = getToken()
 
 	return fetch(EDIT_READING_SESSION_API_URL, {
@@ -138,7 +138,7 @@ const editReadingSession = (editedReadingSession) => {
 
 const deleteReadingSession = (readingSessionId) => {
 	const token = getToken()
-	const DELETE_READING_SESSION_API_URL = `${API_BASE_URL}/v1/reading-session/${readingSessionId}`
+	const DELETE_READING_SESSION_API_URL = `${urls.api.base}/v1/reading-session/${readingSessionId}`
 
 	return fetch(DELETE_READING_SESSION_API_URL, {
 		method: 'DELETE',

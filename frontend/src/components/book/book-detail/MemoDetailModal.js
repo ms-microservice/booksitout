@@ -4,7 +4,7 @@ import { Modal, Button, Card, Form } from 'react-bootstrap'
 // Functions
 import { deleteMemo, editMemo } from '../../../functions/memo'
 // Settings
-import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
+import uiSettings from '../../../settings/ui'
 // Resources
 import '../../../resources/css/input.css'
 // Messages
@@ -82,7 +82,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 					<Modal.Body>
 						{isEditMode ? (
 							<Form onSubmit={(e) => handleEditMemo(e)}>
-								<Card style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
+								<Card style={{ backgroundColor: uiSettings.color.memo }}>
 									<Card.Header>
 										<Form.Control
 											type='number'
@@ -103,7 +103,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 								</Card>
 							</Form>
 						) : (
-							<Card className='text-center' style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
+							<Card className='text-center' style={{ backgroundColor: uiSettings.color.memo }}>
 								<Card.Header>{memo.page} P</Card.Header>
 								<Card.Body>{memo.content}</Card.Body>
 							</Card>

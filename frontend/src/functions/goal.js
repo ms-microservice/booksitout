@@ -1,4 +1,4 @@
-import { API_BASE_URL } from '../settings/urls/apiUrl'
+import urls from '../settings/urls'
 import { getToken } from './user'
 import toast from 'react-hot-toast'
 
@@ -9,7 +9,7 @@ const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
 const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
 
 const getGoalList = (duration = 5) => {
-	const GOAL_LIST_API_URL = `${API_BASE_URL}/v1/goal?duration=${duration}`
+	const GOAL_LIST_API_URL = `${urls.api.base}/v1/goal?duration=${duration}`
 	const token = getToken()
 
 	return fetch(GOAL_LIST_API_URL, {
@@ -29,7 +29,7 @@ const getGoalList = (duration = 5) => {
 }
 
 const getGoal = (year) => {
-	const GOAL_API_URL = `${API_BASE_URL}/v1/goal/${year}`
+	const GOAL_API_URL = `${urls.api.base}/v1/goal/${year}`
 	const token = localStorage.getItem('login-token')
 
 	return fetch(GOAL_API_URL, {
@@ -52,7 +52,7 @@ const getGoal = (year) => {
 }
 
 const addGoal = (year, goal) => {
-	const ADD_GOAL_API_URL = `${API_BASE_URL}/v1/goal?year=${year}&goal=${goal}`
+	const ADD_GOAL_API_URL = `${urls.api.base}/v1/goal?year=${year}&goal=${goal}`
 	const token = getToken()
 
 	return fetch(ADD_GOAL_API_URL, {
@@ -70,7 +70,7 @@ const addGoal = (year, goal) => {
 }
 
 const deleteGoal = (year) => {
-	const DELETE_GOAL_API_URL = `${API_BASE_URL}/v1/goal/${year}`
+	const DELETE_GOAL_API_URL = `${urls.api.base}/v1/goal/${year}`
 	const token = getToken()
 
 	return fetch(DELETE_GOAL_API_URL, {

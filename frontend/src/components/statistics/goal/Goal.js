@@ -10,7 +10,7 @@ import AddButton from '../../common/AddButton'
 // Functions
 import { getGoalList, deleteGoal } from '../../../functions/goal'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../../settings/settings'
+import uiSettings from '../../../settings/ui'
 import { GOAL_DELETE_CONFIRM } from '../../../messages/statisticsMessages'
 // Resources
 import goalIcon from '../../../resources/images/general/goal.png'
@@ -45,7 +45,7 @@ const Goal = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		getGoalList(6)
 			.then((goalListData) => {

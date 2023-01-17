@@ -19,7 +19,7 @@ import { ERROR_MESSAGE } from '../../messages/commonMessages'
 import { getMemoListOfBook } from '../../functions/memo'
 import { getQuotationListOfBook } from '../../functions/quotation'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../settings/settings'
+import uiSettings from '../../settings/ui'
 
 const Reading = ({ readingTime, setReadingTime }) => {
 	const { id } = useParams()
@@ -61,7 +61,7 @@ const Reading = ({ readingTime, setReadingTime }) => {
 
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		getBookOfCurrentReadingSession()
 			.then((book) => {

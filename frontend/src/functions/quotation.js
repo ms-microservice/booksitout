@@ -1,9 +1,9 @@
 import toast from 'react-hot-toast'
-import { API_BASE_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
+import urls from '../settings/urls'
 
-const QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/`
-const QUOTATION_ALL_API_URL = `${API_BASE_URL}/v1/quotation/all/`
+const QUOTATION_API_URL = `${urls.api.base}/v1/quotation/`
+const QUOTATION_ALL_API_URL = `${urls.api.base}/v1/quotation/all/`
 
 const getQuotationListOfBook = (bookId) => {
 	const token = localStorage.getItem('login-token')
@@ -37,7 +37,7 @@ const addQuotation = (bookId, quotation) => {
 }
 
 const editQuotation = (editedQuotation) => {
-	const QUOTATION_EDIT_API_URL = `${API_BASE_URL}/v1/quotation/${editedQuotation.quotationId}`
+	const QUOTATION_EDIT_API_URL = `${urls.api.base}/v1/quotation/${editedQuotation.quotationId}`
 	const token = getToken()
 
 	return fetch(QUOTATION_EDIT_API_URL, {
@@ -56,7 +56,7 @@ const editQuotation = (editedQuotation) => {
 
 const deleteQuotation = (quotationId) => {
 	const token = getToken()
-	const DELETE_QUOTATION_API_URL = `${API_BASE_URL}/v1/quotation/${quotationId}`
+	const DELETE_QUOTATION_API_URL = `${urls.api.base}/v1/quotation/${quotationId}`
 
 	return fetch(DELETE_QUOTATION_API_URL, {
 		method: 'DELETE',

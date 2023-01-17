@@ -1,25 +1,22 @@
-import React, { useEffect, useMemo } from 'react'
-import { useLocation, useNavigate } from 'react-router-dom'
+import React, { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
-import Loading from '../../common/Loading'
-import { API_BASE_URL } from '../../../settings/urls/apiUrl'
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
 import toast from 'react-hot-toast'
+import { useQuery } from '../../../functions/utils'
+// Components
+import Loading from '../../common/Loading'
+import { ERROR_MESSAGE } from '../../../messages/commonMessages'
+import urls from '../../../settings/urls'
 
 const OAuthKakao = ({ setToken }) => {
 	const navigate = useNavigate()
-
-	function useQuery() {
-		const { search } = useLocation()
-		return useMemo(() => new URLSearchParams(search), [search])
-	}
 	const query = useQuery()
 
 	useEffect(() => {
 		const code = query.get('code')
 
 		axios
-			.get(`${API_BASE_URL}/v2/login/oauth2/kakao?code=${code}`)
+			.get(urls.api.user.login.oauth.kakao(code))
 			.then((res) => {
 				if (res.status !== 200) {
 					throw new Error()
@@ -43,11 +40,7 @@ const OAuthKakao = ({ setToken }) => {
 			})
 	}, [])
 
-	return (
-		<div>
-			<Loading message='카카오 계정으로 로그인하고 있어요' />
-		</div>
-	)
+	return <Loading message='카카오 계정으로 로그인하고 있어요' />
 }
 
 export default OAuthKakao

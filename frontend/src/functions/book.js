@@ -1,12 +1,14 @@
 import toast from 'react-hot-toast'
-import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../settings/urls/apiUrl'
+import urls from '../settings/urls'
+// import { API_BASE_URL, GIVE_UP_BOOK_API_URL, ADD_BOOK_API_URL, BOOK_DELETE_API_URL, LAST_BOOK_API_URL } from '../settings/urls/apiUrl'
 import { getToken } from './user'
 import { ERROR_MESSAGE } from '../messages/commonMessages'
+import axios from 'axios'
 
 const getBookList = (range, page) => {
 	const token = getToken()
 
-	return fetch(`${API_BASE_URL}/v1/book/all/${range}?page=${page}`, {
+	return fetch(urls.api.book.get.all(range, page), {
 		method: 'GET',
 		headers: { Authorization: token },
 	})
@@ -22,10 +24,9 @@ const getBookList = (range, page) => {
 }
 
 const getBook = (bookId) => {
-	const BOOK_DETAIL_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
 	const token = getToken()
 
-	return fetch(BOOK_DETAIL_API_URL, {
+	return fetch(urls.api.book.get.detail(bookId), {
 		method: 'GET',
 		headers: { Authorization: token },
 	})
@@ -43,7 +44,7 @@ const getBook = (bookId) => {
 const getLastBook = () => {
 	const token = localStorage.getItem('login-token')
 
-	return fetch(LAST_BOOK_API_URL, {
+	return fetch(urls.api.book.get.last, {
 		method: 'GET',
 		headers: { Authorization: token },
 	})
@@ -74,7 +75,7 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 
 	toast.loading('책을 추가하고 있어요')
 
-	fetch(ADD_BOOK_API_URL, {
+	fetch(urls.api.book.add, {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',
@@ -110,10 +111,9 @@ const addBook = (e, token, navigate, title, author, cover, language, endPage, ca
 }
 
 const editBook = (book) => {
-	const BOOK_EDIT_API_URL = `${API_BASE_URL}/v1/book/${book.bookId}`
 	const token = getToken()
 
-	return fetch(BOOK_EDIT_API_URL, {
+	return fetch(urls.api.book.edit.all(book.bookId), {
 		method: 'PUT',
 		headers: {
 			Authorization: token,
@@ -142,7 +142,7 @@ const editBook = (book) => {
 const giveUpBook = (bookId) => {
 	const token = getToken()
 
-	return fetch(GIVE_UP_BOOK_API_URL + bookId, {
+	return fetch(urls.api.book.edit.giveup(bookId), {
 		method: 'PUT',
 		headers: { Authorization: token },
 	}).then((res) => {
@@ -157,9 +157,8 @@ const giveUpBook = (bookId) => {
 
 const unGiveUpBook = (bookId) => {
 	const token = getToken()
-	const UN_GIVEUP_BOOK_API_URL = `${API_BASE_URL}/v1/book/un-give-up/${bookId}`
 
-	return fetch(UN_GIVEUP_BOOK_API_URL, {
+	return fetch(urls.api.book.edit.unGiveup(bookId), {
 		method: 'PUT',
 		headers: { Authorization: token },
 	}).then((res) => {
@@ -173,8 +172,8 @@ const unGiveUpBook = (bookId) => {
 	})
 }
 
-const deleteBook = (bookId, token, navigate) => {
-	return fetch(BOOK_DELETE_API_URL + bookId, {
+const deleteBook = (bookId, token) => {
+	return fetch(urls.api.book.delete(bookId), {
 		method: 'DELETE',
 		headers: { Authorization: token },
 	}).then((res) => {
@@ -184,9 +183,8 @@ const deleteBook = (bookId, token, navigate) => {
 
 const addRating = (bookId, rating) => {
 	const token = getToken()
-	const ADD_RATING_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
 
-	return fetch(ADD_RATING_API_URL, {
+	return fetch(urls.api.book.edit.all(bookId), {
 		method: 'PUT',
 		headers: { Authorization: token, 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -200,9 +198,8 @@ const addRating = (bookId, rating) => {
 
 const addReview = (bookId, review) => {
 	const token = getToken()
-	const ADD_REVIEW_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
 
-	return fetch(ADD_REVIEW_API_URL, {
+	return fetch(urls.api.book.edit.all(bookId), {
 		method: 'PUT',
 		headers: { Authorization: token, 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -216,9 +213,8 @@ const addReview = (bookId, review) => {
 
 const addSummary = (bookId, summary) => {
 	const token = getToken()
-	const ADD_SUMMARY_API_URL = `${API_BASE_URL}/v1/book/${bookId}`
 
-	return fetch(ADD_SUMMARY_API_URL, {
+	return fetch(urls.api.book.edit.all(bookId), {
 		method: 'PUT',
 		headers: { Authorization: token, 'Content-Type': 'application/json' },
 		body: JSON.stringify({

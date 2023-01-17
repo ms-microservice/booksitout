@@ -1,8 +1,8 @@
 import { getToken } from './user'
-import { API_BASE_URL } from '../settings/urls/apiUrl'
+import urls from '../settings/urls'
 
-const QNA_ALL_API_URL = `${API_BASE_URL}/v1/qna/all`
-const QNA_USER_API_URL = `${API_BASE_URL}/v1/qna/user`
+const QNA_ALL_API_URL = `${urls.api.base}/v1/qna/all`
+const QNA_USER_API_URL = `${urls.api.base}/v1/qna/user`
 
 const getAllQna = () => {
 	return fetch(QNA_ALL_API_URL, {

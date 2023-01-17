@@ -9,7 +9,7 @@ import Loading from '../common/Loading'
 import { getAllQna, getMyQna } from '../../functions/qna'
 import { getIsLoggedIn } from '../../functions/user'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../settings/settings'
+import uiSettings from '../../settings/ui'
 
 const Qna = () => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -20,7 +20,7 @@ const Qna = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		Promise.all(
 			getAllQna().then((qnaList) => setAllQnaList([...qnaList.content])),

@@ -1,4 +1,5 @@
-import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../settings/urls/apiUrl'
+import urls from '../settings/urls'
+// import { API_BASE_URL, JOIN_API_URL, LOGIN_API_URL } from '../settings/urls/apiUrl'
 import toast from 'react-hot-toast'
 import { ERROR_MESSAGE } from '../messages/commonMessages'
 import userMessage from '../messages/userMessage'
@@ -12,10 +13,9 @@ const isEmailValid = (email) => {
 }
 
 const verifyEmail = (email) => {
-	const EMAIL_VERIFICATION_API_URL = `${API_BASE_URL}/v1/join/email-verification/${email}`
 	toast.loading('잠시만 기다려 주세요')
 
-	return fetch(EMAIL_VERIFICATION_API_URL, {
+	return fetch(urls.api.user.email(email), {
 		method: 'POST',
 	}).then((res) => {
 		const status = res.status
@@ -77,7 +77,7 @@ const join = (e, navigate, email, emailVerificationCode, password, name) => {
 
 	toast.loading(userMessage.join.loading)
 
-	fetch(JOIN_API_URL, {
+	fetch(urls.api.user.join, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -139,7 +139,7 @@ const login = (e, navigate, setToken, email, password, stayLogin) => {
 
 	toast.loading('로그인하고 있어요')
 
-	fetch(LOGIN_API_URL, {
+	fetch(urls.api.user.login.basic, {
 		method: 'POST',
 		headers: { 'Content-Type': 'application/json' },
 		body: JSON.stringify({
@@ -198,7 +198,7 @@ const getIsLoggedIn = () => {
 }
 
 const changeName = (name) => {
-	const CHANGE_NAME_API_URL = `${API_BASE_URL}/v1/change-name`
+	const CHANGE_NAME_API_URL = `${urls.api.base}/v1/change-name`
 	const token = getToken()
 
 	return fetch(CHANGE_NAME_API_URL, {
@@ -219,7 +219,7 @@ const updateLocalStorageName = (name) => {
 
 const requestChangePasswordVerificationCode = () => {
 	const token = getToken()
-	const CHANGE_PASSWORD_VERIFY_API_URL = `${API_BASE_URL}/v1/change-password/verification`
+	const CHANGE_PASSWORD_VERIFY_API_URL = `${urls.api.base}/v1/change-password/verification`
 
 	return fetch(CHANGE_PASSWORD_VERIFY_API_URL, {
 		method: 'POST',
@@ -232,7 +232,7 @@ const requestChangePasswordVerificationCode = () => {
 
 const changePassword = (verificationCode, oldPassword, newPassword) => {
 	const token = getToken()
-	const CHANGE_PASSWORD_API_URL = `${API_BASE_URL}/v1/change-password`
+	const CHANGE_PASSWORD_API_URL = `${urls.api.base}/v1/change-password`
 
 	return fetch(CHANGE_PASSWORD_API_URL, {
 		method: 'POST',

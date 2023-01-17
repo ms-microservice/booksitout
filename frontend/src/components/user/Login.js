@@ -4,7 +4,7 @@ import { Card, Form, Button } from 'react-bootstrap'
 // Functions
 import { login } from '../../functions/user'
 // Urls
-import { INTRODUCTION_URL, FAQ_URL, QNA_URL } from '../../settings/urls/localUrl'
+import urls from '../../settings/urls'
 // Messages
 import userMessage from '../../messages/userMessage'
 // OAuth
@@ -135,7 +135,7 @@ const Login = ({ setToken }) => {
 				</div>
 
 				<div className='col-12 col-lg-6 mb-5'>
-					<a href={INTRODUCTION_URL} className='text-decoration-none text-black h-100'>
+					<a href={urls.local.introduction} className='text-decoration-none text-black h-100'>
 						<Card className='h-100'>
 							<Card.Body className='text-center'>
 								<h4>{userMessage.login.label.introduction}</h4>
@@ -153,7 +153,7 @@ const Login = ({ setToken }) => {
 
 							<div className='row row-eq-height mt-3'>
 								<div className='col-12 col-md-6'>
-									<a href={FAQ_URL} className='text-decoration-none text-black'>
+									<a href={urls.local.faq} className='text-decoration-none text-black'>
 										<Card className='mb-3'>
 											<Card.Header>{userMessage.login.label.faq.title}</Card.Header>
 											<Card.Body>{userMessage.login.label.faq.content}</Card.Body>
@@ -162,7 +162,7 @@ const Login = ({ setToken }) => {
 								</div>
 
 								<div className='col-12 col-md-6'>
-									<a href={QNA_URL} className='text-decoration-none text-black'>
+									<a href={urls.local.qna} className='text-decoration-none text-black'>
 										<Card className='mb-3'>
 											<Card.Header>{userMessage.login.label.qna.title}</Card.Header>
 											<Card.Body>{userMessage.login.label.qna.content}</Card.Body>

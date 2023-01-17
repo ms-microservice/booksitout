@@ -4,7 +4,6 @@ import { Card, Alert } from 'react-bootstrap'
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import NoContent from '../common/NoContent'
-
 import HorizontalBookView from '../book/HorizontalBookView'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
@@ -15,7 +14,8 @@ import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
 import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../settings/settings'
+import uiSettings from '../../settings/ui'
+// Messages
 import { LAST_BOOK_EMPTY } from '../../messages/statisticsMessages'
 
 const Main = () => {
@@ -31,7 +31,7 @@ const Main = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		Promise.all([
 			getLastBook().then((book) => setLastBook(book)),

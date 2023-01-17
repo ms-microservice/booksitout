@@ -1,9 +1,9 @@
 import toast from 'react-hot-toast'
-import { API_BASE_URL } from '../settings/urls/apiUrl'
+import urls from '../settings/urls'
 import { getToken } from './user'
 
-const MEMO_GET_ALL_API_URL = `${API_BASE_URL}/v1/memo/all/`
-const MEMO_API_URL = `${API_BASE_URL}/v1/memo/`
+const MEMO_GET_ALL_API_URL = `${urls.api.base}/v1/memo/all/`
+const MEMO_API_URL = `${urls.api.base}/v1/memo/`
 
 const getMemoListOfBook = (bookId) => {
 	const token = localStorage.getItem('login-token')
@@ -41,7 +41,7 @@ const addMemo = (memo, bookId) => {
 }
 
 const editMemo = (editedMemo) => {
-	const MEMO_EDIT_API_URL = `${API_BASE_URL}/v1/memo/${editedMemo.memoId}`
+	const MEMO_EDIT_API_URL = `${urls.api.base}/v1/memo/${editedMemo.memoId}`
 	const token = getToken()
 
 	return fetch(MEMO_EDIT_API_URL, {
@@ -59,7 +59,7 @@ const editMemo = (editedMemo) => {
 
 const deleteMemo = (memoId) => {
 	const token = getToken()
-	const DELETE_MEMO_API_URL = `${API_BASE_URL}/v1/memo/${memoId}`
+	const DELETE_MEMO_API_URL = `${urls.api.base}/v1/memo/${memoId}`
 
 	return fetch(DELETE_MEMO_API_URL, {
 		method: 'DELETE',

@@ -29,8 +29,8 @@ import OAuthFacebook from './components/user/oauth/OAuthFacebook'
 import { getToken } from './functions/user'
 import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 // Settings
-import { REDIRECT_EXCLUDE_URL } from './settings/urls/localUrl'
-import { TOAST_LIMIT } from './settings/settings'
+import urls from './settings/urls'
+import uiSettings from './settings/ui'
 import { getDateDifferenceInDays } from './functions/date'
 
 function App() {
@@ -54,7 +54,7 @@ function App() {
 
 	useEffect(() => {
 		if (token === '' || token == null) {
-			!REDIRECT_EXCLUDE_URL.some((url) => location.pathname.includes(url)) && navigate('/login')
+			!urls.exclude.some((url) => location.pathname.includes(url)) && navigate('/login')
 		} else {
 			if (location.pathname.startsWith('/login') || location.pathname.startsWith('/join')) {
 				navigate('/')
@@ -72,7 +72,7 @@ function App() {
 	useEffect(() => {
 		toasts
 			.filter((t) => t.visible)
-			.filter((_, i) => i >= TOAST_LIMIT)
+			.filter((_, i) => i >= uiSettings.toastLimit)
 			.forEach((t) => toast.dismiss(t.id))
 	}, [toasts])
 
