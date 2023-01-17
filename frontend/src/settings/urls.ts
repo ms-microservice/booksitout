@@ -50,6 +50,16 @@ const urls = {
 			edit: (memoId) => `${base}/v1/memo/${memoId}`,
 			delete: (memoId) => `${base}/v1/memo/${memoId}`,
 		},
+
+		goal: {
+			get: {
+				duration: (duration) => `${base}/v1/goal?duration=${duration}`,
+				year: (year) => `${base}/v1/goal/${year}`,
+			},
+			add: (year, goal) => `${base}/v1/goal?year=${year}&goal=${goal}`,
+			edit: '',
+			delete: (year) => `${base}/v1/goal/${year}`,
+		},
 	},
 
 	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao'],

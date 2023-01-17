@@ -1,4 +1,3 @@
-import toast from 'react-hot-toast'
 import axios from 'axios'
 import urls from '../settings/urls'
 import { getToken } from './user'

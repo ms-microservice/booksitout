@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Components
 import NoContent from '../../common/NoContent'
 import Loading from '../../common/Loading'
@@ -18,6 +19,11 @@ import GoalPastAddModal from './GoalPastAddModal'
 import GoalPastEditModal from './GoalPastEditModal'
 
 const Goal = () => {
+	const GOAL_ADD_SUCCESS_MESSAGE = `목표를 추가했어요`
+	const GOAL_ADD_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
+	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
+	const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
+
 	const [intialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -38,7 +44,14 @@ const Goal = () => {
 		const confirm = window.confirm(GOAL_DELETE_CONFIRM)
 
 		if (confirm) {
-			deleteGoal(currentYear).then((success) => success && setCurrentYearGoal(null))
+			deleteGoal(currentYear).then((success) => {
+				if (success) {
+					toast.success(GOAL_DELETE_SUCCESS_MESSAGE)
+					setCurrentYearGoal(null)
+				} else {
+					toast.error(GOAL_DELETE_FAIL_MESSAGE)
+				}
+			})
 		}
 	}
 
@@ -50,6 +63,7 @@ const Goal = () => {
 		getGoalList(6)
 			.then((goalListData) => {
 				setGoalList(goalListData)
+				console.log(goalListData)
 
 				const currentYearGoalOptional = goalListData.find((goal) => goal.year == currentYear)
 				if (typeof currentYearGoalOptional != 'undefined') {
