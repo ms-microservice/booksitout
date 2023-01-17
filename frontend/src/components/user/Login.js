@@ -7,6 +7,12 @@ import { login } from '../../functions/user'
 import { INTRODUCTION_URL, FAQ_URL, QNA_URL } from '../../settings/urls/localUrl'
 // Messages
 import userMessage from '../../messages/userMessage'
+// OAuth
+import kakaoButton from '../../resources/images/login-button/small-kakao.png'
+import naverButton from '../../resources/images/login-button/small-naver.png'
+import googleButton from '../../resources/images/login-button/small-google.png'
+import facebookButton from '../../resources/images/login-button/small-facebook.png'
+import { kakao, naver, google, facebook } from '../../settings/oauth'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()
@@ -14,6 +20,29 @@ const Login = ({ setToken }) => {
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [stayLogin, setStayLogin] = useState(true)
+
+	const oauthButton = [
+		{
+			id: 1,
+			image: googleButton,
+			redirectUrl: '',
+		},
+		{
+			id: 2,
+			image: facebookButton,
+			redirectUrl: '',
+		},
+		{
+			id: 3,
+			image: kakaoButton,
+			redirectUrl: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${kakao.redirectUri}&response_type=${kakao.responseType}`,
+		},
+		{
+			id: 4,
+			image: naverButton,
+			redirectUrl: '',
+		},
+	]
 
 	return (
 		<div className='container mt-5'>
@@ -79,6 +108,25 @@ const Login = ({ setToken }) => {
 										<Button variant='danger' className='w-100' href='join'>
 											회원가입
 										</Button>
+									</div>
+
+									<div className='mt-4'>
+										<hr />
+										<div className='text-secondary mb-3'>외부계정으로 로그인 / 가입하기</div>
+										{oauthButton.map((oauth) => {
+											return (
+												<a href={oauth.redirectUrl}>
+													<img
+														style={{
+															width: '50px',
+														}}
+														className='img-fluid ms-3 me-3 ms-md-3 me-md-3 rounded'
+														src={oauth.image}
+														alt=''
+													/>
+												</a>
+											)
+										})}
 									</div>
 								</div>
 							</Form>

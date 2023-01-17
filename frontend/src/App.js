@@ -21,6 +21,7 @@ import Faq from './components/info/Faq'
 import Qna from './components/info/Qna'
 import Search from './components/search/Search'
 import Goal from './components/statistics/goal/Goal'
+import OAuthKakao from './components/user/oauth/OAuthKakao'
 // Functions
 import { getToken } from './functions/user'
 import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
@@ -88,6 +89,7 @@ function App() {
 				<Route path='/faq' element={<Faq />} />
 
 				<Route path='/login' element={<Login setToken={setToken} />} />
+				<Route path='/login/oauth/kakao' element={<OAuthKakao setToken={setToken} />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
 
