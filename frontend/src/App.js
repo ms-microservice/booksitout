@@ -22,6 +22,9 @@ import Qna from './components/info/Qna'
 import Search from './components/search/Search'
 import Goal from './components/statistics/goal/Goal'
 import OAuthKakao from './components/user/oauth/OAuthKakao'
+import OAuthNaver from './components/user/oauth/OAuthNaver'
+import OAuthGoogle from './components/user/oauth/OAuthGoogle'
+import OAuthFacebook from './components/user/oauth/OAuthFacebook'
 // Functions
 import { getToken } from './functions/user'
 import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
@@ -75,10 +78,7 @@ function App() {
 
 	return (
 		<div className='App'>
-			<div>
-				<Toaster />
-			</div>
-
+			<Toaster />
 			<Topnav token={token} setToken={setToken} />
 
 			<div style={{ marginBottom: '80px' }} />
@@ -89,9 +89,13 @@ function App() {
 				<Route path='/faq' element={<Faq />} />
 
 				<Route path='/login' element={<Login setToken={setToken} />} />
-				<Route path='/login/oauth/kakao' element={<OAuthKakao setToken={setToken} />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
+
+				<Route path='/login/oauth/kakao' element={<OAuthKakao setToken={setToken} />} />
+				<Route path='/login/oauth/naver' element={<OAuthNaver setToken={setToken} />} />
+				<Route path='/login/oauth/google' element={<OAuthGoogle setToken={setToken} />} />
+				<Route path='/login/oauth/facebook' element={<OAuthFacebook setToken={setToken} />} />
 
 				<Route path='/' element={<Main token={token} />} />
 				<Route path='/book/:range' element={<BookList />} />
@@ -101,10 +105,7 @@ function App() {
 				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
 
 				<Route path='/reading' element={<ReadingNoId />} />
-				<Route
-					path='/reading/:id'
-					element={<Reading readingSessionTime={readingSessionTime} setReadingSessionTime={setReadingSessionTime} />}
-				/>
+				<Route path='/reading/:id' element={<Reading readingTime={readingSessionTime} setReadingTime={setReadingSessionTime} />} />
 
 				<Route path='/statistics' element={<Statistics />} />
 				<Route path='/statistics/goal' element={<Goal />} />

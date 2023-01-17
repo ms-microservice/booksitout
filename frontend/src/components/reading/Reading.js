@@ -21,7 +21,7 @@ import { getQuotationListOfBook } from '../../functions/quotation'
 // Settings
 import { INITIAL_FETCH_TIME } from '../../settings/settings'
 
-const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
+const Reading = ({ readingTime, setReadingTime }) => {
 	const { id } = useParams()
 	const navigate = useNavigate()
 
@@ -100,7 +100,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				isShowingModal={isEndReadingSessionModalOpen}
 				setIsShowingModal={setIsEndReadingSessionModalOpen}
 				toggleTimer={toggleTimer}
-				setTime={setReadingSessionTime}
+				setTime={setReadingTime}
 				book={book}
 			/>
 			<MemoDetailModal
@@ -153,7 +153,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 								</div>
 							</div>
 
-							<Timer time={readingSessionTime} />
+							<Timer time={readingTime} />
 
 							<div className='row justify-content-center mb-4 mt-4'>
 								<div className='col-6 col-lg-4'>
