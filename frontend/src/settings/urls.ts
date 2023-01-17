@@ -51,6 +51,15 @@ const urls = {
 			delete: (memoId) => `${base}/v1/memo/${memoId}`,
 		},
 
+		quotation: {
+			get: {
+				all: (bookId) => `${base}/v1/quotation/all/${bookId}`,
+			},
+			add: (bookId) => `${base}/v1/quotation/${bookId}`,
+			edit: (quotationId) => `${base}/v1/quotation/${quotationId}`,
+			delete: (quotationId) => `${base}/v1/quotation/${quotationId}`,
+		},
+
 		goal: {
 			get: {
 				duration: (duration) => `${base}/v1/goal?duration=${duration}`,

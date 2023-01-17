@@ -37,6 +37,9 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 				setQuotationList([...quotationList, quotation])
 				setContent('')
 				setFromWho('')
+				toast.success('인용을 추가했어요')
+			} else {
+				toast.error('오류가 났어요 잠시후 다시 시도해 주세요')
 			}
 		})
 	}
