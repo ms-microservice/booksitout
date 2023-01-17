@@ -1,7 +1,10 @@
 package com.jinkyumpark.bookitout.user;
 
-import com.jinkyumpark.bookitout.exception.http.NotFoundException;
-import com.jinkyumpark.bookitout.exception.http.NotLoginException;
+import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
+import com.jinkyumpark.bookitout.common.exception.http.NotLoginException;
+import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToken;
+import com.jinkyumpark.bookitout.user.dto.AppUserDto;
+import com.jinkyumpark.bookitout.user.dto.KakaoDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -21,23 +24,19 @@ public class AppUserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return appUserRepository
-                .findAppUserByEmail(username)
+                .findByEmail(username)
                 .orElseThrow(() ->
                         new UsernameNotFoundException("No App User found")
                 );
     }
 
     public Optional<AppUser> getUserByEmail(String email) {
-        return appUserRepository.findAppUserByEmail(email);
+        return appUserRepository.findByEmail(email);
     }
 
     public AppUser getAppUserById(Long appUserId) {
         return appUserRepository.findById(appUserId)
                 .orElseThrow(() -> new NotFoundException(""));
-    }
-
-    public AppUser addUser(AppUser appUser) {
-        return appUserRepository.save(appUser);
     }
 
     public static Long getLoginAppUserId() {
@@ -60,6 +59,8 @@ public class AppUserService implements UserDetailsService {
     }
 
     public void addEmailVerificationCode(String email, Integer code) {
+
+
         AppUser appUser = AppUser.builder()
                 .email(email)
                 .emailVerificationCode(code)
@@ -69,20 +70,39 @@ public class AppUserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUser(AppUser appUser) {
-        AppUser existingAppUser = appUserRepository.findAppUserByEmail(appUser.getEmail())
+    public void updateUser(Long appUserId, AppUserDto appUserDto) {
+        AppUser existingAppUser = appUserRepository.findById(appUserId)
                 .orElseThrow(() -> new NotFoundException("User Not Found"));
 
-        if (appUser.getPassword() != null) {
-            existingAppUser.setPassword(appUser.getPassword());
+        existingAppUser.updateUser(appUserDto);
+    }
+
+    @Transactional
+    public void updateUserByEmail(String email, AppUserDto appUserDto) {
+        AppUser existingAppUser = appUserRepository.findByEmail(email)
+                .orElseThrow(() -> new NotFoundException("User Not Found"));
+
+        existingAppUser.updateUser(appUserDto);
+    }
+
+    @Transactional
+    public AppUser addOrUpdateOAuthUser(KakaoDto kakaoDto) {
+        Optional<AppUser> userOptional = appUserRepository.findByEmail(kakaoDto.getEmail());
+
+        if (userOptional.isPresent()) {
+            AppUser appUser = userOptional.get();
+            appUser.saveOrUpdateKakao(kakaoDto);
+            return appUser;
         }
 
-        if (appUser.getName() != null) {
-            existingAppUser.setName(appUser.getName());
-        }
+        AppUser appUser = AppUser.builder()
+                .oAuthId(kakaoDto.getOAuthId())
+                .email(kakaoDto.getEmail())
+                .name(kakaoDto.getName())
+                .profileImage(kakaoDto.getProfileImage())
+                .oAuthProvider(kakaoDto.getOAuthProvider())
+                .build();
 
-        if (appUser.getEmailVerificationCode() != null) {
-            existingAppUser.setEmailVerificationCode(appUser.getEmailVerificationCode());
-        }
+        return appUserRepository.save(appUser);
     }
 }
