@@ -41,6 +41,15 @@ const urls = {
 				current: `${base}/v1/reading-session/current`,
 			},
 		},
+
+		memo: {
+			get: {
+				all: (bookId) => `${base}/v1/memo/all/${bookId}`,
+			},
+			add: (bookId) => `${base}/v1/memo/${bookId}`,
+			edit: (memoId) => `${base}/v1/memo/${memoId}`,
+			delete: (memoId) => `${base}/v1/memo/${memoId}`,
+		},
 	},
 
 	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao'],

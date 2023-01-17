@@ -1,5 +1,5 @@
 import urls from '../settings/urls'
-import { getToken } from '../functions/user'
+import { getToken } from './user'
 
 const getReadTime = (duration) => {
 	const READ_TIME_API_URL = `${urls.api.base}/v1/statistics/read-time/${duration}`

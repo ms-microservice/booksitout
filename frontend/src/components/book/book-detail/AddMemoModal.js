@@ -39,11 +39,13 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 
 		addMemo(newMemo, book.bookId).then((success) => {
 			if (success) {
+				toast.success('메모를 추가했어요')
 				setMemoList([...memoList, newMemo])
 				setPage(null)
 				setContent(null)
 				setIsModalOpen(false)
 			} else {
+				toast.error('오류가 났어요 잠시 후 다시 시도해 주세요')
 			}
 		})
 	}

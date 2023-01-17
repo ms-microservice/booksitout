@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import { Card, Button, Form } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Components
 import NoContent from '../common/NoContent'
 // Functions
@@ -20,8 +21,11 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 		addMemo(memo, book.bookId).then((isSuccess) => {
 			if (isSuccess) {
+				toast.success('메모를 추가했어요')
 				setMemoList([...memoList, memo])
 				setContent('')
+			} else {
+				toast.error('오류가 났어요 잠시 후 다시 시도해 주세요')
 			}
 		})
 	}
