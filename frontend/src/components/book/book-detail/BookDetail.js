@@ -319,7 +319,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 						const confirm = window.confirm('정말 책을 삭제할까요?')
 
 						if (confirm) {
-							deleteBook(book.bookId, token, navigate).then((success) => {
+							deleteBook(book.bookId).then((success) => {
 								if (success) {
 									toast.success('책을 삭제 했어요')
 									navigate('/book/not-done')
