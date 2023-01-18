@@ -77,6 +77,15 @@ const urls = {
 			edit: '',
 			delete: (year) => `${apiBase}/v1/goal/${year}`,
 		},
+
+		statistics: {
+			get: {
+				readTime: (duration) => `${apiBase}/v1/statistics/read-time/${duration}`,
+				summary: (year) => `${apiBase}/v1/statistics/year/${year}`,
+				language: `${apiBase}/v1/statistics/language`,
+				category: `${apiBase}/v1/statistics/category`,
+			},
+		},
 	},
 
 	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao'],
