@@ -92,6 +92,8 @@ public class ReadingSessionService {
             throw new BadRequestException("독서활동 페이지는 책 마지막 페이지보다 클 수 없어요");
         if (readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage() < 0 || readingSessionDto.getStartPage() < 0)
             throw new BadRequestException("독서활동 페이지는 반드시 0보다 커야 해요");
+        if (readingSessionDto.getEndPage() <= book.getCurrentPage())
+            throw new BadRequestException("독서활동 끝 페이지는 그 전 독서활동보다 커야만 해요");
 
         readingSessionRepository.save(readingSessionDto.toEntity());
         book.addReadingSession(readingSessionDto);
