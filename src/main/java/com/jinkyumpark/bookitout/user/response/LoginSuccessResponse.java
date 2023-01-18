@@ -13,12 +13,14 @@ public class LoginSuccessResponse {
     private final String token;
     private final String name;
     private final LocalDateTime registerDate;
+    private final String profileImage;
 
     @Builder
-    public LoginSuccessResponse(String message, String token, String name, LocalDateTime registerDate) {
+    public LoginSuccessResponse(String message, String token, String name, LocalDateTime registerDate, String profileImage) {
         this.message = message;
         this.token = token;
         this.name = name;
         this.registerDate = registerDate;
+        this.profileImage = profileImage;
     }
 }

@@ -5,8 +5,8 @@ import lombok.Getter;
 
 @AllArgsConstructor
 @Getter
-public class KakaoInfo {
-    private Long id;
+public class KakaoUserInfo {
+    private String id;
     private String connectedAt;
     private Properties properties;
     private KakaoAccount kakaoAccount;

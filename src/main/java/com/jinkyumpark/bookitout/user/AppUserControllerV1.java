@@ -4,7 +4,6 @@ import com.jinkyumpark.bookitout.common.exception.http.BadRequestException;
 import com.jinkyumpark.bookitout.common.exception.http.ConflictException;
 import com.jinkyumpark.bookitout.common.exception.http.PreConditionFailedException;
 import com.jinkyumpark.bookitout.user.dto.AppUserDto;
-import com.jinkyumpark.bookitout.user.dto.KakaoDto;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import com.jinkyumpark.bookitout.user.login.LoginUser;
 import com.jinkyumpark.bookitout.user.request.ChangeNameRequest;
@@ -15,10 +14,8 @@ import com.jinkyumpark.bookitout.user.response.JoinSuccessResponse;
 import com.jinkyumpark.bookitout.common.util.email.EmailSender;
 import com.jinkyumpark.bookitout.common.util.email.Mail;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 

@@ -4,7 +4,7 @@ import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.common.exception.http.NotLoginException;
 import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.dto.AppUserDto;
-import com.jinkyumpark.bookitout.user.dto.KakaoDto;
+import com.jinkyumpark.bookitout.user.dto.OAuthDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -85,21 +85,21 @@ public class AppUserService implements UserDetailsService {
     }
 
     @Transactional
-    public AppUser addOrUpdateOAuthUser(KakaoDto kakaoDto) {
-        Optional<AppUser> userOptional = appUserRepository.findByEmail(kakaoDto.getEmail());
+    public AppUser addOrUpdateOAuthUser(OAuthDto OAuthDto) {
+        Optional<AppUser> userOptional = appUserRepository.findByEmail(OAuthDto.getEmail());
 
         if (userOptional.isPresent()) {
             AppUser appUser = userOptional.get();
-            appUser.saveOrUpdateKakao(kakaoDto);
+            appUser.saveOrUpdateKakao(OAuthDto);
             return appUser;
         }
 
         AppUser appUser = AppUser.builder()
-                .oAuthId(kakaoDto.getOAuthId())
-                .email(kakaoDto.getEmail())
-                .name(kakaoDto.getName())
-                .profileImage(kakaoDto.getProfileImage())
-                .oAuthProvider(kakaoDto.getOAuthProvider())
+                .oAuthId(OAuthDto.getOAuthId())
+                .email(OAuthDto.getEmail())
+                .name(OAuthDto.getName())
+                .profileImage(OAuthDto.getProfileImage())
+                .oAuthProvider(OAuthDto.getOAuthProvider())
                 .build();
 
         return appUserRepository.save(appUser);

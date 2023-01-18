@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.common.jpa.TimeEntity;
 import com.jinkyumpark.bookitout.user.dto.AppUserDto;
-import com.jinkyumpark.bookitout.user.dto.KakaoDto;
+import com.jinkyumpark.bookitout.user.dto.OAuthDto;
 import com.jinkyumpark.bookitout.user.oauth.OAuthProvider;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
@@ -39,7 +39,7 @@ public class AppUser extends TimeEntity implements UserDetails {
     @Enumerated(EnumType.STRING)
     @Column(columnDefinition = "VARCHAR(10) DEFAULT 'NOT_USING'")
     private OAuthProvider oAuthProvider;
-    private Long oAuthId;
+    private String oAuthId;
 
     @JsonIgnore
     private Integer emailVerificationCode;
@@ -78,7 +78,7 @@ public class AppUser extends TimeEntity implements UserDetails {
     }
 
     @Builder
-    public AppUser(String email, String password, String name, String profileImage, OAuthProvider oAuthProvider, Long oAuthId, Integer emailVerificationCode) {
+    public AppUser(String email, String password, String name, String profileImage, OAuthProvider oAuthProvider, String oAuthId, Integer emailVerificationCode) {
         this.email = email;
         this.password = password;
         this.name = name;
@@ -94,10 +94,10 @@ public class AppUser extends TimeEntity implements UserDetails {
         this.emailVerificationCode = appUserDto.getEmailVerificationCode();
     }
 
-    public void saveOrUpdateKakao(KakaoDto kakaoDto) {
-        if (kakaoDto.getOAuthId() != null) this.oAuthId = kakaoDto.getOAuthId();
-        if (kakaoDto.getName() != null) this.name = kakaoDto.getName();
-        if (kakaoDto.getProfileImage() != null) this.profileImage = kakaoDto.getProfileImage();
-        if (kakaoDto.getOAuthProvider() != null) this.oAuthProvider = kakaoDto.getOAuthProvider();
+    public void saveOrUpdateKakao(OAuthDto OAuthDto) {
+        if (OAuthDto.getOAuthId() != null) this.oAuthId = OAuthDto.getOAuthId();
+        if (OAuthDto.getName() != null) this.name = OAuthDto.getName();
+        if (OAuthDto.getProfileImage() != null) this.profileImage = OAuthDto.getProfileImage();
+        if (OAuthDto.getOAuthProvider() != null) this.oAuthProvider = OAuthDto.getOAuthProvider();
     }
 }

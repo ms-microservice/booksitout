@@ -6,9 +6,9 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class KakaoDto {
+public class OAuthDto {
     private OAuthProvider oAuthProvider;
-    private Long oAuthId;
+    private String oAuthId;
     private String email;
     private String name;
     private String profileImage;
