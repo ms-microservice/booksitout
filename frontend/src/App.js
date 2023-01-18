@@ -31,12 +31,13 @@ import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate 
 // Settings
 import urls from './settings/urls'
 import uiSettings from './settings/ui'
+import utils from './functions/utils'
 import { getDateDifferenceInDays } from './functions/date'
 
 function App() {
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [token, setToken] = useState(getToken())
+	const [token, setToken] = useState(utils.getToken())
 
 	const [readingSessionTime, setReadingSessionTime] = useState(Math.round(getTimerSecond()))
 	useEffect(() => {

@@ -3,9 +3,9 @@ import { useNavigate } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 // Functions
-import { getToken } from '../../functions/user'
 // Settings
 import urls from '../../settings/urls'
+import utils from '../../functions/utils'
 
 const ReadingNoId = () => {
 	const navigate = useNavigate()
@@ -15,7 +15,7 @@ const ReadingNoId = () => {
 
 		fetch(BOOK_CURRENT_READING_SESSION_API_URL, {
 			method: 'GET',
-			headers: { Authorization: getToken() },
+			headers: { Authorization: utils.getToken() },
 		})
 			.then((res) => {
 				if (res.status.toString().startsWith(2)) {

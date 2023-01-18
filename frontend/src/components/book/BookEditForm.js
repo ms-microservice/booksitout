@@ -13,7 +13,7 @@ import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
 import { editBook } from '../../functions/book'
 import urls from '../../settings/urls'
-import { getToken } from '../../functions/user'
+import utils from '../../functions/utils'
 
 const BookEditForm = () => {
 	const { id } = useParams()
@@ -57,7 +57,7 @@ const BookEditForm = () => {
 		fetch(BOOK_GET_API_URL, {
 			method: 'GET',
 			headers: {
-				Authorization: getToken(),
+				Authorization: utils.getToken(),
 			},
 		})
 			.then((res) => {

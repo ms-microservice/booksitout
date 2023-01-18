@@ -12,6 +12,7 @@ import kakaoButton from '../../resources/images/login-button/small-kakao.png'
 import naverButton from '../../resources/images/login-button/small-naver.png'
 import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
+import utils from '../../functions/utils'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()
@@ -39,7 +40,7 @@ const Login = ({ setToken }) => {
 		{
 			id: 4,
 			image: naverButton,
-			redirectUrl: '',
+			redirectUrl: urls.api.user.login.oauth.naver.loginPage,
 		},
 	]
 

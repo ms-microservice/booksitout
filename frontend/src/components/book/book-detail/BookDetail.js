@@ -23,13 +23,13 @@ import Quotation from '../../common/Quotation'
 import defaultBookCover from '../../../resources/images/common/book.png'
 // Functions
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
-import { getToken } from '../../../functions/user'
 import { getMemoListOfBook } from '../../../functions/memo'
 import { getQuotationListOfBook } from '../../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
 import uiSettings from '../../../settings/ui'
+import utils from '../../../functions/utils'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -301,7 +301,7 @@ const BookCover = ({ book }) => {
 const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
 	const navigate = useNavigate()
 	const BOOK_EDIT_URL = `/book/edit/${book.bookId}`
-	const token = getToken()
+	const token = utils.getToken()
 
 	return (
 		<div className='row mt-3'>

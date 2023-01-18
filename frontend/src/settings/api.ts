@@ -1,8 +1,8 @@
-import { getToken } from '../functions/user'
+import utils from '../functions/utils'
 
 const apiSettings = {
 	headers: {
-		Authorization: getToken(),
+		Authorization: utils.getToken(),
 	},
 }
 

@@ -1,5 +1,5 @@
-import { getToken } from './user'
 import urls from '../settings/urls'
+import utils from './utils'
 
 const QNA_ALL_API_URL = `${urls.api.base}/v1/qna/all`
 const QNA_USER_API_URL = `${urls.api.base}/v1/qna/user`
@@ -23,7 +23,7 @@ const getAllQna = () => {
 }
 
 const getMyQna = () => {
-	const token = getToken()
+	const token = utils.getToken()
 
 	if (token === '' || token == null) {
 		return null
