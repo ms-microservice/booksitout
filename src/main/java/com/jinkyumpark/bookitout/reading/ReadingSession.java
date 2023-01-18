@@ -2,8 +2,10 @@ package com.jinkyumpark.bookitout.reading;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
+import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
@@ -13,6 +15,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 
 @DynamicUpdate
+@DynamicInsert
 @Entity @Table
 public class ReadingSession {
     @Id
@@ -52,10 +55,10 @@ public class ReadingSession {
     private Book book;
 
    public void updateReadingSession(ReadingSessionDto readingSessionDto) {
-        this.readTime = readingSessionDto.getReadTime();
-        this.startTime = readingSessionDto.getStartTime();
-        this.endTime = readingSessionDto.getEndTime();
-        this.startPage = readingSessionDto.getStartPage();
-        this.endPage = readingSessionDto.getEndPage();
+        if (readingSessionDto.getReadTime() != null) this.readTime = readingSessionDto.getReadTime();
+        if (readingSessionDto.getStartTime() != null) this.startTime = readingSessionDto.getStartTime();
+        if (readingSessionDto.getEndTime() != null) this.endTime = readingSessionDto.getEndTime();
+        if (readingSessionDto.getStartPage() != null) this.startPage = readingSessionDto.getStartPage();
+        if (readingSessionDto.getEndPage() != null) this.endPage = readingSessionDto.getEndPage();
    }
 }

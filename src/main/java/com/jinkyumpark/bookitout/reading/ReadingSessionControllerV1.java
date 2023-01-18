@@ -2,6 +2,7 @@ package com.jinkyumpark.bookitout.reading;
 
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.book.BookService;
+import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.bookitout.reading.request.ReadingAddRequest;
 import com.jinkyumpark.bookitout.reading.request.ReadingEditRequest;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
@@ -13,8 +14,6 @@ import com.jinkyumpark.bookitout.common.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.common.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.common.response.UpdateSuccessResponse;
-import com.jinkyumpark.bookitout.user.AppUser;
-import com.jinkyumpark.bookitout.user.AppUserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
@@ -80,15 +79,15 @@ public class ReadingSessionControllerV1 {
     public Book startReadingSession(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
-        Integer startPage = book.getCurrentPage() + 1;
-        ReadingSession newReadingSession = ReadingSession.builder()
+        Integer startPage = book.getCurrentPage() == 0 ? 0 : book.getCurrentPage() + 1;
+        ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .startPage(startPage)
                 .startTime(LocalDateTime.now())
-                .book(book)
-                .appUser(new AppUser(loginAppUser.getId()))
+                .bookId(bookId)
+                .appUserId(loginAppUser.getId())
                 .build();
 
-        readingSessionService.addReadingSession(newReadingSession, loginAppUser);
+        readingSessionService.addReadingSession(readingSessionDto, loginAppUser);
         return book;
     }
 
@@ -96,17 +95,17 @@ public class ReadingSessionControllerV1 {
     public ResponseEntity<String> addReadingSession(@PathVariable("bookId") Long bookId,
                                                     @Valid @RequestBody ReadingAddRequest readingAddRequest,
                                                     @LoginUser LoginAppUser loginAppUser) {
-        ReadingSession newReadingSession = ReadingSession.builder()
+        ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .startPage(readingAddRequest.getStartPage())
                 .endPage(readingAddRequest.getEndPage())
                 .startTime(readingAddRequest.getStartDate().atStartOfDay())
                 .endTime(readingAddRequest.getStartDate().atStartOfDay())
                 .readTime(readingAddRequest.getReadTime())
-                .appUser(new AppUser(loginAppUser.getId()))
-                .book(new Book(bookId))
+                .appUserId(loginAppUser.getId())
+                .bookId(bookId)
                 .build();
 
-        readingSessionService.addReadingSession(newReadingSession, loginAppUser);
+        readingSessionService.addReadingSession(readingSessionDto, loginAppUser);
 
         return new ResponseEntity<>("added", HttpStatus.CREATED);
     }
@@ -134,6 +133,8 @@ public class ReadingSessionControllerV1 {
                 .endPage(readingSessionEndPage)
                 .readTime(totalTimeInSecond / 60)
                 .endTime(LocalDateTime.now())
+                .bookId(bookId)
+                .appUserId(loginAppUser.getId())
                 .build();
 
         readingSessionService.endCurrentReadingSession(readingSessionDto, loginAppUser);

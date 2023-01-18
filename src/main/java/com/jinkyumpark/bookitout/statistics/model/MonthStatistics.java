@@ -4,19 +4,20 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
-import com.jinkyumpark.bookitout.reading.ReadingSessionDto;
+import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.bookitout.statistics.StatisticsDto;
 import com.jinkyumpark.bookitout.user.AppUser;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
+import org.hibernate.annotations.DynamicUpdate;
 
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor
+@NoArgsConstructor
 
+@DynamicUpdate
 @DynamicInsert
 @Entity(name = "month_statistics") @Table(name = "MonthStatistics")
 public class MonthStatistics {
@@ -54,29 +55,41 @@ public class MonthStatistics {
         this.appUser = appUser;
     }
 
-    public void addReadingSession(ReadingSession readingSession) {
-        if (readingSession.getReadTime() != null) this.totalReadMinute += readingSession.getReadTime();
-        if (readingSession.getEndPage() != null) this.totalPage += readingSession.getEndPage() - readingSession.getStartPage() + 1;
-        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(readingSession.getBook().getEndPage())) this.finishedBook++;
-        if (readingSession.getReadTime() != null && this.maxReadMinute < readingSession.getReadTime()) this.maxReadMinute = readingSession.getReadTime();
+    public void addReadingSession(ReadingSessionDto readingSession, Book book) {
+        if (readingSession.getReadTime() != null)
+            this.totalReadMinute += readingSession.getReadTime();
+        if (readingSession.getEndPage() != null)
+            this.totalPage += readingSession.getEndPage() - readingSession.getStartPage() + 1;
+        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage()))
+            this.finishedBook++;
+        if (readingSession.getReadTime() != null && this.maxReadMinute < readingSession.getReadTime())
+            this.maxReadMinute = readingSession.getReadTime();
     }
 
     public void deleteReadingSession(ReadingSession readingSession, Book book) {
-        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage())) this.finishedBook--;
-        if (readingSession.getReadTime() != null) this.totalReadMinute -= readingSession.getReadTime();
-        if (readingSession.getEndPage() != null) this.totalPage -= readingSession.getEndPage() - readingSession.getStartPage();
+        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage()))
+            this.finishedBook--;
+        if (readingSession.getReadTime() != null)
+            this.totalReadMinute -= readingSession.getReadTime();
+        if (readingSession.getEndPage() != null)
+            this.totalPage -= readingSession.getEndPage() - readingSession.getStartPage();
     }
 
     public void updateReadingSession(ReadingSession previousReadingSession, ReadingSessionDto updatedReadingSession, Book book) {
-        if (previousReadingSession.getEndPage() == null && updatedReadingSession.getEndPage() != null) this.totalPage += updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage();
-        if (previousReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() != null) {
-            Integer previousPage = previousReadingSession.getEndPage() - previousReadingSession.getStartPage() + 1;
-            Integer updatedPage = updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage() + 1;
+        if (previousReadingSession.getEndPage() == null && updatedReadingSession.getEndPage() != null)
+            this.totalPage += updatedReadingSession.getEndPage() - previousReadingSession.getStartPage();
+        if (previousReadingSession.getEndPage() != null && updatedReadingSession.getEndPage() != null && previousReadingSession.getStartPage() != null && updatedReadingSession.getStartPage() != null) {
+            int previousPage = previousReadingSession.getEndPage() - previousReadingSession.getStartPage() + 1;
+            int updatedPage = updatedReadingSession.getEndPage() - updatedReadingSession.getStartPage() + 1;
             this.totalPage = this.totalPage - previousPage + updatedPage;
         }
-        if (updatedReadingSession.getReadTime() != null) this.totalReadMinute += updatedReadingSession.getReadTime() - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime());
-        if (updatedReadingSession.getEndPage() != null && updatedReadingSession.getEndPage().equals(book.getEndPage())) this.finishedBook++;
-        if (updatedReadingSession.getReadTime() != null && this.maxReadMinute < updatedReadingSession.getReadTime()) this.maxReadMinute = updatedReadingSession.getReadTime();
+
+        if (updatedReadingSession.getReadTime() != null)
+            this.totalReadMinute += updatedReadingSession.getReadTime() - (previousReadingSession.getReadTime() == null ? 0 : previousReadingSession.getReadTime());
+        if (updatedReadingSession.getEndPage() != null && updatedReadingSession.getEndPage().equals(book.getEndPage()))
+            this.finishedBook++;
+        if (updatedReadingSession.getReadTime() != null && this.maxReadMinute < updatedReadingSession.getReadTime())
+            this.maxReadMinute = updatedReadingSession.getReadTime();
     }
 
     public void editBook(BookEditRequest bookEditRequest) {

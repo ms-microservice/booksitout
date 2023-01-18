@@ -1,15 +1,14 @@
 package com.jinkyumpark.bookitout.reading;
 
-import com.jinkyumpark.bookitout.book.BookRepository;
 import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.goal.model.Goal;
-import com.jinkyumpark.bookitout.statistics.StatisticsRepository;
+import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
+import com.jinkyumpark.bookitout.reading.exception.ReadingSessionIsInProgressException;
 import com.jinkyumpark.bookitout.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.goal.GoalService;
 import com.jinkyumpark.bookitout.statistics.StatisticsService;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
-import com.jinkyumpark.bookitout.user.login.LoginUser;
 import com.jinkyumpark.bookitout.common.exception.http.BadRequestException;
 import com.jinkyumpark.bookitout.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
@@ -28,16 +27,12 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @Service
 public class ReadingSessionService {
     private final MessageSourceAccessor messageSource;
-
     private final ReadingSessionRepository readingSessionRepository;
-
     private final BookService bookService;
     private final StatisticsService statisticsService;
     private final GoalService goalService;
 
-    public List<Integer> getReadTimeByDateRange(Long appUserId,
-                                                LocalDateTime startDate,
-                                                LocalDateTime endDate) {
+    public List<Integer> getReadTimeByDateRange(Long appUserId, LocalDateTime startDate, LocalDateTime endDate) {
         List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUser_AppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
 
         Map<Integer, Integer> readTimeMap = new HashMap<>();
@@ -58,9 +53,18 @@ public class ReadingSessionService {
         return readingSessionRepository.findAllByBook_BookId(bookId);
     }
 
+    public List<ReadingSession> getRecentReadingSessions(Long appUserId, Pageable pageRequest) {
+        return readingSessionRepository.findAllRecentReadingSession(appUserId, pageRequest);
+    }
+
     public ReadingSession getCurrentReadingSession(Long appUserId) {
         return readingSessionRepository.findFirstByAppUser_AppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("reading.get.current.fail.not-found")));
+    }
+
+    public ReadingSession getReadingSessionByReadingSessionId(Long readingSessionId) {
+        return readingSessionRepository.findById(readingSessionId)
+                .orElseThrow(() -> new NotFoundException("지우실려는 독서활동이 없어요"));
     }
 
     public Optional<ReadingSession> getCurrentReadingSessionOptional(Long appUserId) {
@@ -71,36 +75,28 @@ public class ReadingSessionService {
         return readingSessionRepository.findById(readingSessionId);
     }
 
-    public List<ReadingSession> getRecentReadingSessions(Long appUserId, Pageable pageRequest) {
-        return readingSessionRepository.findAllRecentReadingSession(appUserId, pageRequest);
-    }
-
     @Transactional
-    public void addReadingSession(ReadingSession newReadingSession, @LoginUser LoginAppUser loginAppUser) {
-        Book book = bookService.getBookById(loginAppUser, newReadingSession.getBook().getBookId());
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), newReadingSession.getStartTime().getYear(), newReadingSession.getStartTime().getMonthValue());
-        Goal goal = goalService.getGoalByYear(newReadingSession.getStartTime().getYear(), loginAppUser);
+    public void addReadingSession(ReadingSessionDto readingSessionDto, LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, readingSessionDto.getBookId());
+        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), readingSessionDto.getStartTime().getYear(), readingSessionDto.getStartTime().getMonthValue());
+        Goal goal = goalService.getGoalByYear(readingSessionDto.getStartTime().getYear(), loginAppUser);
+        Optional<ReadingSession> currentReadingSessionOptional = this.getCurrentReadingSessionOptional(loginAppUser.getId());
 
         if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()))
             throw new NotAuthorizeException("독서활동을 추가하시려는 책의 주인이 아니에요");
-        if (!newReadingSession.getStartPage().equals(book.getCurrentPage() + 1) && book.getCurrentPage() != 0)
+        if (!readingSessionDto.getStartPage().equals(book.getCurrentPage() + 1) && book.getCurrentPage() != 0)
             throw new BadRequestException("독서활동 시작 페이지는 바로 전 독서활동 페이지 바로 뒤여야만 해요");
-        Optional<ReadingSession> currentReadingSessionOptional = this.getCurrentReadingSessionOptional(loginAppUser.getId());
         if (currentReadingSessionOptional.isPresent())
             throw new ReadingSessionIsInProgressException(currentReadingSessionOptional.get().getBook().getBookId());
-        if (newReadingSession.getEndPage() != null && newReadingSession.getEndPage() > book.getEndPage())
+        if (readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage() > book.getEndPage())
             throw new BadRequestException("독서활동 페이지는 책 마지막 페이지보다 클 수 없어요");
-        if (newReadingSession.getEndPage() != null && newReadingSession.getEndPage() < 0 || newReadingSession.getStartPage() < 0)
+        if (readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage() < 0 || readingSessionDto.getStartPage() < 0)
             throw new BadRequestException("독서활동 페이지는 반드시 0보다 커야 해요");
 
-        readingSessionRepository.save(newReadingSession);
-
-        if (newReadingSession.getReadTime() == null && newReadingSession.getEndPage() == null)
-            return;
-
-        book.addReadingSession(newReadingSession);
-        monthStatistics.addReadingSession(newReadingSession);
-        goal.addReadingSession(newReadingSession, book);
+        readingSessionRepository.save(readingSessionDto.toEntity());
+        book.addReadingSession(readingSessionDto);
+        monthStatistics.addReadingSession(readingSessionDto, book);
+        goal.addReadingSession(readingSessionDto, book);
     }
 
     @Transactional
@@ -119,16 +115,13 @@ public class ReadingSessionService {
 
         Book book = bookService.getBookById(loginAppUser, previousReadingSession.getBook().getBookId());
         MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), previousReadingSession.getStartTime().getYear(), previousReadingSession.getStartTime().getMonthValue());
+        Integer readingSessionYear = readingSessionDto.getStartTime() == null ? previousReadingSession.getStartTime().getYear() : readingSessionDto.getStartTime().getYear();
+        Goal goal = goalService.getGoalByYear(readingSessionYear, loginAppUser);
 
         book.updateReadingSession(readingSessionDto);
         monthStatistics.updateReadingSession(previousReadingSession, readingSessionDto, book);
         previousReadingSession.updateReadingSession(readingSessionDto);
-
-        if (readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage().equals(book.getEndPage())) {
-            Integer readingSessionYear = readingSessionDto.getStartTime() == null ? previousReadingSession.getStartTime().getYear() : readingSessionDto.getStartTime().getYear();
-            Goal goal = goalService.getGoalByYear(readingSessionYear, loginAppUser);
-            goal.bookDone();
-        }
+        goal.updateReadingSession(readingSessionDto, book);
     }
 
     @Transactional
@@ -149,21 +142,17 @@ public class ReadingSessionService {
 
     @Transactional
     public void deleteReadingSession(Long readingSessionId, LoginAppUser loginAppUser) {
-        ReadingSession readingSession = this.getReadingSessionOptionalByReadingSessionId(readingSessionId)
-                .orElseThrow(() -> new NotFoundException("지우실려는 독서활동이 없어요"));
-        Long readingSessionAppUserId = readingSession.getBook().getAppUser().getAppUserId();
+        ReadingSession readingSession = this.getReadingSessionByReadingSessionId(readingSessionId);
+        Book book = readingSession.getBook();
+        MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), readingSession.getStartTime().getYear(), readingSession.getStartTime().getMonthValue());
+        Goal goal = goalService.getGoalByYear(readingSession.getStartTime().getYear(), loginAppUser);
 
-        if (!loginAppUser.getId().equals(readingSessionAppUserId))
+        if (!loginAppUser.getId().equals(readingSession.getBook().getAppUser().getAppUserId()))
             throw new NotAuthorizeException("독서활동을 지우실 권한이 없어요");
         if (readingSession.getEndPage() != null && !readingSession.getEndPage().equals(readingSession.getBook().getCurrentPage()))
             throw new BadRequestException("가장 최근의 독서활동만 지우실 수 있어요");
 
         readingSessionRepository.deleteById(readingSessionId);
-
-        Book book = readingSession.getBook();
-        MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), readingSession.getStartTime().getYear(), readingSession.getStartTime().getMonthValue());
-        Goal goal = goalService.getGoalByYear(readingSession.getStartTime().getYear(), loginAppUser);
-
         goal.deleteReadingSession(readingSession, book);
         statistics.deleteReadingSession(readingSession, book);
         book.deleteReadingSession(readingSession);

@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.reading;
+package com.jinkyumpark.bookitout.reading.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

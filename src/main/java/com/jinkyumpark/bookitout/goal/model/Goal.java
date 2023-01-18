@@ -3,7 +3,7 @@ package com.jinkyumpark.bookitout.goal.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
-import com.jinkyumpark.bookitout.reading.ReadingSessionDto;
+import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -12,7 +12,7 @@ import org.hibernate.annotations.DynamicInsert;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor
 
 @DynamicInsert
 @Entity(name = "Goal") @Table(name = "goal")
@@ -27,7 +27,6 @@ public class Goal {
     private AppUser appUser;
 
     private Integer goal;
-
     @ColumnDefault("0")
     private Integer current;
 
@@ -38,8 +37,16 @@ public class Goal {
         this.appUser = new AppUser(appUserId);
     }
 
-    public void bookDone() {
-        this.current++;
+    public void addReadingSession(ReadingSessionDto readingSessionDto, Book book) {
+        if (readingSessionDto.getEndPage() != null && book.getEndPage().equals(readingSessionDto.getEndPage())) this.current++;
+    }
+
+    public void updateReadingSession(ReadingSessionDto readingSessionDto, Book book) {
+        if (readingSessionDto.getEndPage().equals(book.getEndPage())) this.current++;
+    }
+
+    public void deleteReadingSession(ReadingSession readingSession, Book book) {
+        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage())) this.current--;
     }
 
     public void deleteDoneBook() {
@@ -52,17 +59,5 @@ public class Goal {
 
     public void editGoal(Integer goal) {
         this.goal = goal;
-    }
-
-    public void addReadingSession(ReadingSession readingSession, Book book) {
-        if (readingSession.getEndPage() != null && book.getEndPage().equals(readingSession.getEndPage())) this.current++;
-    }
-
-    public void deleteReadingSession(ReadingSession readingSession, Book book) {
-        if (readingSession.getEndPage() != null && readingSession.getEndPage().equals(book.getEndPage())) this.current--;
-    }
-
-    public void updateReadingSession(ReadingSessionDto readingSessionDto, Book book) {
-        if (readingSessionDto.getEndPage().equals(book.getEndPage())) this.current++;
     }
 }
