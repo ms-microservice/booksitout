@@ -3,7 +3,9 @@ const kakao = {
 	responseType: 'code',
 }
 
-const naver = {}
+const naver = {
+	clientId: 'WWI0nkWyzfAIMmjR0Y8N',
+}
 
 const google = {}
 

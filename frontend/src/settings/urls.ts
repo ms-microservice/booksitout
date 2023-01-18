@@ -1,4 +1,4 @@
-import { kakao } from '../settings/oauth'
+import { kakao, naver } from '../settings/oauth'
 
 const apiBase = process.env.REACT_APP_API_URL
 const localBase = process.env.REACT_APP_LOCAL_URL
@@ -23,10 +23,21 @@ const urls = {
 						api: (code) => `${apiBase}/v2/login/oauth2/kakao?code=${code}`,
 						loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${localBase}/login/oauth/kakao&response_type=${kakao.responseType}`,
 					},
+					naver: {
+						api: (code, state) => `${apiBase}/v2/login/oauth2/naver?code=${code}&state=${state}`,
+						loginPage: `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver.clientId}&redirect_uri=${localBase}/login/oauth/naver&version=js-2.0.1&state=bookitout`,
+					},
 				},
 			},
 			join: `${apiBase}/v1/join`,
 			email: (email) => `${apiBase}/v1/join/email-verification/${email}`,
+			change: {
+				name: `${apiBase}/v1/change-name`,
+				password: {
+					verify: `${apiBase}/v1/change-name`,
+					change: `${apiBase}/v1/change-password`,
+				},
+			},
 		},
 
 		book: {
@@ -102,7 +113,7 @@ const urls = {
 		},
 	},
 
-	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao'],
+	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao', '/login/oauth/naver'],
 }
 
 export default urls

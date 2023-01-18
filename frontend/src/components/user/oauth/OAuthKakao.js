@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import { useQuery } from '../../../functions/utils'
+import { useQuery } from '../../../functions/useQuery'
 // Components
 import Loading from '../../common/Loading'
 import { ERROR_MESSAGE } from '../../../messages/commonMessages'
@@ -26,6 +26,7 @@ const OAuthKakao = ({ setToken }) => {
 				localStorage.setItem('user-name', res.data.name)
 				// localStorage.setItem('register-year', res.data.registerDate.substring(0, 4))
 				localStorage.setItem('login-date', new Date())
+				localStorage.setItem('profile-image', res.data.profileImage)
 
 				toast.dismiss()
 				toast(res.data.message, { icon: '✋' })

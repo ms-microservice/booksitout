@@ -6,7 +6,7 @@ import { toast } from 'react-hot-toast'
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 // Functions
-import { logout } from '../../functions/user'
+import { logout, isLogoutPossible } from '../../functions/user'
 import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
@@ -17,6 +17,19 @@ const Topnav = ({ token, setToken }) => {
 	const location = useLocation()
 
 	const expand = 'lg'
+
+	const handleLogout = (e) => {
+		e.preventDefault()
+
+		if (isLogoutPossible()) {
+			logout()
+			setToken('')
+			toast.success('로그아웃했어요')
+			navigate('/login')
+		} else {
+			toast.error('독서활동이 진행중이에요. 지금 로그아웃하면 독서활동이 사라져요. 독서활동을 먼저 끝내 주세요')
+		}
+	}
 
 	const urlList = [
 		{
@@ -80,7 +93,7 @@ const Topnav = ({ token, setToken }) => {
 										{token === '' || token == null ? (
 											<div className='col-xs-10 col-8'>로그인</div>
 										) : (
-											<div className='col-xs-10 col-8' onClick={(e) => logout(e, setToken, navigate)}>
+											<div className='col-xs-10 col-8' onClick={(e) => handleLogout(e)}>
 												로그아웃
 											</div>
 										)}
@@ -136,7 +149,7 @@ const Topnav = ({ token, setToken }) => {
 								</>
 							) : (
 								<>
-									<NavDropdown.Item onClick={(e) => logout(e, setToken, navigate)}>로그아웃</NavDropdown.Item>
+									<NavDropdown.Item onClick={(e) => handleLogout(e)}>로그아웃</NavDropdown.Item>
 									<NavDropdown.Item onClick={() => navigate('/qna')}>QNA</NavDropdown.Item>
 									<NavDropdown.Item onClick={() => navigate('/faq')}>FAQ</NavDropdown.Item>
 									<NavDropdown.Divider />

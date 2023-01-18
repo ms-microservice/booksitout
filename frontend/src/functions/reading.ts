@@ -36,7 +36,8 @@ const endReadingSession = (book, endPage) => {
 const addReadingSession = (bookId, readingSession) => {
 	return axios
 		.post(urls.api.reading.add.all(bookId), readingSession, { headers: apiSettings.headers })
-		.then((res) => res.status.toString().startsWith('2'))
+		.then((res) => res.status)
+		.then((status) => status.toString().startsWith('2'))
 }
 
 const editReadingSession = (readingSessionId, editedReadingSession) => {

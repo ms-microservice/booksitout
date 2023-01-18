@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Functions
 import { login } from '../../functions/user'
 // Urls
@@ -44,6 +45,50 @@ const Login = ({ setToken }) => {
 		},
 	]
 
+	const handleLogin = (e) => {
+		e.preventDefault()
+		toast.dismiss()
+		setToken('')
+
+		if (email === '') {
+			toast.error('이메일을 입력해 주세요')
+			return
+		}
+
+		if (!email.includes('@')) {
+			toast.error('이메일 형식에 맞지 않아요')
+			return
+		}
+
+		if (password === '') {
+			toast.error('비밀번호를 입력해 주세요')
+			return
+		}
+
+		if (password.length < 6) {
+			toast.error('비밀번호는 6자 이상이에요')
+			return
+		}
+
+		toast.loading('로그인하고 있어요')
+
+		const loginRequest = {
+			email: email,
+			password: password,
+			stayLogin: stayLogin,
+		}
+
+		login(loginRequest).then((success) => {
+			if (success) {
+				navigate('/')
+				setToken(utils.getToken())
+			} else {
+				toast.dismiss()
+				toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')
+			}
+		})
+	}
+
 	return (
 		<div className='container mt-5'>
 			<div className='row row-eq-height justify-content-center'>
@@ -52,7 +97,7 @@ const Login = ({ setToken }) => {
 						<Card.Body>
 							<h1>📗 로그인</h1>
 
-							<Form onSubmit={(e) => login(e, navigate, setToken, email, password, stayLogin)}>
+							<Form onSubmit={(e) => handleLogin(e)}>
 								<Form.Group class='row mt-3'>
 									<div className='col-3 col-lg-2'>
 										<label class='col-form-label text-start'>이메일</label>
