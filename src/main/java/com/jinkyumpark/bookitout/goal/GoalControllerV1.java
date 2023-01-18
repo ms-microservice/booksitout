@@ -16,14 +16,14 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("/v1/goal")
+@RestController @RequestMapping("/v1/goal")
 public class GoalControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final GoalService goalService;
 
     @GetMapping("{year}")
-    public GoalResponse getGoalByYear(@PathVariable(value = "year", required = false) Integer year, @LoginUser LoginAppUser loginAppUser) {
+    public GoalResponse getGoalByYear(@PathVariable(value = "year", required = false) Integer year,
+                                      @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
 
         Goal goal = goalService.getGoalByYear(year, loginAppUser);
@@ -32,7 +32,8 @@ public class GoalControllerV1 {
     }
 
     @GetMapping
-    public List<GoalResponse> getGoalByDuration(@RequestParam(value = "duration", required = false) Integer duration, @LoginUser LoginAppUser loginAppUser) {
+    public List<GoalResponse> getGoalByDuration(@RequestParam(value = "duration", required = false) Integer duration,
+                                                @LoginUser LoginAppUser loginAppUser) {
         if (duration == null) duration = 5;
 
         Integer endYear = LocalDateTime.now().getYear();
@@ -72,7 +73,8 @@ public class GoalControllerV1 {
     }
 
     @DeleteMapping("{year}")
-    public DeleteSuccessResponse deleteGoal(@PathVariable("year") Integer year, @LoginUser LoginAppUser loginAppUser) {
+    public DeleteSuccessResponse deleteGoal(@PathVariable("year") Integer year,
+                                            @LoginUser LoginAppUser loginAppUser) {
         goalService.deleteGoal(loginAppUser.getId(), year);
 
         return new DeleteSuccessResponse(String.format("DELETE v1/goal/%d", year), messageSource.getMessage("goal.delete.success"));
