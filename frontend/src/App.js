@@ -26,7 +26,6 @@ import OAuthNaver from './components/user/oauth/OAuthNaver'
 import OAuthGoogle from './components/user/oauth/OAuthGoogle'
 import OAuthFacebook from './components/user/oauth/OAuthFacebook'
 // Functions
-import { getToken } from './functions/user'
 import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
 // Settings
 import urls from './settings/urls'
