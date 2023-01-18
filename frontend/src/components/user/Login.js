@@ -12,7 +12,6 @@ import kakaoButton from '../../resources/images/login-button/small-kakao.png'
 import naverButton from '../../resources/images/login-button/small-naver.png'
 import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
-import { kakao, naver, google, facebook } from '../../settings/oauth'
 
 const Login = ({ setToken }) => {
 	const navigate = useNavigate()
@@ -35,7 +34,7 @@ const Login = ({ setToken }) => {
 		{
 			id: 3,
 			image: kakaoButton,
-			redirectUrl: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${kakao.redirectUri}&response_type=${kakao.responseType}`,
+			redirectUrl: urls.api.user.login.oauth.kakao.loginPage,
 		},
 		{
 			id: 4,

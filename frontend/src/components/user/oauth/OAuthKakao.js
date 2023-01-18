@@ -16,22 +16,20 @@ const OAuthKakao = ({ setToken }) => {
 		const code = query.get('code')
 
 		axios
-			.get(urls.api.user.login.oauth.kakao(code))
+			.get(urls.api.user.login.oauth.kakao.api(code))
 			.then((res) => {
-				if (res.status !== 200) {
-					throw new Error()
-				}
+				if (res.status !== 200) throw new Error()
 
-				return res.data
-			})
-			.then((data) => {
-				localStorage.setItem('login-token', data.token)
-				localStorage.setItem('user-name', data.name)
-				// localStorage.setItem('register-year', data.registerDate.substring(0, 4))
+				setToken(res.data.token)
+
+				localStorage.setItem('login-token', res.data.token)
+				localStorage.setItem('user-name', res.data.name)
+				// localStorage.setItem('register-year', res.data.registerDate.substring(0, 4))
 				localStorage.setItem('login-date', new Date())
-				setToken(data.token)
+
 				toast.dismiss()
-				toast(data.message, { icon: '✋' })
+				toast(res.data.message, { icon: '✋' })
+
 				navigate('/')
 			})
 			.catch((e) => {

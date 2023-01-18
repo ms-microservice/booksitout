@@ -1,7 +1,12 @@
-const base = process.env.REACT_APP_API_URL
+import { kakao } from '../settings/oauth'
+
+const apiBase = process.env.REACT_APP_API_URL
+const localBase = process.env.REACT_APP_LOCAL_URL
 
 const urls = {
 	local: {
+		base: process.env.REACT_APP_LOCAL_URL,
+
 		introduction: '/introduction',
 		faq: '/faq',
 		qna: '/qna',
@@ -12,62 +17,65 @@ const urls = {
 
 		user: {
 			login: {
-				basic: `${base}/login`,
+				basic: `${apiBase}/login`,
 				oauth: {
-					kakao: (code) => `${base}/v2/login/oauth2/kakao?code=${code}`,
+					kakao: {
+						api: (code) => `${apiBase}/v2/login/oauth2/kakao?code=${code}`,
+						loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${localBase}/login/oauth/kakao&response_type=${kakao.responseType}`,
+					},
 				},
 			},
-			join: `${base}/v1/join`,
-			email: (email) => `${base}/v1/join/email-verification/${email}`,
+			join: `${apiBase}/v1/join`,
+			email: (email) => `${apiBase}/v1/join/email-verification/${email}`,
 		},
 
 		book: {
 			get: {
-				last: `${base}/v1/book/last`,
-				detail: (bookId) => `${base}/v1/book/${bookId}`,
-				all: (range: string, page: number) => `${base}/v1/book/all/${range}?page=${page}`,
+				last: `${apiBase}/v1/book/last`,
+				detail: (bookId) => `${apiBase}/v1/book/${bookId}`,
+				all: (range: string, page: number) => `${apiBase}/v1/book/all/${range}?page=${page}`,
 			},
-			add: `${base}/v1/book`,
+			add: `${apiBase}/v1/book`,
 			edit: {
-				all: (bookId) => `${base}/v1/book/${bookId}`,
-				giveup: (bookId) => `${base}/v1/book/give-up/${bookId}`,
-				unGiveup: (bookId) => `${base}/v1/book/un-give-up/${bookId}`,
+				all: (bookId) => `${apiBase}/v1/book/${bookId}`,
+				giveup: (bookId) => `${apiBase}/v1/book/give-up/${bookId}`,
+				unGiveup: (bookId) => `${apiBase}/v1/book/un-give-up/${bookId}`,
 			},
-			delete: (bookId) => `${base}/v1/book/${bookId}`,
+			delete: (bookId) => `${apiBase}/v1/book/${bookId}`,
 		},
 
 		reading: {
 			get: {
-				current: `${base}/v1/reading-session/current`,
+				current: `${apiBase}/v1/reading-session/current`,
 			},
 		},
 
 		memo: {
 			get: {
-				all: (bookId) => `${base}/v1/memo/all/${bookId}`,
+				all: (bookId) => `${apiBase}/v1/memo/all/${bookId}`,
 			},
-			add: (bookId) => `${base}/v1/memo/${bookId}`,
-			edit: (memoId) => `${base}/v1/memo/${memoId}`,
-			delete: (memoId) => `${base}/v1/memo/${memoId}`,
+			add: (bookId) => `${apiBase}/v1/memo/${bookId}`,
+			edit: (memoId) => `${apiBase}/v1/memo/${memoId}`,
+			delete: (memoId) => `${apiBase}/v1/memo/${memoId}`,
 		},
 
 		quotation: {
 			get: {
-				all: (bookId) => `${base}/v1/quotation/all/${bookId}`,
+				all: (bookId) => `${apiBase}/v1/quotation/all/${bookId}`,
 			},
-			add: (bookId) => `${base}/v1/quotation/${bookId}`,
-			edit: (quotationId) => `${base}/v1/quotation/${quotationId}`,
-			delete: (quotationId) => `${base}/v1/quotation/${quotationId}`,
+			add: (bookId) => `${apiBase}/v1/quotation/${bookId}`,
+			edit: (quotationId) => `${apiBase}/v1/quotation/${quotationId}`,
+			delete: (quotationId) => `${apiBase}/v1/quotation/${quotationId}`,
 		},
 
 		goal: {
 			get: {
-				duration: (duration) => `${base}/v1/goal?duration=${duration}`,
-				year: (year) => `${base}/v1/goal/${year}`,
+				duration: (duration) => `${apiBase}/v1/goal?duration=${duration}`,
+				year: (year) => `${apiBase}/v1/goal/${year}`,
 			},
-			add: (year, goal) => `${base}/v1/goal?year=${year}&goal=${goal}`,
+			add: (year, goal) => `${apiBase}/v1/goal?year=${year}&goal=${goal}`,
 			edit: '',
-			delete: (year) => `${base}/v1/goal/${year}`,
+			delete: (year) => `${apiBase}/v1/goal/${year}`,
 		},
 	},
 
