@@ -37,8 +37,8 @@ public class Memo {
         this.book = book;
     }
 
-    public void editMemo(String content, Integer page) {
-        if (content != null) this.content = content;
-        if (page != null) this.page = page;
+    public void editMemo(MemoDto memoDto) {
+        if (memoDto.getContent() != null) this.content = memoDto.getContent();
+        if (memoDto.getPage() != null) this.page = memoDto.getPage();
     }
 }

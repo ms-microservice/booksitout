@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.memo;
 
+import com.jinkyumpark.bookitout.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.memo.Memo;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.memo.MemoRepository;
@@ -9,6 +10,7 @@ import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
@@ -29,22 +31,26 @@ public class MemoService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("memo.get.fail.not-found")));
     }
 
-    public Long addMemo(MemoAddRequest memoAddRequest, Book book) {
-        return memoRepository.save(memoAddRequest.toEntity(book)).getMemoId();
+    public Long addMemo(MemoDto memoDto) {
+        return memoRepository.save(memoDto.toEntity()).getMemoId();
     }
 
     @Transactional
-    public void editMemo(Long memoId, MemoEditRequest memoEditRequest, LoginAppUser loginAppUser) {
+    public void editMemo(Long memoId, MemoDto memoDto, LoginAppUser loginAppUser) {
         Memo existingMemo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("memo.edit.fail.not-found")));
 
-        existingMemo.editMemo(memoEditRequest.getContent(), memoEditRequest.getPage());
+        existingMemo.editMemo(memoDto);
     }
 
     @Transactional
     public void deleteMemo(Long memoId, LoginAppUser loginAppUser) {
         Memo memo = memoRepository.findById(memoId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("memo.delete.fail.not-found")));
+
+        if (!memo.getBook().getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+            throw new NotAuthorizeException(messageSource.getMessage("memo.delete.fail.not-authorize"));
+        }
 
         memoRepository.deleteById(memoId);
     }

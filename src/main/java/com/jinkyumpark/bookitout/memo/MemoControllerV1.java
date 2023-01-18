@@ -40,16 +40,30 @@ public class MemoControllerV1 {
                                       @RequestBody @Valid MemoAddRequest memoAddRequest,
                                       @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
-        Long memoId = memoService.addMemo(memoAddRequest, book);
+        MemoDto memoDto = MemoDto.builder()
+                .bookId(bookId)
+                .page(memoAddRequest.getPage())
+                .content(memoAddRequest.getContent())
+                .build();
 
-        return new AddSuccessResponse(messageSource.getMessage("memo.add.success"));
+        Long memoId = memoService.addMemo(memoDto);
+
+        return AddSuccessResponse.builder()
+                .id(memoId)
+                .message(messageSource.getMessage("memo.add.success"))
+                .build();
     }
 
     @PutMapping("{memoId}")
     public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
                                         @RequestBody @Valid MemoEditRequest memoEditRequest,
                                         @LoginUser LoginAppUser loginAppUser) {
-        memoService.editMemo(memoId, memoEditRequest, loginAppUser);
+        MemoDto memoDto = MemoDto.builder()
+                .page(memoEditRequest.getPage())
+                .content(memoEditRequest.getContent())
+                .build();
+
+        memoService.editMemo(memoId, memoDto, loginAppUser);
 
         return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), messageSource.getMessage("memo.edit.success"));
     }
