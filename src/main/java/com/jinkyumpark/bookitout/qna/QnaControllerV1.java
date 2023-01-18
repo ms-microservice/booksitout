@@ -46,9 +46,13 @@ public class QnaControllerV1 {
             throw new BadRequestException(messageSource.getMessage("qna.add.fail.no-credential"));
         }
 
-        qnaService.addQna(qnaAddRequest);
+        Long qnaId = qnaService.addQna(qnaAddRequest);
 
-        return new AddSuccessResponse("POST v1/qna", messageSource.getMessage("qna.add.success"));
+        return AddSuccessResponse.builder()
+                .id(qnaId)
+                .message(messageSource.getMessage("qna.add.success"))
+                .path("POST v1/qna")
+                .build();
     }
 
     @PutMapping("{qnaId}")

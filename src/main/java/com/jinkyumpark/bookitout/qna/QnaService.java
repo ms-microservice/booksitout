@@ -30,13 +30,13 @@ public class QnaService {
         return qnaRepository.findAllByAppUser_AppUserId(userId);
     }
 
-    public void addQna(QnaAddRequest qnaAddRequest) {
-        qnaRepository.save(qnaAddRequest.toEntity());
-    }
-
     public Qna getQnaById(Long qnaId) {
         return qnaRepository.findById(qnaId)
                 .orElseThrow();
+    }
+
+    public Long addQna(QnaAddRequest qnaAddRequest) {
+        return qnaRepository.save(qnaAddRequest.toEntity()).getQnaId();
     }
 
     @Transactional
