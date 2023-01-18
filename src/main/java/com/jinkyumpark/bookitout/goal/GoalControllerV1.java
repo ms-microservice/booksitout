@@ -57,7 +57,10 @@ public class GoalControllerV1 {
 
         goalService.addGoal(loginAppUser.getId(), newGoal);
 
-        return new AddSuccessResponse(String.format("POST v1/goal/%d/%d", year, goal), messageSource.getMessage("goal.add.success"));
+        return AddSuccessResponse.builder()
+                .message(messageSource.getMessage("goal.add.success"))
+                .path(String.format("POST v1/goal/%d/%d", year, goal))
+                .build();
     }
 
     @PutMapping("{year}")

@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.quotation;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.quotation.request.QuotationEditRequest;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -33,6 +34,7 @@ public class Quotation {
     @JsonIgnore
     private Book book;
 
+    @Builder
     public Quotation(Integer page, String content, String fromWho, Book book) {
         this.page = page;
         this.content = content;
@@ -40,12 +42,12 @@ public class Quotation {
         this.book = book;
     }
 
-    public void editQuotation(QuotationEditRequest quotationEditRequest) {
-        if (quotationEditRequest.getContent() != null)
-            this.content = quotationEditRequest.getContent();
-        if (quotationEditRequest.getPage() != null)
-            this.page = quotationEditRequest.getPage();
-        if (quotationEditRequest.getFromWho() != null)
-            this.fromWho = quotationEditRequest.getFromWho();
+    public void editQuotation(QuotationDto quotationDto) {
+        if (quotationDto.getContent() != null)
+            this.content = quotationDto.getContent();
+        if (quotationDto.getPage() != null)
+            this.page = quotationDto.getPage();
+        if (quotationDto.getFromWho() != null)
+            this.fromWho = quotationDto.getFromWho();
     }
 }

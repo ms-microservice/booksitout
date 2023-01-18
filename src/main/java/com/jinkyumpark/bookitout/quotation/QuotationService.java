@@ -1,9 +1,6 @@
 package com.jinkyumpark.bookitout.quotation;
 
-import com.jinkyumpark.bookitout.quotation.request.QuotationEditRequest;
 import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
-import com.jinkyumpark.bookitout.quotation.Quotation;
-import com.jinkyumpark.bookitout.quotation.QuotationRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -28,16 +25,16 @@ public class QuotationService {
         return quotationRepository.findAllByBook_BookId(bookId);
     }
 
-    public void addQuotation(Quotation quotation) {
-        quotationRepository.save(quotation);
+    public Long addQuotation(QuotationDto quotation) {
+        return quotationRepository.save(quotation.toEntity()).getQuotationId();
     }
 
     @Transactional
-    public void editQuotation(Long quotationId, QuotationEditRequest quotationEditRequest) {
+    public void editQuotation(Long quotationId, QuotationDto quotationDto) {
         Quotation quotation = quotationRepository.findById(quotationId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("quotation.edit.fail.not-found")));
 
-        quotation.editQuotation(quotationEditRequest);
+        quotation.editQuotation(quotationDto);
     }
 
     public void deleteQuotation(Long quotationId) {

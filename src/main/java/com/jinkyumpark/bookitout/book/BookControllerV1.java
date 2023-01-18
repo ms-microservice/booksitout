@@ -60,7 +60,7 @@ public class BookControllerV1 {
     @PostMapping
     public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest,
                                       @LoginUser LoginAppUser loginAppUser) {
-        com.jinkyumpark.bookitout.book.dto.BookDto bookDto = com.jinkyumpark.bookitout.book.dto.BookDto.builder()
+        BookDto bookDto = BookDto.builder()
                 .title(bookAddRequest.getTitle())
                 .author(bookAddRequest.getAuthor())
                 .endPage(bookAddRequest.getEndPage())
@@ -73,9 +73,12 @@ public class BookControllerV1 {
                 .appUserId(loginAppUser.getId())
                 .build();
 
-        bookService.addBook(bookDto);
+        Long bookId = bookService.addBook(bookDto);
 
-        return new AddSuccessResponse(messageSource.getMessage("book.add.success"));
+        return AddSuccessResponse.builder()
+                .id(bookId)
+                .message(messageSource.getMessage("book.add.success"))
+                .build();
     }
 
     @PutMapping("{id}")

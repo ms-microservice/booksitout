@@ -46,16 +46,31 @@ public class QuotationControllerV1 {
             throw new NotAuthorizeException();
         }
 
-        Quotation quotation = new Quotation(quotationAddRequest.getPage(), quotationAddRequest.getContent(), quotationAddRequest.getFromWho(), book);
-        quotationService.addQuotation(quotation);
+        QuotationDto quotationDto = QuotationDto.builder()
+                .page(quotationAddRequest.getPage())
+                .content(quotationAddRequest.getContent())
+                .fromWho(quotationAddRequest.getFromWho())
+                .bookId(bookId)
+                .build();
 
-        return new AddSuccessResponse(messageSource.getMessage("quotation.add.success"));
+        Long quotationId = quotationService.addQuotation(quotationDto);
+
+        return AddSuccessResponse.builder()
+                .id(quotationId)
+                .message(messageSource.getMessage("quotation.add.success"))
+                .build();
     }
 
     @PutMapping("{quotationId}")
     public EditSuccessResponse editQuotation(@PathVariable("quotationId") Long quotationId,
                                              @RequestBody @Valid QuotationEditRequest quotationEditRequest) {
-        quotationService.editQuotation(quotationId, quotationEditRequest);
+        QuotationDto quotationDto = QuotationDto.builder()
+                .page(quotationEditRequest.getPage())
+                .content(quotationEditRequest.getContent())
+                .fromWho(quotationEditRequest.getFromWho())
+                .build();
+
+        quotationService.editQuotation(quotationId, quotationDto);
 
         return new EditSuccessResponse(String.format("PUT v1/quotation/%d", quotationId), messageSource.getMessage("quotation.edit.success"));
     }

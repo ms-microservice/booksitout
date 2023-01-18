@@ -83,8 +83,8 @@ public class BookService {
         return currentReadingSession.getBook();
     }
 
-    public void addBook(BookDto bookDto) {
-        bookRepository.save(bookDto.toEntity());
+    public Long addBook(BookDto bookDto) {
+        return bookRepository.save(bookDto.toEntity()).getBookId();
     }
 
     @Transactional

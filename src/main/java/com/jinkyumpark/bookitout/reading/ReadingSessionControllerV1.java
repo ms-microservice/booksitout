@@ -10,7 +10,6 @@ import com.jinkyumpark.bookitout.user.login.LoginUser;
 import com.jinkyumpark.bookitout.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.book.exception.BookNotSharingException;
-import com.jinkyumpark.bookitout.common.response.AddSuccessResponse;
 import com.jinkyumpark.bookitout.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.bookitout.common.response.EditSuccessResponse;
 import com.jinkyumpark.bookitout.common.response.UpdateSuccessResponse;
@@ -125,7 +124,7 @@ public class ReadingSessionControllerV1 {
     }
 
     @PutMapping("{bookId}/end")
-    public AddSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
+    public EditSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
                                                 @RequestParam("page") Integer readingSessionEndPage,
                                                 @RequestParam("time") Integer totalTimeInSecond,
                                                 @LoginUser LoginAppUser loginAppUser) {
@@ -139,7 +138,7 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.endCurrentReadingSession(readingSessionDto, loginAppUser);
 
-        return new AddSuccessResponse("독서활동을 종료했어요");
+        return new EditSuccessResponse("독서활동을 종료했어요");
     }
 
     @PutMapping("{readingSessionId}/all")
