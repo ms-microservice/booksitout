@@ -1,10 +1,10 @@
 package com.jinkyumpark.bookitout.book;
 
+import com.jinkyumpark.bookitout.book.dto.BookDto;
 import com.jinkyumpark.bookitout.book.exception.BookNotSharingException;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.reading.ReadingSessionRepository;
-import com.jinkyumpark.bookitout.book.request.BookEditRequest;
 import com.jinkyumpark.bookitout.statistics.StatisticsService;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import com.jinkyumpark.bookitout.common.exception.http.NotAuthorizeException;
@@ -83,8 +83,8 @@ public class BookService {
         return currentReadingSession.getBook();
     }
 
-    public void addBook(Book book) {
-        bookRepository.save(book);
+    public void addBook(BookDto bookDto) {
+        bookRepository.save(bookDto.toEntity());
     }
 
     @Transactional
@@ -113,7 +113,7 @@ public class BookService {
     }
 
     @Transactional
-    public void editBook(Long bookId, BookEditRequest bookEditRequest, Long loginUserId) {
+    public void editBook(Long bookId, BookDto bookDto, Long loginUserId) {
         Book bookToEdit = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException("book.get.fail.not-found"));
 
@@ -122,8 +122,8 @@ public class BookService {
 
         MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getAddDate().getYear(), bookToEdit.getAddDate().getMonthValue());
 
-        bookToEdit.editBook(bookEditRequest);
-        monthStatistics.editBook(bookEditRequest);
+        bookToEdit.editBook(bookDto);
+        monthStatistics.editBook(bookDto);
     }
 
     @Transactional

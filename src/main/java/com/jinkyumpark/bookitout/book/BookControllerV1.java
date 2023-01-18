@@ -1,13 +1,9 @@
 package com.jinkyumpark.bookitout.book;
 
-import com.jinkyumpark.bookitout.book.model.BookCategory;
-import com.jinkyumpark.bookitout.book.model.BookLanguage;
-import com.jinkyumpark.bookitout.book.model.BookSource;
+import com.jinkyumpark.bookitout.book.dto.BookDto;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.book.request.BookAddRequest;
 import com.jinkyumpark.bookitout.book.request.BookEditRequest;
-import com.jinkyumpark.bookitout.book.model.BookForm;
-import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import com.jinkyumpark.bookitout.user.login.LoginUser;
 import com.jinkyumpark.bookitout.common.response.AddSuccessResponse;
@@ -62,28 +58,45 @@ public class BookControllerV1 {
     }
 
     @PostMapping
-    public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest, @LoginUser LoginAppUser loginAppUser) {
-        Book book = Book.builder()
+    public AddSuccessResponse addBook(@RequestBody @Valid BookAddRequest bookAddRequest,
+                                      @LoginUser LoginAppUser loginAppUser) {
+        com.jinkyumpark.bookitout.book.dto.BookDto bookDto = com.jinkyumpark.bookitout.book.dto.BookDto.builder()
                 .title(bookAddRequest.getTitle())
                 .author(bookAddRequest.getAuthor())
                 .endPage(bookAddRequest.getEndPage())
-                .source(BookSource.valueOf(bookAddRequest.getSource()))
+                .source(bookAddRequest.getSource())
                 .cover(bookAddRequest.getCover())
-                .category(BookCategory.valueOf(bookAddRequest.getCategory()))
-                .language(BookLanguage.valueOf(bookAddRequest.getLanguage()))
+                .category(bookAddRequest.getCategory())
+                .language(bookAddRequest.getLanguage())
                 .isSharing(bookAddRequest.getIsSharing())
-                .form(BookForm.valueOf(bookAddRequest.getForm()))
-                .appUser(new AppUser(loginAppUser.getId()))
+                .form(bookAddRequest.getForm())
+                .appUserId(loginAppUser.getId())
                 .build();
 
-        bookService.addBook(book);
+        bookService.addBook(bookDto);
 
         return new AddSuccessResponse(messageSource.getMessage("book.add.success"));
     }
 
     @PutMapping("{id}")
-    public EditSuccessResponse editBook(@PathVariable("id") Long bookId, @RequestBody @Valid BookEditRequest bookEditRequest, @LoginUser LoginAppUser loginAppUser) {
-        bookService.editBook(bookId, bookEditRequest, loginAppUser.getId());
+    public EditSuccessResponse editBook(@PathVariable("id") Long bookId,
+                                        @RequestBody @Valid BookEditRequest bookEditRequest,
+                                        @LoginUser LoginAppUser loginAppUser) {
+        BookDto bookDto = BookDto.builder()
+                .title(bookEditRequest.getTitle())
+                .author(bookEditRequest.getAuthor())
+                .language(bookEditRequest.getLanguage())
+                .category(bookEditRequest.getCategory())
+                .endPage(bookEditRequest.getEndPage())
+                .cover(bookEditRequest.getCover())
+                .source(bookEditRequest.getSource())
+                .isSharing(bookEditRequest.getIsSharing())
+                .rating(bookEditRequest.getRating())
+                .summary(bookEditRequest.getSummary())
+                .review(bookEditRequest.getReview())
+                .build();
+
+        bookService.editBook(bookId, bookDto, loginAppUser.getId());
 
         return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), messageSource.getMessage("book.update.success"));
     }

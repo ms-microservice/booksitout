@@ -90,7 +90,7 @@ public class AppUserControllerV2 {
 
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
-        String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
+        String accessTokenJson = oAuthService.getOauthAccessTokenWebClient(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
         String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + naverToken.getAccessToken());

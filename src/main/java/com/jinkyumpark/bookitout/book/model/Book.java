@@ -1,10 +1,10 @@
 package com.jinkyumpark.bookitout.book.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.book.dto.BookDto;
 import com.jinkyumpark.bookitout.memo.Memo;
 import com.jinkyumpark.bookitout.quotation.Quotation;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
-import com.jinkyumpark.bookitout.book.request.BookEditRequest;
 import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor
 
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
@@ -117,6 +117,28 @@ public class Book {
         this.bookId = bookId;
     }
 
+    @Builder
+    public Book(String title, String cover, LocalDateTime publishedAt, String summary, Integer currentPage, Integer endPage,
+                BookSource source, BookForm form, String review, Integer rating, Boolean isSharing, BookLanguage language, BookCategory category,
+                String author, Boolean isGiveUp, AppUser appUser) {
+        this.title = title;
+        this.cover = cover;
+        this.publishedAt = publishedAt;
+        this.summary = summary;
+        this.currentPage = currentPage;
+        this.endPage = endPage;
+        this.source = source;
+        this.form = form;
+        this.review = review;
+        this.rating = rating;
+        this.isSharing = isSharing;
+        this.language = language;
+        this.category = category;
+        this.author = author;
+        this.isGiveUp = isGiveUp;
+        this.appUser = appUser;
+    }
+
     public void addReadingSession(ReadingSessionDto readingSessionDto) {
         if (readingSessionDto.getEndPage() != null) this.currentPage = readingSessionDto.getEndPage();
     }
@@ -137,24 +159,24 @@ public class Book {
         this.isGiveUp = false;
     }
 
-    public void editBook(BookEditRequest bookEditRequest) {
-        if (bookEditRequest.getTitle() != null)
-            this.title = bookEditRequest.getTitle();
-        if (bookEditRequest.getLanguage() != null)
-            this.language = BookLanguage.valueOf(bookEditRequest.getLanguage());
-        if (bookEditRequest.getCover() != null)
-            this.cover = bookEditRequest.getCover();
-        if (bookEditRequest.getSummary() != null)
-            this.cover = bookEditRequest.getCover();
-        if (bookEditRequest.getSource() != null)
-            this.source = BookSource.valueOf(bookEditRequest.getSource());
-        if (bookEditRequest.getReview() != null)
-            this.review = bookEditRequest.getReview();
-        if (bookEditRequest.getIsSharing() != null)
-            this.isSharing = bookEditRequest.getIsSharing();
-        if (bookEditRequest.getEndPage() != null)
-            this.endPage = bookEditRequest.getEndPage();
-        if (bookEditRequest.getRating() != null)
-            this.rating = bookEditRequest.getRating();
+    public void editBook(BookDto bookDto) {
+        if (bookDto.getTitle() != null)
+            this.title = bookDto.getTitle();
+        if (bookDto.getLanguage() != null)
+            this.language = bookDto.getLanguage();
+        if (bookDto.getCover() != null)
+            this.cover = bookDto.getCover();
+        if (bookDto.getSummary() != null)
+            this.cover = bookDto.getCover();
+        if (bookDto.getSource() != null)
+            this.source = bookDto.getSource();
+        if (bookDto.getReview() != null)
+            this.review = bookDto.getReview();
+        if (bookDto.getIsSharing() != null)
+            this.isSharing = bookDto.getIsSharing();
+        if (bookDto.getEndPage() != null)
+            this.endPage = bookDto.getEndPage();
+        if (bookDto.getRating() != null)
+            this.rating = bookDto.getRating();
     }
 }

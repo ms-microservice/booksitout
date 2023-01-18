@@ -1,9 +1,9 @@
 package com.jinkyumpark.bookitout.statistics.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.bookitout.book.dto.BookDto;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
-import com.jinkyumpark.bookitout.book.request.BookEditRequest;
 import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.bookitout.statistics.StatisticsDto;
 import com.jinkyumpark.bookitout.user.AppUser;
@@ -92,9 +92,9 @@ public class MonthStatistics {
             this.maxReadMinute = updatedReadingSession.getReadTime();
     }
 
-    public void editBook(BookEditRequest bookEditRequest) {
-        if (bookEditRequest.getRating() != null)
-            this.totalStar += bookEditRequest.getRating();
+    public void editBook(BookDto bookDto) {
+        if (bookDto.getRating() != null)
+            this.totalStar += bookDto.getRating();
     }
 
     public void editStatistics(StatisticsDto statisticsDto) {
