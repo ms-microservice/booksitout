@@ -47,6 +47,20 @@ const urls = {
 		reading: {
 			get: {
 				current: `${apiBase}/v1/reading-session/current`,
+				currentBook: `${apiBase}/v1/book/current-reading-session`,
+				all: (bookId) => `${apiBase}/v1/reading-session/${bookId}`,
+			},
+			add: {
+				start: (bookId) => `${apiBase}/v1/reading-session/${bookId}/start`,
+				all: (bookId) => `${apiBase}/v1/reading-session/${bookId}`,
+			},
+			edit: {
+				end: (bookId, endPage, seconds) => `${apiBase}/v1/reading-session/${bookId}/end?page=${endPage}&time=${seconds}`,
+				id: (readingSessionId) => `${apiBase}/v1/reading-session/${readingSessionId}/all`,
+			},
+			delete: {
+				notSaving: `${apiBase}/v1/reading-session/not-saving`,
+				all: (readingSessionId) => `${apiBase}/v1/reading-session/${readingSessionId}`,
 			},
 		},
 

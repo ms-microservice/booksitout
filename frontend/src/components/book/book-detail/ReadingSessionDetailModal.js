@@ -52,14 +52,13 @@ const ReadingSessionDetailModal = ({
 		}
 
 		const editedReadingSession = {
-			readingSessionId: readingSession.readingSessionId,
 			startTime: readingSession.startTime,
 			endTime: readingSession.endTime,
 			readTime: readTime === readingSession.readTime ? null : readTime,
 			endPage: endPage === readingSession.endPage ? null : endPage,
 		}
 
-		editReadingSession(editedReadingSession).then((res) => {
+		editReadingSession(readingSession.readingSessionId, editedReadingSession).then((res) => {
 			if (res.status.toString().startsWith(2)) {
 				toast.success('독서활동을 수정했어요')
 				setReadingSession(editedReadingSession)
