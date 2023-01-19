@@ -44,12 +44,21 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
 # 🆚 버전역사
-## Version 1 (22년 10월 29일 ~)
+## Version 1 (22년 10월 29일 ~ 23년 1월 14일)
 -   소개 : 소개 페이지, QNA/FAQ
 -   책 관리 : 책 등록, 메모/인용 추가, 읽은 책 별점/리뷰 (Google 검색 API 활용)
 -   독서활동 측정 : 책 읽을 떄 마다 타이머로 측정해 통계 제시
 -   Security : Spring Security, Http-only Cookie로 저장하는 JWT
 -   Gradle, Docker, AWS EBS, Github Actions를 사용한 CI/CD
+
+## Version 2 (22년 1월 15일 ~ )
+-   OAuth 로그인 : Google, Facebook, Kakao, Naver 구현. Spring Security 내부 모듈 사용
+-   검색 : 알라딘, 공공도서관, 전자도서관 등의 Open API와 Web Crawling으로 MSA 기반의 종합 검색 기능 구현
+-   코드개선
+  -   Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선
+  -   Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
+  -   DevOps : Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
+- 성능개선 : Spring Actuator를 사용해 병목지점 찾아내 코드 개선
 
 ### Architecture Diagram
 <p align="center">
