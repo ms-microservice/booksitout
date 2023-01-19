@@ -109,4 +109,10 @@ public class MonthStatistics {
         if (statisticsDto.getTotalPage() != null)
             this.totalPage += statisticsDto.getTotalPage();
     }
+
+    public void deleteBook(Book book) {
+        if (book.getCurrentPage().equals(book.getEndPage())) this.finishedBook--;
+        if (book.getCurrentPage().equals(book.getEndPage()) && book.getRating() != null) this.totalStar -= book.getRating();
+        this.totalPage -= book.getCurrentPage();
+    }
 }

@@ -30,13 +30,16 @@ import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate 
 // Settings
 import urls from './settings/urls'
 import uiSettings from './settings/ui'
-import utils from './functions/utils'
 import { getDateDifferenceInDays } from './functions/date'
+import { useDispatch, useSelector } from 'react-redux'
+import { logout } from './functions/user'
 
 function App() {
 	const location = useLocation()
 	const navigate = useNavigate()
-	const [token, setToken] = useState(utils.getToken())
+	const dispatch = useDispatch()
+
+	const token = useSelector((state) => state.loginToken.token)
 
 	const [readingSessionTime, setReadingSessionTime] = useState(Math.round(getTimerSecond()))
 	useEffect(() => {
@@ -62,11 +65,11 @@ function App() {
 		}
 
 		if (localStorage.getItem('login-date') && getDateDifferenceInDays(new Date(localStorage.getItem('login-date')), new Date()) >= 7) {
-			localStorage.clear()
+			dispatch(logout())
 			navigate('/login')
 			toast.error('다시 로그인 해  주세요')
 		}
-	}, [location.pathname, navigate, token])
+	}, [location.pathname, navigate, token, dispatch])
 
 	const { toasts } = useToasterStore()
 	useEffect(() => {
@@ -79,7 +82,7 @@ function App() {
 	return (
 		<div className='App'>
 			<Toaster />
-			<Topnav token={token} setToken={setToken} />
+			<Topnav />
 
 			<div style={{ marginBottom: '80px' }} />
 
@@ -88,21 +91,21 @@ function App() {
 				<Route path='/qna' element={<Qna />} />
 				<Route path='/faq' element={<Faq />} />
 
-				<Route path='/login' element={<Login setToken={setToken} />} />
+				<Route path='/login' element={<Login />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
 
-				<Route path='/login/oauth/kakao' element={<OAuthKakao setToken={setToken} />} />
-				<Route path='/login/oauth/naver' element={<OAuthNaver setToken={setToken} />} />
-				<Route path='/login/oauth/google' element={<OAuthGoogle setToken={setToken} />} />
-				<Route path='/login/oauth/facebook' element={<OAuthFacebook setToken={setToken} />} />
+				<Route path='/login/oauth/kakao' element={<OAuthKakao />} />
+				<Route path='/login/oauth/naver' element={<OAuthNaver />} />
+				<Route path='/login/oauth/google' element={<OAuthGoogle />} />
+				<Route path='/login/oauth/facebook' element={<OAuthFacebook />} />
 
-				<Route path='/' element={<Main token={token} />} />
+				<Route path='/' element={<Main />} />
 				<Route path='/book/:range' element={<BookList />} />
 				<Route path='/book/:range/:rangeDetail' element={<BookList />} />
 				<Route path='/book/detail/:id' element={<BookDetail />} />
-				<Route path='book/add' element={<BookAddForm token={token} />} />
-				<Route path='/book/edit/:id' element={<BookEditForm token={token} />} />
+				<Route path='book/add' element={<BookAddForm />} />
+				<Route path='/book/edit/:id' element={<BookEditForm />} />
 
 				<Route path='/reading' element={<ReadingNoId />} />
 				<Route path='/reading/:id' element={<Reading readingTime={readingSessionTime} setReadingTime={setReadingSessionTime} />} />

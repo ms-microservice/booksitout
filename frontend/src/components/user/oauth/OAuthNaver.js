@@ -6,10 +6,13 @@ import urls from '../../../settings/urls'
 import { useQuery } from '../../../functions/useQuery'
 import { ERROR_MESSAGE } from '../../../messages/commonMessages'
 import Loading from '../../common/Loading'
+import { useDispatch } from 'react-redux'
+import { login } from '../../../functions/user'
 
-const OAuthNaver = ({ setToken }) => {
+const OAuthNaver = () => {
 	const navigate = useNavigate()
 	const query = useQuery()
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		const code = query.get('code')
@@ -19,8 +22,8 @@ const OAuthNaver = ({ setToken }) => {
 			.get(urls.api.user.login.oauth.naver.api(code, state))
 			.then((res) => {
 				if (res.status !== 200) throw new Error()
-				setToken(res.data.token)
-				localStorage.setItem('login-token', res.data.token)
+
+				dispatch(login(res.data.token))
 				localStorage.setItem('user-name', res.data.name)
 				// localStorage.setItem('register-year', res.data.registerDate.substring(0, 4))
 				localStorage.setItem('login-date', new Date())

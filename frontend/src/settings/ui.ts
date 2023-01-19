@@ -5,5 +5,11 @@ const uiSettings = {
 	color: {
 		memo: `rgb(242, 227, 142)`,
 	},
+
+	responsive: {
+		topnav: {
+			collapse: 'lg',
+		},
+	},
 }
 export default uiSettings

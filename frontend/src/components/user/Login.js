@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { login } from '../../functions/user'
+import { login, logout } from '../../functions/user'
 // Urls
 import urls from '../../settings/urls'
 // Messages
@@ -15,8 +16,9 @@ import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
 import utils from '../../functions/utils'
 
-const Login = ({ setToken }) => {
+const Login = () => {
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
@@ -48,7 +50,7 @@ const Login = ({ setToken }) => {
 	const handleLogin = (e) => {
 		e.preventDefault()
 		toast.dismiss()
-		setToken('')
+		dispatch(logout())
 
 		if (email === '') {
 			toast.error('이메일을 입력해 주세요')
@@ -81,7 +83,7 @@ const Login = ({ setToken }) => {
 		login(loginRequest).then((success) => {
 			if (success) {
 				navigate('/')
-				setToken(utils.getToken())
+				dispatch(login(utils.getToken()))
 			} else {
 				toast.dismiss()
 				toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')

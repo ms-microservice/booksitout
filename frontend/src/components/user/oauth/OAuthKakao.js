@@ -7,10 +7,13 @@ import { useQuery } from '../../../functions/useQuery'
 import Loading from '../../common/Loading'
 import { ERROR_MESSAGE } from '../../../messages/commonMessages'
 import urls from '../../../settings/urls'
+import { useDispatch } from 'react-redux'
+import { login } from '../../../functions/user'
 
-const OAuthKakao = ({ setToken }) => {
+const OAuthKakao = () => {
 	const navigate = useNavigate()
 	const query = useQuery()
+	const dispatch = useDispatch()
 
 	useEffect(() => {
 		const code = query.get('code')
@@ -20,9 +23,8 @@ const OAuthKakao = ({ setToken }) => {
 			.then((res) => {
 				if (res.status !== 200) throw new Error()
 
-				setToken(res.data.token)
+				dispatch(login(res.data.token))
 
-				localStorage.setItem('login-token', res.data.token)
 				localStorage.setItem('user-name', res.data.name)
 				// localStorage.setItem('register-year', res.data.registerDate.substring(0, 4))
 				localStorage.setItem('login-date', new Date())
