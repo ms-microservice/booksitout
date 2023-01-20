@@ -82,7 +82,7 @@ jobs:
           --build-arg EMAIL_ID=$EMAIL_ID \
           --build-arg EMAIL_PW=$EMAIL_PW \
           --build-arg OAUTH_NAVER_CLIENT_ID=$OAUTH_NAVER_CLIENT_ID \
-          --build-args OAUTH_NAVER_CLIENT_SECRET=$OAUTH_NAVER_CLIENT_SECRET \
+          --build-arg OAUTH_NAVER_CLIENT_SECRET=$OAUTH_NAVER_CLIENT_SECRET \
           -t jinkpark/book-it-out:v1-amd64 .
           docker push $DOCKERHUB_IMAGE_NAME
         env:
