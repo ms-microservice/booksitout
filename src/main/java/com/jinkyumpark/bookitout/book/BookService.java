@@ -19,6 +19,7 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -135,6 +136,12 @@ public class BookService {
             throw new NotAuthorizeException(messageSource.getMessage("book.delete.fail.not-authorize"));
         }
 
+        Optional<ReadingSession> lastReadingSession = readingSessionRepository.findFirstByBook_BookIdOrderByStartTimeDesc(bookId);
+        int year = lastReadingSession.isPresent() ? lastReadingSession.get().getStartTime().getYear() : book.getCreatedDate().getYear();
+        int month = lastReadingSession.isPresent() ? lastReadingSession.get().getStartTime().getMonthValue() : book.getCreatedDate().getMonthValue();
+        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), year, month);
+
+        monthStatistics.deleteBook(book);
         bookRepository.deleteById(book.getBookId());
     }
 }
