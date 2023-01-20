@@ -167,7 +167,7 @@ const Login = () => {
 														style={{
 															width: '50px',
 														}}
-														className='img-fluid ms-3 me-3 ms-md-3 me-md-3 rounded'
+														className='img-fluid ms-1 me-1 ms-md-3 me-md-3 rounded'
 														src={oauth.image}
 														alt=''
 													/>
