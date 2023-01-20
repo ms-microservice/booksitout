@@ -1,4 +1,4 @@
-FROM adoptopenjdk/openjdk11
+FROM adoptopenjdk/openjdk17
 
 MAINTAINER JINKYUM PARK
 WORKDIR ./
