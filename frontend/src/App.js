@@ -33,14 +33,14 @@ import uiSettings from './settings/ui'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { updateOneSecond, updateReadingTimeDate } from './redux/timerSlice'
-import { logoutToken } from './redux/loginTokenSlice'
+import { logoutToken } from './redux/userSlice'
 
 function App() {
 	const location = useLocation()
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	const token = useSelector((state) => state.loginToken.token)
+	const token = useSelector((state) => state.user.token)
 	const timerOn = useSelector((state) => state.timer.isTimerOn)
 
 	useEffect(() => {

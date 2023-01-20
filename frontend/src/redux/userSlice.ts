@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
+import defaultProfile from '../../resources/images/common/logo.png'
 
-export const loginTokenSlice = createSlice({
-	name: 'loginToken',
+export const userSlice = createSlice({
+	name: 'user',
 	initialState: {
 		token: localStorage.getItem('login-token'),
 	},
@@ -18,5 +19,5 @@ export const loginTokenSlice = createSlice({
 	},
 })
 
-export const { loginToken, logoutToken } = loginTokenSlice.actions
-export default loginTokenSlice.reducer
+export const { loginToken, logoutToken } = userSlice.actions
+export default userSlice.reducer

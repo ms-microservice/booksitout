@@ -9,7 +9,7 @@ import Loading from '../../common/Loading'
 // Settings
 import urls from '../../../settings/urls'
 // Messages
-import { loginToken } from '../../../redux/loginTokenSlice'
+import { loginToken } from '../../../redux/userSlice'
 // Redux
 import messages from '../../../settings/messages'
 

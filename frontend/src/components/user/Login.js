@@ -14,7 +14,7 @@ import naverButton from '../../resources/images/login-button/small-naver.png'
 import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
 import utils from '../../functions/utils'
-import { loginToken, logoutToken } from '../../redux/loginTokenSlice'
+import { loginToken, logoutToken } from '../../redux/userSlice'
 
 const Login = () => {
 	const navigate = useNavigate()

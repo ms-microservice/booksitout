@@ -15,7 +15,7 @@ import logo from '../../resources/images/common/logo.png'
 import uiSettings from '../../settings/ui'
 // Redux
 import { useSelector, useDispatch } from 'react-redux'
-import { logoutToken } from '../../redux/loginTokenSlice'
+import { logoutToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
 
 const Topnav = () => {
@@ -23,7 +23,7 @@ const Topnav = () => {
 	const location = useLocation()
 	const dispatch = useDispatch()
 
-	const token = useSelector((state) => state.loginToken.token)
+	const token = useSelector((state) => state.user.token)
 	const expand = uiSettings.topnav.collapse
 
 	const handleLogout = (e) => {
@@ -43,7 +43,7 @@ const Topnav = () => {
 		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect>
 			<Container fluid>
 				<Navbar.Brand href={token === '' ? '/login' : '/'}>
-					<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px' }} />
+					<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px', height: '30px' }} />
 					책잇아웃
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}></Navbar.Toggle>
@@ -119,7 +119,14 @@ const Topnav = () => {
 					<Nav>
 						<NavDropdown
 							id='user-dropdown'
-							title={<img src={userIcon} alt='' className='img-fluid' style={{ width: '30px' }} />}
+							title={
+								<img
+									src={localStorage.getItem('profile-image') == null ? userIcon : localStorage.getItem('profile-image')}
+									alt=''
+									className='img-fluid rounded'
+									style={{ width: '30px' }}
+								/>
+							}
 							align='end'
 							size='xl'
 							className={`d-none d-${expand}-inline`}>

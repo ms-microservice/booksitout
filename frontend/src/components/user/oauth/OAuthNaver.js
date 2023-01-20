@@ -10,7 +10,7 @@ import Loading from '../../common/Loading'
 import urls from '../../../settings/urls'
 // Messsages
 // Redux
-import { loginToken } from '../../../redux/loginTokenSlice'
+import { loginToken } from '../../../redux/userSlice'
 import messages from '../../../settings/messages'
 
 const OAuthNaver = () => {

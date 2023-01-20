@@ -1,10 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
-import loginReducer from './loginTokenSlice'
+import userReducer from './userSlice'
 import timerReducer from './timerSlice'
 
 export default configureStore({
 	reducer: {
-		loginToken: loginReducer,
+		user: userReducer,
 		timer: timerReducer,
 	},
 })
