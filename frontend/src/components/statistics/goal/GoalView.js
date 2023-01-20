@@ -26,7 +26,7 @@ const GoalView = ({ goal }) => {
 					</div>
 
 					<div className='col-6 align-self-center'>
-						<h1>
+						<h1 style={{ whiteSpace: 'nowrap' }}>
 							{goal.current}권 / {goal.goal}권
 						</h1>
 					</div>

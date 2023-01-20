@@ -1,4 +1,3 @@
-import React from 'react'
 // Icons
 import timeIcon from '../../resources/images/statistics/time.png'
 import bookIcon from '../../resources/images/statistics/book.png'
@@ -31,7 +30,7 @@ const SummaryTable = ({ statistics }) => {
 			id: 4,
 			icon: starIcon,
 			name: '평균별점',
-			value: `${statistics.yearStatistics.averageStar != null && statistics.yearStatistics.averageStar}점`,
+			value: `${statistics.yearStatistics.averageStar != null && Math.round(statistics.yearStatistics.averageStar, 2)}점`,
 		},
 		{
 			id: 2,
