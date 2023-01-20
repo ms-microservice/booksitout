@@ -12,40 +12,35 @@ import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 import MemoDetailModal from '../book/book-detail/MemoDetailModal'
 import QuotationDetailModal from '../book/book-detail/QuotationDetailModal'
+// Images
+import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
 import { getBookOfCurrentReadingSession, startReadingSession } from '../../functions/reading'
-import { getIsTimerOn, turnOffTimer, turnOnTimer } from '../../functions/timer'
-import { ERROR_MESSAGE } from '../../messages/commonMessages'
 import { getMemoListOfBook } from '../../functions/memo'
 import { getQuotationListOfBook } from '../../functions/quotation'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../settings/settings'
+import uiSettings from '../../settings/ui'
+// Messages
+// Redux
+import { useDispatch, useSelector } from 'react-redux'
+import { pauseTimer, resumeTimer, toggleTimer } from '../../redux/timerSlice'
+import messages from '../../settings/messages'
 
-const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
+const Reading = () => {
 	const { id } = useParams()
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
 
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
 	const [isError, setIsError] = useState(false)
-
 	const [book, setBook] = useState(null)
-
-	const [isTimerOn, setIsTimerOn] = useState(getIsTimerOn())
-	const toggleTimer = (state = !getIsTimerOn()) => {
-		if (state) {
-			setIsTimerOn(true)
-			turnOnTimer()
-		} else {
-			setIsTimerOn(false)
-			turnOffTimer()
-		}
-	}
+	const isTimerOn = useSelector((state) => state.timer.isTimerOn)
 
 	const [isEndReadingSessionModalOpen, setIsEndReadingSessionModalOpen] = useState(false)
 	const showEndReadingSessionModal = () => {
 		setIsEndReadingSessionModalOpen(true)
-		toggleTimer(false)
+		dispatch(pauseTimer())
 	}
 
 	const [memoList, setMemoList] = useState(null)
@@ -57,11 +52,11 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 	const [selectedQuotation, setSelectedQuotation] = useState(null)
 
 	useEffect(() => {
-		toggleTimer(true)
+		dispatch(resumeTimer())
 
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		getBookOfCurrentReadingSession()
 			.then((book) => {
@@ -74,11 +69,11 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 							setBook(res[1])
 						} else {
 							setIsError(true)
-							toast.error(ERROR_MESSAGE)
+							toast.error(messages.error)
 						}
 					})
 				} else {
-					if (id != book.bookId) {
+					if (Number(id) !== Number(book.bookId)) {
 						toast.error('진행중인 독서활동이 있어요')
 						navigate(`/reading/${book.bookId}`)
 					}
@@ -92,17 +87,11 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				setInitialFetch(false)
 				setIsLoading(false)
 			})
-	}, [])
+	}, [id, navigate])
 
 	return (
 		<div className='container' style={{ marginBottom: '100px' }}>
-			<EndReadingSessionModal
-				isShowingModal={isEndReadingSessionModalOpen}
-				setIsShowingModal={setIsEndReadingSessionModalOpen}
-				toggleTimer={toggleTimer}
-				setTime={setReadingSessionTime}
-				book={book}
-			/>
+			<EndReadingSessionModal isShowingModal={isEndReadingSessionModalOpen} setIsShowingModal={setIsEndReadingSessionModalOpen} book={book} />
 			<MemoDetailModal
 				isModalOpen={isMemoDetailModalOpen}
 				setIsModalOpen={setIsMemoDetailModalOpen}
@@ -130,7 +119,11 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 				book != null && (
 					<div className='row justify-content-center text-center'>
 						<div className='col-8 col-lg-6 col-xl-4'>
-							<img src={book.cover} alt='' className='img-fluid rounded w-100 border' />
+							<img
+								src={book.cover == null || book.cover === '' ? defaultBookCover : book.cover}
+								alt=''
+								className={`img-fluid rounded w-100 ${book.cover == null || book.cover === '' ? '' : 'border'}`}
+							/>
 							<Button
 								variant='secondary'
 								className='w-100 mt-3'
@@ -153,7 +146,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 								</div>
 							</div>
 
-							<Timer time={readingSessionTime} />
+							<Timer />
 
 							<div className='row justify-content-center mb-4 mt-4'>
 								<div className='col-6 col-lg-4'>
@@ -163,7 +156,7 @@ const Reading = ({ readingSessionTime, setReadingSessionTime }) => {
 								</div>
 
 								<div className='col-6 col-lg-4'>
-									<Button variant={isTimerOn ? 'danger' : 'success'} className='w-100' onClick={() => toggleTimer(!isTimerOn)}>
+									<Button variant={isTimerOn ? 'danger' : 'success'} className='w-100' onClick={() => dispatch(toggleTimer())}>
 										{isTimerOn ? '잠시 정지' : '다시 시작'}
 									</Button>
 								</div>

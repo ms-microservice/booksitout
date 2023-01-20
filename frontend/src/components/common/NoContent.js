@@ -1,4 +1,3 @@
-import React from 'react'
 import errorImage from '../../resources/images/common/error.png'
 
 const NoContent = ({ message = '텅 비어 있어요', icon = errorImage, style = { width: '250px' } }) => {

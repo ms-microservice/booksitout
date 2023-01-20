@@ -1,4 +1,3 @@
-import React from 'react'
 import { AiFillPlusCircle as AddIcon } from 'react-icons/ai'
 import '../../resources/css/button.css'
 

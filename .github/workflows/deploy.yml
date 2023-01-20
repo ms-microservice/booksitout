@@ -16,6 +16,8 @@ env:
   EB_APPLICATION_NAME: book-it-out
   EB_DEPLOYMENT_PACKAGE: ./docker-compose.yml
 
+  DOCKERHUB_IMAGE_NAME: jinkpark/book-it-out:v2
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -81,8 +83,10 @@ jobs:
           --build-arg DB_PW=$DB_PW \
           --build-arg EMAIL_ID=$EMAIL_ID \
           --build-arg EMAIL_PW=$EMAIL_PW \
+          --build-arg OAUTH_NAVER_CLIENT_ID=$OAUTH_NAVER_CLIENT_ID \
+          --build-args OAUTH_NAVER_CLIENT_SECRET=$OAUTH_NAVER_CLIENT_SECRET \
           -t jinkpark/book-it-out:v1-amd64 .
-          docker push jinkpark/book-it-out:v1-amd64
+          docker push $DOCKERHUB_IMAGE_NAME
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           DB_URL: ${{ secrets.DB_URL }}
@@ -90,6 +94,9 @@ jobs:
           DB_PW: ${{ secrets.DB_PW }}
           EMAIL_ID: ${{ secrets.EMAIL_ID }}
           EMAIL_PW: ${{ secrets.EMAIL_PW }}
+          DOCKERHUB_IMAGE_NAME: ${{ env.DOCKERHUB_IMAGE_NAME }}
+          OAUTH_NAVER_CLIENT_ID: ${{ secrets.OAUTH_NAVER_CLIENT_ID }}
+          OAUTH_NAVER_CLIENT_SECRET: ${{ secrets.OAUTH_NAVER_CLIENT_SECRET }}
 
       - name: Generate Build Number
         id: build-number

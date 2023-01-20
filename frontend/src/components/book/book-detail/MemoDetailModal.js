@@ -4,11 +4,11 @@ import { Modal, Button, Card, Form } from 'react-bootstrap'
 // Functions
 import { deleteMemo, editMemo } from '../../../functions/memo'
 // Settings
-import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
+import uiSettings from '../../../settings/ui'
 // Resources
 import '../../../resources/css/input.css'
 // Messages
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
+import messages from '../../../settings/messages'
 
 const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList, setMemoList }) => {
 	const [isEditMode, setIsEditMode] = useState(false)
@@ -43,7 +43,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 					})
 				)
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}
@@ -55,7 +55,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 				if (success) {
 					setIsModalOpen(false)
 					setMemoList(memoList.filter((m) => m.memoId !== memo.memoId))
-					toast.error('메모를 지웠어요')
+					toast.success('메모를 지웠어요')
 				} else {
 					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 				}
@@ -82,7 +82,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 					<Modal.Body>
 						{isEditMode ? (
 							<Form onSubmit={(e) => handleEditMemo(e)}>
-								<Card style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
+								<Card style={{ backgroundColor: uiSettings.color.memo }}>
 									<Card.Header>
 										<Form.Control
 											type='number'
@@ -103,7 +103,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 								</Card>
 							</Form>
 						) : (
-							<Card className='text-center' style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}>
+							<Card className='text-center' style={{ backgroundColor: uiSettings.color.memo }}>
 								<Card.Header>{memo.page} P</Card.Header>
 								<Card.Body>{memo.content}</Card.Body>
 							</Card>

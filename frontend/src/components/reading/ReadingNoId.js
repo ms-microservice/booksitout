@@ -3,31 +3,29 @@ import { useNavigate } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 // Functions
-import { getToken } from '../../functions/user'
+import utils from '../../functions/utils'
 // Settings
-import { API_BASE_URL } from '../../settings/urls/apiUrl'
+import urls from '../../settings/urls'
 
 const ReadingNoId = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		const BOOK_CURRENT_READING_SESSION_API_URL = `${API_BASE_URL}/v1/book/current-reading-session`
-
-		fetch(BOOK_CURRENT_READING_SESSION_API_URL, {
+		fetch(urls.api.reading.get.current, {
 			method: 'GET',
-			headers: { Authorization: getToken() },
+			headers: { Authorization: utils.getToken() },
 		})
 			.then((res) => {
-				if (res.status.toString().startsWith(2)) {
-					return res.json()
-				} else {
-					localStorage.removeItem('timer-on')
-					localStorage.removeItem('reading-session-time')
-					navigate('/book/not-done/all')
-				}
+				if (res.status.toString().startsWith(4)) throw new Error()
+				return res.json()
 			})
 			.then((book) => {
 				navigate(`/reading/${book.bookId}`)
+			})
+			.catch(() => {
+				localStorage.removeItem('timer-on')
+				localStorage.removeItem('reading-session-time')
+				navigate('/book/not-done/all')
 			})
 	}, [navigate])
 

@@ -3,16 +3,9 @@ import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
 import { addGoal, getGoal } from '../../../functions/goal'
-// Messages
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
-import {
-	GOAL_ADD_ERROR_GOAL_NOT_NUMBER,
-	GOAL_ADD_ERROR_GOAL_NULL,
-	GOAL_ADD_ERROR_GOAL_SMALL,
-	GOAL_ADD_PLACEHOLDER,
-} from '../../../messages/statisticsMessages'
 // Resources
 import '../../../resources/css/input.css'
+import messages from '../../../settings/messages'
 
 const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 	const [goal, setGoal] = useState('')
@@ -21,17 +14,17 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 		e.preventDefault()
 
 		if (goal === '') {
-			toast.error(GOAL_ADD_ERROR_GOAL_NULL)
+			toast.error(messages.goal.add.fail.null)
 			return
 		}
 
 		if (isNaN(goal)) {
-			toast.error(GOAL_ADD_ERROR_GOAL_NOT_NUMBER)
+			toast.error(messages.goal.add.fail.notNumber)
 			return
 		}
 
 		if (Number(goal) < 2) {
-			toast.error(GOAL_ADD_ERROR_GOAL_SMALL)
+			toast.error(messages.goal.add.fail.tooSmall)
 			return
 		}
 
@@ -43,7 +36,7 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 				})
 				toast.success('목표를 추가했어요')
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}
@@ -56,7 +49,7 @@ const GoalAddModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddGoal(e)}>
-					<Form.Control type='number' placeholder={GOAL_ADD_PLACEHOLDER} onChange={(e) => setGoal(e.target.value)} />
+					<Form.Control type='number' placeholder={messages.goal.add.placeholder} onChange={(e) => setGoal(e.target.value)} />
 
 					<div className='row justify-content-center mt-3'>
 						<div className='col-12 col-md-5 mt-2'>

@@ -1,4 +1,3 @@
-import React from 'react'
 // Book Info
 import BookInfoIcon from './book-info/BookInfoIcon'
 // Images

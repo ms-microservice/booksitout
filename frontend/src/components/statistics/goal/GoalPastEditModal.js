@@ -3,9 +3,9 @@ import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
 import { addGoal } from '../../../functions/goal'
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
 // Resources
 import '../../../resources/css/input.css'
+import messages from '../../../settings/messages'
 
 const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList, setGoalList }) => {
 	const [goal, setGoal] = useState(0)
@@ -32,7 +32,7 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 				toast.success(`${selectedGoal.year}년 목표를 수정했어요`)
 				setGoalList(
 					goalList.map((g) => {
-						if (g.year == selectedGoal.year) {
+						if (Number(g.year) === Number(selectedGoal.year)) {
 							return {
 								year: g.year,
 								goal: goal,
@@ -45,7 +45,7 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 				)
 				setIsModalOpen(false)
 			} else {
-				toast.fail(ERROR_MESSAGE)
+				toast.fail(messages.error)
 			}
 		})
 	}

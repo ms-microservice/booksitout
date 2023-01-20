@@ -152,7 +152,7 @@ const BookList = () => {
 								return (
 									<Pagination.Item
 										key={p}
-										active={p == currentPage}
+										active={p === Number(currentPage)}
 										onClick={() => {
 											navigate(`${location.pathname}?page=${p}`)
 											window.scrollTo(0, 0)

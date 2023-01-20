@@ -48,6 +48,7 @@ const AddQuotationModal = ({ isModalOpen, setIsModalOpen, book, quotationList, s
 			if (success) {
 				setQuotationList([...quotationList, newQuotation])
 				setIsModalOpen(false)
+				toast.success('인용을 추가했어요')
 			} else {
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			}

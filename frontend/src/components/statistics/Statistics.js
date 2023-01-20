@@ -33,7 +33,7 @@ const Statistics = () => {
 
 		Promise.all([
 			getReadTime(30).then((readTime) => setReadTimeList(readTime)),
-			getStatisticsSummary(statisticsSelectedYear).then((stats) => setStatisticsData(stats)),
+			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatisticsData(stats)),
 			getLangaugeStatistics().then((languageStats) => setLanguageData(languageStats)),
 			getCategoryStatistics().then((categoryStats) => setCategoryData(categoryStats)),
 			getGoal(new Date().getFullYear()).then((goal) => setGoalData(goal)),

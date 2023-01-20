@@ -12,8 +12,8 @@ import ImageSearchModal from './ImageSearchModal'
 import defaultBookCover from '../../resources/images/common/book.png'
 // Functions
 import { editBook } from '../../functions/book'
-import { API_BASE_URL } from '../../settings/urls/apiUrl'
-import { getToken } from '../../functions/user'
+import urls from '../../settings/urls'
+import utils from '../../functions/utils'
 
 const BookEditForm = () => {
 	const { id } = useParams()
@@ -48,7 +48,7 @@ const BookEditForm = () => {
 	const [source, setSource] = useState('NOT_PROVIDED')
 
 	useEffect(() => {
-		const BOOK_GET_API_URL = `${API_BASE_URL}/v1/book/${id}`
+		const BOOK_GET_API_URL = `${urls.api.base}/v1/book/${id}`
 
 		setTimeout(() => {
 			setInitialFetch(false)
@@ -57,7 +57,7 @@ const BookEditForm = () => {
 		fetch(BOOK_GET_API_URL, {
 			method: 'GET',
 			headers: {
-				Authorization: getToken(),
+				Authorization: utils.getToken(),
 			},
 		})
 			.then((res) => {

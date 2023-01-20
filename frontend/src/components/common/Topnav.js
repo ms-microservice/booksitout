@@ -1,62 +1,56 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 // React Icons
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 // Functions
-import { logout } from '../../functions/user'
+import { isLogoutPossible } from '../../functions/user'
 import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
 import logo from '../../resources/images/common/logo.png'
+// Settings
+import uiSettings from '../../settings/ui'
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutToken } from '../../redux/userSlice'
+import messages from '../../settings/messages'
 
-const Topnav = ({ token, setToken }) => {
+const Topnav = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	const dispatch = useDispatch()
 
-	const expand = 'lg'
+	const token = useSelector((state) => state.user.token)
+	const expand = uiSettings.topnav.collapse
 
-	const urlList = [
-		{
-			id: 1,
-			url: '/book/not-done/all',
-			activeUrl: '/book/not-done',
-			title: '읽고 있는 책',
-		},
-		{
-			id: 2,
-			url: '/book/done',
-			activeUrl: '/book/done',
-			title: '다 읽은 책',
-		},
-		{
-			id: 3,
-			url: '/book/give-up',
-			activeUrl: '/book/give-up',
-			title: '포기한 책',
-		},
-		{
-			id: 4,
-			url: '/statistics',
-			activeUrl: '/statistics',
-			title: '독서통계',
-		},
-	]
+	const handleLogout = (e) => {
+		e.preventDefault()
+
+		if (!isLogoutPossible()) {
+			toast.error(messages.user.logout.fail.readingInProgress)
+			return
+		}
+
+		dispatch(logoutToken())
+		toast.success(messages.user.logout.success)
+		navigate('/login')
+	}
 
 	return (
 		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect>
 			<Container fluid>
 				<Navbar.Brand href={token === '' ? '/login' : '/'}>
-					<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px' }} />
+					<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px', height: '30px' }} />
 					책잇아웃
 				</Navbar.Brand>
 				<Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}></Navbar.Toggle>
 
 				<Navbar.Collapse id='responsive-navbar-nav'>
 					<Nav className='me-auto text-center'>
-						{urlList.map((url) => (
+						{uiSettings.topnav.link.map((url) => (
 							<Nav.Link
 								href={token !== '' && url.url}
 								active={location.pathname.startsWith(url.activeUrl)}
@@ -80,7 +74,7 @@ const Topnav = ({ token, setToken }) => {
 										{token === '' || token == null ? (
 											<div className='col-xs-10 col-8'>로그인</div>
 										) : (
-											<div className='col-xs-10 col-8' onClick={(e) => logout(e, setToken, navigate)}>
+											<div className='col-xs-10 col-8' onClick={(e) => handleLogout(e)}>
 												로그아웃
 											</div>
 										)}
@@ -125,7 +119,18 @@ const Topnav = ({ token, setToken }) => {
 					<Nav>
 						<NavDropdown
 							id='user-dropdown'
-							title={<img src={userIcon} alt='' className='img-fluid' style={{ width: '30px' }} />}
+							title={
+								<img
+									src={
+										localStorage.getItem('profile-image') == null || localStorage.getItem('profile-image') === ''
+											? userIcon
+											: localStorage.getItem('profile-image')
+									}
+									alt=''
+									className='img-fluid rounded'
+									style={{ width: '30px' }}
+								/>
+							}
 							align='end'
 							size='xl'
 							className={`d-none d-${expand}-inline`}>
@@ -136,7 +141,7 @@ const Topnav = ({ token, setToken }) => {
 								</>
 							) : (
 								<>
-									<NavDropdown.Item onClick={(e) => logout(e, setToken, navigate)}>로그아웃</NavDropdown.Item>
+									<NavDropdown.Item onClick={(e) => handleLogout(e)}>로그아웃</NavDropdown.Item>
 									<NavDropdown.Item onClick={() => navigate('/qna')}>QNA</NavDropdown.Item>
 									<NavDropdown.Item onClick={() => navigate('/faq')}>FAQ</NavDropdown.Item>
 									<NavDropdown.Divider />

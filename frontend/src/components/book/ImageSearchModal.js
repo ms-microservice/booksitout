@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import { useState, useEffect } from 'react'
 import { Modal, Card, Button } from 'react-bootstrap'
 import { GOOGLE_URL, GOOGLE_CX, GOOGLE_API_KEY } from '../../settings/googleSearch'
 // Resources
@@ -63,7 +63,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 					<></>
 				) : isLoading ? (
 					<Loading />
-				) : imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length == 0 ? (
+				) : imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length === 0 ? (
 					<Error message='검색 결과가 없어요' />
 				) : (
 					<div className='row'>
@@ -92,7 +92,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 												src={link.image}
 												alt=''
 												className='img-fluid'
-												style={link.id == selectedImageIndex ? coverSelectedStyle : coverImageStyle}
+												style={Number(link.id) === selectedImageIndex ? coverSelectedStyle : coverImageStyle}
 											/>
 										</Card.Body>
 									</Card>
@@ -107,7 +107,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 				<Button variant='danger' onClick={closeModal}>
 					취소
 				</Button>
-				<Button variant='primary' onClick={closeModalSuccess} disabled={selectedImageIndex == -1}>
+				<Button variant='primary' onClick={closeModalSuccess} disabled={Number(selectedImageIndex) === -1}>
 					선택한 이미지로 결정하기
 				</Button>
 			</Modal.Footer>

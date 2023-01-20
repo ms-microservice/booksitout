@@ -16,22 +16,20 @@ import AddReadingSessionModal from './AddReadingSessionModal'
 import ReadingSessionDetailModal from './ReadingSessionDetailModal'
 import AddMemoModal from './AddMemoModal'
 import AddQuotationModal from './AddQuotationModal'
+import MemoDetailModal from './MemoDetailModal'
+import QuotationDetailModal from './QuotationDetailModal'
+import Quotation from '../../common/Quotation'
 // Images
 import defaultBookCover from '../../../resources/images/common/book.png'
 // Functions
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
-import { getToken } from '../../../functions/user'
-// Urls
 import { getMemoListOfBook } from '../../../functions/memo'
 import { getQuotationListOfBook } from '../../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
-import { MEMO_BACKGROUND_COLOR } from '../../../settings/color'
-import MemoDetailModal from './MemoDetailModal'
-import QuotationDetailModal from './QuotationDetailModal'
-import { INITIAL_FETCH_TIME } from '../../../settings/settings'
-import Quotation from '../../common/Quotation'
+import uiSettings from '../../../settings/ui'
+import utils from '../../../functions/utils'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -47,7 +45,7 @@ const BookDetail = () => {
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		Promise.all([
 			getBook(id).then((book) => setBook(book)),
@@ -58,7 +56,7 @@ const BookDetail = () => {
 			setLoading(false)
 			setInitialFetch(false)
 		})
-	}, [])
+	}, [id])
 
 	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
 	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
@@ -303,7 +301,7 @@ const BookCover = ({ book }) => {
 const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
 	const navigate = useNavigate()
 	const BOOK_EDIT_URL = `/book/edit/${book.bookId}`
-	const token = getToken()
+	const token = utils.getToken()
 
 	return (
 		<div className='row mt-3'>
@@ -321,7 +319,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 						const confirm = window.confirm('정말 책을 삭제할까요?')
 
 						if (confirm) {
-							deleteBook(book.bookId, token, navigate).then((success) => {
+							deleteBook(book.bookId).then((success) => {
 								if (success) {
 									toast.success('책을 삭제 했어요')
 									navigate('/book/not-done')
@@ -335,7 +333,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 				</Button>
 			</div>
 
-			{book.currentPage == book.endPage ? (
+			{Number(book.currentPage) === Number(book.endPage) ? (
 				<>
 					{book.rating == null ? (
 						<div className='col-12 mt-3'>
@@ -510,7 +508,7 @@ const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 				return (
 					<div className='col-12 mb-2'>
 						<Card
-							style={{ backgroundColor: MEMO_BACKGROUND_COLOR }}
+							style={{ backgroundColor: uiSettings.color.memo }}
 							onClick={() => {
 								setIsMemoDetailModalOpen(true)
 								setSelectedMemo(memo)

@@ -1,10 +1,11 @@
-import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { BsBookHalf as BookIcon } from 'react-icons/bs'
 
-const ReadingButton = ({ bottomStyle = '40px', url = '/reading', time }) => {
+const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 	const navigate = useNavigate()
+	const time = useSelector((state) => state.timer.readingTimeInSeconds)
 
 	const readingButtonStyle = {
 		position: 'fixed',
@@ -26,7 +27,7 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading', time }) => {
 
 	return (
 		<>
-			{time == null || time === '' || time === 0 ? (
+			{time == null || time === '' || time === 0 || typeof time === 'undefined' ? (
 				<BookIcon
 					className='btn btn-primary'
 					style={readingButtonStyle}

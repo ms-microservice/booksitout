@@ -6,12 +6,7 @@ import NoContent from '../common/NoContent'
 // Functions
 import { addQuotation } from '../../functions/quotation'
 // Messages
-import {
-	QUOTATION_ADD_ERROR_CONTENT_NULL,
-	QUOTATION_CONTENT_PLACEHOLDER,
-	QUOTATION_EMPTY,
-	QUOTATION_FROM_WHO_PLACEHOLDER,
-} from '../../messages/readingMessages'
+import messages from '../../settings/messages'
 
 const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuotation, setIsModalOpen }) => {
 	const [page, setPage] = useState(book.currentPage)
@@ -22,7 +17,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 		e.preventDefault()
 
 		if (content === '') {
-			toast.error(QUOTATION_ADD_ERROR_CONTENT_NULL)
+			toast.error(messages.quotation.add.fail.contentNull)
 			return
 		}
 
@@ -37,6 +32,9 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 				setQuotationList([...quotationList, quotation])
 				setContent('')
 				setFromWho('')
+				toast.success('인용을 추가했어요')
+			} else {
+				toast.error('오류가 났어요 잠시후 다시 시도해 주세요')
 			}
 		})
 	}
@@ -48,7 +46,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 
 				<div className='row row-eq-height'>
 					{quotationList == null || quotationList.length === 0 ? (
-						<NoContent message={QUOTATION_EMPTY} style={{ width: '100px' }} />
+						<NoContent message={messages.quotation.noContent} style={{ width: '100px' }} />
 					) : (
 						quotationList.map((quotation) => {
 							return (
@@ -86,7 +84,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 						<div className='col-9 col-sm-5'>
 							<Form.Control
 								type='text'
-								placeholder={QUOTATION_CONTENT_PLACEHOLDER}
+								placeholder={messages.quotation.placeholder.content}
 								required
 								onChange={(e) => setContent(e.target.value)}
 								value={content}
@@ -96,7 +94,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 						<div className='col-8 col-sm-3 mt-2 mt-sm-0'>
 							<Form.Control
 								type='text'
-								placeholder={QUOTATION_FROM_WHO_PLACEHOLDER}
+								placeholder={messages.quotation.placeholder.fromWho}
 								onChange={(e) => setFromWho(e.target.value)}
 								value={fromWho}
 							/>

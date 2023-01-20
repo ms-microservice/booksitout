@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
+import toast from 'react-hot-toast'
 // Components
 import NoContent from '../../common/NoContent'
 import Loading from '../../common/Loading'
@@ -10,14 +11,17 @@ import AddButton from '../../common/AddButton'
 // Functions
 import { getGoalList, deleteGoal } from '../../../functions/goal'
 // Settings
-import { INITIAL_FETCH_TIME } from '../../../settings/settings'
-import { GOAL_DELETE_CONFIRM } from '../../../messages/statisticsMessages'
+import uiSettings from '../../../settings/ui'
 // Resources
 import goalIcon from '../../../resources/images/general/goal.png'
 import GoalPastAddModal from './GoalPastAddModal'
 import GoalPastEditModal from './GoalPastEditModal'
+import messages from '../../../settings/messages'
 
 const Goal = () => {
+	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
+	const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
+
 	const [intialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -35,21 +39,29 @@ const Goal = () => {
 	const [highlightBookList, setHighlightBookList] = useState([])
 
 	const handleDeleteGoal = () => {
-		const confirm = window.confirm(GOAL_DELETE_CONFIRM)
+		const confirm = window.confirm(messages.goal.delete.confirm)
 
 		if (confirm) {
-			deleteGoal(currentYear).then((success) => success && setCurrentYearGoal(null))
+			deleteGoal(currentYear).then((success) => {
+				if (success) {
+					toast.success(GOAL_DELETE_SUCCESS_MESSAGE)
+					setCurrentYearGoal(null)
+				} else {
+					toast.error(GOAL_DELETE_FAIL_MESSAGE)
+				}
+			})
 		}
 	}
 
 	useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, INITIAL_FETCH_TIME)
+		}, uiSettings.initalFetchTime)
 
 		getGoalList(6)
 			.then((goalListData) => {
 				setGoalList(goalListData)
+				console.log(goalListData)
 
 				const currentYearGoalOptional = goalListData.find((goal) => goal.year == currentYear)
 				if (typeof currentYearGoalOptional != 'undefined') {

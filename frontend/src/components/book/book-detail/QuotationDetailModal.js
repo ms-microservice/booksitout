@@ -4,7 +4,7 @@ import { Modal, Button, Card, Form } from 'react-bootstrap'
 // Functions
 import { deleteQuotation, editQuotation } from '../../../functions/quotation'
 // Messages
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
+import messages from '../../../settings/messages'
 
 const QuotationDetailModal = ({ isModalOpen, setIsModalOpen, quotation, setQuotation, quotationList, setQuotationList }) => {
 	const [isEditMode, setIsEditMode] = useState(false)
@@ -44,7 +44,7 @@ const QuotationDetailModal = ({ isModalOpen, setIsModalOpen, quotation, setQuota
 					})
 				)
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}
