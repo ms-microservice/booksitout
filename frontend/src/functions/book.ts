@@ -15,7 +15,12 @@ const getLastBook = () => {
 }
 
 const addBook = (book) => {
-	return axios.post(urls.api.book.add, book, { headers: { Authorization: utils.getToken() } }).then((res) => res.status.toString().startsWith('2'))
+	return axios
+		.post(urls.api.book.add, book, { headers: { Authorization: utils.getToken() } })
+		.then((res) => res.status.toString().startsWith('2'))
+		.catch(() => {
+			return false
+		})
 }
 
 const editBook = (editedBook) => {

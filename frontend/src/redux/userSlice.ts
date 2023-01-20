@@ -1,5 +1,4 @@
 import { createSlice } from '@reduxjs/toolkit'
-import defaultProfile from '../../resources/images/common/logo.png'
 
 export const userSlice = createSlice({
 	name: 'user',
@@ -15,6 +14,9 @@ export const userSlice = createSlice({
 			state.token = ''
 			localStorage.setItem('login-token', '')
 			localStorage.setItem('user-name', '')
+			localStorage.setItem('profile-image', '')
+			localStorage.setItem('login-date', '')
+			localStorage.setItem('register-year', '')
 		},
 	},
 })

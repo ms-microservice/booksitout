@@ -7,9 +7,17 @@ const getMemoListOfBook = (bookId) => {
 }
 
 const addMemo = (memo, bookId) => {
-	return axios.post(urls.api.memo.add(bookId), memo, { headers: { Authorization: utils.getToken() } }).then((res) => {
-		res.status.toString().startsWith('2')
-	})
+	return axios
+		.post(urls.api.memo.add(bookId), memo, { headers: { Authorization: utils.getToken() } })
+		.then((res) => {
+			return res.status
+		})
+		.catch((e) => {
+			return false
+		})
+		.then((status) => {
+			return true
+		})
 }
 
 const editMemo = (editedMemo) => {

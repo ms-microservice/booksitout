@@ -36,7 +36,7 @@ const OAuthNaver = () => {
 				dispatch(loginToken(userData.token))
 
 				localStorage.setItem('user-name', userData.name)
-				localStorage.setItem('register-year', userData.registerDate)
+				localStorage.setItem('register-year', new Date().getFullYear().toString())
 				localStorage.setItem('login-date', new Date())
 				localStorage.setItem('profile-image', userData.profileImage)
 				toast.dismiss()

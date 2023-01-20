@@ -121,7 +121,11 @@ const Topnav = () => {
 							id='user-dropdown'
 							title={
 								<img
-									src={localStorage.getItem('profile-image') == null ? userIcon : localStorage.getItem('profile-image')}
+									src={
+										localStorage.getItem('profile-image') == null || localStorage.getItem('profile-image') === ''
+											? userIcon
+											: localStorage.getItem('profile-image')
+									}
 									alt=''
 									className='img-fluid rounded'
 									style={{ width: '30px' }}

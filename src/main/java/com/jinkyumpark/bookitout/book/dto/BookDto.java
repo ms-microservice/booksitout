@@ -62,6 +62,7 @@ public class BookDto {
                 .rating(rating)
                 .summary(summary)
                 .review(review)
+                .endPage(endPage)
                 .build();
     }
 }

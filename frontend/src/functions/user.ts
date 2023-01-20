@@ -44,7 +44,7 @@ const login = (loginRequest) => {
 		.then((data) => {
 			localStorage.setItem('login-token', data.token)
 			localStorage.setItem('user-name', data.name)
-			// localStorage.setItem('register-year', data.registerDate[0])
+			localStorage.setItem('register-year', new Date().getFullYear().toString())
 			localStorage.setItem('login-date', new Date().toString())
 			toast.dismiss()
 			toast(data.message, { icon: '✋' })

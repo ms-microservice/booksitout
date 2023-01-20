@@ -55,7 +55,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 				if (success) {
 					setIsModalOpen(false)
 					setMemoList(memoList.filter((m) => m.memoId !== memo.memoId))
-					toast.error('메모를 지웠어요')
+					toast.success('메모를 지웠어요')
 				} else {
 					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 				}
