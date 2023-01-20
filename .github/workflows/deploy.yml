@@ -75,7 +75,6 @@ jobs:
 
       - name: Build and Push Docker Image
         run: |
-          cd BookItOut
           docker build --platform amd64 \
           --build-arg JWT_KEY=$JWT_SECRET_KEY \
           --build-arg DB_URL=$DB_URL \
