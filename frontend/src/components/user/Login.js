@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
@@ -167,7 +167,7 @@ const Login = () => {
 														style={{
 															width: '50px',
 														}}
-														className='img-fluid ms-3 me-3 ms-md-3 me-md-3 rounded'
+														className='img-fluid ms-1 me-1 ms-md-3 me-md-3 rounded'
 														src={oauth.image}
 														alt=''
 													/>
