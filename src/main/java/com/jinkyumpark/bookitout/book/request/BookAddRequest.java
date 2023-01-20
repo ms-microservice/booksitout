@@ -3,31 +3,31 @@ package com.jinkyumpark.bookitout.book.request;
 import com.jinkyumpark.bookitout.book.model.BookSource;
 import com.jinkyumpark.bookitout.book.model.BookForm;
 import com.sun.istack.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
+@AllArgsConstructor
 @Getter
-@Setter
 public class BookAddRequest {
     @NotNull
     @NotBlank
-    private String title;
+    private final String title;
 
     @NotNull
     @NotBlank
-    private String  author;
+    private final String  author;
 
-    private String cover;
-    private LocalDateTime publishedAt;
-    private String language;
-    private String form = BookForm.PHYSICAL.toString();
-    private String source = BookSource.NOT_PROVIDED.toString();
+    private final String cover;
+    private final LocalDateTime publishedAt;
+    private final String language;
+    private final String form = BookForm.PHYSICAL.toString();
+    private final String source = BookSource.NOT_PROVIDED.toString();
     @NotNull
-    private Integer endPage;
+    private final Integer endPage;
 
-    private Boolean isSharing = false;
-    private String category;
+    private final Boolean isSharing = false;
+    private final String category;
 }

@@ -22,10 +22,13 @@ public class BookDto {
     private final BookSource source;
     private final BookLanguage language;
 
+    private final BookMemoType memoType;
+    private final String memoLink;
+
     @Builder
     public BookDto(String title, String author, Integer endPage, String cover, Boolean isSharing, Long appUserId,
                    String form, String category, String source, String language,
-                   Integer rating, String summary, String review) {
+                   Integer rating, String summary, String review, String memoLink, String memoType) {
         this.title = title;
         this.author = author;
         this.endPage = endPage;
@@ -35,12 +38,15 @@ public class BookDto {
         this.rating = rating;
         this.summary = summary;
         this.review = review;
+        this.memoLink = memoLink;
 
-        this.form = BookForm.valueOf(form);
-        this.category = BookCategory.valueOf(category);
-        this.source = BookSource.valueOf(source);
-        this.language = BookLanguage.valueOf(language);
+        this.form = form != null ? BookForm.valueOf(form) : null;
+        this.category = category != null ? BookCategory.valueOf(category) : null;
+        this.source = source != null ? BookSource.valueOf(source) : null;
+        this.language = language != null ? BookLanguage.valueOf(language) : null;
+        this.memoType = memoType != null ? BookMemoType.valueOf(memoType) : null;
     }
+
 
     public Book toEntity() {
         return Book.builder()

@@ -97,6 +97,8 @@ public class BookControllerV1 {
                 .rating(bookEditRequest.getRating())
                 .summary(bookEditRequest.getSummary())
                 .review(bookEditRequest.getReview())
+                .memoType(bookEditRequest.getBookMemoType())
+                .memoLink(bookEditRequest.getBookMemoLink())
                 .build();
 
         bookService.editBook(bookId, bookDto, loginAppUser.getId());

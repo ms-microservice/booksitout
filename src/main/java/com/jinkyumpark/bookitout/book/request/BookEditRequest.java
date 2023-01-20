@@ -17,4 +17,7 @@ public class BookEditRequest {
     private Integer rating;
     private String summary;
     private String review;
+
+    private String bookMemoType;
+    private String bookMemoLink;
 }
