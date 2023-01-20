@@ -21,11 +21,11 @@ const urls = {
 				oauth: {
 					kakao: {
 						api: (code) => `${apiBase}/v2/login/oauth2/kakao?code=${code}`,
-						loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${localBase}/login/oauth/kakao&response_type=${kakao.responseType}`,
+						loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${localBase}/login/oauth/kakao/&response_type=${kakao.responseType}`,
 					},
 					naver: {
 						api: (code, state) => `${apiBase}/v2/login/oauth2/naver?code=${code}&state=${state}`,
-						loginPage: `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver.clientId}&redirect_uri=${localBase}/login/oauth/naver&version=js-2.0.1&state=bookitout`,
+						loginPage: `https://nid.naver.com/oauth2.0/authorize?response_type=code&client_id=${naver.clientId}&redirect_uri=${localBase}/login/oauth/naver/&version=js-2.0.1&state=bookitout`,
 					},
 				},
 			},
