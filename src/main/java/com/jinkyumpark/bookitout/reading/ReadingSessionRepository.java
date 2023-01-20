@@ -24,4 +24,6 @@ public interface ReadingSessionRepository extends JpaRepository<ReadingSession, 
 
     @Query("select r from ReadingSession r join fetch r.book where r.appUser.appUserId = ?1 and r.endTime is null order by r.startTime DESC")
     Optional<ReadingSession> getCurrentReadingSessionEager(Long appUserId);
+
+    Optional<ReadingSession> findFirstByBook_BookIdOrderByStartTimeDesc(Long bookId);
 }

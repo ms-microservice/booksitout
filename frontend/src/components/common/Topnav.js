@@ -1,62 +1,43 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown } from 'react-bootstrap'
-import { toast } from 'react-hot-toast'
+import toast from 'react-hot-toast'
 // React Icons
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 // Functions
-import { logout, isLogoutPossible } from '../../functions/user'
+import { isLogoutPossible } from '../../functions/user'
 import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
 import logo from '../../resources/images/common/logo.png'
+// Settings
+import uiSettings from '../../settings/ui'
+// Redux
+import { useSelector, useDispatch } from 'react-redux'
+import { logoutToken } from '../../redux/loginTokenSlice'
+import messages from '../../settings/messages'
 
-const Topnav = ({ token, setToken }) => {
+const Topnav = () => {
 	const navigate = useNavigate()
 	const location = useLocation()
+	const dispatch = useDispatch()
 
-	const expand = 'lg'
+	const token = useSelector((state) => state.loginToken.token)
+	const expand = uiSettings.topnav.collapse
 
 	const handleLogout = (e) => {
 		e.preventDefault()
 
-		if (isLogoutPossible()) {
-			logout()
-			setToken('')
-			toast.success('로그아웃했어요')
-			navigate('/login')
-		} else {
-			toast.error('독서활동이 진행중이에요. 지금 로그아웃하면 독서활동이 사라져요. 독서활동을 먼저 끝내 주세요')
+		if (!isLogoutPossible()) {
+			toast.error(messages.user.logout.fail.readingInProgress)
+			return
 		}
-	}
 
-	const urlList = [
-		{
-			id: 1,
-			url: '/book/not-done/all',
-			activeUrl: '/book/not-done',
-			title: '읽고 있는 책',
-		},
-		{
-			id: 2,
-			url: '/book/done',
-			activeUrl: '/book/done',
-			title: '다 읽은 책',
-		},
-		{
-			id: 3,
-			url: '/book/give-up',
-			activeUrl: '/book/give-up',
-			title: '포기한 책',
-		},
-		{
-			id: 4,
-			url: '/statistics',
-			activeUrl: '/statistics',
-			title: '독서통계',
-		},
-	]
+		dispatch(logoutToken())
+		toast.success(messages.user.logout.success)
+		navigate('/login')
+	}
 
 	return (
 		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect>
@@ -69,7 +50,7 @@ const Topnav = ({ token, setToken }) => {
 
 				<Navbar.Collapse id='responsive-navbar-nav'>
 					<Nav className='me-auto text-center'>
-						{urlList.map((url) => (
+						{uiSettings.topnav.link.map((url) => (
 							<Nav.Link
 								href={token !== '' && url.url}
 								active={location.pathname.startsWith(url.activeUrl)}

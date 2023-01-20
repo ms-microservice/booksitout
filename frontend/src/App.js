@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
 import { Toaster, useToasterStore, toast } from 'react-hot-toast'
 // Components
@@ -26,13 +26,14 @@ import OAuthNaver from './components/user/oauth/OAuthNaver'
 import OAuthGoogle from './components/user/oauth/OAuthGoogle'
 import OAuthFacebook from './components/user/oauth/OAuthFacebook'
 // Functions
-import { getTimerSecond, getIsTimerOn, updateTimerSecond, updateReadingTimeDate } from './functions/timer'
+import { getDateDifferenceInDays } from './functions/date'
 // Settings
 import urls from './settings/urls'
 import uiSettings from './settings/ui'
-import { getDateDifferenceInDays } from './functions/date'
+// Redux
 import { useDispatch, useSelector } from 'react-redux'
-import { logout } from './functions/user'
+import { updateOneSecond, updateReadingTimeDate } from './redux/timerSlice'
+import { logoutToken } from './redux/loginTokenSlice'
 
 function App() {
 	const location = useLocation()
@@ -40,20 +41,19 @@ function App() {
 	const dispatch = useDispatch()
 
 	const token = useSelector((state) => state.loginToken.token)
+	const timerOn = useSelector((state) => state.timer.isTimerOn)
 
-	const [readingSessionTime, setReadingSessionTime] = useState(Math.round(getTimerSecond()))
 	useEffect(() => {
 		const interval = setInterval(() => {
-			if (getIsTimerOn()) {
-				const currentTime = getTimerSecond()
-				updateTimerSecond(currentTime == null ? 1 : Number(currentTime) + 1)
-				setReadingSessionTime(Math.round(Number(currentTime == null ? 1 : currentTime)))
+			if (timerOn) {
+				dispatch(updateOneSecond())
 			} else {
+				dispatch(updateReadingTimeDate())
 				updateReadingTimeDate()
 			}
 		}, 1000)
 		return () => clearInterval(interval)
-	}, [])
+	}, [dispatch, timerOn])
 
 	useEffect(() => {
 		if (token === '' || token == null) {
@@ -65,7 +65,7 @@ function App() {
 		}
 
 		if (localStorage.getItem('login-date') && getDateDifferenceInDays(new Date(localStorage.getItem('login-date')), new Date()) >= 7) {
-			dispatch(logout())
+			dispatch(logoutToken())
 			navigate('/login')
 			toast.error('다시 로그인 해  주세요')
 		}
@@ -108,7 +108,7 @@ function App() {
 				<Route path='/book/edit/:id' element={<BookEditForm />} />
 
 				<Route path='/reading' element={<ReadingNoId />} />
-				<Route path='/reading/:id' element={<Reading readingTime={readingSessionTime} setReadingTime={setReadingSessionTime} />} />
+				<Route path='/reading/:id' element={<Reading />} />
 
 				<Route path='/statistics' element={<Statistics />} />
 				<Route path='/statistics/goal' element={<Goal />} />
@@ -119,7 +119,7 @@ function App() {
 			{token !== '' && (
 				<>
 					{!location.pathname.startsWith('/book/add') && <FloatingAddButton />}
-					<ReadingButton time={readingSessionTime} />
+					<ReadingButton />
 				</>
 			)}
 		</div>

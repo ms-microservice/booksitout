@@ -3,17 +3,15 @@ import { useNavigate } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 // Functions
+import utils from '../../functions/utils'
 // Settings
 import urls from '../../settings/urls'
-import utils from '../../functions/utils'
 
 const ReadingNoId = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		const BOOK_CURRENT_READING_SESSION_API_URL = `${urls.api.base}/v1/book/current-reading-session`
-
-		fetch(BOOK_CURRENT_READING_SESSION_API_URL, {
+		fetch(urls.api.reading.get.current, {
 			method: 'GET',
 			headers: { Authorization: utils.getToken() },
 		})

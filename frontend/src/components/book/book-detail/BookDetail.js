@@ -56,7 +56,7 @@ const BookDetail = () => {
 			setLoading(false)
 			setInitialFetch(false)
 		})
-	}, [])
+	}, [id])
 
 	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
 	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
@@ -333,7 +333,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 				</Button>
 			</div>
 
-			{book.currentPage == book.endPage ? (
+			{Number(book.currentPage) === Number(book.endPage) ? (
 				<>
 					{book.rating == null ? (
 						<div className='col-12 mt-3'>

@@ -1,5 +1,3 @@
-import React from 'react'
-
 const Loading = ({ message = '잠시만 기다려 주세요', textSize = 'h1' }) => {
 	const spinnerStyle = {
 		width: '100px',

@@ -7,9 +7,8 @@ import defaultBookCover from '../../resources/images/common/book.png'
 import ImageSearchModal from './ImageSearchModal'
 // Functions
 import { addBook } from '../..//functions/book'
-// Messages
-import { TITLE_MESSAGE, AUTHOR_MESSAGE, PAGE_MESSAGE } from '../../messages/bookAddFormMessages'
-import { ERROR_MESSAGE } from '../../messages/commonMessages'
+// Setttings
+import messages from '../../settings/messages'
 
 const BookAddForm = () => {
 	const navigate = useNavigate()
@@ -60,7 +59,7 @@ const BookAddForm = () => {
 				toast.success('책을 추가했어요')
 				navigate('/book/not-done/all')
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}
@@ -91,12 +90,22 @@ const BookAddForm = () => {
 					<div className='col-12 col-lg-8 mb-3 text-start'>
 						<Form.Group className='mb-3'>
 							<Form.Label>책 제목</Form.Label>
-							<Form.Control type='text' placeholder={TITLE_MESSAGE} required onChange={(e) => setTitle(e.target.value)} />
+							<Form.Control
+								type='text'
+								placeholder={messages.book.placeholder.title}
+								required
+								onChange={(e) => setTitle(e.target.value)}
+							/>
 						</Form.Group>
 
 						<Form.Group className='mb-3'>
 							<Form.Label>저자</Form.Label>
-							<Form.Control type='text' placeholder={AUTHOR_MESSAGE} required onChange={(e) => setAuthor(e.target.value)} />
+							<Form.Control
+								type='text'
+								placeholder={messages.book.placeholder.author}
+								required
+								onChange={(e) => setAuthor(e.target.value)}
+							/>
 						</Form.Group>
 
 						<div className='row'>
@@ -140,7 +149,7 @@ const BookAddForm = () => {
 							<div className='col-6 col-md-4'>
 								<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
 									<Form.Label>총 페이지 수</Form.Label>
-									<Form.Control type='number' placeholder={PAGE_MESSAGE} required />
+									<Form.Control type='number' placeholder={messages.book.placeholder.page} required />
 								</Form.Group>
 							</div>
 

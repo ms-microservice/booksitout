@@ -29,7 +29,6 @@ public class ReadingSession {
 
     @Column(name = "start_time", updatable = false, nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime startTime;
-
     private LocalDateTime endTime;
     private Integer readTime;
 

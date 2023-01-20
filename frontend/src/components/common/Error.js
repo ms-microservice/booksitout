@@ -1,4 +1,3 @@
-import React from 'react'
 import { BiErrorCircle as ErrorIcon } from 'react-icons/bi'
 
 const Error = ({ message = '오류가 났어요' }) => {

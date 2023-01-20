@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { changeName, updateLocalStorageName } from '../../functions/user'
-import { ERROR_MESSAGE } from '../../messages/commonMessages'
+import messages from '../../settings/messages'
 
 const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 	const [newName, setNewName] = useState('')
@@ -22,7 +22,7 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 				updateLocalStorageName(newName)
 				setNewName('')
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}

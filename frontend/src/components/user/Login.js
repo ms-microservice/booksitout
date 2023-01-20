@@ -4,17 +4,17 @@ import { useDispatch } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { login, logout } from '../../functions/user'
-// Urls
+import { login } from '../../functions/user'
+// Settings
 import urls from '../../settings/urls'
-// Messages
-import userMessage from '../../messages/userMessage'
+import messages from '../../settings/messages'
 // OAuth
 import kakaoButton from '../../resources/images/login-button/small-kakao.png'
 import naverButton from '../../resources/images/login-button/small-naver.png'
 import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
 import utils from '../../functions/utils'
+import { loginToken, logoutToken } from '../../redux/loginTokenSlice'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -50,7 +50,7 @@ const Login = () => {
 	const handleLogin = (e) => {
 		e.preventDefault()
 		toast.dismiss()
-		dispatch(logout())
+		dispatch(logoutToken())
 
 		if (email === '') {
 			toast.error('이메일을 입력해 주세요')
@@ -82,8 +82,8 @@ const Login = () => {
 
 		login(loginRequest).then((success) => {
 			if (success) {
+				dispatch(loginToken(utils.getToken()))
 				navigate('/')
-				dispatch(login(utils.getToken()))
 			} else {
 				toast.dismiss()
 				toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')
@@ -110,7 +110,7 @@ const Login = () => {
 											maxlength='30'
 											type='email'
 											class='form-control'
-											placeholder={userMessage.login.placeHolder.email}
+											placeholder={messages.user.login.placeHolder.email}
 											onChange={(e) => setEmail(e.target.value)}
 										/>
 									</div>
@@ -125,7 +125,7 @@ const Login = () => {
 										<input
 											type='password'
 											class='form-control'
-											placeholder={userMessage.login.placeHolder.password}
+											placeholder={messages.user.login.placeHolder.password}
 											onChange={(e) => setPassword(e.target.value)}
 										/>
 									</div>
@@ -185,7 +185,7 @@ const Login = () => {
 					<a href={urls.local.introduction} className='text-decoration-none text-black h-100'>
 						<Card className='h-100'>
 							<Card.Body className='text-center'>
-								<h4>{userMessage.login.label.introduction}</h4>
+								<h4>{messages.user.login.label.introduction}</h4>
 
 								<h6 className='mt-5 mb-4'>책 읽는 모든 이들을 위한 곳, 책-it-out을 더 알고 싶으면 여기를 클릭해 주세요</h6>
 							</Card.Body>
@@ -196,14 +196,14 @@ const Login = () => {
 				<div className='col-12 col-lg-6 mb-5'>
 					<Card className='h-100'>
 						<Card.Body className='text-center'>
-							<h4 className='text-center'>{userMessage.login.label.faqQna}</h4>
+							<h4 className='text-center'>{messages.user.login.label.faqQna}</h4>
 
 							<div className='row row-eq-height mt-3'>
 								<div className='col-12 col-md-6'>
 									<a href={urls.local.faq} className='text-decoration-none text-black'>
 										<Card className='mb-3'>
-											<Card.Header>{userMessage.login.label.faq.title}</Card.Header>
-											<Card.Body>{userMessage.login.label.faq.content}</Card.Body>
+											<Card.Header>{messages.user.login.label.faq.title}</Card.Header>
+											<Card.Body>{messages.user.login.label.faq.content}</Card.Body>
 										</Card>
 									</a>
 								</div>
@@ -211,8 +211,8 @@ const Login = () => {
 								<div className='col-12 col-md-6'>
 									<a href={urls.local.qna} className='text-decoration-none text-black'>
 										<Card className='mb-3'>
-											<Card.Header>{userMessage.login.label.qna.title}</Card.Header>
-											<Card.Body>{userMessage.login.label.qna.content}</Card.Body>
+											<Card.Header>{messages.user.login.label.qna.title}</Card.Header>
+											<Card.Body>{messages.user.login.label.qna.content}</Card.Body>
 										</Card>
 									</a>
 								</div>

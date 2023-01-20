@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
@@ -7,17 +7,21 @@ import '../../resources/css/input.css'
 // Functions
 import { endReadingSessionWithoutSaving } from '../../functions/reading'
 import { endReadingSession } from '../../functions/reading'
-// Messages
-import { ERROR_MESSAGE } from '../../messages/commonMessages'
-import { READING_END_NO_SAVING_SUCCESS } from '../../messages/readingMessages'
+// Settings
+import messages from '../../settings/messages'
+// Redux
+import { useDispatch } from 'react-redux'
+import { resumeTimer, stopTimer } from '../../redux/timerSlice'
 
-const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer, setTime, book }) => {
+const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => {
 	const navigate = useNavigate()
+	const dispatch = useDispatch()
+
 	const [endPage, setEndPage] = useState(-1)
 
 	const hideModal = () => {
 		setIsShowingModal(false)
-		toggleTimer(true)
+		dispatch(resumeTimer())
 	}
 
 	const handleEndReadingSession = (e) => {
@@ -33,13 +37,19 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 			return
 		}
 
-		if (endPage == book.currentPage) {
+		if (Number(endPage) === Number(book.currentPage)) {
 			toast.error('1쪽이라도 읽어야 독서활동을 끝낼 수 있어요')
 			return
 		}
 
-		toast.loading('추가하고 있어요')
-		endReadingSession(book, endPage).then((success) => success && navigate(`/book/detail/${book.bookId}`))
+		toast.loading('독서활동을 저장하고 있어요')
+		endReadingSession(book, endPage).then((success) => {
+			if (success) {
+				navigate(`/book/detail/${book.bookId}`)
+			} else {
+				toast.error(messages.error)
+			}
+		})
 	}
 
 	const handleEndWithoutSaving = () => {
@@ -48,14 +58,11 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, toggleTimer
 		if (confirm) {
 			endReadingSessionWithoutSaving().then((success) => {
 				if (success) {
-					toast.success(READING_END_NO_SAVING_SUCCESS)
-					localStorage.removeItem('reading-session-time')
-					localStorage.removeItem('reading-session-date')
-					localStorage.removeItem('timer-on')
-					setTime(null)
+					dispatch(stopTimer())
+					toast.success(messages.reading.delete.success.notSaving)
 					navigate(`/book/detail/${book.bookId}`)
 				} else {
-					toast.error(ERROR_MESSAGE)
+					toast.error(messages.error)
 				}
 			})
 		}

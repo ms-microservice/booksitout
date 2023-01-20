@@ -20,7 +20,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
-import java.time.Year;
 import java.util.*;
 
 @RequiredArgsConstructor
@@ -42,8 +41,8 @@ public class StatisticsControllerV1 {
     }
 
     @GetMapping("year/{year}")
-    public SummaryStatistics getStatisticsByYear(@PathVariable(value = "year", required = false) Integer year,
-                                                 @LoginUser LoginAppUser loginAppUser) {
+    public SummaryStatistics getSummaryStatisticsByYear(@PathVariable(value = "year", required = false) Integer year,
+                                                        @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
 
         List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginAppUser.getId(), year);

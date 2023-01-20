@@ -30,13 +30,9 @@ const getTimerSecond = () => {
 	return localStorage.getItem(READING_TIME_KEY)
 }
 
-const updateReadingTimeDate = () => {
-	localStorage.setItem(READING_TIME_DATE, new Date().toString())
-}
-
 const updateTimerSecond = (newTimerSecond: number) => {
 	localStorage.setItem(READING_TIME_DATE, new Date().toString())
 	localStorage.setItem(READING_TIME_KEY, newTimerSecond.toString())
 }
 
-export { getIsTimerOn, getTimerSecond, updateTimerSecond, turnOnTimer, turnOffTimer, updateReadingTimeDate }
+export { getIsTimerOn, getTimerSecond, updateTimerSecond, turnOnTimer, turnOffTimer }

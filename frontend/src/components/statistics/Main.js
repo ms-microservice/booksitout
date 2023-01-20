@@ -15,8 +15,7 @@ import { getGoal } from '../../functions/goal'
 import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
 // Settings
 import uiSettings from '../../settings/ui'
-// Messages
-import { LAST_BOOK_EMPTY } from '../../messages/statisticsMessages'
+import messages from '../../settings/messages'
 
 const Main = () => {
 	const [isLoading, setIsLoading] = useState(true)
@@ -55,7 +54,7 @@ const Main = () => {
 				<h3>마지막으로 읽은 책</h3>
 
 				{lastBook == null ? (
-					<NoContent message={LAST_BOOK_EMPTY} />
+					<NoContent message={messages.book.lastBook.noContent} />
 				) : (
 					<HorizontalBookView
 						book={lastBook}

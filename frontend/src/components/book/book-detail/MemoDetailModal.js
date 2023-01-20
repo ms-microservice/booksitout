@@ -8,7 +8,7 @@ import uiSettings from '../../../settings/ui'
 // Resources
 import '../../../resources/css/input.css'
 // Messages
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
+import messages from '../../../settings/messages'
 
 const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList, setMemoList }) => {
 	const [isEditMode, setIsEditMode] = useState(false)
@@ -43,7 +43,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 					})
 				)
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}

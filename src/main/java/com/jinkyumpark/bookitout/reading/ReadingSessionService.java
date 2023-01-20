@@ -28,9 +28,9 @@ import static java.time.temporal.ChronoUnit.DAYS;
 public class ReadingSessionService {
     private final MessageSourceAccessor messageSource;
     private final ReadingSessionRepository readingSessionRepository;
-    private final BookService bookService;
     private final StatisticsService statisticsService;
     private final GoalService goalService;
+    private final BookService bookService;
 
     public List<Integer> getReadTimeByDateRange(Long appUserId, LocalDateTime startDate, LocalDateTime endDate) {
         List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUser_AppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
@@ -75,6 +75,10 @@ public class ReadingSessionService {
         return readingSessionRepository.findById(readingSessionId);
     }
 
+    public Optional<ReadingSession> getLastReadingSessionOfBook(Long bookId) {
+        return readingSessionRepository.findFirstByBook_BookIdOrderByStartTimeDesc(bookId);
+    }
+
     @Transactional
     public void addReadingSession(ReadingSessionDto readingSessionDto, LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, readingSessionDto.getBookId());
@@ -92,7 +96,7 @@ public class ReadingSessionService {
             throw new BadRequestException("독서활동 페이지는 책 마지막 페이지보다 클 수 없어요");
         if (readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage() < 0 || readingSessionDto.getStartPage() < 0)
             throw new BadRequestException("독서활동 페이지는 반드시 0보다 커야 해요");
-        if (readingSessionDto.getEndPage() <= book.getCurrentPage())
+        if (readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage() <= book.getCurrentPage())
             throw new BadRequestException("독서활동 끝 페이지는 그 전 독서활동보다 커야만 해요");
 
         readingSessionRepository.save(readingSessionDto.toEntity());

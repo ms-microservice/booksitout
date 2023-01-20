@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 import NoContent from '../common/NoContent'
 // Functions
 import { addMemo } from '../../functions/memo'
-import { MEMO_CONTENT_PLACEHOLDER, MEMO_EMPTY } from '../../messages/readingMessages'
+import messages from '../../settings/messages'
 
 const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen }) => {
 	const [page, setPage] = useState(book.currentPage)
@@ -37,7 +37,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 				<div className='row row-eq-height'>
 					{memoList == null || memoList.length === 0 ? (
-						<NoContent message={MEMO_EMPTY} style={{ width: '100px' }} />
+						<NoContent message={messages.memo.noContent} style={{ width: '100px' }} />
 					) : (
 						memoList.map((memo) => {
 							return (
@@ -75,7 +75,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 						<div className='col-9 col-sm-8'>
 							<Form.Control
 								type='text'
-								placeholder={MEMO_CONTENT_PLACEHOLDER}
+								placeholder={messages.memo.placeholder.content}
 								required
 								onChange={(e) => setContent(e.target.value)}
 								value={content}

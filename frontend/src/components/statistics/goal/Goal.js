@@ -12,15 +12,13 @@ import AddButton from '../../common/AddButton'
 import { getGoalList, deleteGoal } from '../../../functions/goal'
 // Settings
 import uiSettings from '../../../settings/ui'
-import { GOAL_DELETE_CONFIRM } from '../../../messages/statisticsMessages'
 // Resources
 import goalIcon from '../../../resources/images/general/goal.png'
 import GoalPastAddModal from './GoalPastAddModal'
 import GoalPastEditModal from './GoalPastEditModal'
+import messages from '../../../settings/messages'
 
 const Goal = () => {
-	const GOAL_ADD_SUCCESS_MESSAGE = `목표를 추가했어요`
-	const GOAL_ADD_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
 	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
 	const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
 
@@ -41,7 +39,7 @@ const Goal = () => {
 	const [highlightBookList, setHighlightBookList] = useState([])
 
 	const handleDeleteGoal = () => {
-		const confirm = window.confirm(GOAL_DELETE_CONFIRM)
+		const confirm = window.confirm(messages.goal.delete.confirm)
 
 		if (confirm) {
 			deleteGoal(currentYear).then((success) => {

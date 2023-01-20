@@ -1,13 +1,17 @@
 import React, { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { useDispatch } from 'react-redux'
 import axios from 'axios'
 import toast from 'react-hot-toast'
-import urls from '../../../settings/urls'
 import { useQuery } from '../../../functions/useQuery'
-import { ERROR_MESSAGE } from '../../../messages/commonMessages'
+// Components
 import Loading from '../../common/Loading'
-import { useDispatch } from 'react-redux'
-import { login } from '../../../functions/user'
+// Settings
+import urls from '../../../settings/urls'
+// Messsages
+// Redux
+import { loginToken } from '../../../redux/loginTokenSlice'
+import messages from '../../../settings/messages'
 
 const OAuthNaver = () => {
 	const navigate = useNavigate()
@@ -22,21 +26,24 @@ const OAuthNaver = () => {
 			.get(urls.api.user.login.oauth.naver.api(code, state))
 			.then((res) => {
 				if (res.status !== 200) throw new Error()
-
-				dispatch(login(res.data.token))
-				localStorage.setItem('user-name', res.data.name)
-				// localStorage.setItem('register-year', res.data.registerDate.substring(0, 4))
-				localStorage.setItem('login-date', new Date())
-				localStorage.setItem('profile-image', res.data.profileImage)
-				toast.dismiss()
-				toast(res.data.message, { icon: '✋' })
-				navigate('/')
+				return res.data
 			})
 			.catch((e) => {
-				toast.error(ERROR_MESSAGE + e)
+				toast.error(messages.error + e)
 				navigate('/login')
 			})
-	}, [])
+			.then((userData) => {
+				dispatch(loginToken(userData.token))
+
+				localStorage.setItem('user-name', userData.name)
+				localStorage.setItem('register-year', userData.registerDate)
+				localStorage.setItem('login-date', new Date())
+				localStorage.setItem('profile-image', userData.profileImage)
+				toast.dismiss()
+				toast(userData.message, { icon: '✋' })
+				navigate('/')
+			})
+	}, [dispatch, navigate, query])
 
 	return <Loading message={`네이버로 로그인하고 있어요`} />
 }

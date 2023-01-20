@@ -6,8 +6,7 @@ import toast from 'react-hot-toast'
 import { join, verifyEmail } from '../../functions/user'
 import utils from '../../functions/utils'
 // Messages
-import userMessage from '../../messages/userMessage'
-import { ERROR_MESSAGE } from '../../messages/commonMessages'
+import messages from '../../settings/messages'
 
 const Join = () => {
 	const navigate = useNavigate()
@@ -24,7 +23,7 @@ const Join = () => {
 		e.preventDefault()
 
 		if (email === '') {
-			toast.error(userMessage.join.error.email.null)
+			toast.error(messages.user.join.error.email.null)
 			return
 		}
 
@@ -35,31 +34,31 @@ const Join = () => {
 					/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 				)
 		) {
-			toast.error(userMessage.join.error.email.invalid)
+			toast.error(messages.user.join.error.email.invalid)
 			return
 		}
 
 		if (emailVerification === '') {
-			toast.error(userMessage.join.error.email.notVerified)
+			toast.error(messages.user.join.error.email.notVerified)
 			return
 		}
 
 		if (name === '') {
-			toast.error(userMessage.join.error.name.null)
+			toast.error(messages.user.join.error.name.null)
 			return
 		}
 
 		if (password === '') {
-			toast.error(userMessage.join.error.pw.null)
+			toast.error(messages.user.join.error.pw.null)
 			return
 		}
 
 		if (password.length < 6) {
-			toast.error(userMessage.join.error.pw.short)
+			toast.error(messages.user.join.error.pw.short)
 			return
 		}
 
-		toast.loading(userMessage.join.loading)
+		toast.loading(messages.user.join.loading)
 
 		const joinRequest = {
 			email: email,
@@ -73,11 +72,11 @@ const Join = () => {
 				toast.success(`책-it-out에 오신걸 환영해요, ${name}님!`)
 				navigate('/login')
 			} else if (status.includes('400')) {
-				toast.error(userMessage.join.error.email.codeNotMatch)
+				toast.error(messages.user.join.error.email.codeNotMatch)
 			} else if (status.includes('412')) {
-				toast.error(userMessage.join.error.email.notVerified)
+				toast.error(messages.user.join.error.email.notVerified)
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}
@@ -100,7 +99,7 @@ const Join = () => {
 										<input
 											type='text'
 											class='form-control'
-											placeholder={userMessage.join.placeHolder.email}
+											placeholder={messages.user.join.placeHolder.email}
 											onChange={(e) => setEmail(e.target.value)}
 										/>
 									</div>
@@ -116,20 +115,20 @@ const Join = () => {
 							<InputWithLabel
 								label='email-verification'
 								displayLabel='인증번호'
-								placeholder={userMessage.join.placeHolder.emailVerification}
+								placeholder={messages.user.join.placeHolder.emailVerification}
 								setInputVariable={setEmailVerification}
 								disabled={!isEmailSent}
 							/>
 							<InputWithLabel
 								type='name'
 								displayLabel='이름'
-								placeholder={userMessage.join.placeHolder.name}
+								placeholder={messages.user.join.placeHolder.name}
 								setInputVariable={setName}
 							/>
 							<InputWithLabel
 								type='password'
 								displayLabel='비밀번호'
-								placeholder={userMessage.join.placeHolder.password}
+								placeholder={messages.user.join.placeHolder.password}
 								setInputVariable={setPassword}
 							/>
 

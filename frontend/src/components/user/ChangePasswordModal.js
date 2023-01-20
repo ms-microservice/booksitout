@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { changePassword, requestChangePasswordVerificationCode } from '../../functions/user'
-import { ERROR_MESSAGE } from '../../messages/commonMessages'
+import messages from '../../settings/messages'
 
 const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 	const [oldPassword, setOldPassword] = useState('')
@@ -19,7 +19,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 				toast.success('인증번호를 보냈어요')
 				setIsVerificationRequested(true)
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}
@@ -71,7 +71,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 			} else if (status === '400') {
 				toast.error('인증번호가 일치하지 않아요. 다시 확인해 주세요')
 			} else {
-				toast.error(ERROR_MESSAGE)
+				toast.error(messages.error)
 			}
 		})
 	}

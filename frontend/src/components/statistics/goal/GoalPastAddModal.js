@@ -13,12 +13,12 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 	const handleAddPastGoal = (e) => {
 		e.preventDefault()
 
-		if (goal == 0) {
+		if (Number(goal) === 0) {
 			toast.error('목표를 입력해 주세요')
 			return
 		}
 
-		const isGoalAlreadyPresent = typeof goalList.find((g) => g.year == goalYear) != 'undefined'
+		const isGoalAlreadyPresent = typeof goalList.find((g) => Number(g.year) === Number(goalYear)) != 'undefined'
 
 		if (isGoalAlreadyPresent) {
 			toast.error('해당 년도의 목표를 이미 설정했어요')

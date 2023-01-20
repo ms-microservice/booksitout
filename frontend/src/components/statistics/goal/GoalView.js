@@ -4,13 +4,13 @@ import NoContent from '../../common/NoContent'
 // Resources
 import goalIcon from '../../../resources/images/general/goal.png'
 // Messages
-import { GOAL_EMPTY } from '../../../messages/statisticsMessages'
+import messages from '../../../settings/messages'
 
 const GoalView = ({ goal }) => {
 	return (
 		<div className='row text-center' style={{ height: '80%' }}>
 			{goal == null ? (
-				<NoContent message={GOAL_EMPTY} />
+				<NoContent message={messages.goal.noContent} />
 			) : (
 				<>
 					<div className='col-6 align-self-center'>

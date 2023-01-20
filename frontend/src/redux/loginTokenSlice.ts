@@ -6,16 +6,17 @@ export const loginTokenSlice = createSlice({
 		token: localStorage.getItem('login-token'),
 	},
 	reducers: {
-		login: (state, action) => {
+		loginToken: (state, action) => {
 			state.token = action.payload
 			localStorage.setItem('login-token', action.payload)
 		},
-		logout: (state) => {
+		logoutToken: (state) => {
 			state.token = ''
 			localStorage.setItem('login-token', '')
+			localStorage.setItem('user-name', '')
 		},
 	},
 })
 
-export const { logout } = loginTokenSlice.actions
+export const { loginToken, logoutToken } = loginTokenSlice.actions
 export default loginTokenSlice.reducer
