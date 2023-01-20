@@ -2,6 +2,7 @@ plugins {
 	id 'org.springframework.boot' version '2.7.5'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'java'
+	id 'org.jetbrains.kotlin.jvm' version '1.8.0'
 }
 
 group = 'com.jinkyumpark'
@@ -23,9 +24,13 @@ repositories {
 }
 
 dependencies {
+	// Kotlin
+	implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
+
 	// Web
 	implementation('org.springframework.boot:spring-boot-starter-web')
 	annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
+	implementation('org.springframework.boot:spring-boot-starter-webflux')
 
 	// Validation, Serialization
 	implementation('org.springframework.boot:spring-boot-starter-validation')
@@ -61,4 +66,14 @@ dependencies {
 
 tasks.named('test') {
 	useJUnitPlatform()
+}
+compileKotlin {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
+}
+compileTestKotlin {
+	kotlinOptions {
+		jvmTarget = "1.8"
+	}
 }
