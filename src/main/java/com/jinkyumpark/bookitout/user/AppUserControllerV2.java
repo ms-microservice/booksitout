@@ -3,7 +3,6 @@ package com.jinkyumpark.bookitout.user;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.jinkyumpark.bookitout.common.exception.http.BadRequestException;
 import com.jinkyumpark.bookitout.user.dto.OAuthDto;
 import com.jinkyumpark.bookitout.user.oauth.OAuthProvider;
 import com.jinkyumpark.bookitout.user.oauth.kakao.KakaoUserInfo;
@@ -13,7 +12,6 @@ import com.jinkyumpark.bookitout.user.oauth.naver.NaverToken;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -22,9 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.*;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.List;
 
 @RequiredArgsConstructor
@@ -80,7 +75,8 @@ public class AppUserControllerV2 {
                         "grant_type=authorization_code&" +
                         "client_id=%s&" +
                         "client_secret=%s&" +
-                        "code=%s&state=%s",
+                        "code=%s&" +
+                        "state=%s",
                 clientId,
                 clientSecret,
                 code,
@@ -90,7 +86,7 @@ public class AppUserControllerV2 {
 
         Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
-        String accessTokenJson = oAuthService.getOauthAccessTokenWebClient(accessTokenUrl);
+        String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
         String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + naverToken.getAccessToken());
