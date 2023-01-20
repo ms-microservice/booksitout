@@ -16,16 +16,16 @@ const ReadingNoId = () => {
 			headers: { Authorization: utils.getToken() },
 		})
 			.then((res) => {
-				if (res.status.toString().startsWith(2)) {
-					return res.json()
-				} else {
-					localStorage.removeItem('timer-on')
-					localStorage.removeItem('reading-session-time')
-					navigate('/book/not-done/all')
-				}
+				if (res.status.toString().startsWith(4)) throw new Error()
+				return res.json()
 			})
 			.then((book) => {
 				navigate(`/reading/${book.bookId}`)
+			})
+			.catch(() => {
+				localStorage.removeItem('timer-on')
+				localStorage.removeItem('reading-session-time')
+				navigate('/book/not-done/all')
 			})
 	}, [navigate])
 
