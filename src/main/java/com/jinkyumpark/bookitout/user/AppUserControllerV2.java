@@ -89,7 +89,7 @@ public class AppUserControllerV2 {
         String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
-        String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + naverToken.getAccessToken());
+        String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "\"Bearer\" " + naverToken.getAccessToken());
         NaverUserInfo naverUserInfo = gson.fromJson(userInfoJson, NaverUserInfo.class);
 
         OAuthDto naverDto = OAuthDto.builder()
