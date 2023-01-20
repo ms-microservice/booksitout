@@ -56,7 +56,6 @@ jobs:
 
       - name: Build Spring Project with Gradle
         run: |
-          cd BookItOut
           ./gradlew clean build
 
       - uses: 8398a7/action-slack@v3
