@@ -120,7 +120,7 @@ public class BookService {
         if (!loginUserId.equals(bookToEdit.getAppUser().getAppUserId()))
             throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getAddDate().getYear(), bookToEdit.getAddDate().getMonthValue());
+        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getCreatedDate().getYear(), bookToEdit.getCreatedDate().getMonthValue());
 
         bookToEdit.editBook(bookDto);
         monthStatistics.editBook(bookDto);

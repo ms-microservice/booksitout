@@ -2,6 +2,7 @@ package com.jinkyumpark.bookitout.book.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.dto.BookDto;
+import com.jinkyumpark.bookitout.common.jpa.TimeEntity;
 import com.jinkyumpark.bookitout.memo.Memo;
 import com.jinkyumpark.bookitout.quotation.Quotation;
 import com.jinkyumpark.bookitout.reading.ReadingSession;
@@ -10,7 +11,7 @@ import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.springframework.data.annotation.LastModifiedDate;
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
@@ -20,11 +21,12 @@ import java.util.List;
 @Getter
 @NoArgsConstructor
 
+@DynamicUpdate
 @DynamicInsert
 @EntityListeners(AuditingEntityListener.class)
 
 @Entity @Table(name = "book")
-public class Book {
+public class Book extends TimeEntity {
     @Id
     @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
@@ -40,10 +42,6 @@ public class Book {
     @Column(name = "published_at")
     @JsonIgnore
     private LocalDateTime publishedAt;
-
-    @Column(name = "add_date", columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
-    @JsonIgnore
-    private LocalDateTime addDate;
 
     @Column(name = "summary")
     private String summary;
@@ -83,11 +81,6 @@ public class Book {
     @Enumerated(value = EnumType.ORDINAL)
     private BookCategory category;
 
-    @JsonIgnore
-    @Column(name = "last_modified")
-    @LastModifiedDate
-    private LocalDateTime lastModified;
-
     // TODO : change to FK
     @Column(name = "author", nullable = false)
     private String author;
@@ -95,6 +88,10 @@ public class Book {
     @Column(name = "isGiveUp")
     @Convert(converter = BooleanTo01Converter.class)
     private Boolean isGiveUp;
+
+    @Enumerated(EnumType.STRING)
+    private BookMemoType memoType = BookMemoType.NONE;
+    private String memoLink;
 
     @ManyToOne
     @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
@@ -120,7 +117,7 @@ public class Book {
     @Builder
     public Book(String title, String cover, LocalDateTime publishedAt, String summary, Integer currentPage, Integer endPage,
                 BookSource source, BookForm form, String review, Integer rating, Boolean isSharing, BookLanguage language, BookCategory category,
-                String author, Boolean isGiveUp, AppUser appUser) {
+                String author, Boolean isGiveUp, AppUser appUser, BookMemoType memoType, String memoLink) {
         this.title = title;
         this.cover = cover;
         this.publishedAt = publishedAt;
@@ -137,6 +134,8 @@ public class Book {
         this.author = author;
         this.isGiveUp = isGiveUp;
         this.appUser = appUser;
+        this.memoType = memoType;
+        this.memoLink = memoLink;
     }
 
     public void addReadingSession(ReadingSessionDto readingSessionDto) {
@@ -178,5 +177,9 @@ public class Book {
             this.endPage = bookDto.getEndPage();
         if (bookDto.getRating() != null)
             this.rating = bookDto.getRating();
+        if (bookDto.getMemoType() != null)
+            this.memoType = bookDto.getMemoType();
+        if (bookDto.getMemoLink() != null)
+            this.memoLink = bookDto.getMemoLink();
     }
 }

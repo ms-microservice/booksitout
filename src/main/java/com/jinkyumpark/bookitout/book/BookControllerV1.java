@@ -41,7 +41,7 @@ public class BookControllerV1 {
                                   @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
                                   @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
                                   @LoginUser LoginAppUser loginAppUser) {
-        Pageable pageRequest = PageRequest.of(page, size, Sort.by("addDate").descending());
+        Pageable pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
         if (range.equals("not-started")) return bookService.getAllNotStartedBook(loginAppUser.getId(), pageRequest);
         if (range.equals("started")) return bookService.getAllStartedBook(loginAppUser.getId(), pageRequest);
