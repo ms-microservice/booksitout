@@ -83,7 +83,7 @@ jobs:
           --build-arg EMAIL_PW=$EMAIL_PW \
           --build-arg OAUTH_NAVER_CLIENT_ID=$OAUTH_NAVER_CLIENT_ID \
           --build-arg OAUTH_NAVER_CLIENT_SECRET=$OAUTH_NAVER_CLIENT_SECRET \
-          -t jinkpark/book-it-out:v1-amd64 .
+          -t jinkpark/book-it-out:v2 .
           docker push $DOCKERHUB_IMAGE_NAME
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
