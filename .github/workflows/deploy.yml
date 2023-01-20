@@ -9,7 +9,7 @@ env:
   MYSQL_USER: book
   MYSQL_PW: bookitout
   MYSQL_ROOT_PW: root
-  JAVA_VERSION: 1.17
+  JAVA_VERSION: 17
 
   AWS_REGION: ap-northeast-2
   EB_ENVIRONMENT_NAME: Bookitout-env
