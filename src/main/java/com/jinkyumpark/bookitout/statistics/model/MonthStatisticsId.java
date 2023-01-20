@@ -9,6 +9,7 @@ import java.io.Serializable;
 
 @AllArgsConstructor @NoArgsConstructor
 @Getter
+@EqualsAndHashCode
 @Embeddable
 public class MonthStatisticsId implements Serializable {
     @JsonIgnore
