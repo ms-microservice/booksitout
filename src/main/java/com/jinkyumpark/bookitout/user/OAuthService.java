@@ -45,7 +45,7 @@ public class OAuthService {
             log.info(e.getMessage());
         }
 
-        throw new BadRequestException("");
+        throw new BadRequestException("OAuth Access Token Request Fail; Request URL: " + requestUrl);
     }
 
     public String getOauthAccessTokenWebClient(String requestUrl) {
@@ -80,6 +80,6 @@ public class OAuthService {
             log.info(e.getMessage());
         }
 
-        throw new BadRequestException("");
+        throw new BadRequestException("OAuth User Info Request Fail; request url: " + requestUrl);
     }
 }
