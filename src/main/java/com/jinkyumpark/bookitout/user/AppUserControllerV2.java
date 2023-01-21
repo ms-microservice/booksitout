@@ -89,7 +89,7 @@ public class AppUserControllerV2 {
         String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
-        String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "\"Bearer\" " + naverToken.getAccessToken());
+        String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + naverToken.getAccessToken());
         NaverUserInfo naverUserInfo = gson.fromJson(userInfoJson, NaverUserInfo.class);
 
         OAuthDto naverDto = OAuthDto.builder()
@@ -107,7 +107,7 @@ public class AppUserControllerV2 {
 
         return LoginSuccessResponse.builder()
                 .message(String.format("어서오세요 %s님", naverDto.getName()))
-                .token("\"Bearer\"" + jwtToken)
+                .token("\"Bearer\" " + jwtToken)
                 .name(naverDto.getName())
                 .registerDate(addedAppUser.getCreatedDate())
                 .profileImage(naverDto.getProfileImage())
