@@ -40,7 +40,7 @@ const OAuthKakao = () => {
 				localStorage.setItem('profile-image', userData.profileImage)
 
 				toast.dismiss()
-				toast(userData.message, { icon: '✋' })
+				toast.success(userData.message, { icon: '✋' })
 				navigate('/')
 			})
 	}, [dispatch, navigate, query])

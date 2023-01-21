@@ -28,7 +28,7 @@ const Login = () => {
 		{
 			id: 1,
 			image: googleButton,
-			redirectUrl: '',
+			redirectUrl: urls.api.user.login.oauth.google.loginPage,
 		},
 		{
 			id: 2,

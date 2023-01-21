@@ -1,4 +1,4 @@
-import { kakao, naver } from '../settings/oauth'
+import { google, kakao, naver } from '../settings/oauth'
 
 const apiBase = process.env.REACT_APP_API_URL
 const localBase = process.env.REACT_APP_LOCAL_URL
@@ -26,6 +26,10 @@ const urls = {
 					naver: {
 						api: (code, state) => `${apiBase}/v2/login/oauth2/naver?code=${code}&state=${state}`,
 						loginPage: `https://nid.naver.com/oauth2.0/authorize?client_id=${naver.clientId}&redirect_uri=${naver.redirectUrl}&response_type=${naver.responseType}&state=bookitout&version=js-2.0.1`,
+					},
+					google: {
+						api: (code, scope) => `${apiBase}/v2/login/oauth2/google?code=${code}&scope=${scope}`,
+						loginPage: `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google.clientId}&redirect_uri=${google.redirectUrl}&response_type=${google.responseType}&scope=${google.scope}`,
 					},
 				},
 			},
@@ -113,7 +117,7 @@ const urls = {
 		},
 	},
 
-	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao', '/login/oauth/naver'],
+	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao', '/login/oauth/naver', '/login/oauth/google', '/login/oauth/facebook'],
 }
 
 export default urls
