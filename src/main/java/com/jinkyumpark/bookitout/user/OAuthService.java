@@ -80,6 +80,6 @@ public class OAuthService {
             log.info(e.getMessage());
         }
 
-        throw new BadRequestException("OAuth User Info Request Fail; request url: " + requestUrl);
+        throw new BadRequestException("OAuth User Info Request Fail; request url: " + requestUrl + " token: " + token);
     }
 }
