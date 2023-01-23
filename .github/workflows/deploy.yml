@@ -52,8 +52,6 @@ jobs:
         with:
           java-version: ${{ env.JAVA_VERSION }}
 
-      # - name : Run tests
-
       - name: Build Spring Project with Gradle
         run: |
           ./gradlew clean build
@@ -134,6 +132,7 @@ jobs:
           cd frontend
           npm install
           npm run build
+
 
       - name: Deploy React App to Github Pages
         uses: peaceiris/actions-gh-pages@v3

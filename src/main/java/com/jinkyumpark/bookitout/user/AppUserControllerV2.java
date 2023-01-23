@@ -27,7 +27,8 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-@RestController @RequestMapping("v2/login/oauth2")
+@RestController
+@RequestMapping("v2/login/oauth2")
 public class AppUserControllerV2 {
     private final AppUserService appUserService;
     private final OAuthService oAuthService;
@@ -60,29 +61,17 @@ public class AppUserControllerV2 {
     @GetMapping("naver")
     public LoginSuccessResponse getNaverJwtToken(@RequestParam("code") String code,
                                                  @RequestParam("state") String state) {
-        log.error("code: {}, state: {}", code, state);
-
-        String clientId = environment.getProperty("oauth.naver.client-id");
-        String clientSecret = environment.getProperty("oauth.naver.client-secret");
-        log.error("clientId: {}, cientSecret: {}", clientId, clientSecret);
-        String accessTokenUrl = String.format(environment.getProperty("oauth.naver.token-url") + "?" +
-                        "grant_type=authorization_code&" +
-                        "client_id=%s&" +
-                        "client_secret=%s&" +
-                        "code=%s&" +
-                        "state=%s",
-                clientId,
-                clientSecret,
+        String accessTokenUrl = String.format("%s?grant_type=authorization_code&client_id=%s&client_secret=%s&code=%s&state=%s",
+                environment.getProperty("oauth.naver.token-url"),
+                environment.getProperty("oauth.naver.client-id"),
+                environment.getProperty("oauth.naver.client-secret"),
                 code,
                 state
         );
-        log.error("accessTokenUrl: {}", accessTokenUrl);
         String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
-        log.error("accessTokenJson: {}", accessTokenJson);
 
         String userInfoUrl = environment.getProperty("oauth.naver.user-info-url");
-        log.error("Access Token: {}, userInfoUrl: {}", naverToken.getAccessToken(), userInfoUrl);
         String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + naverToken.getAccessToken());
         NaverUserInfo naverUserInfo = gson.fromJson(userInfoJson, NaverUserInfo.class);
 
@@ -101,13 +90,7 @@ public class AppUserControllerV2 {
     @GetMapping("google")
     public LoginSuccessResponse getGoogleJwtToken(@RequestParam("code") String code,
                                                   @RequestParam("scope") String scope) {
-        String tokenUrl = String.format(
-                "%s?" +
-                        "grant_type=authorization_code&" +
-                        "client_id=%s&" +
-                        "client_secret=%s&" +
-                        "redirect_uri=%s&" +
-                        "code=%s",
+        String tokenUrl = String.format("%s?grant_type=authorization_code&client_id=%s&client_secret=%s&redirect_uri=%s&code=%s",
                 environment.getProperty("oauth.google.token-url"),
                 environment.getProperty("oauth.google.client-id"),
                 environment.getProperty("oauth.google.client-secret"),
