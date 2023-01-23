@@ -4,7 +4,7 @@ import { deleteReadingSession, editReadingSession } from '../../../functions/rea
 import toast from 'react-hot-toast'
 // Resources
 import '../../../resources/css/input.css'
-import { getDayCountOfMonth } from '../../../functions/date'
+import date from '../../../functions/date'
 // Functions
 
 const ReadingSessionDetailModal = ({
@@ -161,7 +161,7 @@ const ReadingSessionDetailModal = ({
 														<Form.Select className='mb-2' onChange={(e) => setDay(e.target.value)}>
 															{Array.from(
 																{
-																	length: getDayCountOfMonth(
+																	length: date.getDayCountOfMonth(
 																		getDate(readingSession.startTime)[0],
 																		getDate(readingSession.startTime)[1]
 																	),

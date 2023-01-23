@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { addReadingSession } from '../../../functions/reading'
-import { getDayCountOfMonth } from '../../../functions/date'
+import date from '../../../functions/date'
 import '../../../resources/css/input.css'
 
 const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, readingSessionList, setReadingSessionList }) => {
@@ -91,7 +91,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 
 						<div className='col-4'>
 							<Form.Select className='mb-2' value={day} onChange={(e) => setDay(e.target.value)}>
-								{Array.from({ length: getDayCountOfMonth(year, month) }, (_, i) => i + 1).map((dayValue) => {
+								{Array.from({ length: date.getDayCountOfMonth(year, month) }, (_, i) => i + 1).map((dayValue) => {
 									return <option value={dayValue}>{dayValue}일</option>
 								})}
 							</Form.Select>
