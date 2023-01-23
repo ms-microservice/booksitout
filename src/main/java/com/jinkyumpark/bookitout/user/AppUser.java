@@ -78,7 +78,8 @@ public class AppUser extends TimeEntity implements UserDetails {
     }
 
     @Builder
-    public AppUser(String email, String password, String name, String profileImage, OAuthProvider oAuthProvider, String oAuthId, Integer emailVerificationCode) {
+    public AppUser(Long appUserId, String email, String password, String name, String profileImage, OAuthProvider oAuthProvider, String oAuthId, Integer emailVerificationCode) {
+        this.appUserId = appUserId;
         this.email = email;
         this.password = password;
         this.name = name;
@@ -94,7 +95,7 @@ public class AppUser extends TimeEntity implements UserDetails {
         this.emailVerificationCode = appUserDto.getEmailVerificationCode();
     }
 
-    public void saveOrUpdateKakao(OAuthDto OAuthDto) {
+    public void saveOrUpdateOAuthUser(OAuthDto OAuthDto) {
         if (OAuthDto.getOAuthId() != null) this.oAuthId = OAuthDto.getOAuthId();
         if (OAuthDto.getName() != null) this.name = OAuthDto.getName();
         if (OAuthDto.getProfileImage() != null) this.profileImage = OAuthDto.getProfileImage();
