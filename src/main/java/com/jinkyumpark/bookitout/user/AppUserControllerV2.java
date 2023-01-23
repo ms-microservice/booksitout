@@ -14,6 +14,7 @@ import com.jinkyumpark.bookitout.user.oauth.naver.NaverToken;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -24,6 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController @RequestMapping("v2/login/oauth2")
 public class AppUserControllerV2 {
@@ -87,6 +89,7 @@ public class AppUserControllerV2 {
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.naver.user-info-url");
+        log.error("Access Token: {}, userInfoUrl: {}", naverToken.getAccessToken(), userInfoUrl);
         String userInfoJson = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + naverToken.getAccessToken());
         NaverUserInfo naverUserInfo = gson.fromJson(userInfoJson, NaverUserInfo.class);
 
