@@ -32,10 +32,10 @@ import TimerSettings from './settings/TimerSettings'
 function App() {
 	return (
 		<div className='App'>
+			<Toaster />
 			<ToastSettings />
 			<LocationSettings />
 			<TimerSettings />
-			<Toaster />
 
 			<Topnav />
 			<div style={{ marginBottom: '80px' }} />

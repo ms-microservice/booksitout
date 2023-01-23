@@ -18,7 +18,7 @@ const TimerSettings = () => {
 		return () => clearInterval(interval)
 	}, [dispatch, timerOn])
 
-	return <div>TimerSettings</div>
+	return <></>
 }
 
 export default TimerSettings
