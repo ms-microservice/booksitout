@@ -31,8 +31,8 @@ import java.util.List;
 public class AppUserControllerV2 {
     private final AppUserService appUserService;
     private final OAuthService oAuthService;
-    private final JwtUtils jwtUtils;
     private final Environment environment;
+
     private final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
     @GetMapping("kakao")
@@ -60,10 +60,12 @@ public class AppUserControllerV2 {
     @GetMapping("naver")
     public LoginSuccessResponse getNaverJwtToken(@RequestParam("code") String code,
                                                  @RequestParam("state") String state) {
+        log.error("code: {}, state: {}", code, state);
+
         String clientId = environment.getProperty("oauth.naver.client-id");
         String clientSecret = environment.getProperty("oauth.naver.client-secret");
-        String accessTokenUrl = String.format(
-                environment.getProperty("oauth.naver.token-url") + "?" +
+        log.error("clientId: {}, cientSecret: {}", clientId, clientSecret);
+        String accessTokenUrl = String.format(environment.getProperty("oauth.naver.token-url") + "?" +
                         "grant_type=authorization_code&" +
                         "client_id=%s&" +
                         "client_secret=%s&" +
@@ -74,8 +76,10 @@ public class AppUserControllerV2 {
                 code,
                 state
         );
+        log.error("accessTokenUrl: {}", accessTokenUrl);
         String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
+        log.error("accessTokenJson: {}", accessTokenJson);
 
         String userInfoUrl = environment.getProperty("oauth.naver.user-info-url");
         log.error("Access Token: {}, userInfoUrl: {}", naverToken.getAccessToken(), userInfoUrl);
