@@ -3,10 +3,14 @@ package com.jinkyumpark.bookitout.user;
 import com.jinkyumpark.bookitout.common.exception.http.NotFoundException;
 import com.jinkyumpark.bookitout.common.exception.http.NotLoginException;
 import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToken;
+import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import com.jinkyumpark.bookitout.user.dto.AppUserDto;
 import com.jinkyumpark.bookitout.user.dto.OAuthDto;
+import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -14,12 +18,14 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class AppUserService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
+    private final JwtUtils jwtUtils;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -103,5 +109,18 @@ public class AppUserService implements UserDetailsService {
                 .build();
 
         return appUserRepository.save(appUser);
+    }
+
+    public LoginSuccessResponse getLoginSuccessResponse(OAuthDto oAuthDto, AppUser addedAppUser) {
+        List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
+        String jwtToken = jwtUtils.generateAccessToken(oAuthDto.getName(), addedAppUser.getAppUserId(), authorities, true);
+
+        return LoginSuccessResponse.builder()
+                .message(String.format("어서오세요 %s님!", oAuthDto.getName()))
+                .token("\"Bearer\" " + jwtToken)
+                .name(oAuthDto.getName())
+                .registerDate(addedAppUser.getCreatedDate())
+                .profileImage(oAuthDto.getProfileImage())
+                .build();
     }
 }
