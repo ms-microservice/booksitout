@@ -105,11 +105,11 @@ public class AppUserControllerV2 {
         GoogleUserInfo googleUserInfo = gson.fromJson(userInfoJsonResponse, GoogleUserInfo.class);
 
         OAuthDto googleDto = OAuthDto.builder()
-//                .oAuthId()
-//                .oAuthProvider(OAuthProvider.GOOGLE)
-//                .email()
-//                .name()
-//                .profileImage()
+                .oAuthId(googleUserInfo.getSub())
+                .oAuthProvider(OAuthProvider.GOOGLE)
+                .email(googleUserInfo.getEmail())
+                .name(googleUserInfo.getName())
+                .profileImage(googleUserInfo.getPicture())
                 .build();
         AppUser addedAppUser = appUserService.addOrUpdateOAuthUser(googleDto);
 
