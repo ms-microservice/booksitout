@@ -13,12 +13,14 @@ import com.jinkyumpark.bookitout.user.oauth.naver.NaverUserInfo;
 import com.jinkyumpark.bookitout.user.oauth.naver.NaverToken;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+@Slf4j
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v2/login/oauth2")
@@ -90,11 +92,14 @@ public class AppUserControllerV2 {
                 "https://book.jinkyumpark.com/login/oauth/google",
                 code
         );
+        log.info(tokenUrl);
         String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl);
+        log.info(tokenJsonResponse);
         GoogleToken googleToken = gson.fromJson(tokenJsonResponse, GoogleToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.google.user-info-url");
-        String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl, googleToken.getTokenType() + " " + googleToken.getAccessToken());
+        log.info(userInfoUrl);
+        String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl,  "Bearer " + googleToken.getAccessToken());
         GoogleUserInfo googleUserInfo = gson.fromJson(userInfoJsonResponse, GoogleUserInfo.class);
 
         OAuthDto googleDto = OAuthDto.builder()
