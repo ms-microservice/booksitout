@@ -1,4 +1,4 @@
-import { getDateDifferenceInDays } from './date'
+import date from './date'
 
 const getAlertMessage = (): string => {
 	const name: string = localStorage.getItem('user-name') ?? ''
@@ -53,7 +53,7 @@ const getAlertMessage = (): string => {
 }
 
 const getIsAlertShowing = (): boolean => {
-	const dateDifference: number = getDateDifferenceInDays(new Date(), new Date(localStorage.getItem('main-alert') ?? new Date(1999)))
+	const dateDifference: number = date.getDateDifferenceInDays(new Date(), new Date(localStorage.getItem('main-alert') ?? new Date(1999)))
 
 	return dateDifference > 1
 }

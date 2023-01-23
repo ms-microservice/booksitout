@@ -26,7 +26,7 @@ import OAuthNaver from './components/user/oauth/OAuthNaver'
 import OAuthGoogle from './components/user/oauth/OAuthGoogle'
 import OAuthFacebook from './components/user/oauth/OAuthFacebook'
 // Functions
-import { getDateDifferenceInDays } from './functions/date'
+import date from './functions/date'
 // Settings
 import urls from './settings/urls'
 import uiSettings from './settings/ui'
@@ -64,7 +64,7 @@ function App() {
 			}
 		}
 
-		if (localStorage.getItem('login-date') && getDateDifferenceInDays(new Date(localStorage.getItem('login-date')), new Date()) >= 7) {
+		if (localStorage.getItem('login-date') && date.getDateDifferenceInDays(new Date(localStorage.getItem('login-date')), new Date()) >= 7) {
 			dispatch(logoutToken())
 			navigate('/login')
 			toast.error('다시 로그인 해  주세요')
