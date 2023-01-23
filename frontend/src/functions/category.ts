@@ -9,7 +9,7 @@ import literatureIcon from '../resources/images/category/drama.png'
 import historyIcon from '../resources/images/category/history.png'
 import othersIcon from '../resources/images/common/others.png'
 
-const categoryKoreanDisplayNameMap = new Map([
+const categoryKoreanDisplayNameMap: Map<string, string> = new Map([
 	['PHILOSOPHY', '철학'],
 	['RELIGION', '종교'],
 	['SOCIAL_SCIENCE', '사회'],
@@ -21,7 +21,7 @@ const categoryKoreanDisplayNameMap = new Map([
 	['HISTORY', '역사'],
 	['OTHERS', '기타'],
 ])
-const categoryIconMap = new Map([
+const categoryIconMap: Map<string, any> = new Map([
 	['PHILOSOPHY', philosophyIcon],
 	['RELIGION', religionIcon],
 	['SOCIAL_SCIENCE', socialScienceIcon],
@@ -34,12 +34,12 @@ const categoryIconMap = new Map([
 	['OTHERS', othersIcon],
 ])
 
-const getCategoryIcon = (category) => {
-	return categoryIconMap.get(category)
+const getCategoryIcon = (category: string) => {
+	return categoryIconMap.get(category) ?? categoryIconMap.get('OTHERS')
 }
 
-const getCategoryKoreanDisplayName = (category) => {
-	return categoryKoreanDisplayNameMap.get(category)
+const getCategoryKoreanDisplayName = (category: string) => {
+	return categoryKoreanDisplayNameMap.get(category) ?? '기타'
 }
 
 export { getCategoryIcon, getCategoryKoreanDisplayName }
