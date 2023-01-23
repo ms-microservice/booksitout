@@ -1,6 +1,6 @@
 import { useEffect } from 'react'
 import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { Toaster, useToasterStore, toast } from 'react-hot-toast'
+import { Toaster, toast } from 'react-hot-toast'
 // Components
 import Topnav from './components/common/Topnav'
 import ReadingButton from './components/common/ReadingButton'
@@ -29,11 +29,11 @@ import OAuthFacebook from './components/user/oauth/OAuthFacebook'
 import date from './functions/date'
 // Settings
 import urls from './settings/urls'
-import uiSettings from './settings/ui'
 // Redux
 import { useDispatch, useSelector } from 'react-redux'
 import { updateOneSecond, updateReadingTimeDate } from './redux/timerSlice'
 import { logoutToken } from './redux/userSlice'
+import ToastSettings from './components/common/ToastSettings'
 
 function App() {
 	const location = useLocation()
@@ -71,17 +71,11 @@ function App() {
 		}
 	}, [location.pathname, navigate, token, dispatch])
 
-	const { toasts } = useToasterStore()
-	useEffect(() => {
-		toasts
-			.filter((t) => t.visible)
-			.filter((_, i) => i >= uiSettings.toastLimit)
-			.forEach((t) => toast.dismiss(t.id))
-	}, [toasts])
-
 	return (
 		<div className='App'>
 			<Toaster />
+			<ToastSettings />
+
 			<Topnav />
 
 			<div style={{ marginBottom: '80px' }} />
