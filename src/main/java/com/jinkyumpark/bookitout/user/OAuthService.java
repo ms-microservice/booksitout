@@ -35,6 +35,7 @@ public class OAuthService {
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
             connection.setDoOutput(true);
+            connection.setRequestProperty("Content-Length", "0");
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String response = getJsonString(bufferedReader);
