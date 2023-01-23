@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, Alert } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'

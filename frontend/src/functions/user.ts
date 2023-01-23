@@ -6,6 +6,35 @@ import messages from '../settings/messages'
 import apiSettings from '../settings/api'
 import utils from './utils'
 
+const join = (joinRequest) => {
+	return axios.post(urls.api.user.join, joinRequest, { headers: apiSettings.headers }).then((res) => res.status)
+}
+
+const login = (loginRequest) => {
+	return axios
+		.post(urls.api.user.login.basic, loginRequest, { headers: apiSettings.headers })
+		.then((res) => {
+			if (res.status !== 200) {
+				throw new Error()
+			}
+			return res.data
+		})
+		.catch(() => {
+			localStorage.setItem('login-token', '')
+			localStorage.setItem('user-name', '')
+			return false
+		})
+		.then((userData) => {
+			localStorage.setItem('login-token', userData.token)
+			localStorage.setItem('user-name', userData.name)
+			localStorage.setItem('register-year', new Date().getFullYear().toString())
+			localStorage.setItem('login-date', new Date().toString())
+			toast.dismiss()
+			toast(userData.message, { icon: '✋' })
+			return true
+		})
+}
+
 const verifyEmail = (email) => {
 	toast.loading('잠시만 기다려 주세요')
 	return axios.post(urls.api.user.email(email), null, { headers: apiSettings.headers }).then((res) => {
@@ -23,33 +52,6 @@ const verifyEmail = (email) => {
 			return false
 		}
 	})
-}
-
-const join = (joinRequest) => {
-	return axios.post(urls.api.user.join, joinRequest, { headers: apiSettings.headers }).then((res) => res.status)
-}
-
-const login = (loginRequest) => {
-	return axios
-		.post(urls.api.user.login.basic, loginRequest, { headers: apiSettings.headers })
-		.then((res) => {
-			if (res.status !== 200) throw new Error()
-			return res.data
-		})
-		.catch(() => {
-			localStorage.setItem('login-token', '')
-			localStorage.setItem('user-name', '')
-			return false
-		})
-		.then((data) => {
-			localStorage.setItem('login-token', data.token)
-			localStorage.setItem('user-name', data.name)
-			localStorage.setItem('register-year', new Date().getFullYear().toString())
-			localStorage.setItem('login-date', new Date().toString())
-			toast.dismiss()
-			toast(data.message, { icon: '✋' })
-			return true
-		})
 }
 
 const isLogoutPossible = () => {

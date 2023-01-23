@@ -23,7 +23,9 @@ const OAuthGoogle = () => {
 		axios
 			.get(urls.api.user.login.oauth.google.api(code, scope))
 			.then((res) => {
-				if (res.status !== 200) throw new Error()
+				if (res.status !== 200) {
+					throw new Error()
+				}
 				return res.data
 			})
 			.catch((e) => {
