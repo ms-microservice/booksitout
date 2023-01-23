@@ -90,7 +90,7 @@ public class AppUserService implements UserDetailsService {
 
         if (userOptional.isPresent()) {
             AppUser appUser = userOptional.get();
-            appUser.saveOrUpdateKakao(OAuthDto);
+            appUser.saveOrUpdateOAuthUser(OAuthDto);
             return appUser;
         }
 
