@@ -27,11 +27,11 @@ public class OAuthService {
         return String.valueOf(response);
     }
 
-    public String getOauthAccessToken(String requestUrl) {
+    public String getOauthAccessToken(String requestUrl, String method) {
         try {
             URL url = new URL(requestUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
+            connection.setRequestMethod(method == null ? "GET" : method);
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
             connection.setDoOutput(true);

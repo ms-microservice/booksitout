@@ -34,7 +34,7 @@ public class AppUserControllerV2 {
     @GetMapping("kakao")
     public LoginSuccessResponse getKakaoJwtToken(@RequestParam("code") String code) {
         String tokenUrl = environment.getProperty("oauth.kakao.token-url") + "?grant_type=authorization_code&client_id=e0b8e02a9826e15029e2182d1d03bf2b&code=" + code;
-        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl);
+        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl, "GET");
         KakaoToken kakaoToken = gson.fromJson(tokenJsonResponse, KakaoToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.kakao.user-info-url");
@@ -63,7 +63,7 @@ public class AppUserControllerV2 {
                 code,
                 state
         );
-        String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
+        String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl, "GET");
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.naver.user-info-url");
@@ -92,13 +92,10 @@ public class AppUserControllerV2 {
                 "https://book.jinkyumpark.com/login/oauth/google",
                 code
         );
-        log.info(tokenUrl);
-        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl);
-        log.info(tokenJsonResponse);
+        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl, "POST");
         GoogleToken googleToken = gson.fromJson(tokenJsonResponse, GoogleToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.google.user-info-url");
-        log.info(userInfoUrl);
         String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl,  "Bearer " + googleToken.getAccessToken());
         GoogleUserInfo googleUserInfo = gson.fromJson(userInfoJsonResponse, GoogleUserInfo.class);
 
