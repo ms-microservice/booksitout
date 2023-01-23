@@ -19,11 +19,6 @@ const login = (loginRequest) => {
 			}
 			return res.data
 		})
-		.catch(() => {
-			localStorage.setItem('login-token', '')
-			localStorage.setItem('user-name', '')
-			return false
-		})
 		.then((userData) => {
 			localStorage.setItem('login-token', userData.token)
 			localStorage.setItem('user-name', userData.name)
@@ -32,6 +27,11 @@ const login = (loginRequest) => {
 			toast.dismiss()
 			toast(userData.message, { icon: '✋' })
 			return true
+		})
+		.catch(() => {
+			localStorage.setItem('login-token', '')
+			localStorage.setItem('user-name', '')
+			return false
 		})
 }
 
