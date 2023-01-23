@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import uiSettings from '../../settings/ui'
+import uiSettings from './ui'
 import { useToasterStore, toast } from 'react-hot-toast'
 
 const ToastSettings = () => {
