@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.reading;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.reading.dto.ReadingSessionDto;
@@ -28,7 +29,9 @@ public class ReadingSession {
     private Integer endPage;
 
     @Column(name = "start_time", updatable = false, nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startTime;
+    @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
     private Integer readTime;
 
