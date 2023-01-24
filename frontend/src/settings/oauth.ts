@@ -14,7 +14,7 @@ const naver = {
 const google = {
 	clientId: '1054186388784-pvv99ifu26lc883obgl6lf05s0utdv7v.apps.googleusercontent.com',
 	responseType: 'code',
-	redirectUrl: `https%3A%2F%2Fbook.jinkyumpark.com%2Flogin%2Foauth%2Fgoogle%2F`,
+	redirectUrl: `https%3A%2F%2Fbook.jinkyumpark.com%2Flogin%2Foauth%2Fgoogle`,
 	scope: `https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`,
 }
 

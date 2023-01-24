@@ -14,10 +14,13 @@ import com.jinkyumpark.bookitout.user.oauth.naver.NaverToken;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
 @RestController @RequestMapping("v2/login/oauth2")
@@ -25,6 +28,7 @@ public class AppUserControllerV2 {
     private final AppUserService appUserService;
     private final OAuthService oAuthService;
     private final Environment environment;
+    private final RestTemplate restTemplate;
 
     private final Gson gson = new GsonBuilder().setFieldNamingPolicy(FieldNamingPolicy.LOWER_CASE_WITH_UNDERSCORES).create();
 
@@ -89,12 +93,11 @@ public class AppUserControllerV2 {
                 "https://book.jinkyumpark.com/login/oauth/google",
                 code
         );
-        String tokenJsonResponse = oAuthService.getOauthAccessTokenPost(tokenUrl);
-        GoogleToken googleToken = gson.fromJson(tokenJsonResponse, GoogleToken.class);
+        GoogleToken googleToken = restTemplate.postForObject(tokenUrl, null, GoogleToken.class);
 
-        String userInfoUrl = environment.getProperty("oauth.google.user-info-url");
-        String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + googleToken.getAccessToken());
-        GoogleUserInfo googleUserInfo = gson.fromJson(userInfoJsonResponse, GoogleUserInfo.class);
+        HttpHeaders headers = new HttpHeaders();
+        headers.setBearerAuth(googleToken.getAccessToken());
+        GoogleUserInfo googleUserInfo = restTemplate.postForObject(environment.getProperty("oauth.google.user-info-url"), new HttpEntity<>(headers), GoogleUserInfo.class);
 
         OAuthDto googleDto = OAuthDto.builder()
                 .oAuthId(googleUserInfo.getSub())

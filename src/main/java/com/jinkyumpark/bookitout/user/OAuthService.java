@@ -48,28 +48,6 @@ public class OAuthService {
         throw new BadRequestException("OAuth Access Token Request Fail; Request URL: " + requestUrl);
     }
 
-    public String getOauthAccessTokenPost(String requestUrl) {
-        try {
-            URL url = new URL(requestUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("POST");
-            connection.setDoInput(true);
-            connection.setDoOutput(true);
-            connection.setRequestProperty("Content-Length", "0");
-            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String response = getJsonString(bufferedReader);
-            bufferedReader.close();
-
-            return response;
-        } catch (Exception e) {
-            log.info(e.getMessage());
-        }
-
-        throw new BadRequestException("OAuth Access Token Request Fail; Request URL: " + requestUrl);
-    }
-
     public String getOauthAccessTokenWebClient(String requestUrl) {
         WebClient webClient = WebClient.builder()
                 .baseUrl(requestUrl)
