@@ -29,18 +29,28 @@ const endReadingSessionWithoutSaving = () => {
 	return axios.delete(urls.api.reading.delete.notSaving, { headers: apiSettings.headers }).then((res) => res.status.toString().startsWith('2'))
 }
 
-const endReadingSession = (book, endPage) => {
+const endReadingSession = (book, endPage: number) => {
 	const readingTime = Math.round(Number(localStorage.getItem('reading-session-time')) ?? 1)
-	return axios.put(urls.api.reading.edit.end(book.bookId, endPage, readingTime), null, { headers: apiSettings.headers }).then((res) => {
-		if (res.status === 200) {
+	return axios
+		.put(urls.api.reading.edit.end(book.bookId, endPage, readingTime), null, { headers: apiSettings.headers })
+		.then((res) => {
+			if (res.status === 200) {
+				return res.data
+			} else {
+				throw new Error(res.data)
+			}
+		})
+		.then(() => {
 			localStorage.removeItem('reading-session-time')
-			toast.success(book.endPage === endPage ? '책을 다 읽으셨어요! 별점, 감상, 요약을 추가해 보세요!' : messages.reading.add.success)
+			toast.success(
+				Number(book.endPage) === Number(endPage) ? '책을 다 읽으셨어요! 별점, 감상, 요약을 추가해 보세요!' : messages.reading.add.success
+			)
 			return true
-		} else {
-			toast.error(res.data.message)
+		})
+		.catch((data) => {
+			toast.error(data.message)
 			return false
-		}
-	})
+		})
 }
 
 const addReadingSession = (bookId, readingSession) => {
