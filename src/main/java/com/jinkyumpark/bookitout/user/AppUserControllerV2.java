@@ -13,17 +13,14 @@ import com.jinkyumpark.bookitout.user.oauth.naver.NaverUserInfo;
 import com.jinkyumpark.bookitout.user.oauth.naver.NaverToken;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-@Slf4j
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("v2/login/oauth2")
+@RestController @RequestMapping("v2/login/oauth2")
 public class AppUserControllerV2 {
     private final AppUserService appUserService;
     private final OAuthService oAuthService;
@@ -34,7 +31,7 @@ public class AppUserControllerV2 {
     @GetMapping("kakao")
     public LoginSuccessResponse getKakaoJwtToken(@RequestParam("code") String code) {
         String tokenUrl = environment.getProperty("oauth.kakao.token-url") + "?grant_type=authorization_code&client_id=e0b8e02a9826e15029e2182d1d03bf2b&code=" + code;
-        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl, "GET");
+        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl);
         KakaoToken kakaoToken = gson.fromJson(tokenJsonResponse, KakaoToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.kakao.user-info-url");
@@ -63,7 +60,7 @@ public class AppUserControllerV2 {
                 code,
                 state
         );
-        String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl, "GET");
+        String accessTokenJson = oAuthService.getOauthAccessToken(accessTokenUrl);
         NaverToken naverToken = gson.fromJson(accessTokenJson, NaverToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.naver.user-info-url");
@@ -92,11 +89,11 @@ public class AppUserControllerV2 {
                 "https://book.jinkyumpark.com/login/oauth/google",
                 code
         );
-        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl, "POST");
+        String tokenJsonResponse = oAuthService.getOauthAccessTokenPost(tokenUrl);
         GoogleToken googleToken = gson.fromJson(tokenJsonResponse, GoogleToken.class);
 
         String userInfoUrl = environment.getProperty("oauth.google.user-info-url");
-        String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl,  "Bearer " + googleToken.getAccessToken());
+        String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl, "Bearer " + googleToken.getAccessToken());
         GoogleUserInfo googleUserInfo = gson.fromJson(userInfoJsonResponse, GoogleUserInfo.class);
 
         OAuthDto googleDto = OAuthDto.builder()
@@ -109,5 +106,16 @@ public class AppUserControllerV2 {
         AppUser addedAppUser = appUserService.addOrUpdateOAuthUser(googleDto);
 
         return appUserService.getLoginSuccessResponse(googleDto, addedAppUser);
+    }
+
+    @GetMapping("facebook")
+    public LoginSuccessResponse getFacebookJwtToken(@RequestParam("code") String code) {
+//        String tokenUrl = String.format("https://graph.facebook.com/v15.0/oauth/access_token?client_id=%s&redirect_uri=%s&client_secret=%s&code=%d");
+//        String tokenJsonResponse = oAuthService.getOauthAccessToken(tokenUrl);
+//        FacebookToken facebookToken = gson.fromJson(tokenJsonResponse, FacebookToken.class);\
+//        String userInfoUrl = environment.getProperty("oauth.google.user-info-url");
+//        String userInfoJsonResponse = oAuthService.getOauthUserInfo(userInfoUrl,  "Bearer " + facebookToken.getAccessToken());
+
+        return null;
     }
 }

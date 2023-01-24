@@ -27,15 +27,36 @@ public class OAuthService {
         return String.valueOf(response);
     }
 
-    public String getOauthAccessToken(String requestUrl, String method) {
+    public String getOauthAccessToken(String requestUrl) {
         try {
             URL url = new URL(requestUrl);
             HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod(method == null ? "GET" : method);
+            connection.setRequestMethod("GET");
             connection.setConnectTimeout(5000);
             connection.setReadTimeout(5000);
+            connection.setDoInput(true);
+
+            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+            String response = getJsonString(bufferedReader);
+            bufferedReader.close();
+
+            return response;
+        } catch (Exception e) {
+            log.info(e.getMessage());
+        }
+
+        throw new BadRequestException("OAuth Access Token Request Fail; Request URL: " + requestUrl);
+    }
+
+    public String getOauthAccessTokenPost(String requestUrl) {
+        try {
+            URL url = new URL(requestUrl);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setRequestMethod("POST");
+            connection.setDoInput(true);
             connection.setDoOutput(true);
             connection.setRequestProperty("Content-Length", "0");
+            connection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
             String response = getJsonString(bufferedReader);
@@ -54,7 +75,7 @@ public class OAuthService {
                 .baseUrl(requestUrl)
                 .build();
 
-        return webClient.get()
+        return webClient.post()
                 .retrieve()
                 .bodyToMono(String.class)
                 .block();
@@ -70,7 +91,6 @@ public class OAuthService {
             userInfoConnection.setReadTimeout(5000);
             userInfoConnection.setDoOutput(true);
             userInfoConnection.setRequestProperty("Authorization", token);
-            userInfoConnection.setRequestProperty("Content-Type", "application/x-www-form-urlencoded");
 
             BufferedReader userInfoBufferReader = new BufferedReader(new InputStreamReader(userInfoConnection.getInputStream()));
             String response = getJsonString(userInfoBufferReader);
