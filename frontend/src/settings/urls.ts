@@ -1,4 +1,4 @@
-import { google, kakao, naver } from '../settings/oauth'
+import { google, kakao, naver, facebook } from '../settings/oauth'
 
 const apiBase = process.env.REACT_APP_API_URL
 const localBase = process.env.REACT_APP_LOCAL_URL
@@ -30,6 +30,10 @@ const urls = {
 					google: {
 						api: (code, scope) => `${apiBase}/v2/login/oauth2/google?code=${code}&scope=${scope}`,
 						loginPage: `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google.clientId}&redirect_uri=${google.redirectUrl}&response_type=${google.responseType}&scope=${google.scope}`,
+					},
+					facebook: {
+						api: (code) => `${apiBase}/v2/login/oauth2/facebook?code=${code}`,
+						loginPage: `https://www.facebook.com/v15.0/dialog/oauth?client_id=${facebook.clientId}&redirect_uri=${facebook.redirectUrl}&state=${facebook.state}`,
 					},
 				},
 			},
