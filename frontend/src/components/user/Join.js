@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Card, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { join, verifyEmail } from '../../functions/user'
+import user from '../../functions/user'
 import utils from '../../functions/utils'
 // Messages
 import messages from '../../settings/messages'
@@ -17,7 +17,7 @@ const Join = () => {
 	const [name, setName] = useState('')
 
 	const [isEmailSent, setIsEmailSent] = useState(false)
-	const handleVerifyEmail = () => verifyEmail(email).then((success) => success && setIsEmailSent(true))
+	const handleVerifyEmail = () => user.change.verificationCode.email(email).then((success) => success && setIsEmailSent(true))
 
 	const handleJoin = (e) => {
 		e.preventDefault()
@@ -67,7 +67,7 @@ const Join = () => {
 			name: name,
 		}
 
-		join(joinRequest).then((status) => {
+		user.join(joinRequest).then((status) => {
 			if (status === 200) {
 				toast.success(`책-it-out에 오신걸 환영해요, ${name}님!`)
 				navigate('/login')

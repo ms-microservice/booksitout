@@ -7,7 +7,7 @@ import Error from '../common/Error'
 import Loading from '../common/Loading'
 // Functions
 import { getAllQna, getMyQna } from '../../functions/qna'
-import { getIsLoggedIn } from '../../functions/user'
+import user from '../../functions/user'
 // Settings
 import uiSettings from '../../settings/ui'
 
@@ -25,7 +25,7 @@ const Qna = () => {
 		Promise.all(
 			getAllQna().then((qnaList) => setAllQnaList([...qnaList.content])),
 			() => {
-				if (getIsLoggedIn) {
+				if (user.localStorage.get.isLoggedIn) {
 					getMyQna().then((myQnaList) => setMyQna(myQnaList))
 				}
 			}
@@ -46,7 +46,7 @@ const Qna = () => {
 					<h3>질문과 답변</h3>
 
 					<h4 className='text-muted mt-5 mb-3'>내가 남긴 질문</h4>
-					{!getIsLoggedIn() ? (
+					{!user.localStorage.get.isLoggedIn() ? (
 						<Error message='내가 남긴 질문을 보려면 로그인 해 주세요' />
 					) : myQna == null || myQna.length === 0 ? (
 						<NoContent message='내가 남긴 QNA가 없어요' style={{ width: '100px' }} />

@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { login } from '../../functions/user'
+import user from '../../functions/user'
 // Settings
 import urls from '../../settings/urls'
 import messages from '../../settings/messages'
@@ -33,7 +33,7 @@ const Login = () => {
 		{
 			id: 2,
 			image: facebookButton,
-			redirectUrl: '',
+			redirectUrl: urls.api.user.login.oauth.facebook.loginPage,
 		},
 		{
 			id: 3,
@@ -80,7 +80,7 @@ const Login = () => {
 			stayLogin: stayLogin,
 		}
 
-		login(loginRequest).then((success) => {
+		user.login(loginRequest).then((success) => {
 			if (success) {
 				dispatch(loginToken(utils.getToken()))
 				navigate('/')

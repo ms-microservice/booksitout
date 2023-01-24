@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { changeName, updateLocalStorageName } from '../../functions/user'
+import user from '../../functions/user'
 import messages from '../../settings/messages'
 
 const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
@@ -15,11 +15,11 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 			return
 		}
 
-		changeName(newName).then((success) => {
+		user.change.name(newName).then((success) => {
 			if (success) {
 				toast.success(`이름을 ${newName}으로 변경했어요`)
 				setIsModalOpen(false)
-				updateLocalStorageName(newName)
+				user.localStorage.update(newName)
 				setNewName('')
 			} else {
 				toast.error(messages.error)
