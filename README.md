@@ -64,10 +64,10 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   OAuth 로그인 : Google, Facebook, Kakao, Naver 구현. Spring Security 내부 모듈 사용
 -   검색 : 알라딘, 공공도서관, 전자도서관 등의 Open API와 Web Crawling으로 MSA 기반의 종합 검색 기능 구현
 -   코드개선
-    - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선
+    - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
     - Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
     - DevOps : Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
-- 성능개선 : Spring Actuator를 사용해 병목지점 찾아내 코드 개선
+- 성능개선 : Spring Actuator, Spring Cloud Sleuth와 Zipkin을 사용해 병목 부분 찾아내 개선
 
 ### Architecture Diagram
 <p align="center">
