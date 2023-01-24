@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { login } from '../../functions/user'
+import user from '../../functions/user'
 // Settings
 import urls from '../../settings/urls'
 import messages from '../../settings/messages'
@@ -29,21 +29,25 @@ const Login = () => {
 			id: 1,
 			image: googleButton,
 			redirectUrl: urls.api.user.login.oauth.google.loginPage,
+			active: true,
 		},
 		{
 			id: 2,
 			image: facebookButton,
-			redirectUrl: '',
+			redirectUrl: urls.api.user.login.oauth.facebook.loginPage,
+			active: false,
 		},
 		{
 			id: 3,
 			image: kakaoButton,
 			redirectUrl: urls.api.user.login.oauth.kakao.loginPage,
+			active: true,
 		},
 		{
 			id: 4,
 			image: naverButton,
 			redirectUrl: urls.api.user.login.oauth.naver.loginPage,
+			active: true,
 		},
 	]
 
@@ -80,7 +84,7 @@ const Login = () => {
 			stayLogin: stayLogin,
 		}
 
-		login(loginRequest).then((success) => {
+		user.login(loginRequest).then((success) => {
 			if (success) {
 				dispatch(loginToken(utils.getToken()))
 				navigate('/')
@@ -162,12 +166,16 @@ const Login = () => {
 										<div className='text-secondary mb-3'>외부계정으로 로그인 / 가입하기</div>
 										{oauthButton.map((oauth) => {
 											return (
-												<a href={oauth.redirectUrl}>
+												<a
+													href={oauth.redirectUrl}
+													style={{
+														pointerEvents: !oauth.active && 'none',
+													}}>
 													<img
 														style={{
 															width: '50px',
 														}}
-														className='img-fluid ms-1 me-1 ms-md-3 me-md-3 rounded'
+														className={'img-fluid ms-1 me-1 ms-md-3 me-md-3 rounded' + (!oauth.active && ' opacity-50')}
 														src={oauth.image}
 														alt=''
 													/>

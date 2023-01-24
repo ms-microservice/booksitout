@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { changePassword, requestChangePasswordVerificationCode } from '../../functions/user'
+import user from '../../functions/user'
 import messages from '../../settings/messages'
 
 const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
@@ -14,7 +14,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 	const handleRequestVerificationCode = () => {
 		toast.loading('인증번호를 보내고 있어요')
 
-		requestChangePasswordVerificationCode().then((success) => {
+		user.change.verificationCode.password().then((success) => {
 			if (success) {
 				toast.success('인증번호를 보냈어요')
 				setIsVerificationRequested(true)
@@ -64,7 +64,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 
 		toast.loading('비밀번호를 변경하고 있어요')
 
-		changePassword(verificationCode, oldPassword, newPassword).then((status) => {
+		user.change.password(verificationCode, oldPassword, newPassword).then((status) => {
 			if (status.startsWith(2)) {
 				toast.success('비밀번호를 변경했어요')
 				closeModal()

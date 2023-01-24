@@ -6,6 +6,7 @@ import { BsBookHalf as BookIcon } from 'react-icons/bs'
 const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 	const navigate = useNavigate()
 	const time = useSelector((state) => state.timer.readingTimeInSeconds)
+	const token = useSelector((state) => state.user.token)
 
 	const readingButtonStyle = {
 		position: 'fixed',
@@ -27,21 +28,25 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 
 	return (
 		<>
-			{time == null || time === '' || time === 0 || typeof time === 'undefined' ? (
-				<BookIcon
-					className='btn btn-primary'
-					style={readingButtonStyle}
-					onClick={() => {
-						navigate(url)
-					}}
-				/>
+			{token !== '' ? (
+				time == null || time === '' || time === 0 || typeof time === 'undefined' ? (
+					<BookIcon
+						className='btn btn-primary'
+						style={readingButtonStyle}
+						onClick={() => {
+							navigate(url)
+						}}
+					/>
+				) : (
+					<Button href={url} style={timeStyle}>
+						<h6 className='mt-1 mb-0'>{`${Math.floor((time / 60 / 60) % (60 * 60))}H `}</h6>
+						<h6 className='mt-0' style={{ whiteSpace: 'nowrap' }}>
+							{Math.floor(time / 60) % 60}M {`${time % 60}S`}
+						</h6>
+					</Button>
+				)
 			) : (
-				<Button href={url} style={timeStyle}>
-					<h6 className='mt-1 mb-0'>{`${Math.floor((time / 60 / 60) % (60 * 60))}H `}</h6>
-					<h6 className='mt-0' style={{ whiteSpace: 'nowrap' }}>
-						{Math.floor(time / 60) % 60}M {`${time % 60}S`}
-					</h6>
-				</Button>
+				<></>
 			)}
 		</>
 	)

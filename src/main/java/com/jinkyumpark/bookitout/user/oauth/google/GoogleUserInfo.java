@@ -1,17 +1,18 @@
 package com.jinkyumpark.bookitout.user.oauth.google;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@Builder
+@NoArgsConstructor @AllArgsConstructor
 public class GoogleUserInfo {
-    private final String sub;
-    private final String name;
-    private final String givenName;
-    private final String familyName;
-    private final String picture;
-    private final String email;
-    private final String emailVerified;
-    private final String locale;
+    private String sub;
+    private String name;
+    private String givenName;
+    private String familyName;
+    private String picture;
+    private String email;
+    private String emailVerified;
+    private String locale;
 }

@@ -1,6 +1,5 @@
-import { useEffect } from 'react'
-import { Routes, Route, useLocation, useNavigate } from 'react-router-dom'
-import { Toaster, useToasterStore, toast } from 'react-hot-toast'
+import { Routes, Route } from 'react-router-dom'
+import { Toaster } from 'react-hot-toast'
 // Components
 import Topnav from './components/common/Topnav'
 import ReadingButton from './components/common/ReadingButton'
@@ -25,65 +24,20 @@ import OAuthKakao from './components/user/oauth/OAuthKakao'
 import OAuthNaver from './components/user/oauth/OAuthNaver'
 import OAuthGoogle from './components/user/oauth/OAuthGoogle'
 import OAuthFacebook from './components/user/oauth/OAuthFacebook'
-// Functions
-import { getDateDifferenceInDays } from './functions/date'
 // Settings
-import urls from './settings/urls'
-import uiSettings from './settings/ui'
-// Redux
-import { useDispatch, useSelector } from 'react-redux'
-import { updateOneSecond, updateReadingTimeDate } from './redux/timerSlice'
-import { logoutToken } from './redux/userSlice'
+import ToastSettings from './settings/ToastSettings'
+import LocationSettings from './settings/LocationSettings'
+import TimerSettings from './settings/TimerSettings'
 
 function App() {
-	const location = useLocation()
-	const navigate = useNavigate()
-	const dispatch = useDispatch()
-
-	const token = useSelector((state) => state.user.token)
-	const timerOn = useSelector((state) => state.timer.isTimerOn)
-
-	useEffect(() => {
-		const interval = setInterval(() => {
-			if (timerOn) {
-				dispatch(updateOneSecond())
-			} else {
-				dispatch(updateReadingTimeDate())
-				updateReadingTimeDate()
-			}
-		}, 1000)
-		return () => clearInterval(interval)
-	}, [dispatch, timerOn])
-
-	useEffect(() => {
-		if (token === '' || token == null) {
-			!urls.exclude.some((url) => location.pathname.includes(url)) && navigate('/login')
-		} else {
-			if (location.pathname.startsWith('/login') || location.pathname.startsWith('/join')) {
-				navigate('/')
-			}
-		}
-
-		if (localStorage.getItem('login-date') && getDateDifferenceInDays(new Date(localStorage.getItem('login-date')), new Date()) >= 7) {
-			dispatch(logoutToken())
-			navigate('/login')
-			toast.error('다시 로그인 해  주세요')
-		}
-	}, [location.pathname, navigate, token, dispatch])
-
-	const { toasts } = useToasterStore()
-	useEffect(() => {
-		toasts
-			.filter((t) => t.visible)
-			.filter((_, i) => i >= uiSettings.toastLimit)
-			.forEach((t) => toast.dismiss(t.id))
-	}, [toasts])
-
 	return (
 		<div className='App'>
 			<Toaster />
-			<Topnav />
+			<ToastSettings />
+			<LocationSettings />
+			<TimerSettings />
 
+			<Topnav />
 			<div style={{ marginBottom: '80px' }} />
 
 			<Routes>
@@ -94,7 +48,6 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
-
 				<Route path='/login/oauth/kakao' element={<OAuthKakao />} />
 				<Route path='/login/oauth/naver' element={<OAuthNaver />} />
 				<Route path='/login/oauth/google' element={<OAuthGoogle />} />
@@ -109,19 +62,13 @@ function App() {
 
 				<Route path='/reading' element={<ReadingNoId />} />
 				<Route path='/reading/:id' element={<Reading />} />
-
 				<Route path='/statistics' element={<Statistics />} />
 				<Route path='/statistics/goal' element={<Goal />} />
-
 				<Route path='/search/:key' element={<Search />} />
 			</Routes>
 
-			{token !== '' && (
-				<>
-					{!location.pathname.startsWith('/book/add') && <FloatingAddButton />}
-					<ReadingButton />
-				</>
-			)}
+			<FloatingAddButton />
+			<ReadingButton />
 		</div>
 	)
 }

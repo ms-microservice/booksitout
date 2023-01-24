@@ -33,12 +33,14 @@ public class JwtTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
         String authorizationHeader = request.getHeader(jwtConfig.getAuthorizationHeader());
 
-        if (Strings.isNullOrEmpty(authorizationHeader) || !authorizationHeader.startsWith(jwtConfig.getTokenPrefix())) {
+        if (Strings.isNullOrEmpty(authorizationHeader) ||
+                !(authorizationHeader.startsWith(jwtConfig.getTokenPrefix()) || authorizationHeader.startsWith("\"Bearer\""))
+        ) {
             filterChain.doFilter(request, response);
             return;
         }
 
-        String token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "");
+        String token = authorizationHeader.replace(jwtConfig.getTokenPrefix(), "").replaceAll("\"Bearer\" ", "");
 
         try {
             Jws<Claims> claimsJws = Jwts.parser()

@@ -6,11 +6,11 @@ import toast from 'react-hot-toast'
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 // Functions
-import { isLogoutPossible } from '../../functions/user'
 import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
 import logo from '../../resources/images/common/logo.png'
+import user from '../../functions/user'
 // Settings
 import uiSettings from '../../settings/ui'
 // Redux
@@ -29,7 +29,7 @@ const Topnav = () => {
 	const handleLogout = (e) => {
 		e.preventDefault()
 
-		if (!isLogoutPossible()) {
+		if (!user.localStorage.get.logoutPossible()) {
 			toast.error(messages.user.logout.fail.readingInProgress)
 			return
 		}

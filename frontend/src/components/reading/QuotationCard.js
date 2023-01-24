@@ -42,7 +42,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 	return (
 		<Card>
 			<Card.Body>
-				<h4 className='mb-4'>인용</h4>
+				<h4 className='mb-4'>🗣️ 인용</h4>
 
 				<div className='row row-eq-height'>
 					{quotationList == null || quotationList.length === 0 ? (
@@ -70,7 +70,16 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 
 			<Card.Footer>
 				<Form onSubmit={(e) => handleAdd(e)}>
-					<div className='row'>
+					<Form.Control
+						as='textarea'
+						rows='3'
+						type='text'
+						placeholder={messages.quotation.placeholder.content}
+						required
+						onChangeCapture={(e) => setContent(e.target.value)}
+						value={content}
+					/>
+					<div className='row mt-2 justify-content-end'>
 						<div className='col-3 col-sm-2'>
 							<Form.Control
 								type='text'
@@ -81,17 +90,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 							/>
 						</div>
 
-						<div className='col-9 col-sm-5'>
-							<Form.Control
-								type='text'
-								placeholder={messages.quotation.placeholder.content}
-								required
-								onChange={(e) => setContent(e.target.value)}
-								value={content}
-							/>
-						</div>
-
-						<div className='col-8 col-sm-3 mt-2 mt-sm-0'>
+						<div className='col-9 col-sm-6'>
 							<Form.Control
 								type='text'
 								placeholder={messages.quotation.placeholder.fromWho}
@@ -100,7 +99,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 							/>
 						</div>
 
-						<div className='col-4 col-sm-2 mt-2 mt-sm-0'>
+						<div className='col-4 col-sm-4 mt-4 mt-sm-0 text-end'>
 							<Button type='submit' variant='success' className='w-100 h-100'>
 								등록
 							</Button>

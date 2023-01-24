@@ -18,6 +18,10 @@ const google = {
 	scope: `https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile`,
 }
 
-const facebook = {}
+const facebook = {
+	clientId: ``,
+	redirectUrl: `https%3A%2F%2Fbook.jinkyumpark.com%2Flogin%2Foauth%2Ffacebook`,
+	state: ``,
+}
 
 export { kakao, naver, google, facebook }

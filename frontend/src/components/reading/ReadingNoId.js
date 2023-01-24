@@ -16,7 +16,10 @@ const ReadingNoId = () => {
 			headers: { Authorization: utils.getToken() },
 		})
 			.then((res) => {
-				if (res.status.toString().startsWith(4)) throw new Error()
+				if (!res.status.toString().startsWith(2)) {
+					throw new Error()
+				}
+
 				return res.json()
 			})
 			.then((book) => {

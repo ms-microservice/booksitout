@@ -13,11 +13,11 @@ const formIconMap = new Map([
 	['AUDIO', audioBookIcon],
 ])
 
-const getFormImage = (form) => {
-	return formIconMap.get(form)
+const getFormImage = (form: string) => {
+	return formIconMap.get(form.toUpperCase())
 }
-const getFormKoreanLabel = (form) => {
-	return formKoreanLabelMap.get(form)
+const getFormKoreanLabel = (form: string) => {
+	return formKoreanLabelMap.get(form.toUpperCase())
 }
 
 export { getFormImage, getFormKoreanLabel }
