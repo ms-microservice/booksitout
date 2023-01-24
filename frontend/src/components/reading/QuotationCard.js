@@ -42,7 +42,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 	return (
 		<Card>
 			<Card.Body>
-				<h4 className='mb-4'>인용</h4>
+				<h4 className='mb-4'>🗣️ 인용</h4>
 
 				<div className='row row-eq-height'>
 					{quotationList == null || quotationList.length === 0 ? (
@@ -72,7 +72,7 @@ const QuotationCard = ({ book, quotationList, setQuotationList, setSelectedQuota
 				<Form onSubmit={(e) => handleAdd(e)}>
 					<Form.Control
 						as='textarea'
-						rows='4'
+						rows='3'
 						type='text'
 						placeholder={messages.quotation.placeholder.content}
 						required

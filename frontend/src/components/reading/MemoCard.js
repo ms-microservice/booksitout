@@ -33,7 +33,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 	return (
 		<Card>
 			<Card.Body>
-				<h4 className='mb-4'>메모</h4>
+				<h4 className='mb-4'>📋 메모</h4>
 
 				<div className='row row-eq-height'>
 					{memoList == null || memoList.length === 0 ? (
@@ -60,7 +60,17 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 			<Card.Footer>
 				<Form onSubmit={addMemoFunction}>
-					<div className='row justify-content-end'>
+					<Form.Control
+						as='textarea'
+						rows='3'
+						type='text'
+						placeholder={messages.memo.placeholder.content}
+						required
+						onChange={(e) => setContent(e.target.value)}
+						value={content}
+					/>
+
+					<div className='row justify-content-end mt-2'>
 						<div className='col-3 col-sm-2'>
 							<Form.Control
 								type='text'
@@ -72,17 +82,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 							/>
 						</div>
 
-						<div className='col-9 col-sm-8'>
-							<Form.Control
-								type='text'
-								placeholder={messages.memo.placeholder.content}
-								required
-								onChange={(e) => setContent(e.target.value)}
-								value={content}
-							/>
-						</div>
-
-						<div className='col-4 col-sm-2 mt-2 mt-sm-0'>
+						<div className='col-4 col-sm-4'>
 							<Button type='submit' variant='success' className='w-100 h-100'>
 								등록
 							</Button>
