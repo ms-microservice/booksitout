@@ -63,7 +63,7 @@ const Topnav = () => {
 					</Nav>
 
 					<Nav className={`d-inline d-${expand}-none text-center`}>
-						<Nav.Link href='/login'>
+						<Nav.Link href='/login' onClick={(e) => token !== '' && token != null && handleLogout(e)}>
 							<div className='row justify-content-center'>
 								<div className='col-4 col-md-2'>
 									<div className='row'>
@@ -74,9 +74,7 @@ const Topnav = () => {
 										{token === '' || token == null ? (
 											<div className='col-xs-10 col-8'>로그인</div>
 										) : (
-											<div className='col-xs-10 col-8' onClick={(e) => handleLogout(e)}>
-												로그아웃
-											</div>
+											<div className='col-xs-10 col-8'>로그아웃</div>
 										)}
 									</div>
 								</div>

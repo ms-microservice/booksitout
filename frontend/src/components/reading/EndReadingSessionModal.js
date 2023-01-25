@@ -104,7 +104,11 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 									type='number'
 									onChange={(e) => setEndPage(e.target.value)}
 									autoFocus
-									placeholder={isPercentMode ? '0% - 100%' : `0P - ${book.endPage}P`}
+									placeholder={
+										isPercentMode
+											? `${Math.floor((book.currentPage / book.endPage) * 100) + 1}% - 100%`
+											: `${book.currentPage + 1}P - ${book.endPage}P`
+									}
 								/>
 							</div>
 
