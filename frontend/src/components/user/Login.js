@@ -87,6 +87,7 @@ const Login = () => {
 		user.login(loginRequest).then((status) => {
 			if (status === 200) {
 				dispatch(loginToken(utils.getToken()))
+
 				navigate('/')
 			} else {
 				toast.dismiss()
