@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 @AllArgsConstructor
+@Builder
 @Getter
 public class NaverToken {
     private final String accessToken;
