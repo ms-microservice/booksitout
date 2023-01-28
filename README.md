@@ -1,5 +1,5 @@
 <p align="center">
-  <img width="600" height="450" src="https://www.jinkyumpark.com/static/media/book-it-out.1b62adcff460809f72c7.png">  
+  <img width="600" height="450" src="[https://www.jinkyumpark.com/static/media/book-it-out.1b62adcff460809f72c7.png](https://user-images.githubusercontent.com/61900235/215242113-b2a0a6cb-7fae-4fd8-870d-60837baa17e3.png)">  
 </p>
 
 # 직접 사용해 보기
