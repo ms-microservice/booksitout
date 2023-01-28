@@ -2,9 +2,11 @@ package com.jinkyumpark.bookitout.user.oauth.naver;
 
 import com.jinkyumpark.bookitout.user.dto.OAuthDto;
 import com.jinkyumpark.bookitout.user.oauth.OAuthProvider;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
+@AllArgsConstructor
 @Builder
 @Getter
 public class NaverUserInfo {
