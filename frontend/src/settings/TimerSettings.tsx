@@ -12,9 +12,9 @@ const TimerSettings = () => {
 				dispatch(updateOneSecond())
 			} else {
 				dispatch(updateReadingTimeDate())
-				updateReadingTimeDate()
 			}
 		}, 1000)
+
 		return () => clearInterval(interval)
 	}, [dispatch, timerOn])
 
