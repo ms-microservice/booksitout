@@ -4,16 +4,17 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 @Getter
 public class NaverResponse {
-    private final String id;
-    private final String message;
-    private final String email;
-    private final String name;
+    private String id;
+    private String message;
+    private String email;
+    private String name;
     @JsonProperty("profile_image")
-    private final String profileImage;
-    private final String birthday;
+    private String profileImage;
+    private String birthday;
 }

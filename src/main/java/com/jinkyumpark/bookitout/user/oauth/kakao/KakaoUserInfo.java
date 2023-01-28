@@ -5,8 +5,9 @@ import com.jinkyumpark.bookitout.user.dto.OAuthDto;
 import com.jinkyumpark.bookitout.user.oauth.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Getter
 public class KakaoUserInfo {
     private String id;

@@ -5,14 +5,15 @@ import com.jinkyumpark.bookitout.user.oauth.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 @Getter
 public class NaverUserInfo {
-    private final String resultcode;
-    private final String message;
-    private final NaverResponse response;
+    private String resultcode;
+    private String message;
+    private NaverResponse response;
 
     public OAuthDto toDto() {
         return OAuthDto.builder()
