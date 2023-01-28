@@ -33,6 +33,7 @@ const OAuth = () => {
 			.then((userData) => {
 				dispatch(loginToken(userData.token))
 
+				localStorage.setItem('login-token', userData.token)
 				localStorage.setItem('user-name', userData.name)
 				localStorage.setItem('register-year', new Date().getFullYear().toString())
 				localStorage.setItem('login-date', new Date().toString())
