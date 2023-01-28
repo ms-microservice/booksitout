@@ -1,9 +1,9 @@
-import koreanIcon from '../resources/images/language/korea.png'
-import englishIcon from '../resources/images/language/usa.png'
-import japaneseIcon from '../resources/images/language/japan.png'
-import chineseIcon from '../resources/images/language/china.png'
-import frenchIcon from '../resources/images/language/france.png'
-import spanishIcon from '../resources/images/language/spain.png'
+import koreanIcon from '../resources/images/book-classifications/languages/korea.png'
+import englishIcon from '../resources/images/book-classifications/languages/usa.png'
+import japaneseIcon from '../resources/images/book-classifications/languages/japan.png'
+import chineseIcon from '../resources/images/book-classifications/languages/china.png'
+import frenchIcon from '../resources/images/book-classifications/languages/france.png'
+import spanishIcon from '../resources/images/book-classifications/languages/spain.png'
 
 const languageTextKoreanMap = new Map([
 	['ENGLISH', '영어'],

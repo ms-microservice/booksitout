@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Components
@@ -13,7 +13,7 @@ import { getGoalList, deleteGoal } from '../../../functions/goal'
 // Settings
 import uiSettings from '../../../settings/ui'
 // Resources
-import goalIcon from '../../../resources/images/general/goal.png'
+import goalIcon from '../../../resources/images/statistics/goal.png'
 import GoalPastAddModal from './GoalPastAddModal'
 import GoalPastEditModal from './GoalPastEditModal'
 import messages from '../../../settings/messages'

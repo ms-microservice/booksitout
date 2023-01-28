@@ -1,12 +1,12 @@
-import subscriptionIcon from '../resources/images/source/subscription.png'
-import notProvidedIcon from '../resources/images/source/not-provided.png'
-import friendIcon from '../resources/images/source/friend.png'
-import libraryIcon from '../resources/images/source/library.png'
-import onlineIcon from '../resources/images/source/online.png'
-import buyNewOfflineIcon from '../resources/images/source/book-shop.png'
-import bookStoreIcon from '../resources/images/source/book-store.png'
-import borrowIcon from '../resources/images/source/borrow.png'
-import othersIcon from '../resources/images/source/others.png'
+import subscriptionIcon from '../resources/images/book-classifications/sources/subscription.png'
+import notProvidedIcon from '../resources/images/book-classifications/sources/not-provided.png'
+import friendIcon from '../resources/images/book-classifications/sources/friend.png'
+import libraryIcon from '../resources/images/book-classifications/sources/library.png'
+import onlineIcon from '../resources/images/book-classifications/sources/online.png'
+import buyNewOfflineIcon from '../resources/images/book-classifications/sources/book-shop.png'
+import bookStoreIcon from '../resources/images/book-classifications/sources/book-store.png'
+import borrowIcon from '../resources/images/book-classifications/sources/borrow.png'
+import othersIcon from '../resources/images/book-classifications/sources/others.png'
 
 const sourceKoreanLabelMap: Map<string, string> = new Map([
 	['BUY_NEW_OFFLINE', '서점'],

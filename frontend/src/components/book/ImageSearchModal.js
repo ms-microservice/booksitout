@@ -4,7 +4,7 @@ import { GOOGLE_URL, GOOGLE_CX, GOOGLE_API_KEY } from '../../settings/googleSear
 // Resources
 import Error from '../common/Error'
 import Loading from '../common/Loading'
-import checkIcon from '../../resources/images/general/check.png'
+import checkIcon from '../../resources/images/common/check.png'
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {
 	const coverImageStyle = { maxHeight: '300px', width: '100%', objectPosition: 'center' }

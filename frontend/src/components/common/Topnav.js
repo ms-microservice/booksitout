@@ -9,7 +9,7 @@ import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
-import logo from '../../resources/images/common/logo.png'
+import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
 // Settings
 import uiSettings from '../../settings/ui'
