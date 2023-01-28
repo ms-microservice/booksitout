@@ -6,16 +6,16 @@ const Faq = () => {
 	const faqList = [
 		{
 			id: 1,
-			question: `책-it-out이 뭐하는 서비스인가요?`,
+			question: `책잇아웃이 뭐하는 서비스인가요?`,
 			answer: `
-            책-it-out은 독서를 사랑하거나, 독서를 시작하고 싶은 분들을 위해 독서를 돕고자 하는 서비스에요. 
+            책잇아웃은 책을 읽으며 겪는 불편함과 기록하고 싶은 욕망을 해소해 주기 위한 다양한 기능이 있어요.
             <br/>
-            내가 읽은 책 관리, 내 독서활동 기록, 읽고 싶은 책 검색, 책 추천, 독서활동 통계 등의 서비스를 제공하고 있어요.
+            내가 읽은 책 관리, 내 독서활동 기록, 읽고 싶은 책 여러 곳에서 한 번에 검색, 책 추천, 독서활동 통계 등의 서비스를 제공하고 있어요.
             `,
 		},
 		{
 			id: 2,
-			question: `책-it-out 이름의 유래가 뭔가요?`,
+			question: `책잇아웃 이름의 유래가 뭔가요?`,
 			answer: `
             영어표현 "Check it out!"을 알고 계신가요? 
             <br/>
@@ -44,17 +44,7 @@ const Faq = () => {
 			})}
 
 			<div className='row justify-content-center mt-5'>
-				<div className='col-12 col-lg-6'>
-					<a href='/qna' className='w-100'>
-						<Button variant='warning' className='w-100'>
-							직접 질문하기
-						</Button>
-					</a>
-				</div>
-			</div>
-
-			<div className='row justify-content-center mt-5'>
-				<div className='col-6 col-lg-4'>
+				<div className='col-12 col-lg-7 mt-3'>
 					<a href='/login' className='w-100'>
 						<Button variant='success' className='w-100'>
 							로그인하기
@@ -62,10 +52,10 @@ const Faq = () => {
 					</a>
 				</div>
 
-				<div className='col-6 col-lg-4'>
-					<a href='/join' className='w-100'>
-						<Button variant='primary' className='w-100'>
-							회원가입하기
+				<div className='col-12 col-lg-7 mt-3'>
+					<a href='/qna' className='w-100'>
+						<Button variant='warning' className='w-100'>
+							직접 질문하기
 						</Button>
 					</a>
 				</div>

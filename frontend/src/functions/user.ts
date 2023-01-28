@@ -14,7 +14,7 @@ const user = {
 			.post(urls.api.user.login.basic, loginRequest, { headers: apiSettings.headers })
 			.then((res) => {
 				if (res.status !== 200) {
-					throw new Error()
+					throw new Error(res.status.toString())
 				}
 				return res.data
 			})
@@ -25,12 +25,12 @@ const user = {
 				localStorage.setItem('login-date', new Date().toString())
 				toast.dismiss()
 				toast(userData.message, { icon: '✋' })
-				return true
+				return 200
 			})
-			.catch(() => {
+			.catch((e) => {
 				localStorage.setItem('login-token', '')
 				localStorage.setItem('user-name', '')
-				return false
+				return typeof e.response == 'undefined' ? 500 : e.response.status
 			})
 	},
 

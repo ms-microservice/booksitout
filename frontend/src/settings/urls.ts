@@ -18,24 +18,36 @@ const urls = {
 		user: {
 			login: {
 				basic: `${apiBase}/login`,
-				oauth: {
-					kakao: {
-						api: (code) => `${apiBase}/v2/login/oauth2/kakao?code=${code}`,
-						loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${kakao.redirectUrl}&response_type=${kakao.responseType}`,
-					},
-					naver: {
-						api: (code, state) => `${apiBase}/v2/login/oauth2/naver?code=${code}&state=${state}`,
-						loginPage: `https://nid.naver.com/oauth2.0/authorize?client_id=${naver.clientId}&redirect_uri=${naver.redirectUrl}&response_type=${naver.responseType}&state=bookitout&version=js-2.0.1`,
-					},
-					google: {
-						api: (code, scope) => `${apiBase}/v2/login/oauth2/google?code=${code}&scope=${scope}`,
-						loginPage: `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google.clientId}&redirect_uri=${google.redirectUrl}&response_type=${google.responseType}&scope=${google.scope}`,
-					},
-					facebook: {
-						api: (code) => `${apiBase}/v2/login/oauth2/facebook?code=${code}`,
-						loginPage: `https://www.facebook.com/v15.0/dialog/oauth?client_id=${facebook.clientId}&redirect_uri=${facebook.redirectUrl}&state=${facebook.state}`,
-					},
-				},
+				oauth: new Map([
+					[
+						'KAKAO',
+						{
+							api: (code, additional) => `${apiBase}/v2/login/oauth2/kakao?code=${code}`,
+							loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${kakao.redirectUrl}&response_type=${kakao.responseType}`,
+						},
+					],
+					[
+						'NAVER',
+						{
+							api: (code, state) => `${apiBase}/v2/login/oauth2/naver?code=${code}&state=${state}`,
+							loginPage: `https://nid.naver.com/oauth2.0/authorize?client_id=${naver.clientId}&redirect_uri=${naver.redirectUrl}&response_type=${naver.responseType}&state=bookitout&version=js-2.0.1`,
+						},
+					],
+					[
+						'GOOGLE',
+						{
+							api: (code, scope) => `${apiBase}/v2/login/oauth2/google?code=${code}&scope=${scope}`,
+							loginPage: `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google.clientId}&redirect_uri=${google.redirectUrl}&response_type=${google.responseType}&scope=${google.scope}`,
+						},
+					],
+					[
+						'FACEBOOK',
+						{
+							api: (code) => `${apiBase}/v2/login/oauth2/facebook?code=${code}`,
+							loginPage: `https://www.facebook.com/v15.0/dialog/oauth?client_id=${facebook.clientId}&redirect_uri=${facebook.redirectUrl}&state=${facebook.state}`,
+						},
+					],
+				]),
 			},
 			join: `${apiBase}/v1/join`,
 			email: (email) => `${apiBase}/v1/join/email-verification/${email}`,

@@ -28,25 +28,25 @@ const Login = () => {
 		{
 			id: 1,
 			image: googleButton,
-			redirectUrl: urls.api.user.login.oauth.google.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('GOOGLE').loginPage,
 			active: true,
 		},
 		{
 			id: 2,
 			image: facebookButton,
-			redirectUrl: urls.api.user.login.oauth.facebook.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('FACEBOOK').loginPage,
 			active: false,
 		},
 		{
 			id: 3,
 			image: kakaoButton,
-			redirectUrl: urls.api.user.login.oauth.kakao.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('KAKAO').loginPage,
 			active: true,
 		},
 		{
 			id: 4,
 			image: naverButton,
-			redirectUrl: urls.api.user.login.oauth.naver.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('NAVER').loginPage,
 			active: true,
 		},
 	]
@@ -84,13 +84,17 @@ const Login = () => {
 			stayLogin: stayLogin,
 		}
 
-		user.login(loginRequest).then((success) => {
-			if (success) {
+		user.login(loginRequest).then((status) => {
+			if (status === 200) {
 				dispatch(loginToken(utils.getToken()))
 				navigate('/')
 			} else {
 				toast.dismiss()
-				toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')
+				if (status === 401) {
+					toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')
+				} else {
+					toast.error(`서버에 오류가 난거 같아요. 잠시 후 다시 시도해 주세요 (status = ${status})`)
+				}
 			}
 		})
 	}
@@ -195,7 +199,8 @@ const Login = () => {
 							<Card.Body className='text-center'>
 								<h4>{messages.user.login.label.introduction}</h4>
 
-								<h6 className='mt-5 mb-4'>책 읽는 모든 이들을 위한 곳, 책-it-out을 더 알고 싶으면 여기를 클릭해 주세요</h6>
+								<h6 className='mt-5'>불편한 독서생활을 편하게하는,</h6>
+								<h6 className='mb-4'>책잇아웃을 더 알고 싶으면 여기를 클릭해 주세요</h6>
 							</Card.Body>
 						</Card>
 					</a>

@@ -1,5 +1,7 @@
 package com.jinkyumpark.bookitout.user.oauth.google;
 
+import com.jinkyumpark.bookitout.user.dto.OAuthDto;
+import com.jinkyumpark.bookitout.user.oauth.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -15,4 +17,14 @@ public class GoogleUserInfo {
     private String email;
     private String emailVerified;
     private String locale;
+
+    public OAuthDto toDto() {
+        return OAuthDto.builder()
+                .oAuthId(sub)
+                .oAuthProvider(OAuthProvider.GOOGLE)
+                .email(email)
+                .name(name)
+                .profileImage(picture)
+                .build();
+    }
 }

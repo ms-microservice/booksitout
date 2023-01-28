@@ -45,16 +45,24 @@ const messages = {
 				password: `비밀번호를 입력해 주세요`,
 			},
 			label: {
-				introduction: `책-it-out이 뭐 하는 곳인지 궁금하신가요? 🧐`,
+				introduction: `책잇아웃이 뭐 하는 곳인가요? 🧐`,
 				faq: {
 					title: `FAQ`,
-					content: `자주 하시는 질문을 모아 봤어요`,
+					content: `자주 하시는 질문`,
 				},
 				qna: {
 					title: `QNA`,
-					content: `직접 질문하실 수 있어요`,
+					content: `직접 질문`,
 				},
-				faqQna: `책-it-out에 관한 질문 한 스푼 🥄`,
+				faqQna: `책잇아웃에 관한 질문 한 스푼 🥄`,
+			},
+			oauth: {
+				loading: new Map([
+					['KAKAO', '카카오로 로그인하고 있어요'],
+					['NAVER', '네이버로 로그인하고 있어요'],
+					['GOOGLE', '구글로 로그인하고 있어요'],
+					['FACEBOOK', '페이스북으로 로그인하고 있어요'],
+				]),
 			},
 		},
 
