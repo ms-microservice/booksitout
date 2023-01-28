@@ -28,25 +28,25 @@ const Login = () => {
 		{
 			id: 1,
 			image: googleButton,
-			redirectUrl: urls.api.user.login.oauth.google.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('GOOGLE').loginPage,
 			active: true,
 		},
 		{
 			id: 2,
 			image: facebookButton,
-			redirectUrl: urls.api.user.login.oauth.facebook.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('FACEBOOK').loginPage,
 			active: false,
 		},
 		{
 			id: 3,
 			image: kakaoButton,
-			redirectUrl: urls.api.user.login.oauth.kakao.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('KAKAO').loginPage,
 			active: true,
 		},
 		{
 			id: 4,
 			image: naverButton,
-			redirectUrl: urls.api.user.login.oauth.naver.loginPage,
+			redirectUrl: urls.api.user.login.oauth.get('NAVER').loginPage,
 			active: true,
 		},
 	]

@@ -20,10 +20,7 @@ import Faq from './components/info/Faq'
 import Qna from './components/info/Qna'
 import Search from './components/search/Search'
 import Goal from './components/statistics/goal/Goal'
-import OAuthKakao from './components/user/oauth/OAuthKakao'
-import OAuthNaver from './components/user/oauth/OAuthNaver'
-import OAuthGoogle from './components/user/oauth/OAuthGoogle'
-import OAuthFacebook from './components/user/oauth/OAuthFacebook'
+import OAuth from './components/user/OAuth'
 // Settings
 import ToastSettings from './settings/ToastSettings'
 import LocationSettings from './settings/LocationSettings'
@@ -48,10 +45,7 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
-				<Route path='/login/oauth/kakao' element={<OAuthKakao />} />
-				<Route path='/login/oauth/naver' element={<OAuthNaver />} />
-				<Route path='/login/oauth/google' element={<OAuthGoogle />} />
-				<Route path='/login/oauth/facebook' element={<OAuthFacebook />} />
+				<Route path='/login/oauth/:provider' element={<OAuth />} />
 
 				<Route path='/' element={<Main />} />
 				<Route path='/book/:range' element={<BookList />} />
