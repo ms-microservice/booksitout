@@ -3,21 +3,22 @@ package com.jinkyumpark.bookitout.user.oauth.kakao;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Getter
 public class KakaoToken {
     @JsonProperty("access_token")
-    private final String accessToken;
+    private String accessToken;
     @JsonProperty("token_type")
-    private final String tokenType;
+    private String tokenType;
     @JsonProperty("refresh_token")
-    private final String refreshToken;
+    private String refreshToken;
     @JsonProperty("id_token")
-    private final String idToken;
+    private String idToken;
     @JsonProperty("expires_in")
-    private final Integer expiresIn;
-    private final String scope;
+    private Integer expiresIn;
+    private String scope;
     @JsonProperty("refresh_token_expires_in")
-    private final Integer refreshTokenExpiresIn;
+    private Integer refreshTokenExpiresIn;
 }

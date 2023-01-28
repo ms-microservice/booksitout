@@ -4,17 +4,18 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
+@NoArgsConstructor @AllArgsConstructor
 @Builder
 @Getter
 public class NaverToken {
     @JsonProperty("access_token")
-    private final String accessToken;
+    private String accessToken;
     @JsonProperty("refresh_token")
-    private final String refreshToken;
+    private String refreshToken;
     @JsonProperty("token_type")
-    private final String tokenType;
+    private String tokenType;
     @JsonProperty("expires_in")
-    private final String expiresIn;
+    private String expiresIn;
 }
