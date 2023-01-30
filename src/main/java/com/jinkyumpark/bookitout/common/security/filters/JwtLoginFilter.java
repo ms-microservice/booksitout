@@ -9,6 +9,7 @@ import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToke
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import com.jinkyumpark.bookitout.user.response.LoginFailResponse;
+import com.jinkyumpark.bookitout.user.response.LoginMethod;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,8 +23,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
@@ -76,6 +75,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .token(jwtConfig.getTokenPrefix() + token)
                 .name(appUserName)
                 .registerDate(registerDate)
+                .loginMethod(LoginMethod.MANUAL)
                 .build();
 
         ObjectMapper mapper = new ObjectMapper();

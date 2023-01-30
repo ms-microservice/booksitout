@@ -6,6 +6,7 @@ import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToke
 import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import com.jinkyumpark.bookitout.user.dto.AppUserDto;
 import com.jinkyumpark.bookitout.user.dto.OAuthDto;
+import com.jinkyumpark.bookitout.user.response.LoginMethod;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
@@ -111,7 +112,7 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.save(appUser);
     }
 
-    public LoginSuccessResponse getLoginSuccessResponse(OAuthDto oAuthDto, AppUser addedAppUser) {
+    public LoginSuccessResponse getLoginSuccessResponse(OAuthDto oAuthDto, AppUser addedAppUser, LoginMethod loginMethod) {
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
         String jwtToken = jwtUtils.generateAccessToken(oAuthDto.getName(), addedAppUser.getAppUserId(), authorities, true);
 
@@ -121,6 +122,7 @@ public class AppUserService implements UserDetailsService {
                 .name(oAuthDto.getName())
                 .registerDate(addedAppUser.getCreatedDate())
                 .profileImage(oAuthDto.getProfileImage())
+                .loginMethod(loginMethod)
                 .build();
     }
 }

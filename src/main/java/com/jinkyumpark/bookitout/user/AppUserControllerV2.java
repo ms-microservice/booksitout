@@ -6,6 +6,7 @@ import com.jinkyumpark.bookitout.user.oauth.kakao.KakaoUserInfo;
 import com.jinkyumpark.bookitout.user.oauth.kakao.KakaoToken;
 import com.jinkyumpark.bookitout.user.oauth.naver.NaverUserInfo;
 import com.jinkyumpark.bookitout.user.oauth.naver.NaverToken;
+import com.jinkyumpark.bookitout.user.response.LoginMethod;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.env.Environment;
@@ -37,7 +38,7 @@ public class AppUserControllerV2 {
         KakaoUserInfo kakaoUserInfo = restTemplate.postForObject(environment.getProperty("oauth.kakao.user-info-url"), new HttpEntity<>(headers), KakaoUserInfo.class);
 
         AppUser addedAppUser = appUserService.addOrUpdateOAuthUser(kakaoUserInfo.toDto());
-        return appUserService.getLoginSuccessResponse(kakaoUserInfo.toDto(), addedAppUser);
+        return appUserService.getLoginSuccessResponse(kakaoUserInfo.toDto(), addedAppUser, LoginMethod.OAUTH_KAKAO);
     }
 
     @GetMapping("naver")
@@ -56,7 +57,7 @@ public class AppUserControllerV2 {
         NaverUserInfo naverUserInfo = restTemplate.postForObject(environment.getProperty("oauth.naver.user-info-url"), new HttpEntity<>(headers), NaverUserInfo.class);
 
         AppUser addedAppUser = appUserService.addOrUpdateOAuthUser(naverUserInfo.toDto());
-        return appUserService.getLoginSuccessResponse(naverUserInfo.toDto(), addedAppUser);
+        return appUserService.getLoginSuccessResponse(naverUserInfo.toDto(), addedAppUser, LoginMethod.OAUTH_NAVER);
     }
 
     @GetMapping("google")
@@ -75,7 +76,7 @@ public class AppUserControllerV2 {
         GoogleUserInfo googleUserInfo = restTemplate.postForObject(environment.getProperty("oauth.google.user-info-url"), new HttpEntity<>(headers), GoogleUserInfo.class);
 
         AppUser addedAppUser = appUserService.addOrUpdateOAuthUser(googleUserInfo.toDto());
-        return appUserService.getLoginSuccessResponse(googleUserInfo.toDto(), addedAppUser);
+        return appUserService.getLoginSuccessResponse(googleUserInfo.toDto(), addedAppUser, LoginMethod.OAUTH_GOOGLE);
     }
 
     @GetMapping("facebook")

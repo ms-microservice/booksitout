@@ -23,6 +23,7 @@ const user = {
 				localStorage.setItem('user-name', userData.name)
 				localStorage.setItem('register-year', new Date().getFullYear().toString())
 				localStorage.setItem('login-date', new Date().toString())
+				localStorage.setItem('login-method', userData.loginMethod)
 				toast.dismiss()
 				toast(userData.message, { icon: '✋' })
 				return 200
