@@ -43,6 +43,9 @@ const user = {
 			return axios
 				.post(urls.api.user.change.name, { name: name }, { headers: apiSettings.headers })
 				.then((res) => res.status.toString().startsWith('2'))
+				.catch(() => {
+					return false
+				})
 		},
 		verificationCode: {
 			password: () => {

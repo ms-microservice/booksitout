@@ -19,7 +19,7 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 			if (success) {
 				toast.success(`이름을 ${newName}으로 변경했어요`)
 				setIsModalOpen(false)
-				user.localStorage.update(newName)
+				user.localStorage.update.name(newName)
 				setNewName('')
 			} else {
 				toast.error(messages.error)
