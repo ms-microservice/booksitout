@@ -25,7 +25,10 @@ const Settings = () => {
 								</div>
 
 								<div className='col-12 col-md-4 mt-2'>
-									<Button className='w-100' onClick={() => setIsPasswordModalOpen(true)}>
+									<Button
+										className='w-100'
+										onClick={() => setIsPasswordModalOpen(true)}
+										disabled={localStorage.getItem('login-method') !== 'MANUAL'}>
 										비밀번호 변경
 									</Button>
 								</div>
