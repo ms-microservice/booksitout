@@ -6,7 +6,7 @@ const NoSearchResult = () => {
 
 	return (
 		<div className='row justify-content-center w-100 h-100 mt-3'>
-			<ErrorIcon className='text-danger' style={{ width: '100px', height: '100px' }} />
+			<ErrorIcon style={{ width: '100px', height: '100px', color: 'rgb(123, 185, 114)' }} />
 
 			<h3 className='text-center'>
 				<b>{query}</b>에 대한 검색 결과가 없어요
