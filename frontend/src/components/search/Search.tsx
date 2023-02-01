@@ -11,6 +11,7 @@ import search from '../../functions/search'
 import uiSettings from '../../settings/ui'
 // Types
 import { UsedBook, MyBook, LibraryBook } from './BookType'
+import LibraryDetailModal from './LibraryDetailModal'
 
 const Search = () => {
 	const { query } = useParams()
@@ -50,6 +51,8 @@ const Search = () => {
 
 	return (
 		<div className='container mt-5'>
+			<LibraryDetailModal />
+
 			<BookSearchResult label='내 책' bookList={myBookList} CardComponent={MyBookCardComponent} />
 			<BookSearchResult label='도서관' bookList={libraryBookList} CardComponent={LibraryCardComponent} />
 
