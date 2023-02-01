@@ -1,7 +1,5 @@
-package com.jinkyumpark.bookitout.search;
+package com.jinkyumpark.bookitout.search.service;
 
-import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinItem;
-import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinResponse;
 import com.jinkyumpark.bookitout.search.apiResponse.library.offline.availableLibrary.AvailableLibraryLibsLib;
 import com.jinkyumpark.bookitout.search.apiResponse.library.offline.availableLibrary.AvailableLibraryResponse;
 import com.jinkyumpark.bookitout.search.apiResponse.library.offline.hasbook.HasBookResponse;
@@ -20,9 +18,29 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Service
-public class SearchService {
+public class SearchLibraryService {
     private final RestTemplate restTemplate;
     private final Environment environment;
+
+    public List<AvailableLibrary> getAvailableLibrary(String isbn, Integer regionCode, Integer regionDetailCode) {
+
+        String url = String.format("%s?authKey=%s&isbn=%s&region=%s&format=JS%s",
+                environment.getProperty("search.data4library.has-book-by-isbn.url"), environment.getProperty("search.data4library.api-key"),
+                isbn, regionCode,
+                regionDetailCode == null ? "" : "&dtl_region=" + regionDetailCode);
+
+        AvailableLibraryResponse response = restTemplate.getForObject(url, AvailableLibraryResponse.class);
+
+        return response.getResponse().getLibs().stream()
+                .map(AvailableLibraryLibsLib::getLib)
+                .map(l -> AvailableLibrary.builder()
+                        .code(l.getLibCode())
+                        .name(l.getLibName())
+                        .address(l.getAddress())
+                        .libraryLink(l.getHomepage())
+                        .build())
+                .toList();
+    }
 
     public List<NationalLibraryPublicApiBookSearchResponse> getBookFromNationalLibraryPublicApiByQuery(String query) {
         String url = String.format("%s?authKey=%s&keyword=%s&format=json&pageSize=10",
@@ -55,35 +73,5 @@ public class SearchService {
             }
         }
         return resultList;
-    }
-
-    public List<AvailableLibrary> getAvailableLibrary(String isbn, Integer regionCode, Integer regionDetailCode) {
-
-        String url = String.format("%s?authKey=%s&isbn=%s&region=%s&format=JS%s",
-                environment.getProperty("search.data4library.has-book-by-isbn.url"), environment.getProperty("search.data4library.api-key"),
-                isbn, regionCode,
-                regionDetailCode == null ? "" : "&dtl_region=" + regionDetailCode);
-
-        AvailableLibraryResponse response = restTemplate.getForObject(url, AvailableLibraryResponse.class);
-
-        return response.getResponse().getLibs().stream()
-                .map(AvailableLibraryLibsLib::getLib)
-                .map(l -> AvailableLibrary.builder()
-                        .code(l.getLibCode())
-                        .name(l.getLibName())
-                        .address(l.getAddress())
-                        .libraryLink(l.getHomepage())
-                        .build())
-                .toList();
-    }
-
-    public List<AladinItem> getAladinItemByQuery(String query, int size) {
-
-        String requestUrl = String.format("%s?TTBKey=%s&Query=%s&Output=JS&version=20131101&MaxResults=%s",
-                environment.getProperty("search.aladin.url"), environment.getProperty("search.aladin.api-key"), query, size);
-
-        AladinResponse response = restTemplate.getForObject(requestUrl, AladinResponse.class);
-
-        return response.getItem();
     }
 }

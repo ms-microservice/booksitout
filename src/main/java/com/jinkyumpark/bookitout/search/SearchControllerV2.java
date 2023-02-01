@@ -2,7 +2,6 @@ package com.jinkyumpark.bookitout.search;
 
 import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinItem;
-import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinResponse;
 import com.jinkyumpark.bookitout.search.request.KoreanRegion;
 import com.jinkyumpark.bookitout.search.request.SeoulRegionDetail;
 import com.jinkyumpark.bookitout.search.response.*;
@@ -10,34 +9,33 @@ import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.common.exception.http.BadRequestException;
 import com.jinkyumpark.bookitout.search.response.library.*;
 import com.jinkyumpark.bookitout.search.response.used.UsedBookProvider;
+import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResponse;
 import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResult;
+import com.jinkyumpark.bookitout.search.service.SearchBookService;
+import com.jinkyumpark.bookitout.search.service.SearchLibraryService;
+import com.jinkyumpark.bookitout.search.service.SearchUsedService;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import com.jinkyumpark.bookitout.user.login.LoginUser;
 import lombok.RequiredArgsConstructor;
-import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("v2/search")
 public class SearchControllerV2 {
     private final BookService bookService;
-    private final SearchService searchService;
-
-    private final RestTemplate restTemplate;
-    private final Environment environment;
+    private final SearchLibraryService searchLibraryService;
+    private final SearchUsedService searchUsedService;
+    private final SearchBookService searchBookService;
 
     @GetMapping("my-book")
     public List<MyBookSearchResult> getMyBookSearchResult(@RequestParam("query") String query,
@@ -63,14 +61,13 @@ public class SearchControllerV2 {
     public List<OfflineLibrarySearchResultV2> getLibrarySearchResultByRegion(@RequestParam("query") String query,
                                                                              @RequestParam("region") String region,
                                                                              @RequestParam("region-detail") String regionDetail) {
-
-        List<AladinItem> aladinResponse = searchService.getAladinItemByQuery(query, 5);
+        List<AladinItem> aladinResponse = searchBookService.getAladinItemByQuery(query, 5);
         Map<String, AladinItem> isbnToAladinItemMap = aladinResponse.stream()
                 .collect(Collectors.toMap(AladinItem::getIsbn13, Function.identity()));
 
         List<OfflineLibrarySearchResultV2> result = new ArrayList<>();
         for (String isbn : isbnToAladinItemMap.keySet()) {
-            List<AvailableLibrary> availableLibraryList = searchService.getAvailableLibrary(
+            List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibrary(
                     isbn,
                     KoreanRegion.valueOf(region).getApiRegionCode(),
                     SeoulRegionDetail.valueOf(regionDetail).getApiRegionCode()
@@ -101,27 +98,18 @@ public class SearchControllerV2 {
         return null;
     }
 
-    // 교보분고, 알라딘, YES24,
+    // 교보분고, 알라딘, YES24
     @GetMapping("used")
-    public Map<String, List<UsedBookSearchResult>> getUsedOnlineSearchResult(@RequestParam("query") String query,
-                                                                             @RequestParam("include") List<String> includeList) {
+    public UsedBookSearchResponse getUsedOnlineSearchResult(@RequestParam("query") String query,
+                                                            @RequestParam("include") List<String> includeList) {
         if (includeList.isEmpty()) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
 
-        Map<String, List<UsedBookSearchResult>> map = new HashMap<>((Map.of("online", List.of(), "offline", List.of())));
+        UsedBookSearchResponse result = new UsedBookSearchResponse();
 
         if (includeList.contains("ALADIN")) {
-            String searchTarget = "USED";
-            String outOfStockFilter = "1";
-            String optResult = "usedList";
-            String version = "20131101";
+            List<AladinItem> aladinItemList = searchUsedService.getAladinUsedBook(query);
 
-            String requestUrl = String.format("%s?TTBKey=%s&Query=%s&SearchTarget=%s&outofStockfilter=%s&Output=JS&OptResult=%s&version=%s",
-                    environment.getProperty("search.aladin.url"), environment.getProperty("search.aladin.api-key"), query,
-                    searchTarget, outOfStockFilter, optResult, version);
-
-            AladinResponse aladinSearchResult = restTemplate.getForObject(requestUrl, AladinResponse.class);
-
-            List<UsedBookSearchResult> aladinOnlineSearchResult = aladinSearchResult.getItem().stream()
+            List<UsedBookSearchResult> aladinOnlineSearchResult = aladinItemList.stream()
                     .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getAladinUsed().getItemCount() != 0)
                     .map(item -> UsedBookSearchResult.builder()
                             .provider(UsedBookProvider.ONLINE_ALADIN)
@@ -131,10 +119,9 @@ public class SearchControllerV2 {
                             .stockCount(item.getSubInfo().getUsedList().getAladinUsed().getItemCount())
                             .minPrice(item.getSubInfo().getUsedList().getAladinUsed().getMinPrice())
                             .link(item.getSubInfo().getUsedList().getAladinUsed().getLink().replaceAll("amp;", ""))
-                            .build())
-                    .toList();
+                            .build()).toList();
 
-            List<UsedBookSearchResult> aladinOfflineSearchResult = aladinSearchResult.getItem().stream()
+            List<UsedBookSearchResult> aladinOfflineSearchResult = aladinItemList.stream()
                     .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getSpaceUsed().getItemCount() != 0)
                     .map(item -> UsedBookSearchResult.builder()
                             .provider(UsedBookProvider.OFFLINE_ALADIN)
@@ -144,21 +131,16 @@ public class SearchControllerV2 {
                             .stockCount(item.getSubInfo().getUsedList().getSpaceUsed().getItemCount())
                             .minPrice(item.getSubInfo().getUsedList().getSpaceUsed().getMinPrice())
                             .link(item.getSubInfo().getUsedList().getSpaceUsed().getLink().replaceAll("amp;", ""))
-                            .build())
-                    .toList();
+                            .build()).toList();
 
-            map.merge("online", aladinOnlineSearchResult, (a, b) -> Stream.concat(a.stream(), b.stream()).toList());
-            map.merge("offline", aladinOfflineSearchResult, (a, b) -> Stream.concat(a.stream(), b.stream()).toList());
+            result.addOnlineList(aladinOnlineSearchResult);
+            result.addOfflineList(aladinOfflineSearchResult);
         }
 
-        if (includeList.contains("KYOBO")) {
+        if (includeList.contains("KYOBO")) {}
 
-        }
+        if (includeList.contains("YES24")) {}
 
-        if (includeList.contains("YES24")) {
-
-        }
-
-        return map;
+        return result;
     }
 }
