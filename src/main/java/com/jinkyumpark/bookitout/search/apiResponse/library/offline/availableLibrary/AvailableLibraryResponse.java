@@ -1,0 +1,11 @@
+package com.jinkyumpark.bookitout.search.apiResponse.library.offline.availableLibrary;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor @AllArgsConstructor
+@Getter
+public class AvailableLibraryResponse {
+    private AvailableLibraryResponseResponse response;
+}
