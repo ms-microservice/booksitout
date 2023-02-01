@@ -7,9 +7,9 @@ const UsedBookCardComponent = ({ book }) => {
 			<a href={book.link} target='_blank' className='text-decoration-none text-black' rel='noreferrer'>
 				<Card className='h-100'>
 					<Card.Body>
-						<div className='row h-100'>
-							<div className='col-3 align-self-center'>
-								<img src={book.cover} alt='' className='img-fluid w-100 h-100' />
+						<div className='row h-100 justify-content-center'>
+							<div className='col-3'>
+								<img src={book.cover} alt='' className='img-fluid h-100' />
 							</div>
 
 							<div className='col-9'>
