@@ -29,6 +29,8 @@ public class BookService {
     private final ReadingSessionRepository readingSessionRepository;
     private final StatisticsService statisticsService;
 
+    private final BookRepositoryImpl bookRepositoryImpl;
+
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.fail.not-found")));
@@ -82,6 +84,10 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.reading-session.fail.not-found")));
 
         return currentReadingSession.getBook();
+    }
+
+    public List<Book> getBookByQuery(Long loginUserId, String query) {
+        return bookRepositoryImpl.getAllBookByQuery(loginUserId, query);
     }
 
     public Long addBook(BookDto bookDto) {
