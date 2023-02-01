@@ -9,10 +9,10 @@ const HorizontalBookView = ({ book, firstButton = <></>, secondButton = <></>, l
 	const bookInfoStyle = 'col-4 mb-2'
 
 	return (
-		<div className='row row-eq-height justify-content-center mt-3 text-decoration-none text-black'>
+		<div className='row row-eq-height justify-content-center mt-3'>
 			<a href={link} className='mb-4 col-8 col-lg-4 align-self-center'>
 				<img
-					className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
+					className={`img-fluid rounded  ${book.cover !== '' && 'border'} text-decoration-none text-black`}
 					src={book.cover === '' ? defaultBookCover : book.cover}
 					alt=''
 				/>
