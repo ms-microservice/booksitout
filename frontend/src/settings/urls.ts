@@ -131,6 +131,15 @@ const urls = {
 				category: `${apiBase}/v1/statistics/category`,
 			},
 		},
+
+		search: {
+			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}`,
+			used: (query, include) => `${apiBase}/v2/search/used?query=${query}&include=${include}`,
+			libraryByLibrary: (query, includeLibraryCodeList) =>
+				`${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
+			libraryByRegion: (query, region, regionDetail) =>
+				`${apiBase}/v2/search/library/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+		},
 	},
 
 	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao', '/login/oauth/naver', '/login/oauth/google', '/login/oauth/facebook'],
