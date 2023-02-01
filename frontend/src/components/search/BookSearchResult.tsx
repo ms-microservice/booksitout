@@ -7,6 +7,7 @@ import Error from '../common/Error'
 import search from '../../functions/search'
 import { UsedBook } from './BookType'
 import './customCarousel.css'
+import './bookSearchCard.css'
 
 const BookSearchResult = ({ label, bookList, CardComponent }) => {
 	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])
@@ -16,7 +17,7 @@ const BookSearchResult = ({ label, bookList, CardComponent }) => {
 	}, [bookList])
 
 	return (
-		<Card className='mt-3 mb-4' style={{ height: '300px' }}>
+		<Card className='mt-3 mb-4' id='search-card'>
 			<Card.Body>
 				<h3>
 					{label}
@@ -26,7 +27,7 @@ const BookSearchResult = ({ label, bookList, CardComponent }) => {
 				{typeof bookList == 'undefined' ? (
 					<Error />
 				) : (
-					<div>
+					<>
 						{bookList.length === 0 ? (
 							<NoSearchResult />
 						) : (
@@ -44,7 +45,7 @@ const BookSearchResult = ({ label, bookList, CardComponent }) => {
 								})}
 							</Carousel>
 						)}
-					</div>
+					</>
 				)}
 			</Card.Body>
 		</Card>

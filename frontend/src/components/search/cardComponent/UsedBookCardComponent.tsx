@@ -3,13 +3,13 @@ import aladinIcon from '../../../resources/images/search/aladin.png'
 
 const UsedBookCardComponent = ({ book }) => {
 	return (
-		<div className='col-12 col-lg-6' style={{ height: '225px' }}>
+		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }}>
 			<a href={book.link} target='_blank' className='text-decoration-none text-black' rel='noreferrer'>
 				<Card className='h-100'>
 					<Card.Body>
 						<div className='row h-100 justify-content-center'>
-							<div className='col-3'>
-								<img src={book.cover} alt='' className='img-fluid h-100' />
+							<div className='col-3 d-flex align-items-center'>
+								<img src={book.cover} alt='' className='img-fluid w-100' />
 							</div>
 
 							<div className='col-9'>

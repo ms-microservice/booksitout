@@ -9,8 +9,8 @@ const MyBookCardComponent = ({ book }) => {
 				<Card className='h-100'>
 					<Card.Body>
 						<div className='row h-100'>
-							<div className='col-3 align-self-center'>
-								<img src={book.cover === '' ? defaultCover : book.cover} alt='' className='img-fluid h-100' />
+							<div className='col-3 d-flex align-self-center'>
+								<img src={book.cover === '' ? defaultCover : book.cover} alt='' className='img-fluid w-100' />
 							</div>
 
 							<div className='col-9'>
