@@ -84,7 +84,7 @@ public class SearchControllerV2 {
                             .author(isbnToAladinItemMap.get(isbn).getAuthor())
                             .cover(isbnToAladinItemMap.get(isbn).getCover())
                             .build())
-                    .availableLibraryList(availableLibraryList)
+                    .libraryList(availableLibraryList)
                     .build());
         }
 

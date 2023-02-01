@@ -9,5 +9,5 @@ import java.util.List;
 @Getter
 public class OfflineLibrarySearchResultV2 {
     private LibraryBook book;
-    private List<AvailableLibrary> availableLibraryList;
+    private List<AvailableLibrary> libraryList;
 }
