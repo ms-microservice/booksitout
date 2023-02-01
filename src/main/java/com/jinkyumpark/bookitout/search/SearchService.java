@@ -26,7 +26,7 @@ public class SearchService {
 
     public List<NationalLibraryPublicApiBookSearchResponse> getBookFromNationalLibraryPublicApiByQuery(String query) {
         String url = String.format("%s?authKey=%s&keyword=%s&format=json&pageSize=10",
-                environment.getProperty("search.library.search.url"), environment.getProperty("search.library.api-key"), query);
+                environment.getProperty("search.data4library.search.url"), environment.getProperty("search.data4library.api-key"), query);
 
         LibrarySearchResponse response = restTemplate.getForObject(url, LibrarySearchResponse.class);
 
@@ -40,7 +40,7 @@ public class SearchService {
         for (Integer libraryCode : libraryCodeList) {
             for (String isbn : isbnList) {
                 String url = String.format("%s?authKey=%s&libCode=%s&isbn13=%s&format=JS",
-                        environment.getProperty("search.library.has-book.url"), environment.getProperty("search.library.api-key"),
+                        environment.getProperty("search.data4library.has-book.url"), environment.getProperty("search.data4library.api-key"),
                         libraryCode, isbn);
 
                 HasBookResponse response = restTemplate.getForObject(url, HasBookResponse.class);
@@ -60,7 +60,7 @@ public class SearchService {
     public List<AvailableLibrary> getAvailableLibrary(String isbn, Integer regionCode, Integer regionDetailCode) {
 
         String url = String.format("%s?authKey=%s&isbn=%s&region=%s&format=JS%s",
-                environment.getProperty("search.library.has-book-by-isbn.url"), environment.getProperty("search.library.api-key"),
+                environment.getProperty("search.data4library.has-book-by-isbn.url"), environment.getProperty("search.data4library.api-key"),
                 isbn, regionCode,
                 regionDetailCode == null ? "" : "&dtl_region=" + regionDetailCode);
 
