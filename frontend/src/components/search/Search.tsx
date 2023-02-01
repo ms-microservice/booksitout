@@ -25,21 +25,28 @@ const Search = () => {
 	}, [])
 
 	const [myBookList, setMyBookList] = useState<MyBook[]>([])
-	const [libraryBookList, setLibraryBookList] = useState<LibraryBook>([])
+	const [libraryBookList, setLibraryBookList] = useState<LibraryBook[]>([])
 	const [onlineLibraryBookList, setOnlineLibraryBookList] = useState([])
 	const [onlineUsedBookList, setOnlineUsedBookList] = useState<UsedBook[]>([])
-	const [offlineUsedBookList, setOfflineUsedBookList] = useState([])
+	const [offlineUsedBookList, setOfflineUsedBookList] = useState<UsedBook[]>([])
 	const [subscriptionBookList, setSubscriptionBookList] = useState([])
 	useEffect(() => {
 		setLoading(true)
 
+		setMyBookList([])
+		setLibraryBookList([])
+		setOnlineLibraryBookList([])
+		setOnlineUsedBookList([])
+		setOfflineUsedBookList([])
+		setSubscriptionBookList([])
+
 		Promise.all([
-			search.myBook(query).then((result) => setMyBookList(result)),
-			search.used(query, 'ALADIN').then((result) => {
+			search.myBook(query || '').then((result) => setMyBookList(result)),
+			search.used(query || '', 'ALADIN').then((result) => {
 				setOnlineUsedBookList(result.online)
 				setOfflineUsedBookList(result.offline)
 			}),
-			search.library(query, 'SEOUL', 'YEONGDEUNGPOGU').then((result) => setLibraryBookList(result)),
+			search.library(query || '', 'SEOUL', 'YEONGDEUNGPOGU').then((result) => setLibraryBookList(result)),
 		]).finally(() => {
 			setLoading(false)
 			setInitial(false)
@@ -48,7 +55,6 @@ const Search = () => {
 
 	if (initial) return <></>
 	if (loading) return <Loading />
-
 	return (
 		<div className='container mt-5'>
 			<LibraryDetailModal />
@@ -56,8 +62,8 @@ const Search = () => {
 			<BookSearchResult label='내 책' bookList={myBookList} CardComponent={MyBookCardComponent} />
 			<BookSearchResult label='도서관' bookList={libraryBookList} CardComponent={LibraryCardComponent} />
 
-			<BookSearchResult label='전자도서관' bookList={onlineLibraryBookList} CardComponent={MyBookCardComponent} />
-			<BookSearchResult label='구독 플레폼' bookList={subscriptionBookList} CardComponent={MyBookCardComponent} />
+			<BookSearchResult label='전자도서관' bookList={onlineLibraryBookList} CardComponent={<></>} />
+			<BookSearchResult label='구독 플레폼' bookList={subscriptionBookList} CardComponent={<></>} />
 
 			<BookSearchResult label='중고책 (온라인)' bookList={onlineUsedBookList} CardComponent={UsedBookCardComponent} />
 			<BookSearchResult label='중고책 (매장)' bookList={offlineUsedBookList} CardComponent={UsedBookCardComponent} />
