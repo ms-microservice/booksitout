@@ -1,0 +1,12 @@
+carousel-control-next,
+.carousel-control-prev {
+	width: 0%;
+}
+
+a.carousel-control-next {
+	width: 5%;
+}
+
+a.carousel-control-prev {
+	width: 5%;
+}
