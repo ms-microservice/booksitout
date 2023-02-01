@@ -58,7 +58,8 @@ function App() {
 				<Route path='/reading/:id' element={<Reading />} />
 				<Route path='/statistics' element={<Statistics />} />
 				<Route path='/statistics/goal' element={<Goal />} />
-				<Route path='/search/:key' element={<Search />} />
+
+				<Route path='/search/:query' element={<Search />} />
 			</Routes>
 
 			<FloatingAddButton />
