@@ -96,7 +96,7 @@ public class AppUserControllerV1 {
                 .emailVerificationCode(verificationCode)
                 .build();
 
-        appUserService.updateUser(loginAppUser.getId(), appUserDto);
+        appUserService.updateUserById(loginAppUser.getId(), appUserDto);
 
         String EMAIL_SUBJECT = "비밀번호를 변경하기 위해 인증번호를 입력해 주세요";
         String EMAIL_CONTENT = String.valueOf(verificationCode);
@@ -138,7 +138,7 @@ public class AppUserControllerV1 {
                 .name(changeNameRequest.getName())
                 .build();
 
-        appUserService.updateUser(loginAppUser.getId(), appUserDto);
+        appUserService.updateUserById(loginAppUser.getId(), appUserDto);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
     }

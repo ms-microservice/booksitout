@@ -76,7 +76,7 @@ public class AppUserService implements UserDetailsService {
     }
 
     @Transactional
-    public void updateUserId(Long appUserId, AppUserDto appUserDto) {
+    public void updateUserById(Long appUserId, AppUserDto appUserDto) {
         AppUser existingAppUser = appUserRepository.findById(appUserId)
                 .orElseThrow(() -> new NotFoundException("User Not Found"));
 
