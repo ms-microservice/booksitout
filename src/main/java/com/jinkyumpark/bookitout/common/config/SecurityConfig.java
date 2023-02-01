@@ -51,6 +51,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
                 .antMatchers("/**/join/**", "/**/login/**", "/**/qna/**").permitAll()
+                .antMatchers("/**/search/**").permitAll()
 
                 .anyRequest()
                 .authenticated()
