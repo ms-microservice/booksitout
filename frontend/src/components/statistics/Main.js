@@ -18,7 +18,7 @@ import uiSettings from '../../settings/ui'
 import messages from '../../settings/messages'
 
 const Main = () => {
-	const [isLoading, setIsLoading] = useState(true)
+	const [loading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [showAlert, setShowAlert] = useState(getIsAlertShowing())
 
@@ -106,27 +106,24 @@ const Main = () => {
 		</Card>,
 	]
 
+	if (initialFetch) return <></>
+	if (loading) return <Loading />
+
 	return (
 		<div className='container-lg'>
-			{initialFetch ? (
-				<></>
-			) : isLoading ? (
-				<Loading />
-			) : (
-				<div className='row row-eq-height mb-5'>
-					{showAlert && (
-						<div className='container'>
-							<Alert variant='success' dismissible onClose={() => closeAlert()}>
-								{getAlertMessage()}
-							</Alert>
-						</div>
-					)}
+			<div className='row row-eq-height mb-5'>
+				{showAlert && (
+					<div className='container'>
+						<Alert variant='success' dismissible onClose={() => closeAlert()}>
+							{getAlertMessage()}
+						</Alert>
+					</div>
+				)}
 
-					{componentList.map((component) => {
-						return <div className='col-12 col-md-6 mb-4'>{component}</div>
-					})}
-				</div>
-			)}
+				{componentList.map((component) => {
+					return <div className='col-12 col-md-6 mb-4'>{component}</div>
+				})}
+			</div>
 		</div>
 	)
 }
