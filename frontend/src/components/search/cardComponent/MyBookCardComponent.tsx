@@ -17,7 +17,7 @@ const MyBookCardComponent = ({ book }) => {
 								<h5>{book.title}</h5>
 								<h6 className='text-secondary'>{book.author}</h6>
 
-								<PageProgressBar book={book} showPage={false} />
+								<PageProgressBar book={book} />
 							</div>
 						</div>
 					</Card.Body>
