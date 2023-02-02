@@ -131,27 +131,11 @@ public class SearchControllerV2 {
 
             List<UsedBookSearchResult> aladinOnlineSearchResult = aladinItemList.stream()
                     .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getAladinUsed().getItemCount() != 0)
-                    .map(item -> UsedBookSearchResult.builder()
-                            .provider(UsedBookProvider.ONLINE_ALADIN)
-                            .title(item.getTitle())
-                            .author(item.getAuthor())
-                            .cover(item.getCover())
-                            .stockCount(item.getSubInfo().getUsedList().getAladinUsed().getItemCount())
-                            .minPrice(item.getSubInfo().getUsedList().getAladinUsed().getMinPrice())
-                            .link(item.getSubInfo().getUsedList().getAladinUsed().getLink().replaceAll("amp;", ""))
-                            .build()).toList();
+                    .map(item -> item.toUsedBookSearchResult(UsedBookProvider.ONLINE_ALADIN)).toList();
 
             List<UsedBookSearchResult> aladinOfflineSearchResult = aladinItemList.stream()
                     .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getSpaceUsed().getItemCount() != 0)
-                    .map(item -> UsedBookSearchResult.builder()
-                            .provider(UsedBookProvider.OFFLINE_ALADIN)
-                            .title(item.getTitle())
-                            .author(item.getAuthor())
-                            .cover(item.getCover())
-                            .stockCount(item.getSubInfo().getUsedList().getSpaceUsed().getItemCount())
-                            .minPrice(item.getSubInfo().getUsedList().getSpaceUsed().getMinPrice())
-                            .link(item.getSubInfo().getUsedList().getSpaceUsed().getLink().replaceAll("amp;", ""))
-                            .build()).toList();
+                    .map(item -> item.toUsedBookSearchResult(UsedBookProvider.OFFLINE_ALADIN)).toList();
 
             result.addOnlineList(aladinOnlineSearchResult);
             result.addOfflineList(aladinOfflineSearchResult);
