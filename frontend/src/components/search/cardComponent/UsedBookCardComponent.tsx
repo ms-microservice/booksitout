@@ -1,5 +1,9 @@
 import { Card } from 'react-bootstrap'
+import { BsFillCartFill as CartIcon } from 'react-icons/bs'
+import uiSettings from '../../../settings/ui'
+
 import aladinIcon from '../../../resources/images/search/aladin.png'
+import yes24Icon from '../../../resources/images/search/yes24.png'
 
 const UsedBookCardComponent = ({ book }) => {
 	return (
@@ -13,11 +17,34 @@ const UsedBookCardComponent = ({ book }) => {
 							</div>
 
 							<div className='col-9'>
-								<h5>{book.title}</h5>
+								<h5>{book.title.slice(0, 50)}</h5>
 								<h6 className='text-secondary'>{book.author}</h6>
 								<div className='mt-4'>
-									<img src={aladinIcon} alt='' className='img-fluid rounded me-3' style={{ width: '50px' }} />
+									<img
+										src={
+											book.provider === 'ONLINE_ALADIN' || book.provider === 'OFFLINE_ALADIN'
+												? aladinIcon
+												: book.provider === 'ONLINE_YES24' || book.provider === 'OFFLINE_YES24'
+												? yes24Icon
+												: ''
+										}
+										alt=''
+										className='img-fluid rounded me-3 border'
+										style={{ width: '50px' }}
+									/>
 									재고 : {book.stockCount}개 ({book.minPrice}원)
+									{book.locationList.length !== 0 && (
+										<div className='mt-2 text-secondary'>
+											{book.locationList.map((location) => {
+												return (
+													<div>
+														<CartIcon className='me-2 mb-1' style={{ color: uiSettings.color.theme }} />
+														{location}
+													</div>
+												)
+											})}
+										</div>
+									)}
 								</div>
 							</div>
 						</div>
