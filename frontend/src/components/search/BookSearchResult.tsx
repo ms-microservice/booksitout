@@ -6,8 +6,8 @@ import Error from '../common/Error'
 
 import search from '../../functions/search'
 import { UsedBook } from './BookType'
-import './customCarousel.css'
-import './bookSearchCard.css'
+import '../../resources/css/bookSearchCard.css'
+import '../../resources/css/customCarousel.css'
 
 const BookSearchResult = ({ label, bookList, CardComponent }) => {
 	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])
