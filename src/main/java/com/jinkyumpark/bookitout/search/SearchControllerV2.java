@@ -143,7 +143,11 @@ public class SearchControllerV2 {
 
         if (includeList.contains("KYOBO")) {}
 
-        if (includeList.contains("YES24")) {}
+        if (includeList.contains("YES24")) {
+            List<UsedBookSearchResult> yes24ResultList = searchUsedService.getYes24OfflineUsedBook(query);
+
+            result.addOfflineList(yes24ResultList);
+        }
 
         return result;
     }
