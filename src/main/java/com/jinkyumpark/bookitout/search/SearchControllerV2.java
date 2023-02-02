@@ -13,6 +13,7 @@ import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResponse;
 import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResult;
 import com.jinkyumpark.bookitout.search.service.SearchBookService;
 import com.jinkyumpark.bookitout.search.service.SearchLibraryService;
+import com.jinkyumpark.bookitout.search.service.SearchSubscriptionService;
 import com.jinkyumpark.bookitout.search.service.SearchUsedService;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import com.jinkyumpark.bookitout.user.login.LoginUser;
@@ -36,6 +37,7 @@ public class SearchControllerV2 {
     private final SearchLibraryService searchLibraryService;
     private final SearchUsedService searchUsedService;
     private final SearchBookService searchBookService;
+    private final SearchSubscriptionService searchSubscriptionService;
 
     @GetMapping("my-book")
     public List<MyBookSearchResult> getMyBookSearchResult(@RequestParam("query") String query,
@@ -94,8 +96,26 @@ public class SearchControllerV2 {
     }
 
     @GetMapping("subscription")
-    public List<SubscriptionSearchResult> getSubscriptionSearchResult(@RequestParam("query") String query) {
-        return null;
+    public List<SubscriptionSearchResult> getSubscriptionSearchResult(@RequestParam("query") String query,
+                                                                      @RequestParam("include") List<String> includeList) {
+        if (includeList.isEmpty()) throw new BadRequestException("include list cannot be empty");
+
+        List<SubscriptionSearchResult> searchResultList = new ArrayList<>();
+
+        if (includeList.contains("MILLIE")) {
+            searchSubscriptionService.getMilleSearchResult(query);
+        }
+
+        if (includeList.contains("RIDI")) {
+            searchSubscriptionService.getRidiSearchResult(query);
+        }
+
+        if (includeList.contains("YES24")) {
+            List<SubscriptionSearchResult> yes24SearchResult = searchSubscriptionService.getYes24SearchResult(query);
+            searchResultList.addAll(yes24SearchResult);
+        }
+
+        return searchResultList;
     }
 
     // 교보분고, 알라딘, YES24
