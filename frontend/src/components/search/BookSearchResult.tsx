@@ -3,13 +3,14 @@ import { Card, Carousel } from 'react-bootstrap'
 
 import NoSearchResult from './NoSearchResult'
 import Error from '../common/Error'
+import SearchNotConfigured from './SearchNotConfigured'
 
 import search from '../../functions/search'
 import { UsedBook } from './BookType'
 import '../../resources/css/bookSearchCard.css'
 import '../../resources/css/customCarousel.css'
 
-const BookSearchResult = ({ label, bookList, CardComponent }) => {
+const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isConfigured }) => {
 	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])
 
 	useEffect(() => {
@@ -19,12 +20,20 @@ const BookSearchResult = ({ label, bookList, CardComponent }) => {
 	return (
 		<Card className='mt-3 mb-4' id='search-card'>
 			<Card.Body>
-				<h3>
-					{label}
-					{typeof bookList != 'undefined' && <span className='ms-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
-				</h3>
+				<div className='row'>
+					<div className='col-6 col-lg-4'>
+						<h3>
+							{label}
+							{typeof bookList != 'undefined' && isConfigured && <span className='ms-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
+						</h3>
+					</div>
 
-				{typeof bookList == 'undefined' ? (
+					<div className='col-6 col-lg-8 text-end'>{labelComponent}</div>
+				</div>
+
+				{!isConfigured ? (
+					<SearchNotConfigured />
+				) : typeof bookList == 'undefined' ? (
 					<Error />
 				) : (
 					<>
