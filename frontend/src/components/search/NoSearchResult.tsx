@@ -6,7 +6,7 @@ const NoSearchResult = () => {
 	const { query } = useParams()
 
 	return (
-		<div className='row mt-3 h-100 d-flex align-items-center text-center'>
+		<div className='row h-100 d-flex align-items-center text-center'>
 			<div className='mb-5'>
 				<ErrorIcon style={{ width: '100px', height: '100px', color: uiSettings.color.theme }} />
 
