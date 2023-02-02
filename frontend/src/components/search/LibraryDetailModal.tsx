@@ -18,7 +18,7 @@ const LibraryDetailModal = () => {
 			) : (
 				<>
 					<Modal.Header closeButton>
-						<h3>{searchResult.book.title}</h3>
+						<h3>{searchResult.book.title.slice(0, 50)}</h3>
 						<h5 className='text-secondary ms-3'>{searchResult.book.author}</h5>
 					</Modal.Header>
 
@@ -31,7 +31,7 @@ const LibraryDetailModal = () => {
 							<div className='col-lg-9'>
 								{searchResult.libraryList.map((library) => {
 									return (
-										<div className='mb-2'>
+										<div className='mt-2 mt-lg-0 mb-2'>
 											<LibraryInfo library={library} />
 										</div>
 									)

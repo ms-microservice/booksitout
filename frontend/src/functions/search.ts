@@ -30,6 +30,15 @@ const search = {
 			})
 	},
 
+	subscription: (query: string, include: string) => {
+		return axios
+			.get(urls.api.search.subscription(query, include))
+			.then((res) => res.data)
+			.catch(() => {
+				return []
+			})
+	},
+
 	splitArray: (originalArray: any[], count: number) => {
 		if (originalArray == null) return [[]]
 
