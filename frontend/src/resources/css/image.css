@@ -1,0 +1,4 @@
+.img-disabled {
+	opacity: 0.3;
+	filter: grayscale(80%);
+}
