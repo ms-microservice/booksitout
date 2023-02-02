@@ -17,6 +17,8 @@ interface UsedBook {
 
 	stockCount: number
 	minPrice: number
+
+	locationList: string[]
 }
 interface LibraryBook {
 	book: {
@@ -35,4 +37,12 @@ interface LibraryBook {
 	]
 }
 
-export type { MyBook, UsedBook, LibraryBook }
+interface SubscriptionBook {
+	title: string
+	author: string
+	cover: string
+	link: string
+	provider: string
+}
+
+export type { MyBook, UsedBook, LibraryBook, SubscriptionBook }
