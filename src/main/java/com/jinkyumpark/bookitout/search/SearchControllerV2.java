@@ -2,7 +2,7 @@ package com.jinkyumpark.bookitout.search;
 
 import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinItem;
-import com.jinkyumpark.bookitout.search.request.KoreanRegion;
+import com.jinkyumpark.bookitout.search.request.KoreaRegion;
 import com.jinkyumpark.bookitout.search.request.SeoulRegionDetail;
 import com.jinkyumpark.bookitout.search.response.*;
 import com.jinkyumpark.bookitout.book.model.Book;
@@ -71,7 +71,7 @@ public class SearchControllerV2 {
         for (String isbn : isbnToAladinItemMap.keySet()) {
             List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibrary(
                     isbn,
-                    KoreanRegion.valueOf(region).getApiRegionCode(),
+                    KoreaRegion.valueOf(region).getApiRegionCode(),
                     SeoulRegionDetail.valueOf(regionDetail).getApiRegionCode()
             );
 

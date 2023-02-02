@@ -3,7 +3,7 @@ package com.jinkyumpark.bookitout.search.request;
 import lombok.Getter;
 
 @Getter
-public enum KoreanRegion {
+public enum KoreaRegion {
     SEOUL("서울", 11),
     BUSAN("부산", 21),
     DAEGU("대구", 22),
@@ -25,7 +25,7 @@ public enum KoreanRegion {
     private final String koreanName;
     private final Integer apiRegionCode;
 
-    KoreanRegion(String koreanName, Integer regionCode) {
+    KoreaRegion(String koreanName, Integer regionCode) {
         this.koreanName = koreanName;
         this.apiRegionCode = regionCode;
     }
