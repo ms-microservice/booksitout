@@ -159,7 +159,7 @@ const SearchBar = ({ expand = 'lg' }) => {
 	const [keyword, setKeyword] = useState('')
 	useEffect(() => {
 		if (location.pathname.startsWith('/search')) {
-			setKeyword(location.pathname.substring(8))
+			setKeyword(decodeURI(location.pathname.substring(8)))
 		}
 	}, [location])
 
