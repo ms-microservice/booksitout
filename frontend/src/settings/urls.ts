@@ -136,10 +136,12 @@ const urls = {
 			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}`,
 			used: (query, include) => `${apiBase}/v2/search/used?query=${query}&include=${include}`,
 			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,
-			libraryByLibrary: (query, includeLibraryCodeList) =>
-				`${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
-			libraryByRegion: (query, region, regionDetail) =>
-				`${apiBase}/v2/search/library/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+			libraryByLibrary: (query, includeLibraryCodeList) => `${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
+			libraryByRegion: (query, region, regionDetail) => `${apiBase}/v2/search/library/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+
+			settings: {
+				changeRegion: () => `${apiBase}/v2/settings/change-region`,
+			},
 		},
 	},
 

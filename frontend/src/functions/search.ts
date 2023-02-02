@@ -65,12 +65,24 @@ const search = {
 					return localStorage.getItem('search-library-region-detail-display') ?? ''
 				},
 			},
+
 			api: {
 				region: (): string => {
 					return localStorage.getItem('search-library-region-api') ?? ''
 				},
 				regionDetail: (): string => {
 					return localStorage.getItem('search-library-region-detail-api') ?? ''
+				},
+			},
+
+			update: {
+				region: (displayRegion: string, apiRegion: string) => {
+					localStorage.setItem('search-library-region-display', displayRegion)
+					localStorage.setItem('search-library-region-api', apiRegion)
+				},
+				regionDetail: (displayRegionDetail: string, apiRegionDetail: string) => {
+					localStorage.setItem('search-library-region-detail-display', displayRegionDetail)
+					localStorage.setItem('search-library-region-detail-api', apiRegionDetail)
 				},
 			},
 		},
@@ -85,6 +97,12 @@ const search = {
 			api: () => {
 				return localStorage.getItem('search-online-library-api') ?? ''
 			},
+			isPresent: (apiKey: string) => {
+				const keys = localStorage.getItem('search-online-library-api')
+				if (keys == null) return false
+
+				return typeof keys.split(',').find((k) => k === apiKey) !== 'undefined'
+			},
 		},
 
 		subscription: {
@@ -96,6 +114,12 @@ const search = {
 			},
 			api: () => {
 				return localStorage.getItem('search-subscription-api') ?? ''
+			},
+			isPresent: (apiKey: string) => {
+				const keys = localStorage.getItem('search-subscription-api')
+				if (keys == null) return false
+
+				return typeof keys.split(',').find((k) => k === apiKey) !== 'undefined'
 			},
 		},
 
@@ -109,6 +133,12 @@ const search = {
 			api: () => {
 				return localStorage.getItem('search-used-online-api') ?? ''
 			},
+			isPresent: (apiKey: string) => {
+				const keys = localStorage.getItem('search-used-online-api')
+				if (keys == null) return false
+
+				return typeof keys.split(',').find((k) => k === apiKey) !== 'undefined'
+			},
 		},
 
 		usedOffline: {
@@ -120,6 +150,27 @@ const search = {
 			},
 			api: () => {
 				return localStorage.getItem('search-used-offline-api') ?? ''
+			},
+			isPresent: (apiKey: string) => {
+				const keys = localStorage.getItem('search-used-offline-api')
+				if (keys == null) return false
+
+				return typeof keys.split(',').find((k) => k === apiKey) !== 'undefined'
+			},
+		},
+	},
+
+	api: {
+		library: {
+			changeRegion: (region: string, regionDetail: string) => {
+				return axios
+					.post(urls.api.search.settings.changeRegion(), { region: region, regionDetail: regionDetail }, { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
 			},
 		},
 	},
