@@ -53,7 +53,6 @@ public class SearchSubscriptionService {
         String url = String.format("https://www.millie.co.kr/v3/search/result/%s?type=total&contentcode=0&searchBack=y&nav_hidden=y&category=1&order=popular", query);
 
         Document document = SearchService.getJsoupDocument(url);
-        System.out.println(document);
 
         return List.of();
     }
@@ -62,7 +61,6 @@ public class SearchSubscriptionService {
         String url = String.format("https://select.ridibooks.com/search?q=%s&type=Books", query);
 
         Document document = SearchService.getJsoupDocument(url);
-        System.out.println(document);
 
         return List.of();
     }

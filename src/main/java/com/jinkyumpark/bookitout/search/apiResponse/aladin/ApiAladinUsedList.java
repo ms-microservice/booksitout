@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @AllArgsConstructor
 @Getter
 public class ApiAladinUsedList {
-    private ApiAladinUsed apiAladinUsed;
+    private ApiAladinUsed aladinUsed;
     private ApiAladinUserUsed userUsed;
     private ApiAladinSpaceUsed spaceUsed;
 }
