@@ -75,7 +75,7 @@ const Search = () => {
 			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} />
 			<BookSearchResult label='전자도서관' labelComponent={<LibraryOnlineLabel />} bookList={onlineLibraryList} CardComponent={<></>} isConfigured={search.local.settings.onlineLibrary.isConfigured()} />
 			<BookSearchResult label='구독' labelComponent={<SubscriptionLabel />} bookList={subscriptionList} CardComponent={SubscriptionComponent} isConfigured={search.local.settings.subscription.isConfigured()} />
-			<BookSearchResult label='중고 온라인' labelComponent={<UsedOnlineLabel />} bookList={onlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOnline.isConfigured()} />
+			<BookSearchResult label='중고온라인' labelComponent={<UsedOnlineLabel />} bookList={onlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOnline.isConfigured()} />
 			<BookSearchResult label='중고 매장' labelComponent={<UsedOfflineLabel />} bookList={offlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOffline.isConfigured()} />
 		</div>
 	)

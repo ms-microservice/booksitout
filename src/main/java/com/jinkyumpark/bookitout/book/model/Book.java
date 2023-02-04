@@ -93,7 +93,7 @@ public class Book extends TimeEntity {
     private BookMemoType memoType = BookMemoType.NONE;
     private String memoLink;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
     @JsonIgnore
     private AppUser appUser;
