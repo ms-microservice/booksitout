@@ -24,6 +24,8 @@ const Topnav = () => {
 	const token = useSelector((state) => state.user.token)
 	const expand = uiSettings.topnav.collapse
 
+	const [expanded, setExpanded] = useState(false)
+
 	const handleLogout = (e) => {
 		e.preventDefault()
 
@@ -38,14 +40,18 @@ const Topnav = () => {
 		navigate('/login')
 	}
 
+	useEffect(() => {
+		setExpanded(false)
+	}, [location.pathname])
+
 	return (
-		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect>
+		<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect expanded={expanded}>
 			<Container fluid>
 				<Navbar.Brand href={token === '' ? '/login' : '/'}>
 					<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px', height: '30px' }} />
 					책잇아웃
 				</Navbar.Brand>
-				<Navbar.Toggle aria-controls={`offcanvasNavbar-expand-${expand}`}></Navbar.Toggle>
+				<Navbar.Toggle onClick={() => setExpanded(!expanded)}></Navbar.Toggle>
 
 				<Navbar.Collapse id='responsive-navbar-nav'>
 					<Nav className='me-auto text-center'>

@@ -34,7 +34,9 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 				{!isConfigured ? (
 					<SearchNotConfigured />
 				) : typeof bookList == 'undefined' ? (
-					<Error />
+					<div className="mt-5 mt-lg-0">
+						<Error />
+					</div>
 				) : (
 					<>
 						{bookList.length === 0 ? (

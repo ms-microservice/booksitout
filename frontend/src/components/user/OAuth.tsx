@@ -39,6 +39,14 @@ const OAuth = () => {
 				localStorage.setItem('login-date', new Date().toString())
 				localStorage.setItem('profile-image', userData.profileImage)
 
+				localStorage.setItem('search-library-region-api', userData.settings.region)
+				localStorage.setItem('search-library-region-detail-api', userData.settings.regionDetail)
+				localStorage.setItem('search-my-book-range', userData.settings.myBookSearchRange)
+				localStorage.setItem('search-library-online-api', userData.settings.libraryOnlineSearchRange)
+				localStorage.setItem('search-subscription-api', userData.settings.subscriptionSearchRange)
+				localStorage.setItem('search-used-online-api', userData.settings.usedOnlineSearchRange)
+				localStorage.setItem('search-used-offline-api', userData.settings.usedOfflineSearchRange)
+
 				toast.dismiss()
 				toast(userData.message, { icon: '✋' })
 				navigate('/')

@@ -22,8 +22,8 @@ public class SearchUsedService {
     private final Environment environment;
 
     public List<AladinItem> getAladinUsedBook(String query) {
-        String url = String.format("%s?TTBKey=%s&Query=%s&SearchTarget=USED&outofStockfilter=1&Output=JS&OptResult=usedList&version=20131101",
-                environment.getProperty("search.aladin.url"), environment.getProperty("search.aladin.api-key"), query);
+        String url = String.format("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=%s&Query=%s&SearchTarget=USED&outofStockfilter=1&Output=JS&OptResult=usedList&version=20131101",
+                environment.getProperty("search.aladin.api-key"), query);
         AladinResponse response = restTemplate.getForObject(url, AladinResponse.class);
 
         if (response == null) return List.of();
