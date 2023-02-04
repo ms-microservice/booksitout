@@ -4,11 +4,13 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jinkyumpark.bookitout.common.config.JwtConfig;
 import com.jinkyumpark.bookitout.common.exception.http.NotLoginException;
+import com.jinkyumpark.bookitout.settings.SettingsService;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
 import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import com.jinkyumpark.bookitout.user.response.LoginFailResponse;
+import com.jinkyumpark.bookitout.user.response.LoginMethod;
 import com.jinkyumpark.bookitout.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -22,14 +24,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.Map;
 
 @RequiredArgsConstructor
 public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
     private final JwtUtils jwtUtils;
+    private final ObjectMapper objectMapper;
+
+    private final SettingsService settingsService;
 
     private static Boolean stayLogin = false;
 
@@ -58,8 +61,10 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
+        Long appUserId = ((AppUser) authResult.getPrincipal()).getAppUserId();
+
         String token = jwtUtils.generateAccessToken(authResult.getName(),
-                ((AppUser) authResult.getPrincipal()).getAppUserId(),
+                appUserId,
                 authResult.getAuthorities(),
                 stayLogin
         );
@@ -76,12 +81,11 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .token(jwtConfig.getTokenPrefix() + token)
                 .name(appUserName)
                 .registerDate(registerDate)
+                .loginMethod(LoginMethod.MANUAL)
+                .settings(settingsService.getSettingsByAppUserId(appUserId))
                 .build();
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-
-        response.getWriter().write(mapper.writeValueAsString(loginSuccessResponse));
+        response.getWriter().write(objectMapper.writeValueAsString(loginSuccessResponse));
         response.getWriter().flush();
     }
 

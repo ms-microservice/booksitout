@@ -2,7 +2,7 @@ import React from 'react'
 // Components
 import NoContent from '../../common/NoContent'
 // Resources
-import goalIcon from '../../../resources/images/general/goal.png'
+import goalIcon from '../../../resources/images/statistics/goal.png'
 // Messages
 import messages from '../../../settings/messages'
 

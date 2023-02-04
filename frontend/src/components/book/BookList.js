@@ -8,7 +8,7 @@ import Error from '../common/Error'
 import NoContent from '../common/NoContent'
 import HorizontalBookView from './HorizontalBookView'
 // Images
-import kimchiImage from '../../resources/images/general/kimchi.png'
+import kimchiImage from '../../resources/images/common/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, giveUpBook, unGiveUpBook } from '../../functions/book'

@@ -1,6 +1,6 @@
-import physicalBookIcon from '../resources/images/book-form/physical-book.png'
-import ebookBookIcon from '../resources/images/book-form/ebook.png'
-import audioBookIcon from '../resources/images/book-form/audio-book.png'
+import physicalBookIcon from '../resources/images/book-classifications/forms/physical-book.png'
+import ebookBookIcon from '../resources/images/book-classifications/forms/ebook.png'
+import audioBookIcon from '../resources/images/book-classifications/forms/audio-book.png'
 
 const formKoreanLabelMap = new Map([
 	['PHYSICAL', '종이책'],

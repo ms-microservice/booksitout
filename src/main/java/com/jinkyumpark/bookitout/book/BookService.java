@@ -3,6 +3,7 @@ package com.jinkyumpark.bookitout.book;
 import com.jinkyumpark.bookitout.book.dto.BookDto;
 import com.jinkyumpark.bookitout.book.exception.BookNotSharingException;
 import com.jinkyumpark.bookitout.book.model.Book;
+import com.jinkyumpark.bookitout.settings.model.MyBookSearchRange;
 import com.jinkyumpark.bookitout.statistics.model.MonthStatistics;
 import com.jinkyumpark.bookitout.reading.ReadingSessionRepository;
 import com.jinkyumpark.bookitout.statistics.StatisticsService;
@@ -28,6 +29,8 @@ public class BookService {
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
     private final StatisticsService statisticsService;
+
+    private final BookRepositoryImpl bookRepositoryImpl;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
@@ -84,6 +87,20 @@ public class BookService {
         return currentReadingSession.getBook();
     }
 
+    public List<Book> getBookByQuery(Long loginUserId, String query, MyBookSearchRange myBookSearchRange) {
+
+        if (myBookSearchRange.equals(MyBookSearchRange.ALL))
+            return bookRepositoryImpl.getAllBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_READING))
+            return bookRepositoryImpl.getNotDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_DONE))
+            return bookRepositoryImpl.getDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.EXCLUDE_GIVE_UP))
+            return bookRepositoryImpl.getExcludeGiveUpBookByQuery(loginUserId, query);
+
+        return List.of();
+    }
+
     public Long addBook(BookDto bookDto) {
         return bookRepository.save(bookDto.toEntity()).getBookId();
     }
@@ -93,7 +110,7 @@ public class BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
-        if (! book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
             throw new NotAuthorizeException("book.edit.fail.not-authorize");
         }
 
@@ -106,7 +123,7 @@ public class BookService {
         Book book = bookRepository.findById(bookId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
-        if (! book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
             throw new NotAuthorizeException("book.edit.fail.not-authorize");
         }
 

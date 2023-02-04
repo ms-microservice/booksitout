@@ -4,6 +4,7 @@ const uiSettings = {
 
 	color: {
 		memo: `rgb(242, 227, 142)`,
+		theme: `rgb(123, 185, 114)`,
 	},
 
 	responsive: {

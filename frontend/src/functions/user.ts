@@ -9,6 +9,7 @@ const user = {
 	join: (joinRequest) => {
 		return axios.post(urls.api.user.join, joinRequest, { headers: apiSettings.headers }).then((res) => res.status)
 	},
+
 	login: (loginRequest) => {
 		return axios
 			.post(urls.api.user.login.basic, loginRequest, { headers: apiSettings.headers })
@@ -23,6 +24,16 @@ const user = {
 				localStorage.setItem('user-name', userData.name)
 				localStorage.setItem('register-year', new Date().getFullYear().toString())
 				localStorage.setItem('login-date', new Date().toString())
+				localStorage.setItem('login-method', userData.loginMethod)
+
+				localStorage.setItem('search-library-region-api', userData.settings.region)
+				localStorage.setItem('search-library-region-detail-api', userData.settings.regionDetail)
+				localStorage.setItem('search-my-book-range', userData.settings.myBookSearchRange)
+				localStorage.setItem('search-library-online-api', userData.settings.libraryOnlineSearchRange)
+				localStorage.setItem('search-subscription-api', userData.settings.subscriptionSearchRange)
+				localStorage.setItem('search-used-online-api', userData.settings.usedOnlineSearchRange)
+				localStorage.setItem('search-used-offline-api', userData.settings.usedOfflineSearchRange)
+
 				toast.dismiss()
 				toast(userData.message, { icon: '✋' })
 				return 200
@@ -43,6 +54,9 @@ const user = {
 			return axios
 				.post(urls.api.user.change.name, { name: name }, { headers: apiSettings.headers })
 				.then((res) => res.status.toString().startsWith('2'))
+				.catch(() => {
+					return false
+				})
 		},
 		verificationCode: {
 			password: () => {

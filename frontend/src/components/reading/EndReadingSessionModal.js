@@ -99,7 +99,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 						<h5 className='text-center'>{isPercentMode ? '끝내는 퍼센트' : '끝내는 페이지'}</h5>
 
 						<div className='row justify-content-center mt-3 mb-4'>
-							<div className='col-4 col-md-3'>
+							<div className='col-4 col-lg-3'>
 								<Form.Control
 									type='number'
 									onChange={(e) => setEndPage(e.target.value)}
@@ -112,7 +112,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 								/>
 							</div>
 
-							<div className='col-3 col-md-1'>
+							<div className='col-3 col-md-2 col-lg-1'>
 								<Button variant='secondary' onClick={() => setIsPercentMode(!isPercentMode)} className='w-100'>
 									<ChangeIcon />
 								</Button>
@@ -120,18 +120,18 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 						</div>
 
 						<div className='row justify-content-center'>
-							<div className='col-12 col-md-4 mt-3 mt-md-2'>
+							<div className='col-12 col-sm-8 col-md-4 mt-3 mt-md-2'>
 								<Button variant='warning' className='w-100' onClick={() => handleEndWithoutSaving()}>
 									그냥 끝내기
 								</Button>
 							</div>
-							<div className='col-12 col-md-4 mt-3 mt-md-2'>
+							<div className='col-12 col-sm-8 col-md-4 mt-3 mt-md-2'>
 								<Button type='submit' className='w-100'>
 									저장하고 끝내기
 								</Button>
 							</div>
 
-							<div className='col-12 col-md-8 mt-3 mt-md-2'>
+							<div className='col-12 col-sm-8 col-md-8 mt-3 mt-md-2'>
 								<Button variant='danger' className='w-100' onClick={hideModal}>
 									취소
 								</Button>

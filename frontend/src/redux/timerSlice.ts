@@ -31,7 +31,7 @@ export const timerSlice = createSlice({
 				state.isTimerOn = true
 			}
 		},
-		updateReadingTimeDate: (state) => {
+		updateReadingTimeDate: () => {
 			localStorage.setItem('reading-session-date', new Date().toString())
 		},
 		updateOneSecond: (state) => {

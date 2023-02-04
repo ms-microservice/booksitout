@@ -1,0 +1,9 @@
+#search-card {
+	height: 300px;
+}
+
+@media (max-width: 992px) {
+	#search-card {
+		height: 550px;
+	}
+}

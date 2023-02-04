@@ -6,6 +6,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
+
 public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.appUser.appUserId = ?1 order by b.lastModifiedDate")
     Page<Book> findAllBooks(Long appUserId, Pageable pageRequest);
@@ -24,4 +26,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage order by b.lastModifiedDate desc")
     Page<Book> findAllGiveUpBooks(Long appUserId, Pageable pageRequest);
+
+    @Query("select b from Book b where b.appUser.appUserId = :appUserId and (b.title like %:query% or b.author like %:query%)")
+    List<Book> findAllByQuery(Long appUserId, String query);
 }

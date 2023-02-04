@@ -51,14 +51,15 @@ function App() {
 				<Route path='/book/:range' element={<BookList />} />
 				<Route path='/book/:range/:rangeDetail' element={<BookList />} />
 				<Route path='/book/detail/:id' element={<BookDetail />} />
-				<Route path='book/add' element={<BookAddForm />} />
+				<Route path='/book/add' element={<BookAddForm />} />
 				<Route path='/book/edit/:id' element={<BookEditForm />} />
 
 				<Route path='/reading' element={<ReadingNoId />} />
 				<Route path='/reading/:id' element={<Reading />} />
 				<Route path='/statistics' element={<Statistics />} />
 				<Route path='/statistics/goal' element={<Goal />} />
-				<Route path='/search/:key' element={<Search />} />
+
+				<Route path='/search/:query' element={<Search />} />
 			</Routes>
 
 			<FloatingAddButton />

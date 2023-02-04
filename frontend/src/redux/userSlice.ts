@@ -11,11 +11,6 @@ export const userSlice = createSlice({
 		},
 		logoutToken: (state) => {
 			state.token = ''
-			localStorage.setItem('login-token', '')
-			localStorage.setItem('user-name', '')
-			localStorage.setItem('profile-image', '')
-			localStorage.setItem('login-date', '')
-			localStorage.setItem('register-year', '')
 		},
 	},
 })

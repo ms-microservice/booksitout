@@ -1,15 +1,13 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // React Icons
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
-// Functions
-import { search } from '../../functions/search'
 // Images
 import userIcon from '../../resources/images/common/user.png'
-import logo from '../../resources/images/common/logo.png'
+import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
 // Settings
 import uiSettings from '../../settings/ui'
@@ -35,6 +33,7 @@ const Topnav = () => {
 		}
 
 		dispatch(logoutToken())
+		localStorage.clear()
 		toast.success(messages.user.logout.success)
 		navigate('/login')
 	}
@@ -156,15 +155,33 @@ const Topnav = () => {
 
 const SearchBar = ({ expand = 'lg' }) => {
 	const navigate = useNavigate()
+	const location = useLocation()
+
 	const [keyword, setKeyword] = useState('')
+	useEffect(() => {
+		if (location.pathname.startsWith('/search')) {
+			setKeyword(decodeURI(location.pathname.substring(8)))
+		}
+	}, [location])
+
+	const handleSearch = (keyword, e) => {
+		e.preventDefault()
+
+		if (keyword.length >= 2) {
+			navigate(`/search/${keyword}`)
+		} else {
+			toast.error('2글자 이상의 검색어를 입력해 주세요')
+		}
+	}
 
 	return (
-		<Form className='d-flex' onSubmit={(e) => search(keyword, e, navigate)}>
+		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)}>
 			<Form.Control
 				type='search'
 				placeholder='책 검색'
 				className='me-2'
 				aria-label='Search'
+				value={keyword}
 				onChange={(e) => {
 					setKeyword(e.target.value)
 				}}

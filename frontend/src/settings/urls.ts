@@ -131,6 +131,35 @@ const urls = {
 				category: `${apiBase}/v1/statistics/category`,
 			},
 		},
+
+		search: {
+			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range')}`,
+			used: (query: string, includeOnline: string, includeOffline: string) => `${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
+			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,
+			libraryByLibrary: (query, includeLibraryCodeList) => `${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
+			libraryByRegion: (query, region, regionDetail) => `${apiBase}/v2/search/library/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+
+			settings: {
+				myBook: {
+					changeRange: () => `${apiBase}/v2/settings/search/my-book/search-range`,
+				},
+
+				changeRegion: () => `${apiBase}/v2/settings/search/library-offline/region`,
+
+				libraryOnline: {
+					searchRange: () => `${apiBase}/v2/settings/search/library-online/search-range`,
+				},
+				subscription: {
+					searchRange: () => `${apiBase}/v2/settings/search/subscription/search-range`,
+				},
+				usedOnline: {
+					searchRange: () => `${apiBase}/v2/settings/search/used-online/search-range`,
+				},
+				usedOffline: {
+					searchRange: () => `${apiBase}/v2/settings/search/used-offline/search-range`,
+				},
+			},
+		},
 	},
 
 	exclude: ['join', 'introduction', 'qna', 'faq', '/login/oauth/kakao', '/login/oauth/naver', '/login/oauth/google', '/login/oauth/facebook'],
