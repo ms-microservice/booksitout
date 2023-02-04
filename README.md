@@ -6,7 +6,7 @@
 # 직접 사용해 보기
 https://book.jinkyumpark.com
 
-# 📗 책-it-out (book-it-out) 소개
+# 📗 책잇아웃 (book-it-out) 소개
 Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현입니다.
 어렸을때는 친했지만, 어느세 책과 멀어진 사람들에게는 책 읽는 즐거움을 다시.
 책을 좋아하는 책 벌레들에게는 나의 독서 활동을 기록할 수 있는,
@@ -16,11 +16,11 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   내 독서활동을 기록 : 책을 읽을 떄 기록을 누르고, 끝날 때 종료를 누르면 내 독서활동을 기록해 줘요. 독서 중간중간에는 인상깊은 구절을 써 두거나, 내 생각을 메모할 수 있어요.
 -   내가 읽은 책을 기록 : 평점, 리뷰, 독서활동을 한 번에 볼 수 있어요.
 -   내 독서활동을 공유 : 특정 책이나 내 프로필을 다른 사람들과 공유할 수 있어요.
--   책 찾기 : "책을 읽고 싶다"고 마음 먹어도, 새 책을 살지, 산다면 어디서 살지, 중고책을 살지, 도서관에 갈지, 전자책을 살지, 내가 구독하고 있는 전자책 플랫폼에 혹시 이 책이 있지는 않은지, 한 번에 모아서 알려줘요.
+-   책 검색 : "책을 읽고 싶다"고 마음 먹어도, 새 책을 살지, 산다면 어디서 살지, 중고책을 살지, 도서관에 갈지, 전자책을 살지, 내가 구독하고 있는 전자책 플랫폼에 혹시 이 책이 있지는 않은지, 한 번에 모아서 알려줘요.
 -   책 추천 : 내가 읽은 책, 혹은 내가 입력한 키워드를 바탕으로 책을 추천해 줘요.
 -   좋은 UX : 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? 공공 API를 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책-it-out이 대신 책을 찾아드려요. 도서 예약도 대신 해 드릴 수 있어요.
 
-# 🧑‍🔧 사용된 기술 (V1 기준)
+# 🧑‍🔧 사용된 기술 (V2 기준)
 ### DB
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
@@ -66,10 +66,10 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   OAuth 로그인 : Google, Facebook, Kakao, Naver 구현. Spring Security 내부 모듈 사용
 -   검색 : 알라딘, 공공도서관, 전자도서관 등의 Open API와 Web Crawling으로 MSA 기반의 종합 검색 기능 구현
 -   코드개선
-    - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선
+    - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
     - Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
     - DevOps : Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
-- 성능개선 : Spring Actuator를 사용해 병목지점 찾아내 코드 개선
+- 성능개선 : Spring Actuator, Spring Cloud Sleuth와 Zipkin을 사용해 병목 부분 찾아내 개선
 
 ### Architecture Diagram
 <p align="center">
