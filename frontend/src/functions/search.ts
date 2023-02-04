@@ -12,9 +12,9 @@ const search = {
 			})
 	},
 
-	used: (query: string, include: string) => {
+	used: (query: string, includeOnline: string, includeOffline: string) => {
 		return axios
-			.get(urls.api.search.used(query, include))
+			.get(urls.api.search.used(query, includeOnline, includeOffline))
 			.then((res) => res.data)
 			.catch(() => {
 				return []
@@ -52,6 +52,12 @@ const search = {
 	},
 
 	settings: {
+		myBook: {
+			range: (): string => {
+				return localStorage.getItem('search-my-book-range') ?? 'ALL'
+			},
+		},
+
 		library: {
 			isConfigured: (): boolean => {
 				return search.settings.library.api.region() !== '' && search.settings.library.api.regionDetail() !== ''
@@ -92,13 +98,13 @@ const search = {
 				return search.settings.onlineLibrary.display() !== '' && search.settings.onlineLibrary.api() !== ''
 			},
 			display: () => {
-				return localStorage.getItem('search-online-library-display') ?? ''
+				return localStorage.getItem('search-library-online-display') ?? ''
 			},
 			api: () => {
-				return localStorage.getItem('search-online-library-api') ?? ''
+				return localStorage.getItem('search-library-online-api') ?? ''
 			},
 			isPresent: (apiKey: string) => {
-				const keys = localStorage.getItem('search-online-library-api')
+				const keys = localStorage.getItem('search-library-online-api')
 				if (keys == null) return false
 
 				return typeof keys.split(',').find((k) => k === apiKey) !== 'undefined'
@@ -161,10 +167,86 @@ const search = {
 	},
 
 	api: {
-		library: {
-			changeRegion: (region: string, regionDetail: string) => {
+		myBook: {
+			changeSearchRange: (range: string) => {
 				return axios
-					.post(urls.api.search.settings.changeRegion(), { region: region, regionDetail: regionDetail }, { headers: { Authorization: utils.getToken() } })
+					.put(urls.api.search.settings.myBook.changeRange(), { range: range }, { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
+			},
+		},
+
+		library: {
+			changeRegion: (region: string | null, regionDetail: string | null) => {
+				return axios
+					.put(urls.api.search.settings.changeRegion(), { region: region, regionDetail: regionDetail }, { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
+			},
+
+			deleteRegion: () => {
+				return axios
+					.delete(urls.api.search.settings.changeRegion(), { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
+			},
+		},
+
+		libraryOnline: {
+			changeSearchRange: (range: string) => {
+				return axios
+					.put(urls.api.search.settings.libraryOnline.searchRange(), { range: range }, { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
+			},
+		},
+
+		subscription: {
+			changeSearchRange: (range: string) => {
+				return axios
+					.put(urls.api.search.settings.subscription.searchRange(), { range: range }, { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
+			},
+		},
+
+		usedOnline: {
+			changeSearchRange: (range: string) => {
+				return axios
+					.put(urls.api.search.settings.usedOnline.searchRange(), { range: range }, { headers: { Authorization: utils.getToken() } })
+					.then((res) => {
+						return res.status
+					})
+					.catch(() => {
+						return 500
+					})
+			},
+		},
+
+		usedOffline: {
+			changeSearchRange: (range: string) => {
+				return axios
+					.put(urls.api.search.settings.usedOffline.searchRange(), { range: range }, { headers: { Authorization: utils.getToken() } })
 					.then((res) => {
 						return res.status
 					})
