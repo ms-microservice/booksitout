@@ -41,10 +41,12 @@ public class SearchControllerV2 {
 
     @GetMapping("my-book")
     public List<MyBookSearchResult> getMyBookSearchResult(@RequestParam("query") String query,
+                                                          @RequestParam(value = "range", required = false) MyBookSearchRange myBookSearchRange,
                                                           @LoginUser LoginAppUser loginAppUser) {
         if (query.length() < 2) throw new BadRequestException("Query must be more than 2");
+        if (myBookSearchRange == null) myBookSearchRange = MyBookSearchRange.ALL;
 
-        List<Book> bookResult = bookService.getBookByQuery(loginAppUser.getId(), query);
+        List<Book> bookResult = bookService.getBookByQuery(loginAppUser.getId(), query, myBookSearchRange);
 
         return bookResult.stream()
                 .map(b -> MyBookSearchResult.builder()

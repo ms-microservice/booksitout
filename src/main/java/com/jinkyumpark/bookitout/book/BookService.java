@@ -86,8 +86,18 @@ public class BookService {
         return currentReadingSession.getBook();
     }
 
-    public List<Book> getBookByQuery(Long loginUserId, String query) {
-        return bookRepositoryImpl.getAllBookByQuery(loginUserId, query);
+    public List<Book> getBookByQuery(Long loginUserId, String query, MyBookSearchRange myBookSearchRange) {
+
+        if (myBookSearchRange.equals(MyBookSearchRange.ALL))
+            return bookRepositoryImpl.getAllBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_READING))
+            return bookRepositoryImpl.getNotDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_DONE))
+            return bookRepositoryImpl.getDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.EXCLUDE_GIVE_UP))
+            return bookRepositoryImpl.getExcludeGiveUpBookByQuery(loginUserId, query);
+
+        return List.of();
     }
 
     public Long addBook(BookDto bookDto) {

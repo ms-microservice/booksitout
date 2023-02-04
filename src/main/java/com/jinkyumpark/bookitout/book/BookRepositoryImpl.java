@@ -19,7 +19,48 @@ public class BookRepositoryImpl {
         return queryFactory
                 .selectFrom(book)
                 .where(book.appUser.appUserId.eq(appUserId))
-                .where(book.title.contains(query))
+                .where(book.title.contains(query)
+                        .or(book.author.contains(query)))
+                .limit(10)
+                .fetch();
+    }
+
+    public List<Book> getNotDoneBookByQuery(Long appUserId, String query) {
+        QBook book = QBook.book;
+
+        return queryFactory
+                .selectFrom(book)
+                .where(book.appUser.appUserId.eq(appUserId))
+                .where(book.title.contains(query)
+                                .or(book.author.contains(query)))
+                .where(book.currentPage.gt(book.endPage))
+                .limit(10)
+                .fetch();
+    }
+
+    public List<Book> getDoneBookByQuery(Long appUserId, String query) {
+        QBook book = QBook.book;
+
+        return queryFactory
+                .selectFrom(book)
+                .where(book.appUser.appUserId.eq(appUserId))
+                .where(book.title.contains(query)
+                        .or(book.author.contains(query)))
+                .where(book.currentPage.eq(book.endPage))
+                .limit(10)
+                .fetch();
+    }
+
+    public List<Book> getExcludeGiveUpBookByQuery(Long appUserId, String query) {
+        QBook book = QBook.book;
+
+        return queryFactory
+                .selectFrom(book)
+                .where(book.appUser.appUserId.eq(appUserId))
+                .where(book.title.contains(query)
+                        .or(book.author.contains(query)))
+                .where(book.isGiveUp.eq(false))
+                .limit(10)
                 .fetch();
     }
 }
