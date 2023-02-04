@@ -154,8 +154,8 @@ const LibrarySearchSettings = () => {
 			if (status === 200) {
 				toast.success('지역을 변경했어요')
 
-				search.local.settings.library.update.region(regionData.find((r) => r.value === editedRegion)?.displayName ?? '', editedRegion)
-				search.local.settings.library.update.regionDetail(regionDetailData?.find((r) => r.value === editedRegionDetail)?.displayName ?? '', editedRegionDetail)
+				search.local.settings.library.update.region(editedRegion)
+				search.local.settings.library.update.regionDetail(editedRegionDetail)
 
 				setRegion(search.local.settings.library.display.region())
 				setRegionDetail(search.local.settings.library.display.regionDetail())
