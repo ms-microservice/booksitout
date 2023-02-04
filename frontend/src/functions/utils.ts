@@ -26,6 +26,13 @@ const utils = {
 
 		return splitList
 	},
+
+	closeKeyboard: (e) => {
+		if (e.keyCode === 13) {
+			e.preventDefault()
+			document.querySelector('input')?.blur()
+		}
+	}
 }
 
 export default utils

@@ -142,7 +142,7 @@ public class SearchControllerV2 {
             List<ApiAladinItem> apiAladinItemList = searchUsedService.getAladinUsedBook(query);
 
             List<UsedBookSearchResult> aladinOnlineSearchResult = apiAladinItemList.stream()
-                    .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getApiAladinUsed().getItemCount() != 0)
+                    .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getAladinUsed().getItemCount() != 0)
                     .map(item -> item.toUsedBookSearchResult(UsedBookProvider.ONLINE_ALADIN)).toList();
 
             List<UsedBookSearchResult> aladinOfflineSearchResult = apiAladinItemList.stream()

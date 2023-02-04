@@ -11,7 +11,7 @@ const NoSearchResult = () => {
 				<ErrorIcon style={{ width: '100px', height: '100px', color: uiSettings.color.theme }} />
 
 				<h3 className='text-center mt-3 mb-5'>
-					대한 검색 결과가 없어요
+					검색 결과가 없어요
 					<br/>
 					(<b>{query}</b>)
 				</h3>
