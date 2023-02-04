@@ -5,16 +5,16 @@ import NoSearchResult from './NoSearchResult'
 import Error from '../common/Error'
 import SearchNotConfigured from './SearchNotConfigured'
 
-import search from '../../functions/search'
 import { UsedBook } from './BookType'
 import '../../resources/css/bookSearchCard.css'
 import '../../resources/css/customCarousel.css'
+import utils from '../../functions/utils'
 
 const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isConfigured }) => {
 	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])
 
 	useEffect(() => {
-		setSplitBookList(search.splitArray(bookList, 2))
+		setSplitBookList(utils.splitArray(bookList, 2))
 	}, [bookList])
 
 	return (

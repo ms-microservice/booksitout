@@ -2,7 +2,7 @@ import { Card } from 'react-bootstrap'
 import search from '../../../functions/search'
 
 const OnlineLibraryLabel = () => {
-	const onlineLibraryList = search.settings.onlineLibrary.display()
+	const onlineLibraryList = search.local.settings.onlineLibrary.display()
 
 	if (onlineLibraryList === '') return <></>
 	return (

@@ -33,6 +33,7 @@ const Topnav = () => {
 		}
 
 		dispatch(logoutToken())
+		localStorage.clear()
 		toast.success(messages.user.logout.success)
 		navigate('/login')
 	}

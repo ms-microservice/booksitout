@@ -9,7 +9,7 @@ const UsedOfflineLabel = () => {
 	const iconStyle = { width: '40px', height: '40px' }
 	const baseClassName = `img-fluid rounded border ms-3 mb-2`
 
-	const usedOfflineList = search.settings.usedOffline.api()
+	const usedOfflineList = search.local.settings.usedOffline.api()
 	const getImage = (label: string) => {
 		if (label === 'ALADIN') return aladin
 		if (label === 'YES24') return yes24

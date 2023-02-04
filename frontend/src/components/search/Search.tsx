@@ -41,17 +41,19 @@ const Search = () => {
 
 		Promise.all([
 			
-			search.myBook(query || '')
+			search.api.search.myBook(query || '')
 				.then((result) => setMyBookList(result)),
 
-			search.settings.library.isConfigured() && search.library(query || '', search.settings.library.api.region(), search.settings.library.api.regionDetail())
-				.then((result) => setLibraryBookList(result)),
+			search.local.settings.library.isConfigured() && 
+				search.api.search.library(query || '', search.local.settings.library.api.region(), search.local.settings.library.api.regionDetail())
+					.then((result) => setLibraryBookList(result)),
 
-			search.settings.subscription.isConfigured() && search.subscription(query || '', search.settings.subscription.api())
-				.then((result) => setSubscriptionBookList(result)),
+			search.local.settings.subscription.isConfigured() && 
+				search.api.search.subscription(query || '', search.local.settings.subscription.api())
+					.then((result) => setSubscriptionBookList(result)),
 
-			(search.settings.usedOnline.isConfigured() || search.settings.usedOffline.isConfigured()) &&
-				search.used(query || '', search.settings.usedOnline.api(), search.settings.usedOffline.api())
+			(search.local.settings.usedOnline.isConfigured() || search.local.settings.usedOffline.isConfigured()) &&
+				search.api.search.used(query || '', search.local.settings.usedOnline.api(), search.local.settings.usedOffline.api())
 					.then((result) => {	setOnlineUsedBookList(result.online)
 													setOfflineUsedBookList(result.offline)
 					}),
@@ -69,11 +71,11 @@ const Search = () => {
 			<LibraryDetailModal />
 
 			<BookSearchResult label='내 책' labelComponent={<></>} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
-			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.settings.library.isConfigured()} />
-			<BookSearchResult label='전자도서관' labelComponent={<LibraryOnlineLabel />} bookList={onlineLibraryList} CardComponent={<></>} isConfigured={search.settings.onlineLibrary.isConfigured()} />
-			<BookSearchResult label='구독' labelComponent={<SubscriptionLabel />} bookList={subscriptionList} CardComponent={SubscriptionComponent} isConfigured={search.settings.subscription.isConfigured()} />
-			<BookSearchResult label='중고책 (온라인)' labelComponent={<UsedOnlineLabel />} bookList={onlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.settings.usedOnline.isConfigured()} />
-			<BookSearchResult label='중고책 (매장)' labelComponent={<UsedOfflineLabel />} bookList={offlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.settings.usedOffline.isConfigured()} />
+			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} />
+			<BookSearchResult label='전자도서관' labelComponent={<LibraryOnlineLabel />} bookList={onlineLibraryList} CardComponent={<></>} isConfigured={search.local.settings.onlineLibrary.isConfigured()} />
+			<BookSearchResult label='구독' labelComponent={<SubscriptionLabel />} bookList={subscriptionList} CardComponent={SubscriptionComponent} isConfigured={search.local.settings.subscription.isConfigured()} />
+			<BookSearchResult label='중고책 (온라인)' labelComponent={<UsedOnlineLabel />} bookList={onlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOnline.isConfigured()} />
+			<BookSearchResult label='중고책 (매장)' labelComponent={<UsedOfflineLabel />} bookList={offlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOffline.isConfigured()} />
 		</div>
 	)
 }

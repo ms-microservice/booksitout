@@ -11,7 +11,7 @@ const SubscriptionLabel = () => {
 	const iconStyle = { width: '40px', height: '40px' }
 	const baseClassName = `img-fluid border rounded mb-2 ms-3`
 
-	const subscriptionList = search.settings.subscription.api()
+	const subscriptionList = search.local.settings.subscription.api()
 	const getImage = (label: string) => {
 		if (label === 'MILLIE') return millie
 		if (label === 'YES24') return yes24
