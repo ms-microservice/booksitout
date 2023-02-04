@@ -73,23 +73,21 @@ jobs:
       - name: Build and Push Docker Image
         run: |
           docker build --platform amd64 \
-          --build-arg JWT_KEY=$JWT_SECRET_KEY \
-          --build-arg DB_URL=$DB_URL \
-          --build-arg DB_ID=$DB_ID \
-          --build-arg DB_PW=$DB_PW \
-          --build-arg EMAIL_ID=$EMAIL_ID \
-          --build-arg EMAIL_PW=$EMAIL_PW \
-          
-          --build-arg OAUTH_NAVER_CLIENT_ID=$OAUTH_NAVER_CLIENT_ID \
-          --build-arg OAUTH_NAVER_CLIENT_SECRET=$OAUTH_NAVER_CLIENT_SECRET \
-          --build-arg OAUTH_GOOGLE_CLIENT_ID=$OAUTH_GOOGLE_CLIENT_ID \
-          --build-arg OAUTH_GOOGLE_CLIENT_SECRET=$OAUTH_GOOGLE_CLIENT_SECRET \
-          --build-arg OAUTH_KAKAO_CLIENT_ID=$OAUTH_KAKAO_CLIENT_ID \
-          
-          --build-arg SEARCH_ALADIN_API_KEY=$SEARCH_ALADIN_API_KEY \
-          --build-arg SEARCH_DATA4LIBRARY_API_KEY=$SEARCH_DATA4LIBRARY_API_KEY \
-          
+          --build-arg JWT_KEY="$JWT_SECRET_KEY" \
+          --build-arg DB_URL="$DB_URL" \
+          --build-arg DB_ID="$DB_ID" \
+          --build-arg DB_PW="$DB_PW" \
+          --build-arg EMAIL_ID="$EMAIL_ID" \
+          --build-arg EMAIL_PW="$EMAIL_PW" \
+          --build-arg OAUTH_NAVER_CLIENT_ID="$OAUTH_NAVER_CLIENT_ID" \
+          --build-arg OAUTH_NAVER_CLIENT_SECRET="$OAUTH_NAVER_CLIENT_SECRET" \
+          --build-arg OAUTH_GOOGLE_CLIENT_ID="$OAUTH_GOOGLE_CLIENT_ID" \
+          --build-arg OAUTH_GOOGLE_CLIENT_SECRET="$OAUTH_GOOGLE_CLIENT_SECRET" \
+          --build-arg OAUTH_KAKAO_CLIENT_ID="$OAUTH_KAKAO_CLIENT_ID" \
+          --build-arg SEARCH_ALADIN_API_KEY="$SEARCH_ALADIN_API_KEY" \
+          --build-arg SEARCH_DATA4LIBRARY_API_KEY="$SEARCH_DATA4LIBRARY_API_KEY" \
           -t jinkpark/book-it-out:v2 .
+          
           docker push $DOCKERHUB_IMAGE_NAME
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
