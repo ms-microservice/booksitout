@@ -5,10 +5,10 @@ import NoSearchResult from './NoSearchResult'
 import Error from '../common/Error'
 import SearchNotConfigured from './SearchNotConfigured'
 
-import { UsedBook } from './BookType'
 import '../../resources/css/bookSearchCard.css'
 import '../../resources/css/customCarousel.css'
 import utils from '../../functions/utils'
+import { UsedBook } from './BookType'
 
 const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isConfigured }) => {
 	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])

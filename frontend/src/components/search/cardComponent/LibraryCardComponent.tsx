@@ -30,7 +30,7 @@ const LibraryCardComponent = ({ book }) => {
 									return (
 										<h6>
 											<img src={libraryIcon} alt='' className='img-fluid me-2' style={{ width: '20px' }} />
-											<span className='mt-2'>{library.name}</span>
+											<span className='mt-2'>{library.name.slice(0, 12)}</span>
 										</h6>
 									)
 								})}

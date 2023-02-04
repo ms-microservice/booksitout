@@ -1,17 +1,26 @@
+import { useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import search from '../../../functions/search'
 
 const OnlineLibraryLabel = () => {
-	const onlineLibraryList = search.local.settings.onlineLibrary.display()
+	const onlineLibraryList = search.local.settings.onlineLibrary.api() !== '' ? 
+		search.local.settings.onlineLibrary.api().split(",").map((l) => search.data.onlineLibrary.find((library) => library.key === l)) :
+		[]
 
-	if (onlineLibraryList === '') return <></>
+		useEffect(() => {
+			console.log(onlineLibraryList)
+		}, [])
+
+	if (onlineLibraryList.length === 0 || typeof onlineLibraryList === 'undefined') return <></>
 	return (
 		<div className='row justify-content-end'>
-			{onlineLibraryList.split(',').map((onlineLibrary) => {
+			{onlineLibraryList.map((onlineLibrary) => {
 				return (
-					<div className='col-6 col-lg-2 mb-1'>
-						<Card className='text-center text-secondary'>{onlineLibrary}</Card>
-					</div>
+					<a href={search.getLink(onlineLibrary?.key ?? '')} 
+						target='_blank' rel="noreferrer"
+						className='col-6 col-lg-2 mb-1 text-decoration-none text-black'>
+						<Card className='text-center text-secondary'>{onlineLibrary?.name}</Card>
+					</a>
 				)
 			})}
 		</div>

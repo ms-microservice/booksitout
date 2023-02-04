@@ -18,14 +18,25 @@ const LibraryDetailModal = () => {
 			) : (
 				<>
 					<Modal.Header closeButton>
-						<h3>{searchResult.book.title.slice(0, 50)}</h3>
-						<h5 className='text-secondary ms-3'>{searchResult.book.author}</h5>
+						<h3 className='mb-0'>
+							{searchResult.book.title.slice(0, 50)}
+
+							<br />
+
+							<h5 className='text-secondary mt-1'>{searchResult.book.author}</h5>
+						</h3>
 					</Modal.Header>
 
 					<Modal.Body>
 						<div className='row'>
 							<div className='col-lg-3'>
-								<img src={searchResult.book.cover} alt='' className='img-fluid w-100' />
+
+								<div className='row justify-content-center'>
+									<div className='col-8 col-lg-12'>
+										<img src={searchResult.book.cover} alt='' className='img-fluid w-100' />
+									</div>
+								</div>
+
 							</div>
 
 							<div className='col-lg-9'>
@@ -51,11 +62,11 @@ const LibraryInfo = ({ library }) => {
 			<Card className=''>
 				<Card.Body>
 					<div className='row'>
-						<div className='col-lg-1'>
+						<div className='col-2 text-center'>
 							<img src={libraryIcon} alt='' className='img-fluid' style={{ width: '40px' }} />
 						</div>
 
-						<div className='col-lg-9'>
+						<div className='col-10'>
 							<h5 className='mt-0'>{library.name}</h5>
 							<h6 className='text-secondary mb-0'>{library.address}</h6>
 						</div>

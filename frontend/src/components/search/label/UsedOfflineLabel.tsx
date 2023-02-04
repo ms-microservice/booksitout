@@ -19,7 +19,9 @@ const UsedOfflineLabel = () => {
 	return (
 		<>
 			{usedOfflineList.split(',').map((used) => {
-				return <img src={getImage(used)} alt='' className={`${baseClassName}`} style={iconStyle} />
+				return <a href={search.getLink(used)} target='_blank' rel="noreferrer" >
+					<img src={getImage(used)} alt='' className={`${baseClassName}`} style={iconStyle} />
+				</a>
 			})}
 		</>
 	)

@@ -24,7 +24,9 @@ const SubscriptionLabel = () => {
 	return (
 		<>
 			{subscriptionList.split(',').map((subscription) => {
-				return <img src={getImage(subscription)} alt='' className={`${baseClassName}`} style={iconStyle} />
+				return <a href={search.getLink(subscription)} target='_blank' rel="noreferrer">
+					<img src={getImage(subscription)} alt='' className={`${baseClassName}`} style={iconStyle} />
+				</a>
 			})}
 		</>
 	)
