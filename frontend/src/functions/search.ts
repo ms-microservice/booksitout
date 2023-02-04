@@ -55,22 +55,25 @@ const search = {
 
 			library: {
 				isConfigured: (): boolean => {
-					return localStorage.getItem('search-library-region-api') !== '' && localStorage.getItem('search-library-region-detail-api') !== ''
+					const regionKey = localStorage.getItem('search-library-region-api')
+					const regionDetailKey = localStorage.getItem('search-library-region-api')
+					
+					return regionKey !== '' && regionDetailKey !== '' && regionKey !== 'null' && regionDetailKey !== 'null'
 				},
 
 				display: {
 					region: () => {
 						const apiKey = localStorage.getItem('search-library-region-api')
-						if (apiKey === '') return ''
+						if (apiKey === '' || apiKey === null) return ''
 
-						return search.data.region.find((r) => r.value === apiKey)?.displayName
+						return search.data.region.find((r) => r.value === apiKey)?.displayName ?? ''
 					},
 					regionDetail: () => {
 						const regionApiKey = localStorage.getItem('search-library-region-api')
 						const apiKey = localStorage.getItem('search-library-region-detail-api')
-						if (regionApiKey === '' || apiKey === '') return ''
+						if (regionApiKey === '' || apiKey === '' || regionApiKey == null || apiKey == null) return ''
 
-						return search.data.regionDetail.get(regionApiKey!)?.find((r) => r.value === apiKey)?.displayName
+						return search.data.regionDetail.get(regionApiKey!)?.find((r) => r.value === apiKey)?.displayName ?? ''
 					},
 				},
 
@@ -85,12 +88,10 @@ const search = {
 				},
 
 				update: {
-					region: (displayRegion: string, apiRegion: string) => {
-						localStorage.setItem('search-library-region-display', displayRegion)
+					region: (apiRegion: string) => {
 						localStorage.setItem('search-library-region-api', apiRegion)
 					},
-					regionDetail: (displayRegionDetail: string, apiRegionDetail: string) => {
-						localStorage.setItem('search-library-region-detail-display', displayRegionDetail)
+					regionDetail: (apiRegionDetail: string) => {
 						localStorage.setItem('search-library-region-detail-api', apiRegionDetail)
 					},
 				},
@@ -98,7 +99,8 @@ const search = {
 
 			onlineLibrary: {
 				isConfigured: (): boolean => {
-					return localStorage.getItem('search-library-online-api') !== ''
+					const key = localStorage.getItem('search-library-online-api')
+					return key !== '' && key !== 'null'
 				},
 				display: () => {
 					return localStorage.getItem('search-library-online-display') ?? ''
@@ -110,7 +112,8 @@ const search = {
 
 			subscription: {
 				isConfigured: (): boolean => {
-					return localStorage.getItem('search-subscription-api') !== ''
+					const key = localStorage.getItem('search-subscription-api')
+					return key !== '' && key !== 'null'
 				},
 				display: () => {
 					return localStorage.getItem('search-subscription-display') ?? ''
@@ -122,7 +125,8 @@ const search = {
 
 			usedOnline: {
 				isConfigured: (): boolean => {
-					return localStorage.getItem('search-used-online-api') !== ''
+					const key = localStorage.getItem('search-used-online-api')
+					return key !== '' && key !== 'null'
 				},
 				display: () => {
 					return localStorage.getItem('search-used-online-display') ?? ''
@@ -134,7 +138,8 @@ const search = {
 
 			usedOffline: {
 				isConfigured: (): boolean => {
-					return localStorage.getItem('search-used-offline-api') !== ''
+					const key = localStorage.getItem('search-used-offline-api')
+					return key !== '' && key != 'null'
 				},
 				display: () => {
 					return localStorage.getItem('search-used-offline-display') ?? ''
