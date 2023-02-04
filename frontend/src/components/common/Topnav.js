@@ -174,6 +174,7 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}, [location])
 
 	const handleSearch = (keyword, e) => {
+		e.target[0].blur()
 		e.preventDefault()
 
 		if (keyword.length >= 2) {
@@ -184,11 +185,7 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}
 
 	return (
-		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)} onKeyUp={((e) => {
-			if (e.keyCode === 13) {
-				this.blur()
-			}
-		})}>
+		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)}>
 			<Form.Control
 				type='search'
 				placeholder='책 검색'
