@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.response.subscription;
+package com.jinkyumpark.bookitout.search.provider;
 
 public enum SubscriptionProvider {
     YES24,

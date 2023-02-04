@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.search.apiResponse.aladin;
 
-import com.jinkyumpark.bookitout.search.response.used.UsedBookProvider;
-import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResult;
+import com.jinkyumpark.bookitout.search.provider.UsedBookProvider;
+import com.jinkyumpark.bookitout.search.response.searchResult.UsedBookSearchResult;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

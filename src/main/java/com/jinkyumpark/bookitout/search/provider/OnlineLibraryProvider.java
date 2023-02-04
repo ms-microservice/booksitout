@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.response.library;
+package com.jinkyumpark.bookitout.search.provider;
 
 public enum OnlineLibraryProvider {
     SEOUL_LIBRARY,

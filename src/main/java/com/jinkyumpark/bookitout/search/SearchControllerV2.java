@@ -4,17 +4,17 @@ import com.jinkyumpark.bookitout.book.BookService;
 import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinItem;
 import com.jinkyumpark.bookitout.search.request.KoreaRegion;
 import com.jinkyumpark.bookitout.search.request.SeoulRegionDetail;
-import com.jinkyumpark.bookitout.search.response.*;
 import com.jinkyumpark.bookitout.book.model.Book;
 import com.jinkyumpark.bookitout.common.exception.http.BadRequestException;
 import com.jinkyumpark.bookitout.search.response.library.*;
-import com.jinkyumpark.bookitout.search.response.used.UsedBookProvider;
-import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResponse;
-import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResult;
+import com.jinkyumpark.bookitout.search.provider.UsedBookProvider;
+import com.jinkyumpark.bookitout.search.response.searchResult.*;
+import com.jinkyumpark.bookitout.search.response.UsedBookSearchResponse;
 import com.jinkyumpark.bookitout.search.service.SearchBookService;
 import com.jinkyumpark.bookitout.search.service.SearchLibraryService;
 import com.jinkyumpark.bookitout.search.service.SearchSubscriptionService;
 import com.jinkyumpark.bookitout.search.service.SearchUsedService;
+import com.jinkyumpark.bookitout.settings.model.MyBookSearchRange;
 import com.jinkyumpark.bookitout.user.login.LoginAppUser;
 import com.jinkyumpark.bookitout.user.login.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -62,14 +62,14 @@ public class SearchControllerV2 {
     }
 
     @GetMapping("library/by-region")
-    public List<OfflineLibrarySearchResultV2> getLibrarySearchResultByRegion(@RequestParam("query") String query,
-                                                                             @RequestParam("region") String region,
-                                                                             @RequestParam("region-detail") String regionDetail) {
+    public List<OfflineLibrarySearchResult> getLibrarySearchResultByRegion(@RequestParam("query") String query,
+                                                                           @RequestParam("region") String region,
+                                                                           @RequestParam("region-detail") String regionDetail) {
         List<AladinItem> aladinResponse = searchBookService.getAladinItemByQuery(query, 5);
         Map<String, AladinItem> isbnToAladinItemMap = aladinResponse.stream()
                 .collect(Collectors.toMap(AladinItem::getIsbn13, Function.identity()));
 
-        List<OfflineLibrarySearchResultV2> result = new ArrayList<>();
+        List<OfflineLibrarySearchResult> result = new ArrayList<>();
         for (String isbn : isbnToAladinItemMap.keySet()) {
             List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibrary(
                     isbn,
@@ -79,7 +79,7 @@ public class SearchControllerV2 {
 
             if (availableLibraryList.isEmpty()) continue;
 
-            result.add(OfflineLibrarySearchResultV2.builder()
+            result.add(OfflineLibrarySearchResult.builder()
                     .book(LibraryBook.builder()
                             .title(isbnToAladinItemMap.get(isbn).getTitle())
                             .author(isbnToAladinItemMap.get(isbn).getAuthor())
@@ -113,18 +113,13 @@ public class SearchControllerV2 {
 
         List<SubscriptionSearchResult> searchResultList = new ArrayList<>();
 
-        if (includeList.contains("MILLIE")) {
-            searchSubscriptionService.getMilleSearchResult(query);
-        }
-
-        if (includeList.contains("RIDI")) {
-            searchSubscriptionService.getRidiSearchResult(query);
-        }
-
-        if (includeList.contains("YES24")) {
-            List<SubscriptionSearchResult> yes24SearchResult = searchSubscriptionService.getYes24SearchResult(query);
-            searchResultList.addAll(yes24SearchResult);
-        }
+        if (includeList.contains("MILLIE"))
+            searchResultList.addAll(searchSubscriptionService.getMilleSearchResult(query));
+        if (includeList.contains("RIDI")) searchResultList.addAll(searchSubscriptionService.getRidiSearchResult(query));
+        if (includeList.contains("YES24"))
+            searchResultList.addAll(searchSubscriptionService.getYes24SearchResult(query));
+        if (includeList.contains("KYOBO"))
+            searchResultList.addAll(searchSubscriptionService.getKyoboSearchResult(query));
 
         return searchResultList;
     }
@@ -132,12 +127,14 @@ public class SearchControllerV2 {
     // 교보분고, 알라딘, YES24
     @GetMapping("used")
     public UsedBookSearchResponse getUsedOnlineSearchResult(@RequestParam("query") String query,
-                                                            @RequestParam("include") List<String> includeList) {
-        if (includeList.isEmpty()) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
+                                                            @RequestParam("include-online") List<String> includeOnlineList,
+                                                            @RequestParam("include-offline") List<String> includeOfflineList) {
+        if (includeOnlineList.isEmpty() && includeOfflineList.isEmpty())
+            throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
 
         UsedBookSearchResponse result = new UsedBookSearchResponse();
 
-        if (includeList.contains("ALADIN")) {
+        if (includeOnlineList.contains("ALADIN") || includeOfflineList.contains("ALADIN")) {
             List<AladinItem> aladinItemList = searchUsedService.getAladinUsedBook(query);
 
             List<UsedBookSearchResult> aladinOnlineSearchResult = aladinItemList.stream()
@@ -148,17 +145,16 @@ public class SearchControllerV2 {
                     .filter(item -> item.getSubInfo() != null && item.getSubInfo().getUsedList().getSpaceUsed().getItemCount() != 0)
                     .map(item -> item.toUsedBookSearchResult(UsedBookProvider.OFFLINE_ALADIN)).toList();
 
-            result.addOnlineList(aladinOnlineSearchResult);
-            result.addOfflineList(aladinOfflineSearchResult);
+            if (includeOnlineList.contains("ALADIN")) result.addOnlineList(aladinOnlineSearchResult);
+            if (includeOfflineList.contains("ALADIN")) result.addOfflineList(aladinOfflineSearchResult);
         }
 
-        if (includeList.contains("KYOBO")) {}
-
-        if (includeList.contains("YES24")) {
-            List<UsedBookSearchResult> yes24ResultList = searchUsedService.getYes24OfflineUsedBook(query);
-
-            result.addOfflineList(yes24ResultList);
-        }
+        if (includeOnlineList.contains("KYOBO")) result.addOnlineList(searchUsedService.getKyoboOnlineUsedBook(query));
+        if (includeOnlineList.contains("INTERPARK"))
+            result.addOnlineList(searchUsedService.getInterparkOnlineUsedBook(query));
+        if (includeOnlineList.contains("YES24")) result.addOnlineList(searchUsedService.getYes24OnlineUsedBook(query));
+        if (includeOfflineList.contains("YES24"))
+            result.addOfflineList(searchUsedService.getYes24OfflineUsedBook(query));
 
         return result;
     }

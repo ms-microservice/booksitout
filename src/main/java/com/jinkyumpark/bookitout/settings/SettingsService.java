@@ -12,8 +12,13 @@ import java.util.Optional;
 public class SettingsService {
     private final SettingsRepository settingsRepository;
 
+    public Settings getSettingsByAppUserId(Long appUserId) {
+        return settingsRepository.findByAppUserId(appUserId)
+                .orElse(null);
+    }
+
     @Transactional
-    public void changeRegion(SettingsDto settingsDto) {
+    public void updateSettings(SettingsDto settingsDto) {
         Optional<Settings> settingsOptional = settingsRepository.findByAppUserId(settingsDto.getAppUserId());
 
         if (settingsOptional.isEmpty()) {
@@ -22,5 +27,16 @@ public class SettingsService {
         }
 
         settingsOptional.get().update(settingsDto);
+    }
+
+    @Transactional
+    public void deleteRegionSettings(Long loginAppUserId) {
+        Optional<Settings> settingsOptional = settingsRepository.findByAppUserId(loginAppUserId);
+
+        if (settingsOptional.isEmpty()) {
+            return;
+        }
+
+        settingsOptional.get().deleteRegion();
     }
 }

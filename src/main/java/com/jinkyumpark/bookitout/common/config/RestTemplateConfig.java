@@ -2,6 +2,7 @@ package com.jinkyumpark.bookitout.common.config;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.DeserializationContext;
+import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.deser.std.StdDeserializer;
 import com.fasterxml.jackson.databind.json.JsonMapper;
@@ -45,6 +46,7 @@ public class RestTemplateConfig {
         JavaTimeModule javaTimeModule = new JavaTimeModule();
         LocalDateTimeSerializer localDateTimeSerializer = new LocalDateTimeSerializer(DateTimeFormatter.ISO_LOCAL_DATE_TIME.withZone(ZoneId.of("Asia/Seoul")));
         javaTimeModule.addSerializer(LocalDateTime.class, localDateTimeSerializer);
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
         mapper.registerModule(new JavaTimeModule());
         mapper.registerModule(
                 new SimpleModule().addDeserializer(String.class, new StdDeserializer<>(String.class) {

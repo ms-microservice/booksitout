@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.response.used;
+package com.jinkyumpark.bookitout.search.provider;
 
 public enum UsedBookProvider {
     ONLINE_ALADIN,

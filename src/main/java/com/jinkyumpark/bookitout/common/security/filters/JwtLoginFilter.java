@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.jinkyumpark.bookitout.common.config.JwtConfig;
 import com.jinkyumpark.bookitout.common.exception.http.NotLoginException;
+import com.jinkyumpark.bookitout.settings.SettingsService;
 import com.jinkyumpark.bookitout.user.AppUser;
 import com.jinkyumpark.bookitout.common.security.token.AppUserAuthenticationToken;
 import com.jinkyumpark.bookitout.user.request.EmailPasswordLoginRequest;
@@ -29,6 +30,9 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
     private final AuthenticationManager authenticationManager;
     private final JwtConfig jwtConfig;
     private final JwtUtils jwtUtils;
+    private final ObjectMapper objectMapper;
+
+    private final SettingsService settingsService;
 
     private static Boolean stayLogin = false;
 
@@ -57,8 +61,10 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                                             HttpServletResponse response,
                                             FilterChain chain,
                                             Authentication authResult) throws IOException {
+        Long appUserId = ((AppUser) authResult.getPrincipal()).getAppUserId();
+
         String token = jwtUtils.generateAccessToken(authResult.getName(),
-                ((AppUser) authResult.getPrincipal()).getAppUserId(),
+                appUserId,
                 authResult.getAuthorities(),
                 stayLogin
         );
@@ -76,12 +82,10 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
                 .name(appUserName)
                 .registerDate(registerDate)
                 .loginMethod(LoginMethod.MANUAL)
+                .settings(settingsService.getSettingsByAppUserId(appUserId))
                 .build();
 
-        ObjectMapper mapper = new ObjectMapper();
-        mapper.registerModule(new JavaTimeModule());
-
-        response.getWriter().write(mapper.writeValueAsString(loginSuccessResponse));
+        response.getWriter().write(objectMapper.writeValueAsString(loginSuccessResponse));
         response.getWriter().flush();
     }
 

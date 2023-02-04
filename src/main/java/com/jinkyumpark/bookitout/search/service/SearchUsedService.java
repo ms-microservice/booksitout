@@ -2,11 +2,9 @@ package com.jinkyumpark.bookitout.search.service;
 
 import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinItem;
 import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinResponse;
-import com.jinkyumpark.bookitout.search.apiResponse.kyobo.KyoboUsedBook;
-import com.jinkyumpark.bookitout.search.response.used.UsedBookProvider;
-import com.jinkyumpark.bookitout.search.response.used.UsedBookSearchResult;
+import com.jinkyumpark.bookitout.search.provider.UsedBookProvider;
+import com.jinkyumpark.bookitout.search.response.searchResult.UsedBookSearchResult;
 import lombok.RequiredArgsConstructor;
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -14,7 +12,6 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,9 +30,8 @@ public class SearchUsedService {
         return response.getItem();
     }
 
-    public List<KyoboUsedBook> getKyoboUsedBook(String query) {
-        String url = String.format("%s?keyword=%s&target=used",
-                environment.getProperty("search.kyobo.url"), query);
+    public List<UsedBookSearchResult> getKyoboOnlineUsedBook(String query) {
+        String url = String.format("https://search.kyobobook.co.kr/search?keyword=%s&gbCode=TOT&target=used", query);
 
         return List.of();
     }
@@ -43,14 +39,9 @@ public class SearchUsedService {
     public List<UsedBookSearchResult> getYes24OfflineUsedBook(String query) {
         String url = String.format("http://www.yes24.com/product/search?domain=STORE&query=%s&page=1&size=10&dispNo1=001", query);
 
-        Document document = null;
-        try {
-            document = Jsoup.connect(url).get();
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-
+        Document document = SearchService.getJsoupDocument(url);
         Element element = document.getElementById("yesSchList");
+        if (element == null) return List.of();
         Elements listElements = element.getElementsByTag("li");
 
         List<UsedBookSearchResult> usedBookSearchResultList = new ArrayList<>();
@@ -82,5 +73,13 @@ public class SearchUsedService {
         }
 
         return usedBookSearchResultList;
+    }
+
+    public List<UsedBookSearchResult> getInterparkOnlineUsedBook(String query) {
+        return List.of();
+    }
+
+    public List<UsedBookSearchResult> getYes24OnlineUsedBook(String query) {
+        return List.of();
     }
 }

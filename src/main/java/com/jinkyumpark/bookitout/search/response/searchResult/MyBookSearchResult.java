@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.response;
+package com.jinkyumpark.bookitout.search.response.searchResult;
 
 import lombok.Builder;
 import lombok.Getter;

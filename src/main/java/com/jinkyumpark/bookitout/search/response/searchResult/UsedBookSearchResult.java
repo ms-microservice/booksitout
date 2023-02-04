@@ -1,5 +1,6 @@
-package com.jinkyumpark.bookitout.search.response.used;
+package com.jinkyumpark.bookitout.search.response.searchResult;
 
+import com.jinkyumpark.bookitout.search.provider.UsedBookProvider;
 import lombok.Builder;
 import lombok.Getter;
 

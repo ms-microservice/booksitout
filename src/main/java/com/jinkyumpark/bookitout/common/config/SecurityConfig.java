@@ -1,7 +1,9 @@
 package com.jinkyumpark.bookitout.common.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.bookitout.common.security.filters.JwtTokenFilter;
 import com.jinkyumpark.bookitout.common.security.filters.JwtLoginFilter;
+import com.jinkyumpark.bookitout.settings.SettingsService;
 import com.jinkyumpark.bookitout.user.AppUserService;
 import com.jinkyumpark.bookitout.common.util.jwt.JwtUtils;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final SecretKey secretKey;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtils jwtUtils;
+    private final ObjectMapper objectMapper;
+    private final SettingsService settingsService;
 
     private final AppUserService appUserService;
 
@@ -45,7 +49,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .configurationSource(corsConfig.corsConfigurationSource())
                 .and()
 
-                .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, jwtUtils))
+                .addFilter(new JwtLoginFilter(authenticationManager(), jwtConfig, jwtUtils, objectMapper, settingsService))
                 .addFilterAfter(new JwtTokenFilter(secretKey, jwtConfig), JwtLoginFilter.class)
 
                 .authorizeRequests()

@@ -1,5 +1,6 @@
-package com.jinkyumpark.bookitout.search.response.used;
+package com.jinkyumpark.bookitout.search.response;
 
+import com.jinkyumpark.bookitout.search.response.searchResult.UsedBookSearchResult;
 import lombok.Getter;
 
 import java.util.ArrayList;
