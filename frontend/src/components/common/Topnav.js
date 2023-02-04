@@ -15,6 +15,7 @@ import uiSettings from '../../settings/ui'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
+import utils from '../../functions/utils';
 
 const Topnav = () => {
 	const navigate = useNavigate()
@@ -94,6 +95,7 @@ const Topnav = () => {
 											<div className='col-4'>
 												<JoinIcon className='me-2 ' />
 											</div>
+
 											<div className='col-xs-10 col-8'>회원가입</div>
 										</div>
 									</div>
@@ -109,6 +111,7 @@ const Topnav = () => {
 											<div className='col-4'>
 												<SettingIcon className='me-2' />
 											</div>
+
 											<div className='col-xs-10 col-8'>설정</div>
 										</div>
 									</div>
@@ -174,6 +177,7 @@ const SearchBar = ({ expand = 'lg' }) => {
 		e.preventDefault()
 
 		if (keyword.length >= 2) {
+			utils.closeKeyboard(e)
 			navigate(`/search/${keyword}`)
 		} else {
 			toast.error('2글자 이상의 검색어를 입력해 주세요')
