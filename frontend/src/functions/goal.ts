@@ -3,11 +3,13 @@ import urls from '../settings/urls'
 import utils from './utils'
 
 const getGoalList = (duration = 5) => {
-	return axios.get(urls.api.goal.get.duration(duration), { headers: { Authorization: utils.getToken() } }).then((res) => res.data)
+	return axios.get(urls.api.goal.get.duration(duration), { headers: { Authorization: utils.getToken() } })
+		.then((res) => res.data)
 }
 
 const getGoal = (year) => {
-	return axios.get(urls.api.goal.get.year(year), { headers: { Authorization: utils.getToken() } }).then((res) => res.data)
+	return axios.get(urls.api.goal.get.year(year), { headers: { Authorization: utils.getToken() } })
+		.then((res) => res.data)
 }
 
 const addGoal = (year, goal) => {
