@@ -22,7 +22,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 			<Card.Body>
 				<div className='row'>
 					<div className='col-4 col-lg-4'>
-						<h3>
+						<h3 style={{ whiteSpace: 'nowrap' }}>
 							{label}
 							
 							<span className="d-lg-none"><br/></span>
@@ -31,7 +31,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 						</h3>
 					</div>
 
-					<div className='col-8 col-lg-8 text-end'>{labelComponent}</div>
+					<div className='col-8 col-lg-8 text-end' >{labelComponent}</div>
 				</div>
 
 				{!isConfigured ? (
