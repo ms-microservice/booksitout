@@ -37,8 +37,8 @@ public class SearchLibraryService {
     }
 
     public List<AvailableLibrary> getAvailableLibrary(String isbn, Integer regionCode, Integer regionDetailCode) {
-        String url = String.format("%s?authKey=%s&isbn=%s&region=%s&format=JS%s",
-                environment.getProperty("search.data4library.has-book-by-isbn.url"), environment.getProperty("search.data4library.api-key"),
+        String url = String.format("http://data4library.kr/api/libSrchByBook?authKey=%s&isbn=%s&region=%s&format=JS%s",
+                environment.getProperty("search.data4library.api-key"),
                 isbn, regionCode,
                 regionDetailCode == null ? "" : "&dtl_region=" + regionDetailCode);
 
