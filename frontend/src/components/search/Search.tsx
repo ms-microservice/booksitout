@@ -40,15 +40,22 @@ const Search = () => {
 		setLoading(true)
 
 		Promise.all([
-			search.myBook(query || '').then((result) => setMyBookList(result)),
-			search.settings.library.isConfigured() && search.library(query || '', search.settings.library.api.region(), search.settings.library.api.regionDetail()).then((result) => setLibraryBookList(result)),
-			search.settings.subscription.isConfigured() && search.subscription(query || '', search.settings.subscription.api()).then((result) => setSubscriptionBookList(result)),
+			
+			search.myBook(query || '')
+				.then((result) => setMyBookList(result)),
+
+			search.settings.library.isConfigured() && search.library(query || '', search.settings.library.api.region(), search.settings.library.api.regionDetail())
+				.then((result) => setLibraryBookList(result)),
+
+			search.settings.subscription.isConfigured() && search.subscription(query || '', search.settings.subscription.api())
+				.then((result) => setSubscriptionBookList(result)),
 
 			(search.settings.usedOnline.isConfigured() || search.settings.usedOffline.isConfigured()) &&
-				search.used(query || '', search.settings.usedOnline.api(), search.settings.usedOffline.api()).then((result) => {
-					setOnlineUsedBookList(result.online)
-					setOfflineUsedBookList(result.offline)
-				}),
+				search.used(query || '', search.settings.usedOnline.api(), search.settings.usedOffline.api())
+					.then((result) => {	setOnlineUsedBookList(result.online)
+													setOfflineUsedBookList(result.offline)
+					}),
+
 		]).finally(() => {
 			setLoading(false)
 			setInitial(false)
