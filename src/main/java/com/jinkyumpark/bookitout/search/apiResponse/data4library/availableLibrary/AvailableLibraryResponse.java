@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.apiResponse.library.offline.availableLibrary;
+package com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -45,6 +45,29 @@ const isKeyPresent = {
 
 const search = {
 
+	getLink: (label: string) => {
+		switch (label) {
+			case 'ALADIN':
+				return 'https://www.aladin.co.kr/home/welcome.aspx'
+			case 'YES24':
+				return 'http://www.yes24.com/Main/default.aspx'
+			case 'KYOBO':
+				return 'https://www.kyobobook.co.kr/'
+			case 'INTERPARK':
+				return 'https://book.interpark.com/bookPark/html/book.html'
+			case 'MILLIE':
+				return 'https://www.millie.co.kr/'
+			case 'RIDI':
+				return 'https://ridibooks.com/webtoon/recommendation'
+			case 'SEOUL_LIBRARY':
+				return 'https://elib.seoul.go.kr/main'
+			case 'SEOUL_EDUCATION_LIBRARY':
+				return 'https://lib.sen.go.kr/lib/index.do'
+			case 'NATIONAL_ASSEMBLY_LIBRARY':
+				return 'https://dl.nanet.go.kr/index.do'
+		}
+	},
+
 	local: {
 		settings: {
 			myBook: {
@@ -139,7 +162,7 @@ const search = {
 			usedOffline: {
 				isConfigured: (): boolean => {
 					const key = localStorage.getItem('search-used-offline-api')
-					return key !== '' && key != 'null'
+					return key !== '' && key !== 'null'
 				},
 				display: () => {
 					return localStorage.getItem('search-used-offline-display') ?? ''
@@ -290,19 +313,19 @@ const search = {
 		onlineLibrary: [
 			{
 				icon: seoulLibrary,
-				name: '서울 전자도서관',
+				name: '서울도서관',
 				key: 'SEOUL_LIBRARY',
 				included: isKeyPresent.libraryOnline('SEOUL_LIBRARY'),
 			},
 			{
 				icon: seoulEducationLibrary,
-				name: '서울교육청 전자도서관',
+				name: '서울교육청',
 				key: 'SEOUL_EDUCATION_LIBRARY',
 				included: isKeyPresent.libraryOnline('SEOUL_EDUCATION_LIBRARY'),
 			},
 			{
 				icon: nationalAssemblyLibrary,
-				name: '국회 전자도서관',
+				name: '국회도서관',
 				key: 'NATIONAL_ASSEMBLY_LIBRARY',
 				included: isKeyPresent.libraryOnline('NATIONAL_ASSEMBLY_LIBRARY'),
 			},

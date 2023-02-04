@@ -1,5 +1,6 @@
 <p align="center">
-  <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/215242113-b2a0a6cb-7fae-4fd8-870d-60837baa17e3.png">  
+  <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/216772091-60ecaf03-e77a-4d82-a70e-61822f78b6ab.png">
+  <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/216772022-eefff65d-08fa-4f09-9fbe-d61d33f91db8.png">
 </p>
 
 # 직접 사용해 보기
@@ -23,7 +24,7 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ### DB
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
-![jpa](https://img.shields.io/badge/JPA-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
+![jpa](https://img.shields.io/badge/JPA-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) (Hibernate, QueryDSL)
 
 ### Server
 ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
@@ -33,6 +34,7 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
+![ReactiveX](https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white)
 
 ### Frontend
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)

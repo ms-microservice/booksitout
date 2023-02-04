@@ -2,7 +2,9 @@ package com.jinkyumpark.bookitout.book.request;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @AllArgsConstructor
 @Getter
 public class BookEditRequest {

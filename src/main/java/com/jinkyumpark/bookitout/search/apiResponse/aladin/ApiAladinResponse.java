@@ -8,7 +8,7 @@ import java.util.List;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter
-public class AladinResponse {
+public class ApiAladinResponse {
     private String version;
     private String logo;
     private String title;
@@ -22,5 +22,5 @@ public class AladinResponse {
     private String searchCategoryName;
     private String imageUrl;
 
-    private List<AladinItem> item;
+    private List<ApiAladinItem> item;
 }
