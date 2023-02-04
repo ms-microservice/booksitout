@@ -177,7 +177,6 @@ const SearchBar = ({ expand = 'lg' }) => {
 		e.preventDefault()
 
 		if (keyword.length >= 2) {
-			utils.closeKeyboard(e)
 			navigate(`/search/${keyword}`)
 		} else {
 			toast.error('2글자 이상의 검색어를 입력해 주세요')
@@ -185,7 +184,11 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}
 
 	return (
-		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)}>
+		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)} onKeyUp={((e) => {
+			if (e.keyCode === 13) {
+				this.blur()
+			}
+		})}>
 			<Form.Control
 				type='search'
 				placeholder='책 검색'
