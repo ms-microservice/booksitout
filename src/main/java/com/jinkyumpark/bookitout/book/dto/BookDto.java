@@ -53,7 +53,7 @@ public class BookDto {
                 .title(title)
                 .author(author)
                 .cover(cover)
-                .isGiveUp(isSharing)
+                .isSharing(isSharing)
                 .appUser(new AppUser(appUserId))
                 .form(form)
                 .category(category)
