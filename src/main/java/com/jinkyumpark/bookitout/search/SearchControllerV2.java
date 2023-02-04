@@ -102,6 +102,10 @@ public class SearchControllerV2 {
 
         if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
             result.addAll(searchLibraryService.getSeoulEducationLibrarySearchResult(query));
+        if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
+            result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query));
+        if (includeList.contains("NATIONAL_ASSEMBLY_LIBRARY"))
+            result.addAll(searchLibraryService.getNationalAssemblyLibrary(query));
 
         return result;
     }
@@ -115,7 +119,8 @@ public class SearchControllerV2 {
 
         if (includeList.contains("MILLIE"))
             searchResultList.addAll(searchSubscriptionService.getMilleSearchResult(query));
-        if (includeList.contains("RIDI")) searchResultList.addAll(searchSubscriptionService.getRidiSearchResult(query));
+        if (includeList.contains("RIDI"))
+            searchResultList.addAll(searchSubscriptionService.getRidiSearchResult(query));
         if (includeList.contains("YES24"))
             searchResultList.addAll(searchSubscriptionService.getYes24SearchResult(query));
         if (includeList.contains("KYOBO"))
@@ -129,8 +134,7 @@ public class SearchControllerV2 {
     public UsedBookSearchResponse getUsedOnlineSearchResult(@RequestParam("query") String query,
                                                             @RequestParam("include-online") List<String> includeOnlineList,
                                                             @RequestParam("include-offline") List<String> includeOfflineList) {
-        if (includeOnlineList.isEmpty() && includeOfflineList.isEmpty())
-            throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
+        if (includeOnlineList.isEmpty() && includeOfflineList.isEmpty()) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
 
         UsedBookSearchResponse result = new UsedBookSearchResponse();
 
@@ -149,10 +153,12 @@ public class SearchControllerV2 {
             if (includeOfflineList.contains("ALADIN")) result.addOfflineList(aladinOfflineSearchResult);
         }
 
-        if (includeOnlineList.contains("KYOBO")) result.addOnlineList(searchUsedService.getKyoboOnlineUsedBook(query));
+        if (includeOnlineList.contains("KYOBO"))
+            result.addOnlineList(searchUsedService.getKyoboOnlineUsedBook(query));
         if (includeOnlineList.contains("INTERPARK"))
             result.addOnlineList(searchUsedService.getInterparkOnlineUsedBook(query));
-        if (includeOnlineList.contains("YES24")) result.addOnlineList(searchUsedService.getYes24OnlineUsedBook(query));
+        if (includeOnlineList.contains("YES24"))
+            result.addOnlineList(searchUsedService.getYes24OnlineUsedBook(query));
         if (includeOfflineList.contains("YES24"))
             result.addOfflineList(searchUsedService.getYes24OfflineUsedBook(query));
 

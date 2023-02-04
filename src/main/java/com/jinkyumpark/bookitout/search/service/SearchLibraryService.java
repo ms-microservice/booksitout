@@ -66,7 +66,8 @@ public class SearchLibraryService {
                 .toList();
     }
 
-    public List<OfflineLibraryAvailableSearchResult> getBookAvailabilityStatusFromNationalLibraryPublicApi(List<Integer> libraryCodeList, List<String> isbnList) {
+    public List<OfflineLibraryAvailableSearchResult> getBookAvailabilityStatusFromNationalLibraryPublicApi(List<Integer> libraryCodeList,
+                                                                                                           List<String> isbnList) {
         List<OfflineLibraryAvailableSearchResult> resultList = new ArrayList<>();
         for (Integer libraryCode : libraryCodeList) {
             for (String isbn : isbnList) {
@@ -151,5 +152,13 @@ public class SearchLibraryService {
         }
 
         return result;
+    }
+
+    public List<OnlineLibrarySearchResult> getSeoulLibrarySearchResult(String query) {
+        return List.of();
+    }
+
+    public List<OnlineLibrarySearchResult> getNationalAssemblyLibrary(String query) {
+        return List.of();
     }
 }
