@@ -174,7 +174,6 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}, [location])
 
 	const handleSearch = (keyword, e) => {
-		e.target[0].blur()
 		e.preventDefault()
 
 		if (keyword.length >= 2) {

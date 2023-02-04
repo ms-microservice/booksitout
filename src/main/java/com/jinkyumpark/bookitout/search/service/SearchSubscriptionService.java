@@ -25,6 +25,7 @@ public class SearchSubscriptionService {
 
         Document document = SearchService.getJsoupDocument(url);
         Element element = document.getElementById("yesSchList");
+        if (element == null) return List.of();
         Elements listElements = element.getElementsByTag("li");
 
         for (Element listElement : listElements) {
