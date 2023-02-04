@@ -22,7 +22,7 @@ const LibraryCardComponent = ({ book }) => {
 						</div>
 
 						<div className='col-9'>
-							<h5>{book.book.title.slice(0, 60)}</h5>
+							<h5>{book.book.title.slice(0, 40)}</h5>
 							<h6 className='text-secondary'>{book.book.author}</h6>
 
 							<div className='mt-4'>

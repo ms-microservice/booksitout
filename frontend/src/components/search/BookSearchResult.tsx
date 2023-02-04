@@ -24,7 +24,10 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 					<div className='col-6 col-lg-4'>
 						<h3>
 							{label}
-							{typeof bookList != 'undefined' && isConfigured && <span className='ms-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
+							
+							<span className="d-lg-none"><br/></span>
+
+							{typeof bookList != 'undefined' && isConfigured && <span className='ms-lg-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
 						</h3>
 					</div>
 
