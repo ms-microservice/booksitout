@@ -19,7 +19,7 @@ const OnlineLibraryLabel = () => {
 					<a href={search.getLink(onlineLibrary?.key ?? '')} 
 						target='_blank' rel="noreferrer"
 						className='col-6 col-lg-2 mb-1 text-decoration-none text-black'>
-						<Card className='text-center text-secondary'>{onlineLibrary?.name}</Card>
+						<span className='text-center text-secondary'>{onlineLibrary?.name}</span>
 					</a>
 				)
 			})}

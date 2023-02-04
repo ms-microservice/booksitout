@@ -21,7 +21,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 		<Card className='mt-3 mb-4' id='search-card'>
 			<Card.Body>
 				<div className='row'>
-					<div className='col-6 col-lg-4'>
+					<div className='col-4 col-lg-4'>
 						<h3>
 							{label}
 							
@@ -31,7 +31,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 						</h3>
 					</div>
 
-					<div className='col-6 col-lg-8 text-end'>{labelComponent}</div>
+					<div className='col-8 col-lg-8 text-end'>{labelComponent}</div>
 				</div>
 
 				{!isConfigured ? (
