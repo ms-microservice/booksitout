@@ -3,7 +3,6 @@ import { useParams } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
 import BookSearchResult from './BookSearchResult'
-
 import MyBookComponent from './cardComponent/MyBookCardComponent'
 import UsedBookComponent from './cardComponent/UsedBookCardComponent'
 import UsedOnlineLabel from './label/UsedOnlineLabel'
@@ -43,14 +42,13 @@ const Search = () => {
 		Promise.all([
 			search.myBook(query || '').then((result) => setMyBookList(result)),
 			search.settings.library.isConfigured() && search.library(query || '', search.settings.library.api.region(), search.settings.library.api.regionDetail()).then((result) => setLibraryBookList(result)),
+			search.settings.subscription.isConfigured() && search.subscription(query || '', search.settings.subscription.api()).then((result) => setSubscriptionBookList(result)),
 
 			(search.settings.usedOnline.isConfigured() || search.settings.usedOffline.isConfigured()) &&
-				search.used(query || '', 'ALADIN,YES24').then((result) => {
+				search.used(query || '', search.settings.usedOnline.api(), search.settings.usedOffline.api()).then((result) => {
 					setOnlineUsedBookList(result.online)
 					setOfflineUsedBookList(result.offline)
 				}),
-
-			search.settings.subscription.isConfigured() && search.subscription(query || '', search.settings.subscription.api()).then((result) => setSubscriptionBookList(result)),
 		]).finally(() => {
 			setLoading(false)
 			setInitial(false)
