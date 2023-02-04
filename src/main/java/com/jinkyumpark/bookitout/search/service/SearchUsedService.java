@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.search.service;
 
-import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinItem;
-import com.jinkyumpark.bookitout.search.apiResponse.aladin.AladinResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.aladin.ApiAladinItem;
+import com.jinkyumpark.bookitout.search.apiResponse.aladin.ApiAladinResponse;
 import com.jinkyumpark.bookitout.search.provider.UsedBookProvider;
 import com.jinkyumpark.bookitout.search.response.searchResult.UsedBookSearchResult;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +21,10 @@ public class SearchUsedService {
     private final RestTemplate restTemplate;
     private final Environment environment;
 
-    public List<AladinItem> getAladinUsedBook(String query) {
+    public List<ApiAladinItem> getAladinUsedBook(String query) {
         String url = String.format("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=%s&Query=%s&SearchTarget=USED&outofStockfilter=1&Output=JS&OptResult=usedList&version=20131101",
                 environment.getProperty("search.aladin.api-key"), query);
-        AladinResponse response = restTemplate.getForObject(url, AladinResponse.class);
+        ApiAladinResponse response = restTemplate.getForObject(url, ApiAladinResponse.class);
 
         if (response == null) return List.of();
         return response.getItem();

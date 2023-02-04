@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.apiResponse.library.offline.isbn;
+package com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

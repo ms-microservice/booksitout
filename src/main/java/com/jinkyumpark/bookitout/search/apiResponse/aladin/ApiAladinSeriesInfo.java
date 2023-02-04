@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter
-public class AladinUserUsed {
-    private Integer itemCount;
-    private Integer minPrice;
-    private String link;
+public class ApiAladinSeriesInfo {
+    private Integer seriesId;
+    private String seriesLink;
+    private String seriesName;
 }

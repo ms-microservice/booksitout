@@ -1,12 +1,12 @@
 package com.jinkyumpark.bookitout.search.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jinkyumpark.bookitout.search.apiResponse.library.offline.availableLibrary.AvailableLibraryLibsLib;
-import com.jinkyumpark.bookitout.search.apiResponse.library.offline.availableLibrary.AvailableLibraryResponse;
-import com.jinkyumpark.bookitout.search.apiResponse.library.offline.hasbook.HasBookResponse;
-import com.jinkyumpark.bookitout.search.apiResponse.library.offline.isbn.NationalLibraryPublicApiBookSearchResponse;
-import com.jinkyumpark.bookitout.search.apiResponse.library.offline.isbn.LibrarySearchDoc;
-import com.jinkyumpark.bookitout.search.apiResponse.library.offline.isbn.LibrarySearchResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.AvailableLibraryLibsLib;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.AvailableLibraryResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.hasbook.HasBookResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.NationalLibraryPublicApiBookSearchResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.LibrarySearchDoc;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.LibrarySearchResponse;
 import com.jinkyumpark.bookitout.search.provider.OnlineLibraryProvider;
 import com.jinkyumpark.bookitout.search.response.library.*;
 import com.jinkyumpark.bookitout.search.response.searchResult.OnlineLibrarySearchResult;

@@ -1,5 +1,6 @@
 package com.jinkyumpark.bookitout.search.apiResponse.aladin;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.jinkyumpark.bookitout.search.provider.UsedBookProvider;
 import com.jinkyumpark.bookitout.search.response.searchResult.UsedBookSearchResult;
 import lombok.AllArgsConstructor;
@@ -10,15 +11,18 @@ import java.util.List;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter
-public class AladinItem {
+public class ApiAladinItem {
     private String title;
     private String link;
     private String author;
 
-    private String pubDate;
+    @JsonProperty("pubDate")
+    private String publicationDate;
+
     private String description;
     private String isbn;
     private String isbn13;
+
     private Integer itemId;
     private String mallType;
     private Integer mileage;
@@ -30,7 +34,7 @@ public class AladinItem {
     private Boolean fixedPrice;
     private Integer customerReviewRank;
     private String creator;
-    private AladinSeriesInfo seriesInfo;
+    private ApiAladinSeriesInfo seriesInfo;
 
     private Integer priceSales;
     private Integer priceStandard;
@@ -39,7 +43,7 @@ public class AladinItem {
 
     private String cover;
 
-    private AladinSubInfo subInfo;
+    private ApiAladinSubInfo subInfo;
 
     public UsedBookSearchResult toUsedBookSearchResult(UsedBookProvider usedBookProvider) {
         return UsedBookSearchResult.builder()
@@ -51,15 +55,15 @@ public class AladinItem {
 
                 .stockCount(
                         usedBookProvider == UsedBookProvider.ONLINE_ALADIN ?
-                        this.subInfo.getUsedList().getAladinUsed().getItemCount() : this.subInfo.getUsedList().getSpaceUsed().getItemCount()
+                        this.subInfo.getUsedList().getApiAladinUsed().getItemCount() : this.subInfo.getUsedList().getSpaceUsed().getItemCount()
                 )
                 .minPrice(
                         usedBookProvider == UsedBookProvider.ONLINE_ALADIN ?
-                                this.subInfo.getUsedList().getAladinUsed().getMinPrice() : this.subInfo.getUsedList().getSpaceUsed().getMinPrice()
+                                this.subInfo.getUsedList().getApiAladinUsed().getMinPrice() : this.subInfo.getUsedList().getSpaceUsed().getMinPrice()
                 )
                 .link(
                         usedBookProvider == UsedBookProvider.ONLINE_ALADIN ?
-                                this.subInfo.getUsedList().getAladinUsed().getLink().replaceAll("amp;", "") :
+                                this.subInfo.getUsedList().getApiAladinUsed().getLink().replaceAll("amp;", "") :
                                 this.subInfo.getUsedList().getSpaceUsed().getLink().replaceAll("amp;", "")
                 )
 
