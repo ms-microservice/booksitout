@@ -7,7 +7,7 @@ import java.util.List;
 
 @Builder
 @Getter
-public class OfflineLibrarySearchResultV2 {
+public class LibrarySearchResult {
     private LibraryBook book;
     private List<AvailableLibrary> libraryList;
 }

@@ -91,8 +91,17 @@ public class SearchControllerV2 {
     }
 
     @GetMapping("online-library")
-    public List<OfflineLibrarySearchResultV2> getOnlineLibrarySearchResult(@RequestParam("query") String query) {
-        return null;
+    public List<OnlineLibrarySearchResult> getOnlineLibrarySearchResult(@RequestParam("query") String query,
+                                                                        @RequestParam("include") List<String> includeList) {
+        if (query.length() < 2) throw new BadRequestException("");
+        if (includeList.size() == 0) throw new BadRequestException("");
+
+        List<OnlineLibrarySearchResult> result = new ArrayList<>();
+
+        if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
+            result.addAll(searchLibraryService.getSeoulEducationLibrarySearchResult(query));
+
+        return result;
     }
 
     @GetMapping("subscription")
