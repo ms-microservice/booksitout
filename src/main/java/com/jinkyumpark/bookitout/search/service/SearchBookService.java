@@ -16,8 +16,8 @@ public class SearchBookService {
     private final Environment environment;
 
     public List<AladinItem> getAladinItemByQuery(String query, int size) {
-        String requestUrl = String.format("%s?TTBKey=%s&Query=%s&Output=JS&version=20131101&MaxResults=%s",
-                environment.getProperty("search.aladin.url"), environment.getProperty("search.aladin.api-key"), query, size);
+        String requestUrl = String.format("http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=%s&Query=%s&Output=JS&version=20131101&MaxResults=%s",
+                environment.getProperty("search.aladin.api-key"), query, size);
 
         AladinResponse response = restTemplate.getForObject(requestUrl, AladinResponse.class);
 
