@@ -3,15 +3,21 @@ import urls from '../settings/urls'
 import utils from './utils'
 
 const getBookList = (range, page) => {
-	return axios.get(urls.api.book.get.all(range, page), { headers: { Authorization: utils.getToken() } }).then((res) => res.data)
+	return axios
+		.get(urls.api.book.get.all(range, page), { headers: { Authorization: utils.getToken() } })
+		.then((res) => res.data)
 }
 
 const getBook = (bookId) => {
-	return axios.get(urls.api.book.get.detail(bookId), { headers: { Authorization: utils.getToken() } }).then((res) => res.data)
+	return axios
+		.get(urls.api.book.get.detail(bookId), { headers: { Authorization: utils.getToken() } })
+		.then((res) => res.data)
 }
 
 const getLastBook = () => {
-	return axios.get(urls.api.book.get.last, { headers: { Authorization: utils.getToken() } }).then((res) => res.data)
+	return axios
+		.get(urls.api.book.get.last, { headers: { Authorization: utils.getToken() } })
+		.then((res) => res.data)
 }
 
 const addBook = (book) => {
