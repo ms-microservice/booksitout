@@ -98,7 +98,7 @@ public class AppUser extends TimeEntity implements UserDetails {
 
     public void saveOrUpdateOAuthUser(OAuthDto OAuthDto) {
         if (OAuthDto.getOAuthId() != null) this.oAuthId = OAuthDto.getOAuthId();
-        if (OAuthDto.getName() != null && name == null) this.name = OAuthDto.getName();
+        if (OAuthDto.getName() != null && this.name == null) this.name = OAuthDto.getName();
         if (OAuthDto.getProfileImage() != null) this.profileImage = OAuthDto.getProfileImage();
         if (OAuthDto.getOAuthProvider() != null) this.oAuthProvider = OAuthDto.getOAuthProvider();
     }
