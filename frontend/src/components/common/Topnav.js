@@ -185,7 +185,7 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}
 
 	return (
-		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)}>
+		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)} onKeyDown={(e) => { if(e.keyCode === 13) this.blur() }}>
 			<Form.Control
 				type='search'
 				placeholder='책 검색'
