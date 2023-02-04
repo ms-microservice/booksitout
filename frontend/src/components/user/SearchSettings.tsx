@@ -23,17 +23,20 @@ const SearchSettings = () => {
 	const onlineLibraryList = [
 		{
 			icon: seoulLibrary,
-			name: '서울 전자 도서관',
-			included: search.settings.onlineLibrary.isPresent('SEOUL-LIBRARY'),
+			name: '서울 전자도서관',
+			key: 'SEOUL_LIBRARY',
+			included: search.settings.onlineLibrary.isPresent('SEOUL_LIBRARY'),
 		},
 		{
 			icon: seoulEducationLibrary,
-			name: '서울교육청 전자 도서관',
-			included: search.settings.onlineLibrary.isPresent('SEOUL-EDUCATION-LIBRARY'),
+			name: '서울교육청 전자도서관',
+			key: 'SEOUL_EDUCATION_LIBRARY',
+			included: search.settings.onlineLibrary.isPresent('SEOUL_EDUCATION_LIBRARY'),
 		},
 		{
 			icon: nationalAssemblyLibrary,
-			name: '국회 전자 도서관',
+			name: '국회 전자도서관',
+			key: 'NATIONAL_ASSEMBLY_LIBRARY',
 			included: search.settings.onlineLibrary.isPresent('NATIONAL_ASSEMBLY_LIBRARY'),
 		},
 	]
@@ -41,21 +44,25 @@ const SearchSettings = () => {
 		{
 			icon: millie,
 			name: '밀리의 서재',
+			key: 'MILLIE',
 			included: search.settings.subscription.isPresent('MILLIE'),
 		},
 		{
 			icon: ridi,
 			name: '리디 셀렉트',
+			key: 'RIDI',
 			included: search.settings.subscription.isPresent('RIDI'),
 		},
 		{
 			icon: yes24,
 			name: 'YES24 북클럽',
+			key: 'YES24',
 			included: search.settings.subscription.isPresent('YES24'),
 		},
 		{
 			icon: kyobo,
 			name: '교보문고 SAM',
+			key: 'KYOBO',
 			included: search.settings.subscription.isPresent('KYOBO'),
 		},
 	]
@@ -63,21 +70,25 @@ const SearchSettings = () => {
 		{
 			icon: aladin,
 			name: '알라딘 직접배송',
+			key: 'ALADIN',
 			included: search.settings.usedOnline.isPresent('ALADIN'),
 		},
 		{
 			icon: yes24,
 			name: 'YES24',
+			key: 'YES24',
 			included: search.settings.usedOnline.isPresent('YES24'),
 		},
 		{
 			icon: kyobo,
 			name: '교보문고 중고',
+			key: 'KYOBO',
 			included: search.settings.usedOnline.isPresent('KYOBO'),
 		},
 		{
 			icon: interpark,
 			name: '인터파크 중고도서',
+			key: 'INTERPARK',
 			included: search.settings.usedOnline.isPresent('INTERPARK'),
 		},
 	]
@@ -85,11 +96,13 @@ const SearchSettings = () => {
 		{
 			icon: aladin,
 			name: '알라딘 우주점',
+			key: 'ALADIN',
 			included: search.settings.usedOffline.isPresent('ALADIN'),
 		},
 		{
 			icon: yes24,
 			name: 'YES24',
+			key: 'YES24',
 			included: search.settings.usedOffline.isPresent('YES24'),
 		},
 	]
@@ -109,19 +122,19 @@ const SearchSettings = () => {
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='전자 도서관 검색' includedLabel='검색 범위로 설정된 전자 도서관' excludedLabel='제외된 전자 도서관' initialServiceList={onlineLibraryList} />
+						<AddOrExcludeSearchSettings title='전자 도서관 검색' includedLabel='검색 범위로 설정된 전자 도서관' excludedLabel='제외된 전자 도서관' initialServiceList={onlineLibraryList} apiFunction={search.api.libraryOnline.changeSearchRange} localStorageKey='search-library-online' />
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='구독 서비스 검색' includedLabel='검색 범위로 설정된 구독 서비스' excludedLabel='제외된 구독 서비스' initialServiceList={subscriptionList} />
+						<AddOrExcludeSearchSettings title='구독 서비스 검색' includedLabel='검색 범위로 설정된 구독 서비스' excludedLabel='제외된 구독 서비스' initialServiceList={subscriptionList} apiFunction={search.api.subscription.changeSearchRange} localStorageKey='search-subscription' />
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='중고 (온라인) 검색' includedLabel='검색 범위로 설정된 구독 서비스' excludedLabel='제외된 중고 온라인' initialServiceList={usedOnlineList} />
+						<AddOrExcludeSearchSettings title='중고 (온라인) 검색' includedLabel='검색 범위로 설정된 구독 서비스' excludedLabel='제외된 중고 온라인' initialServiceList={usedOnlineList} apiFunction={search.api.usedOnline.changeSearchRange} localStorageKey='search-used-online' />
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='중고 매장 검색' includedLabel='검색 범위로 설정된 중고 매장' excludedLabel='제외된 중고 매장' initialServiceList={usedOfflineList} />
+						<AddOrExcludeSearchSettings title='중고 매장 검색' includedLabel='검색 범위로 설정된 중고 매장' excludedLabel='제외된 중고 매장' initialServiceList={usedOfflineList} apiFunction={search.api.usedOffline.changeSearchRange} localStorageKey='search-used-offline' />
 					</div>
 				</div>
 			</Card.Body>
@@ -130,7 +143,46 @@ const SearchSettings = () => {
 }
 
 const MyBookSettings = () => {
+	const initialRange: string = search.settings.myBook.range()
 	const [buttonDisabled, setButtonDisabled] = useState(true)
+	const [selectedRange, setSelectedRange] = useState(initialRange)
+
+	useEffect(() => {
+		setButtonDisabled(selectedRange === initialRange)
+	}, [selectedRange, initialRange])
+
+	const options = [
+		{
+			value: 'ALL',
+			display: '전체',
+		},
+		{
+			value: 'ONLY_READING',
+			display: '읽고 있는 책만',
+		},
+		{
+			value: 'ONLY_DONE',
+			display: '다 읽은 책만',
+		},
+		{
+			value: 'EXCLUDE_GIVE_UP',
+			display: '포기한 책만 빼고',
+		},
+	]
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault()
+
+		search.api.myBook.changeSearchRange(selectedRange).then((status) => {
+			if (status === 200) {
+				toast.success('내 책 검색 범위를 수정했어요')
+				localStorage.setItem('search-my-book-range', selectedRange)
+				setButtonDisabled(true)
+			} else {
+				toast.error(messages.error)
+			}
+		})
+	}
 
 	return (
 		<>
@@ -138,22 +190,25 @@ const MyBookSettings = () => {
 				<Card.Body>
 					<h4 className='mt-3 mb-3'>내 책 검색</h4>
 
-					<Form className='row justify-content-center align-items-center'>
+					<Form className='row justify-content-center align-items-center' onSubmit={(e) => handleSubmit(e)}>
 						<div className='col-4'>
 							<h6 className='mt-2'>검색 범위</h6>
 						</div>
 
 						<div className='col-8'>
-							<Form.Select>
-								<option>전체</option>
-								<option>읽고 있는 책만</option>
-								<option>다 읽은 책만</option>
-								<option>포기한 책만 빼고</option>
+							<Form.Select onChange={(e) => setSelectedRange(e.target.value)}>
+								{options.map((option) => {
+									return (
+										<option value={option.value} selected={initialRange === option.value}>
+											{option.display}
+										</option>
+									)
+								})}
 							</Form.Select>
 						</div>
 
 						<div className='col-12 col-lg-6 mt-4'>
-							<Button className='w-100' disabled={buttonDisabled}>
+							<Button type='submit' className='w-100' disabled={buttonDisabled}>
 								검색 범위 수정하기
 							</Button>
 						</div>
@@ -165,14 +220,6 @@ const MyBookSettings = () => {
 }
 
 const LibrarySearchSettings = () => {
-	const [modalOpen, setModalOpen] = useState(false)
-
-	const region = search.settings.library.display.region()
-	const regionDetail = search.settings.library.display.regionDetail()
-
-	const [editedRegion, setEditedRegion] = useState(search.settings.library.api.region())
-	const [editedRegionDetail, setEditedRegionDetail] = useState(regionDetail)
-
 	const regionData = [
 		{ displayName: '서울', value: 'SEOUL' },
 		{ displayName: '부산', value: 'BUSAN' },
@@ -220,6 +267,14 @@ const LibrarySearchSettings = () => {
 		{ value: 'GANGDONGGU', displayName: '강동구' },
 	]
 
+	const [modalOpen, setModalOpen] = useState(false)
+
+	const [region, setRegion] = useState(search.settings.library.display.region())
+	const [regionDetail, setRegionDetail] = useState(search.settings.library.display.regionDetail())
+
+	const [editedRegion, setEditedRegion] = useState(region === '' ? 'SEOUL' : search.settings.library.api.region())
+	const [editedRegionDetail, setEditedRegionDetail] = useState(regionDetail === '' ? 'JONGNOGU' : search.settings.library.api.regionDetail())
+
 	const handleSubmit = (e) => {
 		e.preventDefault()
 
@@ -235,11 +290,32 @@ const LibrarySearchSettings = () => {
 				search.settings.library.update.region(regionData.find((r) => r.value === editedRegion)?.displayName ?? '', editedRegion)
 				search.settings.library.update.regionDetail(regionDetailData.find((r) => r.value === editedRegionDetail)?.displayName ?? '', editedRegionDetail)
 
+				setRegion(search.settings.library.display.region())
+				setRegionDetail(search.settings.library.display.regionDetail())
+
 				setModalOpen(false)
 			} else {
 				toast.error(messages.error)
 			}
 		})
+	}
+
+	const handleDeleteRegion = () => {
+		if (window.confirm('설정된 지역을 삭제할까요?')) {
+			search.api.library.deleteRegion().then((status) => {
+				if (status === 200) {
+					toast.success('지역을 삭제했어요. 이제 도서관은 검색하지 않을게요')
+					localStorage.setItem('search-library-region-api', '')
+					localStorage.setItem('search-library-region-display', '')
+					localStorage.setItem('search-library-region-detail-api', '')
+					localStorage.setItem('search-library-region-detail-display', '')
+					setRegion('')
+					setRegionDetail('')
+				} else {
+					toast.error(messages.error)
+				}
+			})
+		}
 	}
 
 	return (
@@ -290,10 +366,18 @@ const LibrarySearchSettings = () => {
 						</h5>
 
 						<div className='col-12 col-lg-6 mt-3'>
-							<Button className='w-100' onClick={() => setModalOpen(true)}>
+							<Button className='w-100 mb-2' onClick={() => setModalOpen(true)}>
 								{region === '' && regionDetail === '' ? '지역 설정하기' : '지역 변경하기'}
 							</Button>
 						</div>
+
+						{region !== '' && regionDetail !== '' && (
+							<div className='col-12 col-lg-6 mt-3'>
+								<Button variant='danger' className='w-100 mb-2' onClick={() => handleDeleteRegion()}>
+									도서관은 검색 하지 않기
+								</Button>
+							</div>
+						)}
 					</div>
 				</Card.Body>
 			</Card>
@@ -301,27 +385,51 @@ const LibrarySearchSettings = () => {
 	)
 }
 
-const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initialServiceList }) => {
+const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initialServiceList, apiFunction, localStorageKey }) => {
 	const iconStyle = { widht: '50px', height: '50px' }
 
 	const [buttonDisabled, setButtonDisabled] = useState(true)
 	const [serviceList, setServiceList] = useState(initialServiceList)
 
-	const includeExclude = (name: string) => {
-		setServiceList(serviceList.map((s) => (s.name === name ? { ...s, included: !s.included } : s)))
+	const includeExclude = (key: string) => {
+		setServiceList(serviceList.map((s) => (s.key === key ? { ...s, included: !s.included } : s)))
 	}
 
 	useEffect(() => {
-		const filteredList = serviceList.filter((service) => initialServiceList.find((s) => s.name === service.name).included === service.included)
+		const filteredList = serviceList.filter((service) => initialServiceList.find((s) => s.key === service.key).included === service.included)
 		setButtonDisabled(filteredList.length >= serviceList.length)
 	}, [serviceList, initialServiceList])
+
+	const handleSubmit = (e) => {
+		e.preventDefault()
+
+		const range: string = serviceList
+			.filter((s) => s.included)
+			.map((s) => s.key)
+			.join(',')
+		const rangeDisplay: string = serviceList
+			.filter((s) => s.included)
+			.map((s) => s.name)
+			.join(',')
+
+		apiFunction(range).then((status) => {
+			if (status === 200) {
+				localStorage.setItem(`${localStorageKey}-api`, range.toUpperCase())
+				localStorage.setItem(`${localStorageKey}-display`, rangeDisplay)
+				toast.success(`${title} 범위를 수정했어요`)
+				setButtonDisabled(true)
+			} else {
+				toast.error(messages.error)
+			}
+		})
+	}
 
 	return (
 		<Card className='h-100'>
 			<Card.Body className='h-100'>
 				<h4 className='mt-3 mb-3'>{title}</h4>
 
-				<Form>
+				<Form onSubmit={(e) => handleSubmit(e)}>
 					<Card className='mb-3' style={{ height: '180px' }}>
 						<Card.Header style={{ backgroundColor: 'rgb(83, 165, 81)', color: 'white' }}>{includedLabel}</Card.Header>
 
@@ -331,7 +439,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 									.filter((s) => s.included)
 									.map((service) => {
 										return (
-											<div className='col-3 button-hover' onClick={() => includeExclude(service.name)}>
+											<div className='col-3 button-hover' onClick={() => includeExclude(service.key)}>
 												<DeleteIcon className='h5 text-danger ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />
@@ -352,7 +460,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 									.filter((s) => !s.included)
 									.map((service) => {
 										return (
-											<div className='col-3 button-hover' onClick={() => includeExclude(service.name)}>
+											<div className='col-3 button-hover' onClick={() => includeExclude(service.key)}>
 												<AddIcon className='h5 text-success ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />
@@ -366,7 +474,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 
 					<div className='row justify-content-center'>
 						<div className='col-12 col-lg-6'>
-							<Button className='w-100' disabled={buttonDisabled}>
+							<Button type='submit' className='w-100' disabled={buttonDisabled}>
 								수정하기
 							</Button>
 						</div>
