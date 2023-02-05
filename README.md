@@ -16,9 +16,9 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   내 독서활동을 기록 : 책을 읽을 떄 기록을 누르고, 끝날 때 종료를 누르면 내 독서활동을 기록해 줘요. 독서 중간중간에는 인상깊은 구절을 써 두거나, 내 생각을 메모할 수 있어요.
 -   내가 읽은 책을 기록 : 평점, 리뷰, 독서활동을 한 번에 볼 수 있어요.
 -   내 독서활동을 공유 : 특정 책이나 내 프로필을 다른 사람들과 공유할 수 있어요.
--   책 검색 : "책을 읽고 싶다"고 마음 먹어도, 새 책을 살지, 산다면 어디서 살지, 중고책을 살지, 도서관에 갈지, 전자책을 살지, 내가 구독하고 있는 전자책 플랫폼에 혹시 이 책이 있지는 않은지, 한 번에 모아서 알려줘요.
+-   책 검색 : 도서관, 전자 도서관, 구독 서비스, 중고서점... 이 모든 곳에서 한 번에 검색할 수 있어요.
 -   책 추천 : 내가 읽은 책, 혹은 내가 입력한 키워드를 바탕으로 책을 추천해 줘요.
--   좋은 UX : 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? 공공 API를 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책-it-out이 대신 책을 찾아드려요. 도서 예약도 대신 해 드릴 수 있어요.
+-   좋은 UX : 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? Open API와 Web Crawling을 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책잇아웃이 대신 책을 찾아드려요.
 
 # 🧑‍🔧 사용된 기술 (V2 기준)
 ### DB
@@ -69,7 +69,9 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
     - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
     - Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
     - DevOps : Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
-- 성능개선 : Spring Actuator, Spring Cloud Sleuth와 Zipkin을 사용해 병목 부분 찾아내 개선
+- 성능개선
+  - Spring Actuator, Spring Cloud Sleuth와 Zipkin을 사용해 병목 부분 찾아내 개선
+  - 검색 : Redis 도입해 서비스에 따라 유효기간 설정 후 이미 검색한 Query는 API 요청 하지 않도록 개선
 
 ### Architecture Diagram
 <p align="center">
