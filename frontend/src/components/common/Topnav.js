@@ -15,7 +15,6 @@ import uiSettings from '../../settings/ui'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
-import utils from '../../functions/utils'
 
 const Topnav = () => {
 	const navigate = useNavigate()
