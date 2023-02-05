@@ -7,8 +7,8 @@ const Error = ({ message = '오류가 났어요', color = 'text-danger' }) => {
 	}
 
 	return (
-		<div className='row justify-content-center mt-5 mb-5'>
-			<div className='col-8 text-center'>
+		<div className='row justify-content-center h-100 align-items-center vertical-center'>
+			<div className='col-8 text-center mb-5'>
 				<ErrorIcon className={color} style={iconStyle} />
 
 				<h3 className='mt-3'>{message}</h3>
