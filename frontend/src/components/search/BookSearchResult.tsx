@@ -52,7 +52,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 											<div className='row'>
 												<CardComponent book={bookArray[0]} />
 
-												{bookArray[1] != null ? <CardComponent book={bookArray[1]} /> : <div className='col-12 col-lg-6 m-2' style={{ height: '225px' }}/>}
+												{bookArray[1] != null ? <CardComponent book={bookArray[1]} /> : <div className='col-12 col-lg-6 m-2 d-lg-none' style={{ height: '225px' }}/>}
 											</div>
 										</Carousel.Item>
 									)
