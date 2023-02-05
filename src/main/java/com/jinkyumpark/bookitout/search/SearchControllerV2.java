@@ -71,7 +71,7 @@ public class SearchControllerV2 {
 
         List<OfflineLibrarySearchResult> result = new ArrayList<>();
         for (String isbn : isbnToAladinItemMap.keySet()) {
-            List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibrary(
+            List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibraryByRegion(
                     isbn,
                     KoreaRegion.valueOf(region).getApiRegionCode(),
                     SeoulRegionDetail.valueOf(regionDetail).getApiRegionCode()
@@ -106,6 +106,8 @@ public class SearchControllerV2 {
             result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query, 10));
         if (includeList.contains("NATIONAL_ASSEMBLY_LIBRARY"))
             result.addAll(searchLibraryService.getNationalAssemblyLibrary(query));
+        if (includeList.contains("GYEONGGI_EDUCATION_LIBRARY"))
+            result.addAll(searchLibraryService.getGyeonggiEducationLibrary(query));
 
         return result;
     }
