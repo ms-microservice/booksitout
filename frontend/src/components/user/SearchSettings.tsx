@@ -290,7 +290,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 				<h4 className='mt-3 mb-3'>{title}</h4>
 
 				<Form onSubmit={(e) => handleSubmit(e)}>
-					<Card className='mb-3' style={{ height: '180px', overflowY: 'scroll' }}>
+					<Card className='mb-3' style={{ height: '180px', overflow: serviceList.filter((s) => s.included).length > 4 ? 'scroll' : 'hidden'} }>
 						<Card.Header style={{ backgroundColor: 'rgb(83, 165, 81)', color: 'white' }}>{includedLabel}</Card.Header>
 
 						<Card.Body>
@@ -311,7 +311,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 						</Card.Body>
 					</Card>
 
-					<Card className='mb-3' style={{ height: '180px', overflowY: 'scroll' }}>
+					<Card className='mb-3' style={{ height: '180px', overflow: serviceList.filter((s) => !s.included).length > 4 ? 'scroll' : 'hidden'} }>
 						<Card.Header style={{ backgroundColor: 'rgb(203, 68, 74)', color: 'white' }}>{excludedLabel}</Card.Header>
 
 						<Card.Body>

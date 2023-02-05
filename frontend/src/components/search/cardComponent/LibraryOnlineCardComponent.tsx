@@ -22,7 +22,7 @@ const LibraryOnlineCardComponent = ({book}) => {
 								<h5>{book.title.slice(0, 50)}</h5>
 								<h6 className='text-secondary'>{book.author}</h6>
 
-								<div className='mt-4'>
+								<div className='mt-4 position-absolute' style={{bottom: '40px'}}>
 									<img src={libraryData?.icon ?? ''} alt='' className='img-fluid rounded me-3 border' style={{ width: '50px' }} />
 
 									{libraryData?.name ?? '?'}

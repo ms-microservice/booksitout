@@ -12,7 +12,7 @@ const OnlineLibraryLabel = () => {
 					<a href={search.getLink(onlineLibrary?.key ?? '')} 
 						target='_blank' rel="noreferrer"
 						className='col-6 col-lg-2 text-decoration-none text-black border'>
-						<span className='text-center text-secondary' style={{ whiteSpace: 'nowrap' }}>{onlineLibrary?.name.replace('도서관', '')}</span>
+						<span className='text-center text-secondary' style={{ whiteSpace: 'nowrap' }} >{onlineLibrary?.name.replace('도서관', '')}</span>
 					</a>
 				)
 			})}
