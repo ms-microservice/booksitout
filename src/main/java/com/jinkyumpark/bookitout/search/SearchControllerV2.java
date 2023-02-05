@@ -102,7 +102,7 @@ public class SearchControllerV2 {
 
         if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
             result.addAll(searchLibraryService.getSeoulEducationLibrarySearchResult(query));
-        if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
+        if (includeList.contains("SEOUL_LIBRARY"))
             result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query));
         if (includeList.contains("NATIONAL_ASSEMBLY_LIBRARY"))
             result.addAll(searchLibraryService.getNationalAssemblyLibrary(query));
