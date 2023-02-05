@@ -12,6 +12,7 @@ import yes24 from '../resources/images/search/yes24.png'
 import seoulLibrary from '../resources/images/search/seoul-library.png'
 import seoulEducationLibrary from '../resources/images/search/seoul-education-library.png'
 import nationalAssemblyLibrary from '../resources/images/search/national-assembly-library.png'
+import gyeonggiEducationLibrary from '../resources/images/search/gyeonggi-education.png'
 
 const isKeyPresent = {
 	libraryOnline: (apiKey: string) => {
@@ -203,6 +204,13 @@ const search = {
 					})
 			},
 
+			libraryOnline: (query: string, include: string) => {
+				return axios
+					.get(urls.api.search.libraryOnline(query, include))
+					.then((res) => res.data)
+					.catch(() => { return [] })
+			},
+
 			subscription: (query: string, include: string) => {
 				return axios
 					.get(urls.api.search.subscription(query, include))
@@ -328,6 +336,12 @@ const search = {
 				name: '국회도서관',
 				key: 'NATIONAL_ASSEMBLY_LIBRARY',
 				included: isKeyPresent.libraryOnline('NATIONAL_ASSEMBLY_LIBRARY'),
+			},
+			{
+				icon: gyeonggiEducationLibrary,
+				name: '경기교육도서관',
+				key: 'GYEONGGI_EDUCATION_LIBRARY',
+				included: isKeyPresent.libraryOnline('GYEONGGI_EDUCATION_LIBRARY'),
 			},
 		],
 

@@ -1,15 +1,14 @@
 package com.jinkyumpark.bookitout.search.service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.AvailableLibraryLibsLib;
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.AvailableLibraryResponse;
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.hasbook.HasBookResponse;
-import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.NationalLibraryPublicApiBookSearchResponse;
-import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.LibrarySearchDoc;
-import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.LibrarySearchResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.seoulLibrary.ApiSeoulLibraryBook;
+import com.jinkyumpark.bookitout.search.apiResponse.seoulLibrary.ApiSeoulLibraryResponse;
 import com.jinkyumpark.bookitout.search.provider.OnlineLibraryProvider;
 import com.jinkyumpark.bookitout.search.response.library.*;
 import com.jinkyumpark.bookitout.search.response.searchResult.OnlineLibrarySearchResult;
+import lombok.RequiredArgsConstructor;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -17,26 +16,17 @@ import org.jsoup.select.Elements;
 import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.IOException;
 import java.util.*;
 
+@RequiredArgsConstructor
 @Service
 public class SearchLibraryService {
     private final RestTemplate restTemplate;
     private final Environment environment;
-    private final WebClient webClient;
-    private final ObjectMapper objectMapper;
 
-    public SearchLibraryService(RestTemplate restTemplate, Environment environment, ObjectMapper objectMapper) {
-        this.restTemplate = restTemplate;
-        this.environment = environment;
-        this.objectMapper = objectMapper;
-        this.webClient = WebClient.builder().build();
-    }
-
-    public List<AvailableLibrary> getAvailableLibrary(String isbn, Integer regionCode, Integer regionDetailCode) {
+    public List<AvailableLibrary> getAvailableLibraryByRegion(String isbn, Integer regionCode, Integer regionDetailCode) {
         String url = String.format("http://data4library.kr/api/libSrchByBook?authKey=%s&isbn=%s&region=%s&format=JS%s",
                 environment.getProperty("search.data4library.api-key"),
                 isbn, regionCode,
@@ -55,19 +45,7 @@ public class SearchLibraryService {
                 .toList();
     }
 
-    public List<NationalLibraryPublicApiBookSearchResponse> getBookFromNationalLibraryPublicApiByQuery(String query) {
-        String url = String.format("%s?authKey=%s&keyword=%s&format=json&pageSize=10",
-                environment.getProperty("search.data4library.search.url"), environment.getProperty("search.data4library.api-key"), query);
-
-        LibrarySearchResponse response = restTemplate.getForObject(url, LibrarySearchResponse.class);
-
-        return response.getResponse().getDocs().stream()
-                .map(LibrarySearchDoc::getDoc)
-                .toList();
-    }
-
-    public List<OfflineLibraryAvailableSearchResult> getBookAvailabilityStatusFromNationalLibraryPublicApi(List<Integer> libraryCodeList,
-                                                                                                           List<String> isbnList) {
+    public List<OfflineLibraryAvailableSearchResult> getBookAvailabilityByLibrary(List<Integer> libraryCodeList, List<String> isbnList) {
         List<OfflineLibraryAvailableSearchResult> resultList = new ArrayList<>();
         for (Integer libraryCode : libraryCodeList) {
             for (String isbn : isbnList) {
@@ -87,6 +65,19 @@ public class SearchLibraryService {
             }
         }
         return resultList;
+    }
+
+    public List<OnlineLibrarySearchResult> getSeoulLibrarySearchResult(String query, int limit) {
+        String url = String.format("https://elib.seoul.go.kr/api/contents/search?searchKeyword=%s&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=%s&_=1675593987342", query, limit);
+
+        ApiSeoulLibraryResponse response = restTemplate.getForObject(url, ApiSeoulLibraryResponse.class);
+
+        if (response == null) return List.of();
+        if (response.getBookList() == null || response.getBookList().size() == 0) return List.of();
+
+        return response.getBookList().stream()
+                .map(ApiSeoulLibraryBook::toOnlineLibrarySearchResult)
+                .toList();
     }
 
     public List<OnlineLibrarySearchResult> getSeoulEducationLibrarySearchResult(String query) {
@@ -109,8 +100,6 @@ public class SearchLibraryService {
 //                    "viewQuery": "",
                     "query", "스프링"
             )).post();
-
-            System.out.println(document);
 
             Element ulElement = document.getElementsByClass("bbs_webzine elib").first();
             if (ulElement == null) return List.of();
@@ -154,11 +143,42 @@ public class SearchLibraryService {
         return result;
     }
 
-    public List<OnlineLibrarySearchResult> getSeoulLibrarySearchResult(String query) {
+    public List<OnlineLibrarySearchResult> getNationalAssemblyLibrary(String query) {
         return List.of();
     }
 
-    public List<OnlineLibrarySearchResult> getNationalAssemblyLibrary(String query) {
-        return List.of();
+    public List<OnlineLibrarySearchResult> getGyeonggiEducationLibrary(String query) {
+        String url = String.format("https://lib.goe.go.kr/gg/intro/search/index.do?menu_idx=10&viewPage=1&book_list=&title=%s&author=&publer=&keyword=&booktype=BOOK&shelfCode=&libraryCodes=MA&_libraryCodes=on&sortField=NONE&sortType=ASC&rowCount=10#search_result", query);
+
+        Document document = SearchService.getJsoupDocument(url);
+
+        Element bookListElement = document.getElementsByClass("imageType").first();
+        if (bookListElement == null) return List.of();
+
+        Elements bookList = bookListElement.getElementsByClass("row");
+        List<OnlineLibrarySearchResult> resultList = new ArrayList<>();
+        for (Element book : bookList) {
+            String title = book.getElementsByClass("book-title").first().getElementsByTag("span").text();
+
+            String bookInfoText = book.getElementsByClass("book-status-info").first().text();
+            String author = bookInfoText.substring(5, bookInfoText.indexOf('|'));
+
+            String cover = book.getElementsByTag("img").first().attr("src");
+            String link = book.getElementsByClass("book-title").first().attr("href");
+
+            Boolean loanPossible = book.getElementsByClass("state typeC").first().text().equals("대출가능");
+            Boolean reservationPossible = !book.getElementsByClass("state typeC").first().text().equals("예약불가");
+
+            resultList.add(OnlineLibrarySearchResult.builder()
+                    .title(title)
+                    .author(author)
+                    .cover(cover)
+                    .link("https://lib.goe.go.kr/gg/intro/search/" + link)
+                    .loanPossible(loanPossible)
+                    .reservationPossible(reservationPossible)
+                    .provider(OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY).build());
+        }
+
+        return resultList;
     }
 }

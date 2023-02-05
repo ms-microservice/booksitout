@@ -137,7 +137,8 @@ const urls = {
 			used: (query: string, includeOnline: string, includeOffline: string) => `${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
 			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,
 			libraryByLibrary: (query, includeLibraryCodeList) => `${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
-			libraryByRegion: (query, region, regionDetail) => `${apiBase}/v2/search/library/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+			libraryByRegion: (query, region, regionDetail) => `${apiBase}/v2/search/library/offline/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+			libraryOnline: (query, include) => `${apiBase}/v2/search/library/online?query=${query}&include=${include}`,
 
 			settings: {
 				myBook: {

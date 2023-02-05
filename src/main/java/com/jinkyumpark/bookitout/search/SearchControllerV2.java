@@ -61,7 +61,7 @@ public class SearchControllerV2 {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("library/by-region")
+    @GetMapping("library/offline/by-region")
     public List<OfflineLibrarySearchResult> getLibrarySearchResultByRegion(@RequestParam("query") String query,
                                                                            @RequestParam("region") String region,
                                                                            @RequestParam("region-detail") String regionDetail) {
@@ -71,7 +71,7 @@ public class SearchControllerV2 {
 
         List<OfflineLibrarySearchResult> result = new ArrayList<>();
         for (String isbn : isbnToAladinItemMap.keySet()) {
-            List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibrary(
+            List<AvailableLibrary> availableLibraryList = searchLibraryService.getAvailableLibraryByRegion(
                     isbn,
                     KoreaRegion.valueOf(region).getApiRegionCode(),
                     SeoulRegionDetail.valueOf(regionDetail).getApiRegionCode()
@@ -92,7 +92,7 @@ public class SearchControllerV2 {
         return result;
     }
 
-    @GetMapping("online-library")
+    @GetMapping("library/online")
     public List<OnlineLibrarySearchResult> getOnlineLibrarySearchResult(@RequestParam("query") String query,
                                                                         @RequestParam("include") List<String> includeList) {
         if (query.length() < 2) throw new BadRequestException("");
@@ -102,10 +102,12 @@ public class SearchControllerV2 {
 
         if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
             result.addAll(searchLibraryService.getSeoulEducationLibrarySearchResult(query));
-        if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
-            result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query));
+        if (includeList.contains("SEOUL_LIBRARY"))
+            result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query, 10));
         if (includeList.contains("NATIONAL_ASSEMBLY_LIBRARY"))
             result.addAll(searchLibraryService.getNationalAssemblyLibrary(query));
+        if (includeList.contains("GYEONGGI_EDUCATION_LIBRARY"))
+            result.addAll(searchLibraryService.getGyeonggiEducationLibrary(query));
 
         return result;
     }
@@ -132,8 +134,11 @@ public class SearchControllerV2 {
     // 교보분고, 알라딘, YES24
     @GetMapping("used")
     public UsedBookSearchResponse getUsedOnlineSearchResult(@RequestParam("query") String query,
-                                                            @RequestParam("include-online") List<String> includeOnlineList,
-                                                            @RequestParam("include-offline") List<String> includeOfflineList) {
+                                                            @RequestParam(value = "include-online", required = false) List<String> includeOnlineList,
+                                                            @RequestParam(value = "include-offline", required = false) List<String> includeOfflineList) {
+        if (includeOnlineList == null && includeOfflineList == null) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
+        if (includeOnlineList == null) includeOfflineList = List.of();
+        if (includeOfflineList == null) includeOfflineList = List.of();
         if (includeOnlineList.isEmpty() && includeOfflineList.isEmpty()) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
 
         UsedBookSearchResponse result = new UsedBookSearchResponse();
