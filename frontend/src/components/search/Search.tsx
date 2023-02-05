@@ -18,6 +18,7 @@ import search from '../../functions/search'
 import uiSettings from '../../settings/ui'
 // Types
 import { UsedBook, MyBook, LibraryBook, SubscriptionBook } from './BookType'
+import LibraryOnlineCardComponent from './cardComponent/LibraryOnlineCardComponent'
 
 const Search = () => {
 	const { query } = useParams()
@@ -52,6 +53,10 @@ const Search = () => {
 				search.api.search.subscription(query || '', search.local.settings.subscription.api())
 					.then((result) => setSubscriptionBookList(result)),
 
+			search.local.settings.onlineLibrary.isConfigured() &&
+				search.api.search.libraryOnline(query || '', search.local.settings.onlineLibrary.api())
+					.then((result) => setOnlineLibraryBookList(result)),
+
 			(search.local.settings.usedOnline.isConfigured() || search.local.settings.usedOffline.isConfigured()) &&
 				search.api.search.used(query || '', search.local.settings.usedOnline.api(), search.local.settings.usedOffline.api())
 					.then((result) => {	setOnlineUsedBookList(result.online)
@@ -73,7 +78,7 @@ const Search = () => {
 
 			<BookSearchResult label='내 책' labelComponent={<></>} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
 			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} />
-			<BookSearchResult label='전자도서관' labelComponent={<LibraryOnlineLabel />} bookList={onlineLibraryList} CardComponent={<></>} isConfigured={search.local.settings.onlineLibrary.isConfigured()} />
+			<BookSearchResult label='전자도서관' labelComponent={<LibraryOnlineLabel />} bookList={onlineLibraryList} CardComponent={LibraryOnlineCardComponent} isConfigured={search.local.settings.onlineLibrary.isConfigured()} />
 			<BookSearchResult label='구독' labelComponent={<SubscriptionLabel />} bookList={subscriptionList} CardComponent={SubscriptionComponent} isConfigured={search.local.settings.subscription.isConfigured()} />
 			<BookSearchResult label='중고온라인' labelComponent={<UsedOnlineLabel />} bookList={onlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOnline.isConfigured()} />
 			<BookSearchResult label='중고 매장' labelComponent={<UsedOfflineLabel />} bookList={offlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOffline.isConfigured()} />

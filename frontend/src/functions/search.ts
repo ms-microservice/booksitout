@@ -203,6 +203,13 @@ const search = {
 					})
 			},
 
+			libraryOnline: (query: string, include: string) => {
+				return axios
+					.get(urls.api.search.libraryOnline(query, include))
+					.then((res) => res.data)
+					.catch(() => { return [] })
+			},
+
 			subscription: (query: string, include: string) => {
 				return axios
 					.get(urls.api.search.subscription(query, include))
