@@ -16,7 +16,6 @@ import org.springframework.web.client.RestTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-@Slf4j
 @RequiredArgsConstructor
 @Service
 public class SearchSubscriptionService {
@@ -54,11 +53,16 @@ public class SearchSubscriptionService {
     }
 
     public List<SubscriptionSearchResult> getMilleSearchResult(String query) {
-        String url = String.format("https://www.millie.co.kr/v3/search/result/%s?type=total&contentcode=0&searchBack=y&nav_hidden=y&category=1&order=popular", query);
+        String url = String.format("https://live-api.millie.co.kr/v2/search/content?debug=1&searchType=content&keyword=%s&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1", query);
+        ApiMillieResponse millieResponse = restTemplate.getForObject(url, ApiMillieResponse.class);
 
-        Document document = SearchService.getJsoupDocument(url);
+        if (millieResponse == null) return List.of();
+        if (millieResponse.getRespData() == null) return List.of();
 
-        return List.of();
+        List<ApiMillieBook> bookList = millieResponse.getRespData().getList();
+        return bookList.stream()
+                .map(ApiMillieBook::toSubscriptionSearchResult)
+                .toList();
     }
 
     public List<SubscriptionSearchResult> getRidiSearchResult(String query) {
@@ -82,26 +86,29 @@ public class SearchSubscriptionService {
 
         List<SubscriptionSearchResult> subscriptionSearchResults = new ArrayList<>();
         for (Element product : productList) {
+            Elements bookIdElements = product.getElementsByTag("input");
+            Element bookIdElement = bookIdElements.first();
+            String bookId = bookIdElement != null ? bookIdElement.attr("data-bid") : null;
+
+            if (bookId == null) continue;
+
             Element titleElement = product.getElementsByClass("prod_info").first();
             String title = titleElement != null ? titleElement.getElementsByTag("span").last().text() : "?";
 
             Element authorElement = product.getElementsByClass("author").first();
             String author = authorElement != null ? authorElement.text() : "?";
 
-            Element coverElement = product.getElementsByClass("img_box").first();
-            String cover = coverElement != null ? coverElement.attr("src") : "";
-
             Element linkElement = product.getElementsByClass("btn_sm btn_light_gray").first();
             String link = linkElement != null ? linkElement.attr("href") : "";
 
             subscriptionSearchResults.add(SubscriptionSearchResult.builder()
-                            .title(title)
-                            .author(author)
-                            .cover(cover)
-                            .link(link)
-                            .provider(SubscriptionProvider.KYOBO).build());
+                    .title(title)
+                    .author(author)
+                    .cover(String.format("https://contents.kyobobook.co.kr/pdt/%s.jpg", bookId))
+                    .link(link)
+                    .provider(SubscriptionProvider.KYOBO).build());
         }
 
-        return subscriptionSearchResults;
+        return subscriptionSearchResults.stream().limit(5).toList();
     }
 }
