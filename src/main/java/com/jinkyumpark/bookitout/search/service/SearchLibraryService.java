@@ -7,6 +7,8 @@ import com.jinkyumpark.bookitout.search.apiResponse.data4library.hasbook.HasBook
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.NationalLibraryPublicApiBookSearchResponse;
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.LibrarySearchDoc;
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.isbn.LibrarySearchResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.seoulLibrary.ApiSeoulLibraryBook;
+import com.jinkyumpark.bookitout.search.apiResponse.seoulLibrary.ApiSeoulLibraryResponse;
 import com.jinkyumpark.bookitout.search.provider.OnlineLibraryProvider;
 import com.jinkyumpark.bookitout.search.response.library.*;
 import com.jinkyumpark.bookitout.search.response.searchResult.OnlineLibrarySearchResult;
@@ -66,8 +68,7 @@ public class SearchLibraryService {
                 .toList();
     }
 
-    public List<OfflineLibraryAvailableSearchResult> getBookAvailabilityStatusFromNationalLibraryPublicApi(List<Integer> libraryCodeList,
-                                                                                                           List<String> isbnList) {
+    public List<OfflineLibraryAvailableSearchResult> getBookAvailabilityStatusFromNationalLibraryPublicApi(List<Integer> libraryCodeList, List<String> isbnList) {
         List<OfflineLibraryAvailableSearchResult> resultList = new ArrayList<>();
         for (Integer libraryCode : libraryCodeList) {
             for (String isbn : isbnList) {
@@ -87,6 +88,19 @@ public class SearchLibraryService {
             }
         }
         return resultList;
+    }
+
+    public List<OnlineLibrarySearchResult> getSeoulLibrarySearchResult(String query, int limit) {
+        String url = String.format("https://elib.seoul.go.kr/api/contents/search?searchKeyword=%s&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=%s&_=1675593987342", query, limit);
+
+        ApiSeoulLibraryResponse response = restTemplate.getForObject(url, ApiSeoulLibraryResponse.class);
+
+        if (response == null) return List.of();
+        if (response.getBookList() == null || response.getBookList().size() == 0) return List.of();
+
+        return response.getBookList().stream()
+                .map(ApiSeoulLibraryBook::toOnlineLibrarySearchResult)
+                .toList();
     }
 
     public List<OnlineLibrarySearchResult> getSeoulEducationLibrarySearchResult(String query) {
@@ -109,8 +123,6 @@ public class SearchLibraryService {
 //                    "viewQuery": "",
                     "query", "스프링"
             )).post();
-
-            System.out.println(document);
 
             Element ulElement = document.getElementsByClass("bbs_webzine elib").first();
             if (ulElement == null) return List.of();
@@ -152,10 +164,6 @@ public class SearchLibraryService {
         }
 
         return result;
-    }
-
-    public List<OnlineLibrarySearchResult> getSeoulLibrarySearchResult(String query) {
-        return List.of();
     }
 
     public List<OnlineLibrarySearchResult> getNationalAssemblyLibrary(String query) {

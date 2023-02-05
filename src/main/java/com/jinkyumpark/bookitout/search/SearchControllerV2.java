@@ -61,7 +61,7 @@ public class SearchControllerV2 {
                 .collect(Collectors.toList());
     }
 
-    @GetMapping("library/by-region")
+    @GetMapping("library/offline/by-region")
     public List<OfflineLibrarySearchResult> getLibrarySearchResultByRegion(@RequestParam("query") String query,
                                                                            @RequestParam("region") String region,
                                                                            @RequestParam("region-detail") String regionDetail) {
@@ -92,7 +92,7 @@ public class SearchControllerV2 {
         return result;
     }
 
-    @GetMapping("online-library")
+    @GetMapping("library/online")
     public List<OnlineLibrarySearchResult> getOnlineLibrarySearchResult(@RequestParam("query") String query,
                                                                         @RequestParam("include") List<String> includeList) {
         if (query.length() < 2) throw new BadRequestException("");
@@ -103,7 +103,7 @@ public class SearchControllerV2 {
         if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
             result.addAll(searchLibraryService.getSeoulEducationLibrarySearchResult(query));
         if (includeList.contains("SEOUL_LIBRARY"))
-            result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query));
+            result.addAll(searchLibraryService.getSeoulLibrarySearchResult(query, 10));
         if (includeList.contains("NATIONAL_ASSEMBLY_LIBRARY"))
             result.addAll(searchLibraryService.getNationalAssemblyLibrary(query));
 
