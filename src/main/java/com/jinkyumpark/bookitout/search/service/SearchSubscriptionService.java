@@ -1,14 +1,17 @@
 package com.jinkyumpark.bookitout.search.service;
 
+import com.jinkyumpark.bookitout.search.apiResponse.mille.ApiMillieBook;
+import com.jinkyumpark.bookitout.search.apiResponse.mille.ApiMillieResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.ridi.ApiRidiBook;
+import com.jinkyumpark.bookitout.search.apiResponse.ridi.ApiRidiResponse;
 import com.jinkyumpark.bookitout.search.response.searchResult.SubscriptionSearchResult;
 import com.jinkyumpark.bookitout.search.provider.SubscriptionProvider;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,7 +20,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class SearchSubscriptionService {
-    private final Environment environment;
+    private final RestTemplate restTemplate;
 
     public List<SubscriptionSearchResult> getYes24SearchResult(String query) {
         String url = String.format("https://bookclub.yes24.com/BookClub/Search?query=%s", query);
@@ -59,11 +62,16 @@ public class SearchSubscriptionService {
     }
 
     public List<SubscriptionSearchResult> getRidiSearchResult(String query) {
-        String url = String.format("https://select.ridibooks.com/search?q=%s&type=Books", query);
+        String url = String.format("https://search-api.ridibooks.com/search?site=ridi-select&where=book&what=instant&keyword=%s", query);
 
-        Document document = SearchService.getJsoupDocument(url);
+        ApiRidiResponse ridiResponse = restTemplate.getForObject(url, ApiRidiResponse.class);
 
-        return List.of();
+        if (ridiResponse == null) return List.of();
+        if (ridiResponse.getBooks().size() == 0) return List.of();
+
+        return ridiResponse.getBooks().stream()
+                .map(ApiRidiBook::toSubscriptionSearchResult)
+                .toList();
     }
 
     public List<SubscriptionSearchResult> getKyoboSearchResult(String query) {
