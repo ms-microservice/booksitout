@@ -290,7 +290,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 				<h4 className='mt-3 mb-3'>{title}</h4>
 
 				<Form onSubmit={(e) => handleSubmit(e)}>
-					<Card className='mb-3' style={{ height: '180px' }}>
+					<Card className='mb-3' style={{ height: '180px', overflowY: 'scroll' }}>
 						<Card.Header style={{ backgroundColor: 'rgb(83, 165, 81)', color: 'white' }}>{includedLabel}</Card.Header>
 
 						<Card.Body>
@@ -299,11 +299,11 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 									.filter((s) => s.included)
 									.map((service) => {
 										return (
-											<div className='col-3 button-hover' onClick={() => includeExclude(service.key)}>
+											<div className='col-3 button-hover p-0 mb-3' onClick={() => includeExclude(service.key)}>
 												<DeleteIcon className='h5 text-danger ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />
-												<h6 className='mt-2'>{service.name}</h6>
+												<div className='mt-2'>{service.name}</div>
 											</div>
 										)
 									})}
@@ -311,7 +311,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 						</Card.Body>
 					</Card>
 
-					<Card className='mb-3' style={{ height: '180px' }}>
+					<Card className='mb-3' style={{ height: '180px', overflowY: 'scroll' }}>
 						<Card.Header style={{ backgroundColor: 'rgb(203, 68, 74)', color: 'white' }}>{excludedLabel}</Card.Header>
 
 						<Card.Body>
@@ -320,7 +320,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 									.filter((s) => !s.included)
 									.map((service) => {
 										return (
-											<div className='col-3 button-hover' onClick={() => includeExclude(service.key)}>
+											<div className='col-3 button-hover mb-3' onClick={() => includeExclude(service.key)}>
 												<AddIcon className='h5 text-success ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />

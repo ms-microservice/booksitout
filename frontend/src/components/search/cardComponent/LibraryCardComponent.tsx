@@ -25,12 +25,12 @@ const LibraryCardComponent = ({ book }) => {
 							<h5>{book.book.title.slice(0, 40)}</h5>
 							<h6 className='text-secondary'>{book.book.author}</h6>
 
-							<div className='mt-4'>
+							<div className='mt-4' style={{ whiteSpace: 'nowrap' }}>
 								{book.libraryList.slice(0, 5).map((library) => {
 									return (
 										<h6>
 											<img src={libraryIcon} alt='' className='img-fluid me-2' style={{ width: '20px' }} />
-											<span className='mt-2'>{library.name.slice(0, 12)}</span>
+											<span className='mt-2'>{library.name}</span>
 										</h6>
 									)
 								})}
