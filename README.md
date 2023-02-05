@@ -16,9 +16,11 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   내 독서활동을 기록 : 책을 읽을 떄 기록을 누르고, 끝날 때 종료를 누르면 내 독서활동을 기록해 줘요. 독서 중간중간에는 인상깊은 구절을 써 두거나, 내 생각을 메모할 수 있어요.
 -   내가 읽은 책을 기록 : 평점, 리뷰, 독서활동을 한 번에 볼 수 있어요.
 -   내 독서활동을 공유 : 특정 책이나 내 프로필을 다른 사람들과 공유할 수 있어요.
--   책 검색 : 도서관, 전자 도서관, 구독 서비스, 중고서점... 이 모든 곳에서 한 번에 검색할 수 있어요.
+-   책 검색
+    - 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? 내가 구독하는 곳에 있는 책인지 모르고 사진 적은 없으신가요?
+    - Open API와 Web Crawling을 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책잇아웃이 대신 책을 찾아드려요.
+    - 도서관, 전자 도서관, 구독 서비스, 중고서점까지. 이 모든 곳에서 단 1번에 검색할 수 있어요.
 -   책 추천 : 내가 읽은 책, 혹은 내가 입력한 키워드를 바탕으로 책을 추천해 줘요.
--   좋은 UX : 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? Open API와 Web Crawling을 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책잇아웃이 대신 책을 찾아드려요.
 
 # 🧑‍🔧 사용된 기술 (V2 기준)
 ### DB
@@ -56,19 +58,21 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 
 # 🆚 버전역사
 ## Version 1 (22년 10월 29일 ~ 23년 1월 14일)
--   소개 : 소개 페이지, QNA/FAQ
+-   소개 : 소개 페이지, QNA, FAQ
 -   책 관리 : 책 등록, 메모/인용 추가, 읽은 책 별점/리뷰 (Google 검색 API 활용)
 -   독서활동 측정 : 책 읽을 떄 마다 타이머로 측정해 통계 제시
--   Security : Spring Security, Http-only Cookie로 저장하는 JWT
--   Gradle, Docker, AWS EBS, Github Actions를 사용한 CI/CD
+-   Login : Spring Security, Http-only Cookie로 저장하는 JWT, JMS를 통해 이메일 인증 
+-   CI/CD : Gradle, Docker, AWS EBS, Github Actions를 사용. Slack으로 실시간 알림
 
 ## Version 2 (22년 1월 15일 ~ )
 -   OAuth 로그인 : Google, Facebook, Kakao, Naver 구현. Spring Security 내부 모듈 사용
--   검색 : 알라딘, 공공도서관, 전자도서관 등의 Open API와 Web Crawling으로 MSA 기반의 종합 검색 기능 구현
+-   검색 : 알라딘, 공공도서관, 전자도서관 등의 Open API와 Web Crawling으로 MSA 기반의 통합 검색 기능 구현
 -   코드개선
     - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
     - Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
-    - DevOps : Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
+    - DevOps
+      - Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
+      - 실제 배포하기 전에 Production 환경에서 테스트 가능하도록 개선
 - 성능개선
   - Spring Actuator, Spring Cloud Sleuth와 Zipkin을 사용해 병목 부분 찾아내 개선
   - 검색 : Redis 도입해 서비스에 따라 유효기간 설정 후 이미 검색한 Query는 API 요청 하지 않도록 개선
