@@ -108,6 +108,8 @@ public class SearchControllerV2 {
             result.addAll(searchLibraryService.getNationalAssemblyLibrary(query));
         if (includeList.contains("GYEONGGI_EDUCATION_LIBRARY"))
             result.addAll(searchLibraryService.getGyeonggiEducationLibrary(query));
+        if (includeList.contains("GWANGHWAMUN_LIBRARY"))
+            result.addAll(searchLibraryService.getGwanghwamunLibrary(query));
 
         return result;
     }

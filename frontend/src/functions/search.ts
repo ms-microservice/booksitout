@@ -12,7 +12,9 @@ import yes24 from '../resources/images/search/yes24.png'
 import seoulLibrary from '../resources/images/search/seoul-library.png'
 import seoulEducationLibrary from '../resources/images/search/seoul-education-library.png'
 import nationalAssemblyLibrary from '../resources/images/search/national-assembly-library.png'
-import gyeonggiEducationLibrary from '../resources/images/search/gyeonggi-education.png'
+import gyeonggiEducationLibrary from '../resources/images/search/gyeonggi-education-library.png'
+import gyeonggiLibrary from '../resources/images/search/gyeonggi-library.png'
+import gwanghwamunLibrary from '../resources/images/search/gwanghwamun-library.jpg'
 
 const isKeyPresent = {
 	libraryOnline: (apiKey: string) => {
@@ -343,12 +345,24 @@ const search = {
 				key: 'GYEONGGI_EDUCATION_LIBRARY',
 				included: isKeyPresent.libraryOnline('GYEONGGI_EDUCATION_LIBRARY'),
 			},
+			{
+				icon: gyeonggiLibrary,
+				name: '경기사이버도서관',
+				key: 'GYEONGGI_LIBRARY',
+				included: isKeyPresent.libraryOnline('GYEONGGI_LIBRARY'),
+			},
+			{
+				icon: gwanghwamunLibrary,
+				name: '광화문읽거늘',
+				key: 'GWANGHWAMUN_LIBRARY',
+				included: isKeyPresent.libraryOnline('GWANGHWAMUN_LIBRARY'),
+			},
 		],
 
 		usedOnline: [
 			{
 				icon: aladin,
-				name: '알라딘 직접배송',
+				name: '알라딘',
 				key: 'ALADIN',
 				included: isKeyPresent.usedOnline('ALADIN'),
 			},
@@ -360,13 +374,13 @@ const search = {
 			},
 			{
 				icon: kyobo,
-				name: '교보문고 중고',
+				name: '교보문고',
 				key: 'KYOBO',
 				included: isKeyPresent.usedOnline('KYOBO'),
 			},
 			{
 				icon: interpark,
-				name: '인터파크 중고도서',
+				name: '인터파크',
 				key: 'INTERPARK',
 				included: isKeyPresent.usedOnline('INTERPARK'),
 			},	
