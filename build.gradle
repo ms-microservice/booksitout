@@ -31,8 +31,11 @@ repositories {
 }
 
 dependencies {
-    // Kotlin
+    // Languages
     implementation('org.jetbrains.kotlin:kotlin-stdlib-jdk8')
+    implementation('org.projectlombok:lombok:1.18.24')
+    annotationProcessor('org.projectlombok:lombok')
+    compileOnly('org.projectlombok:lombok')
 
     // Web
     implementation('org.springframework.boot:spring-boot-starter-web')
@@ -47,15 +50,8 @@ dependencies {
     // DB
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
     implementation('mysql:mysql-connector-java')
-
-    // QueryDSL
     implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
     implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
-
-    // Lombok
-    implementation('org.projectlombok:lombok:1.18.24')
-    annotationProcessor('org.projectlombok:lombok')
-    compileOnly('org.projectlombok:lombok')
 
     // Security
     implementation('org.springframework.boot:spring-boot-starter-security')
@@ -69,7 +65,10 @@ dependencies {
     implementation('com.google.guava:guava:31.1-jre')
     implementation('com.google.code.gson:gson:2.9.0')
     implementation('org.springframework.boot:spring-boot-starter-mail')
+
+    // Web Crawling
     implementation('org.jsoup:jsoup:1.15.3')
+    implementation('org.seleniumhq.selenium:selenium-java:4.0.0')
 
     // Testing
     testImplementation('org.springframework.boot:spring-boot-starter-test')
