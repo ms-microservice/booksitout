@@ -21,13 +21,13 @@ const UsedBookCardComponent = ({ book }) => {
 								<h5>{book.title.slice(0, 50)}</h5>
 								<h6 className='text-secondary'>{book.author}</h6>
 
-								<div className='mt-4'>
+								<div className='mt-4' style={{ whiteSpace: 'nowrap' }}>
 									<img src={book.provider === 'ONLINE_ALADIN' || book.provider === 'OFFLINE_ALADIN' ? 
 														aladinIcon : book.provider === 'ONLINE_YES24' || book.provider === 'OFFLINE_YES24' ? 
 														yes24Icon : ''} 
 												alt='' className='img-fluid rounded me-3 border' style={{ width: '50px' }} />
 
-									재고 : {book.stockCount}개 ({utils.formatMoney(book.minPrice)}원)
+									재고 : {book.stockCount}개 ({utils.formatMoney(book.minPrice)})
 
 									{book.locationList.length !== 0 && (
 										<div className='mt-2 text-secondary'>

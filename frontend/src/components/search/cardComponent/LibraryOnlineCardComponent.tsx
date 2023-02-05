@@ -29,7 +29,7 @@ const LibraryOnlineCardComponent = ({book}) => {
 								</div>
 
 								<div className='row mt-2 position-absolute bottom-0 w-100'>
-									<div className='col-4'>
+									<div className='col-5 col-lg-4'>
 										{book.loanPossible ? (
 											<div>
 												<AvailableIcon className='h4 text-success mt-1' />
@@ -43,7 +43,7 @@ const LibraryOnlineCardComponent = ({book}) => {
 										)}
 									</div>
 
-									<div className='col-4'>
+									<div className='col-5 col-lg-4 ps-0'>
 										{!book.loadPossible && book.reservationPossible ? (
 											<div>
 												<ReservationPossibleIcon className='h4 text-success mt-1' />

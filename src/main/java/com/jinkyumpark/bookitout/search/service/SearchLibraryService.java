@@ -181,4 +181,38 @@ public class SearchLibraryService {
 
         return resultList;
     }
+
+    public List<OnlineLibrarySearchResult> getGwanghwamunLibrary(String query) {
+        String url = String.format("http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=%s&sortType=3", query);
+
+        Document document = SearchService.getJsoupDocument(url);
+        Element bookListElements = document.getElementsByClass("bookListType01").first();
+        if (bookListElements == null) return List.of();
+
+        Elements bookList = bookListElements.getElementsByTag("li");
+
+        List<OnlineLibrarySearchResult> resultList = new ArrayList<>();
+        for (Element book : bookList) {
+            String title = book.getElementsByClass("tit").first().text();
+            String author = book.getElementsByClass("writer").first().text();
+            String cover = book.getElementsByClass("thum").first().getElementsByTag("img").first().attr("src");
+
+            String bookId = book.getElementsByClass("btn").first().getElementsByTag("input").attr("barcode");
+            String link = String.format("http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_Detail.asp?barcode=%s&type=&product_cd=001&adult_yn=N", bookId);
+
+            int currentLoanCount = Integer.parseInt(book.getElementsByClass("out").first().getElementsByTag("span").get(1).text());
+            int maxLoanCount = Integer.parseInt(book.getElementsByClass("out").first().getElementsByTag("span").get(2).text());
+
+            resultList.add(OnlineLibrarySearchResult.builder()
+                    .title(title)
+                    .author(author)
+                    .cover(cover)
+                    .link(link)
+                    .loanPossible(currentLoanCount < maxLoanCount)
+                    .reservationPossible(true)
+                    .provider(OnlineLibraryProvider.GWANGHWAMUN_LIBRARY).build());
+        }
+
+        return resultList;
+    }
 }

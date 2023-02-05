@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap'
 import parse from 'html-react-parser'
+import utils from '../../functions/utils';
 
 const Faq = () => {
 	const faqList = [
@@ -38,19 +39,22 @@ const Faq = () => {
 						<Card.Header className='text-white' style={{ background: 'rgb(107, 169, 95)' }}>
 							{faq.question}
 						</Card.Header>
+
 						<Card.Body>{parse(faq.answer)}</Card.Body>
 					</Card>
 				)
 			})}
 
 			<div className='row justify-content-center mt-5'>
-				<div className='col-12 col-lg-7 mt-3'>
-					<a href='/login' className='w-100'>
-						<Button variant='success' className='w-100'>
-							로그인하기
-						</Button>
-					</a>
-				</div>
+				{(utils.getToken() === '' || typeof utils.getToken() === 'undefined' || utils.getToken() == null) && (
+					<div className='col-12 col-lg-7 mt-3'>
+						<a href='/login' className='w-100'>
+							<Button variant='success' className='w-100'>
+								로그인하기
+							</Button>
+						</a>
+					</div>
+				)}
 
 				<div className='col-12 col-lg-7 mt-3'>
 					<a href='/qna' className='w-100'>

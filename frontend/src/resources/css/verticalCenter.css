@@ -1,0 +1,9 @@
+.vertical-center {
+    position: 'relative';
+}
+
+@media(max-width: 992px) {
+    .vertical-center {
+        bottom: 40px;
+    }
+}

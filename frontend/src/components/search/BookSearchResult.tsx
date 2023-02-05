@@ -37,7 +37,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 				{!isConfigured ? (
 					<SearchNotConfigured />
 				) : typeof bookList == 'undefined' ? (
-					<div className="mt-5 mt-lg-0">
+					<div className="h-100">
 						<Error />
 					</div>
 				) : (
