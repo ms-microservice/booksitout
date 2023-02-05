@@ -132,8 +132,11 @@ public class SearchControllerV2 {
     // 교보분고, 알라딘, YES24
     @GetMapping("used")
     public UsedBookSearchResponse getUsedOnlineSearchResult(@RequestParam("query") String query,
-                                                            @RequestParam("include-online") List<String> includeOnlineList,
-                                                            @RequestParam("include-offline") List<String> includeOfflineList) {
+                                                            @RequestParam(value = "include-online", required = false) List<String> includeOnlineList,
+                                                            @RequestParam(value = "include-offline", required = false) List<String> includeOfflineList) {
+        if (includeOnlineList == null && includeOfflineList == null) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
+        if (includeOnlineList == null) includeOfflineList = List.of();
+        if (includeOfflineList == null) includeOfflineList = List.of();
         if (includeOnlineList.isEmpty() && includeOfflineList.isEmpty()) throw new BadRequestException("최소 1가지의 검색대상을 포함해 주세요");
 
         UsedBookSearchResponse result = new UsedBookSearchResponse();
