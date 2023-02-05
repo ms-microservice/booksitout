@@ -15,7 +15,7 @@ import uiSettings from '../../settings/ui'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
-import utils from '../../functions/utils';
+import utils from '../../functions/utils'
 
 const Topnav = () => {
 	const navigate = useNavigate()
@@ -174,6 +174,9 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}, [location])
 
 	const handleSearch = (keyword, e) => {
+		if (typeof e.target[0] !== 'undefined') {
+			e.target[0].blur()
+		}
 		e.preventDefault()
 
 		if (keyword.length >= 2) {
@@ -184,7 +187,12 @@ const SearchBar = ({ expand = 'lg' }) => {
 	}
 
 	return (
-		<Form className='d-flex' onSubmit={(e) => handleSearch(keyword, e)} onKeyDown={(e) => { if(e.keyCode === 13) this.blur() }}>
+		<Form
+			className='d-flex'
+			onSubmit={(e) => handleSearch(keyword, e)}
+			onKeyDown={(e) => {
+				if (e.keyCode === 13) this != null && this.blur()
+			}}>
 			<Form.Control
 				type='search'
 				placeholder='책 검색'
