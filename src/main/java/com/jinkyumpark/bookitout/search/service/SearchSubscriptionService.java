@@ -53,7 +53,7 @@ public class SearchSubscriptionService {
     }
 
     public List<SubscriptionSearchResult> getMilleSearchResult(String query) {
-        String url = String.format("https://live-api.millie.co.kr/v2/search/content?debug=1&searchType=content&keyword=%s&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1", query);
+        String url = String.format("https://live-api.millie.co.kr/v2/search/content?debug=1&searchType=content&keyword=%s&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1&contentCode=245", query);
         ApiMillieResponse millieResponse = restTemplate.getForObject(url, ApiMillieResponse.class);
 
         if (millieResponse == null) return List.of();
