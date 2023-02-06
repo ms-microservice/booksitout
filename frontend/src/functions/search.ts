@@ -15,6 +15,7 @@ import nationalAssemblyLibrary from '../resources/images/search/national-assembl
 import gyeonggiEducationLibrary from '../resources/images/search/gyeonggi-education-library.png'
 import gyeonggiLibrary from '../resources/images/search/gyeonggi-library.png'
 import gwanghwamunLibrary from '../resources/images/search/gwanghwamun-library.jpg'
+import seoulCongressLibrary from '../resources/images/search/seoul-congress-library.png'
 
 const isKeyPresent = {
 	libraryOnline: (apiKey: string) => {
