@@ -86,16 +86,14 @@ const Topnav = () => {
 						책잇아웃
 					</Navbar.Brand>
 
-					<span className='d-lg-none ms-5'>
-						<div className='ms-5 navbar-toggler'>
+					<button className='d-lg-none ms-auto me-3 navbar-toggler'>
 							<SearchIcon
 								className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 								onClick={() => {
 									toggleSearchBar()
 								}}
 							/>
-						</div>
-					</span>
+					</button>
 
 					<Navbar.Toggle onClick={() => setExpanded(!expanded)}></Navbar.Toggle>
 
@@ -167,7 +165,7 @@ const Topnav = () => {
 
 						{token !== '' && token != null && (
 							<span className='d-none d-lg-inline'>
-								<SearchBar />
+								<SearchBar width={{width: '400px'}}/>
 							</span>
 						)}
 
@@ -212,7 +210,7 @@ const Topnav = () => {
 	)
 }
 
-const SearchBar = () => {
+const SearchBar = ({width = {}}) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
@@ -233,6 +231,7 @@ const SearchBar = () => {
 
 	return (
 		<Form
+			style={width}
 			className='row me-1'
 			onSubmit={(e) => handleSearch(e)}
 			onKeyDown={(e) => {
@@ -241,7 +240,7 @@ const SearchBar = () => {
 			<div className='col-9 p-lg-0 pe-0'>
 				<Form.Control
 					type='search'
-					placeholder='책 검색'
+					placeholder='모든 곳에서 한 번에 책 검색'
 					className='me-2 w-100'
 					aria-label='Search'
 					value={keyword}
