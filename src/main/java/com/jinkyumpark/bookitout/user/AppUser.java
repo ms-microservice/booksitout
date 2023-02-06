@@ -25,7 +25,8 @@ import java.util.List;
 @Table(name = "app_user", uniqueConstraints = { @UniqueConstraint(name = "app_user_email_unique", columnNames = "email") })
 public class AppUser extends TimeEntity implements UserDetails {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @SequenceGenerator(name = "app_user_seq", sequenceName = "app_user_seq", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     @Column(name = "app_user_id")
     private Long appUserId;
 
