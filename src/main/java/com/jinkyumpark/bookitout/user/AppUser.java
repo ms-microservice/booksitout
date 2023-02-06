@@ -29,8 +29,10 @@ public class AppUser extends TimeEntity implements UserDetails {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
     @Column(name = "app_user_id")
     private Long appUserId;
+
     @Column(unique = true, nullable = false)
     private String email;
+
     @JsonIgnore
     private String password;
     private String name;

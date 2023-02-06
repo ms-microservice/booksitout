@@ -94,7 +94,6 @@ public class AppUserService implements UserDetailsService {
         existingAppUser.updateUser(appUserDto);
     }
 
-    @Transactional
     public AppUser addOrUpdateOAuthUser(OAuthDto OAuthDto) {
         Optional<AppUser> userOptional = appUserRepository.findByEmail(OAuthDto.getEmail());
 

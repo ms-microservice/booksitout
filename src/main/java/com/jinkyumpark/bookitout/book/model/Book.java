@@ -30,8 +30,7 @@ public class Book extends TimeEntity {
     @Id
     @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
-    @Column(name = "book_id", updatable = false)
-    private Long bookId;
+    @Column(name = "book_id", updatable = false)    private Long bookId;
 
     @Column(name = "title", nullable = false)
     private String title;
