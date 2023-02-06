@@ -154,8 +154,16 @@ const BookList = () => {
 										key={p}
 										active={p === Number(currentPage)}
 										onClick={() => {
+											if (p !== maxPage) {
+												window.scrollTo({
+													top: 0,
+													behavior: 'auto',
+												})									
+											} else {
+												window.scrollTo({top: 0})
+											}
+											
 											navigate(`${location.pathname}?page=${p}`)
-											window.scrollTo(0, 0)
 										}}>
 										{p}
 									</Pagination.Item>
