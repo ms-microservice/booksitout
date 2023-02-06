@@ -7,6 +7,8 @@ import ridiIcon from '../../../resources/images/search/ridi.png'
 
 import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
 
+import '../../../resources/css/bookSearchCard.css'
+
 const SubscriptionCardComponent = ({ book }) => {
 	return (
 		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }}>
@@ -35,8 +37,7 @@ const SubscriptionCardComponent = ({ book }) => {
 												: '?'
 										}
 										alt={book.provider}
-										className='img-fluid rounded me-3 border'
-										style={{ width: '50px' }}
+										className='img-fluid rounded me-3 border search-provider-icon'
 									/>
 									{book.provider === 'YES24'
 										? 'YES24 북클럽'

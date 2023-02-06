@@ -7,6 +7,8 @@ import {AiFillCheckCircle as AvailableIcon} from 'react-icons/ai'
 
 import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
 
+import '../../../resources/css/bookSearchCard.css'
+
 const LibraryOnlineCardComponent = ({book}) => {
     const libraryData = search.data.onlineLibrary.find((r) => r.key === book.provider)
 
@@ -25,7 +27,7 @@ const LibraryOnlineCardComponent = ({book}) => {
 								<h6 className='text-secondary'>{book.author}</h6>
 
 								<div className='mt-4 position-absolute' style={{bottom: '40px'}}>
-									<img src={libraryData?.icon ?? ''} alt='' className='img-fluid rounded me-3 border' style={{ width: '50px' }} />
+									<img src={libraryData?.icon ?? ''} alt='' className='img-fluid rounded me-3 border search-provider-icon' />
 
 									{libraryData?.name ?? '?'}
 								</div>

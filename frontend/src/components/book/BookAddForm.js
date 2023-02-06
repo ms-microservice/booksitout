@@ -71,7 +71,11 @@ const BookAddForm = () => {
 			<Form onSubmit={(e) => handleAddBook(e)}>
 				<div className='row row-eq-height text-center'>
 					<div className='col-12 col-lg-4 mb-3'>
-						<img src={cover === '' ? defaultBookCover : cover} alt='' className='img-fluid rounded' />
+						<div className='row justify-content-center'>
+							<div className='col-8 col-lg-12'>
+								<img src={cover === '' ? defaultBookCover : cover} alt='' className='img-fluid rounded' />
+							</div>
+						</div>
 
 						<div className='row mt-5'>
 							<div className='col-6'>

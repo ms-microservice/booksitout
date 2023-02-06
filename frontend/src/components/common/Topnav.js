@@ -32,6 +32,7 @@ const Topnav = () => {
 	const [expanded, setExpanded] = useState(false)
 	const [showSearchBar, setShowSearchBar] = useState(false)
 	const [initialLoad, setInitialLoad] = useState(true)
+	const [openAtOnce, setOpenAtOnce] = useState(false)
 
 	const handleLogout = (e) => {
 		e.preventDefault()
@@ -52,12 +53,26 @@ const Topnav = () => {
 		setShowSearchBar(false)
 	}, [location.pathname])
 
+	useEffect(() => {
+		setShowSearchBar(openAtOnce ? true : false)
+		setOpenAtOnce(false)
+	}, [expanded])
+
+	const toggleSearchBar = () => {
+		if (expanded) setOpenAtOnce(true)
+
+		setExpanded(false)
+
+		setShowSearchBar(expanded ? true : !showSearchBar)
+		setInitialLoad(false)
+	}
+
 	return (
 		<>
 			{
 				<Card
-					className={`position-absolute d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
-					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-10px' }}>
+					className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
+					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
 					<Card.Body>
 						<SearchBar />
 					</Card.Body>
@@ -72,10 +87,12 @@ const Topnav = () => {
 					</Navbar.Brand>
 
 					<span className='d-lg-none text-center'>
-						<SearchIcon className='h1 mt-2 me-5 text-secondary button-hover' onClick={() => {
-							setInitialLoad(false)
-							setShowSearchBar(!showSearchBar)
-						}} />
+						<SearchIcon
+							className={`h1 mt-2 me-5 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
+							onClick={() => {
+								toggleSearchBar()
+							}}
+						/>
 					</span>
 
 					<Navbar.Toggle onClick={() => setExpanded(!expanded)}></Navbar.Toggle>

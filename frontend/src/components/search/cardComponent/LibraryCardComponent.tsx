@@ -14,7 +14,7 @@ const LibraryCardComponent = ({ book }) => {
 
 	return (
 		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }} onClick={handleOnClick}>
-			<Card className='w-100 h-100'>
+			<Card className='w-100 h-100' style={{ overflow: 'hidden' }}>
 				<Card.Body>
 					<div className='row w-100 h-100'>
 						<div className='col-3 d-flex align-items-center'>
