@@ -146,6 +146,38 @@ public class SearchLibraryService {
     }
 
     public List<OnlineLibrarySearchResult> getNationalAssemblyLibrary(String query) {
+        String url = String.format("https://dl.nanet.go.kr/search/searchInnerList.do?queryText=%s:ALL_NI_TOC:AND&searchMehtod=F&topSubMenuCode=EBOK", query);
+
+        Document document = SearchService.getJsoupDocument(url);
+        Element listElement = document.getElementsByClass("searchList").first().getElementsByClass("list").first();
+        if (listElement == null) return List.of();
+
+        List<OnlineLibrarySearchResult> resultList = new ArrayList<>();
+        Elements bookList = listElement.getElementsByTag("li");
+        for (Element book : bookList) {
+            String title = book.getElementsByTag("a").first().text();
+            String author = "";
+            String cover = "";
+
+            String bookId = book.getElementsByTag("input").first().attr("value");
+            String link = String.format(
+                    "https://dl.nanet.go.kr/search/searchInnerDetail.do?searchType=INNER_SEARCH&resultType=INNER_SEARCH_DETAIL&searchMehtod=L&searchClass=S&controlNo=%s&prevQueryText=%s:ALL_NI_TOC:AND&topMainMenuCode=MONO_ALL&topSubMenuCode=EBOK&totalSize=3910&totalSizeByMenu=4&hanjaYn=Y",
+                    bookId, query);
+
+            Boolean loanPossible = true;
+            Boolean reservationPossible = false;
+
+            resultList.add(OnlineLibrarySearchResult.builder()
+                    .title(title)
+                    .author(author)
+                    .cover(cover)
+                    .link(link)
+                    .loanPossible(loanPossible)
+                    .reservationPossible(reservationPossible)
+                    .provider(OnlineLibraryProvider.NATIONAL_ASSEMBLY_LIBRARY).build());
+        }
+
+
         return List.of();
     }
 
@@ -216,5 +248,11 @@ public class SearchLibraryService {
         }
 
         return resultList;
+    }
+
+    public List<OnlineLibrarySearchResult> getSeoulCongressLibrary(String query) {
+        String url = "";
+
+        return List.of();
     }
 }
