@@ -3,6 +3,8 @@ import { BsFillCartFill as CartIcon } from 'react-icons/bs'
 import uiSettings from '../../../settings/ui'
 import utils from '../../../functions/utils'
 
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
+
 import aladinIcon from '../../../resources/images/search/aladin.png'
 import yes24Icon from '../../../resources/images/search/yes24.png'
 
@@ -14,7 +16,7 @@ const UsedBookCardComponent = ({ book }) => {
 					<Card.Body>
 						<div className='row h-100 justify-content-center'>
 							<div className='col-3 d-flex align-items-center'>
-								<img src={book.cover} alt='' className='img-fluid w-100' />
+								<img src={book.cover === '' || book.cover == null ? defaultBookCover : book.cover} alt='' className='img-fluid w-100' />
 							</div>
 
 							<div className='col-9'>

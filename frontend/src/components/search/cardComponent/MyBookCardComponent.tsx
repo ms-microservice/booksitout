@@ -1,6 +1,6 @@
 import { Card } from 'react-bootstrap'
 import PageProgressBar from '../../common/PageProgressBar'
-import defaultCover from '../../../resources/images/common/book.png'
+import defaultCover from '../../../resources/images/common/default-book-cover.png'
 
 const MyBookCardComponent = ({ book }) => {
 	return (

@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom'
 import { Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Images
-import defaultBookCover from '../../resources/images/common/book.png'
+import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 import ImageSearchModal from './ImageSearchModal'
 // Functions
 import { addBook } from '../..//functions/book'

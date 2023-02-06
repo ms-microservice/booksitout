@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap'
-import defaultCover from '../../../resources/images/common/book.png'
+import defaultCover from '../../../resources/images/common/default-book-cover.png'
 import libraryIcon from '../../../resources/images/book-classifications/sources/library.png'
 import { useDispatch } from 'react-redux'
 import { openSearchLibraryDetail, setSearchLibraryDetailSelected } from '../../../redux/modalSlice'
