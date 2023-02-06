@@ -28,9 +28,8 @@ import java.util.List;
 @Entity @Table(name = "book")
 public class Book extends TimeEntity {
     @Id
-    @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
-    @Column(name = "book_id", updatable = false)
+    @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "book_seq")
+    @Column(name = "book_id")
     private Long bookId;
 
     @Column(name = "title", nullable = false)

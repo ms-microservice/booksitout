@@ -12,8 +12,7 @@ import javax.persistence.*;
 
 @Entity(name = "Qna") @Table(name = "qna")
 public class Qna {
-    @SequenceGenerator(name = "qna_seq", sequenceName = "qna_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "qna_seq")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "qna_id", updatable = false)
     @Id
     private Long qnaId;
