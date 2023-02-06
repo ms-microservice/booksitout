@@ -86,13 +86,15 @@ const Topnav = () => {
 						책잇아웃
 					</Navbar.Brand>
 
-					<span className='d-lg-none text-center'>
-						<SearchIcon
-							className={`h1 mt-2 me-5 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
-							onClick={() => {
-								toggleSearchBar()
-							}}
-						/>
+					<span className='d-lg-none ms-5'>
+						<div className='ms-5 navbar-toggler'>
+							<SearchIcon
+								className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
+								onClick={() => {
+									toggleSearchBar()
+								}}
+							/>
+						</div>
 					</span>
 
 					<Navbar.Toggle onClick={() => setExpanded(!expanded)}></Navbar.Toggle>
