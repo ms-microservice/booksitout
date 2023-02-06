@@ -27,7 +27,7 @@ const UsedBookCardComponent = ({ book }) => {
 									<img src={book.provider === 'ONLINE_ALADIN' || book.provider === 'OFFLINE_ALADIN' ? 
 														aladinIcon : book.provider === 'ONLINE_YES24' || book.provider === 'OFFLINE_YES24' ? 
 														yes24Icon : ''} 
-												alt='' className='img-fluid rounded me-3 border' style={{ width: '50px' }} />
+												alt='' className='img-fluid rounded me-3 border search-provider-icon' />
 
 									재고 : {book.stockCount}개 ({utils.formatMoney(book.minPrice)})
 

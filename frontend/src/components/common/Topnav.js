@@ -56,8 +56,8 @@ const Topnav = () => {
 		<>
 			{
 				<Card
-					className={`position-absolute d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
-					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-10px' }}>
+					className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
+					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
 					<Card.Body>
 						<SearchBar />
 					</Card.Body>

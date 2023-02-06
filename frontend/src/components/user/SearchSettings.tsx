@@ -303,7 +303,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 												<DeleteIcon className='h5 text-danger ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />
-												<div className='mt-2'>{service.name}</div>
+												<h6 className='mt-2'>{service.name}</h6>
 											</div>
 										)
 									})}

@@ -243,7 +243,7 @@ public class SearchLibraryService {
                     .cover(cover)
                     .link(link)
                     .loanPossible(currentLoanCount < maxLoanCount)
-                    .reservationPossible(true)
+                    .reservationPossible(currentLoanCount < maxLoanCount ? false : true)
                     .provider(OnlineLibraryProvider.GWANGHWAMUN_LIBRARY).build());
         }
 
