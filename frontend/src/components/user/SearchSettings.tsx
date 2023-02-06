@@ -24,27 +24,47 @@ const SearchSettings = () => {
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='전자 도서관 검색' includedLabel='검색 범위로 설정된 전자 도서관' 
-							excludedLabel='제외된 전자 도서관' initialServiceList={search.data.onlineLibrary} 
-							apiFunction={search.api.settings.libraryOnline.changeSearchRange} localStorageKey='search-library-online' />
+						<AddOrExcludeSearchSettings
+							title='전자 도서관 검색'
+							includedLabel='검색 범위로 설정된 전자 도서관'
+							excludedLabel='제외된 전자 도서관'
+							initialServiceList={search.data.onlineLibrary}
+							apiFunction={search.api.settings.libraryOnline.changeSearchRange}
+							localStorageKey='search-library-online'
+						/>
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='구독 서비스 검색' includedLabel='검색 범위로 설정된 구독 서비스' 
-							excludedLabel='제외된 구독 서비스' initialServiceList={search.data.subscription} 
-							apiFunction={search.api.settings.subscription.changeSearchRange} localStorageKey='search-subscription' />
+						<AddOrExcludeSearchSettings
+							title='구독 서비스 검색'
+							includedLabel='검색 범위로 설정된 구독 서비스'
+							excludedLabel='제외된 구독 서비스'
+							initialServiceList={search.data.subscription}
+							apiFunction={search.api.settings.subscription.changeSearchRange}
+							localStorageKey='search-subscription'
+						/>
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='중고 (온라인) 검색' includedLabel='검색 범위로 설정된 구독 서비스' 
-							excludedLabel='제외된 중고 온라인' initialServiceList={search.data.usedOnline} 
-							apiFunction={search.api.settings.usedOnline.changeSearchRange} localStorageKey='search-used-online' />
+						<AddOrExcludeSearchSettings
+							title='중고 (온라인) 검색'
+							includedLabel='검색 범위로 설정된 중고 온라인'
+							excludedLabel='제외된 중고 온라인'
+							initialServiceList={search.data.usedOnline}
+							apiFunction={search.api.settings.usedOnline.changeSearchRange}
+							localStorageKey='search-used-online'
+						/>
 					</div>
 
 					<div className='col-12 col-lg-6 mb-3'>
-						<AddOrExcludeSearchSettings title='중고 매장 검색' includedLabel='검색 범위로 설정된 중고 매장' 
-							excludedLabel='제외된 중고 매장' initialServiceList={search.data.usedOffline} 
-							apiFunction={search.api.settings.usedOffline.changeSearchRange} localStorageKey='search-used-offline' />
+						<AddOrExcludeSearchSettings
+							title='중고 매장 검색'
+							includedLabel='검색 범위로 설정된 중고 매장'
+							excludedLabel='제외된 중고 매장'
+							initialServiceList={search.data.usedOffline}
+							apiFunction={search.api.settings.usedOffline.changeSearchRange}
+							localStorageKey='search-used-offline'
+						/>
 					</div>
 				</div>
 			</Card.Body>
@@ -231,14 +251,14 @@ const LibrarySearchSettings = () => {
 						</h5>
 
 						<div className='col-12 col-lg-6 mt-3'>
-							<Button className='w-100 mb-2' onClick={() => setModalOpen(true)}>
+							<Button className='w-100' onClick={() => setModalOpen(true)}>
 								{region === '' && regionDetail === '' ? '지역 설정하기' : '지역 변경하기'}
 							</Button>
 						</div>
 
 						{region !== '' && regionDetail !== '' && (
 							<div className='col-12 col-lg-6 mt-3'>
-								<Button variant='danger' className='w-100 mb-2' onClick={() => handleDeleteRegion()}>
+								<Button variant='danger' className='w-100' onClick={() => handleDeleteRegion()}>
 									도서관은 검색 하지 않기
 								</Button>
 							</div>
