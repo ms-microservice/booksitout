@@ -10,7 +10,7 @@ const LanguageTable = ({ languageData }) => {
 			{languageData == null ? (
 				<Error />
 			) : (
-				<table className='table table-hover mt-3'>
+				<table className='table table-hover mt-3 rounded rounded-3 overflow-hidden'>
 					<thead className='table-dark'>
 						<tr>
 							<th></th>

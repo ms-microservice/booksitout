@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.search.service;
 
-import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.AvailableLibraryLibsLib;
-import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.AvailableLibraryResponse;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.ApiAvailableLibraryLibsLib;
+import com.jinkyumpark.bookitout.search.apiResponse.data4library.availableLibrary.ApiAvailableLibraryResponse;
 import com.jinkyumpark.bookitout.search.apiResponse.data4library.hasbook.HasBookResponse;
 import com.jinkyumpark.bookitout.search.apiResponse.seoulLibrary.ApiSeoulLibraryBook;
 import com.jinkyumpark.bookitout.search.apiResponse.seoulLibrary.ApiSeoulLibraryResponse;
@@ -32,10 +32,10 @@ public class SearchLibraryService {
                 isbn, regionCode,
                 regionDetailCode == null ? "" : "&dtl_region=" + regionDetailCode);
 
-        AvailableLibraryResponse response = restTemplate.getForObject(url, AvailableLibraryResponse.class);
+        ApiAvailableLibraryResponse response = restTemplate.getForObject(url, ApiAvailableLibraryResponse.class);
 
         return response.getResponse().getLibs().stream()
-                .map(AvailableLibraryLibsLib::getLib)
+                .map(ApiAvailableLibraryLibsLib::getLib)
                 .map(l -> AvailableLibrary.builder()
                         .code(l.getLibCode())
                         .name(l.getLibName())

@@ -8,10 +8,10 @@ import java.util.List;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter
-public class AvailableLibraryResponseResponse {
+public class ApiAvailableLibraryResponseResponse {
     private String pageNo;
     private String pageSize;
     private Integer numFound;
     private Integer resultNum;
-    private List<AvailableLibraryLibsLib> libs;
+    private List<ApiAvailableLibraryLibsLib> libs;
 }

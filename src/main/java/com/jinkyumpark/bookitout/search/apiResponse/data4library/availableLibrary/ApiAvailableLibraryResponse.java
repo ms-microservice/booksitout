@@ -6,6 +6,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter
-public class AvailableLibraryLibsLib {
-    private AvailableLibraryLib lib;
+public class ApiAvailableLibraryResponse {
+    private ApiAvailableLibraryResponseResponse response;
 }

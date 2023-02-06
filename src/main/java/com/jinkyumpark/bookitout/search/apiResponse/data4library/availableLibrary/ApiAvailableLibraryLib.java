@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter
-public class AvailableLibraryLib {
+public class ApiAvailableLibraryLib {
     private String libCode;
     private String libName;
     private String address;
