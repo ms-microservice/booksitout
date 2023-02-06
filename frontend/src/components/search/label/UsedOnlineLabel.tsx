@@ -9,7 +9,7 @@ import search from '../../../functions/search'
 
 const UsedOnlineLabel = () => {
 	const iconStyle = { width: '40px', height: '40px' }
-	const baseClassName = `img-fluid rounded border ms-3 mb-2`
+	const baseClassName = `img-fluid rounded border ms-2 ms-lg-3 mb-2`
 
 	const usedOnlineList = search.local.settings.usedOnline.api()
 	const getImage = (label: string) => {

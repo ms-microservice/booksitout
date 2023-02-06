@@ -109,6 +109,8 @@ public class SearchLibraryService {
                 Element titleElement = liElement.getElementsByTag("b").first();
                 String title = titleElement != null ? titleElement.text() : "";
 
+                if (title.equals("")) continue;
+
                 Element authorElement = liElement.getElementsByClass("info-elib").first();
                 String author = authorElement != null ? authorElement.getElementsByTag("span").first().text() : "";
 

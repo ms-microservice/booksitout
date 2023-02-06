@@ -5,6 +5,8 @@ import {MdEventAvailable as ReservationPossibleIcon, MdOutlineDoNotDisturb as No
 import {TbCalendarOff as ReservationNotPossibleIcon} from 'react-icons/tb'
 import {AiFillCheckCircle as AvailableIcon} from 'react-icons/ai'
 
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
+
 const LibraryOnlineCardComponent = ({book}) => {
     const libraryData = search.data.onlineLibrary.find((r) => r.key === book.provider)
 
@@ -15,7 +17,7 @@ const LibraryOnlineCardComponent = ({book}) => {
 					<Card.Body>
 						<div className='row h-100 justify-content-center'>
 							<div className='col-3 d-flex align-items-center'>
-								<img src={book.cover} alt='' className='img-fluid w-100' />
+								<img src={book.cover === '' || book.cover == null ? defaultBookCover : book.cover} alt='' className='img-fluid w-100' />
 							</div>
 
 							<div className='col-9'>

@@ -1,0 +1,19 @@
+@keyframes search-bar-up-animation {
+  from {top: 0px;}
+  to {top: 75px ;}
+}
+
+@keyframes search-bar-down-animation {
+  from {top: 75px;}
+  to {top: -10px ;}
+}
+
+.search-bar-up {
+    animation-name: search-bar-up-animation;
+    animation-duration: 0.5s;
+}
+
+.search-bar-down {
+    animation-name: search-bar-down-animation;
+    animation-duration: 0.5s;
+}

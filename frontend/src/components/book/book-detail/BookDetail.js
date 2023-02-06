@@ -20,7 +20,7 @@ import MemoDetailModal from './MemoDetailModal'
 import QuotationDetailModal from './QuotationDetailModal'
 import Quotation from '../../common/Quotation'
 // Images
-import defaultBookCover from '../../../resources/images/common/book.png'
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
 // Functions
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
 import { getMemoListOfBook } from '../../../functions/memo'
