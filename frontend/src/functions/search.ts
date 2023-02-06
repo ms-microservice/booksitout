@@ -327,36 +327,42 @@ const search = {
 				key: 'SEOUL_LIBRARY',
 				included: isKeyPresent.libraryOnline('SEOUL_LIBRARY'),
 			},
-			{
-				icon: seoulEducationLibrary,
-				name: '서울교육청',
-				key: 'SEOUL_EDUCATION_LIBRARY',
-				included: isKeyPresent.libraryOnline('SEOUL_EDUCATION_LIBRARY'),
-			},
-			{
-				icon: nationalAssemblyLibrary,
-				name: '국회도서관',
-				key: 'NATIONAL_ASSEMBLY_LIBRARY',
-				included: isKeyPresent.libraryOnline('NATIONAL_ASSEMBLY_LIBRARY'),
-			},
+			// {
+			// 	icon: seoulEducationLibrary,
+			// 	name: '서울교육청',
+			// 	key: 'SEOUL_EDUCATION_LIBRARY',
+			// 	included: isKeyPresent.libraryOnline('SEOUL_EDUCATION_LIBRARY'),
+			// },
+			// {
+			// 	icon: nationalAssemblyLibrary,
+			// 	name: '국회도서관',
+			// 	key: 'NATIONAL_ASSEMBLY_LIBRARY',
+			// 	included: isKeyPresent.libraryOnline('NATIONAL_ASSEMBLY_LIBRARY'),
+			// },
 			{
 				icon: gyeonggiEducationLibrary,
 				name: '경기교육도서관',
 				key: 'GYEONGGI_EDUCATION_LIBRARY',
 				included: isKeyPresent.libraryOnline('GYEONGGI_EDUCATION_LIBRARY'),
 			},
-			{
-				icon: gyeonggiLibrary,
-				name: '경기사이버도서관',
-				key: 'GYEONGGI_LIBRARY',
-				included: isKeyPresent.libraryOnline('GYEONGGI_LIBRARY'),
-			},
+			// {
+			// 	icon: gyeonggiLibrary,
+			// 	name: '경기사이버도서관',
+			// 	key: 'GYEONGGI_LIBRARY',
+			// 	included: isKeyPresent.libraryOnline('GYEONGGI_LIBRARY'),
+			// },
 			{
 				icon: gwanghwamunLibrary,
 				name: '광화문읽거늘',
 				key: 'GWANGHWAMUN_LIBRARY',
 				included: isKeyPresent.libraryOnline('GWANGHWAMUN_LIBRARY'),
 			},
+			// {
+			// 	icon: seoulCongressLibrary,
+			// 	name: '서울시의회',
+			// 	key: 'SEOUL_CONGRESS_LIBRARY',
+			// 	included: isKeyPresent.libraryOnline('SEOUL_CONGRESS_LIBRARY'),
+			// },
 		],
 
 		usedOnline: [
@@ -372,18 +378,18 @@ const search = {
 				key: 'YES24',
 				included: isKeyPresent.usedOnline('YES24'),
 			},
-			{
-				icon: kyobo,
-				name: '교보문고',
-				key: 'KYOBO',
-				included: isKeyPresent.usedOnline('KYOBO'),
-			},
-			{
-				icon: interpark,
-				name: '인터파크',
-				key: 'INTERPARK',
-				included: isKeyPresent.usedOnline('INTERPARK'),
-			},	
+			// {
+			// 	icon: kyobo,
+			// 	name: '교보문고',
+			// 	key: 'KYOBO',
+			// 	included: isKeyPresent.usedOnline('KYOBO'),
+			// },
+			// {
+			// 	icon: interpark,
+			// 	name: '인터파크',
+			// 	key: 'INTERPARK',
+			// 	included: isKeyPresent.usedOnline('INTERPARK'),
+			// },	
 		],
 
 		usedOffline: [
