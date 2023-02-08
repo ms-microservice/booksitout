@@ -25,7 +25,7 @@ const LanguageTable = ({ languageData }) => {
 							return (
 								<tr>
 									<td className='col-2 col-1 text-center align-items-center'>
-										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid h-100' style={{ width: '30px' }} />
+										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid' style={{ width: '30px' }} />
 									</td>
 
 									<td className='col-3'>
