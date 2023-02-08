@@ -24,8 +24,8 @@ const LanguageTable = ({ languageData }) => {
 						{languageData.map((language) => {
 							return (
 								<tr>
-									<td className='col-2 col-1'>
-										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid' style={{ width: '30px' }} />
+									<td className='col-2 col-1 text-center align-items-center'>
+										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid h-100' style={{ width: '30px' }} />
 									</td>
 
 									<td className='col-3'>
