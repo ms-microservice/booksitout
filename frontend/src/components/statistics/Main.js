@@ -17,6 +17,8 @@ import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../
 import uiSettings from '../../settings/ui'
 import messages from '../../settings/messages'
 
+import '../../resources/css/mainReadChart.css'
+
 const Main = () => {
 	const [loading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
@@ -48,7 +50,42 @@ const Main = () => {
 		updateAlertCloseTime()
 	}
 
-	const componentList = [
+	if (initialFetch) return <></>
+	if (loading) return <Loading />
+
+	return (
+		<div className='container-lg'>
+			<div className='row row-eq-height mb-5'>
+				{showAlert && (
+					<div className='container'>
+						<Alert variant='success' dismissible onClose={() => closeAlert()}>
+							{getAlertMessage()}
+						</Alert>
+					</div>
+				)}
+
+				<div className='col-12 col-md-6 mb-4'>
+					<LastReadBook lastBook={lastBook} />
+				</div>
+				
+				<div className='col-12 col-md-6 mb-4'>
+					<ReadingTimeChart readTime={readTime} />
+				</div>
+				
+				<div className='col-12 col-md-6 mb-4'>
+					<GoalChart statistics={statistics} />
+				</div>
+				
+				<div className='col-12 col-md-6 mb-4'>
+					<SummaryChart statistics={statistics} goal={goal}/>
+				</div>
+			</div>
+		</div>
+	)
+}
+
+const LastReadBook = ({lastBook}) => { 
+	return (
 		<Card>
 			<Card.Body>
 				<h3>마지막으로 읽은 책</h3>
@@ -72,20 +109,32 @@ const Main = () => {
 					/>
 				)}
 			</Card.Body>
-		</Card>,
+		</Card>
+	)
+}
+
+const ReadingTimeChart = ({readTime}) => {
+	return (
 		<Card className='h-100'>
 			<a href='/statistics' className='text-decoration-none text-black h-100'>
 				<Card.Body className='h-100'>
-					<h3 className='mb-4 mb-md-5 mb-lg-4'>최근 1주일 독서시간</h3>
+					<h3>최근 1주일 독서시간</h3>
 
 					{readTime == null ? (
 						<Error message='오류가 났어요' />
 					) : (
-						<DateLineChart startDate={new Date().setDate(new Date().getDate() - 7)} data={readTime} duration={7} />
+						<div className='row h-100 w-100' id='readTimeChart'>
+							<DateLineChart startDate={new Date().setDate(new Date().getDate() - 7)} data={readTime} duration={7} />
+						</div>
 					)}
 				</Card.Body>
-			</a>
-		</Card>,
+			</a>	
+		</Card>
+	)
+}
+
+const GoalChart = ({statistics, goal}) => {
+	return (
 		<Card className='h-100'>
 			<Card.Body>
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
@@ -94,7 +143,12 @@ const Main = () => {
 					{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
 				</a>
 			</Card.Body>
-		</Card>,
+		</Card>
+	)
+}
+
+const SummaryChart = ({statistics}) => {
+	return (
 		<Card>
 			<Card.Body>
 				<a href='/statistics' className='text-decoration-none text-black'>
@@ -103,28 +157,7 @@ const Main = () => {
 					{statistics == null ? <Error message='오류가 났어요' /> : <SummaryTable statistics={statistics} />}
 				</a>
 			</Card.Body>
-		</Card>,
-	]
-
-	if (initialFetch) return <></>
-	if (loading) return <Loading />
-
-	return (
-		<div className='container-lg'>
-			<div className='row row-eq-height mb-5'>
-				{showAlert && (
-					<div className='container'>
-						<Alert variant='success' dismissible onClose={() => closeAlert()}>
-							{getAlertMessage()}
-						</Alert>
-					</div>
-				)}
-
-				{componentList.map((component) => {
-					return <div className='col-12 col-md-6 mb-4'>{component}</div>
-				})}
-			</div>
-		</div>
+		</Card>
 	)
 }
 
