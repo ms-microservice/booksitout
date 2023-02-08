@@ -61,7 +61,6 @@ const Goal = () => {
 		getGoalList(6)
 			.then((goalListData) => {
 				setGoalList(goalListData)
-				console.log(goalListData)
 
 				const currentYearGoalOptional = goalListData.find((goal) => goal.year == currentYear)
 				if (typeof currentYearGoalOptional != 'undefined') {
@@ -111,7 +110,7 @@ const Goal = () => {
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
 							<Card.Body>
-								<h2>{currentYear}년</h2>
+								<h2 className='mb-4'>{currentYear}년</h2>
 
 								<div className={currentYearGoal != null && 'mb-5'}>
 									{currentYearGoal == null ? (
@@ -198,7 +197,7 @@ const Goal = () => {
 															setSelectedEditGoal(goal)
 															setIsPastGoalEditModalOpen(true)
 														}}
-														className='col-6 col-sm-4 col-md-3 col-lg-2 mb-4'
+														className='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4'
 														style={{ opacity: goal.year === new Date().getFullYear() ? '1' : '0.5' }}>
 														<h3 className='mb-0'>{`${goal.year}년`}</h3>
 
