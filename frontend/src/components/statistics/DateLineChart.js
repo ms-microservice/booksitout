@@ -7,7 +7,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 })
 
 	return (
 		<Line
-			className='mt-0 mt-md-auto'
+			className='mt-0 mt-sm-auto'
 			style={{margin: 'auto 0'}}
 			options={{
 				plugins: { legend: { display: false } },
