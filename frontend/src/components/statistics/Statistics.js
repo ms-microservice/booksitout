@@ -79,7 +79,10 @@ const Statistics = () => {
 						<Card className='h-100'>
 							<Card.Body>
 								<h3>최근 30일 독서시간</h3>
-								<DateLineChart startDate={new Date().setDate(new Date().getDate() - 30)} data={readTimeList} duration={30} />
+
+								<div className='row h-100 w-100' id='readTimeChart'>
+									<DateLineChart startDate={new Date().setDate(new Date().getDate() - 30)} data={readTimeList} duration={30} />
+								</div>
 							</Card.Body>
 						</Card>
 					</div>
