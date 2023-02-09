@@ -73,11 +73,11 @@ const Main = () => {
 				</div>
 				
 				<div className='col-12 col-md-6 mb-4'>
-					<GoalChart statistics={statistics} />
+					<GoalChart statistics={statistics} goal={goal} />
 				</div>
 				
 				<div className='col-12 col-md-6 mb-4'>
-					<SummaryChart statistics={statistics} goal={goal}/>
+					<SummaryChart statistics={statistics} />
 				</div>
 			</div>
 		</div>
@@ -128,7 +128,7 @@ const ReadingTimeChart = ({readTime}) => {
 						</div>
 					)}
 				</Card.Body>
-			</a>	
+			</a>
 		</Card>
 	)
 }
