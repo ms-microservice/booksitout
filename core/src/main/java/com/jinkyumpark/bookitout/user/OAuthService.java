@@ -4,7 +4,6 @@ import com.jinkyumpark.bookitout.common.exception.http.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -46,17 +45,6 @@ public class OAuthService {
         }
 
         throw new BadRequestException("OAuth Access Token Request Fail; Request URL: " + requestUrl);
-    }
-
-    public String getOauthAccessTokenWebClient(String requestUrl) {
-        WebClient webClient = WebClient.builder()
-                .baseUrl(requestUrl)
-                .build();
-
-        return webClient.post()
-                .retrieve()
-                .bodyToMono(String.class)
-                .block();
     }
 
     public String getOauthUserInfo(String requestUrl, String token) {
