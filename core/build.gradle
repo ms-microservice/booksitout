@@ -1,0 +1,63 @@
+plugins {
+    id "com.ewerk.gradle.plugins.querydsl" version "1.0.10"
+}
+
+dependencies {
+    // Web
+    implementation('org.springframework.boot:spring-boot-starter-web')
+    annotationProcessor('org.springframework.boot:spring-boot-configuration-processor')
+    developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
+
+    // Validation, Serialization
+    implementation('org.springframework.boot:spring-boot-starter-validation')
+    implementation('com.fasterxml.jackson.datatype:jackson-datatype-jsr310')
+
+    // DB
+    implementation('org.springframework.boot:spring-boot-starter-data-jpa')
+    implementation('mysql:mysql-connector-java')
+
+    // QueryDSL
+    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
+    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+
+    // Security
+    implementation('org.springframework.boot:spring-boot-starter-security')
+    implementation('javax.xml.bind:jaxb-api')
+    compileOnly('io.jsonwebtoken:jjwt-api:0.11.5')
+    runtimeOnly('io.jsonwebtoken:jjwt-impl:0.11.5')
+    runtimeOnly('io.jsonwebtoken:jjwt-jackson:0.11.5')
+    implementation('org.springframework.boot:spring-boot-starter-oauth2-resource-server')
+    testImplementation('org.springframework.security:spring-security-test')
+
+    // Utils
+    implementation('com.google.guava:guava:31.1-jre')
+    implementation('com.google.code.gson:gson:2.9.0')
+    implementation('org.springframework.boot:spring-boot-starter-mail')
+
+    // Web Crawling
+    implementation('org.jsoup:jsoup:1.15.3')
+    implementation('org.seleniumhq.selenium:selenium-java:4.0.0')
+}
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+// QueryDSL
+def querydslDir = "$buildDir/generated/querydsl"
+querydsl {
+    jpa = true
+    querydslSourcesDir = querydslDir
+}
+sourceSets {
+    main.java.srcDir querydslDir
+}
+compileQuerydsl {
+    options.annotationProcessorPath = configurations.querydsl
+}
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+    querydsl.extendsFrom compileClasspath
+}
