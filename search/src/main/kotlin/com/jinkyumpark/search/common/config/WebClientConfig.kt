@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.common
+package com.jinkyumpark.search.common.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
@@ -9,7 +9,8 @@ class WebClientConfig {
 
     @Bean
     fun webClient(): WebClient {
-        return WebClient.create()
+        return WebClient.builder()
+            .build()
     }
 
 }
