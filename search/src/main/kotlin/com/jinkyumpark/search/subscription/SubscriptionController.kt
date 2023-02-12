@@ -19,21 +19,17 @@ class SubscriptionController(
 
         val result: MutableList<SubscriptionSearchResponse> = ArrayList()
 
-        if (include.contains("MILLIE")) {
+        if (include.contains("MILLIE"))
             result.addAll(subscriptionService.getMillie(query))
-        }
 
-        if (include.contains("YES24")) {
+        if (include.contains("YES24"))
             result.addAll(subscriptionService.getYes24(query))
-        }
 
-        if (include.contains("RIDI")) {
+        if (include.contains("RIDI"))
             result.addAll(subscriptionService.getRidi(query))
-        }
 
-        if (include.contains("KYOBO")) {
+        if (include.contains("KYOBO"))
             result.addAll(subscriptionService.getKyobo(query))
-        }
 
         return result
     }
