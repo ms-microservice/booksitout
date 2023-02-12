@@ -1,6 +1,6 @@
 package com.jinkyumpark.search.bookSearch
 
-import com.jinkyumpark.search.used.apiResponse.aladin.ApiAladinResponse
+import com.jinkyumpark.search.used.apiResponse.ApiAladinResponse
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient

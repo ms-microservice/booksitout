@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.used.apiResponse.aladin
+package com.jinkyumpark.search.used.apiResponse
 
 data class ApiAladinSeriesInfo(
     var seriesId: Int?,
