@@ -1,7 +1,7 @@
 package com.jinkyumpark.bookitout.settings.dtos;
 
-import com.jinkyumpark.bookitout.search.request.KoreaRegion;
-import com.jinkyumpark.bookitout.search.request.SeoulRegionDetail;
+import com.jinkyumpark.bookitout.settings.model.KoreaRegion;
+import com.jinkyumpark.bookitout.settings.model.SeoulRegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

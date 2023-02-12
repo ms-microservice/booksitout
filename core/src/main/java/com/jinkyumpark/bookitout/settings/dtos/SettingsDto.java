@@ -1,9 +1,9 @@
 package com.jinkyumpark.bookitout.settings.dtos;
 
-import com.jinkyumpark.bookitout.search.request.KoreaRegion;
-import com.jinkyumpark.bookitout.search.request.SeoulRegionDetail;
 import com.jinkyumpark.bookitout.settings.Settings;
+import com.jinkyumpark.bookitout.settings.model.KoreaRegion;
 import com.jinkyumpark.bookitout.settings.model.MyBookSearchRange;
+import com.jinkyumpark.bookitout.settings.model.SeoulRegionDetail;
 import com.jinkyumpark.bookitout.user.AppUser;
 import lombok.Builder;
 import lombok.Getter;

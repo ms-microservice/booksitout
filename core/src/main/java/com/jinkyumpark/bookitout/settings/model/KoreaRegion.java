@@ -1,4 +1,4 @@
-package com.jinkyumpark.bookitout.search.request;
+package com.jinkyumpark.bookitout.settings.model;
 
 import lombok.Getter;
 
