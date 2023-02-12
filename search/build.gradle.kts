@@ -12,7 +12,6 @@ java.sourceCompatibility = JavaVersion.VERSION_11
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
-    developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.68.Final:osx-aarch_64")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
@@ -24,6 +23,8 @@ dependencies {
     // Web Crawling
     implementation("org.jsoup:jsoup:1.15.3")
     implementation("org.seleniumhq.selenium:selenium-java:4.0.0")
+
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 }
 
 tasks.withType<KotlinCompile> {
