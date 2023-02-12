@@ -66,17 +66,17 @@ class LibraryController(
 
         val result: MutableList<OnlineLibraryResponse> = mutableListOf()
 
-        if (includeList.contains("SEOUL_EDUCATION_LIBRARY"))
+        if (includeList.contains(OnlineLibraryProvider.SEOUL_EDUCATION_LIBRARY.name))
             result.addAll(libraryService.getSeoulEducationLibrarySearchResult(query))
-        if (includeList.contains("SEOUL_LIBRARY"))
+        if (includeList.contains(OnlineLibraryProvider.SEOUL_LIBRARY.name))
             result.addAll(libraryService.getSeoulLibrarySearchResult(query, 10))
-        if (includeList.contains("NATIONAL_ASSEMBLY_LIBRARY"))
+        if (includeList.contains(OnlineLibraryProvider.NATIONAL_ASSEMBLY_LIBRARY.name))
             result.addAll(libraryService.getNationalAssemblyLibrary(query))
-        if (includeList.contains("GYEONGGI_EDUCATION_LIBRARY"))
+        if (includeList.contains(OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY.name))
             result.addAll(libraryService.getGyeonggiEducationLibrary(query))
-        if (includeList.contains("GWANGHWAMUN_LIBRARY"))
+        if (includeList.contains(OnlineLibraryProvider.GWANGHWAMUN_LIBRARY.name))
             result.addAll(libraryService.getGwanghwamunLibrary(query))
-        if (includeList.contains("SEOUL_CONGRESS_LIBRARY"))
+        if (includeList.contains(OnlineLibraryProvider.SEOUL_CONGRESS_LIBRARY.name))
             result.addAll(libraryService.getSeoulCongressLibrary(query))
 
         return result;
