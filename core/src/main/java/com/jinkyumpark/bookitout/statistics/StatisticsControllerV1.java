@@ -25,7 +25,6 @@ import java.util.*;
 @RequiredArgsConstructor
 @RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
-    private final MessageSourceAccessor messageSource;
     private final StatisticsService statisticsService;
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
