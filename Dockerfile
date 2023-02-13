@@ -2,7 +2,7 @@ FROM openjdk:17-oracle
 
 MAINTAINER JINKYUM PARK
 WORKDIR ./
-ARG JAR_FILE_PATH=./build/libs/*.jar
+ARG JAR_FILE_PATH=./tmp/*.jar
 
 ARG JWT_KEY
 ARG DB_URL

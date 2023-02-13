@@ -1,0 +1,10 @@
+package com.jinkyumpark.search.library
+
+enum class OnlineLibraryProvider {
+    SEOUL_LIBRARY,
+    SEOUL_EDUCATION_LIBRARY,
+    NATIONAL_ASSEMBLY_LIBRARY,
+    GYEONGGI_EDUCATION_LIBRARY,
+    GWANGHWAMUN_LIBRARY,
+    SEOUL_CONGRESS_LIBRARY,
+}

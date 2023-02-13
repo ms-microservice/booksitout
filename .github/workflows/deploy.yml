@@ -54,7 +54,11 @@ jobs:
 
       - name: Build Spring Project with Gradle
         run: |
-          ./gradlew clean build
+          ./gradlew clean assemble
+          mkdir tmp
+          (cd tmp; unzip -uo ../core/build/libs/core-2.0.jar)
+          (cd tmp; unzip -uo ../search/build/libs/search-2.0.jar)
+          jar -cvf bookitout-2.0.jar -C tmp . 
 
       - uses: 8398a7/action-slack@v3
         with:
