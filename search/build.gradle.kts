@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.5.30"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_11
+java.sourceCompatibility = JavaVersion.VERSION_17
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -25,6 +25,8 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.0.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
+
+    implementation(project(":core"))
 }
 
 tasks.withType<KotlinCompile> {
