@@ -55,7 +55,7 @@ jobs:
       - name: Build Spring Project with Gradle
         run: |
           ./gradlew clean assemble
-          copy ./core/build/lib/*.jar ./bookitout.jar
+          mv ./core/build/lib/*.jar ./bookitout.jar
 
       - uses: 8398a7/action-slack@v3
         with:
@@ -144,7 +144,6 @@ jobs:
           cd frontend
           npm install
           npm run build
-
 
       - name: Deploy React App to Github Pages
         uses: peaceiris/actions-gh-pages@v3
