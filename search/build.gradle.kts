@@ -25,8 +25,6 @@ dependencies {
     implementation("org.seleniumhq.selenium:selenium-java:4.0.0")
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
-
-    implementation(project(":core"))
 }
 
 tasks.withType<KotlinCompile> {

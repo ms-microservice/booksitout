@@ -52,8 +52,7 @@ class LibraryService(
     }
 
     fun getSeoulLibrarySearchResult(query: String, limit: Int): List<OnlineLibraryResponse> {
-        val url =
-            "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
+        val url = "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
 
         val response: ApiSeoulLibraryResponse = webClient
             .get()
