@@ -45,4 +45,4 @@ EXPOSE 80
 
 CMD ["./mvnw", "clean", "build"]
 COPY ${JAR_FILE_PATH} ./bookitout.jar
-ENTRYPOINT ["java", "-jar", "bookitout.jar"]
+ENTRYPOINT ["java", "-Dspring.profiles.active=prod,oauth,email,search", "-jar", "bookitout.jar"]
