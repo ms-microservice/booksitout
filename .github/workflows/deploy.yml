@@ -54,7 +54,7 @@ jobs:
 
       - name: Build Spring Project with Gradle
         run: |
-          ./gradlew clean assemble
+          ./gradlew clean build
           mv ./search/build/libs/*.jar ./bookitout.jar
 
       - uses: 8398a7/action-slack@v3
