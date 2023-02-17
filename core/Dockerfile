@@ -1,4 +1,4 @@
-FROM openjdk:17-oracle
+FROM adoptopenjdk/openjdk11
 
 MAINTAINER JINKYUM PARK
 WORKDIR ./
