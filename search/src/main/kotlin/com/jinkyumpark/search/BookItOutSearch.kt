@@ -4,8 +4,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class SearchApplication
+class BookItOutSearch
 
 fun main(args: Array<String>) {
-    runApplication<SearchApplication>(*args)
+    runApplication<BookItOutSearch>(*args)
 }
