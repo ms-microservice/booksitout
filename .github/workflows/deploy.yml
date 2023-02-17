@@ -73,6 +73,7 @@ jobs:
 
       - name: Build and Push Docker Image - core
         run: |
+          cd /core
           docker build --platform amd64 \
           --build-arg JWT_KEY="$JWT_SECRET_KEY" \
           --build-arg DB_URL="$DB_URL" \
@@ -103,11 +104,13 @@ jobs:
 
       - name: Build and Push Docker Image - Gateway
         run: |
+          cd /gateway
           docker build --platform amd64 \
           -t jinkpark/book-it-out:v2-gateway
 
       - name: Build and Push Docker Image - Search
         run: |
+          cd /search
           docker build --platform amd64 \
           --build-arg SEARCH_ALADIN_API_KEY="$SEARCH_ALADIN_API_KEY" \
           --build-arg SEARCH_DATA4LIBRARY_API_KEY="$SEARCH_DATA4LIBRARY_API_KEY" \
