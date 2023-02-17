@@ -66,9 +66,12 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 
 ## Version 2 (22년 1월 15일 ~ )
 -   OAuth 로그인 : Google, Facebook, Kakao, Naver 구현. Spring Security 내부 모듈 사용
--   검색 : 알라딘, 공공도서관, 전자도서관 등의 Open API와 Web Crawling으로 MSA 기반의 통합 검색 기능 구현
+-   검색 : 중고도서(알라딘, YES24 등), 공공도서관(서울, 경기), 전자도서관, 구독서비스(밀리의 서재, 리디 등)을 Open API와 Web Crawling을 활용해 한 번에 검색
+-   MSA 도입
+    - 일단 Multi module gralde project로 refactoring하고 Spring Cloud Gateway 도입 (core, user, search 3개의 MS로 분리)
+    - K8S 활용해 배포
 -   코드개선
-    - Back : Spring Webflux, Kotlin 등 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
+    - Back : Spring Webflux, Kotlin 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
     - Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
     - DevOps
       - Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
