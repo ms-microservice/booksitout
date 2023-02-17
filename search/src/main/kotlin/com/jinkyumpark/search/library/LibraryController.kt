@@ -64,21 +64,9 @@ class LibraryController(
     ): List<OnlineLibraryResponse> {
         if (includeList.isEmpty()) throw BadRequestException()
 
-        val result: MutableList<OnlineLibraryResponse> = mutableListOf()
-
-        if (includeList.contains(OnlineLibraryProvider.SEOUL_EDUCATION_LIBRARY.name))
-            result.addAll(libraryService.getSeoulEducationLibrarySearchResult(query))
-        if (includeList.contains(OnlineLibraryProvider.SEOUL_LIBRARY.name))
-            result.addAll(libraryService.getSeoulLibrarySearchResult(query, 10))
-        if (includeList.contains(OnlineLibraryProvider.NATIONAL_ASSEMBLY_LIBRARY.name))
-            result.addAll(libraryService.getNationalAssemblyLibrary(query))
-        if (includeList.contains(OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY.name))
-            result.addAll(libraryService.getGyeonggiEducationLibrary(query))
-        if (includeList.contains(OnlineLibraryProvider.GWANGHWAMUN_LIBRARY.name))
-            result.addAll(libraryService.getGwanghwamunLibrary(query))
-        if (includeList.contains(OnlineLibraryProvider.SEOUL_CONGRESS_LIBRARY.name))
-            result.addAll(libraryService.getSeoulCongressLibrary(query))
-
-        return result;
+        return includeList
+            .map { OnlineLibraryProvider.valueOf(it) }
+            .map { libraryService.getSearchResult(query, it) }
+            .flatten()
     }
 }

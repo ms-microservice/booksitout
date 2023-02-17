@@ -1,4 +1,3 @@
-import React from 'react'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
@@ -7,7 +6,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 })
 
 	return (
 		<Line
-			className='mt-0 mt-sm-auto'
+			className='mt-0 mt-sm-auto w-100 pe-0 pe-md-2 ms-2 ms-md-0'
 			style={{margin: 'auto 0'}}
 			options={{
 				plugins: { legend: { display: false } },

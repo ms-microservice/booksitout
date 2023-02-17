@@ -16,8 +16,6 @@ env:
   EB_APPLICATION_NAME: book-it-out
   EB_DEPLOYMENT_PACKAGE: ./docker-compose.yml
 
-  DOCKERHUB_IMAGE_NAME: jinkpark/book-it-out:v2
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -71,7 +69,7 @@ jobs:
           username: ${{ secrets.DOCKER_HUB_ID }}
           password: ${{ secrets.DOCKER_HUB_PW }}
 
-      - name: Build and Push Docker Image
+      - name: Build and Push Docker Image - core
         run: |
           docker build --platform amd64 \
           --build-arg JWT_KEY="$JWT_SECRET_KEY" \
@@ -85,11 +83,8 @@ jobs:
           --build-arg OAUTH_GOOGLE_CLIENT_ID="$OAUTH_GOOGLE_CLIENT_ID" \
           --build-arg OAUTH_GOOGLE_CLIENT_SECRET="$OAUTH_GOOGLE_CLIENT_SECRET" \
           --build-arg OAUTH_KAKAO_CLIENT_ID="$OAUTH_KAKAO_CLIENT_ID" \
-          --build-arg SEARCH_ALADIN_API_KEY="$SEARCH_ALADIN_API_KEY" \
-          --build-arg SEARCH_DATA4LIBRARY_API_KEY="$SEARCH_DATA4LIBRARY_API_KEY" \
-          -t jinkpark/book-it-out:v2 .
-          
-          docker push $DOCKERHUB_IMAGE_NAME
+          -t jinkpark/book-it-out:v2-core .
+          docker push jinkpark/book-it-out:v2-core
         env:
           JWT_SECRET_KEY: ${{ secrets.JWT_SECRET_KEY }}
           DB_URL: ${{ secrets.DB_URL }}
@@ -103,6 +98,20 @@ jobs:
           OAUTH_GOOGLE_CLIENT_ID: ${{ secrets.OAUTH_GOOGLE_CLIENT_ID }}
           OAUTH_GOOGLE_CLIENT_SECRET: ${{ secrets.OAUTH_GOOGLE_CLIENT_SECRET }}
           OAUTH_KAKAO_CLIENT_ID: ${{ secrets.OAUTH_KAKAO_CLIENT_ID }}
+
+      - name: Build and Push Docker Image - Gateway
+        run: |
+          docker build --platform amd64 \
+          -t jinkpark/book-it-out:v2-gateway
+
+      - name: Build and Push Docker Image - Search
+        run: |
+          docker build --platform amd64 \
+          --build-arg SEARCH_ALADIN_API_KEY="$SEARCH_ALADIN_API_KEY" \
+          --build-arg SEARCH_DATA4LIBRARY_API_KEY="$SEARCH_DATA4LIBRARY_API_KEY" \
+          -t jinkpark/book-it-out:v2-search
+          docker push jinkpark/book-it-out:v2-search
+        env:
           SEARCH_ALADIN_API_KEY: ${{ secrets.SEARCH_ALADIN_API_KEY }}
           SEARCH_DATA4LIBRARY_API_KEY: ${{ secrets.SEARCH_DATA4LIBRARY_API_KEY }}
 

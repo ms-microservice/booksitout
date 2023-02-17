@@ -51,9 +51,19 @@ class LibraryService(
             }
     }
 
-    fun getSeoulLibrarySearchResult(query: String, limit: Int): List<OnlineLibraryResponse> {
-        val url =
-            "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
+    fun getSearchResult(query: String, library: OnlineLibraryProvider): List<OnlineLibraryResponse> {
+        return when (library) {
+            OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY -> gyeonggiEducationLibrary(query)
+            OnlineLibraryProvider.SEOUL_LIBRARY -> seoulLibrary(query, 5)
+            OnlineLibraryProvider.GWANGHWAMUN_LIBRARY -> gwanghwamunLibrary(query)
+            OnlineLibraryProvider.SEOUL_EDUCATION_LIBRARY -> seoulEducationLibrary(query)
+            OnlineLibraryProvider.NATIONAL_ASSEMBLY_LIBRARY -> nationalAssemblyLibrary(query)
+            OnlineLibraryProvider.SEOUL_CONGRESS_LIBRARY -> seoulCongressLibrary(query)
+        }
+    }
+
+    fun seoulLibrary(query: String, limit: Int): List<OnlineLibraryResponse> {
+        val url = "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
 
         val response: ApiSeoulLibraryResponse = webClient
             .get()
@@ -66,7 +76,7 @@ class LibraryService(
             .map(ApiSeoulLibraryBook::toOnlineLibraryResponse)
     }
 
-    fun getGyeonggiEducationLibrary(query: String): List<OnlineLibraryResponse> {
+    fun gyeonggiEducationLibrary(query: String): List<OnlineLibraryResponse> {
         val url =
             "https://lib.goe.go.kr/gg/intro/search/index.do?menu_idx=10&viewPage=1&book_list=&title=$query&author=&publer=&keyword=&booktype=BOOK&shelfCode=&libraryCodes=MA&_libraryCodes=on&sortField=NONE&sortType=ASC&rowCount=10#search_result"
 
@@ -101,7 +111,7 @@ class LibraryService(
         return resultList;
     }
 
-    fun getGwanghwamunLibrary(query: String): List<OnlineLibraryResponse> {
+    fun gwanghwamunLibrary(query: String): List<OnlineLibraryResponse> {
         val url = "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
@@ -134,17 +144,17 @@ class LibraryService(
     }
 
     // TODO
-    fun getSeoulEducationLibrarySearchResult(query: String): List<OnlineLibraryResponse> {
+    fun seoulEducationLibrary(query: String): List<OnlineLibraryResponse> {
         return listOf()
     }
 
     // TODO
-    fun getNationalAssemblyLibrary(query: String): List<OnlineLibraryResponse> {
+    fun nationalAssemblyLibrary(query: String): List<OnlineLibraryResponse> {
         return listOf()
     }
 
     // TODO
-    fun getSeoulCongressLibrary(query: String): List<OnlineLibraryResponse> {
+    fun seoulCongressLibrary(query: String): List<OnlineLibraryResponse> {
         return listOf()
     }
 

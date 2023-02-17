@@ -13,11 +13,11 @@ dependencies {
 
     // DB
     implementation('org.springframework.boot:spring-boot-starter-data-jpa')
-    implementation('mysql:mysql-connector-java')
+    runtimeOnly('com.mysql:mysql-connector-j')
 
     // QueryDSL
-    implementation "com.querydsl:querydsl-jpa:${queryDslVersion}"
-    implementation "com.querydsl:querydsl-apt:${queryDslVersion}"
+    implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
+    implementation("com.querydsl:querydsl-apt:${queryDslVersion}")
 
     // Security
     implementation('org.springframework.boot:spring-boot-starter-security')
@@ -33,27 +33,25 @@ dependencies {
     implementation('com.google.code.gson:gson:2.9.0')
     implementation('org.springframework.boot:spring-boot-starter-mail')
 
-    // Web Crawling
-    implementation('org.jsoup:jsoup:1.15.3')
-    implementation('org.seleniumhq.selenium:selenium-java:4.0.0')
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
+    developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
+        artifact { classifier = "osx-aarch_64" }
+    }
 }
 
 // QueryDSL
-def querydslDir = "$buildDir/generated/querydsl"
 querydsl {
     jpa = true
-    querydslSourcesDir = querydslDir
+    querydslSourcesDir = "$buildDir/generated/querydsl"
 }
+
 sourceSets {
-    main.java.srcDir querydslDir
+    main.java.srcDir "$buildDir/generated/querydsl"
 }
+
 compileQuerydsl {
     options.annotationProcessorPath = configurations.querydsl
 }
+
 configurations {
     compileOnly {
         extendsFrom annotationProcessor

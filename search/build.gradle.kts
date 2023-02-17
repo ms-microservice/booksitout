@@ -7,7 +7,7 @@ plugins {
     kotlin("plugin.spring") version "1.5.30"
 }
 
-java.sourceCompatibility = JavaVersion.VERSION_17
+java.sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -26,7 +26,9 @@ dependencies {
 
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 
-    implementation(project(":core"))
+    developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
+        artifact { classifier = "osx-aarch_64" }
+    }
 }
 
 tasks.withType<KotlinCompile> {

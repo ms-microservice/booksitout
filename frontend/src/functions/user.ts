@@ -12,7 +12,7 @@ const user = {
 
 	login: (loginRequest) => {
 		return axios
-			.post(urls.api.user.login.basic, loginRequest, { headers: apiSettings.headers })
+			.post(urls.api.user.login.basic, loginRequest)
 			.then((res) => {
 				if (res.status !== 200) {
 					throw new Error(res.status.toString())

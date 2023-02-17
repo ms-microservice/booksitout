@@ -1,5 +1,10 @@
+wrapper {
+    gradleVersion("${rootGradleVersion}")
+}
+
 buildscript {
     repositories {
+        mavenCentral()
         maven { url "https://plugins.gradle.org/m2/" }
         gradlePluginPortal()
     }
@@ -8,7 +13,6 @@ buildscript {
         classpath "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         classpath "io.spring.gradle:dependency-management-plugin:${gradleDependencyPluginVersion}"
     }
-
 }
 
 subprojects {
@@ -18,24 +22,17 @@ subprojects {
 
     group 'com.jinkyumpark'
     version '2.0'
-    sourceCompatibility = '17'
+    sourceCompatibility = '11'
 
     jar { enabled = false }
 
-    repositories { mavenCentral() }
+    repositories {
+        mavenCentral()
+    }
 
     dependencies {
         // Lombok
         compileOnly('org.projectlombok:lombok')
         annotationProcessor('org.projectlombok:lombok')
-
-        // Development
-        developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
-            artifact { classifier = "osx-aarch_64" }
-        }
-        
-        // Testing
-        testImplementation('org.springframework.boot:spring-boot-starter-test')
-        testImplementation('com.h2database:h2')
     }
 }

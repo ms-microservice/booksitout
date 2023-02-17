@@ -1,7 +1,19 @@
 version: "3.8"
 services:
-  backend:
-    image: "jinkpark/book-it-out:v2"
+  gateway:
+    image: "jinkpark/book-it-out:v2-gateway"
     ports:
       - "80:80"
+    restart: "always"
+
+  core:
+    image: "jinkpark/book-it-out:v2-core"
+    ports:
+      - "8000:8000"
+    restart: "always"
+
+  search:
+    image: "jinkpark/book-it-out:v2-search"
+    ports:
+      - "8100:8100"
     restart: "always"
