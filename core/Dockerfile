@@ -2,7 +2,7 @@ FROM adoptopenjdk/openjdk11
 
 MAINTAINER JINKYUM PARK
 WORKDIR ./
-ARG JAR_FILE_PATH=./*.jar
+ARG JAR_FILE_PATH=./core/*.jar
 
 ARG JWT_KEY
 ARG DB_URL
