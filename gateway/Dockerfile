@@ -2,7 +2,7 @@ FROM openjdk:17-oracle
 
 MAINTAINER JINKYUM PARK
 WORKDIR ./
-ARG JAR_FILE_PATH=./*.jar
+ARG JAR_FILE_PATH=./gateway/*.jar
 
 EXPOSE 80
 
