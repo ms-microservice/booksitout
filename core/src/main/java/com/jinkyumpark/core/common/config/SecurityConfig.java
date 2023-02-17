@@ -53,8 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter(new JwtTokenFilter(secretKey, jwtConfig), JwtLoginFilter.class)
 
                 .authorizeRequests()
-                .antMatchers("/", "index", "/css/*", "/js/*").permitAll()
-                .antMatchers("/**/join/**", "/**/login/**", "/**/qna/**").permitAll()
+                .antMatchers("/", "/**").permitAll()
+                .antMatchers("index", "/css/*", "/js/*").permitAll()
+                .antMatchers("/**/join/**", "/**/login/**", "/**/qna/**", "/login").permitAll()
                 .antMatchers("/**/search/**").permitAll()
 
                 .anyRequest()
@@ -74,4 +75,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         provider.setUserDetailsService(appUserService);
         return provider;
     }
+
+
 }
