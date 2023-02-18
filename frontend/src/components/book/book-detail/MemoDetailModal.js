@@ -66,6 +66,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 	return (
 		<Modal
 			show={isModalOpen}
+			size='lg'
 			onHide={() => {
 				setIsEditMode(false)
 				setIsModalOpen(false)

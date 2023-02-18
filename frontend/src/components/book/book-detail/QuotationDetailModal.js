@@ -66,6 +66,7 @@ const QuotationDetailModal = ({ isModalOpen, setIsModalOpen, quotation, setQuota
 
 	return (
 		<Modal
+		size='lg'
 			show={isModalOpen}
 			onHide={() => {
 				setIsEditMode(false)

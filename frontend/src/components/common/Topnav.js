@@ -240,7 +240,7 @@ const SearchBar = ({width = {}}) => {
 			<div className='col-9 p-lg-0 pe-0'>
 				<Form.Control
 					type='search'
-					placeholder='한 번에 책  검색하기'
+					placeholder='한 번에 책 검색하기'
 					className='me-2 w-100'
 					aria-label='Search'
 					value={keyword}

@@ -17,6 +17,7 @@ import goalIcon from '../../../resources/images/statistics/goal.png'
 import GoalPastAddModal from './GoalPastAddModal'
 import GoalPastEditModal from './GoalPastEditModal'
 import messages from '../../../settings/messages'
+import BookReadInYear from './BookReadInYear'
 
 const Goal = () => {
 	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
@@ -153,7 +154,10 @@ const Goal = () => {
 								<h2>{new Date().getFullYear()}년 최고의 책</h2>
 
 								{highlightBookList.length === 0 ? (
-									<NoContent message={`${currentYear}년은 아직 최고의 책이 없어요`} style={{ width: '150px' }} />
+									<NoContent
+										message={`${currentYear}년은 아직 최고의 책이 없어요`}
+										style={{ width: '150px' }}
+									/>
 								) : (
 									<></>
 								)}
@@ -167,6 +171,10 @@ const Goal = () => {
 								</div>
 							</Card.Body>
 						</Card>
+					</div>
+
+					<div className="col-12 mb-4">
+						<BookReadInYear year={2023}/>
 					</div>
 
 					<div className='col-12 mb-5'>
