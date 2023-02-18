@@ -119,8 +119,7 @@ class LibraryService(
         val bookList: Elements =
             document.getElementsByClass("bookListType01").first()?.getElementsByTag("li") ?: return listOf()
 
-        val resultList: List<OnlineLibraryResponse> = mutableListOf()
-        for (book: Element in bookList) {
+        val resultList: List<OnlineLibraryResponse> = bookList.map { book ->
             val title: String = book.getElementsByClass("tit").first()!!.text()
             val author: String = book.getElementsByClass("writer").first()!!.text()
             val cover: String = book.getElementsByClass("thum").first()!!.getElementsByTag("img").first()!!.attr("src")
@@ -131,13 +130,16 @@ class LibraryService(
                 book.getElementsByClass("out").first()!!.getElementsByTag("span")[1].text().toInt()
             val maxLoanCount: Int = book.getElementsByClass("out").first()!!.getElementsByTag("span")[2].text().toInt()
 
-            resultList + OnlineLibraryResponse(
+            val loanPossible: Boolean = currentLoanCount < maxLoanCount
+            val reservationPossible: Boolean = !loanPossible && (currentLoanCount <= maxLoanCount)
+
+            OnlineLibraryResponse(
                 title = title,
                 author = author,
                 cover = cover,
                 link = link,
-                loanPossible = currentLoanCount < maxLoanCount,
-                reservationPossible = currentLoanCount >= maxLoanCount,
+                loanPossible = loanPossible,
+                reservationPossible = reservationPossible,
                 provider = OnlineLibraryProvider.GWANGHWAMUN_LIBRARY,
             )
         }
