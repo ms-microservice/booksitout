@@ -17,21 +17,10 @@ class SubscriptionController(
         @RequestParam("include") include: List<String>,
     ): List<SubscriptionSearchResponse> {
 
-        val result: MutableList<SubscriptionSearchResponse> = ArrayList()
+        return include
+            .map { subscriptionService.getSearchResult(query, SubscriptionProvider.valueOf(it)) }
+            .flatten()
 
-        if (include.contains("MILLIE"))
-            result.addAll(subscriptionService.getMillie(query))
-
-        if (include.contains("YES24"))
-            result.addAll(subscriptionService.getYes24(query))
-
-        if (include.contains("RIDI"))
-            result.addAll(subscriptionService.getRidi(query))
-
-        if (include.contains("KYOBO"))
-            result.addAll(subscriptionService.getKyobo(query))
-
-        return result
     }
 
 }

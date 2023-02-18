@@ -17,7 +17,16 @@ class SubscriptionService(
     val webClient: WebClient
 ) {
 
-    fun getMillie(query: String): List<SubscriptionSearchResponse> {
+    fun getSearchResult(query: String, provider: SubscriptionProvider): List<SubscriptionSearchResponse> {
+        return when (provider) {
+            SubscriptionProvider.MILLIE -> millie(query)
+            SubscriptionProvider.YES24 -> yes24(query)
+            SubscriptionProvider.RIDI -> ridi(query)
+            SubscriptionProvider.KYOBO -> kyobo(query)
+        }
+    }
+
+    private fun millie(query: String): List<SubscriptionSearchResponse> {
         val url: String = "https://live-api.millie.co.kr/v2/search/content?" +
                 "debug=1&searchType=content&keyword=$query&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1&contentCode=245"
 
@@ -31,7 +40,7 @@ class SubscriptionService(
         return response.respData?.list?.map(ApiMillieBook::toSubscriptionSearchResult)!!
     }
 
-    fun getYes24(query: String): List<SubscriptionSearchResponse> {
+    private fun yes24(query: String): List<SubscriptionSearchResponse> {
         val url = "https://bookclub.yes24.com/BookClub/Search?query=$query"
         val result: MutableList<SubscriptionSearchResponse> = mutableListOf()
 
@@ -61,7 +70,7 @@ class SubscriptionService(
         return result
     }
 
-    fun getRidi(query: String): List<SubscriptionSearchResponse> {
+    private fun ridi(query: String): List<SubscriptionSearchResponse> {
         val url = "https://search-api.ridibooks.com/search?site=ridi-select&where=book&what=instant&keyword=$query"
 
         val response: ApiRidiResponse = webClient
@@ -74,7 +83,7 @@ class SubscriptionService(
         return response.books.map(ApiRidiBook::toSubscriptionSearchResponse)
     }
 
-    fun getKyobo(query: String): List<SubscriptionSearchResponse> {
+    private fun kyobo(query: String): List<SubscriptionSearchResponse> {
         val url = "https://search.kyobobook.co.kr/search?keyword=$query&target=sam&gbCode=TOT&cat1=eBook@SAM"
 
         val document: Document = Jsoup.connect(url).get().parser(Parser.htmlParser())
