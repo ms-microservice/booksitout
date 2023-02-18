@@ -57,15 +57,13 @@ class UsedService(
         val resultList: MutableList<UsedSearchBook> = mutableListOf()
         for (listElement in listElements) {
             val title: String = listElement.getElementsByClass("gd_name").first()?.text() ?: continue
-            val author: String =
-                listElement.getElementsByClass("info_auth").first()?.getElementsByTag("a")?.first()?.text() ?: ""
+            val author: String = listElement.getElementsByClass("info_auth").first()?.getElementsByTag("a")?.first()?.text() ?: ""
             val cover: String = listElement.getElementsByTag("img").first()?.attr("data-original") ?: ""
-            val minPrice: String =
-                listElement.getElementsByClass("txt_num").first()?.text()?.replace(",", "")?.replace("원", "") ?: "0"
+            val minPrice: String = listElement.getElementsByClass("txt_num").first()?.text()?.replace(",", "")?.replace("원", "") ?: "0"
             val stockCount: String = listElement.getElementsByClass("txC_blue").first()?.text()?.substring(3, 4) ?: "0"
             val locationList: List<String> = listElement
                 .getElementsByClass("loca")
-                .map { it.getElementsByTag("string").first()?.text() ?: "" }
+                .map { it.getElementsByTag("strong").first()?.text() ?: "" }
 
             resultList.add(
                 UsedSearchBook(
