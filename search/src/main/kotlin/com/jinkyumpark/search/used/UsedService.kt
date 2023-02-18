@@ -18,11 +18,7 @@ class UsedService(
 ) {
 
     fun getAladinUsedBook(query: String?): List<ApiAladinItem> {
-        val url = """
-            http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?
-            TTBKey=$aladinApiKey&Query=$query&
-            SearchTarget=USED&outofStockfilter=1&Output=JS&OptResult=usedList&version=20131101
-        """.trimIndent()
+        val url = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=$aladinApiKey&Query=$query&SearchTarget=USED&outofStockfilter=1&Output=JS&OptResult=usedList&version=20131101"
 
         val response: ApiAladinResponse = webClient
             .get()
