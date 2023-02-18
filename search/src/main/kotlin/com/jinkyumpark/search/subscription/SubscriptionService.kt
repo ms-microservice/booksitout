@@ -42,21 +42,20 @@ class SubscriptionService(
 
     private fun yes24(query: String): List<SubscriptionSearchResponse> {
         val url = "https://bookclub.yes24.com/BookClub/Search?query=$query"
-        val result: MutableList<SubscriptionSearchResponse> = mutableListOf()
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
         val element: Element = document.getElementById("yesSchList") ?: return listOf()
-        val listElements: Elements = element.getElementsByTag("li") ?: return listOf()
+        val listElements: Elements = element.getElementsByTag("li")
 
-        for (listElement: Element in listElements) {
-            val titleLinkElement: Element = listElement.getElementsByClass("gd_name").first()!!
-            val title: String = titleLinkElement.text()
-            val link: String = titleLinkElement.attr("href")
+        return listElements
+            .map { listElement ->
+                val titleLinkElement: Element = listElement.getElementsByClass("gd_name").first()!!
+                val title: String = titleLinkElement.text()
+                val link: String = titleLinkElement.attr("href")
 
-            val author: String = listElement.getElementsByClass("info_auth").first()?.text()?.trim() ?: ""
-            val cover: String = listElement.getElementsByClass("lazy").first()?.text()?.trim() ?: ""
+                val author: String = listElement.getElementsByClass("info_auth").first()?.text()?.trim() ?: ""
+                val cover: String = listElement.getElementsByClass("lazy").first()?.text()?.trim() ?: ""
 
-            result.add(
                 SubscriptionSearchResponse(
                     title = title,
                     author = author,
@@ -64,10 +63,7 @@ class SubscriptionService(
                     cover = cover,
                     provider = SubscriptionProvider.YES24
                 )
-            )
-        }
-
-        return result
+            }
     }
 
     private fun ridi(query: String): List<SubscriptionSearchResponse> {
@@ -92,7 +88,8 @@ class SubscriptionService(
         val result: MutableList<SubscriptionSearchResponse> = mutableListOf()
         for (product: Element in productList) {
             val bookId: String = product.getElementsByTag("input").first()?.attr("data-bid") ?: continue
-            val title: String = product.getElementsByClass("prod_info").first()?.getElementsByTag("span")?.last()?.text() ?: "?"
+            val title: String =
+                product.getElementsByClass("prod_info").first()?.getElementsByTag("span")?.last()?.text() ?: "?"
             val author: String = product.getElementsByClass("author").first()?.text() ?: "?"
             val link: String = product.getElementsByClass("btn_sm btn_light_gray").first()?.attr("href") ?: ""
 
