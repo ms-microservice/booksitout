@@ -63,7 +63,8 @@ class LibraryService(
     }
 
     fun seoulLibrary(query: String, limit: Int): List<OnlineLibraryResponse> {
-        val url = "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
+        val url =
+            "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
 
         val response: ApiSeoulLibraryResponse = webClient
             .get()
@@ -87,8 +88,7 @@ class LibraryService(
             ?.getElementsByClass("row")
             ?: return listOf()
 
-        val resultList: List<OnlineLibraryResponse> = mutableListOf()
-        for (book: Element in bookList) {
+        val resultList: List<OnlineLibraryResponse> = bookList.map { book ->
             val title: String = book.getElementsByClass("book-title").first()?.getElementsByTag("span")?.text() ?: "?"
             val bookInfoText: String = book.getElementsByClass("book-status-info").first()?.text() ?: "?"
             val author: String = bookInfoText.substring(5, bookInfoText.indexOf('|'))
@@ -97,13 +97,13 @@ class LibraryService(
             val loanPossible: Boolean = book.getElementsByClass("state typeC").first()?.text().equals("대출가능")
             val reservationPossible: Boolean = !book.getElementsByClass("state typeC").first()?.text().equals("예약불가")
 
-            resultList + OnlineLibraryResponse(
+            OnlineLibraryResponse(
                 title = title,
                 author = author,
                 cover = cover,
                 link = "https://lib.goe.go.kr/gg/intro/search/$link",
                 loanPossible = loanPossible,
-                reservationPossible = reservationPossible,
+                reservationPossible = !loanPossible && reservationPossible,
                 provider = OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY
             )
         }
@@ -112,7 +112,8 @@ class LibraryService(
     }
 
     fun gwanghwamunLibrary(query: String): List<OnlineLibraryResponse> {
-        val url = "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
+        val url =
+            "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
         val bookList: Elements =
@@ -124,7 +125,8 @@ class LibraryService(
             val author: String = book.getElementsByClass("writer").first()!!.text()
             val cover: String = book.getElementsByClass("thum").first()!!.getElementsByTag("img").first()!!.attr("src")
             val bookId: String = book.getElementsByClass("btn").first()!!.getElementsByTag("input").attr("barcode")
-            val link = "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_Detail.asp?barcode=$bookId&type=&product_cd=001&adult_yn=N"
+            val link =
+                "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_Detail.asp?barcode=$bookId&type=&product_cd=001&adult_yn=N"
             val currentLoanCount: Int =
                 book.getElementsByClass("out").first()!!.getElementsByTag("span")[1].text().toInt()
             val maxLoanCount: Int = book.getElementsByClass("out").first()!!.getElementsByTag("span")[2].text().toInt()
