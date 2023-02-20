@@ -133,7 +133,7 @@ const urls = {
 		},
 
 		search: {
-			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range')}`,
+			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range') || 'ALL'}`,
 			used: (query: string, includeOnline: string, includeOffline: string) => `${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
 			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,
 			libraryByLibrary: (query, includeLibraryCodeList) => `${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,

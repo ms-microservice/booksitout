@@ -87,12 +87,12 @@ const Topnav = () => {
 					</Navbar.Brand>
 
 					<button className='d-lg-none ms-auto me-3 navbar-toggler'>
-							<SearchIcon
-								className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
-								onClick={() => {
-									toggleSearchBar()
-								}}
-							/>
+						<SearchIcon
+							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
+							onClick={() => {
+								toggleSearchBar()
+							}}
+						/>
 					</button>
 
 					<Navbar.Toggle onClick={() => setExpanded(!expanded)}></Navbar.Toggle>
@@ -165,7 +165,7 @@ const Topnav = () => {
 
 						{token !== '' && token != null && (
 							<span className='d-none d-lg-inline'>
-								<SearchBar width={{width: '400px'}}/>
+								<SearchBar width={{ width: '400px' }} />
 							</span>
 						)}
 
@@ -189,16 +189,23 @@ const Topnav = () => {
 								className={`d-none d-${expand}-block`}>
 								{token === '' || token == null ? (
 									<>
-										<NavDropdown.Item href='/login'>로그인</NavDropdown.Item>
-										<NavDropdown.Item href='/join'>회원가입</NavDropdown.Item>
+										<NavDropdown.Item href='/login'><LoginIcon className='me-2 mb-1'/> 로그인</NavDropdown.Item>
+										<NavDropdown.Item href='/join'><JoinIcon className='me-2 mb-1'/> 회원가입</NavDropdown.Item>
 									</>
 								) : (
 									<>
 										<NavDropdown.Item href='/qna'>QNA</NavDropdown.Item>
 										<NavDropdown.Item href='/faq'>FAQ</NavDropdown.Item>
+
 										<NavDropdown.Divider />
-										<NavDropdown.Item href='/settings'>설정</NavDropdown.Item>
-										<NavDropdown.Item onClick={(e) => handleLogout(e)}>로그아웃</NavDropdown.Item>
+
+										<NavDropdown.Item href='/settings'>
+											<SettingIcon className='me-2 mb-1'/> 설정
+										</NavDropdown.Item>
+
+										<NavDropdown.Item onClick={(e) => handleLogout(e)}>
+											<LoginIcon className='me-2 mb-1'/> 로그아웃
+										</NavDropdown.Item>
 									</>
 								)}
 							</NavDropdown>

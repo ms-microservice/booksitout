@@ -189,6 +189,8 @@ const Login = () => {
 										})}
 									</div>
 								</div>
+
+								<h6 className="text-secondary mt-4">카카오 계정으로 가입하실 때 반드시 이메일을 허용해 주세요</h6>
 							</Form>
 						</Card.Body>
 					</Card>

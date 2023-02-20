@@ -13,7 +13,7 @@ import PageProgressBar from '../common/PageProgressBar'
 import MemoDetailModal from '../book/book-detail/MemoDetailModal'
 import QuotationDetailModal from '../book/book-detail/QuotationDetailModal'
 // Images
-import defaultBookCover from '../../resources/images/common/book.png'
+import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 // Functions
 import { getBookOfCurrentReadingSession, startReadingSession } from '../../functions/reading'
 import { getMemoListOfBook } from '../../functions/memo'
