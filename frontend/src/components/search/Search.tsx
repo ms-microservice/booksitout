@@ -19,6 +19,7 @@ import uiSettings from '../../settings/ui'
 // Types
 import { UsedBook, MyBook, LibraryBook, SubscriptionBook } from './BookType'
 import LibraryOnlineCardComponent from './cardComponent/LibraryOnlineCardComponent'
+import { Alert, Card } from 'react-bootstrap'
 
 const Search = () => {
 	const { query } = useParams()
@@ -75,6 +76,8 @@ const Search = () => {
 	return (
 		<div className='container mt-5'>
 			<LibraryDetailModal />
+
+			<Alert variant='success' className='text-center'>검색 결과를 클릭하면 책을 볼 수 있는 곳으로 이동해요</Alert>
 
 			<BookSearchResult label='내 책' labelComponent={<></>} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
 			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} />
