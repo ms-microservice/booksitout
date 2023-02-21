@@ -34,6 +34,8 @@ import utils from '../../../functions/utils'
 const BookDetail = () => {
 	const { id } = useParams()
 
+	const navigate = useNavigate()
+
 	const [loading, setLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
 
@@ -85,15 +87,11 @@ const BookDetail = () => {
 		return Math.round(bookRemainPage * averageReadTimePerPage)
 	}
 
+	if (initialFetch) return <></>
+	if (loading) return <Loading message='잠시만 기다려 주세요' />
+	if (book == null) <NoContent message='책이 없어요 다시 확인해 주세요' />
 	return (
 		<div className='container-xl'>
-			{initialFetch ? (
-				<></>
-			) : loading ? (
-				<Loading message='' />
-			) : book == null ? (
-				<NoContent message='책이 없어요 다시 확인해 주세요' />
-			) : (
 				<div className='row text-center mt-5' style={{ marginBottom: '150px' }}>
 					<AddRatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
 					<AddReviewModal isModalOpen={isReviewModalOpen} setIsModalOpen={setIsReviewModalOpen} book={book} setBook={setBook} />
@@ -155,6 +153,10 @@ const BookDetail = () => {
 							setIsReviewModalOpen={setIsReviewModalOpen}
 							setIsSummaryModalOpen={setIsSummaryModalOpen}
 						/>
+
+						<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book.title}`)}>
+							이 책 검색하기
+						</Button>
 					</div>
 
 					<div className='col-12 col-md-8 mt-0 mt-md-5'>
@@ -279,7 +281,6 @@ const BookDetail = () => {
 						/>
 					</div>
 				</div>
-			)}
 		</div>
 	)
 }
@@ -564,7 +565,7 @@ const ReadingSessionList = ({ readingSessionList, book, setIsReadingSessionModal
 								}}>
 								<Card.Body>
 									<div className='row justify-content-center'>
-										<div className='col-8 col-md-6'>
+										<div className='col-8 col-md-6' style={{ whiteSpace: 'nowrap' }}>
 											🗓️{' '}
 											{readingSession.startTime
 												.substring(2, readingSession.startTime.indexOf('T'))

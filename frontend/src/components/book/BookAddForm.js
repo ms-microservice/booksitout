@@ -77,7 +77,7 @@ const BookAddForm = () => {
 							</div>
 						</div>
 
-						<div className='row mt-5'>
+						<div className='row mt-5 mt-md-4'>
 							<div className='col-6'>
 								<Button className='w-100' onClick={openModal}>
 									책 표지 검색
