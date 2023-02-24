@@ -1,10 +1,10 @@
 package com.jinkyumpark.settings.dtos;
 
-import com.jinkyumpark.core.settings.Settings;
-import com.jinkyumpark.core.settings.model.KoreaRegion;
-import com.jinkyumpark.core.settings.model.MyBookSearchRange;
-import com.jinkyumpark.core.settings.model.SeoulRegionDetail;
-import com.jinkyumpark.core.user.AppUser;
+import com.jinkyumpark.settings.Settings;
+import com.jinkyumpark.settings.model.KoreaRegion;
+import com.jinkyumpark.settings.model.MyBookSearchRange;
+import com.jinkyumpark.settings.model.SeoulRegionDetail;
+import com.jinkyumpark.user.AppUser;
 import lombok.Builder;
 import lombok.Getter;
 

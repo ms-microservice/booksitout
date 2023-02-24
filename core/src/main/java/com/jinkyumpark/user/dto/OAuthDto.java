@@ -1,6 +1,6 @@
 package com.jinkyumpark.user.dto;
 
-import com.jinkyumpark.core.user.oauth.OAuthProvider;
+import com.jinkyumpark.user.oauth.OAuthProvider;
 import lombok.Builder;
 import lombok.Getter;
 

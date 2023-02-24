@@ -1,13 +1,13 @@
 package com.jinkyumpark.settings;
 
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
-import com.jinkyumpark.core.settings.dtos.ChangeMyBookSearchRangeRequest;
-import com.jinkyumpark.core.settings.dtos.ChangeRangeRequest;
-import com.jinkyumpark.core.settings.dtos.ChangeRegionRequest;
-import com.jinkyumpark.core.settings.dtos.SettingsDto;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.EditSuccessResponse;
+import com.jinkyumpark.settings.dtos.ChangeMyBookSearchRangeRequest;
+import com.jinkyumpark.settings.dtos.ChangeRangeRequest;
+import com.jinkyumpark.settings.dtos.ChangeRegionRequest;
+import com.jinkyumpark.settings.dtos.SettingsDto;
+import com.jinkyumpark.user.login.LoginAppUser;
+import com.jinkyumpark.user.login.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 

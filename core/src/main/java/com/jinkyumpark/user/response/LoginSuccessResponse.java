@@ -1,7 +1,6 @@
 package com.jinkyumpark.user.response;
 
-import com.jinkyumpark.core.settings.Settings;
-import com.jinkyumpark.user.LoginMethod;
+import com.jinkyumpark.settings.Settings;
 import lombok.Builder;
 import lombok.Getter;
 

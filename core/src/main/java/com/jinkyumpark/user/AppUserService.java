@@ -1,15 +1,14 @@
 package com.jinkyumpark.user;
 
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
-import com.jinkyumpark.core.common.exception.http.NotLoginException;
-import com.jinkyumpark.core.common.security.token.AppUserAuthenticationToken;
-import com.jinkyumpark.core.common.util.jwt.JwtUtils;
-import com.jinkyumpark.core.settings.Settings;
-import com.jinkyumpark.core.settings.SettingsService;
-import com.jinkyumpark.core.user.dto.AppUserDto;
-import com.jinkyumpark.core.user.dto.OAuthDto;
-import com.jinkyumpark.core.user.response.LoginMethod;
-import com.jinkyumpark.core.user.response.LoginSuccessResponse;
+import com.jinkyumpark.common.exception.http.NotFoundException;
+import com.jinkyumpark.common.exception.http.NotLoginException;
+import com.jinkyumpark.common.security.token.AppUserAuthenticationToken;
+import com.jinkyumpark.common.util.jwt.JwtUtils;
+import com.jinkyumpark.settings.Settings;
+import com.jinkyumpark.settings.SettingsService;
+import com.jinkyumpark.user.dto.AppUserDto;
+import com.jinkyumpark.user.dto.OAuthDto;
+import com.jinkyumpark.user.response.LoginMethod;
 import com.jinkyumpark.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;

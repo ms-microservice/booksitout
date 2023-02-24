@@ -1,6 +1,6 @@
 package com.jinkyumpark.settings.dtos;
 
-import com.jinkyumpark.core.settings.model.MyBookSearchRange;
+import com.jinkyumpark.settings.model.MyBookSearchRange;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

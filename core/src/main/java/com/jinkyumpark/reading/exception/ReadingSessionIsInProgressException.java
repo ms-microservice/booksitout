@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.reading.exception;
+package com.jinkyumpark.reading.exception;
 
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

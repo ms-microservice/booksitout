@@ -1,6 +1,6 @@
-package com.jinkyumpark.user.loginuser;
+package com.jinkyumpark.user.login;
 
-import com.jinkyumpark.core.common.security.token.AppUserAuthenticationToken;
+import com.jinkyumpark.common.security.token.AppUserAuthenticationToken;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
 import org.springframework.security.core.Authentication;

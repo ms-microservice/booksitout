@@ -1,6 +1,6 @@
-package com.jinkyumpark.core.statistics.response;
+package com.jinkyumpark.statistics.response;
 
-import com.jinkyumpark.core.book.model.BookLanguage;
+import com.jinkyumpark.book.model.BookLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

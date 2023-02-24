@@ -1,14 +1,12 @@
 package com.jinkyumpark.user;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.common.jpa.TimeEntity;
+import com.jinkyumpark.book.model.Book;
+import com.jinkyumpark.common.jpa.TimeEntity;
 import com.jinkyumpark.user.dto.AppUserDto;
 import com.jinkyumpark.user.dto.OAuthDto;
 import com.jinkyumpark.user.oauth.OAuthProvider;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;

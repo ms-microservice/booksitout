@@ -1,6 +1,6 @@
 package com.jinkyumpark.settings;
 
-import com.jinkyumpark.core.settings.dtos.SettingsDto;
+import com.jinkyumpark.settings.dtos.SettingsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
