@@ -1,4 +1,5 @@
 rootProject.name = 'BookItOut'
+include 'common'
 include 'core'
 include 'search'
 include 'gateway'
