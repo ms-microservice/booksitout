@@ -12,6 +12,7 @@ import kimchiImage from '../../resources/images/common/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, giveUpBook, unGiveUpBook } from '../../functions/book'
+import DoneHorizontalBookView from './DoneHorizontalBookView'
 
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
@@ -20,7 +21,7 @@ const BookList = () => {
 	const location = useLocation()
 
 	const [initalFetch, setInitialFetch] = useState(true)
-	const [isLoading, setIsLoading] = useState(false)
+	const [loading, setIsLoading] = useState(false)
 	const [error, setError] = useState(false)
 
 	const [bookList, setBookList] = useState(null)
@@ -34,7 +35,7 @@ const BookList = () => {
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 5000)
 
-		getBookList(range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range, currentPage - 1)
+		getBookList(range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range, currentPage - 1, range === 'done' ? 12 : 10)
 			.then((pageList) => {
 				if (pageList == null) {
 					setError(true)
@@ -49,15 +50,13 @@ const BookList = () => {
 			})
 	}, [location.pathname, range, rangeDetail, currentPage])
 
+	if (initalFetch) return <></>
+	if (loading) return <Loading message='잠시만 기다려 주세요' />
+	if (error || bookList == null) return <Error />
+
 	return (
 		<div className='container-lg'>
-			{initalFetch ? (
-				<></>
-			) : isLoading ? (
-				<Loading message='잠시만 기다려 주세요' />
-			) : error || bookList == null ? (
-				<Error />
-			) : (
+			{
 				<>
 					{range === 'not-done' ? (
 						<Tabs
@@ -158,11 +157,11 @@ const BookList = () => {
 												window.scrollTo({
 													top: 0,
 													behavior: 'auto',
-												})									
+												})
 											} else {
-												window.scrollTo({top: 0})
+												window.scrollTo({ top: 0 })
 											}
-											
+
 											navigate(`${location.pathname}?page=${p}`)
 										}}>
 										{p}
@@ -172,7 +171,7 @@ const BookList = () => {
 						</Pagination>
 					)}
 				</>
-			)}
+			}
 		</div>
 	)
 }
@@ -180,6 +179,21 @@ const BookList = () => {
 const BookCardList = ({ bookList, range, setBookList }) => {
 	const navigate = useNavigate()
 
+	if (range === 'done') {
+		return (
+			<div className="row row-eq-height mb-4">
+				{
+					bookList.map((book) => {
+						return (
+							<div className='col-6 col-md-4 col-lg-3 col-xl-2 mb-4'>
+								<DoneHorizontalBookView book={book} />
+							</div>
+						)
+					})
+				}
+			</div>
+		)
+	}
 	return (
 		<div className='row row-eq-height'>
 			{bookList.map((book) => {
@@ -188,9 +202,7 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 						<Card className='h-100'>
 							<Card.Body>
 								<>
-									{range === 'done' ? (
-										<HorizontalBookView book={book} link={`/book/detail/${book.bookId}`} />
-									) : range === 'give-up' ? (
+									{range === 'give-up' ? (
 										<HorizontalBookView
 											book={book}
 											firstButton={

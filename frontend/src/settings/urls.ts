@@ -64,7 +64,7 @@ const urls = {
 			get: {
 				last: `${apiBase}/v1/book/last`,
 				detail: (bookId) => `${apiBase}/v1/book/${bookId}`,
-				all: (range: string, page: number) => `${apiBase}/v1/book/all/${range}?page=${page}`,
+				all: (range: string, page: number, size: number) => `${apiBase}/v1/book/all/${range}?page=${page}&size=${size}`,
 			},
 			add: `${apiBase}/v1/book`,
 			edit: {
@@ -134,10 +134,13 @@ const urls = {
 
 		search: {
 			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range') || 'ALL'}`,
-			used: (query: string, includeOnline: string, includeOffline: string) => `${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
+			used: (query: string, includeOnline: string, includeOffline: string) =>
+				`${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
 			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,
-			libraryByLibrary: (query, includeLibraryCodeList) => `${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
-			libraryByRegion: (query, region, regionDetail) => `${apiBase}/v2/search/library/offline/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+			libraryByLibrary: (query, includeLibraryCodeList) =>
+				`${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
+			libraryByRegion: (query, region, regionDetail) =>
+				`${apiBase}/v2/search/library/offline/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
 			libraryOnline: (query, include) => `${apiBase}/v2/search/library/online?query=${query}&include=${include}`,
 
 			settings: {
