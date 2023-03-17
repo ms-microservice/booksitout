@@ -1,12 +1,14 @@
 package com.jinkyumpark.qna;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.core.qna.request.QnaEditRequest;
-import com.jinkyumpark.core.user.AppUser;
+import com.jinkyumpark.qna.request.QnaEditRequest;
+import com.jinkyumpark.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import javax.persistence.*;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder

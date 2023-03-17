@@ -1,7 +1,7 @@
 package com.jinkyumpark.qna.request;
 
-import com.jinkyumpark.core.qna.Qna;
-import com.jinkyumpark.core.user.AppUser;
+import com.jinkyumpark.qna.Qna;
+import com.jinkyumpark.user.AppUser;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

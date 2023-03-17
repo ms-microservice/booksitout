@@ -1,15 +1,15 @@
 package com.jinkyumpark.qna;
 
-import com.jinkyumpark.core.common.exception.http.BadRequestException;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
-import com.jinkyumpark.core.qna.request.QnaAddRequest;
-import com.jinkyumpark.core.qna.request.QnaEditRequest;
-import com.jinkyumpark.core.user.AppUserService;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
+import com.jinkyumpark.common.exception.http.BadRequestException;
+import com.jinkyumpark.common.exception.http.NotAuthorizeException;
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.EditSuccessResponse;
+import com.jinkyumpark.qna.request.QnaAddRequest;
+import com.jinkyumpark.qna.request.QnaEditRequest;
+import com.jinkyumpark.user.AppUserService;
+import com.jinkyumpark.user.login.LoginAppUser;
+import com.jinkyumpark.user.login.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;

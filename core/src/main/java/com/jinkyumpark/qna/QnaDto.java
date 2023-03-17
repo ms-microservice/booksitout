@@ -1,6 +1,6 @@
 package com.jinkyumpark.qna;
 
-import com.jinkyumpark.core.user.AppUser;
+import com.jinkyumpark.user.AppUser;
 import lombok.Builder;
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
 package com.jinkyumpark.qna;
 
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
-import com.jinkyumpark.core.qna.request.QnaAddRequest;
-import com.jinkyumpark.core.qna.request.QnaEditRequest;
-import com.jinkyumpark.core.user.login.LoginAppUser;
+import com.jinkyumpark.common.exception.http.NotAuthorizeException;
+import com.jinkyumpark.common.exception.http.NotFoundException;
+import com.jinkyumpark.qna.request.QnaAddRequest;
+import com.jinkyumpark.qna.request.QnaEditRequest;
+import com.jinkyumpark.user.login.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
