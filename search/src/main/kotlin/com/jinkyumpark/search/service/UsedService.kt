@@ -19,7 +19,7 @@ class UsedService(
     val webClient: WebClient
 ):BookSearchService {
 
-    @Cacheable(value = ["used"])
+    @Cacheable(value = ["used"], keyGenerator = "searchKeyGenerator")
     override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
         return when (provider) {
             SearchProvider.KYOBO_USED_ONLINE -> kyoboOnline(query)

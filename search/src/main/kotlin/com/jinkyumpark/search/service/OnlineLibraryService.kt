@@ -23,7 +23,7 @@ class OnlineLibraryService(
     val objectMapper: ObjectMapper,
 ): BookSearchService {
 
-    @Cacheable(value = ["online-library"])
+    @Cacheable(value = ["online-library"], keyGenerator = "searchKeyGenerator")
     override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
         return when (provider) {
             SearchProvider.GYEONGGI_EDUCATION_LIBRARY -> gyeonggiEducationLibrary(query)

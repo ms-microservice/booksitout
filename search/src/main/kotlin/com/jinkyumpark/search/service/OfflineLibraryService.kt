@@ -17,7 +17,7 @@ class OfflineLibraryService(
     val webClient: WebClient,
     val objectMapper: ObjectMapper,
 ) {
-    @Cacheable(value = ["library-region"])
+    @Cacheable(value = ["library-region"], keyGenerator = "searchKeyGenerator")
     fun getAvailableLibraryByRegion(isbn: String, regionCode: Int, regionDetailCode: Int?): List<AvailableLibrary> {
         val url =
             "http://data4library.kr/api/libSrchByBook?authKey=$data4LibraryApiKey&isbn=$isbn&region=$regionCode&format=JS&${"dtl_region=$regionDetailCode"}"

@@ -20,7 +20,7 @@ class SubscriptionService(
     val webClient: WebClient
 ): BookSearchService {
 
-    @Cacheable(value = ["subscription"])
+    @Cacheable(value = ["subscription"], keyGenerator = "searchKeyGenerator")
     override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
         return when (provider) {
             SearchProvider.MILLIE_SUBSCRIPTION -> millie(query)

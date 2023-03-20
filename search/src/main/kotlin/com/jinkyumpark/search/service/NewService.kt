@@ -3,6 +3,7 @@ package com.jinkyumpark.search.service
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinResponse
 import com.jinkyumpark.search.response.SearchResult
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
@@ -14,6 +15,7 @@ class NewService(
     val aladinApiKey: String
 ) {
 
+    @Cacheable(value = ["new-aladin"], key = "#query.toLowerCase().replaceAll(\" \", \"\")")
     fun getBookByQueryFromAladin(query: String, size: Int): List<SearchResult> {
         val url = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=$aladinApiKey&Query=$query&Output=JS&version=20131101&MaxResults=$size"
 
