@@ -2,19 +2,15 @@ package com.jinkyumpark.search
 
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
 import com.jinkyumpark.search.response.BookSearchResult
-import com.jinkyumpark.search.service.CommonService
 import com.jinkyumpark.search.common.exception.BadRequestException
-import com.jinkyumpark.search.service.OnlineLibraryService
 import com.jinkyumpark.search.provider.SearchProvider
 import com.jinkyumpark.search.region.KoreaRegion
 import com.jinkyumpark.search.region.SeoulRegion
 import com.jinkyumpark.search.response.library.AvailableLibrary
 import com.jinkyumpark.search.response.library.OfflineLibraryResponse
-import com.jinkyumpark.search.response.library.OnlineLibraryResponse
-import com.jinkyumpark.search.service.SubscriptionService
 import com.jinkyumpark.search.provider.UsedBookProvider
 import com.jinkyumpark.search.response.used.UsedSearchResponse
-import com.jinkyumpark.search.service.UsedService
+import com.jinkyumpark.search.service.*
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -26,6 +22,7 @@ class SearchController(
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
     val onlineLibraryService: OnlineLibraryService,
+    val offlineLibraryService: OfflineLibraryService,
 
     val commonService: CommonService,
 ) {
@@ -86,6 +83,19 @@ class SearchController(
 
     }
 
+    @GetMapping("library/online")
+    fun getOnlineLibrarySearchResult(
+        @RequestParam("query") query: String,
+        @RequestParam("include") includeList: List<String>,
+    ): List<BookSearchResult> {
+        if (includeList.isEmpty()) throw BadRequestException()
+
+        return includeList
+            .map { SearchProvider.valueOf(it) }
+            .map { onlineLibraryService.getSearchResult(query, it) }
+            .flatten()
+    }
+
     @GetMapping("library/offline/by-region")
     fun getLibrarySearchResultByRegion(
         @RequestParam("query") query: String,
@@ -97,7 +107,7 @@ class SearchController(
 
         val result: MutableList<OfflineLibraryResponse> = mutableListOf()
         for (isbn: String in isbnToBookMap.keys) {
-            val availableLibrary: List<AvailableLibrary> = onlineLibraryService.getAvailableLibraryByRegion(
+            val availableLibrary: List<AvailableLibrary> = offlineLibraryService.getAvailableLibraryByRegion(
                 isbn,
                 KoreaRegion.valueOf(region).apiRegionCode,
                 SeoulRegion.valueOf(regionDetail).apiRegionCode,
@@ -122,19 +132,6 @@ class SearchController(
         }
 
         return result
-    }
-
-    @GetMapping("library/online")
-    fun getOnlineLibrarySearchResult(
-        @RequestParam("query") query: String,
-        @RequestParam("include") includeList: List<String>,
-    ): List<OnlineLibraryResponse> {
-        if (includeList.isEmpty()) throw BadRequestException()
-
-        return includeList
-            .map { SearchProvider.valueOf(it) }
-            .map { onlineLibraryService.getSearchResult(query, it) }
-            .flatten()
     }
 
 }
