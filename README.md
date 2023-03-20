@@ -20,9 +20,10 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
     - 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? 내가 구독하는 곳에 있는 책인지 모르고 사진 적은 없으신가요?
     - Open API와 Web Crawling을 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책잇아웃이 대신 책을 찾아드려요.
     - 도서관, 전자 도서관, 구독 서비스, 중고서점까지. 이 모든 곳에서 단 1번에 검색할 수 있어요.
+-   책 알림 : 내가 읽고 싶은 책을 등록해 놓으면 도서관, 중고서점, 구독서비스 등에서 새로 등록될 떄 이메일로 알려줘요
 -   책 추천 : 내가 읽은 책, 혹은 내가 입력한 키워드를 바탕으로 책을 추천해 줘요.
 
-# 🧑‍🔧 사용된 기술 (V2 기준)
+# 🧑‍🔧 사용된 기술 (V3 기준)
 ### DB
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
@@ -36,12 +37,17 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
-![ReactiveX](https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white)
+![ReactiveX](https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white) (Spring Webflux)
+
+![Spring Cloud](https://img.shields.io/badge/SpringCloud-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) (Gateway, Config, Sleuth)
+![Netflix OSS](https://img.shields.io/badge/NetflixOSS-E50914?style=for-the-badge&logo=netflix&logoColor=white) (Eureka, Zuul, Zipkin, Hystrix)
+![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)
 
 ### Frontend
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
 
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
@@ -64,21 +70,30 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 -   Login : Spring Security, Http-only Cookie로 저장하는 JWT, JMS를 통해 이메일 인증 
 -   CI/CD : Gradle, Docker, AWS EBS, Github Actions를 사용. Slack으로 실시간 알림
 
-## Version 2 (22년 1월 15일 ~ )
+## Version 2 (23년 1월 15일 ~ 23년 2월 6일)
 -   OAuth 로그인 : Google, Facebook, Kakao, Naver 구현. Spring Security 내부 모듈 사용
 -   검색 : 중고도서(알라딘, YES24 등), 공공도서관(서울, 경기), 전자도서관, 구독서비스(밀리의 서재, 리디 등)을 Open API와 Web Crawling을 활용해 한 번에 검색
--   MSA 도입
-    - 일단 Multi module gralde project로 refactoring하고 Spring Cloud Gateway 도입 (core, user, search 3개의 MS로 분리)
-    - K8S 활용해 배포
+-   MSA 도입 전 Multi-module Project 형식으로 Refactoring
 -   코드개선
-    - Back : Spring Webflux, Kotlin 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
+    - Back : 검색 모듈 Kotlin 도입해서 refactoring 진행, DDD 기반 Architecture로 개선, QueryDSL 사용
     - Front : TS, Redux, axios 등 도입해서 refactoring 진행, Architecture 개선
     - DevOps
       - Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
       - 실제 배포하기 전에 Production 환경에서 테스트 가능하도록 개선
-- 성능개선
-  - Spring Actuator, Spring Cloud Sleuth와 Zipkin을 사용해 병목 부분 찾아내 개선
-  - 검색 : Redis 도입해 서비스에 따라 유효기간 설정 후 이미 검색한 Query는 API 요청 하지 않도록 개선
+      
+## Version 3 (23년 2월 7일 ~ )
+- 알림 : Spring Batch, Kafka를 사용해 내가 원하는 곳에서(도서관, 구독, 중고서점 등) 원하는 책이 등록되면 이메일로 알림
+- MSA 도입
+  - Infra 관련 : Eureka, Zuul, Spring Cloud Gateway, Spring Cloud Config, 인증서버
+  - Business Logic 관련 : Core (책 등록, 독서기록 등), Search, Notification
+  - 모니터링 : Sleuth 기반 ElasticSearch 사용해 로그 수집, Zipkin 도입
+- 검색 성능 개선
+  - Redis 도입해 서비스에 따라 결과 유효기간 설정 후 이미 검색한 Query는 API 요청 하지 않도록 개선
+  - Spring Webflux 사용해 비동기적으로 API 요청 하도록 개선
+- 코드 개선
+  - Back : ...
+  - DevOps : K8S 도입 (AWS EKS 사용), CI 서버에서 캐싱 사용해 빌드 속도 약 40% 개선
+  - Front : React-Query 사용해서 API 요청하도록 개선
 
 ### Architecture Diagram
 <p align="center">
