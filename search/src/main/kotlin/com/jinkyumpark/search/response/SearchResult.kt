@@ -1,6 +1,7 @@
 package com.jinkyumpark.search.response
 
 import com.jinkyumpark.search.provider.SearchProvider
+import java.io.Serializable
 
 class SearchResult(
     val title: String,
@@ -19,7 +20,7 @@ class SearchResult(
 
     val searchProvider: SearchProvider?,
     var provider: String = "",
-) {
+): Serializable {
     init {
         provider = searchProvider?.apiKey ?: ""
     }

@@ -13,6 +13,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
+    // Kotlin
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
     implementation("io.projectreactor.kotlin:reactor-kotlin-extensions")
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -22,8 +23,11 @@ dependencies {
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 
     // Web Crawling
-    implementation("org.jsoup:jsoup:1.15.3")
-    implementation("org.seleniumhq.selenium:selenium-java:4.0.0")
+    implementation("org.jsoup:jsoup:1.15.4")
+    implementation("org.seleniumhq.selenium:selenium-java:4.8.1")
+
+    // Redis
+    implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }

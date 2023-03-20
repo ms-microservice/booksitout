@@ -1,0 +1,30 @@
+search:
+    aladin:
+        api-key: ${SEARCH_ALADIN_API_KEY}
+        url: http://www.aladin.co.kr/ttb/api/ItemSearch.aspx
+    data4library:
+        api-key: ${SEARCH_DATA4LIBRARY_API_KEY}
+        has-book:
+            url: http://data4library.kr/api/bookExist
+        has-book-by-isbn:
+            url: http://data4library.kr/api/libSrchByBook
+        search:
+            url: http://data4library.kr/api/srchBooks
+        supported-library-url: http://data4library.kr/api/libSrch
+    kyobo:
+        url: https://search.kyobobook.co.kr/search
+    yes24:
+        url: http://www.yes24.com/Product/Search
+
+server:
+    port: 8100
+
+spring:
+    redis:
+        pool:
+            min-idle: 0
+            max-idle: 8
+            max-active: 8
+
+        port: 6379
+        host: localhost

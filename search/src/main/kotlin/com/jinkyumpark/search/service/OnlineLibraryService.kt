@@ -10,6 +10,7 @@ import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
 import org.jsoup.select.Elements
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
@@ -22,6 +23,7 @@ class OnlineLibraryService(
     val objectMapper: ObjectMapper,
 ): BookSearchService {
 
+    @Cacheable(value = ["online-library"])
     override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
         return when (provider) {
             SearchProvider.GYEONGGI_EDUCATION_LIBRARY -> gyeonggiEducationLibrary(query)

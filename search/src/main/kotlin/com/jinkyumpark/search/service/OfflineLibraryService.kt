@@ -5,6 +5,7 @@ import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLi
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
 import com.jinkyumpark.search.response.library.AvailableLibrary
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
@@ -16,6 +17,7 @@ class OfflineLibraryService(
     val webClient: WebClient,
     val objectMapper: ObjectMapper,
 ) {
+    @Cacheable(value = ["library-region"])
     fun getAvailableLibraryByRegion(isbn: String, regionCode: Int, regionDetailCode: Int?): List<AvailableLibrary> {
         val url =
             "http://data4library.kr/api/libSrchByBook?authKey=$data4LibraryApiKey&isbn=$isbn&region=$regionCode&format=JS&${"dtl_region=$regionDetailCode"}"
