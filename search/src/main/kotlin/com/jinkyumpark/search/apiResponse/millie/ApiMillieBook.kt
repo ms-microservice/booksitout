@@ -1,9 +1,7 @@
 package com.jinkyumpark.search.apiResponse.millie
 
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.provider.SubscriptionProvider
-import com.jinkyumpark.search.response.BookSearchResult
-import com.jinkyumpark.search.response.subscription.SubscriptionSearchResponse
+import com.jinkyumpark.search.response.SearchResult
 
 data class ApiMillieBook(
     val book_seq: String?,
@@ -40,13 +38,13 @@ data class ApiMillieBook(
     val content_review_count: String?,
     val ebook_published_at: String?,
 ) {
-    fun toBookSearchResult(): BookSearchResult {
-        return BookSearchResult(
+    fun toBookSearchResult(): SearchResult {
+        return SearchResult(
             title = content_name,
             author = author,
             cover = content_thumb_url,
             link = "https://www.millie.co.kr/v3/bookDetail/$book_seq",
-            provider = SearchProvider.MILLIE_SUBSCRIPTION,
+            searchProvider = SearchProvider.MILLIE_SUBSCRIPTION,
             isbn = null,
         )
     }

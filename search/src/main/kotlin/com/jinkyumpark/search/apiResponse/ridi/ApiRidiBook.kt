@@ -2,9 +2,7 @@ package com.jinkyumpark.search.apiResponse.ridi
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.provider.SubscriptionProvider
-import com.jinkyumpark.search.response.BookSearchResult
-import com.jinkyumpark.search.response.subscription.SubscriptionSearchResponse
+import com.jinkyumpark.search.response.SearchResult
 
 data class ApiRidiBook(
     var endDatetime: String?,
@@ -24,13 +22,13 @@ data class ApiRidiBook(
     val webTitleTitle: String?,
     val authorsInfo: List<ApiRidiAuthor>?,
 ) {
-    fun toBookSearchResult(): BookSearchResult {
-        return BookSearchResult(
+    fun toBookSearchResult(): SearchResult {
+        return SearchResult(
             title=title,
             author="$author, $translator (번역가)",
             cover="https://img.ridicdn.net/cover/$id/small?dpi=xhdpi",
             link="https://select.ridibooks.com/book/$id",
-            provider = SearchProvider.RIDI_SUBSCRIPTION,
+            searchProvider = SearchProvider.RIDI_SUBSCRIPTION,
             isbn = null,
         )
     }

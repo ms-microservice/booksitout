@@ -2,7 +2,7 @@ package com.jinkyumpark.search.response
 
 import com.jinkyumpark.search.provider.SearchProvider
 
-class BookSearchResult(
+class SearchResult(
     val title: String,
     val author: String?,
     val cover: String?,
@@ -13,5 +13,14 @@ class BookSearchResult(
     val loanPossible: Boolean = false,
     val reservationPossible: Boolean = false,
 
-    val provider: SearchProvider?,
-)
+    val stockCount: Int = 0,
+    val minPrice: Int = 0,
+    val locationList: List<String> = listOf(),
+
+    val searchProvider: SearchProvider?,
+    var provider: String = "",
+) {
+    init {
+        provider = searchProvider?.apiKey ?: ""
+    }
+}

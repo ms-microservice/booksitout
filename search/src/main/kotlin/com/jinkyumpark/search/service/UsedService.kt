@@ -1,9 +1,8 @@
 package com.jinkyumpark.search.service
 
-import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinResponse
-import com.jinkyumpark.search.provider.UsedBookProvider
-import com.jinkyumpark.search.response.used.UsedSearchBook
+import com.jinkyumpark.search.provider.SearchProvider
+import com.jinkyumpark.search.response.SearchResult
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
@@ -17,9 +16,22 @@ class UsedService(
     private val aladinApiKey: String,
 
     val webClient: WebClient
-) {
+):BookSearchService {
 
-    fun getAladinUsedBook(query: String?): List<ApiAladinItem> {
+    override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
+        return when (provider) {
+            SearchProvider.KYOBO_USED_ONLINE -> kyoboOnline(query)
+            SearchProvider.YES24_USED_ONLINE -> yes24Online(query)
+            SearchProvider.INTERPARK_USED_ONLINE -> interparkOnline(query)
+            SearchProvider.ALADIN_USED_ONLINE -> aladin(query)
+
+            SearchProvider.YES24_USED_OFFLINE -> yes24Offline(query)
+
+            else -> listOf()
+        }
+    }
+
+    private fun aladin(query: String?): List<SearchResult> {
         val url = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=$aladinApiKey&Query=$query&SearchTarget=USED&outofStockfilter=1&Output=JS&OptResult=usedList&version=20131101"
 
         val response: ApiAladinResponse = webClient
@@ -29,30 +41,40 @@ class UsedService(
             .bodyToMono(ApiAladinResponse::class.java)
             .block() ?: return listOf()
 
-        return response.item ?: listOf()
+        val onlineUsed: List<SearchResult> = response.item
+            ?.filter { it.subInfo?.usedList?.aladinUsed?.itemCount != 0 }
+            ?.map { it.toSearchResult(SearchProvider.ALADIN_USED_ONLINE) }
+            ?: listOf()
+
+        val offlineUsed = response.item
+            ?.filter { it.subInfo?.usedList?.spaceUsed?.itemCount != 0 }
+            ?.map { it.toSearchResult(SearchProvider.ALADIN_USED_OFFLINE) }
+            ?: listOf()
+
+        return listOf(*onlineUsed.toTypedArray(), *offlineUsed.toTypedArray())
     }
 
-    fun getKyoboOnlineUsedBook(query: String): List<UsedSearchBook> {
+    private fun kyoboOnline(query: String): List<SearchResult> {
         val url = String.format("https://search.kyobobook.co.kr/search?keyword=%s&gbCode=TOT&target=used", query)
 
         return listOf()
     }
 
-    fun getInterparkOnlineUsedBook(query: String): List<UsedSearchBook> {
+    private fun interparkOnline(query: String): List<SearchResult> {
         return listOf()
     }
 
-    fun getYes24OnlineUsedBook(query: String): List<UsedSearchBook> {
+    private fun yes24Online(query: String): List<SearchResult> {
         return listOf()
     }
 
-    fun getYes24OfflineUsedBook(query: String): List<UsedSearchBook> {
+    private fun yes24Offline(query: String): List<SearchResult> {
         val url = "http://www.yes24.com/product/search?domain=STORE&query=$query&page=1&size=10&dispNo1=001"
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
         val listElements = document.getElementById("yesSchList")?.getElementsByTag("li") ?: return listOf()
 
-        val resultList: MutableList<UsedSearchBook> = mutableListOf()
+        val resultList: MutableList<SearchResult> = mutableListOf()
         for (listElement in listElements) {
             val title: String = listElement.getElementsByClass("gd_name").first()?.text() ?: continue
             val author: String = listElement.getElementsByClass("info_auth").first()?.getElementsByTag("a")?.first()?.text() ?: ""
@@ -65,8 +87,8 @@ class UsedService(
                 .filterNot { it == "강서 NC점" }
 
             resultList.add(
-                UsedSearchBook(
-                    provider = UsedBookProvider.OFFLINE_YES24,
+                SearchResult(
+                    searchProvider = SearchProvider.YES24_USED_OFFLINE,
                     title = title,
                     author = author,
                     cover = cover,

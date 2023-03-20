@@ -1,9 +1,7 @@
 package com.jinkyumpark.search.apiResponse.seoulLibrary
 
-import com.jinkyumpark.search.provider.OnlineLibraryProvider
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.BookSearchResult
-import com.jinkyumpark.search.response.library.OnlineLibraryResponse
+import com.jinkyumpark.search.response.SearchResult
 
 data class ApiSeoulLibraryBook(
     val contentsKey: String,
@@ -31,15 +29,15 @@ data class ApiSeoulLibraryBook(
     val avgrate: Double,
 ) {
 
-    fun toOnlineLibraryResponse(): BookSearchResult {
-        return BookSearchResult(
+    fun toOnlineLibraryResponse(): SearchResult {
+        return SearchResult(
             title = title,
             author = author,
             cover = coverUrl,
             link = "https://elib.seoul.go.kr/contents/detail.do?no=$contentsKey",
             loanPossible = currentLoanCount < 5,
             reservationPossible = currentResvCount < 5,
-            provider = SearchProvider.SEOUL_LIBRARY,
+            searchProvider = SearchProvider.SEOUL_LIBRARY,
         )
     }
 

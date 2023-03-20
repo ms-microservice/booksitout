@@ -1,14 +1,12 @@
 package com.jinkyumpark.search
 
-import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
-import com.jinkyumpark.search.response.BookSearchResult
+import com.jinkyumpark.search.response.SearchResult
 import com.jinkyumpark.search.common.exception.BadRequestException
 import com.jinkyumpark.search.provider.SearchProvider
 import com.jinkyumpark.search.region.KoreaRegion
 import com.jinkyumpark.search.region.SeoulRegion
 import com.jinkyumpark.search.response.library.AvailableLibrary
 import com.jinkyumpark.search.response.library.OfflineLibraryResponse
-import com.jinkyumpark.search.provider.UsedBookProvider
 import com.jinkyumpark.search.response.used.UsedSearchResponse
 import com.jinkyumpark.search.service.*
 import org.springframework.web.bind.annotation.GetMapping
@@ -19,12 +17,11 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("v2/search")
 class SearchController(
+    val newService: NewService,
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
     val onlineLibraryService: OnlineLibraryService,
     val offlineLibraryService: OfflineLibraryService,
-
-    val commonService: CommonService,
 ) {
 
     @GetMapping("used")
@@ -39,34 +36,26 @@ class SearchController(
         val result = UsedSearchResponse(mutableListOf(), mutableListOf())
 
         if (includeOnlineList.contains("ALADIN") || includeOfflineList.contains("ALADIN")) {
-            val apiAladinItemList: List<ApiAladinItem> = usedService.getAladinUsedBook(query)
+            val aladinResult = usedService.getSearchResult(query, SearchProvider.ALADIN_USED_ONLINE)
 
-            if (includeOnlineList.contains("ALADIN")) {
-                result.addOnlineList(apiAladinItemList
-                    .filter { it.subInfo?.usedList?.aladinUsed?.itemCount != 0 }
-                    .map { it.toUsedSearchBook(UsedBookProvider.ONLINE_ALADIN) }
-                )
-            }
+            if (includeOnlineList.contains("ALADIN"))
+                result.addOnlineList(aladinResult.filter { it.searchProvider == SearchProvider.ALADIN_USED_ONLINE })
 
-            if (includeOfflineList.contains("ALADIN")) {
-                result.addOfflineList(apiAladinItemList
-                    .filter { it.subInfo?.usedList?.spaceUsed?.itemCount != 0 }
-                    .map { it.toUsedSearchBook(UsedBookProvider.OFFLINE_ALADIN) }
-                )
-            }
+            if (includeOfflineList.contains("ALADIN"))
+                result.addOfflineList(aladinResult.filter { it.searchProvider == SearchProvider.ALADIN_USED_OFFLINE })
         }
 
         if (includeOnlineList.contains("KYOBO"))
-            result.addOnlineList(usedService.getKyoboOnlineUsedBook(query))
+            result.addOnlineList(usedService.getSearchResult(query, SearchProvider.KYOBO_USED_ONLINE))
 
         if (includeOnlineList.contains("INTERPARK"))
-            result.addOnlineList(usedService.getInterparkOnlineUsedBook(query))
+            result.addOnlineList(usedService.getSearchResult(query, SearchProvider.INTERPARK_USED_ONLINE))
 
         if (includeOnlineList.contains("YES24"))
-            result.addOnlineList(usedService.getYes24OnlineUsedBook(query))
+            result.addOnlineList(usedService.getSearchResult(query, SearchProvider.YES24_USED_ONLINE))
 
         if (includeOfflineList.contains("YES24"))
-            result.addOfflineList(usedService.getYes24OfflineUsedBook(query))
+            result.addOfflineList(usedService.getSearchResult(query, SearchProvider.YES24_USED_OFFLINE))
 
         return result
     }
@@ -75,7 +64,7 @@ class SearchController(
     fun getSubscriptionSearchResult(
         @RequestParam("query") query: String,
         @RequestParam("include") include: List<String>,
-    ): List<BookSearchResult> {
+    ): List<SearchResult> {
 
         return include
             .map { subscriptionService.getSearchResult(query, SearchProvider.valueOf("${it.uppercase()}_SUBSCRIPTION")) }
@@ -87,7 +76,7 @@ class SearchController(
     fun getOnlineLibrarySearchResult(
         @RequestParam("query") query: String,
         @RequestParam("include") includeList: List<String>,
-    ): List<BookSearchResult> {
+    ): List<SearchResult> {
         if (includeList.isEmpty()) throw BadRequestException()
 
         return includeList
@@ -102,8 +91,8 @@ class SearchController(
         @RequestParam("region") region: String,
         @RequestParam("region-detail", required = false) regionDetail: String,
     ): List<OfflineLibraryResponse> {
-        val isbnToBookMap: Map<String, BookSearchResult> =
-            commonService.getBookByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
+        val isbnToBookMap: Map<String, SearchResult> =
+            newService.getBookByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
 
         val result: MutableList<OfflineLibraryResponse> = mutableListOf()
         for (isbn: String in isbnToBookMap.keys) {
@@ -117,13 +106,13 @@ class SearchController(
 
             result.add(
                 OfflineLibraryResponse(
-                    book = BookSearchResult(
+                    book = SearchResult(
                         title = isbnToBookMap[isbn]?.title ?: "?",
                         author = isbnToBookMap[isbn]?.author ?: "?",
                         cover = isbnToBookMap[isbn]?.cover ?: "?",
                         link = null,
                         isbn = isbn,
-                        provider = SearchProvider.LIBRARY_OFFLINE,
+                        searchProvider = SearchProvider.LIBRARY_OFFLINE,
                     ),
                     libraryList = availableLibrary,
                 )

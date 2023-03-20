@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.search.apiResponse.seoulLibrary.ApiSeoulLibraryBook
 import com.jinkyumpark.search.apiResponse.seoulLibrary.ApiSeoulLibraryResponse
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.BookSearchResult
+import com.jinkyumpark.search.response.SearchResult
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
@@ -22,7 +22,7 @@ class OnlineLibraryService(
     val objectMapper: ObjectMapper,
 ): BookSearchService {
 
-    override fun getSearchResult(query: String, provider: SearchProvider): List<BookSearchResult> {
+    override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
         return when (provider) {
             SearchProvider.GYEONGGI_EDUCATION_LIBRARY -> gyeonggiEducationLibrary(query)
             SearchProvider.SEOUL_LIBRARY -> seoulLibrary(query, 5)
@@ -35,7 +35,7 @@ class OnlineLibraryService(
         }
     }
 
-    fun seoulLibrary(query: String, limit: Int): List<BookSearchResult> {
+    fun seoulLibrary(query: String, limit: Int): List<SearchResult> {
         val url =
             "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
 
@@ -50,7 +50,7 @@ class OnlineLibraryService(
             .map(ApiSeoulLibraryBook::toOnlineLibraryResponse)
     }
 
-    fun gyeonggiEducationLibrary(query: String): List<BookSearchResult> {
+    fun gyeonggiEducationLibrary(query: String): List<SearchResult> {
         val url = "https://lib.goe.go.kr/elib/module/elib/search/index.do?menu_idx=94&viewPage=1&search_text=$query"
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
@@ -58,7 +58,7 @@ class OnlineLibraryService(
             .getElementById("search-results")
             ?.getElementsByClass("row") ?: return listOf()
 
-        val resultList: List<BookSearchResult> = bookList
+        val resultList: List<SearchResult> = bookList
             .map {
                 val title = it
                     .getElementsByClass("name goDetail").first()
@@ -74,21 +74,21 @@ class OnlineLibraryService(
                 val loanPossible = infoText.contains("대출 가능")
                 val reservationPossible = !loanPossible
 
-                BookSearchResult(
+                SearchResult(
                     title = title,
                     author = author,
                     cover = cover,
                     link = link,
                     loanPossible = loanPossible,
                     reservationPossible = reservationPossible,
-                    provider = SearchProvider.GYEONGGI_EDUCATION_LIBRARY,
+                    searchProvider = SearchProvider.GYEONGGI_EDUCATION_LIBRARY,
                 )
             }
 
         return resultList
     }
 
-    fun gwanghwamunLibrary(query: String): List<BookSearchResult> {
+    fun gwanghwamunLibrary(query: String): List<SearchResult> {
         val url =
             "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
 
@@ -110,30 +110,30 @@ class OnlineLibraryService(
             val loanPossible: Boolean = currentLoanCount < maxLoanCount
             val reservationPossible: Boolean = !loanPossible && (currentLoanCount <= maxLoanCount)
 
-            BookSearchResult(
+            SearchResult(
                 title = title,
                 author = author,
                 cover = cover,
                 link = link,
                 loanPossible = loanPossible,
                 reservationPossible = reservationPossible,
-                provider = SearchProvider.GWANGHWAMUN_LIBRARY,
+                searchProvider = SearchProvider.GWANGHWAMUN_LIBRARY,
             )
         }
     }
 
     // TODO
-    fun seoulEducationLibrary(query: String): List<BookSearchResult> {
+    fun seoulEducationLibrary(query: String): List<SearchResult> {
         return listOf()
     }
 
     // TODO
-    fun nationalAssemblyLibrary(query: String): List<BookSearchResult> {
+    fun nationalAssemblyLibrary(query: String): List<SearchResult> {
         return listOf()
     }
 
     // TODO
-    fun seoulCongressLibrary(query: String): List<BookSearchResult> {
+    fun seoulCongressLibrary(query: String): List<SearchResult> {
         return listOf()
     }
 

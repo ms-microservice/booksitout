@@ -5,7 +5,7 @@ import com.jinkyumpark.search.apiResponse.millie.ApiMillieResponse
 import com.jinkyumpark.search.apiResponse.ridi.ApiRidiBook
 import com.jinkyumpark.search.apiResponse.ridi.ApiRidiResponse
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.BookSearchResult
+import com.jinkyumpark.search.response.SearchResult
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element
@@ -19,7 +19,7 @@ class SubscriptionService(
     val webClient: WebClient
 ): BookSearchService {
 
-    override fun getSearchResult(query: String, provider: SearchProvider): List<BookSearchResult> {
+    override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
         return when (provider) {
             SearchProvider.MILLIE_SUBSCRIPTION -> millie(query)
             SearchProvider.YES24_SUBSCRIPTION -> yes24(query)
@@ -29,7 +29,7 @@ class SubscriptionService(
         }
     }
 
-    private fun millie(query: String): List<BookSearchResult> {
+    private fun millie(query: String): List<SearchResult> {
         val url: String = "https://live-api.millie.co.kr/v2/search/content?" +
                 "debug=1&searchType=content&keyword=$query&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1&contentCode=245"
 
@@ -43,7 +43,7 @@ class SubscriptionService(
         return response.respData?.list?.map(ApiMillieBook::toBookSearchResult)!!
     }
 
-    private fun yes24(query: String): List<BookSearchResult> {
+    private fun yes24(query: String): List<SearchResult> {
         val url = "https://bookclub.yes24.com/BookClub/Search?query=$query"
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
@@ -59,18 +59,18 @@ class SubscriptionService(
                 val author: String = listElement.getElementsByClass("info_auth").first()?.text()?.trim() ?: ""
                 val cover: String = listElement.getElementsByClass("lazy").first()?.text()?.trim() ?: ""
 
-                BookSearchResult(
+                SearchResult(
                     title = title,
                     author = author,
                     link = link,
                     cover = cover,
-                    provider = SearchProvider.YES24_SUBSCRIPTION,
+                    searchProvider = SearchProvider.YES24_SUBSCRIPTION,
                     isbn = null
                 )
             }
     }
 
-    private fun ridi(query: String): List<BookSearchResult> {
+    private fun ridi(query: String): List<SearchResult> {
         val url = "https://search-api.ridibooks.com/search?site=ridi-select&where=book&what=instant&keyword=$query"
 
         val response: ApiRidiResponse = webClient
@@ -83,13 +83,13 @@ class SubscriptionService(
         return response.books.map(ApiRidiBook::toBookSearchResult)
     }
 
-    private fun kyobo(query: String): List<BookSearchResult> {
+    private fun kyobo(query: String): List<SearchResult> {
         val url = "https://search.kyobobook.co.kr/search?keyword=$query&target=sam&gbCode=TOT&cat1=eBook@SAM"
 
         val document: Document = Jsoup.connect(url).get().parser(Parser.htmlParser())
         val productList: Elements = document.getElementsByClass("prod_item")
 
-        val result: MutableList<BookSearchResult> = mutableListOf()
+        val result: MutableList<SearchResult> = mutableListOf()
         for (product: Element in productList) {
             val bookId: String = product.getElementsByTag("input").first()?.attr("data-bid") ?: continue
             val title: String =
@@ -98,12 +98,12 @@ class SubscriptionService(
             val link: String = product.getElementsByClass("btn_sm btn_light_gray").first()?.attr("href") ?: ""
 
             result.add(
-                BookSearchResult(
+                SearchResult(
                     title = title,
                     author = author,
                     cover = "https://contents.kyobobook.co.kr/pdt/$bookId.jpg",
                     link = link,
-                    provider = SearchProvider.KYOBO_SUBSCRIPTION,
+                    searchProvider = SearchProvider.KYOBO_SUBSCRIPTION,
                     isbn = null,
                 )
             )

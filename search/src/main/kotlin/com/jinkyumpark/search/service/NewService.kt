@@ -1,20 +1,20 @@
 package com.jinkyumpark.search.service
 
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinResponse
-import com.jinkyumpark.search.response.BookSearchResult
+import com.jinkyumpark.search.response.SearchResult
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
 @Service
-class CommonService(
+class NewService(
     val webClient: WebClient,
 
     @Value("\${search.aladin.api-key}")
     val aladinApiKey: String
 ) {
 
-    fun getBookByQueryFromAladin(query: String, size: Int): List<BookSearchResult> {
+    fun getBookByQueryFromAladin(query: String, size: Int): List<SearchResult> {
         val url = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=$aladinApiKey&Query=$query&Output=JS&version=20131101&MaxResults=$size"
 
         val response: ApiAladinResponse = webClient
@@ -25,13 +25,13 @@ class CommonService(
             .block() ?: return listOf()
 
         return response.item?.map { aladin ->
-            BookSearchResult(
+            SearchResult(
                 title = aladin.title ?: "",
                 author = aladin.author,
                 link = aladin.link,
                 cover = aladin.cover,
                 isbn = aladin.isbn13,
-                provider = null
+                searchProvider = null
             )
         } ?: listOf()
     }

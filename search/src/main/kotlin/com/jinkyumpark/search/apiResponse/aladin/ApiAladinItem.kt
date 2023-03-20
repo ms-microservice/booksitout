@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.apiResponse.aladin
 
-import com.jinkyumpark.search.provider.UsedBookProvider
-import com.jinkyumpark.search.response.used.UsedSearchBook
+import com.jinkyumpark.search.provider.SearchProvider
+import com.jinkyumpark.search.response.SearchResult
 
 data class ApiAladinItem(
     var title: String?,
@@ -34,25 +34,24 @@ data class ApiAladinItem(
     val subInfo: ApiAladinSubInfo?,
 ) {
 
-    fun toUsedSearchBook(provider: UsedBookProvider): UsedSearchBook {
-        return UsedSearchBook(
-            provider = provider,
+    fun toSearchResult(provider: SearchProvider): SearchResult {
+        return SearchResult(
+            searchProvider = provider,
             title = title ?: "?",
             author = author ?: "?",
             cover = cover ?: "",
             link =
-                if (provider == UsedBookProvider.ONLINE_ALADIN) subInfo?.usedList?.aladinUsed?.link?.replace("amp;".toRegex(), "") ?: ""
+                if (provider == SearchProvider.ALADIN_USED_ONLINE) subInfo?.usedList?.aladinUsed?.link?.replace("amp;".toRegex(), "") ?: ""
                 else subInfo?.usedList?.spaceUsed?.link?.replace("amp;".toRegex(), "") ?: ""
             ,
             stockCount =
-                if (provider == UsedBookProvider.ONLINE_ALADIN) subInfo?.usedList?.aladinUsed?.minPrice ?: 0
-                else subInfo?.usedList?.aladinUsed?.minPrice ?: 0
+                if (provider == SearchProvider.ALADIN_USED_ONLINE) subInfo?.usedList?.aladinUsed?.itemCount ?: 0
+                else subInfo?.usedList?.spaceUsed?.itemCount ?: 0
             ,
             minPrice =
-                if (provider == UsedBookProvider.ONLINE_ALADIN) subInfo?.usedList?.aladinUsed?.minPrice ?: 0
+                if (provider == SearchProvider.ALADIN_USED_ONLINE) subInfo?.usedList?.aladinUsed?.minPrice ?: 0
                 else subInfo?.usedList?.spaceUsed?.minPrice ?: 0
             ,
-            locationList = listOf()
         )
     }
 
