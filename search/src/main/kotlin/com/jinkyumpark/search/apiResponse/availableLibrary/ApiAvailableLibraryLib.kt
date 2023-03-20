@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.library.apiResponse.availableLibrary
+package com.jinkyumpark.search.apiResponse.availableLibrary
 
 data class ApiAvailableLibraryLib(
     val libCode: String,

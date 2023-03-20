@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.used.apiResponse
+package com.jinkyumpark.search.apiResponse.aladin
 
 data class ApiAladinSubInfo(
     var usedList: ApiAladinUsedList?

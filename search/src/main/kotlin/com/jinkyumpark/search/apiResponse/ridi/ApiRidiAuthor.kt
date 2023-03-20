@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.subscription.apiResponse.ridi
+package com.jinkyumpark.search.apiResponse.ridi
 
 data class ApiRidiAuthor(
     var role: String?,

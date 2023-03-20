@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.used
 
-import com.jinkyumpark.search.used.apiResponse.ApiAladinItem
-import com.jinkyumpark.search.used.apiResponse.ApiAladinResponse
+import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
+import com.jinkyumpark.search.apiResponse.aladin.ApiAladinResponse
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser

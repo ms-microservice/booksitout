@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.subscription.apiResponse.ridi
+package com.jinkyumpark.search.apiResponse.ridi
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.jinkyumpark.search.subscription.SubscriptionProvider

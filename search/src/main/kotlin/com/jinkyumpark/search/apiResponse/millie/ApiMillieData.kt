@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.subscription.apiResponse.millie
+package com.jinkyumpark.search.apiResponse.millie
 
 data class ApiMillieData(
     val list: List<ApiMillieBook>,

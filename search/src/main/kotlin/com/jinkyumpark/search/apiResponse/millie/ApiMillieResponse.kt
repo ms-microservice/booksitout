@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.subscription.apiResponse.millie
+package com.jinkyumpark.search.apiResponse.millie
 
 import com.fasterxml.jackson.annotation.JsonProperty
 

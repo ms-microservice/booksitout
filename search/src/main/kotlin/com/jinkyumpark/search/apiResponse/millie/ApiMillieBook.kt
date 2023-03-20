@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.subscription.apiResponse.millie
+package com.jinkyumpark.search.apiResponse.millie
 
 import com.jinkyumpark.search.subscription.SubscriptionProvider
 import com.jinkyumpark.search.subscription.SubscriptionSearchResponse

@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.library.apiResponse.seoulLibrary
+package com.jinkyumpark.search.apiResponse.seoulLibrary
 
 import com.jinkyumpark.search.library.OnlineLibraryProvider
 import com.jinkyumpark.search.library.response.OnlineLibraryResponse

@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.used.apiResponse
+package com.jinkyumpark.search.apiResponse.aladin
 
 import com.jinkyumpark.search.used.UsedBookProvider
 import com.jinkyumpark.search.used.UsedSearchBook

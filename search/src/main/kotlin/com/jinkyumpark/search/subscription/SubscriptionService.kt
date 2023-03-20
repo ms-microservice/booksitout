@@ -1,9 +1,9 @@
 package com.jinkyumpark.search.subscription
 
-import com.jinkyumpark.search.subscription.apiResponse.millie.ApiMillieBook
-import com.jinkyumpark.search.subscription.apiResponse.millie.ApiMillieResponse
-import com.jinkyumpark.search.subscription.apiResponse.ridi.ApiRidiBook
-import com.jinkyumpark.search.subscription.apiResponse.ridi.ApiRidiResponse
+import com.jinkyumpark.search.apiResponse.millie.ApiMillieBook
+import com.jinkyumpark.search.apiResponse.millie.ApiMillieResponse
+import com.jinkyumpark.search.apiResponse.ridi.ApiRidiBook
+import com.jinkyumpark.search.apiResponse.ridi.ApiRidiResponse
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element

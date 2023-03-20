@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.used
 
 import com.jinkyumpark.search.common.exception.BadRequestException
-import com.jinkyumpark.search.used.apiResponse.ApiAladinItem
+import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
