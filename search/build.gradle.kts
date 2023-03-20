@@ -19,12 +19,11 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib-jdk8")
     implementation("org.jetbrains.kotlinx:kotlinx-coroutines-reactor")
     testImplementation("io.projectreactor:reactor-test")
+    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 
     // Web Crawling
     implementation("org.jsoup:jsoup:1.15.3")
     implementation("org.seleniumhq.selenium:selenium-java:4.0.0")
-
-    implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }
