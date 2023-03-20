@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.library
+package com.jinkyumpark.search.provider
 
 enum class OnlineLibraryProvider {
     SEOUL_LIBRARY,

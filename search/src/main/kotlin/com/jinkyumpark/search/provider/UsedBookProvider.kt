@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.used
+package com.jinkyumpark.search.provider
 
 enum class UsedBookProvider {
     ONLINE_ALADIN,

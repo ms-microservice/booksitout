@@ -1,6 +1,6 @@
-package com.jinkyumpark.search.library.response
+package com.jinkyumpark.search.response.library
 
-import com.jinkyumpark.search.bookSearch.BookSearchResult
+import com.jinkyumpark.search.response.BookSearchResult
 
 data class OfflineLibraryResponse(
     val book: BookSearchResult,

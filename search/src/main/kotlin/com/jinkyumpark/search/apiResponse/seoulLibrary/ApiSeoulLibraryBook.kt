@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.apiResponse.seoulLibrary
 
-import com.jinkyumpark.search.library.OnlineLibraryProvider
-import com.jinkyumpark.search.library.response.OnlineLibraryResponse
+import com.jinkyumpark.search.provider.OnlineLibraryProvider
+import com.jinkyumpark.search.response.library.OnlineLibraryResponse
 
 data class ApiSeoulLibraryBook(
     val contentsKey: String,

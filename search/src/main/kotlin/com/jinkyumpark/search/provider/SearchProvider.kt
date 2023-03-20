@@ -1,0 +1,26 @@
+package com.jinkyumpark.search.provider
+
+enum class SearchProvider(
+    val category: SearchCategory,
+) {
+    SEOUL_LIBRARY(SearchCategory.LIBRARY_ONLINE),
+    SEOUL_EDUCATION_LIBRARY(SearchCategory.LIBRARY_ONLINE),
+    NATIONAL_ASSEMBLY_LIBRARY(SearchCategory.LIBRARY_ONLINE),
+    GYEONGGI_EDUCATION_LIBRARY(SearchCategory.LIBRARY_ONLINE),
+    GWANGHWAMUN_LIBRARY(SearchCategory.LIBRARY_ONLINE),
+    SEOUL_CONGRESS_LIBRARY(SearchCategory.LIBRARY_ONLINE),
+
+    MILLIE_SUBSCRIPTION(SearchCategory.SUBSCRIPTION),
+    YES24_SUBSCRIPTION(SearchCategory.SUBSCRIPTION),
+    RIDI_SUBSCRIPTION(SearchCategory.SUBSCRIPTION),
+    KYOBO_SUBSCRIPTION(SearchCategory.SUBSCRIPTION),
+
+    ALADIN_ONLINE(SearchCategory.USED_ONLINE),
+    YES24_ONLINE(SearchCategory.USED_ONLINE),
+    KYOBO_ONLINE(SearchCategory.USED_ONLINE),
+
+    ALADIN_OFFLINE(SearchCategory.USED_OFFLINE),
+    YES24_OFFLINE(SearchCategory.USED_OFFLINE),
+
+    LIBRARY_OFFLINE(SearchCategory.LIBRARY_OFFLINE),
+}

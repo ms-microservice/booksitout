@@ -1,12 +1,13 @@
-package com.jinkyumpark.search.bookSearch
+package com.jinkyumpark.search.service
 
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinResponse
+import com.jinkyumpark.search.response.BookSearchResult
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
 @Service
-class SearchBookService(
+class CommonService(
     val webClient: WebClient,
 
     @Value("\${search.aladin.api-key}")
@@ -29,7 +30,8 @@ class SearchBookService(
                 author = aladin.author,
                 link = aladin.link,
                 cover = aladin.cover,
-                isbn = aladin.isbn13
+                isbn = aladin.isbn13,
+                provider = null
             )
         } ?: listOf()
     }

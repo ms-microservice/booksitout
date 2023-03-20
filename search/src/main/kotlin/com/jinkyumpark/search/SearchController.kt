@@ -1,22 +1,21 @@
 package com.jinkyumpark.search
 
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
-import com.jinkyumpark.search.common.BookSearchResult
-import com.jinkyumpark.search.common.CommonService
+import com.jinkyumpark.search.response.BookSearchResult
+import com.jinkyumpark.search.service.CommonService
 import com.jinkyumpark.search.common.exception.BadRequestException
-import com.jinkyumpark.search.library.LibraryService
-import com.jinkyumpark.search.library.OnlineLibraryProvider
-import com.jinkyumpark.search.library.region.KoreaRegion
-import com.jinkyumpark.search.library.region.SeoulRegion
-import com.jinkyumpark.search.library.response.AvailableLibrary
-import com.jinkyumpark.search.library.response.OfflineLibraryResponse
-import com.jinkyumpark.search.library.response.OnlineLibraryResponse
-import com.jinkyumpark.search.subscription.SubscriptionProvider
-import com.jinkyumpark.search.subscription.SubscriptionSearchResponse
-import com.jinkyumpark.search.subscription.SubscriptionService
-import com.jinkyumpark.search.used.UsedBookProvider
-import com.jinkyumpark.search.used.UsedSearchResponse
-import com.jinkyumpark.search.used.UsedService
+import com.jinkyumpark.search.service.LibraryService
+import com.jinkyumpark.search.provider.OnlineLibraryProvider
+import com.jinkyumpark.search.provider.SearchProvider
+import com.jinkyumpark.search.region.KoreaRegion
+import com.jinkyumpark.search.region.SeoulRegion
+import com.jinkyumpark.search.response.library.AvailableLibrary
+import com.jinkyumpark.search.response.library.OfflineLibraryResponse
+import com.jinkyumpark.search.response.library.OnlineLibraryResponse
+import com.jinkyumpark.search.service.SubscriptionService
+import com.jinkyumpark.search.provider.UsedBookProvider
+import com.jinkyumpark.search.response.used.UsedSearchResponse
+import com.jinkyumpark.search.service.UsedService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
@@ -28,8 +27,9 @@ class SearchController(
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
     val libraryService: LibraryService,
+
     val commonService: CommonService,
-    ) {
+) {
 
     @GetMapping("used")
     fun getUsedSearchResult(
@@ -79,10 +79,10 @@ class SearchController(
     fun getSubscriptionSearchResult(
         @RequestParam("query") query: String,
         @RequestParam("include") include: List<String>,
-    ): List<SubscriptionSearchResponse> {
+    ): List<BookSearchResult> {
 
         return include
-            .map { subscriptionService.getSearchResult(query, SubscriptionProvider.valueOf(it)) }
+            .map { subscriptionService.getSearchResult(query, SearchProvider.valueOf("${it.uppercase()}_SUBSCRIPTION")) }
             .flatten()
 
     }
@@ -114,6 +114,7 @@ class SearchController(
                         cover = isbnToBookMap[isbn]?.cover ?: "?",
                         link = null,
                         isbn = isbn,
+                        provider = SearchProvider.LIBRARY_OFFLINE,
                     ),
                     libraryList = availableLibrary,
                 )

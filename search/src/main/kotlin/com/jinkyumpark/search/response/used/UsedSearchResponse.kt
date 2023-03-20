@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.used
+package com.jinkyumpark.search.response.used
 
 data class UsedSearchResponse(
     val online: MutableList<UsedSearchBook>,

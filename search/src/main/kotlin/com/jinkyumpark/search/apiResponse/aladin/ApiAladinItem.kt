@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.apiResponse.aladin
 
-import com.jinkyumpark.search.used.UsedBookProvider
-import com.jinkyumpark.search.used.UsedSearchBook
+import com.jinkyumpark.search.provider.UsedBookProvider
+import com.jinkyumpark.search.response.used.UsedSearchBook
 
 data class ApiAladinItem(
     var title: String?,

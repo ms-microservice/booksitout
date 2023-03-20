@@ -1,12 +1,13 @@
-package com.jinkyumpark.search.library
+package com.jinkyumpark.search.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLibsLib
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
 import com.jinkyumpark.search.apiResponse.seoulLibrary.ApiSeoulLibraryBook
 import com.jinkyumpark.search.apiResponse.seoulLibrary.ApiSeoulLibraryResponse
-import com.jinkyumpark.search.library.response.AvailableLibrary
-import com.jinkyumpark.search.library.response.OnlineLibraryResponse
+import com.jinkyumpark.search.response.library.AvailableLibrary
+import com.jinkyumpark.search.response.library.OnlineLibraryResponse
+import com.jinkyumpark.search.provider.OnlineLibraryProvider
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser

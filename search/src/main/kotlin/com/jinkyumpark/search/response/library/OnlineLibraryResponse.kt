@@ -1,6 +1,6 @@
-package com.jinkyumpark.search.library.response
+package com.jinkyumpark.search.response.library
 
-import com.jinkyumpark.search.library.OnlineLibraryProvider
+import com.jinkyumpark.search.provider.OnlineLibraryProvider
 
 data class OnlineLibraryResponse(
     val title: String,

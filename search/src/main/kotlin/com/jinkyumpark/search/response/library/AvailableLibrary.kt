@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.library.response
+package com.jinkyumpark.search.response.library
 
 data class AvailableLibrary(
     val code: String,

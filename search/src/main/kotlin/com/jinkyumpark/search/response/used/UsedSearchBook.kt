@@ -1,4 +1,6 @@
-package com.jinkyumpark.search.used
+package com.jinkyumpark.search.response.used
+
+import com.jinkyumpark.search.provider.UsedBookProvider
 
 data class UsedSearchBook(
     val provider: UsedBookProvider,
