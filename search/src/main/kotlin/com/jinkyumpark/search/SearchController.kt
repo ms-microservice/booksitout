@@ -4,8 +4,7 @@ import com.jinkyumpark.search.apiResponse.aladin.ApiAladinItem
 import com.jinkyumpark.search.response.BookSearchResult
 import com.jinkyumpark.search.service.CommonService
 import com.jinkyumpark.search.common.exception.BadRequestException
-import com.jinkyumpark.search.service.LibraryService
-import com.jinkyumpark.search.provider.OnlineLibraryProvider
+import com.jinkyumpark.search.service.OnlineLibraryService
 import com.jinkyumpark.search.provider.SearchProvider
 import com.jinkyumpark.search.region.KoreaRegion
 import com.jinkyumpark.search.region.SeoulRegion
@@ -26,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController
 class SearchController(
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
-    val libraryService: LibraryService,
+    val onlineLibraryService: OnlineLibraryService,
 
     val commonService: CommonService,
 ) {
@@ -98,7 +97,7 @@ class SearchController(
 
         val result: MutableList<OfflineLibraryResponse> = mutableListOf()
         for (isbn: String in isbnToBookMap.keys) {
-            val availableLibrary: List<AvailableLibrary> = libraryService.getAvailableLibraryByRegion(
+            val availableLibrary: List<AvailableLibrary> = onlineLibraryService.getAvailableLibraryByRegion(
                 isbn,
                 KoreaRegion.valueOf(region).apiRegionCode,
                 SeoulRegion.valueOf(regionDetail).apiRegionCode,
@@ -133,8 +132,8 @@ class SearchController(
         if (includeList.isEmpty()) throw BadRequestException()
 
         return includeList
-            .map { OnlineLibraryProvider.valueOf(it) }
-            .map { libraryService.getSearchResult(query, it) }
+            .map { SearchProvider.valueOf(it) }
+            .map { onlineLibraryService.getSearchResult(query, it) }
             .flatten()
     }
 

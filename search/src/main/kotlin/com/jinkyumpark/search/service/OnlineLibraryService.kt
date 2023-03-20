@@ -1,13 +1,10 @@
 package com.jinkyumpark.search.service
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLibsLib
-import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
 import com.jinkyumpark.search.apiResponse.seoulLibrary.ApiSeoulLibraryBook
 import com.jinkyumpark.search.apiResponse.seoulLibrary.ApiSeoulLibraryResponse
-import com.jinkyumpark.search.response.library.AvailableLibrary
-import com.jinkyumpark.search.response.library.OnlineLibraryResponse
-import com.jinkyumpark.search.provider.OnlineLibraryProvider
+import com.jinkyumpark.search.provider.SearchProvider
+import com.jinkyumpark.search.response.BookSearchResult
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
@@ -17,52 +14,28 @@ import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient
 
 @Service
-class LibraryService(
+class OnlineLibraryService(
     @Value("\${search.data4library.api-key}")
     private val data4LibraryApiKey: String,
 
     val webClient: WebClient,
     val objectMapper: ObjectMapper,
-) {
+): BookSearchService {
 
-    fun getSearchResult(query: String, library: OnlineLibraryProvider): List<OnlineLibraryResponse> {
-        return when (library) {
-            OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY -> gyeonggiEducationLibrary(query)
-            OnlineLibraryProvider.SEOUL_LIBRARY -> seoulLibrary(query, 5)
-            OnlineLibraryProvider.GWANGHWAMUN_LIBRARY -> gwanghwamunLibrary(query)
-            OnlineLibraryProvider.SEOUL_EDUCATION_LIBRARY -> seoulEducationLibrary(query)
-            OnlineLibraryProvider.NATIONAL_ASSEMBLY_LIBRARY -> nationalAssemblyLibrary(query)
-            OnlineLibraryProvider.SEOUL_CONGRESS_LIBRARY -> seoulCongressLibrary(query)
+    override fun getSearchResult(query: String, provider: SearchProvider): List<BookSearchResult> {
+        return when (provider) {
+            SearchProvider.GYEONGGI_EDUCATION_LIBRARY -> gyeonggiEducationLibrary(query)
+            SearchProvider.SEOUL_LIBRARY -> seoulLibrary(query, 5)
+            SearchProvider.GWANGHWAMUN_LIBRARY -> gwanghwamunLibrary(query)
+            SearchProvider.SEOUL_EDUCATION_LIBRARY -> seoulEducationLibrary(query)
+            SearchProvider.NATIONAL_ASSEMBLY_LIBRARY -> nationalAssemblyLibrary(query)
+            SearchProvider.SEOUL_CONGRESS_LIBRARY -> seoulCongressLibrary(query)
+
+            else -> listOf()
         }
     }
 
-    fun getAvailableLibraryByRegion(isbn: String, regionCode: Int, regionDetailCode: Int?): List<AvailableLibrary> {
-        val url =
-            "http://data4library.kr/api/libSrchByBook?authKey=$data4LibraryApiKey&isbn=$isbn&region=$regionCode&format=JS&${"dtl_region=$regionDetailCode"}"
-
-        val responseString: String = webClient
-            .get()
-            .uri(url)
-            .retrieve()
-            .bodyToMono(String::class.java)
-            .block() ?: return listOf()
-
-        val response: ApiAvailableLibraryResponse =
-            objectMapper.readValue(responseString, ApiAvailableLibraryResponse::class.java)
-
-        return response.response.libs
-            .map(ApiAvailableLibraryLibsLib::lib)
-            .map {
-                AvailableLibrary(
-                    code = it.libCode,
-                    name = it.libName,
-                    address = it.address,
-                    libraryLink = it.homepage,
-                )
-            }
-    }
-
-    fun seoulLibrary(query: String, limit: Int): List<OnlineLibraryResponse> {
+    fun seoulLibrary(query: String, limit: Int): List<BookSearchResult> {
         val url =
             "https://elib.seoul.go.kr/api/contents/search?searchKeyword=$query&sortOption=1&contentType=EB&innerSearchYN=N&innerKeyword=&libCode=&currentCount=1&pageCount=$limit&_=1675593987342"
 
@@ -77,7 +50,7 @@ class LibraryService(
             .map(ApiSeoulLibraryBook::toOnlineLibraryResponse)
     }
 
-    fun gyeonggiEducationLibrary(query: String): List<OnlineLibraryResponse> {
+    fun gyeonggiEducationLibrary(query: String): List<BookSearchResult> {
         val url = "https://lib.goe.go.kr/elib/module/elib/search/index.do?menu_idx=94&viewPage=1&search_text=$query"
 
         val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
@@ -85,7 +58,7 @@ class LibraryService(
             .getElementById("search-results")
             ?.getElementsByClass("row") ?: return listOf()
 
-        val resultList: List<OnlineLibraryResponse> = bookList
+        val resultList: List<BookSearchResult> = bookList
             .map {
                 val title = it
                     .getElementsByClass("name goDetail").first()
@@ -101,21 +74,21 @@ class LibraryService(
                 val loanPossible = infoText.contains("대출 가능")
                 val reservationPossible = !loanPossible
 
-                OnlineLibraryResponse(
+                BookSearchResult(
                     title = title,
                     author = author,
                     cover = cover,
                     link = link,
                     loanPossible = loanPossible,
                     reservationPossible = reservationPossible,
-                    provider = OnlineLibraryProvider.GYEONGGI_EDUCATION_LIBRARY,
+                    provider = SearchProvider.GYEONGGI_EDUCATION_LIBRARY,
                 )
             }
 
         return resultList
     }
 
-    fun gwanghwamunLibrary(query: String): List<OnlineLibraryResponse> {
+    fun gwanghwamunLibrary(query: String): List<BookSearchResult> {
         val url =
             "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
 
@@ -123,7 +96,7 @@ class LibraryService(
         val bookList: Elements =
             document.getElementsByClass("bookListType01").first()?.getElementsByTag("li") ?: return listOf()
 
-        val resultList: List<OnlineLibraryResponse> = bookList.map { book ->
+        return bookList.map { book ->
             val title: String = book.getElementsByClass("tit").first()!!.text()
             val author: String = book.getElementsByClass("writer").first()!!.text()
             val cover: String = book.getElementsByClass("thum").first()!!.getElementsByTag("img").first()!!.attr("src")
@@ -137,32 +110,30 @@ class LibraryService(
             val loanPossible: Boolean = currentLoanCount < maxLoanCount
             val reservationPossible: Boolean = !loanPossible && (currentLoanCount <= maxLoanCount)
 
-            OnlineLibraryResponse(
+            BookSearchResult(
                 title = title,
                 author = author,
                 cover = cover,
                 link = link,
                 loanPossible = loanPossible,
                 reservationPossible = reservationPossible,
-                provider = OnlineLibraryProvider.GWANGHWAMUN_LIBRARY,
+                provider = SearchProvider.GWANGHWAMUN_LIBRARY,
             )
         }
-
-        return resultList
     }
 
     // TODO
-    fun seoulEducationLibrary(query: String): List<OnlineLibraryResponse> {
+    fun seoulEducationLibrary(query: String): List<BookSearchResult> {
         return listOf()
     }
 
     // TODO
-    fun nationalAssemblyLibrary(query: String): List<OnlineLibraryResponse> {
+    fun nationalAssemblyLibrary(query: String): List<BookSearchResult> {
         return listOf()
     }
 
     // TODO
-    fun seoulCongressLibrary(query: String): List<OnlineLibraryResponse> {
+    fun seoulCongressLibrary(query: String): List<BookSearchResult> {
         return listOf()
     }
 
