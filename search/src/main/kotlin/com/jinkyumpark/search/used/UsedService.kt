@@ -60,6 +60,7 @@ class UsedService(
             val locationList: List<String> = listElement
                 .getElementsByClass("loca")
                 .map { it.getElementsByTag("strong").first()?.text() ?: "" }
+                .filterNot { it == "강서 NC점" }
 
             resultList.add(
                 UsedSearchBook(
@@ -76,6 +77,7 @@ class UsedService(
         }
 
         return resultList
+            .filter { it.locationList.isNotEmpty() }
     }
 
 }
