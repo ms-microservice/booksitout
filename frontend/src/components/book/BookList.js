@@ -21,6 +21,7 @@ const BookList = () => {
 	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
 	const noContentMessage = range === 'not-done' ? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!` : range === 'done' ? `아직 다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
 	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
+	const fetchSize = range === 'done' ? 24 : 12
 
 	const [initalFetch, setInitialFetch] = useState(true)
 	const [loading, setIsLoading] = useState(false)
@@ -33,7 +34,7 @@ const BookList = () => {
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 5000)
 
-		getBookList(rangeApi, 0, 12)
+		getBookList(rangeApi, 0, fetchSize)
 			.then((pageList) => {
 				if (pageList == null) throw new Error()
 
@@ -50,7 +51,7 @@ const BookList = () => {
 	}, [])
 
 	const getNextPage = () => {
-		getBookList(rangeApi, currentPage + 1, 12)
+		getBookList(rangeApi, currentPage + 1, fetchSize)
 			.then((pageList) => {
 				setBookList([...bookList, ...pageList.content])
 			})
