@@ -27,7 +27,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 							
 							<span className="d-lg-none"><br/></span>
 
-							{typeof bookList != 'undefined' && isConfigured && <span className='ms-lg-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
+							{bookList != null && typeof bookList != 'undefined' && isConfigured && <span className='ms-lg-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
 						</h3>
 					</div>
 
@@ -36,7 +36,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 
 				{!isConfigured ? (
 					<SearchNotConfigured />
-				) : typeof bookList == 'undefined' ? (
+				) : typeof bookList == 'undefined' || bookList == null ? (
 					<div className="h-100">
 						<Error />
 					</div>

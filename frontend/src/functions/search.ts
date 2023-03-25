@@ -185,7 +185,7 @@ const search = {
 					.get(urls.api.search.myBook(query), { headers: { Authorization: utils.getToken() } })
 					.then((res) => res.data)
 					.catch(() => {
-						return []
+						return null
 					})
 			},
 
@@ -203,7 +203,7 @@ const search = {
 					.get(urls.api.search.libraryByRegion(query, region, regionDetail))
 					.then((res) => res.data)
 					.catch(() => {
-						return []
+						return null
 					})
 			},
 
@@ -211,7 +211,7 @@ const search = {
 				return axios
 					.get(urls.api.search.libraryOnline(query, include))
 					.then((res) => res.data)
-					.catch(() => { return [] })
+					.catch(() => { return null })
 			},
 
 			subscription: (query: string, include: string) => {
@@ -219,7 +219,7 @@ const search = {
 					.get(urls.api.search.subscription(query, include))
 					.then((res) => res.data)
 					.catch(() => {
-						return []
+						return null
 					})
 			},
 		},
