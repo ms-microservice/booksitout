@@ -29,6 +29,12 @@ dependencies {
     // Redis
     implementation("org.springframework.boot:spring-boot-starter-data-redis")
 
+    // Spring Cloud
+    implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
+    implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
+
+    module(":core")
+
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }
     }
