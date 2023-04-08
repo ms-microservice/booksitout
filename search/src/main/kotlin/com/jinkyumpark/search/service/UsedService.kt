@@ -26,7 +26,6 @@ class UsedService(
             SearchProvider.YES24_USED_ONLINE -> yes24Online(query)
             SearchProvider.INTERPARK_USED_ONLINE -> interparkOnline(query)
             SearchProvider.ALADIN_USED_ONLINE -> aladin(query)
-
             SearchProvider.YES24_USED_OFFLINE -> yes24Offline(query)
 
             else -> listOf()

@@ -15,7 +15,7 @@ class NewService(
     val aladinApiKey: String
 ) {
 
-    @Cacheable(value = ["new-aladin"], key = "#query.toLowerCase().replaceAll(\" \", \"\")")
+    @Cacheable(value = ["new-aladin"], key = "#query.toLowerCase().replaceAll(' ', '')")
     fun getBookByQueryFromAladin(query: String, size: Int): List<SearchResult> {
         val url = "http://www.aladin.co.kr/ttb/api/ItemSearch.aspx?TTBKey=$aladinApiKey&Query=$query&Output=JS&version=20131101&MaxResults=$size"
 
