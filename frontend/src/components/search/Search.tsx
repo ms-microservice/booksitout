@@ -77,7 +77,7 @@ const Search = () => {
 		<div className='container mt-5'>
 			<LibraryDetailModal />
 
-			<Alert variant='success' className='text-center'>검색 결과를 클릭하면 책을 볼 수 있는 곳으로 이동해요</Alert>
+			<Alert variant='success' className='text-center'>클릭하면 책을 볼 수 있는 곳으로 이동해요</Alert>
 
 			<BookSearchResult label='내 책' labelComponent={<></>} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
 			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} />
