@@ -1,4 +1,4 @@
-package com.jinkyumpark.gateway.main;
+package com.jinkyumpark.gateway;
 
 import lombok.Builder;
 import lombok.Getter;
