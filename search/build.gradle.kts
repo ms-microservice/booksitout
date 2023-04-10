@@ -10,6 +10,7 @@ plugins {
 java.sourceCompatibility = JavaVersion.VERSION_11
 
 dependencies {
+    // Spring
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-webflux")
 
@@ -33,6 +34,7 @@ dependencies {
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
     implementation("org.springframework.cloud:spring-cloud-starter-openfeign")
 
+    // M1 Mac Compatibility
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }
     }
