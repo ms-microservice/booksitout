@@ -1,12 +1,13 @@
 package com.jinkyumpark.search.controller
 
 import com.jinkyumpark.search.common.exception.BadRequestException
+import com.jinkyumpark.search.offlineLibrary.OfflineLibraryService
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.provider.region.KoreaRegion
-import com.jinkyumpark.search.provider.region.SeoulRegion
+import com.jinkyumpark.search.offlineLibrary.provider.KoreaRegion
+import com.jinkyumpark.search.offlineLibrary.provider.City
 import com.jinkyumpark.search.response.SearchResult
-import com.jinkyumpark.search.response.library.AvailableLibrary
-import com.jinkyumpark.search.response.library.OfflineLibraryResponse
+import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
+import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryResponse
 import com.jinkyumpark.search.response.used.UsedSearchResponse
 import com.jinkyumpark.search.service.*
 import org.springframework.web.bind.annotation.GetMapping
@@ -16,7 +17,7 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping("v2/search")
-class SearchController(
+class SearchControllerV2(
     val newService: NewService,
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
@@ -99,7 +100,7 @@ class SearchController(
             val availableLibrary: List<AvailableLibrary> = offlineLibraryService.getAvailableLibraryByRegion(
                 isbn,
                 KoreaRegion.valueOf(region).apiRegionCode,
-                SeoulRegion.valueOf(regionDetail).apiRegionCode,
+                City.valueOf(regionDetail).apiRegionCode,
             )
 
             if (availableLibrary.isEmpty()) continue

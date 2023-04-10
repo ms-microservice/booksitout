@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.response.library
+package com.jinkyumpark.search.offlineLibrary.response
 
 import com.jinkyumpark.search.response.SearchResult
 

@@ -42,7 +42,7 @@ spring:
         - id: search
           uri: lb://search
           predicates:
-            - Path=/v2/search/**
+            - Path=/v2/search/**, /v3/search/**
 
         - id: core
           uri: lb://core
