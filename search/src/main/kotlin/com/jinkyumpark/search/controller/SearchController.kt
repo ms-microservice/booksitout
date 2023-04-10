@@ -1,10 +1,10 @@
 package com.jinkyumpark.search.controller
 
-import com.jinkyumpark.search.response.SearchResult
 import com.jinkyumpark.search.common.exception.BadRequestException
 import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.region.KoreaRegion
-import com.jinkyumpark.search.region.SeoulRegion
+import com.jinkyumpark.search.provider.region.KoreaRegion
+import com.jinkyumpark.search.provider.region.SeoulRegion
+import com.jinkyumpark.search.response.SearchResult
 import com.jinkyumpark.search.response.library.AvailableLibrary
 import com.jinkyumpark.search.response.library.OfflineLibraryResponse
 import com.jinkyumpark.search.response.used.UsedSearchResponse
