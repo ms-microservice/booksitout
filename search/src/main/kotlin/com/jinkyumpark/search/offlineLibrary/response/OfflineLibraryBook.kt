@@ -8,9 +8,9 @@ data class OfflineLibraryBook(
     val author: String,
     val cover: String,
     val isbn: String,
-    val link: String,
     val publishYear: Int?,
 
+    val link: String,
     val library: Library,
     val location: String,
     val isLoanPossible: Boolean,
