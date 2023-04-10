@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.common.config
+package com.jinkyumpark.search.config.config
 
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration

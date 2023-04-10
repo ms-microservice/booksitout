@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.apiResponse.millie
 
-import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.SearchResult
+import com.jinkyumpark.search.common.SearchProvider
+import com.jinkyumpark.search.common.SearchResult
 
 data class ApiMillieBook(
     val book_seq: String?,

@@ -1,4 +1,6 @@
-package com.jinkyumpark.search.provider
+package com.jinkyumpark.search.common
+
+import com.jinkyumpark.search.common.SearchCategory
 
 enum class SearchProvider(
     val category: SearchCategory,

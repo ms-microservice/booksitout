@@ -3,7 +3,7 @@ package com.jinkyumpark.search.offlineLibrary
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLibsLib
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
-import com.jinkyumpark.search.jsoup.SSLHelper
+import com.jinkyumpark.search.config.jsoup.SSLHelper
 import com.jinkyumpark.search.offlineLibrary.provider.City
 import com.jinkyumpark.search.offlineLibrary.provider.Library
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary

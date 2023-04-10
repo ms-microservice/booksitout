@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.redis
+package com.jinkyumpark.search.config.redis
 
 import org.springframework.cache.interceptor.KeyGenerator
 import java.lang.reflect.Method

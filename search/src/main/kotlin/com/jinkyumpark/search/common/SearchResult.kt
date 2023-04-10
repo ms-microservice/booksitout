@@ -1,6 +1,5 @@
-package com.jinkyumpark.search.response
+package com.jinkyumpark.search.common
 
-import com.jinkyumpark.search.provider.SearchProvider
 import java.io.Serializable
 
 class SearchResult(

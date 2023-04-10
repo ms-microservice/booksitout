@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.apiResponse.aladin
 
-import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.SearchResult
+import com.jinkyumpark.search.common.SearchProvider
+import com.jinkyumpark.search.common.SearchResult
 
 data class ApiAladinItem(
     var title: String?,

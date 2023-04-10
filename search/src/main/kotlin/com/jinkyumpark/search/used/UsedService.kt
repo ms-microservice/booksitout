@@ -1,8 +1,9 @@
-package com.jinkyumpark.search.service
+package com.jinkyumpark.search.used
 
 import com.jinkyumpark.search.apiResponse.aladin.ApiAladinResponse
-import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.SearchResult
+import com.jinkyumpark.search.common.SearchProvider
+import com.jinkyumpark.search.common.SearchResult
+import com.jinkyumpark.search.common.BookSearchService
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.parser.Parser
@@ -17,7 +18,7 @@ class UsedService(
     private val aladinApiKey: String,
 
     val webClient: WebClient
-):BookSearchService {
+): BookSearchService {
 
     @Cacheable(value = ["used"], keyGenerator = "searchKeyGenerator")
     override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {

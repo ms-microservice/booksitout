@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.provider
+package com.jinkyumpark.search.common
 
 enum class SearchCategory {
     LIBRARY_ONLINE,

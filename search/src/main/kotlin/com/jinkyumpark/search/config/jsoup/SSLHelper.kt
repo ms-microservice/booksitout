@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.jsoup
+package com.jinkyumpark.search.config.jsoup
 
 import org.jsoup.Connection
 import org.jsoup.Jsoup

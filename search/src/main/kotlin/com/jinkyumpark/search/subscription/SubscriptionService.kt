@@ -1,11 +1,12 @@
-package com.jinkyumpark.search.service
+package com.jinkyumpark.search.subscription
 
 import com.jinkyumpark.search.apiResponse.millie.ApiMillieBook
 import com.jinkyumpark.search.apiResponse.millie.ApiMillieResponse
 import com.jinkyumpark.search.apiResponse.ridi.ApiRidiBook
 import com.jinkyumpark.search.apiResponse.ridi.ApiRidiResponse
-import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.SearchResult
+import com.jinkyumpark.search.common.SearchProvider
+import com.jinkyumpark.search.common.SearchResult
+import com.jinkyumpark.search.common.BookSearchService
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
 import org.jsoup.nodes.Element

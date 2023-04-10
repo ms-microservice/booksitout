@@ -1,15 +1,16 @@
-package com.jinkyumpark.search.controller
+package com.jinkyumpark.search.common
 
-import com.jinkyumpark.search.common.exception.BadRequestException
+import com.jinkyumpark.search.config.exception.BadRequestException
+import com.jinkyumpark.search.newBook.NewService
 import com.jinkyumpark.search.offlineLibrary.OfflineLibraryService
-import com.jinkyumpark.search.provider.SearchProvider
 import com.jinkyumpark.search.offlineLibrary.provider.KoreaRegion
 import com.jinkyumpark.search.offlineLibrary.provider.City
-import com.jinkyumpark.search.response.SearchResult
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
 import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryResponse
-import com.jinkyumpark.search.response.used.UsedSearchResponse
-import com.jinkyumpark.search.service.*
+import com.jinkyumpark.search.onlineLibrary.OnlineLibraryService
+import com.jinkyumpark.search.used.UsedSearchResponse
+import com.jinkyumpark.search.subscription.SubscriptionService
+import com.jinkyumpark.search.used.UsedService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam

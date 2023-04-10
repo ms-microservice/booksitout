@@ -1,8 +1,8 @@
 package com.jinkyumpark.search.apiResponse.ridi
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.jinkyumpark.search.provider.SearchProvider
-import com.jinkyumpark.search.response.SearchResult
+import com.jinkyumpark.search.common.SearchProvider
+import com.jinkyumpark.search.common.SearchResult
 
 data class ApiRidiBook(
     var endDatetime: String?,

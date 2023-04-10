@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.redis
+package com.jinkyumpark.search.config.redis
 
 import org.springframework.cache.annotation.EnableCaching
 import org.springframework.context.annotation.Bean
