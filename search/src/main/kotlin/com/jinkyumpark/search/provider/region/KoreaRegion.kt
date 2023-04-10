@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.region
+package com.jinkyumpark.search.provider.region
 
 
 enum class KoreaRegion(val koreanName: String,
