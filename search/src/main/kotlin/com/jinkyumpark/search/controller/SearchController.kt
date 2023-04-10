@@ -1,4 +1,4 @@
-package com.jinkyumpark.search
+package com.jinkyumpark.search.controller
 
 import com.jinkyumpark.search.response.SearchResult
 import com.jinkyumpark.search.common.exception.BadRequestException
