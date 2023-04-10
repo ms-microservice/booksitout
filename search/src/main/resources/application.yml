@@ -1,3 +1,19 @@
+server:
+    port: 0
+
+spring:
+    application:
+        name: search
+
+    redis:
+        pool:
+            min-idle: 0
+            max-idle: 8
+            max-active: 8
+
+        port: 6379
+        host: localhost
+
 search:
     aladin:
         api-key: ${SEARCH_ALADIN_API_KEY}
@@ -16,15 +32,12 @@ search:
     yes24:
         url: http://www.yes24.com/Product/Search
 
-server:
-    port: 8100
+eureka:
+    instance:
+        prefer-ip-address: true
 
-spring:
-    redis:
-        pool:
-            min-idle: 0
-            max-idle: 8
-            max-active: 8
-
-        port: 6379
-        host: localhost
+    client:
+        register-with-eureka: true
+        fetch-registry: true
+        service-url:
+          default-zone: http://localhost:8761/eureka/

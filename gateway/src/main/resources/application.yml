@@ -2,8 +2,20 @@ server:
   port: 80
 
 spring:
+  application:
+    name: spring-gateway
+
+  eureka:
+      client:
+          service-url:
+            default-zone: http://localhost:8761/eureka/
+
   cloud:
     gateway:
+      discovery:
+        locator:
+            enabled: true
+
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
 
@@ -23,16 +35,16 @@ spring:
 
       routes:
         - id: user
-          uri: http://localhost:8000
+          uri: lb://core
           predicates:
-            - Path=/login, {segment}/login/**, {segment}/join
+            - Path=/login, {segment}/login/**, {segment}/join, v3/user/**, v2/login/**
 
         - id: search
-          uri: http://localhost:8100
+          uri: lb://search
           predicates:
             - Path=/v2/search/**
 
         - id: core
-          uri: http://localhost:8000
+          uri: lb://core
           predicates:
             - Path=/v1/**, /v2/**
