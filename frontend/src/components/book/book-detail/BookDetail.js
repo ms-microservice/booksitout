@@ -267,7 +267,7 @@ const BookDetail = () => {
 							setIsAddModalOpen={setIsAddMemoModalOpen}
 						/>
 
-						<BookRecordCard
+						{/* <BookRecordCard
 							displayLabel='🗣️ 인용'
 							record={quotation}
 							ListComponent={
@@ -278,7 +278,7 @@ const BookDetail = () => {
 								/>
 							}
 							setIsAddModalOpen={setIsAddQuotationModalOpen}
-						/>
+						/> */}
 					</div>
 				</div>
 		</div>
@@ -323,7 +323,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 							deleteBook(book.bookId).then((success) => {
 								if (success) {
 									toast.success('책을 삭제 했어요')
-									navigate('/book/not-done')
+									navigate('/book/not-done/all')
 								} else {
 									toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 								}

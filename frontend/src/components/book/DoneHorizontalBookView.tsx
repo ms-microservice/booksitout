@@ -6,7 +6,14 @@ const DoneHorizontalBookView = ({book}) => {
 		<a href={`/book/detail/${book.bookId}`} className='h-100 text-black text-decoration-none'>
 			<Card className='h-100'>
 				<Card.Body>
-					<img src={(book.cover == null || book.cover === '') ? defaultBookCover : book.cover} alt='' className='img-fluid rounded border' />
+					<div className='d-flex justify-content-center'>
+						<img
+							src={book.cover == null || book.cover === '' ? defaultBookCover : book.cover}
+							alt=''
+							className='img-fluid rounded border'
+							style={{ height: '225px' }}
+						/>
+					</div>
 
 					<div className='text-center mt-2'>
 						<h5>{book.title}</h5>

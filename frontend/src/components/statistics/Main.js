@@ -4,7 +4,6 @@ import { Card, Alert } from 'react-bootstrap'
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import NoContent from '../common/NoContent'
-import HorizontalBookView from '../book/HorizontalBookView'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
 import GoalView from './goal/GoalView'
@@ -18,6 +17,7 @@ import uiSettings from '../../settings/ui'
 import messages from '../../settings/messages'
 
 import '../../resources/css/mainReadChart.css'
+import MainBookView from '../book/MainBookView';
 
 const Main = () => {
 	const [loading, setIsLoading] = useState(true)
@@ -93,7 +93,7 @@ const LastReadBook = ({lastBook}) => {
 				{lastBook == null ? (
 					<NoContent message={messages.book.lastBook.noContent} />
 				) : (
-					<HorizontalBookView
+					<MainBookView
 						book={lastBook}
 						firstButton={
 							<a href={`/reading/${lastBook.bookId}`} className='btn btn-primary w-100'>

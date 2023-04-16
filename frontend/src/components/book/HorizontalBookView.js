@@ -1,54 +1,56 @@
-// Book Info
-import BookInfoIcon from './book-info/BookInfoIcon'
 // Images
 import defaultBookCover from '../../resources/images/common/default-book-cover.png'
-// Components
-import PageProgressBar from '../common/PageProgressBar'
-import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from './book-info/bookInfoEnum'
+import { ProgressBar } from 'react-bootstrap';
 
 const HorizontalBookView = ({ book, firstButton = <></>, secondButton = <></>, link = '' }) => {
-	const bookInfoStyle = 'col-4 mb-2'
-
 	return (
-		<div className='row row-eq-height justify-content-center mt-3'>
-			<a href={link} className='mb-4 col-8 col-lg-4 align-self-center'>
+		<a href={link} className='mb-4 align-self-center text-decoration-none text-black'>
+			<div className='d-flex justify-content-center'>
 				<img
-					className={`img-fluid rounded  ${book.cover !== '' && 'border'} text-decoration-none text-black`}
+					className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
 					src={book.cover === '' ? defaultBookCover : book.cover}
 					alt=''
+					style={{height: '200px'}}
 				/>
-			</a>
-
-			<div className='col-12 col-lg-8'>
-				<a href={link} className='text-decoration-none text-black'>
-					<h4>{book.title}</h4>
-					<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
-					<PageProgressBar book={book} />
-
-					<div className='row text-center mt-4 justify-content-center'>
-						<div className={bookInfoStyle}>
-							<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
-						</div>
-
-						<div className={bookInfoStyle}>
-							<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
-						</div>
-
-						<div className={bookInfoStyle}>
-							<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
-						</div>
-					</div>
-				</a>
-
-				<div className='row mt-4'>
-					<div className='col-6' style={{ zIndex: 200 }}>
-						{firstButton}
-					</div>
-					<div className='col-6'>{secondButton}</div>
-				</div>
 			</div>
+
+			<div className='mt-3 text-center'>
+				<h4 style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>{book.title}</h4>
+				<h6 className='text-muted' style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
+					{book.author == null || book.author === '' ? '-' : book.author}
+				</h6>
+				<HorizontalPageBar book={book} />
+			</div>
+
+			<div className='row mt-4'>
+				<div className='col-12 mb-2'>{firstButton}</div>
+				<div className='col-12 mb-2'>{secondButton}</div>
+			</div>
+		</a>
+	)
+}
+
+const HorizontalPageBar = ({ book, showPage = true }) => {
+	return (
+		<div className='row align-items-center'>
+			<div className={showPage ? 'col-7 col-xl-8' : 'col-12'}>
+				<ProgressBar
+					className='mt-3 mb-3'
+					now={((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100}
+					label={`${Math.round(((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100)}%`}
+				/>
+			</div>
+
+			{showPage && (
+				<div className='col-5 col-xl-4 text-end'>
+					<span className='align-middle' style={{ whiteSpace: 'nowrap' }}>{`${
+						book.currentPage == null || book.currentPage < 0 ? 0 : book.currentPage
+					} / ${book.endPage}`}</span>
+				</div>
+			)}
 		</div>
 	)
 }
+
 
 export default HorizontalBookView

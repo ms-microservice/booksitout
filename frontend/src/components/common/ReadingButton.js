@@ -1,7 +1,7 @@
-import { useNavigate } from 'react-router-dom'
-import { useSelector } from 'react-redux'
 import { Button } from 'react-bootstrap'
 import { BsBookHalf as BookIcon } from 'react-icons/bs'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 
 const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 	const navigate = useNavigate()
@@ -10,20 +10,24 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 
 	const readingButtonStyle = {
 		position: 'fixed',
-		bottom: bottomStyle,
 		right: '2.5%',
+		
 		width: '60px',
 		height: '60px',
+
 		borderRadius: '50px',
+		bottom: bottomStyle,
 	}
 
 	const timeStyle = {
 		position: 'fixed',
-		bottom: bottomStyle,
 		right: '2.5%',
+
 		width: '90px',
 		height: '60px',
+
 		borderRadius: '10px',
+		bottom: bottomStyle,
 	}
 
 	return (

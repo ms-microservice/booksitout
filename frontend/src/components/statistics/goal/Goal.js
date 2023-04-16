@@ -173,9 +173,9 @@ const Goal = () => {
 						</Card>
 					</div>
 
-					<div className="col-12 mb-4">
+					{/* <div className="col-12 mb-4">
 						<BookReadInYear year={2023}/>
-					</div>
+					</div> */}
 
 					<div className='col-12 mb-5'>
 						<Card>

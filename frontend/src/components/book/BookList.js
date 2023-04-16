@@ -13,7 +13,7 @@ import DoneHorizontalBookView from './DoneHorizontalBookView'
 import kimchiImage from '../../resources/images/common/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
-import { deleteBook, getBookList, unGiveUpBook } from '../../functions/book'
+import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
 import InfiniteScrollLoading from './InfiniteScrollLoading';
 
 const BookList = () => {
@@ -21,7 +21,7 @@ const BookList = () => {
 	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
 	const noContentMessage = range === 'not-done' ? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!` : range === 'done' ? `아직 다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
 	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
-	const fetchSize = range === 'done' ? 24 : 12
+	const fetchSize = 24 
 
 	const [initalFetch, setInitialFetch] = useState(true)
 	const [loading, setIsLoading] = useState(false)
@@ -80,18 +80,31 @@ const BookList = () => {
 }
 
 const BookCardList = ({ bookList, range, setBookList }) => {
-	const navigate = useNavigate()
-
-	const giveUpBook = (bookId) => {
+	const handleGiveupBook = (bookId) => {
 		const confirm = window.confirm('책을 포기할까요?')
 
 		if (confirm) {
 			giveUpBook(bookId).then((success) => {
 				if (success) {
-					toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
+					toast.success('책을 포기했어요. 마음이 바뀌시면 언제든지 다시 시작하실 수 있어요!')
 					setBookList(bookList.filter((b) => b.bookId !== bookId))
 				} else {
 					toast.error('오류가 났어요 다시 시도해 주세요')
+				}
+			})
+		}
+	}
+
+	const handleUngiveupBook = (bookId) => {
+		const confirm = window.confirm('책을 다시 읽을까요?')
+
+		if (confirm) {
+			unGiveUpBook(bookId).then((success) => {
+				if (success) {
+					toast.success('이제 책을 다시 읽을 수 있어요')
+					setBookList(bookList.filter((b) => b.bookId !== bookId))
+				} else {
+					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 				}
 			})
 		}
@@ -118,7 +131,7 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 			<div className='row row-eq-height'>
 				{bookList.map((book) => {
 					return (
-						<div className='col-12 col-md-6 col-xl-4 mb-5'>
+						<div className='col-6 col-md-4 col-lg-3 col-xl-2 mb-4'>
 							<Card className='h-100'>
 								<Card.Body>
 									<HorizontalBookView
@@ -127,19 +140,9 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 											<Button
 												variant='success'
 												className='w-100'
-												onClick={() => {
-													const confirm = window.confirm('책을 다시 읽을까요?')
-
-													if (confirm) {
-														unGiveUpBook(book.bookId).then((success) => {
-															if (success) {
-																toast.success('이제 책을 다시 읽을 수 있어요')
-																navigate(`/book/detail/${book.bookId}`)
-															} else {
-																toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-															}
-														})
-													}
+												onClick={(e) => {
+													e.preventDefault()
+													handleUngiveupBook(book.bookId)
 												}}>
 												다시 읽기
 											</Button>
@@ -148,7 +151,8 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 											<Button
 												variant='danger'
 												className='w-100'
-												onClick={() => {
+												onClick={(e) => {
+													e.preventDefault()
 													const confirm = window.confirm('정말 이 책을 삭제할까요?')
 
 													if (confirm) {
@@ -176,34 +180,44 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 		)
 	}
 
-	return (
-		<div className='row row-eq-height'>
-			{bookList.map((book) => {
-				return (
-					<div className='col-12 col-md-6 col-xl-4 mb-5'>
-						<Card className='h-100'>
-							<Card.Body>
-								<HorizontalBookView
-									book={book}
-									link={`/book/detail/${book.bookId}`}
-									firstButton={
-										<a href={`/reading/${book.bookId}`} className='btn btn-primary w-100'>
-											이어서 읽기
-										</a>
-									}
-									secondButton={
-										<Button variant='danger' className='w-100' onClick={() => { giveUpBook(book.bookId) }}>
-											이 책 포기하기
-										</Button>
-									}
-								/>
-							</Card.Body>
-						</Card>
-					</div>
-				)
-			})}
-		</div>
-	)
+	if (range === 'not-done') {
+		return (
+			<div className='row row-eq-height'>
+				{bookList.map((book) => {
+					return (
+						<div className='col-6 col-sm-4 col-md-3 col-xl-2 mb-5'>
+							<Card className='h-100'>
+								<Card.Body>
+									<HorizontalBookView
+										book={book}
+										link={`/book/detail/${book.bookId}`}
+										firstButton={
+											<a href={`/reading/${book.bookId}`} className='btn btn-primary w-100'>
+												이어서 읽기
+											</a>
+										}
+										secondButton={
+											<Button
+												variant='danger'
+												className='w-100'
+												onClick={(e) => {
+													e.preventDefault()
+													handleGiveupBook(book.bookId)
+												}}>
+												포기하기
+											</Button>
+										}
+									/>
+								</Card.Body>
+							</Card>
+						</div>
+					)
+				})}
+			</div>
+		)
+	}
+
+	return <h1 className='text-center'>잘못된 URL이에요</h1>
 }
 
 export default BookList
