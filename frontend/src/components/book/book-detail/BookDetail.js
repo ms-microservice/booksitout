@@ -457,7 +457,7 @@ const BookDescription = ({ book }) => {
 			<div className='row justify-content-center'>
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} responsiveImageStyle={infoIconStyle} />
+					<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language != null ? book.language : 'KOREAN'} responsiveImageStyle={infoIconStyle} />
 					{/* </a> */}
 				</div>
 				<div className={infoCardStyle}>
@@ -467,12 +467,12 @@ const BookDescription = ({ book }) => {
 				</div>
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={FORM_INFO} infoData={book.form} responsiveImageStyle={infoIconStyle} />
+					<BookInfoIcon infoType={FORM_INFO} infoData={book.form != null ? book.form : 'PHYSICAL'} responsiveImageStyle={infoIconStyle} />
 					{/* </a> */}
 				</div>
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source} responsiveImageStyle={infoIconStyle} />
+					<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source != null ? book.source : 'NOT_PROVIDED'} responsiveImageStyle={infoIconStyle} />
 					{/* </a> */}
 				</div>
 			</div>

@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.common
 
 import com.jinkyumpark.search.config.exception.BadRequestException
-import com.jinkyumpark.search.newBook.NewService
+import com.jinkyumpark.search.general.GeneralService
 import com.jinkyumpark.search.offlineLibrary.OfflineLibraryService
 import com.jinkyumpark.search.offlineLibrary.provider.KoreaRegion
 import com.jinkyumpark.search.offlineLibrary.provider.City
@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("v2/search")
 class SearchControllerV2(
-    val newService: NewService,
+    val generalService: GeneralService,
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
     val onlineLibraryService: OnlineLibraryService,
@@ -94,7 +94,7 @@ class SearchControllerV2(
         @RequestParam("region-detail", required = false) regionDetail: String,
     ): List<OfflineLibraryResponse> {
         val isbnToBookMap: Map<String, SearchResult> =
-            newService.getBookByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
+            generalService.getBookByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
 
         val result: MutableList<OfflineLibraryResponse> = mutableListOf()
         for (isbn: String in isbnToBookMap.keys) {

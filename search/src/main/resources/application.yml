@@ -16,21 +16,32 @@ spring:
 
 search:
     aladin:
-        api-key: ${SEARCH_ALADIN_API_KEY}
         url: http://www.aladin.co.kr/ttb/api/ItemSearch.aspx
+        api-key: ${ALADIN_SECRET}
+
     data4library:
-        api-key: ${SEARCH_DATA4LIBRARY_API_KEY}
-        has-book:
-            url: http://data4library.kr/api/bookExist
-        has-book-by-isbn:
-            url: http://data4library.kr/api/libSrchByBook
-        search:
-            url: http://data4library.kr/api/srchBooks
-        supported-library-url: http://data4library.kr/api/libSrch
+        url:
+            has-book: http://data4library.kr/api/bookExist
+            has-book-by-isbn: http://data4library.kr/api/libSrchByBook
+            search: http://data4library.kr/api/srchBooks
+            supported-library-url: http://data4library.kr/api/libSrch
+        api-key: ${DATA4LIBRARY_SECRET}
+
     kyobo:
         url: https://search.kyobobook.co.kr/search
+
     yes24:
         url: http://www.yes24.com/Product/Search
+
+    naver:
+        url: https://openapi.naver.com/v1/search/book.json
+        secret: ${NAVER_SECRET}
+        clientId: ${NAVER_CLIENT}
+
+    google:
+        url: https://customsearch.googleapis.com/customsearch/v1
+        secret: ${GOOGLE_SECRET}
+        cx: ${GOOGLE_CX}
 
 eureka:
     instance:
