@@ -47,4 +47,4 @@ spring:
         - id: core
           uri: lb://core
           predicates:
-            - Path=/v1/**, /v2/**
+            - Path=/v1/**, /v2/**, /v3/**
