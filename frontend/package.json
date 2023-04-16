@@ -1,6 +1,6 @@
 {
-	"homepage": "https://book.jinkyumpark.com",
-	"name": "book-it-out",
+	"homepage": "https://booksitout.com",
+	"name": "Books it Out",
 	"version": "0.1.0",
 	"private": true,
 	"dependencies": {
