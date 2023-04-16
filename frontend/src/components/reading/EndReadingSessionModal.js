@@ -102,6 +102,8 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 							<div className='col-4 col-lg-3'>
 								<Form.Control
 									type='number'
+									inputMode='numeric'
+									pattern='[0-9]*'
 									onChange={(e) => setEndPage(e.target.value)}
 									autoFocus
 									placeholder={

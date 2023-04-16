@@ -141,7 +141,13 @@ const AddBookSearchCard = () => {
 											<div className='col-6'>
 												<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
 													<Form.Label>총 페이지 수</Form.Label>
-													<Form.Control type='number' placeholder={messages.book.placeholder.page} required />
+													<Form.Control
+														type='number'
+														inputMode='numeric'
+														pattern='[0-9]*'
+														placeholder={messages.book.placeholder.page}
+														required
+													/>
 												</Form.Group>
 											</div>
 
@@ -216,7 +222,12 @@ const AddBookSearchCard = () => {
 			<div className='container mt-3'>
 				<div className='row justify-content-center'>
 					<div className='col-12 col-md-8'>
-						<Form.Control placeholder='책 제목 / 저자를 검색해 주세요' className='mb-3 mt-2' onChange={(e) => setQuery(e.target.value)} />
+						<Form.Control
+							placeholder='책 제목 / 저자를 검색해 주세요'
+							className='mb-3 mt-2'
+							onChange={(e) => setQuery(e.target.value)}
+							autoFocus
+						/>
 					</div>
 				</div>
 
