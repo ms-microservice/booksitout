@@ -208,7 +208,14 @@ const BookEditForm = () => {
 									<div className='col-6 col-md-4'>
 										<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
 											<Form.Label>총 페이지 수</Form.Label>
-											<Form.Control type='number' placeholder={PAGE_MESSAGE} required value={endPage} />
+											<Form.Control
+												type='number'
+												inputMode='numeric'
+												pattern='[0-9]*'
+												placeholder={PAGE_MESSAGE}
+												required
+												value={endPage}
+											/>
 										</Form.Group>
 									</div>
 

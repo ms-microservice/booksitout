@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { useParams, useNavigate } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import { Button, Card } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'

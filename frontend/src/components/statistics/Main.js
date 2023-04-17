@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react'
-import { Card, Alert } from 'react-bootstrap'
+import { Card, Alert, Button } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
@@ -12,12 +12,15 @@ import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
 import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
+import { giveUpBook } from '../../functions/book'
 // Settings
 import uiSettings from '../../settings/ui'
 import messages from '../../settings/messages'
 
 import '../../resources/css/mainReadChart.css'
 import MainBookView from '../book/MainBookView';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'
 
 const Main = () => {
 	const [loading, setIsLoading] = useState(true)
@@ -85,6 +88,23 @@ const Main = () => {
 }
 
 const LastReadBook = ({lastBook}) => { 
+	const navigate = useNavigate()
+
+	const handleGiveupBook = (bookId) => {
+		const confirm = window.confirm('책을 포기할까요?')
+
+		if (confirm) {
+			giveUpBook(bookId).then((success) => {
+				if (success) {
+					toast.success('책을 포기했어요. 마음이 바뀌시면 언제든지 다시 시작하실 수 있어요!')
+					navigate(`book/detail/${bookId}`)
+				} else {
+					toast.error('오류가 났어요 다시 시도해 주세요')
+				}
+			})
+		}
+	}
+
 	return (
 		<Card>
 			<Card.Body>
@@ -101,9 +121,9 @@ const LastReadBook = ({lastBook}) => {
 							</a>
 						}
 						secondButton={
-							<a href='/book/not-done/all' className='btn btn-warning w-100'>
-								다른 책 읽기
-							</a>
+							<Button variant='danger' className='w-100' onClick={() => handleGiveupBook(lastBook.bookId)}>
+								포기하기
+							</Button>
 						}
 						link={lastBook == null ? `/book/not-done` : `/book/detail/${lastBook != null && lastBook.bookId}`}
 					/>

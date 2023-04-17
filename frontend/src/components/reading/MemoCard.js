@@ -73,7 +73,9 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 					<div className='row justify-content-end mt-2'>
 						<div className='col-3 col-sm-2'>
 							<Form.Control
-								type='text'
+								type='number'
+								inputMode='numeric'
+								pattern='[0-9]*'
 								placeholder='PAGE'
 								className='h-100'
 								required

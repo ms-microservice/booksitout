@@ -360,13 +360,18 @@ const AddBookManualCard = () => {
 		})
 	}	
 
+	const handleReset = () => {
+		setTitle('')
+		setAuthor('')
+	}
+
 return (
 	<div className='row justify-content-center mt-4'>
 		<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
 
 		<Card className='col-12 col-md-8'>
 			<Card.Body>
-				<Form onSubmit={(e) => handleAddBook(e)} className='h-100 container mt-3 mb-3 text-start'>
+				<Form onSubmit={(e) => handleAddBook(e)} className='h-100 container mt-3 mb-3 text-start' onReset={handleReset}>
 					<div className='row'>
 						<div className='col-12 col-md-6'>
 							<Form.Group className='mb-3'>
@@ -440,7 +445,13 @@ return (
 						<div className='col-6 col-md-4'>
 							<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
 								<Form.Label>총 페이지 수</Form.Label>
-								<Form.Control type='number' placeholder={messages.book.placeholder.page} required />
+								<Form.Control
+									type='number'
+									inputMode='numeric'
+									pattern='[0-9]*'
+									placeholder={messages.book.placeholder.page}
+									required
+								/>
 							</Form.Group>
 						</div>
 
@@ -480,7 +491,12 @@ return (
 					</div>
 
 					<Form.Group className='mb-3' controlId='formBasicCheckbox'>
-						<Form.Check type='checkbox' label='다른 사람이 내 독서활동을 볼 수 있도록 하기' onChange={() => setIsSharing(!isSharing)} />
+						<Form.Check
+							type='checkbox'
+							label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
+							onChange={() => setIsSharing(!isSharing)}
+							style={{ whiteSpace: 'nowrap' }}
+						/>
 					</Form.Group>
 
 					<div className='row justify-content-center align-items-end mt-1 mt-md-5'>

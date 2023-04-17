@@ -34,6 +34,8 @@ const Topnav = () => {
 	const [initialLoad, setInitialLoad] = useState(true)
 	const [openAtOnce, setOpenAtOnce] = useState(false)
 
+	const [autoFocus, setAutoFocus] = useState(false)
+
 	const handleLogout = (e) => {
 		e.preventDefault()
 
@@ -56,14 +58,16 @@ const Topnav = () => {
 	useEffect(() => {
 		setShowSearchBar(openAtOnce ? true : false)
 		setOpenAtOnce(false)
+		setAutoFocus(!expanded)
 	}, [expanded])
 
 	const toggleSearchBar = () => {
 		if (expanded) setOpenAtOnce(true)
 
-		setExpanded(false)
-
 		setShowSearchBar(expanded ? true : !showSearchBar)
+		setAutoFocus(expanded ? true : !showSearchBar)
+
+		setExpanded(false)
 		setInitialLoad(false)
 	}
 
@@ -74,7 +78,7 @@ const Topnav = () => {
 					className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
 					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
 					<Card.Body>
-						<SearchBar />
+						<SearchBar autoFocus={autoFocus}/>
 					</Card.Body>
 				</Card>
 			}
@@ -189,8 +193,12 @@ const Topnav = () => {
 								className={`d-none d-${expand}-block`}>
 								{token === '' || token == null ? (
 									<>
-										<NavDropdown.Item href='/login'><LoginIcon className='me-2 mb-1'/> 로그인</NavDropdown.Item>
-										<NavDropdown.Item href='/join'><JoinIcon className='me-2 mb-1'/> 회원가입</NavDropdown.Item>
+										<NavDropdown.Item href='/login'>
+											<LoginIcon className='me-2 mb-1' /> 로그인
+										</NavDropdown.Item>
+										<NavDropdown.Item href='/join'>
+											<JoinIcon className='me-2 mb-1' /> 회원가입
+										</NavDropdown.Item>
 									</>
 								) : (
 									<>
@@ -200,11 +208,11 @@ const Topnav = () => {
 										<NavDropdown.Divider />
 
 										<NavDropdown.Item href='/settings'>
-											<SettingIcon className='me-2 mb-1'/> 설정
+											<SettingIcon className='me-2 mb-1' /> 설정
 										</NavDropdown.Item>
 
 										<NavDropdown.Item onClick={(e) => handleLogout(e)}>
-											<LoginIcon className='me-2 mb-1'/> 로그아웃
+											<LoginIcon className='me-2 mb-1' /> 로그아웃
 										</NavDropdown.Item>
 									</>
 								)}
@@ -217,7 +225,7 @@ const Topnav = () => {
 	)
 }
 
-const SearchBar = ({width = {}}) => {
+const SearchBar = ({width = {}, autoFocus = false}) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
@@ -236,6 +244,13 @@ const SearchBar = ({width = {}}) => {
 		else toast.error('2글자 이상의 검색어를 입력해 주세요')
 	}
 
+	useEffect(() => {
+		const input = document.getElementById('searchInput')
+
+		if (autoFocus) input.focus()
+		else input.blur()
+	}, [autoFocus])
+
 	return (
 		<Form
 			style={width}
@@ -246,14 +261,14 @@ const SearchBar = ({width = {}}) => {
 			}}>
 			<div className='col-9 p-lg-0 pe-0'>
 				<Form.Control
+				id = 'searchInput'
 					type='search'
 					placeholder='한 번에 책 검색하기'
 					className='me-2 w-100'
 					aria-label='Search'
 					value={keyword}
-					onChange={(e) => {
-						setKeyword(e.target.value)
-					}}
+					onChange={(e) => setKeyword(e.target.value)}
+					autoFocus
 				/>
 			</div>
 

@@ -7,7 +7,6 @@ import Loading from '../common/Loading'
 import Error from '../common/Error'
 import Timer from './Timer'
 import MemoCard from './MemoCard'
-import QuotationCard from './QuotationCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 import MemoDetailModal from '../book/book-detail/MemoDetailModal'
@@ -173,7 +172,7 @@ const Reading = () => {
 									/>
 								</div>
 
-								<div className='col-12 col-lg-10 mt-3'>
+								{/* <div className='col-12 col-lg-10 mt-3'>
 									<QuotationCard
 										book={book}
 										quotationList={quotationList}
@@ -181,7 +180,7 @@ const Reading = () => {
 										setSelectedQuotation={setSelectedQuotation}
 										setIsModalOpen={setIsQuotationDetailModalOpen}
 									/>
-								</div>
+								</div> */}
 							</div>
 						</div>
 					</div>
