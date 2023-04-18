@@ -115,11 +115,11 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button variant='danger' onClick={closeModal} className='w-25'>
+				<Button variant='book-danger' onClick={closeModal} className='w-25'>
 					취소
 				</Button>
 
-				<Button variant='primary' onClick={closeModalSuccess} disabled={Number(selectedImageIndex) === -1}>
+				<Button variant='book' onClick={closeModalSuccess} disabled={Number(selectedImageIndex) === -1}>
 					선택한 이미지로 결정하기
 				</Button>
 			</Modal.Footer>

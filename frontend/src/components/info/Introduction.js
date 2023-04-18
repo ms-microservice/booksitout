@@ -56,7 +56,7 @@ const Introduction = () => {
 			<div className='row justify-content-center mt-4 mb-5'>
 				<div className='col-12 col-md-6 mb-5'>
 					<a href='/login' className='w-100'>
-						<Button variant='success' className='w-100'>
+						<Button variant='book' className='w-100'>
 							로그인
 						</Button>
 					</a>

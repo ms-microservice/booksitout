@@ -138,7 +138,7 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 										book={book}
 										firstButton={
 											<Button
-												variant='success'
+												variant='book'
 												className='w-100'
 												onClick={(e) => {
 													e.preventDefault()
@@ -149,7 +149,7 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 										}
 										secondButton={
 											<Button
-												variant='danger'
+												variant='book-danger'
 												className='w-100'
 												onClick={(e) => {
 													e.preventDefault()
@@ -192,13 +192,13 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 										book={book}
 										link={`/book/detail/${book.bookId}`}
 										firstButton={
-											<a href={`/reading/${book.bookId}`} className='btn btn-primary w-100'>
+											<a href={`/reading/${book.bookId}`} className='btn btn-book w-100'>
 												이어서 읽기
 											</a>
 										}
 										secondButton={
 											<Button
-												variant='danger'
+												variant='book-danger'
 												className='w-100'
 												onClick={(e) => {
 													e.preventDefault()

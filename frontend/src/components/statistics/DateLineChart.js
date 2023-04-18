@@ -17,13 +17,13 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 })
 					...Array.from({ length: duration }, (_, i) => {
 						let day = new Date(startDate).setDate(new Date(startDate).getDate() + i + 1)
 						return new Date(day).getDate() + '일'
-					}),
+					})
 				],
 
 				datasets: [
 					{
-						backgroundColor: 'rgb(255, 99, 132)',
-						borderColor: 'rgb(255, 99, 132)',
+						backgroundColor: '#1cb15a',
+						borderColor: '#1cb15a',
 						data: data,
 					},
 				],

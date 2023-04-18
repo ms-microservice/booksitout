@@ -102,12 +102,12 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 					<Form.Control className='mb-2' type='number' value={getStartPage()} disabled />
 
 					<Form.Label>끝 페이지</Form.Label>
-					<Form.Control className='mb-2' type='number' onChange={(e) => setEndPage(e.target.value)} />
+					<Form.Control className='mb-2' type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setEndPage(e.target.value)} autoFocus/>
 
 					<Form.Label>⏰ 시간 (분)</Form.Label>
-					<Form.Control className='mb-2' type='number' onChange={(e) => setReadTime(e.target.value)} />
+					<Form.Control className='mb-2' type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setReadTime(e.target.value)} />
 
-					<Button variant='success' type='submit' className='w-100 mt-2'>
+					<Button variant='book' type='submit' className='w-100 mt-2'>
 						추가하기
 					</Button>
 				</Form>

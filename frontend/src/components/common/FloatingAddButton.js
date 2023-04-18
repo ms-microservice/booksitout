@@ -23,7 +23,7 @@ const FloatingAddButton = ({ bottomStyle = '120px', url = '/book/add' }) => {
 		<>
 			{token !== '' && !location.pathname.startsWith('/book/add') && (
 				<AddIcon
-					className='btn btn-success z-3'
+					className='btn btn-book z-3'
 					style={addButtonStyle}
 					onClick={() => {
 						navigate(url)

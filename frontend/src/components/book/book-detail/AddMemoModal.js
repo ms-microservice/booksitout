@@ -58,13 +58,15 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddMemo(e)}>
-					<Form.Label>페이지</Form.Label>
+					<Form.Label type='number' inputMode='numeric' pattern='[0-9]*' autoFocus>
+						페이지
+					</Form.Label>
 					<Form.Control type='number' onChange={(e) => setPage(e.target.value)} />
 
 					<Form.Label className='mt-2'>내용</Form.Label>
-					<Form.Control onChange={(e) => setContent(e.target.value)} />
+					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus />
 
-					<Button variant='success' type='submit' className='w-100 mt-3'>
+					<Button variant='book' type='submit' className='w-100 mt-3'>
 						추가하기
 					</Button>
 				</Form>

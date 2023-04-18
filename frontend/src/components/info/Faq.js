@@ -45,7 +45,7 @@ const Faq = () => {
 			{faqList.map((faq) => {
 				return (
 					<Card className='mt-4'>
-						<Card.Header className='text-white' style={{ background: 'rgb(107, 169, 95)' }}>
+						<Card.Header className='text-white' style={{ background: '#1cb15a' }}>
 							{faq.question}
 						</Card.Header>
 
@@ -58,7 +58,7 @@ const Faq = () => {
 				{(utils.getToken() === '' || typeof utils.getToken() === 'undefined' || utils.getToken() == null) && (
 					<div className='col-12 col-lg-7 mt-3'>
 						<a href='/login' className='w-100'>
-							<Button variant='success' className='w-100'>
+							<Button variant='book' className='w-100'>
 								로그인하기
 							</Button>
 						</a>
@@ -67,7 +67,7 @@ const Faq = () => {
 
 				<div className='col-12 col-lg-7 mt-3'>
 					<a href='/qna' className='w-100'>
-						<Button variant='warning' className='w-100'>
+						<Button variant='book' className='w-100'>
 							직접 질문하기
 						</Button>
 					</a>

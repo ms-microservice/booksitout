@@ -141,21 +141,21 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 
 						<div className='row justify-content-center'>
 							<div className='col-12 col-sm-8 col-md-4 mt-3 mt-md-2'>
-								<Button variant='warning' className='w-100' onClick={() => handleEndWithoutSaving()}>
+								<Button variant='book-danger' className='w-100' onClick={() => handleEndWithoutSaving()}>
 									그냥 끝내기
 								</Button>
 							</div>
 							<div className='col-12 col-sm-8 col-md-4 mt-3 mt-md-2'>
-								<Button type='submit' className='w-100'>
+								<Button variant='book' type='submit' className='w-100'>
 									저장하고 끝내기
 								</Button>
 							</div>
 
-							<div className='col-12 col-sm-8 col-md-8 mt-3 mt-md-2'>
-								<Button variant='danger' className='w-100' onClick={hideModal}>
+							{/* <div className='col-12 col-sm-8 col-md-8 mt-3 mt-md-4'>
+								<Button variant='book-danger' className='w-100' onClick={hideModal}>
 									취소
 								</Button>
-							</div>
+							</div> */}
 						</div>
 					</Form>
 				)}

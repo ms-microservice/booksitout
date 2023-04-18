@@ -28,7 +28,7 @@ const BookAddForm = () => {
 					type='radio'
 					checked={false}
 					onClick={() => setSelectedMethod('SEARCH')}
-					variant={selectedMethod === 'SEARCH' ? 'success' : 'light'}>
+					variant={selectedMethod === 'SEARCH' ? 'book' : 'light'}>
 					검색으로 추가하기
 				</ToggleButton>
 
@@ -38,7 +38,7 @@ const BookAddForm = () => {
 					type='radio'
 					checked={false}
 					onClick={() => setSelectedMethod('MANUAL')}
-					variant={selectedMethod === 'MANUAL' ? 'success' : 'light'}>
+					variant={selectedMethod === 'MANUAL' ? 'book' : 'light'}>
 					직접 추가하기
 				</ToggleButton>
 			</ButtonGroup>
@@ -147,6 +147,7 @@ const AddBookSearchCard = () => {
 														pattern='[0-9]*'
 														placeholder={messages.book.placeholder.page}
 														required
+														autoFocus
 													/>
 												</Form.Group>
 											</div>
@@ -200,13 +201,13 @@ const AddBookSearchCard = () => {
 											<div className='mt-1 mt-lg-3 d-block' />
 
 											<div className='col-6'>
-												<Button variant='danger' className='w-100' type='reset'>
+												<Button variant='book-danger' className='w-100' type='reset'>
 													다시 입력
 												</Button>
 											</div>
 
 											<div className='col-6'>
-												<Button variant='success' className='w-100' type='submit'>
+												<Button variant='book' className='w-100' type='submit'>
 													추가하기
 												</Button>
 											</div>
@@ -398,7 +399,7 @@ return (
 						</div>
 					</div>
 
-					<Button className='w-100 mt-2 mb-3' onClick={openModal} variant={title !== '' ? 'success' : 'secondary'}>
+					<Button className='w-100 mt-2 mb-3' onClick={openModal} variant={title !== '' ? 'book' : 'secondary'}>
 						책 표지 검색
 					</Button>
 
@@ -504,14 +505,14 @@ return (
 						<div className='mt-3 mt-md-3 d-block'></div>
 
 						<div className='col-6'>
-							<Button variant='danger' type='reset' className='w-100'>
+							<Button variant='book-danger' type='reset' className='w-100'>
 								다시 입력하기
 							</Button>
 						</div>
 
 						<div className='col-6'>
-							<Button variant='success' type='submit' className='w-100'>
-								등록하기
+							<Button variant='book' type='submit' className='w-100'>
+								추가하기
 							</Button>
 						</div>
 					</div>

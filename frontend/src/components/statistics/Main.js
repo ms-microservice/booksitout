@@ -116,12 +116,12 @@ const LastReadBook = ({lastBook}) => {
 					<MainBookView
 						book={lastBook}
 						firstButton={
-							<a href={`/reading/${lastBook.bookId}`} className='btn btn-primary w-100'>
+							<a href={`/reading/${lastBook.bookId}`} className='btn btn-book w-100'>
 								이어서 읽기
 							</a>
 						}
 						secondButton={
-							<Button variant='danger' className='w-100' onClick={() => handleGiveupBook(lastBook.bookId)}>
+							<Button variant='book-danger' className='w-100' onClick={() => handleGiveupBook(lastBook.bookId)}>
 								포기하기
 							</Button>
 						}

@@ -191,7 +191,13 @@ const ReadingSessionDetailModal = ({
 											<div className='row text-center'>
 												<div className='col-3 mt-1'>🗓️ 종료시간</div>
 												<div className='col-9'>
-													<Form.Control className='mb-2' type='number' defaultValue={readingSession.readTime} />
+													<Form.Control
+														className='mb-2'
+														type='number'
+														inputMode='numeric'
+														pattern='[0-9]*'
+														defaultValue={readingSession.readTime}
+													/>
 												</div>
 											</div>
 										</>
@@ -203,6 +209,8 @@ const ReadingSessionDetailModal = ({
 											<Form.Control
 												className='mb-2'
 												type='number'
+												inputMode='numeric'
+												pattern='[0-9]*'
 												defaultValue={readingSession.readTime}
 												onChange={(e) => setReadTime(e.target.value)}
 											/>
@@ -229,15 +237,15 @@ const ReadingSessionDetailModal = ({
 									</div>
 
 									<div className='row'>
-										<div className='col-6'>
-											<Button variant='success' type='submit' className='w-100'>
-												수정완료
+										<div className='col-6' onClick={() => setIsEditMode(false)}>
+											<Button variant='book-danger' className='w-100'>
+												수정취소
 											</Button>
 										</div>
 
-										<div className='col-6' onClick={() => setIsEditMode(false)}>
-											<Button variant='danger' className='w-100'>
-												수정취소
+										<div className='col-6'>
+											<Button variant='book' type='submit' className='w-100'>
+												수정완료
 											</Button>
 										</div>
 									</div>
@@ -251,13 +259,13 @@ const ReadingSessionDetailModal = ({
 					{!isEditMode && (
 						<div className='row'>
 							<div className='col-6'>
-								<Button variant='warning' className='w-100' onClick={() => setIsEditMode(!isEditMode)}>
+								<Button variant='book' className='w-100' onClick={() => setIsEditMode(!isEditMode)}>
 									수정하기
 								</Button>
 							</div>
 
 							<div className='col-6' onClick={() => handleDeleteReadingSession()}>
-								<Button variant='danger' className='w-100'>
+								<Button variant='book-danger' className='w-100'>
 									삭제하기
 								</Button>
 							</div>

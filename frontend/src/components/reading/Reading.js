@@ -149,13 +149,13 @@ const Reading = () => {
 
 							<div className='row justify-content-center mb-4 mt-4'>
 								<div className='col-6 col-lg-4'>
-									<Button variant='primary' className='w-100' onClick={() => showEndReadingSessionModal()}>
+									<Button variant='book' className='w-100' onClick={() => showEndReadingSessionModal()}>
 										독서 끝내기
 									</Button>
 								</div>
 
 								<div className='col-6 col-lg-4'>
-									<Button variant={isTimerOn ? 'danger' : 'success'} className='w-100' onClick={() => dispatch(toggleTimer())}>
+									<Button variant={isTimerOn ? 'danger' : 'primary'} className='w-100' onClick={() => dispatch(toggleTimer())}>
 										{isTimerOn ? '잠시 정지' : '다시 시작'}
 									</Button>
 								</div>

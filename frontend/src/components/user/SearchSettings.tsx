@@ -354,7 +354,7 @@ const AddOrExcludeSearchSettings = ({ title, includedLabel, excludedLabel, initi
 
 					<div className='row justify-content-center'>
 						<div className='col-12 col-lg-6'>
-							<Button type='submit' className='w-100' disabled={buttonDisabled}>
+							<Button variant='book' type='submit' className='w-100' disabled={buttonDisabled}>
 								수정하기
 							</Button>
 						</div>

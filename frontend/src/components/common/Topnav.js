@@ -7,7 +7,7 @@ import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 import {BiSearchAlt2 as SearchIcon} from 'react-icons/bi'
 // Images
-import userIcon from '../../resources/images/common/user.png'
+import userIcon from '../../resources/images/user/user3.png'
 import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
 // Settings
@@ -269,7 +269,7 @@ const SearchBar = ({width = {}, autoFocus = false}) => {
 			</div>
 
 			<div className='col-3 pe-0'>
-				<Button type='submit' variant='outline-success' className='w-100'>
+				<Button type='submit' variant='outline-book' className='w-100'>
 					검색
 				</Button>
 			</div>

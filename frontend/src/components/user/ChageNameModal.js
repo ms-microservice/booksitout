@@ -35,9 +35,9 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleChangeName(e)}>
-					<Form.Control placeholder='변경할 이름을 입력해 주세요' onChange={(e) => setNewName(e.target.value)} />
+					<Form.Control placeholder='변경할 이름을 입력해 주세요' onChange={(e) => setNewName(e.target.value)} autoFocus/>
 
-					<Button type='submit' variant='success' className='mt-3 w-100'>
+					<Button type='submit' variant='book' className='mt-3 w-100'>
 						변경하기
 					</Button>
 				</Form>

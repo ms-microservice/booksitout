@@ -85,7 +85,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 						</div>
 
 						<div className='col-4 col-sm-4'>
-							<Button type='submit' variant='success' className='w-100 h-100'>
+							<Button type='submit' variant='book' className='w-100 h-100'>
 								등록
 							</Button>
 						</div>

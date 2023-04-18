@@ -35,14 +35,14 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 			{token !== '' ? (
 				time == null || time === '' || time === 0 || typeof time === 'undefined' ? (
 					<BookIcon
-						className='btn btn-primary'
+						className='btn btn-book'
 						style={readingButtonStyle}
 						onClick={() => {
 							navigate(url)
 						}}
 					/>
 				) : (
-					<Button href={url} style={timeStyle}>
+					<Button variant='book' href={url} style={timeStyle}>
 						<h6 className='mt-1 mb-0'>{`${Math.floor((time / 60 / 60) % (60 * 60))}H `}</h6>
 						<h6 className='mt-0' style={{ whiteSpace: 'nowrap' }}>
 							{Math.floor(time / 60) % 60}M {`${time % 60}S`}

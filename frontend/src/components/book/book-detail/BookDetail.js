@@ -232,7 +232,7 @@ const BookDetail = () => {
 
 							<AddButton
 								size='30'
-								color='success'
+								color='book'
 								onClick={() => {
 									setIsAddReadingSessionModalOpen(true)
 								}}
@@ -266,19 +266,6 @@ const BookDetail = () => {
 							}
 							setIsAddModalOpen={setIsAddMemoModalOpen}
 						/>
-
-						{/* <BookRecordCard
-							displayLabel='🗣️ 인용'
-							record={quotation}
-							ListComponent={
-								<QuotationList
-									quotationList={quotation}
-									setIsQuotationDetailModalOpen={setIsQuotationDetailModalOpen}
-									setSelectedQuotation={setSelectedQuotation}
-								/>
-							}
-							setIsAddModalOpen={setIsAddQuotationModalOpen}
-						/> */}
 					</div>
 				</div>
 		</div>
@@ -307,14 +294,14 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 	return (
 		<div className='row mt-3'>
 			<div className='col-6'>
-				<Button variant='danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
+				<Button variant='book-danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
 					수정하기
 				</Button>
 			</div>
 
 			<div className='col-6'>
 				<Button
-					variant='danger'
+					variant='book-danger'
 					className='w-100'
 					onClick={() => {
 						const confirm = window.confirm('정말 책을 삭제할까요?')
@@ -338,7 +325,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 				<>
 					{book.rating == null ? (
 						<div className='col-12 mt-3'>
-							<Button variant='warning' className='w-100' onClick={() => setIsRatingModalOpen(true)}>
+							<Button variant='book' className='w-100' onClick={() => setIsRatingModalOpen(true)}>
 								별점 추가하기
 							</Button>
 						</div>
@@ -360,7 +347,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 
 					{book.review == null ? (
 						<div className='col-12 mt-3'>
-							<Button className='w-100' onClick={() => setIsReviewModalOpen(true)}>
+							<Button variant='book' className='w-100' onClick={() => setIsReviewModalOpen(true)}>
 								감상 추가하기
 							</Button>
 						</div>
@@ -370,7 +357,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 
 					{book.summary == null ? (
 						<div className='col-12 mt-3'>
-							<Button className='w-100' onClick={() => setIsSummaryModalOpen(true)}>
+							<Button variant='book' className='w-100' onClick={() => setIsSummaryModalOpen(true)}>
 								요약 추가하기
 							</Button>
 						</div>
@@ -381,14 +368,14 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 			) : book.currentPage < book.endPage && !book.isGiveUp ? (
 				<>
 					<div className='col-12 mt-3'>
-						<Button variant='primary' className='w-100' onClick={() => navigate(`/reading/${book.bookId}`)}>
+						<Button variant='book' className='w-100' onClick={() => navigate(`/reading/${book.bookId}`)}>
 							이어서 읽기
 						</Button>
 					</div>
 
 					<div className='col-12 mt-3'>
 						<Button
-							variant='danger'
+							variant='book-danger'
 							className='w-100'
 							onClick={() => {
 								const confirm = window.confirm('책을 포기할까요?')
@@ -412,7 +399,7 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 				<>
 					<div className='col-12 mt-3'>
 						<Button
-							variant='success'
+							variant='book'
 							className='w-100'
 							onClick={() => {
 								const confirm = window.confirm('책을 다시 읽을까요?')
@@ -485,7 +472,7 @@ const BookRecordCard = ({ displayLabel, record, ListComponent, setIsAddModalOpen
 		<Card className='mt-3'>
 			<AddButton
 				size='30'
-				color='success'
+				color='book'
 				onClick={() => {
 					setIsAddModalOpen(true)
 				}}
@@ -583,6 +570,7 @@ const ReadingSessionList = ({ readingSessionList, book, setIsReadingSessionModal
 												now={(readingSession.startPage / book.endPage) * 100}
 											/>
 											<ProgressBar
+												variant='book'
 												now={(readingSession.endPage / book.endPage) * 100 - (readingSession.startPage / book.endPage) * 100}
 												label={`${Math.round(
 													(readingSession.endPage / book.endPage) * 100 - (readingSession.startPage / book.endPage) * 100

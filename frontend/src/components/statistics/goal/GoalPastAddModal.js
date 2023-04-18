@@ -41,7 +41,7 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+		<Modal show={isModalOpen} centered onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
 			<Modal.Header className='text-center' closeButton>
 				<h4 className='w-100'>과거 목표 추가하기</h4>
 			</Modal.Header>
@@ -58,9 +58,16 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 					</Form.Select>
 
 					<Form.Label>목표</Form.Label>
-					<Form.Control type='number' className='mb-3' onChange={(e) => setGoal(e.target.value)} />
+					<Form.Control
+						type='number'
+						inputMode='numeric'
+						pattern='[0-9]*'
+						autoFocus
+						className='mb-3'
+						onChange={(e) => setGoal(e.target.value)}
+					/>
 
-					<Button variant='success' className='w-100 mt-2' type='submit' onClick={(e) => handleAddPastGoal(e)}>
+					<Button variant='book' className='w-100 mt-2' type='submit' onClick={(e) => handleAddPastGoal(e)}>
 						추가하기
 					</Button>
 				</Form>

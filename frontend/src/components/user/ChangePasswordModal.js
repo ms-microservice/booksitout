@@ -100,7 +100,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 					/>
 					<Button
 						className='mb-3 w-100'
-						variant='primary'
+						variant='book'
 						onClick={() => handleRequestVerificationCode()}
 						disabled={isVerificationRequested}>
 						인증번호 요청하기
@@ -119,7 +119,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 						onChange={(e) => setNewPassword(e.target.value)}
 					/>
 
-					<Button className='mb-2 mt-2 w-100' variant='success' type='submit'>
+					<Button className='mb-2 mt-2 w-100' variant='book' type='submit'>
 						비밀번호 변경
 					</Button>
 				</Form>
