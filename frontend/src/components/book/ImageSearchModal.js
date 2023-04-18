@@ -5,7 +5,6 @@ import Error from '../common/Error'
 import checkIcon from '../../resources/images/common/check.png'
 import urls from '../../settings/urls'
 import uiSettings from '../../settings/ui';
-import { toast } from 'react-hot-toast';
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {
 	const coverImageStyle = {  width: '100%', objectPosition: 'center' }
@@ -74,8 +73,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 						<div className='mt-4 h2'>이미지를 불러오고 있어요</div>
 					</div>
 				) : imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length === 0 ? (
-					<div className="row mt-5">
-						
+					<div className='row mt-5'>
 						<Error message='검색 결과가 없어요' />
 					</div>
 				) : (
@@ -117,9 +115,10 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 			</Modal.Body>
 
 			<Modal.Footer>
-				<Button variant='danger' onClick={closeModal}>
+				<Button variant='danger' onClick={closeModal} className='w-25'>
 					취소
 				</Button>
+
 				<Button variant='primary' onClick={closeModalSuccess} disabled={Number(selectedImageIndex) === -1}>
 					선택한 이미지로 결정하기
 				</Button>

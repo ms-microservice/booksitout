@@ -5,6 +5,7 @@ import toast from 'react-hot-toast'
 // React Icons
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
+import {BiSearchAlt2 as SearchIcon} from 'react-icons/bi'
 // Images
 import userIcon from '../../resources/images/common/user.png'
 import logo from '../../resources/images/logo/logo.png'
@@ -15,9 +16,7 @@ import uiSettings from '../../settings/ui'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
-
-import {BiSearchAlt2 as SearchIcon} from 'react-icons/bi'
-
+// css
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
 
@@ -31,10 +30,9 @@ const Topnav = () => {
 
 	const [expanded, setExpanded] = useState(false)
 	const [showSearchBar, setShowSearchBar] = useState(false)
-	const [initialLoad, setInitialLoad] = useState(true)
-	const [openAtOnce, setOpenAtOnce] = useState(false)
+	const [autoFocus, setAutoFocus] = useState(true)
 
-	const [autoFocus, setAutoFocus] = useState(false)
+	const [initialLoad, setInitialLoad] = useState(true)
 
 	const handleLogout = (e) => {
 		e.preventDefault()
@@ -53,20 +51,19 @@ const Topnav = () => {
 	useEffect(() => {
 		setExpanded(false)
 		setShowSearchBar(false)
+		setAutoFocus(false)
 	}, [location.pathname])
 
 	useEffect(() => {
-		setShowSearchBar(openAtOnce ? true : false)
-		setOpenAtOnce(false)
-		setAutoFocus(!expanded)
+		if (expanded) {
+			setShowSearchBar(false)
+			setAutoFocus(false)
+		}
 	}, [expanded])
 
 	const toggleSearchBar = () => {
-		if (expanded) setOpenAtOnce(true)
-
-		setShowSearchBar(expanded ? true : !showSearchBar)
-		setAutoFocus(expanded ? true : !showSearchBar)
-
+		setShowSearchBar(!showSearchBar)
+		setAutoFocus(!showSearchBar)
 		setExpanded(false)
 		setInitialLoad(false)
 	}
@@ -78,7 +75,7 @@ const Topnav = () => {
 					className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
 					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
 					<Card.Body>
-						<SearchBar autoFocus={autoFocus}/>
+						<SearchBar autoFocus={autoFocus} />
 					</Card.Body>
 				</Card>
 			}
@@ -169,7 +166,7 @@ const Topnav = () => {
 
 						{token !== '' && token != null && (
 							<span className='d-none d-lg-inline'>
-								<SearchBar width={{ width: '400px' }} />
+								<SearchBar width={{ width: '400px' }} autoFocus={autoFocus} />
 							</span>
 						)}
 
@@ -257,18 +254,17 @@ const SearchBar = ({width = {}, autoFocus = false}) => {
 			className='row me-1'
 			onSubmit={(e) => handleSearch(e)}
 			onKeyDown={(e) => {
-				if (e.keyCode === 13) this != null && this.blur()
+				e.keyCode === 13 && this != null && this.blur()
 			}}>
 			<div className='col-9 p-lg-0 pe-0'>
 				<Form.Control
-				id = 'searchInput'
+					id='searchInput'
 					type='search'
 					placeholder='한 번에 책 검색하기'
 					className='me-2 w-100'
 					aria-label='Search'
 					value={keyword}
 					onChange={(e) => setKeyword(e.target.value)}
-					autoFocus
 				/>
 			</div>
 
