@@ -14,6 +14,19 @@ spring:
         port: 6379
         host: localhost
 
+    datasource:
+        url: jdbc:mysql://localhost:3306/search
+        username: root
+        password: bookitout
+
+    jpa:
+        show-sql: true
+        hibernate:
+            ddl-auto: update
+        properties:
+            hibernate:
+                format-sql: true
+
 search:
     aladin:
         url: http://www.aladin.co.kr/ttb/api/ItemSearch.aspx
