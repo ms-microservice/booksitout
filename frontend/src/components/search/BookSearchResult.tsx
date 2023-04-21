@@ -10,7 +10,7 @@ import '../../resources/css/customCarousel.css'
 import utils from '../../functions/utils'
 import { UsedBook } from './BookType'
 
-const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isConfigured }) => {
+const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isConfigured, notConfiguredUrl = '/settings' }) => {
 	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])
 
 	useEffect(() => {
@@ -35,7 +35,7 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 				</div>
 
 				{!isConfigured ? (
-					<SearchNotConfigured />
+					<SearchNotConfigured url = {notConfiguredUrl}/>
 				) : typeof bookList == 'undefined' || bookList == null ? (
 					<div className="h-100">
 						<Error />

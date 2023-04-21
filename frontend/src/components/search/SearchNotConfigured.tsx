@@ -1,8 +1,8 @@
 import { BsFillGearFill as SettingsIcon } from 'react-icons/bs'
 
-const SearchNotConfigured = () => {
+const SearchNotConfigured = ({url = '/settings'}) => {
 	return (
-		<a href='/settings' className='text-decoration-none text-black' style={{ whiteSpace: 'nowrap' }}>
+		<a href={url} className='text-decoration-none text-black' style={{ whiteSpace: 'nowrap' }}>
 			<div className='row h-100 d-flex align-items-center text-center'>
 				<div className='mb-5'>
 					<SettingsIcon style={{ width: '100px', height: '100px' }} className='text-secondary' />

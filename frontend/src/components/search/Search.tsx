@@ -80,7 +80,7 @@ const Search = () => {
 			<Alert variant='success' className='text-center'>클릭하면 책을 볼 수 있는 곳으로 이동해요</Alert>
 
 			<BookSearchResult label='내 책' labelComponent={<></>} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
-			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} />
+			<BookSearchResult label='도서관' labelComponent={<LibraryLabel />} bookList={libraryList} CardComponent={LibraryComponent} isConfigured={search.local.settings.library.isConfigured()} notConfiguredUrl='/settings/search/library'/>
 			<BookSearchResult label='전자도서관' labelComponent={<LibraryOnlineLabel />} bookList={onlineLibraryList} CardComponent={LibraryOnlineCardComponent} isConfigured={search.local.settings.onlineLibrary.isConfigured()} />
 			<BookSearchResult label='구독' labelComponent={<SubscriptionLabel />} bookList={subscriptionList} CardComponent={SubscriptionComponent} isConfigured={search.local.settings.subscription.isConfigured()} />
 			<BookSearchResult label='중고온라인' labelComponent={<UsedOnlineLabel />} bookList={onlineUsedList} CardComponent={UsedBookComponent} isConfigured={search.local.settings.usedOnline.isConfigured()} />

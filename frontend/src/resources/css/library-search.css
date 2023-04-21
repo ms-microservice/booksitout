@@ -1,0 +1,14 @@
+#library-list {
+    height: 400px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+.library-image {
+    height: 75px;
+}
+@media only screen and (max-width: 768px) {
+    .library-image {
+        height: 60px;
+    }
+}
