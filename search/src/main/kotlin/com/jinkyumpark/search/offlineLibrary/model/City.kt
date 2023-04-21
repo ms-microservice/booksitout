@@ -1,6 +1,5 @@
-package com.jinkyumpark.search.offlineLibrary.provider
+package com.jinkyumpark.search.offlineLibrary.model
 
-import com.jinkyumpark.search.offlineLibrary.provider.library.Library
 import javax.persistence.*
 
 @Entity

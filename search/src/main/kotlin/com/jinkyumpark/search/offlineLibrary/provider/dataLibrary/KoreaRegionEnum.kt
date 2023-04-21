@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.offlineLibrary.provider
 
 
-enum class KoreaRegion(val koreanName: String,
+enum class KoreaRegionEnum(val koreanName: String,
                        val apiRegionCode: Int) {
     SEOUL("서울", 11),
     BUSAN("부산", 21),
