@@ -1,6 +1,5 @@
 package com.jinkyumpark.search.offlineLibrary.response
 
-import com.jinkyumpark.search.offlineLibrary.provider.City
 import java.time.LocalDate
 
 data class OfflineLibraryByIsbnResponse(
@@ -26,7 +25,7 @@ data class LibraryBook(
 
 data class LibraryInfo(
     val name: String,
-    val province: String,
-    val city: String,
-    val location: String
+    val province: String?,
+    val city: String?,
+    val location: String?,
 )

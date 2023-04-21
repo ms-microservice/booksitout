@@ -1,6 +1,5 @@
 package com.jinkyumpark.search.offlineLibrary.response
 
-import com.jinkyumpark.search.offlineLibrary.provider.Library
 import java.time.LocalDate
 
 data class OfflineLibraryBook(
@@ -11,7 +10,7 @@ data class OfflineLibraryBook(
     val publishYear: Int?,
 
     val link: String,
-    val library: Library,
+    val library: String,
     val location: String,
     val isLoanPossible: Boolean,
     val isReservationPossible: Boolean,

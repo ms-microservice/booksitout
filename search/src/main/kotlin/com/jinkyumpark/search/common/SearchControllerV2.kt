@@ -3,13 +3,9 @@ package com.jinkyumpark.search.common
 import com.jinkyumpark.search.config.exception.BadRequestException
 import com.jinkyumpark.search.general.GeneralService
 import com.jinkyumpark.search.offlineLibrary.OfflineLibraryService
-import com.jinkyumpark.search.offlineLibrary.provider.KoreaRegion
-import com.jinkyumpark.search.offlineLibrary.provider.City
-import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
-import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryResponse
 import com.jinkyumpark.search.onlineLibrary.OnlineLibraryService
-import com.jinkyumpark.search.used.UsedSearchResponse
 import com.jinkyumpark.search.subscription.SubscriptionService
+import com.jinkyumpark.search.used.UsedSearchResponse
 import com.jinkyumpark.search.used.UsedService
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -85,44 +81,6 @@ class SearchControllerV2(
             .map { SearchProvider.valueOf(it) }
             .map { onlineLibraryService.getSearchResult(query, it) }
             .flatten()
-    }
-
-    @GetMapping("library/offline/by-region")
-    fun getLibrarySearchResultByRegion(
-        @RequestParam("query") query: String,
-        @RequestParam("region") region: String,
-        @RequestParam("region-detail", required = false) regionDetail: String,
-    ): List<OfflineLibraryResponse> {
-        val isbnToBookMap: Map<String, SearchResult> =
-            generalService.getBookByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
-
-        val result: MutableList<OfflineLibraryResponse> = mutableListOf()
-        for (isbn: String in isbnToBookMap.keys) {
-            val availableLibrary: List<AvailableLibrary> = offlineLibraryService.getAvailableLibraryByRegion(
-                isbn,
-                KoreaRegion.valueOf(region).apiRegionCode,
-                City.valueOf(regionDetail).apiRegionCode,
-            )
-
-            if (availableLibrary.isEmpty()) continue
-
-            result.add(
-                OfflineLibraryResponse(
-                    book = SearchResult(
-                        title = isbnToBookMap[isbn]?.title ?: "?",
-                        author = isbnToBookMap[isbn]?.author ?: "?",
-                        cover = isbnToBookMap[isbn]?.cover ?: "?",
-                        link = null,
-                        isbn = isbn,
-                        searchProvider = SearchProvider.LIBRARY_OFFLINE,
-                    ),
-                    libraryList = availableLibrary,
-                )
-            )
-
-        }
-
-        return result
     }
 
 }

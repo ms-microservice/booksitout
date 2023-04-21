@@ -1,20 +1,15 @@
 package com.jinkyumpark.search.offlineLibrary
 
-import com.jinkyumpark.search.offlineLibrary.provider.Library
-import com.jinkyumpark.search.offlineLibrary.response.LibraryBook
-import com.jinkyumpark.search.offlineLibrary.response.LibraryInfo
-import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryBook
-import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryByIsbnResponse
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestParam
-import org.springframework.web.bind.annotation.RestController
+import com.jinkyumpark.search.offlineLibrary.library.LibraryService
+import com.jinkyumpark.search.offlineLibrary.response.*
+import org.springframework.web.bind.annotation.*
+import java.net.URLEncoder
 
 @RestController
 @RequestMapping("v3/search/library")
 class OfflineLibraryControllerV3(
     val offlineLibraryService: OfflineLibraryService,
+    val libraryService: LibraryService,
 ) {
 
     @GetMapping("{query}")
@@ -23,8 +18,11 @@ class OfflineLibraryControllerV3(
         @RequestParam("library") libraryList: List<String>,
     ): List<OfflineLibraryByIsbnResponse> {
 
+        val libraryEntityList = libraryList
+            .mapNotNull { libraryService.getLibraryByEnglishName(it) }
+
         return offlineLibraryService
-            .getYeongdeungpoguResult(query, libraryList.map { Library.valueOf(it.uppercase()) })
+            .getYeongdeungpoguResult(query, libraryEntityList)
             .groupBy { it.isbn }
             .values
             .map {
@@ -46,17 +44,17 @@ class OfflineLibraryControllerV3(
                             returnDate = lib.returnDate,
 
                             library = LibraryInfo(
-                                name = lib.library.displayName,
-                                province = lib.library.city.province.koreanName,
-                                city = lib.library.city.koreanName,
-                                location = lib.library.location,
+                                name = lib.library,
+                                province = null,
+                                city = null,
+                                location = null,
                             )
                         )
                     }
 
                 )
             }
-    }
 
+    }
 
 }

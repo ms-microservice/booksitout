@@ -4,8 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLibsLib
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
 import com.jinkyumpark.search.config.jsoup.SSLHelper
-import com.jinkyumpark.search.offlineLibrary.provider.City
-import com.jinkyumpark.search.offlineLibrary.provider.Library
+import com.jinkyumpark.search.offlineLibrary.model.Library
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
 import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryBook
 import org.jsoup.parser.Parser
@@ -51,15 +50,14 @@ class OfflineLibraryService(
     }
 
     fun getYeongdeungpoguResult(query: String, target: List<Library>): List<OfflineLibraryBook> {
-
         val body = mapOf(
             "searchKeyword" to query,
             "searchType" to "SIMPLE",
             "searchCategory" to "ALL",
             "searchKey" to "ALL",
             "searchLibraryArr" to target
-                .filter { it.city == City.YEONGDEUNGPOGU }
-                .map { it.apiCode }
+                .filter { it.city?.englishName == "YEONGDEUNGPOGU" }
+                .map { it.webCrawlingCode }
                 .joinToString(",")
         )
 
@@ -126,21 +124,19 @@ class OfflineLibraryService(
                         ?: "?",
 
                     link = if (searchResultDetailFunctionArgument == null) "" else
-                    """https://www.ydplib.or.kr/intro/menu/10003/program/30001/plusSearchResultDetail.do?recKey=${searchResultDetailFunctionArgument.first()}&bookKey=${searchResultDetailFunctionArgument[1]}&publishFormCode=${searchResultDetailFunctionArgument.last()}""".trimIndent(),
+                        """https://www.ydplib.or.kr/intro/menu/10003/program/30001/plusSearchResultDetail.do?recKey=${searchResultDetailFunctionArgument.first()}&bookKey=${searchResultDetailFunctionArgument[1]}&publishFormCode=${searchResultDetailFunctionArgument.last()}""".trimIndent(),
 
                     publishYear = null,
 
-                    library = Library.fromDisplayNameContains(
-                        it
-                            .getElementsByClass("site")
-                            ?.first()
-                            ?.getElementsByTag("span")
-                            ?.first()
-                            ?.text()
-                            ?.replace("도서관: ", "")
-                            ?.take(5)
-                            ?: ""
-                    ),
+                    library = it
+                        .getElementsByClass("site")
+                        ?.first()
+                        ?.getElementsByTag("span")
+                        ?.first()
+                        ?.text()
+                        ?.replace("도서관: ", "")
+                        ?.take(5)
+                        ?: "",
 
                     location = it
                         .getElementsByClass("data")
