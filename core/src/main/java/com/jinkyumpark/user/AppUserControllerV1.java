@@ -45,7 +45,7 @@ public class AppUserControllerV1 {
 
         Integer verificationCode = appUserService.getVerificationCode(VERIFICATION_CODE_LENGTH);
 
-        String EMAIL_SUBJECT = "Book it out에 가입하기 위해 인증번호를 입력해 주세요";
+        String EMAIL_SUBJECT = "책잇아웃에 가입하기 위해 인증번호를 입력해 주세요";
         String EMAIL_CONTENT = String.valueOf(verificationCode);
         Mail mail = Mail.builder()
                 .toAddress(email)
@@ -77,7 +77,7 @@ public class AppUserControllerV1 {
                 .build();
         appUserService.updateUserByEmail(joinRequest.getEmail(), appUserDto);
 
-        return new JoinSuccessResponse(String.format("책-it-out에 오신걸 환경해요, %s님!", joinRequest.getName()), "api/v1/join");
+        return new JoinSuccessResponse(String.format("책잇아웃에 오신걸 환경해요, %s님!", joinRequest.getName()), "api/v1/join");
     }
 
     @PostMapping("login")
