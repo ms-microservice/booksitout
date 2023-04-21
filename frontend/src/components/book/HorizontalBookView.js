@@ -46,9 +46,10 @@ const HorizontalPageBar = ({ book }) => {
 			</div>
 
 			<div className='col-12 col-md-6 col-xl-5 mt-1 mt-md-0'>
-				<span className='align-middle' style={{ whiteSpace: 'nowrap' }}>{`${
-					book.currentPage == null || book.currentPage < 0 ? 0 : book.currentPage
-				} / ${book.endPage}`}</span>
+				<span className='align-middle' style={{ whiteSpace: 'nowrap' }}>
+					<b className='text-book'>{book.currentPage == null || book.currentPage < 0 ? 0 : book.currentPage}</b>
+					{` / ${book.endPage}`}
+				</span>
 			</div>
 		</div>
 	)

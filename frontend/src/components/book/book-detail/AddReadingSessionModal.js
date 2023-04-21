@@ -134,6 +134,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 						type='number'
 						inputMode='numeric'
 						pattern='[0-9]*'
+						autoComplete='off'
 						onChange={(e) => setReadTime(e.target.value)}
 						id='read-time-input'
 					/>
@@ -144,7 +145,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 								취소
 							</Button>
 						</div>
-						
+
 						<div className='col-12 col-md-6'>
 							<Button variant='book' type='submit' className='w-100 mt-2'>
 								추가하기
