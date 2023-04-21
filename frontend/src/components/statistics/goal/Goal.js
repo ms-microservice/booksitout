@@ -151,21 +151,15 @@ const Goal = () => {
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
 							<Card.Body>
-								<h2>{new Date().getFullYear()}년 최고의 책</h2>
+								<h2>목표 분석</h2>
 
 								{highlightBookList.length === 0 ? (
-									<NoContent message={`${currentYear}년은 아직 최고의 책이 없어요`} style={{ width: '150px' }} />
+									<div className='mt-4 mb-4 mb-md-0'>
+										<NoContent message={`목표 분석 기능은 아직 준비중이에요`} style={{ width: '150px' }} />
+									</div>
 								) : (
 									<></>
 								)}
-
-								<div className='row justify-content-center'>
-									<div className='col-12 col-lg-8'>
-										<Button variant='book' className='mt-3 w-100' disabled>
-											최고의 책 직접 선정하기
-										</Button>
-									</div>
-								</div>
 							</Card.Body>
 						</Card>
 					</div>

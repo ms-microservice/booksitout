@@ -35,7 +35,7 @@ const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 				<Form onSubmit={(e) => handleAddSummary(e)}>
 					<Form.Control as='textarea' onChange={(e) => setSummary(e.target.value)} placeholder='여기에 요약을 입력해 주세요' autoFocus />
 
-					<Button type='submit' variant='Book' className='w-100 mt-3'>
+					<Button variant='book' type='submit' className='w-100 mt-3'>
 						요약 추가하기
 					</Button>
 				</Form>

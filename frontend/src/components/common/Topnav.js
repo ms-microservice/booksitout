@@ -19,6 +19,7 @@ import messages from '../../settings/messages'
 // css
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
+import SearchHistory from '../search/SearchHistory'
 
 const Topnav = () => {
 	const navigate = useNavigate()
@@ -30,7 +31,7 @@ const Topnav = () => {
 
 	const [expanded, setExpanded] = useState(false)
 	const [showSearchBar, setShowSearchBar] = useState(false)
-	const [autoFocus, setAutoFocus] = useState(true)
+	const [autoFocus, setAutoFocus] = useState(false)
 
 	const [initialLoad, setInitialLoad] = useState(true)
 
@@ -226,7 +227,9 @@ const SearchBar = ({width = {}, autoFocus = false}) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
+	const [showSearchHistory, setShowSearchHistory] = useState(false)
 	const [keyword, setKeyword] = useState('')
+
 	useEffect(() => {
 		if (location.pathname.startsWith('/search')) {
 			setKeyword(decodeURI(location.pathname.substring(8)))
@@ -244,8 +247,13 @@ const SearchBar = ({width = {}, autoFocus = false}) => {
 	useEffect(() => {
 		const input = document.getElementById('searchInput')
 
-		if (autoFocus) input.focus()
-		else input.blur()
+		if (autoFocus) {
+			input.focus()
+			setShowSearchHistory(true)
+		} else {
+			input.blur()
+			setShowSearchHistory(false)
+		}
 	}, [autoFocus])
 
 	return (
@@ -256,15 +264,21 @@ const SearchBar = ({width = {}, autoFocus = false}) => {
 			onKeyDown={(e) => {
 				e.keyCode === 13 && this != null && this.blur()
 			}}>
+
+			{/* {showSearchHistory && <SearchHistory />} */}
+
 			<div className='col-9 p-lg-0 pe-0'>
 				<Form.Control
 					id='searchInput'
 					type='search'
+					autocomplete='off'
 					placeholder='한 번에 책 검색하기'
 					className='me-2 w-100'
 					aria-label='Search'
 					value={keyword}
 					onChange={(e) => setKeyword(e.target.value)}
+					onFocus={() => setShowSearchHistory(true)}
+					onBlur={() => setShowSearchHistory(false)}
 				/>
 			</div>
 

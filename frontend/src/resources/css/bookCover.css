@@ -1,0 +1,9 @@
+#book-cover {
+    height: 150px;
+}
+
+@media (min-width: 768px) {
+    #book-cover {
+        height: 200px;
+    }    
+}

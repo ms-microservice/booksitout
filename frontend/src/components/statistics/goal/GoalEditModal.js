@@ -11,6 +11,11 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 	const handleEditGoal = (e) => {
 		e.preventDefault()
 
+		if (previousGoal == goal) {
+			toast.error('이전과 같은 목표에요')
+			return
+		}
+
 		if (goal === '') {
 			toast.error('목표를 입력해 주세요')
 			return
@@ -28,6 +33,7 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 
 		addGoal(new Date().getFullYear(), goal).then((success) => {
 			if (success) {
+				toast.success('이번년도 목표를 수정했어요')
 				setCurrentYearGoal({ goal: goal, current: currentBook })
 				setIsModalOpen(false)
 			} else {

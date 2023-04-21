@@ -50,8 +50,10 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 				<Form>
 					<Form.Label>추가할 년도</Form.Label>
 					<Form.Select className='mb-3' onChange={(e) => setGoalYear(e.target.value)}>
-						{Array.from({ length: 9 }, (_, i) => i + new Date().getFullYear() - 9)
+						{Array.from({ length: 20 }, (_, i) => new Date().getFullYear() - 20 + i)
+							.filter((inputGoal) => !goalList.map((g) => g.year).includes(inputGoal))
 							.reverse()
+							.slice(0, 9)
 							.map((year) => {
 								return <option value={year}>{`${year}년`}</option>
 							})}
@@ -67,9 +69,19 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 						onChange={(e) => setGoal(e.target.value)}
 					/>
 
-					<Button variant='book' className='w-100 mt-2' type='submit' onClick={(e) => handleAddPastGoal(e)}>
-						추가하기
-					</Button>
+					<p className='text-muted text-center'>20년 이상 전의 목표는 추가할 수 없어요</p>
+
+					<div className='row justify-content-center'>
+						<div className='col-12 col-md-5'>
+							<Button variant='book-danger' className='w-100 mt-2' onClick={() => setIsModalOpen(false)}>취소</Button>
+						</div>
+
+						<div className='col-12 col-md-5'>
+							<Button variant='book' className='w-100 mt-2' type='submit' onClick={(e) => handleAddPastGoal(e)}>
+								추가하기
+							</Button>
+						</div>
+					</div>
 				</Form>
 			</Modal.Body>
 		</Modal>

@@ -9,12 +9,12 @@ import Error from '../common/Error'
 import NoContent from '../common/NoContent'
 import HorizontalBookView from './HorizontalBookView'
 import DoneHorizontalBookView from './DoneHorizontalBookView'
+import InfiniteScrollLoading from './InfiniteScrollLoading';
 // Images
 import kimchiImage from '../../resources/images/common/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
-import InfiniteScrollLoading from './InfiniteScrollLoading';
 
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
@@ -112,16 +112,14 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 
 	if (range === 'done') {
 		return (
-			<div className="row row-eq-height mb-4">
-				{
-					bookList.map((book) => {
-						return (
-							<div className='col-6 col-md-4 col-lg-3 col-xl-2 mb-4'>
-								<DoneHorizontalBookView book={book} />
-							</div>
-						)
-					})
-				}
+			<div className='row row-eq-height mb-4'>
+				{bookList.map((book) => {
+					return (
+						<div className='col-6 col-md-4 col-lg-3 col-xl-2 mb-4'>
+							<DoneHorizontalBookView book={book} />
+						</div>
+					)
+				})}
 			</div>
 		)
 	}

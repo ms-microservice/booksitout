@@ -57,7 +57,7 @@ const Main = () => {
 	if (loading) return <Loading />
 
 	return (
-		<div className='container-lg'>
+		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
 			<div className='row row-eq-height mb-5'>
 				{showAlert && (
 					<div className='container'>
@@ -67,20 +67,20 @@ const Main = () => {
 					</div>
 				)}
 
-				<div className='col-12 col-md-6 mb-4'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<LastReadBook lastBook={lastBook} />
 				</div>
 				
-				<div className='col-12 col-md-6 mb-4'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<ReadingTimeChart readTime={readTime} />
 				</div>
-				
-				<div className='col-12 col-md-6 mb-4'>
-					<GoalChart statistics={statistics} goal={goal} />
+
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<SummaryChart statistics={statistics} />
 				</div>
 				
-				<div className='col-12 col-md-6 mb-4'>
-					<SummaryChart statistics={statistics} />
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<GoalChart statistics={statistics} goal={goal} />
 				</div>
 			</div>
 		</div>
@@ -160,7 +160,8 @@ const GoalChart = ({statistics, goal}) => {
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
 					<h3>{new Date().getFullYear()}년 목표</h3>
 
-					{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
+					<div className='mt-1 d-inline-block d-xl-none' />
+					<div className='mt-5 mb-5'>{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}</div>
 				</a>
 			</Card.Body>
 		</Card>
@@ -169,8 +170,8 @@ const GoalChart = ({statistics, goal}) => {
 
 const SummaryChart = ({statistics}) => {
 	return (
-		<Card>
-			<Card.Body>
+		<Card className='h-100'>
+			<Card.Body className='h-100'>
 				<a href='/statistics' className='text-decoration-none text-black'>
 					<h4>{new Date().getFullYear()}년 독서 요약</h4>
 

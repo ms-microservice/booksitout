@@ -1,10 +1,10 @@
 import { useState, useEffect } from 'react'
 import { Modal, Card, Button } from 'react-bootstrap'
 // Resources
-import Error from '../common/Error'
 import checkIcon from '../../resources/images/common/check.png'
 import urls from '../../settings/urls'
 import uiSettings from '../../settings/ui';
+import NoContent from '../common/NoContent'
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {
 	const coverImageStyle = {  width: '100%', objectPosition: 'center' }
@@ -57,8 +57,13 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 	return (
 		<Modal show={showModal} onHide={closeModal} size='xl' fullscreen='md-down'>
 			<Modal.Header closeButton>
-				<Modal.Title>이미지 검색</Modal.Title>
-				<span className='text-secondary ms-5'>책 제목이 흔하면 저자도 입력하면 더 정확하게 나와요</span>
+				<div className='row'>
+					<h3>이미지 검색</h3>
+
+					<p className='text-secondary m-0' style={{ whiteSpace: 'nowrap' }}>
+						제목이 흔할 경우 저자도 입력해야 정확하게 나와요
+					</p>
+				</div>
 			</Modal.Header>
 
 			<Modal.Body>
@@ -73,8 +78,13 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 						<div className='mt-4 h2'>이미지를 불러오고 있어요</div>
 					</div>
 				) : imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length === 0 ? (
-					<div className='row mt-5'>
-						<Error message='검색 결과가 없어요' />
+					<div className='row'>
+						<div className='d-inline-block mt-5 mt-md-1' />
+						<div className='d-inline-block mt-5 mt-md-1' />
+
+						<NoContent message='검색 결과가 없어요' style={{ width: '200px' }} />
+
+						<div className='d-inline-block mb-5 mb-md-4' />
 					</div>
 				) : (
 					<div className='row'>

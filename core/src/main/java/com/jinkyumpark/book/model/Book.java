@@ -160,6 +160,8 @@ public class Book extends TimeEntity {
     public void editBook(BookDto bookDto) {
         if (bookDto.getTitle() != null)
             this.title = bookDto.getTitle();
+        if (bookDto.getAuthor() != null)
+            this.author = bookDto.getAuthor();
         if (bookDto.getLanguage() != null)
             this.language = bookDto.getLanguage();
         if (bookDto.getCover() != null)

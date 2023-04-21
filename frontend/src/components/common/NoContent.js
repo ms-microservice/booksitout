@@ -4,7 +4,7 @@ const NoContent = ({ message = '텅 비어 있어요', icon = errorImage, style 
 	return (
 		<div>
 			<div className='row justify-content-center'>
-				<img src={icon} alt='' className='img-fluid mt-5' style={style} />
+				<img src={icon} alt='' className='img-fluid mt-4' style={style} />
 
 				<div className='h2 text-center mt-4' style={{ whiteSpace: 'nowrap' }}>
 					{message}

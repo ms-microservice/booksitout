@@ -84,7 +84,7 @@ const Join = () => {
 	return (
 		<div className='mt-5 container'>
 			<div className='row justify-content-center'>
-				<Card className='col-12 col-lg-7 text-center'>
+				<Card className='col-12 col-lg-9 col-xl-7 text-center'>
 					<Card.Body>
 						<h1>📗 회원가입</h1>
 
@@ -105,7 +105,7 @@ const Join = () => {
 									</div>
 
 									<div className='col-12 col-sm-3 mt-3 mt-sm-0'>
-										<Button className='w-100' onClick={() => handleVerifyEmail()} disabled={!utils.isEmailValid(email)}>
+										<Button variant='book' className='w-100' onClick={() => handleVerifyEmail()} disabled={!utils.isEmailValid(email)}>
 											인증번호 보내기
 										</Button>
 									</div>
@@ -133,17 +133,18 @@ const Join = () => {
 							/>
 
 							<div className='row justify-content-center mt-3'>
-								<div className='col-12 col-md-4 mt-2'>
-									<Button type='submit' className='w-100'>
+							<div className='col-12 col-md-7 mt-3'>
+									<Button variant='book' type='submit' className='w-100'>
 										회원가입
 									</Button>
 								</div>
 
-								<div className='col-12 col-md-4 mt-2'>
-									<a className='btn btn-success w-100' href='login'>
+							<div className='col-12 col-md-7 mt-3'>
+									<a className='btn btn-secondary w-100' href='login'>
 										로그인
 									</a>
 								</div>
+
 							</div>
 						</Form>
 					</Card.Body>

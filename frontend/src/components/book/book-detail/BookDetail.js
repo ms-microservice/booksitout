@@ -15,16 +15,12 @@ import AddButton from '../../common/AddButton'
 import AddReadingSessionModal from './AddReadingSessionModal'
 import ReadingSessionDetailModal from './ReadingSessionDetailModal'
 import AddMemoModal from './AddMemoModal'
-import AddQuotationModal from './AddQuotationModal'
 import MemoDetailModal from './MemoDetailModal'
-import QuotationDetailModal from './QuotationDetailModal'
-import Quotation from '../../common/Quotation'
 // Images
 import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
 // Functions
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
 import { getMemoListOfBook } from '../../../functions/memo'
-import { getQuotationListOfBook } from '../../../functions/quotation'
 import { getAllReadingSessionOfBook } from '../../../functions/reading'
 // Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
@@ -41,7 +37,6 @@ const BookDetail = () => {
 
 	const [book, setBook] = useState(null)
 	const [memo, setMemo] = useState(null)
-	const [quotation, setQuotation] = useState(null)
 	const [readingSession, setReadingSession] = useState(null)
 
 	useEffect(() => {
@@ -52,7 +47,6 @@ const BookDetail = () => {
 		Promise.all([
 			getBook(id).then((book) => setBook(book)),
 			getMemoListOfBook(id).then((memoList) => setMemo(memoList)),
-			getQuotationListOfBook(id).then((quotationList) => setQuotation(quotationList)),
 			getAllReadingSessionOfBook(id).then((readingSessionList) => setReadingSession(readingSessionList)),
 		]).finally(() => {
 			setLoading(false)
@@ -66,15 +60,12 @@ const BookDetail = () => {
 
 	const [isAddReadingSessionModalOpen, setIsAddReadingSessionModalOpen] = useState(false)
 	const [isAddMemoModalOpen, setIsAddMemoModalOpen] = useState(false)
-	const [isAddQuotationModalOpen, setIsAddQuotationModalOpen] = useState(false)
 
 	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
 	const [isMemoDetailModalOpen, setIsMemoDetailModalOpen] = useState(false)
-	const [isQuotationDetailModalOpen, setIsQuotationDetailModalOpen] = useState(false)
 
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
 	const [selectedMemo, setSelectedMemo] = useState(null)
-	const [seletedQuotation, setSelectedQuotation] = useState(null)
 
 	const getTotalReadTIme = (readingSessionList) => {
 		return readingSessionList.map((r) => r.readTime).reduce((pre, cur) => pre + cur, 0)
@@ -92,144 +83,130 @@ const BookDetail = () => {
 	if (book == null) <NoContent message='책이 없어요 다시 확인해 주세요' />
 	return (
 		<div className='container-xl'>
-				<div className='row text-center mt-5' style={{ marginBottom: '150px' }}>
-					<AddRatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
-					<AddReviewModal isModalOpen={isReviewModalOpen} setIsModalOpen={setIsReviewModalOpen} book={book} setBook={setBook} />
-					<AddSummaryModal isModalOpen={isSummaryModalOpen} setIsModalOpen={setIsSummaryModalOpen} book={book} setBook={setBook} />
-					<AddReadingSessionModal
-						isModalOpen={isAddReadingSessionModalOpen}
-						setIsModalOpen={setIsAddReadingSessionModalOpen}
+			<div className='row text-center mt-5' style={{ marginBottom: '150px' }}>
+				<AddRatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
+				<AddReviewModal isModalOpen={isReviewModalOpen} setIsModalOpen={setIsReviewModalOpen} book={book} setBook={setBook} />
+				<AddSummaryModal isModalOpen={isSummaryModalOpen} setIsModalOpen={setIsSummaryModalOpen} book={book} setBook={setBook} />
+				<AddReadingSessionModal
+					isModalOpen={isAddReadingSessionModalOpen}
+					setIsModalOpen={setIsAddReadingSessionModalOpen}
+					book={book}
+					setBook={setBook}
+					readingSessionList={readingSession}
+					setReadingSessionList={setReadingSession}
+				/>
+				<AddMemoModal
+					isModalOpen={isAddMemoModalOpen}
+					setIsModalOpen={setIsAddMemoModalOpen}
+					book={book}
+					memoList={memo}
+					setMemoList={setMemo}
+				/>
+				<ReadingSessionDetailModal
+					isModalOpen={isReadingSessionDetailModalOpen}
+					setIsModalOpen={setIsReadingSessionDetailModalOpen}
+					readingSession={selectedReadingSession}
+					setReadingSession={setSelectedReadingSession}
+					readingSessionList={readingSession}
+					setReadingSessionList={setReadingSession}
+					book={book}
+					setBook={setBook}
+				/>
+				<MemoDetailModal
+					isModalOpen={isMemoDetailModalOpen}
+					setIsModalOpen={setIsMemoDetailModalOpen}
+					memo={selectedMemo}
+					setMemo={setSelectedMemo}
+					memoList={memo}
+					setMemoList={setMemo}
+				/>
+
+				<div className='col-12 col-md-4 mb-5'>
+					<BookCover book={book} />
+					<BookButtons
 						book={book}
-						setBook={setBook}
-						readingSessionList={readingSession}
-						setReadingSessionList={setReadingSession}
-					/>
-					<AddMemoModal
-						isModalOpen={isAddMemoModalOpen}
-						setIsModalOpen={setIsAddMemoModalOpen}
-						book={book}
-						memoList={memo}
-						setMemoList={setMemo}
-					/>
-					<AddQuotationModal
-						isModalOpen={isAddQuotationModalOpen}
-						setIsModalOpen={setIsAddQuotationModalOpen}
-						book={book}
-						quotationList={quotation}
-						setQuotationList={setQuotation}
-					/>
-					<ReadingSessionDetailModal
-						isModalOpen={isReadingSessionDetailModalOpen}
-						setIsModalOpen={setIsReadingSessionDetailModalOpen}
-						readingSession={selectedReadingSession}
-						setReadingSession={setSelectedReadingSession}
-						readingSessionList={readingSession}
-						setReadingSessionList={setReadingSession}
-						book={book}
-						setBook={setBook}
-					/>
-					<MemoDetailModal
-						isModalOpen={isMemoDetailModalOpen}
-						setIsModalOpen={setIsMemoDetailModalOpen}
-						memo={selectedMemo}
-						setMemo={setSelectedMemo}
-						memoList={memo}
-						setMemoList={setMemo}
-					/>
-					<QuotationDetailModal
-						isModalOpen={isQuotationDetailModalOpen}
-						setIsModalOpen={setIsQuotationDetailModalOpen}
-						quotation={seletedQuotation}
-						setQuotation={setSelectedQuotation}
-						quotationList={quotation}
-						setQuotationList={setQuotation}
+						setIsRatingModalOpen={setIsRatingModalOpen}
+						setIsReviewModalOpen={setIsReviewModalOpen}
+						setIsSummaryModalOpen={setIsSummaryModalOpen}
 					/>
 
-					<div className='col-12 col-md-4 mb-5'>
-						<BookCover book={book} />
-						<BookButtons
-							book={book}
-							setIsRatingModalOpen={setIsRatingModalOpen}
-							setIsReviewModalOpen={setIsReviewModalOpen}
-							setIsSummaryModalOpen={setIsSummaryModalOpen}
-						/>
+					<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book.title}`)}>
+						이 책 검색하기
+					</Button>
+				</div>
 
-						<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book.title}`)}>
-							이 책 검색하기
-						</Button>
-					</div>
+				<div className='col-12 col-md-8 mt-0 mt-md-5'>
+					<BookDescription book={book} />
 
-					<div className='col-12 col-md-8 mt-0 mt-md-5'>
-						<BookDescription book={book} />
+					{book.summary != null && (
+						<Card className='mt-2'>
+							<Card.Body>
+								<h4>✅ 요약</h4>
 
-						{book.summary != null && (
-							<Card className='mt-2'>
-								<Card.Body>
-									<h4>✅ 요약</h4>
+								{book.summary}
+							</Card.Body>
+						</Card>
+					)}
 
-									{book.summary}
-								</Card.Body>
-							</Card>
+					{book.review != null && (
+						<Card className='mt-2'>
+							<Card.Body>
+								<h4>💬 감상</h4>
+
+								{book.review}
+							</Card.Body>
+						</Card>
+					)}
+
+					<Card className='mt-3'>
+						{book.currentPage !== 0 && (
+							<>
+								<div
+									className='bg-secondary text-white d-none d-xl-block'
+									style={{
+										left: '2.5%',
+										width: `100px`,
+										height: `30px`,
+										borderRadius: '5px',
+										position: 'absolute',
+										top: '15px',
+									}}>
+									총 {getTotalReadTIme(readingSession)}분
+								</div>
+							</>
 						)}
 
-						{book.review != null && (
-							<Card className='mt-2'>
-								<Card.Body>
-									<h4>💬 감상</h4>
+						{book.currentPage !== 0 && book.currentPage !== book.endPage && (
+							<>
+								<div
+									className='bg-secondary text-white d-block d-xl-none'
+									style={{
+										left: '2.5%',
+										width: `100px`,
+										height: `30px`,
+										borderRadius: '5px',
+										position: 'absolute',
+										top: '15px',
+									}}>
+									앞으로 {getRemainReadTime(book, readingSession)}분
+								</div>
 
-									{book.review}
-								</Card.Body>
-							</Card>
+								<div
+									className='bg-secondary text-white d-none d-xl-block'
+									style={{
+										left: '17%',
+										width: `100px`,
+										height: `30px`,
+										borderRadius: '5px',
+										position: 'absolute',
+										top: '15px',
+									}}>
+									앞으로 {getRemainReadTime(book, readingSession)}분
+								</div>
+							</>
 						)}
 
-						<Card className='mt-3'>
-							{book.currentPage !== 0 && (
-								<>
-									<div
-										className='bg-secondary text-white d-none d-xl-block'
-										style={{
-											left: '2.5%',
-											width: `100px`,
-											height: `30px`,
-											borderRadius: '5px',
-											position: 'absolute',
-											top: '15px',
-										}}>
-										총 {getTotalReadTIme(readingSession)}분
-									</div>
-								</>
-							)}
-
-							{book.currentPage !== 0 && book.currentPage !== book.endPage && (
-								<>
-									<div
-										className='bg-secondary text-white d-block d-xl-none'
-										style={{
-											left: '2.5%',
-											width: `100px`,
-											height: `30px`,
-											borderRadius: '5px',
-											position: 'absolute',
-											top: '15px',
-										}}>
-										앞으로 {getRemainReadTime(book, readingSession)}분
-									</div>
-
-									<div
-										className='bg-secondary text-white d-none d-xl-block'
-										style={{
-											left: '17%',
-											width: `100px`,
-											height: `30px`,
-											borderRadius: '5px',
-											position: 'absolute',
-											top: '15px',
-										}}>
-										앞으로 {getRemainReadTime(book, readingSession)}분
-									</div>
-								</>
-							)}
-
+						{book.currentPage !== book.endPage && (
 							<AddButton
 								size='30'
 								color='book'
@@ -237,37 +214,40 @@ const BookDetail = () => {
 									setIsAddReadingSessionModalOpen(true)
 								}}
 							/>
+						)}
 
-							<Card.Body>
-								<h4>📚 독서활동</h4>
+						<Card.Body>
+							<h4>📚 독서활동</h4>
 
-								<div className='row justify-content-center mt-4'>
-									<div className='col-12'>
-										{readingSession == null || readingSession.length === 0 ? (
+							<div className='row justify-content-center mt-4'>
+								<div className='col-12'>
+									{readingSession == null || readingSession.length === 0 ? (
+										<div className='mb-4'>
 											<NoContent style={{ width: '150px' }} />
-										) : (
-											<ReadingSessionList
-												readingSessionList={readingSession}
-												book={book}
-												setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
-												setSelectedReadingSession={setSelectedReadingSession}
-											/>
-										)}
-									</div>
+										</div>
+									) : (
+										<ReadingSessionList
+											readingSessionList={readingSession}
+											book={book}
+											setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
+											setSelectedReadingSession={setSelectedReadingSession}
+										/>
+									)}
 								</div>
-							</Card.Body>
-						</Card>
+							</div>
+						</Card.Body>
+					</Card>
 
-						<BookRecordCard
-							displayLabel='📋 메모'
-							record={memo}
-							ListComponent={
-								<MemoList memoList={memo} setIsMemoDetailModalOpen={setIsMemoDetailModalOpen} setSelectedMemo={setSelectedMemo} />
-							}
-							setIsAddModalOpen={setIsAddMemoModalOpen}
-						/>
-					</div>
+					<BookRecordCard
+						displayLabel='📋 메모'
+						record={memo}
+						ListComponent={
+							<MemoList memoList={memo} setIsMemoDetailModalOpen={setIsMemoDetailModalOpen} setSelectedMemo={setSelectedMemo} />
+						}
+						setIsAddModalOpen={setIsAddMemoModalOpen}
+					/>
 				</div>
+			</div>
 		</div>
 	)
 }
@@ -482,7 +462,15 @@ const BookRecordCard = ({ displayLabel, record, ListComponent, setIsAddModalOpen
 				<h4>{displayLabel}</h4>
 
 				<div className='row justify-content-center mt-4'>
-					<div className='col-12'>{record == null || record.length === 0 ? <NoContent style={{ width: '150px' }} /> : ListComponent}</div>
+					<div className='col-12'>
+						{record == null || record.length === 0 ? (
+							<div className='mb-4'>
+								<NoContent style={{ width: '150px' }} />
+							</div>
+						) : (
+							ListComponent
+						)}
+					</div>
 				</div>
 			</Card.Body>
 		</Card>
@@ -515,24 +503,6 @@ const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
 				)
 			})}
 		</div>
-	)
-}
-
-const QuotationList = ({ quotationList, setIsQuotationDetailModalOpen, setSelectedQuotation }) => {
-	return (
-		<>
-			{quotationList.map((quotation) => {
-				return (
-					<Quotation
-						quotation={quotation}
-						onClick={() => {
-							setSelectedQuotation(quotation)
-							setIsQuotationDetailModalOpen(true)
-						}}
-					/>
-				)
-			})}
-		</>
 	)
 }
 

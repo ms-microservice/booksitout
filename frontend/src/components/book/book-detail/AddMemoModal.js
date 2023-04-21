@@ -12,11 +12,6 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 	const handleAddMemo = (e) => {
 		e.preventDefault()
 
-		if (page == null) {
-			toast.error('페이지를 입력해 주세요')
-			return
-		}
-
 		if (page < 0) {
 			toast.error('페이지는 0보다 작을 수 없어요')
 			return
@@ -58,17 +53,25 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddMemo(e)}>
-					<Form.Label type='number' inputMode='numeric' pattern='[0-9]*' autoFocus>
-						페이지
-					</Form.Label>
-					<Form.Control type='number' onChange={(e) => setPage(e.target.value)} />
+					<Form.Label type='number'>페이지</Form.Label>
+					<Form.Control type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setPage(e.target.value)} />
 
 					<Form.Label className='mt-2'>내용</Form.Label>
 					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus />
 
-					<Button variant='book' type='submit' className='w-100 mt-3'>
-						추가하기
-					</Button>
+					<div className='row'>
+						<div className='col-12 col-md-6'>
+							<Button variant='book-danger' className='w-100 mt-3' onClick={() => setIsModalOpen(false)}>
+								취소
+							</Button>
+						</div>
+
+						<div className='col-12 col-md-6'>
+							<Button variant='book' type='submit' className='w-100 mt-3'>
+								추가하기
+							</Button>
+						</div>
+					</div>
 				</Form>
 			</Modal.Body>
 		</Modal>

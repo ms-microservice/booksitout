@@ -1,0 +1,37 @@
+#search-history {
+    animation: fadein 0.25s;
+
+    position: absolute;
+    box-shadow: 0.5px 0.5px 0.5px gray;
+    
+    opacity: 90%;
+    width: 400px;
+    top: 70px;
+}
+
+@media only screen and (max-width: 992px) {
+    #search-history {
+        opacity: 100%;
+        width: 100%;
+        left: 0px;
+        top: 80px;    
+    }
+}
+
+@keyframes fadeout {
+    from {
+        opacity: 0.9;
+    }
+    to {
+        opacity: 0;
+    }
+}
+
+@keyframes fadein {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 0.9;
+    }
+}

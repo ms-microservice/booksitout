@@ -12,6 +12,11 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 	const handleEditGoal = (e) => {
 		e.preventDefault()
 
+		if (goal == selectedGoal.goal) {
+			toast.error('이전과 같은 목표에요')
+			return
+		}
+
 		if (goal === '') {
 			toast.error('새로운 목표를 입력해 주세요')
 			return

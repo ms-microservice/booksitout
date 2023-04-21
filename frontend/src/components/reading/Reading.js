@@ -61,7 +61,6 @@ const Reading = () => {
 			.then((book) => {
 				if (book == null) {
 					getMemoListOfBook(id).then((memos) => setMemoList(memos))
-					getQuotationListOfBook(id).then((quotes) => setQuotationList(quotes))
 
 					startReadingSession(id).then((res) => {
 						if (res[0]) {
@@ -98,14 +97,6 @@ const Reading = () => {
 				setMemo={setSelectedMemo}
 				memoList={memoList}
 				setMemoList={setMemoList}
-			/>
-			<QuotationDetailModal
-				isModalOpen={isQuotationDetailModalOpen}
-				setIsModalOpen={setIsQuotationDetailModalOpen}
-				quotation={selectedQuotation}
-				setQuotation={setSelectedQuotation}
-				quotationList={quotationList}
-				setQuotationList={setQuotationList}
 			/>
 
 			{initialFetch ? (
@@ -171,16 +162,6 @@ const Reading = () => {
 										setIsModalOpen={setIsMemoDetailModalOpen}
 									/>
 								</div>
-
-								{/* <div className='col-12 col-lg-10 mt-3'>
-									<QuotationCard
-										book={book}
-										quotationList={quotationList}
-										setQuotationList={setQuotationList}
-										setSelectedQuotation={setSelectedQuotation}
-										setIsModalOpen={setIsQuotationDetailModalOpen}
-									/>
-								</div> */}
 							</div>
 						</div>
 					</div>

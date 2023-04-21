@@ -215,6 +215,7 @@ const BookEditForm = () => {
 													pattern='[0-9]*'
 													placeholder={PAGE_MESSAGE}
 													required
+													autocomplete='off'
 													value={endPage}
 												/>
 											</Form.Group>
@@ -260,6 +261,7 @@ const BookEditForm = () => {
 											label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
 											onChange={() => setIsSharing(!isSharing)}
 											value={isSharing}
+											style={{ whiteSpace: 'nowrap' }}
 										/>
 									</Form.Group>
 

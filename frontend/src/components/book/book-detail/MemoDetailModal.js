@@ -53,12 +53,13 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 		if (confirm) {
 			deleteMemo(memo.memoId).then((success) => {
 				if (success) {
+					toast.success('메모를 지웠어요')
 					setIsModalOpen(false)
 					setMemoList(memoList.filter((m) => m.memoId !== memo.memoId))
-					toast.success('메모를 지웠어요')
-				} else {
-					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-				}
+				} 
+			})
+			.catch(() => {
+				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			})
 		}
 	}
@@ -73,6 +74,7 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 				setEditedPage(null)
 				setEditedContent(null)
 			}}
+			centered
 			fullscreen='md-down'>
 			{memo != null && (
 				<>
@@ -87,6 +89,8 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 									<Card.Header>
 										<Form.Control
 											type='number'
+											inputMode='numeric'
+											pattern='[0-9]*'
 											onChange={(e) => setEditedPage(e.target.value)}
 											defaultValue={memo.page}
 											value={editedPage}
@@ -112,23 +116,32 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 
 						<div className='row mt-3'>
 							<div className='col-6'>
-								<Button
-									variant={isEditMode ? 'success' : 'warning'}
-									className='w-100'
-									onClick={() => {
-										if (isEditMode) {
-											handleEditMemo()
-										}
-										setIsEditMode(!isEditMode)
-									}}>
-									{isEditMode ? '수정 완료' : '메모 수정하기'}
-								</Button>
+								{isEditMode ? (
+									<Button variant='book-danger' className='w-100' onClick={() => setIsEditMode(false)}>
+										수정 취소
+									</Button>
+								) : (
+									<Button variant='book-danger' className='w-100' onClick={() => handleDeleteMemo()}>
+										메모 삭제하기
+									</Button>
+								)}
 							</div>
 
 							<div className='col-6'>
-								<Button variant='danger' className='w-100' onClick={() => handleDeleteMemo()}>
-									메모 삭제하기
-								</Button>
+								{isEditMode ? (
+									<Button variant='book' className='w-100' onClick={() => handleEditMemo()}>
+										수정 완료
+									</Button>
+								) : (
+									<Button
+										variant='book'
+										className='w-100'
+										onClick={() => {
+											setIsEditMode(!isEditMode)
+										}}>
+										메모 수정하기
+									</Button>
+								)}
 							</div>
 						</div>
 					</Modal.Body>

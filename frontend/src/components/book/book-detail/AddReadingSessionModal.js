@@ -20,12 +20,26 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 		e.preventDefault()
 
 		if (endPage == null || endPage === '') {
+			document.getElementById('end-page-input').focus()
 			toast.error('끝 페이지를 입력해 주세요')
 			return
 		}
 
 		if (readTime == null || readTime === '' || readTime === 0) {
-			toast.error('독서 활동 시간을 입력해 주세요')
+			document.getElementById('read-time-input').focus()
+			toast.error('독서 활동 시간을 입력해 주세요') 
+			return
+		}
+
+		if (Number(endPage) <= book.currentPage) {
+			document.getElementById('end-page-input').focus()
+			toast.error('독서활동의 끝 페이지는 그 전 독서활동 페이지보다 작을 수 없어요')
+			return
+		}
+
+		if (Number(readTime) === 0) {
+			document.getElementById('read-time-input').focus()
+			toast.error('독서활동은 적어도 1분은 읽어야 추가할 수 있어요')
 			return
 		}
 
@@ -36,29 +50,31 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 			readTime: readTime,
 		}
 
-		addReadingSession(book.bookId, readingSession).then((success) => {
-			if (success) {
-				setReadingSessionList([
-					...readingSessionList,
-					{
-						startPage: getStartPage(),
-						endPage: endPage,
-						startTime: `${year}-${month}-${day}T`,
-						endTime: `${year}-${month}-${day}T`,
-						readTime: readTime,
-					},
-				])
+		addReadingSession(book.bookId, readingSession)
+			.then((success) => {
+				if (success) {
+					setReadingSessionList([
+						...readingSessionList,
+						{
+							startPage: getStartPage(),
+							endPage: endPage,
+							startTime: `${year}-${month}-${day}T`,
+							endTime: `${year}-${month}-${day}T`,
+							readTime: readTime,
+						},
+					])
 
-				setBook({
-					...book,
-					currentPage: endPage,
-				})
-				setIsModalOpen(false)
-				toast.success('독서활동을 직접 추가했어요')
-			} else {
+					setBook({
+						...book,
+						currentPage: endPage,
+					})
+					setIsModalOpen(false)
+					toast.success('독서활동을 직접 추가했어요')
+				}
+			})
+			.catch(() => {
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-			}
-		})
+			})
 	}
 
 	return (
@@ -102,14 +118,39 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 					<Form.Control className='mb-2' type='number' value={getStartPage()} disabled />
 
 					<Form.Label>끝 페이지</Form.Label>
-					<Form.Control className='mb-2' type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setEndPage(e.target.value)} autoFocus/>
+					<Form.Control
+						className='mb-2'
+						type='number'
+						inputMode='numeric'
+						pattern='[0-9]*'
+						onChange={(e) => setEndPage(e.target.value)}
+						autoFocus
+						id='end-page-input'
+					/>
 
 					<Form.Label>⏰ 시간 (분)</Form.Label>
-					<Form.Control className='mb-2' type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setReadTime(e.target.value)} />
+					<Form.Control
+						className='mb-2'
+						type='number'
+						inputMode='numeric'
+						pattern='[0-9]*'
+						onChange={(e) => setReadTime(e.target.value)}
+						id='read-time-input'
+					/>
 
-					<Button variant='book' type='submit' className='w-100 mt-2'>
-						추가하기
-					</Button>
+					<div className='row'>
+						<div className='col-12 col-md-6'>
+							<Button variant='book-danger' className='w-100 mt-2' onClick={() => setIsModalOpen(false)}>
+								취소
+							</Button>
+						</div>
+						
+						<div className='col-12 col-md-6'>
+							<Button variant='book' type='submit' className='w-100 mt-2'>
+								추가하기
+							</Button>
+						</div>
+					</div>
 				</Form>
 			</Modal.Body>
 		</Modal>

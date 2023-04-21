@@ -59,7 +59,7 @@ const ReadingSessionDetailModal = ({
 		}
 
 		editReadingSession(readingSession.readingSessionId, editedReadingSession).then((res) => {
-			if (res.status.toString().startsWith(2)) {
+			if (res) {
 				toast.success('독서활동을 수정했어요')
 				setReadingSession(editedReadingSession)
 				setReadingSessionList(
@@ -115,7 +115,7 @@ const ReadingSessionDetailModal = ({
 			fullscreen='md-down'
 			size={isEditMode ? 'lg' : 'md'}>
 			<Modal.Header closeButton className='text-center'>
-				<h4 className='w-100'>독서활동 자세히 보기</h4>
+				{isEditMode ? <h4 className='w-100'>독서활동 수정하기</h4> : <h4 className='w-100'>독서활동 자세히 보기</h4>}
 			</Modal.Header>
 
 			{readingSession != null && (
@@ -126,8 +126,8 @@ const ReadingSessionDetailModal = ({
 								<Form onSubmit={(e) => handleEditReadingSession(e)}>
 									{isReadingSessionManuallyAdded(readingSession.endTime) ? (
 										<div className='row text-center'>
-											<div className='col-3 mt-1'>🗓️ 독서날짜</div>
-											<div className='col-9'>
+											<div className='col-4 col-md-3 mt-1'>🗓️ 독서날짜</div>
+											<div className='col-12 col-md-9 mt-3 mb-3 mt-md-0 mb-md-0'>
 												<div className='row'>
 													<div className='col-4'>
 														<Form.Select className='mb-2' onChange={(e) => setYear(e.target.value)}>
@@ -204,32 +204,39 @@ const ReadingSessionDetailModal = ({
 									)}
 
 									<div className='row text-center'>
-										<div className='col-3 mt-1'>⌛️ 독서시간</div>
-										<div className='col-9'>
+										<div className='col-4 col-md-3 mt-1'>⌛️ 독서시간</div>
+
+										<div className='col-8 col-md-9'>
 											<Form.Control
 												className='mb-2'
 												type='number'
 												inputMode='numeric'
 												pattern='[0-9]*'
 												defaultValue={readingSession.readTime}
+												autocomplete='off'
 												onChange={(e) => setReadTime(e.target.value)}
 											/>
 										</div>
 									</div>
 
 									<div className='row text-center'>
-										<div className='col-3 mt-1'>📃 시작 페이지</div>
-										<div className='col-9'>
+										<div className='col-4 col-md-3 mt-1'>📃 시작 페이지</div>
+
+										<div className='col-8 col-md-9'>
 											<Form.Control className='mb-2' type='number' disabled defaultValue={readingSession.startPage} />
 										</div>
 									</div>
 
 									<div className='row text-center'>
-										<div className='col-3 mt-1'>📃 끝 페이지</div>
-										<div className='col-9'>
+										<div className='col-4 col-md-3 mt-1'>📃 끝 페이지</div>
+
+										<div className='col-8 col-md-9'>
 											<Form.Control
 												className='mb-2'
 												type='number'
+												inputMode='numeric'
+												pattern='[0-9]*'
+												autocomplete='off'
 												defaultValue={readingSession.endPage}
 												onChange={(e) => setEndPage(e.target.value)}
 											/>
@@ -237,13 +244,13 @@ const ReadingSessionDetailModal = ({
 									</div>
 
 									<div className='row'>
-										<div className='col-6' onClick={() => setIsEditMode(false)}>
+										<div className='col-12 col-md-6 mt-2' onClick={() => setIsEditMode(false)}>
 											<Button variant='book-danger' className='w-100'>
 												수정취소
 											</Button>
 										</div>
 
-										<div className='col-6'>
+										<div className='col-12 col-md-6 mt-2'>
 											<Button variant='book' type='submit' className='w-100'>
 												수정완료
 											</Button>
