@@ -16,8 +16,9 @@ public class BookItOutGateway {
     public MainResponse mainPage() {
 
         return MainResponse.builder()
-                .message("private api for book-it-out")
-                .redirectUrl("https://book.jinkyumpark.com")
+                .message("private api for booksitout")
+                .redirectUrl("https://booksitout.com")
                 .build();
+
     }
 }
