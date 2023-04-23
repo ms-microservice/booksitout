@@ -1,19 +1,67 @@
 version: "3.8"
 services:
+  eureka:
+    image: "jinkpark/book-it-out:v3-eureka"
+    ports:
+      - "8761:8761"
+    restart: "always"
+    networks:
+      - booksitout
+    network_mode: awsvpc
+
   gateway:
-    image: "jinkpark/book-it-out:v2-gateway"
+    image: "jinkpark/book-it-out:v3-gateway"
     ports:
       - "80:80"
     restart: "always"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+    network_mode: awsvpc
 
   core:
-    image: "jinkpark/book-it-out:v2-core"
+    image: "jinkpark/book-it-out:v3-core"
     ports:
       - "8000:8000"
     restart: "always"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+    network_mode: awsvpc
 
   search:
-    image: "jinkpark/book-it-out:v2-search"
+    image: "jinkpark/book-it-out:v3-search"
     ports:
       - "8100:8100"
     restart: "always"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+      - redis
+    network_mode: awsvpc
+
+  user:
+    image: "jinkpark/book-it-out:v3-user"
+    ports:
+      - "8200:8200"
+    restart: "always"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+    network_mode: awsvpc
+
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    restart: "always"
+    networks:
+      - booksitout
+    network_mode: awsvpc
+
+networks:
+  booksitout:
