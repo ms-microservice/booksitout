@@ -7,7 +7,6 @@ services:
     restart: "always"
     networks:
       - booksitout
-    network_mode: awsvpc
 
   gateway:
     image: "jinkpark/book-it-out:v3-gateway"
@@ -18,7 +17,6 @@ services:
       - booksitout
     depends_on:
       - eureka
-    network_mode: awsvpc
 
   core:
     image: "jinkpark/book-it-out:v3-core"
@@ -29,7 +27,6 @@ services:
       - booksitout
     depends_on:
       - eureka
-    network_mode: awsvpc
 
   search:
     image: "jinkpark/book-it-out:v3-search"
@@ -41,7 +38,6 @@ services:
     depends_on:
       - eureka
       - redis
-    network_mode: awsvpc
 
   user:
     image: "jinkpark/book-it-out:v3-user"
@@ -52,7 +48,6 @@ services:
       - booksitout
     depends_on:
       - eureka
-    network_mode: awsvpc
 
   redis:
     image: "redis"
@@ -61,7 +56,6 @@ services:
     restart: "always"
     networks:
       - booksitout
-    network_mode: awsvpc
 
 networks:
   booksitout:
