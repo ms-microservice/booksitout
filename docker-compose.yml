@@ -4,7 +4,7 @@ services:
     image: "jinkpark/book-it-out:v3-eureka"
     ports:
       - "8761:8761"
-    restart: "always"
+    restart: "no"
     networks:
       - booksitout
 
@@ -12,7 +12,7 @@ services:
     image: "jinkpark/book-it-out:v3-gateway"
     ports:
       - "80:80"
-    restart: "always"
+    restart: "no"
     networks:
       - booksitout
     depends_on:
@@ -22,40 +22,39 @@ services:
     image: "jinkpark/book-it-out:v3-core"
     ports:
       - "8000:8000"
-    restart: "always"
+    restart: "no"
     networks:
       - booksitout
     depends_on:
       - eureka
-
-  search:
-    image: "jinkpark/book-it-out:v3-search"
-    ports:
-      - "8100:8100"
-    restart: "always"
-    networks:
-      - booksitout
-    depends_on:
-      - eureka
-      - redis
-
   user:
     image: "jinkpark/book-it-out:v3-user"
     ports:
       - "8200:8200"
-    restart: "always"
+    restart: "no"
     networks:
       - booksitout
     depends_on:
       - eureka
 
-  redis:
-    image: "redis"
-    ports:
-      - "6379:6379"
-    restart: "always"
-    networks:
-      - booksitout
+#  search:
+#    image: "jinkpark/book-it-out:v3-search"
+#    ports:
+#      - "8100:8100"
+#    restart: "no"
+#    networks:
+#      - booksitout
+#    depends_on:
+#      - eureka
+#      - redis
+#
+#  redis:
+#    image: "redis"
+#    ports:
+#      - "6379:6379"
+#    restart: "no"
+#    networks:
+#      - booksitout
 
 networks:
   booksitout:
