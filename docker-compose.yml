@@ -37,24 +37,24 @@ services:
     depends_on:
       - eureka
 
-#  search:
-#    image: "jinkpark/book-it-out:v3-search"
-#    ports:
-#      - "8100:8100"
-#    restart: "no"
-#    networks:
-#      - booksitout
-#    depends_on:
-#      - eureka
-#      - redis
-#
-#  redis:
-#    image: "redis"
-#    ports:
-#      - "6379:6379"
-#    restart: "no"
-#    networks:
-#      - booksitout
+  search:
+    image: "jinkpark/book-it-out:v3-search"
+    ports:
+      - "8100:8100"
+    restart: "no"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+      - redis
+
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    restart: "no"
+    networks:
+      - booksitout
 
 networks:
   booksitout:
