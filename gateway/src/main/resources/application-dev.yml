@@ -12,7 +12,7 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
 spring:
   application:
@@ -22,7 +22,8 @@ spring:
     gateway:
       discovery:
         locator:
-            enabled: true
+          enabled: true
+          polling-interval: 1
 
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
@@ -31,7 +32,7 @@ spring:
         add-to-simple-url-handler-mapping: true
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000, https://booksitout.com"
+            allowedOrigins: "http://localhost:3000"
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
@@ -45,7 +46,7 @@ spring:
         - id: user
           uri: lb://user
           predicates:
-            - Path=/user/**, /{version}/login/**
+            - Path=/user/**
 
         - id: search-login
           uri: lib://search
@@ -57,11 +58,11 @@ spring:
         - id: search
           uri: lb://search
           predicates:
-            - Path=/{version}/search/**
+            - Path=/v2/search/**, /v3/search/**
 
         - id: core
           uri: lb://core
           predicates:
-            - Path=/{version}/**
+            - Path=/v1/**, /v2/**, /v3/**
           filters:
             - JwtValidationFilter
