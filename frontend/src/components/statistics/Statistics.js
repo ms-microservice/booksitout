@@ -117,7 +117,9 @@ const Statistics = () => {
 									) : statisticsData == null ? (
 										<Error />
 									) : (
-										<SummaryTable statistics={statisticsData} />
+										<div className='mt-3'>
+											<SummaryTable statistics={statisticsData} />
+										</div>
 									)}
 								</div>
 							</Card.Body>

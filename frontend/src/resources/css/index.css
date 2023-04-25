@@ -20,3 +20,7 @@ code {
 		padding-right: min(0vmin, env(safe-area-inset-right));
 	}
 }
+
+.clickable {
+	cursor: pointer;
+}

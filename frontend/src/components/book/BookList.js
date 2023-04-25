@@ -19,7 +19,7 @@ import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functio
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
 	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
-	const noContentMessage = range === 'not-done' ? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!` : range === 'done' ? `아직 다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
+	const noContentMessage = range === 'not-done' ? `읽지 않은 책이 없어요` : range === 'done' ? `다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
 	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
 	const fetchSize = 24
 

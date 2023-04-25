@@ -13,6 +13,7 @@ import urls from '../../settings/urls'
 import libraryLoading from '../../resources/images/common/library-loading.png'
 import '../../resources/css/button.css'
 import '../../resources/css/library-search.css'
+import utils from '../../functions/utils'
 
 const SearchLibrarySettings = () => {
   return (
@@ -25,7 +26,20 @@ const SearchLibrarySettings = () => {
 }
 
 const SearchMethodSettings = () => {
-    const [currentApiKey, setCurrentApiKey] = useState('REGION' )
+    const [currentApiKey, setCurrentApiKey] = useState('')
+	useEffect(() => {
+		fetch(`${urls.api.base}/v3/search/library/settings/method`, {
+			method: 'GET',
+			headers: {
+				Authorization: utils.getToken()!!,
+			},
+		})
+			.then((res) => res.json())
+			.then((data) => {
+				console.log(data)
+				setCurrentApiKey(data.method)
+			})
+	}, [])
 
     const settingsList = [
         {

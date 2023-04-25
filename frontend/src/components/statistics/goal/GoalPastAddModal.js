@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Resources
@@ -7,7 +7,7 @@ import '../../../resources/css/input.css'
 import { addGoal } from '../../../functions/goal'
 
 const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }) => {
-	const [goalYear, setGoalYear] = useState(new Date().getFullYear() - 1)
+	const [goalYear, setGoalYear] = useState(0)
 	const [goal, setGoal] = useState(0)
 
 	const handleAddPastGoal = (e) => {
@@ -27,6 +27,7 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 
 		addGoal(goalYear, goal).then((success) => {
 			if (success) {
+				toast.success(`${goalYear}년 목표를 추가했어요`)
 				setIsModalOpen(false)
 				setGoalList([
 					...goalList,
@@ -39,6 +40,11 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 			}
 		})
 	}
+
+	useEffect(() => {
+		const year = Array.from({ length: 20 }, (_, i) => new Date().getFullYear() - 20 + i).filter((inputGoal) => !goalList.map((g) => g.year).includes(inputGoal)).reverse()[0]
+		setGoalYear(year)
+	}, [isModalOpen])
 
 	return (
 		<Modal show={isModalOpen} centered onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
@@ -65,15 +71,17 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 						inputMode='numeric'
 						pattern='[0-9]*'
 						autoFocus
-						className='mb-3'
 						onChange={(e) => setGoal(e.target.value)}
+						className='mb-3'
 					/>
 
 					<p className='text-muted text-center'>20년 이상 전의 목표는 추가할 수 없어요</p>
 
 					<div className='row justify-content-center'>
 						<div className='col-12 col-md-5'>
-							<Button variant='book-danger' className='w-100 mt-2' onClick={() => setIsModalOpen(false)}>취소</Button>
+							<Button variant='book-danger' className='w-100 mt-2' onClick={() => setIsModalOpen(false)}>
+								취소
+							</Button>
 						</div>
 
 						<div className='col-12 col-md-5'>

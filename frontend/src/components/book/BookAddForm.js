@@ -9,7 +9,7 @@ import defaultLoadingBookCover from '../../resources/images/common/loading-defau
 import ImageSearchModal from './ImageSearchModal'
 // Functions
 import { addBook } from '../..//functions/book'
-// Setttings
+// Settings
 import messages from '../../settings/messages'
 import urls from '../../settings/urls';
 import NoContent from '../common/NoContent'
@@ -106,7 +106,7 @@ const AddBookSearchCard = () => {
 					.catch(() => setError(true))
 					.finally(() => setLoading(false))
 			}
-		}, 1000)
+		}, 500)
 
 		return () => clearTimeout(typingTimer)
 	}, [query])

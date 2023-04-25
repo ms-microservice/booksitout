@@ -18,7 +18,7 @@ import uiSettings from '../../settings/ui'
 import messages from '../../settings/messages'
 
 import '../../resources/css/mainReadChart.css'
-import MainBookView from '../book/MainBookView';
+import MainBookView from '../book/MainHorizontalBookView';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'
 
@@ -143,7 +143,7 @@ const ReadingTimeChart = ({readTime}) => {
 					{readTime == null ? (
 						<Error message='오류가 났어요' />
 					) : (
-						<div className='row h-100 w-100' id='readTimeChart'>
+						<div className='h-100 w-100 d-flex align-items-center pe-0 pe-md-2 mt-5 mt-md-0 mb-4 mb-md-0' id='readTimeChart'>
 							<DateLineChart startDate={new Date().setDate(new Date().getDate() - 7)} data={readTime} duration={7} />
 						</div>
 					)}
@@ -153,29 +153,32 @@ const ReadingTimeChart = ({readTime}) => {
 	)
 }
 
-const GoalChart = ({statistics, goal}) => {
+const SummaryChart = ({statistics}) => {
 	return (
 		<Card className='h-100'>
-			<Card.Body>
-				<a href='/statistics/goal' className='text-decoration-none text-black'>
-					<h3>{new Date().getFullYear()}년 목표</h3>
+			<Card.Body className='h-100 mb-4'>
+				<a href='/statistics' className='text-decoration-none text-black h-100'>
+					<h3>{new Date().getFullYear()}년 독서 요약</h3>
 
-					<div className='mt-1 d-inline-block d-xl-none' />
-					<div className='mt-5 mb-5'>{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}</div>
+					<div className='h-100 d-flex align-items-center'>
+						{statistics == null ? <Error message='오류가 났어요' /> : <SummaryTable statistics={statistics} />}
+					</div>
 				</a>
 			</Card.Body>
 		</Card>
 	)
 }
 
-const SummaryChart = ({statistics}) => {
+const GoalChart = ({statistics, goal}) => {
 	return (
-		<Card className='h-100'>
-			<Card.Body className='h-100'>
-				<a href='/statistics' className='text-decoration-none text-black'>
-					<h4>{new Date().getFullYear()}년 독서 요약</h4>
+		<Card className='pb-xl-4 h-100'>
+			<Card.Body>
+				<a href='/statistics/goal' className='text-decoration-none text-black'>
+					<h3>{new Date().getFullYear()}년 목표</h3>
 
-					{statistics == null ? <Error message='오류가 났어요' /> : <SummaryTable statistics={statistics} />}
+					<div className='h-100 d-flex align-items-center mt-4 pb-4 mt-md-0 pb-md-0 pt-xl-5 pb-xl-5' style={{'position':'relative', bottom: '20px' }}>
+						{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
+					</div>
 				</a>
 			</Card.Body>
 		</Card>

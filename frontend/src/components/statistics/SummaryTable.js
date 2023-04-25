@@ -47,7 +47,7 @@ const SummaryTable = ({ statistics }) => {
 	]
 
 	return (
-		<table class='table table-hover mt-3 mt-xl-4'>
+		<table class='table table-hover'>
 			<tbody>
 				{statisticsData.map((stat) => {
 					return (

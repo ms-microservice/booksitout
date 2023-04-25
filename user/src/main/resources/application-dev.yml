@@ -1,6 +1,9 @@
 server:
   port: 8200
 
+  error:
+    include-message: always
+
 eureka:
   instance:
     prefer-ip-address: true
@@ -9,12 +12,9 @@ eureka:
     register-with-eureka: true
     fetch-registry: true
     service-url:
-      defaultZone: http://eureka:8761/eureka/
+      defaultZone: http://localhost:8761/eureka/
 
 spring:
-  profiles:
-    active: default
-
   application:
     name: user
 
@@ -22,6 +22,12 @@ spring:
     url: ${DB_URL}
     username: ${DB_ID}
     password: ${DB_PW}
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: update
+      format_sql: true
 
   mail:
     host: ${EMAIL_HOST}

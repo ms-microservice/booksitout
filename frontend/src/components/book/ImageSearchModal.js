@@ -32,7 +32,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 		}, 500)
 
 		if (showModal) {
-			fetch(`${urls.api.base}/v3/search/image/google?query=${title}%20${author}`)
+			fetch(`${urls.api.base}/v3/search/image/google/separate-title-author?title=${title}&author=${author}`)
 				.then((res) => {
 					return res.json()
 				})
