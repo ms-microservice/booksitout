@@ -40,7 +40,7 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ![ReactiveX](https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white) (Spring Webflux)
 
 ![Spring Cloud](https://img.shields.io/badge/SpringCloud-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) (Gateway, Config, Sleuth)
-![Netflix OSS](https://img.shields.io/badge/NetflixOSS-E50914?style=for-the-badge&logo=netflix&logoColor=white) (Eureka, Zuul, Zipkin, Hystrix)
+![Netflix OSS](https://img.shields.io/badge/NetflixOSS-E50914?style=for-the-badge&logo=netflix&logoColor=white) (Eureka, Zipkin, Hystrix)
 ![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)
 
 ### Frontend
@@ -81,26 +81,39 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
       - Integration/Unit Test 작성해 통과할 경우에만 main branch에 push 가능하게 개선
       - 실제 배포하기 전에 Production 환경에서 테스트 가능하도록 개선
       
-## Version 3 (23년 2월 7일 ~ )
-- 알림 : Spring Batch, Kafka를 사용해 내가 원하는 곳에서(도서관, 구독, 중고서점 등) 원하는 책이 등록되면 이메일로 알림
+## Version 3 (23년 2월 7일 ~ 23년 4월 28일)
 - MSA 도입
-  - Infra 관련 : Eureka, Zuul, Spring Cloud Gateway, Spring Cloud Config, 인증서버
-  - Business Logic 관련 : Core (책 등록, 독서기록 등), Search, Notification
-  - 모니터링 : Sleuth 기반 ElasticSearch 사용해 로그 수집, Zipkin 도입
+  - Infra 관련 : Eureka, Spring Cloud Gateway, Spring Cloud Config, user(인증/인가)
+  - Business Logic 관련 : core (책, 메모, 독서기록, 목표, 통계 등), search, 
+  - 모니터링 : Sleuth, Zipkin 도입
 - 검색 성능 개선
   - Redis 도입해 서비스에 따라 결과 유효기간 설정 후 이미 검색한 Query는 API 요청 하지 않도록 개선
-  - Spring Webflux 사용해 비동기적으로 API 요청 하도록 개선
+  - Spring Webflux, Coroutine 사용해 비동기적으로 API 요청 하도록 개선
 - 코드 개선
-  - Back : ...
+  - Back
+    - ms로 refactoring 후 전반적으로 코드 단순화
+    - 잘 못 설계됐다고 생각한 Architecture 개선 (통계 처리를 위해 통계용 table DB에 따로 둔 것 등)
+    - 보안 처리 직접 한 부분 Spring Security 기본 기능으로 refactoring
   - DevOps : K8S 도입 (AWS EKS 사용), CI 서버에서 캐싱 사용해 빌드 속도 약 40% 개선
   - Front : React-Query 사용해서 API 요청하도록 개선
+- UI / UX 개선
+  - 메인 색상 정해서 전체적으로 통일 + 각 색별 의미 정하고 그 의미로만 사용 (예 : 빨강 - 비교적 큰 상태 변화가 있는 행동, 메인초록 - 특정 상황에 가장 할 만한 행동)
+  - 모바일 사용성 개선 (입력해야 될 상황에 키보드 자동으로 보이기, PWA 지원, 쓸데없는 autoComplete 숨기기)
+  - 유저가 알고 싶은 정보는 강조, 아닌 정보는 색 secondary / 작게 (예 : 책 List에서 현재 페이지 bold / main-color로 강조)
 
+## Version 4 (예정)
+- 알림 : Spring Batch, Kafka를 사용해 내가 원하는 곳에서(도서관, 구독, 중고서점 등) 원하는 책이 등록되면 이메일로 알림
+- 내 대출 현황 보기
+- 책 관련 컨텐츠 (사이트 이용 꿀팁, 도서관 관련 정보)
+- 디지털 도서관 회원증 추가 (애플월렛, 삼성페이, 이미지, 사이트에서 보기(위치 기반으로 도서관 근처에 있으면 자동으로 메인 화면 제일 위에))
+
+# 📊 Diagram
 ### Architecture Diagram
 <p align="center">
-  <img width="900" height="675" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
+  <img height="675" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
 </p>
 
 ### ER Diagram
 <p align="center">
-  <img width="900" height="675" src="https://user-images.githubusercontent.com/61900235/208791254-e5cfce24-8fe4-4d60-9441-a37d324c42c0.png">  
+  <img height="675" src="https://user-images.githubusercontent.com/61900235/208791254-e5cfce24-8fe4-4d60-9441-a37d324c42c0.png">  
 </p>
