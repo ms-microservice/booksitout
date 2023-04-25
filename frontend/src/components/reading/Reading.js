@@ -7,13 +7,12 @@ import Loading from '../common/Loading'
 import Error from '../common/Error'
 import Timer from './Timer'
 import MemoCard from './MemoCard'
-import QuotationCard from './QuotationCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 import MemoDetailModal from '../book/book-detail/MemoDetailModal'
 import QuotationDetailModal from '../book/book-detail/QuotationDetailModal'
 // Images
-import defaultBookCover from '../../resources/images/common/book.png'
+import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 // Functions
 import { getBookOfCurrentReadingSession, startReadingSession } from '../../functions/reading'
 import { getMemoListOfBook } from '../../functions/memo'
@@ -62,7 +61,6 @@ const Reading = () => {
 			.then((book) => {
 				if (book == null) {
 					getMemoListOfBook(id).then((memos) => setMemoList(memos))
-					getQuotationListOfBook(id).then((quotes) => setQuotationList(quotes))
 
 					startReadingSession(id).then((res) => {
 						if (res[0]) {
@@ -99,14 +97,6 @@ const Reading = () => {
 				setMemo={setSelectedMemo}
 				memoList={memoList}
 				setMemoList={setMemoList}
-			/>
-			<QuotationDetailModal
-				isModalOpen={isQuotationDetailModalOpen}
-				setIsModalOpen={setIsQuotationDetailModalOpen}
-				quotation={selectedQuotation}
-				setQuotation={setSelectedQuotation}
-				quotationList={quotationList}
-				setQuotationList={setQuotationList}
 			/>
 
 			{initialFetch ? (
@@ -150,13 +140,13 @@ const Reading = () => {
 
 							<div className='row justify-content-center mb-4 mt-4'>
 								<div className='col-6 col-lg-4'>
-									<Button variant='primary' className='w-100' onClick={() => showEndReadingSessionModal()}>
+									<Button variant='book' className='w-100' onClick={() => showEndReadingSessionModal()}>
 										독서 끝내기
 									</Button>
 								</div>
 
 								<div className='col-6 col-lg-4'>
-									<Button variant={isTimerOn ? 'danger' : 'success'} className='w-100' onClick={() => dispatch(toggleTimer())}>
+									<Button variant={isTimerOn ? 'danger' : 'primary'} className='w-100' onClick={() => dispatch(toggleTimer())}>
 										{isTimerOn ? '잠시 정지' : '다시 시작'}
 									</Button>
 								</div>
@@ -170,16 +160,6 @@ const Reading = () => {
 										setMemoList={setMemoList}
 										setSelectedMemo={setSelectedMemo}
 										setIsModalOpen={setIsMemoDetailModalOpen}
-									/>
-								</div>
-
-								<div className='col-12 col-lg-10 mt-3'>
-									<QuotationCard
-										book={book}
-										quotationList={quotationList}
-										setQuotationList={setQuotationList}
-										setSelectedQuotation={setSelectedQuotation}
-										setIsModalOpen={setIsQuotationDetailModalOpen}
 									/>
 								</div>
 							</div>

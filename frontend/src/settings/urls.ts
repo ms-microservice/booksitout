@@ -1,7 +1,6 @@
 import { google, kakao, naver, facebook } from '../settings/oauth'
 
 const apiBase = process.env.REACT_APP_API_URL
-const localBase = process.env.REACT_APP_LOCAL_URL
 
 const urls = {
 	local: {
@@ -17,45 +16,45 @@ const urls = {
 
 		user: {
 			login: {
-				basic: `${apiBase}/login`,
+				basic: `${apiBase}/user/v3/login`,
 				oauth: new Map([
 					[
 						'KAKAO',
 						{
-							api: (code, additional) => `${apiBase}/v2/login/oauth2/kakao?code=${code}`,
+							api: (code, additional) => `${apiBase}/user/v2/login/oauth2/kakao?code=${code}`,
 							loginPage: `https://kauth.kakao.com/oauth/authorize?client_id=${kakao.clientId}&redirect_uri=${kakao.redirectUrl}&response_type=${kakao.responseType}`,
 						},
 					],
 					[
 						'NAVER',
 						{
-							api: (code, state) => `${apiBase}/v2/login/oauth2/naver?code=${code}&state=${state}`,
+							api: (code, state) => `${apiBase}/user/v2/login/oauth2/naver?code=${code}&state=${state}`,
 							loginPage: `https://nid.naver.com/oauth2.0/authorize?client_id=${naver.clientId}&redirect_uri=${naver.redirectUrl}&response_type=${naver.responseType}&state=bookitout&version=js-2.0.1`,
 						},
 					],
 					[
 						'GOOGLE',
 						{
-							api: (code, scope) => `${apiBase}/v2/login/oauth2/google?code=${code}&scope=${scope}`,
+							api: (code, scope) => `${apiBase}/user/v2/login/oauth2/google?code=${code}&scope=${scope}`,
 							loginPage: `https://accounts.google.com/o/oauth2/v2/auth?client_id=${google.clientId}&redirect_uri=${google.redirectUrl}&response_type=${google.responseType}&scope=${google.scope}`,
 						},
 					],
 					[
 						'FACEBOOK',
 						{
-							api: (code) => `${apiBase}/v2/login/oauth2/facebook?code=${code}`,
+							api: (code) => `${apiBase}/user/v2/login/oauth2/facebook?code=${code}`,
 							loginPage: `https://www.facebook.com/v15.0/dialog/oauth?client_id=${facebook.clientId}&redirect_uri=${facebook.redirectUrl}&state=${facebook.state}`,
 						},
 					],
 				]),
 			},
-			join: `${apiBase}/v1/join`,
-			email: (email) => `${apiBase}/v1/join/email-verification/${email}`,
+			join: `${apiBase}/user/v1/join`,
+			email: (email) => `${apiBase}/user/v1/join/email-verification/${email}`,
 			change: {
-				name: `${apiBase}/v1/change-name`,
+				name: `${apiBase}/user/v1/change-name`,
 				password: {
-					verify: `${apiBase}/v1/change-name`,
-					change: `${apiBase}/v1/change-password`,
+					verify: `${apiBase}/user/v1/change-name`,
+					change: `${apiBase}/user/v1/change-password`,
 				},
 			},
 		},
@@ -64,7 +63,7 @@ const urls = {
 			get: {
 				last: `${apiBase}/v1/book/last`,
 				detail: (bookId) => `${apiBase}/v1/book/${bookId}`,
-				all: (range: string, page: number) => `${apiBase}/v1/book/all/${range}?page=${page}`,
+				all: (range: string, page: number, size: number) => `${apiBase}/v1/book/all/${range}?page=${page}&size=${size}`,
 			},
 			add: `${apiBase}/v1/book`,
 			edit: {
@@ -126,18 +125,21 @@ const urls = {
 		statistics: {
 			get: {
 				readTime: (duration) => `${apiBase}/v1/statistics/read-time/${duration}`,
-				summary: (year) => `${apiBase}/v1/statistics/year/${year}`,
+				summary: (year) => `${apiBase}/v3/statistics/year/${year}`,
 				language: `${apiBase}/v1/statistics/language`,
 				category: `${apiBase}/v1/statistics/category`,
 			},
 		},
 
 		search: {
-			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range')}`,
-			used: (query: string, includeOnline: string, includeOffline: string) => `${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
+			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range') || 'ALL'}`,
+			used: (query: string, includeOnline: string, includeOffline: string) =>
+				`${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
 			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,
-			libraryByLibrary: (query, includeLibraryCodeList) => `${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
-			libraryByRegion: (query, region, regionDetail) => `${apiBase}/v2/search/library/offline/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
+			libraryByLibrary: (query, includeLibraryCodeList) =>
+				`${apiBase}/v2/search/library/by-library?query=${query}&include=${includeLibraryCodeList}`,
+			libraryByRegion: (query, region, regionDetail) =>
+				`${apiBase}/v2/search/library/offline/by-region?query=${query}&region=${region}&region-detail=${regionDetail}`,
 			libraryOnline: (query, include) => `${apiBase}/v2/search/library/online?query=${query}&include=${include}`,
 
 			settings: {

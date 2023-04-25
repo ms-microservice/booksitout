@@ -58,21 +58,25 @@ const Login = () => {
 
 		if (email === '') {
 			toast.error('이메일을 입력해 주세요')
+			document.getElementById('email').focus()
 			return
 		}
 
 		if (!email.includes('@')) {
 			toast.error('이메일 형식에 맞지 않아요')
+			document.getElementById('email').focus()
 			return
 		}
 
 		if (password === '') {
 			toast.error('비밀번호를 입력해 주세요')
+			document.getElementById('password').focus()
 			return
 		}
 
 		if (password.length < 6) {
 			toast.error('비밀번호는 6자 이상이에요')
+			document.getElementById('password').focus()
 			return
 		}
 
@@ -116,6 +120,7 @@ const Login = () => {
 
 									<div class='col-9 col-lg-10'>
 										<input
+											id='email'
 											maxlength='30'
 											type='email'
 											class='form-control'
@@ -132,6 +137,7 @@ const Login = () => {
 
 									<div class='col-9 col-lg-10'>
 										<input
+											id='password'
 											type='password'
 											class='form-control'
 											placeholder={messages.user.login.placeHolder.password}
@@ -155,14 +161,14 @@ const Login = () => {
 
 								<div className='row justify-content-center mt-3'>
 									<div className='col-6 col-lg-4'>
-										<Button variant='success' type='submit' className='w-100'>
-											로그인
+										<Button variant='book-danger' className='w-100' href='join'>
+											회원가입
 										</Button>
 									</div>
 
 									<div className='col-6 col-lg-4'>
-										<Button variant='danger' className='w-100' href='join'>
-											회원가입
+										<Button variant='book' type='submit' className='w-100'>
+											로그인
 										</Button>
 									</div>
 
@@ -189,6 +195,8 @@ const Login = () => {
 										})}
 									</div>
 								</div>
+
+								<h6 className='text-secondary mt-4'>카카오 계정으로 가입하실 때 반드시 이메일을 허용해 주세요</h6>
 							</Form>
 						</Card.Body>
 					</Card>

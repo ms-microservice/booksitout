@@ -51,7 +51,9 @@ const Qna = () => {
 						<Card.Body>
 							<h4 className='text-muted mb-3'>내가 남긴 질문</h4>
 							{!user.localStorage.get.isLoggedIn() ? (
-								<Error message='내가 남긴 질문을 보려면 로그인 해 주세요' />
+								<div className='mt-5'>
+									<Error message='내가 남긴 질문을 보려면 로그인 해 주세요' />
+								</div>
 							) : myQna == null || myQna.length === 0 ? (
 								<div className='mt-5 mb-5'>
 									<NoContent message='내가 남긴 QNA가 없어요' style={{ width: '100px' }} className='mt-5 mb-5' />
@@ -98,7 +100,7 @@ const Qna = () => {
 						<div className='row justify-content-center mt-5'>
 							<div className='col-12 col-lg-6'>
 								<a href='/login' className='w-100'>
-									<Button variant='success' className='w-100'>
+									<Button variant='book' className='w-100'>
 										로그인하기
 									</Button>
 								</a>

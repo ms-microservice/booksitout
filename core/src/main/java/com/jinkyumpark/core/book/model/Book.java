@@ -3,11 +3,10 @@ package com.jinkyumpark.core.book.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.common.jpa.TimeEntity;
+import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.memo.Memo;
 import com.jinkyumpark.core.quotation.Quotation;
-import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -92,10 +91,10 @@ public class Book extends TimeEntity {
     private BookMemoType memoType = BookMemoType.NONE;
     private String memoLink;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
-    @JsonIgnore
-    private AppUser appUser;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
+//    @JsonIgnore
+    private Long appUserId;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore
@@ -116,7 +115,7 @@ public class Book extends TimeEntity {
     @Builder
     public Book(String title, String cover, LocalDateTime publishedAt, String summary, Integer currentPage, Integer endPage,
                 BookSource source, BookForm form, String review, Integer rating, Boolean isSharing, BookLanguage language, BookCategory category,
-                String author, Boolean isGiveUp, AppUser appUser, BookMemoType memoType, String memoLink) {
+                String author, Boolean isGiveUp, Long appUserId, BookMemoType memoType, String memoLink) {
         this.title = title;
         this.cover = cover;
         this.publishedAt = publishedAt;
@@ -132,7 +131,7 @@ public class Book extends TimeEntity {
         this.category = category;
         this.author = author;
         this.isGiveUp = isGiveUp;
-        this.appUser = appUser;
+        this.appUserId = appUserId;
         this.memoType = memoType;
         this.memoLink = memoLink;
     }
@@ -160,6 +159,8 @@ public class Book extends TimeEntity {
     public void editBook(BookDto bookDto) {
         if (bookDto.getTitle() != null)
             this.title = bookDto.getTitle();
+        if (bookDto.getAuthor() != null)
+            this.author = bookDto.getAuthor();
         if (bookDto.getLanguage() != null)
             this.language = bookDto.getLanguage();
         if (bookDto.getCover() != null)

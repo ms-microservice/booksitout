@@ -5,8 +5,9 @@ import toast from 'react-hot-toast'
 // React Icons
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
+import {BiSearchAlt2 as SearchIcon} from 'react-icons/bi'
 // Images
-import userIcon from '../../resources/images/common/user.png'
+import userIcon from '../../resources/images/user/user3.png'
 import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
 // Settings
@@ -15,11 +16,10 @@ import uiSettings from '../../settings/ui'
 import { useSelector, useDispatch } from 'react-redux'
 import { logoutToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
-
-import {BiSearchAlt2 as SearchIcon} from 'react-icons/bi'
-
+// css
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
+import SearchHistory from '../search/SearchHistory'
 
 const Topnav = () => {
 	const navigate = useNavigate()
@@ -31,8 +31,9 @@ const Topnav = () => {
 
 	const [expanded, setExpanded] = useState(false)
 	const [showSearchBar, setShowSearchBar] = useState(false)
+	const [autoFocus, setAutoFocus] = useState(false)
+
 	const [initialLoad, setInitialLoad] = useState(true)
-	const [openAtOnce, setOpenAtOnce] = useState(false)
 
 	const handleLogout = (e) => {
 		e.preventDefault()
@@ -51,19 +52,20 @@ const Topnav = () => {
 	useEffect(() => {
 		setExpanded(false)
 		setShowSearchBar(false)
+		setAutoFocus(false)
 	}, [location.pathname])
 
 	useEffect(() => {
-		setShowSearchBar(openAtOnce ? true : false)
-		setOpenAtOnce(false)
+		if (expanded) {
+			setShowSearchBar(false)
+			setAutoFocus(false)
+		}
 	}, [expanded])
 
 	const toggleSearchBar = () => {
-		if (expanded) setOpenAtOnce(true)
-
+		setShowSearchBar(!showSearchBar)
+		setAutoFocus(!showSearchBar)
 		setExpanded(false)
-
-		setShowSearchBar(expanded ? true : !showSearchBar)
 		setInitialLoad(false)
 	}
 
@@ -74,7 +76,7 @@ const Topnav = () => {
 					className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
 					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
 					<Card.Body>
-						<SearchBar />
+						<SearchBar autoFocus={autoFocus} />
 					</Card.Body>
 				</Card>
 			}
@@ -87,12 +89,12 @@ const Topnav = () => {
 					</Navbar.Brand>
 
 					<button className='d-lg-none ms-auto me-3 navbar-toggler'>
-							<SearchIcon
-								className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
-								onClick={() => {
-									toggleSearchBar()
-								}}
-							/>
+						<SearchIcon
+							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
+							onClick={() => {
+								toggleSearchBar()
+							}}
+						/>
 					</button>
 
 					<Navbar.Toggle onClick={() => setExpanded(!expanded)}></Navbar.Toggle>
@@ -165,7 +167,7 @@ const Topnav = () => {
 
 						{token !== '' && token != null && (
 							<span className='d-none d-lg-inline'>
-								<SearchBar width={{width: '400px'}}/>
+								<SearchBar width={{ width: '400px' }} autoFocus={autoFocus} />
 							</span>
 						)}
 
@@ -189,16 +191,27 @@ const Topnav = () => {
 								className={`d-none d-${expand}-block`}>
 								{token === '' || token == null ? (
 									<>
-										<NavDropdown.Item href='/login'>로그인</NavDropdown.Item>
-										<NavDropdown.Item href='/join'>회원가입</NavDropdown.Item>
+										<NavDropdown.Item href='/login'>
+											<LoginIcon className='me-2 mb-1' /> 로그인
+										</NavDropdown.Item>
+										<NavDropdown.Item href='/join'>
+											<JoinIcon className='me-2 mb-1' /> 회원가입
+										</NavDropdown.Item>
 									</>
 								) : (
 									<>
 										<NavDropdown.Item href='/qna'>QNA</NavDropdown.Item>
 										<NavDropdown.Item href='/faq'>FAQ</NavDropdown.Item>
+
 										<NavDropdown.Divider />
-										<NavDropdown.Item href='/settings'>설정</NavDropdown.Item>
-										<NavDropdown.Item onClick={(e) => handleLogout(e)}>로그아웃</NavDropdown.Item>
+
+										<NavDropdown.Item href='/settings'>
+											<SettingIcon className='me-2 mb-1' /> 설정
+										</NavDropdown.Item>
+
+										<NavDropdown.Item onClick={(e) => handleLogout(e)}>
+											<LoginIcon className='me-2 mb-1' /> 로그아웃
+										</NavDropdown.Item>
 									</>
 								)}
 							</NavDropdown>
@@ -210,11 +223,13 @@ const Topnav = () => {
 	)
 }
 
-const SearchBar = ({width = {}}) => {
+const SearchBar = ({width = {}, autoFocus = false}) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
+	const [showSearchHistory, setShowSearchHistory] = useState(false)
 	const [keyword, setKeyword] = useState('')
+
 	useEffect(() => {
 		if (location.pathname.startsWith('/search')) {
 			setKeyword(decodeURI(location.pathname.substring(8)))
@@ -229,29 +244,46 @@ const SearchBar = ({width = {}}) => {
 		else toast.error('2글자 이상의 검색어를 입력해 주세요')
 	}
 
+	useEffect(() => {
+		const input = document.getElementById('searchInput')
+
+		if (autoFocus) {
+			input.focus()
+			setShowSearchHistory(true)
+		} else {
+			input.blur()
+			setShowSearchHistory(false)
+		}
+	}, [autoFocus])
+
 	return (
 		<Form
 			style={width}
 			className='row me-1'
 			onSubmit={(e) => handleSearch(e)}
 			onKeyDown={(e) => {
-				if (e.keyCode === 13) this != null && this.blur()
+				e.keyCode === 13 && this != null && this.blur()
 			}}>
+
+			{/* {showSearchHistory && <SearchHistory />} */}
+
 			<div className='col-9 p-lg-0 pe-0'>
 				<Form.Control
+					id='searchInput'
 					type='search'
+					autocomplete='off'
 					placeholder='한 번에 책 검색하기'
 					className='me-2 w-100'
 					aria-label='Search'
 					value={keyword}
-					onChange={(e) => {
-						setKeyword(e.target.value)
-					}}
+					onChange={(e) => setKeyword(e.target.value)}
+					onFocus={() => setShowSearchHistory(true)}
+					onBlur={() => setShowSearchHistory(false)}
 				/>
 			</div>
 
 			<div className='col-3 pe-0'>
-				<Button type='submit' variant='outline-success' className='w-100'>
+				<Button type='submit' variant='outline-book' className='w-100'>
 					검색
 				</Button>
 			</div>

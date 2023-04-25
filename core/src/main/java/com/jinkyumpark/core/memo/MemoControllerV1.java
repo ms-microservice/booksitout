@@ -1,15 +1,15 @@
 package com.jinkyumpark.core.memo;
 
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
 import com.jinkyumpark.core.book.exception.BookNotSharingException;
-import com.jinkyumpark.core.memo.request.MemoAddRequest;
-import com.jinkyumpark.core.memo.request.MemoEditRequest;
+import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.common.response.AddSuccessResponse;
 import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.core.common.response.EditSuccessResponse;
+import com.jinkyumpark.core.memo.request.MemoAddRequest;
+import com.jinkyumpark.core.memo.request.MemoEditRequest;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
@@ -28,7 +28,7 @@ public class MemoControllerV1 {
     public List<Memo> getAllMemoByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
-        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
+        if (!book.getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
             throw new BookNotSharingException(messageSource.getMessage("memo.get.fail.not-sharing"));
         }
 

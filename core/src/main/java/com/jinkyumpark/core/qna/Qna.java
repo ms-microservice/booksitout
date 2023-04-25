@@ -2,8 +2,10 @@ package com.jinkyumpark.core.qna;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.qna.request.QnaEditRequest;
-import com.jinkyumpark.core.user.AppUser;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
@@ -27,10 +29,10 @@ public class Qna {
     @JsonIgnore
     private String password;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "qna_app_user_fk"))
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "qna_app_user_fk"))
     @JsonIgnore
-    private AppUser appUser;
+    private Long appUserId;
 
     public Qna(String question) {
         this.question = question;

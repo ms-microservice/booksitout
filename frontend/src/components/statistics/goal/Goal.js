@@ -110,10 +110,10 @@ const Goal = () => {
 
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
-							<Card.Body>
-								<h2 className='mb-4'>{currentYear}년</h2>
+							<Card.Body className='h-100'>
+								<h2 className='mb-3'>{currentYear}년</h2>
 
-								<div className={currentYearGoal != null && 'mb-5'}>
+								<div className={currentYearGoal != null && 'mt-5 mb-5'}>
 									{currentYearGoal == null ? (
 										<NoContent message={`${currentYear}년 목표가 없어요`} style={{ width: '150px' }} />
 									) : (
@@ -121,23 +121,23 @@ const Goal = () => {
 									)}
 								</div>
 
-								<div className='row justify-content-center'>
+								<div className='row justify-content-center mb-0' style={{ display: 'relative', bottom: '0px' }}>
 									{currentYearGoal == null ? (
 										<div className='col-12 col-lg-8'>
-											<Button className='w-100 mt-3' onClick={() => setIsGoalModalOpen(true)}>
+											<Button variant='book' className='w-100 mt-2' onClick={() => setIsGoalModalOpen(true)}>
 												목표 설정하기
 											</Button>
 										</div>
 									) : (
 										<>
 											<div className='col-6'>
-												<Button variant='warning' className='w-100' onClick={() => setIsGoalEditModalOpen(true)}>
+												<Button variant='book' className='w-100' onClick={() => setIsGoalEditModalOpen(true)}>
 													목표 수정하기
 												</Button>
 											</div>
 
 											<div className='col-6'>
-												<Button variant='danger' className='w-100' onClick={() => handleDeleteGoal()}>
+												<Button variant='book-danger' className='w-100' onClick={() => handleDeleteGoal()}>
 													목표 삭제하기
 												</Button>
 											</div>
@@ -151,31 +151,22 @@ const Goal = () => {
 					<div className='col-12 col-lg-6 mb-4'>
 						<Card className='h-100'>
 							<Card.Body>
-								<h2>{new Date().getFullYear()}년 최고의 책</h2>
+								<h2>목표 분석</h2>
 
 								{highlightBookList.length === 0 ? (
-									<NoContent
-										message={`${currentYear}년은 아직 최고의 책이 없어요`}
-										style={{ width: '150px' }}
-									/>
+									<div className='mt-4 mb-4 mb-md-0'>
+										<NoContent message={`목표 분석 기능은 아직 준비중이에요`} style={{ width: '150px' }} />
+									</div>
 								) : (
 									<></>
 								)}
-
-								<div className='row justify-content-center'>
-									<div className='col-12 col-lg-8'>
-										<Button className='mt-3 w-100' disabled>
-											최고의 책 직접 선정하기
-										</Button>
-									</div>
-								</div>
 							</Card.Body>
 						</Card>
 					</div>
 
-					<div className="col-12 mb-4">
+					{/* <div className="col-12 mb-4">
 						<BookReadInYear year={2023}/>
-					</div>
+					</div> */}
 
 					<div className='col-12 mb-5'>
 						<Card>
@@ -184,7 +175,7 @@ const Goal = () => {
 
 								<AddButton
 									size='30'
-									color='success'
+									color='book'
 									onClick={() => {
 										setIsPastGoalAddModalOpen(true)
 									}}

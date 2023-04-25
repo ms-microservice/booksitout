@@ -83,9 +83,9 @@ const search = {
 			library: {
 				isConfigured: (): boolean => {
 					const regionKey = localStorage.getItem('search-library-region-api')
-					const regionDetailKey = localStorage.getItem('search-library-region-api')
+					const regionDetailKey = localStorage.getItem('search-library-region-detail-api')
 					
-					return regionKey !== '' && regionDetailKey !== '' && regionKey !== 'null' && regionDetailKey !== 'null'
+					return regionKey !== '' && regionDetailKey !== '' && regionKey !== null && regionDetailKey !== null
 				},
 
 				display: {
@@ -127,7 +127,7 @@ const search = {
 			onlineLibrary: {
 				isConfigured: (): boolean => {
 					const key = localStorage.getItem('search-library-online-api')
-					return key !== '' && key !== 'null'
+					return key !== '' && key !== null
 				},
 				display: () => {
 					return localStorage.getItem('search-library-online-display') ?? ''
@@ -140,7 +140,7 @@ const search = {
 			subscription: {
 				isConfigured: (): boolean => {
 					const key = localStorage.getItem('search-subscription-api')
-					return key !== '' && key !== 'null'
+					return key !== '' && key !== null
 				},
 				display: () => {
 					return localStorage.getItem('search-subscription-display') ?? ''
@@ -153,7 +153,7 @@ const search = {
 			usedOnline: {
 				isConfigured: (): boolean => {
 					const key = localStorage.getItem('search-used-online-api')
-					return key !== '' && key !== 'null'
+					return key !== '' && key !== null
 				},
 				display: () => {
 					return localStorage.getItem('search-used-online-display') ?? ''
@@ -166,7 +166,7 @@ const search = {
 			usedOffline: {
 				isConfigured: (): boolean => {
 					const key = localStorage.getItem('search-used-offline-api')
-					return key !== '' && key !== 'null'
+					return key !== '' && key !== null
 				},
 				display: () => {
 					return localStorage.getItem('search-used-offline-display') ?? ''
@@ -185,7 +185,7 @@ const search = {
 					.get(urls.api.search.myBook(query), { headers: { Authorization: utils.getToken() } })
 					.then((res) => res.data)
 					.catch(() => {
-						return []
+						return null
 					})
 			},
 
@@ -203,7 +203,7 @@ const search = {
 					.get(urls.api.search.libraryByRegion(query, region, regionDetail))
 					.then((res) => res.data)
 					.catch(() => {
-						return []
+						return null
 					})
 			},
 
@@ -211,7 +211,7 @@ const search = {
 				return axios
 					.get(urls.api.search.libraryOnline(query, include))
 					.then((res) => res.data)
-					.catch(() => { return [] })
+					.catch(() => { return null })
 			},
 
 			subscription: (query: string, include: string) => {
@@ -219,7 +219,7 @@ const search = {
 					.get(urls.api.search.subscription(query, include))
 					.then((res) => res.data)
 					.catch(() => {
-						return []
+						return null
 					})
 			},
 		},

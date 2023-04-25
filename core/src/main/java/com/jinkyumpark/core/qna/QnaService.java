@@ -4,7 +4,7 @@ import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.core.common.exception.http.NotFoundException;
 import com.jinkyumpark.core.qna.request.QnaAddRequest;
 import com.jinkyumpark.core.qna.request.QnaEditRequest;
-import com.jinkyumpark.core.user.login.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
@@ -42,7 +42,7 @@ public class QnaService {
         Qna qna = qnaRepository.findById(qnaEditRequest.getQnaId())
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("qna.edit.fail.not-found")));
 
-        if (qna.getAppUser() != null && !qna.getAppUser().getAppUserId().equals(loginAppUser.getId()))
+        if (qna.getAppUserId() != null && !qna.getAppUserId().equals(loginAppUser.getId()))
             throw new NotAuthorizeException();
         if (!qna.getPassword().equals(qnaEditRequest.getPassword()))
             throw new NotAuthorizeException();

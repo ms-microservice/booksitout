@@ -2,7 +2,6 @@ package com.jinkyumpark.core.statistics;
 
 import com.jinkyumpark.core.statistics.model.MonthStatistics;
 import com.jinkyumpark.core.statistics.model.MonthStatisticsId;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.stereotype.Service;
@@ -23,7 +22,7 @@ public class StatisticsService {
 
         if (monthStatisticsOptional.isEmpty()) {
             addStatistics(appUserId, year, month);
-            return new MonthStatistics(year, month, new AppUser(appUserId));
+            return new MonthStatistics(year, month, appUserId);
         }
 
         return monthStatisticsOptional.get();
@@ -34,7 +33,7 @@ public class StatisticsService {
     }
 
     public void addStatistics(Long appUserId, Integer year, Integer month) {
-        MonthStatistics monthStatistics = new MonthStatistics(year, month, new AppUser(appUserId));
+        MonthStatistics monthStatistics = new MonthStatistics(year, month, appUserId);
         statisticsRepository.save(monthStatistics);
     }
 

@@ -1,14 +1,12 @@
 package com.jinkyumpark.core.reading.request;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-@Builder
-@Getter @Setter
+@NoArgsConstructor @AllArgsConstructor @Builder
+@Getter
 public class ReadingAddRequest {
     @NotNull
     private LocalDate startDate;

@@ -5,6 +5,7 @@ const PageProgressBar = ({ book, showPage = true }) => {
 		<div className='row align-items-center'>
 			<div className={showPage ? 'col-8 col-md-9' : 'col-12'}>
 				<ProgressBar
+					variant='book'
 					className='mt-3 mb-3'
 					now={((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100}
 					label={`${Math.round(((book.currentPage == null ? 0 : book.currentPage) / book.endPage) * 100)}%`}

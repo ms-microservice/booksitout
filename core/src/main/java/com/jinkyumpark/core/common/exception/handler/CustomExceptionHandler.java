@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.common.exception.handler;
 
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.core.book.exception.BookNotSharingException;
+import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -59,6 +59,17 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 			return
 		}
 
+		if (!isPercentMode && endPage < Number(book.currentPage + 1)) {
+			toast.error('그 전 독서활동의 마지막 페이지보다 큰 페이지를 입력해 주세요')
+			return
+		}
+
+		if (!isPercentMode && endPage > Number(book.endPage)) {
+			toast.error('책의 마지막 페이지보다 커요. 페이지를 잘못 입력하셨다면 책 정보를 먼저 수정해 주세요')
+			return
+		}
+
+
 		toast.loading('독서활동을 저장하고 있어요')
 		endReadingSession(book, isPercentMode ? percentEndPage : endPage).then((success) => {
 			if (success) {
@@ -99,9 +110,12 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 						<h5 className='text-center'>{isPercentMode ? '끝내는 퍼센트' : '끝내는 페이지'}</h5>
 
 						<div className='row justify-content-center mt-3 mb-4'>
-							<div className='col-4 col-lg-3'>
+							<div className='col-6 col-lg-3'>
 								<Form.Control
+									id='pageInput'
 									type='number'
+									inputMode='numeric'
+									pattern='[0-9]*'
 									onChange={(e) => setEndPage(e.target.value)}
 									autoFocus
 									placeholder={
@@ -113,7 +127,13 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 							</div>
 
 							<div className='col-3 col-md-2 col-lg-1'>
-								<Button variant='secondary' onClick={() => setIsPercentMode(!isPercentMode)} className='w-100'>
+								<Button
+									variant='secondary'
+									onClick={() => {
+										setIsPercentMode(!isPercentMode)
+										document.getElementById('pageInput').focus()
+									}}
+									className='w-100'>
 									<ChangeIcon />
 								</Button>
 							</div>
@@ -121,21 +141,21 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 
 						<div className='row justify-content-center'>
 							<div className='col-12 col-sm-8 col-md-4 mt-3 mt-md-2'>
-								<Button variant='warning' className='w-100' onClick={() => handleEndWithoutSaving()}>
+								<Button variant='book-danger' className='w-100' onClick={() => handleEndWithoutSaving()}>
 									그냥 끝내기
 								</Button>
 							</div>
 							<div className='col-12 col-sm-8 col-md-4 mt-3 mt-md-2'>
-								<Button type='submit' className='w-100'>
+								<Button variant='book' type='submit' className='w-100'>
 									저장하고 끝내기
 								</Button>
 							</div>
 
-							<div className='col-12 col-sm-8 col-md-8 mt-3 mt-md-2'>
-								<Button variant='danger' className='w-100' onClick={hideModal}>
+							{/* <div className='col-12 col-sm-8 col-md-8 mt-3 mt-md-4'>
+								<Button variant='book-danger' className='w-100' onClick={hideModal}>
 									취소
 								</Button>
-							</div>
+							</div> */}
 						</div>
 					</Form>
 				)}

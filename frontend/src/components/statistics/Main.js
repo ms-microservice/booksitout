@@ -1,10 +1,9 @@
 import { useState, useEffect } from 'react'
-import { Card, Alert } from 'react-bootstrap'
+import { Card, Alert, Button } from 'react-bootstrap'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import NoContent from '../common/NoContent'
-import HorizontalBookView from '../book/HorizontalBookView'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
 import GoalView from './goal/GoalView'
@@ -13,11 +12,15 @@ import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
 import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
+import { giveUpBook } from '../../functions/book'
 // Settings
 import uiSettings from '../../settings/ui'
 import messages from '../../settings/messages'
 
 import '../../resources/css/mainReadChart.css'
+import MainBookView from '../book/MainBookView';
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'
 
 const Main = () => {
 	const [loading, setIsLoading] = useState(true)
@@ -54,7 +57,7 @@ const Main = () => {
 	if (loading) return <Loading />
 
 	return (
-		<div className='container-lg'>
+		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
 			<div className='row row-eq-height mb-5'>
 				{showAlert && (
 					<div className='container'>
@@ -64,20 +67,20 @@ const Main = () => {
 					</div>
 				)}
 
-				<div className='col-12 col-md-6 mb-4'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<LastReadBook lastBook={lastBook} />
 				</div>
 				
-				<div className='col-12 col-md-6 mb-4'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<ReadingTimeChart readTime={readTime} />
 				</div>
-				
-				<div className='col-12 col-md-6 mb-4'>
-					<GoalChart statistics={statistics} goal={goal} />
+
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<SummaryChart statistics={statistics} />
 				</div>
 				
-				<div className='col-12 col-md-6 mb-4'>
-					<SummaryChart statistics={statistics} />
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<GoalChart statistics={statistics} goal={goal} />
 				</div>
 			</div>
 		</div>
@@ -85,6 +88,23 @@ const Main = () => {
 }
 
 const LastReadBook = ({lastBook}) => { 
+	const navigate = useNavigate()
+
+	const handleGiveupBook = (bookId) => {
+		const confirm = window.confirm('책을 포기할까요?')
+
+		if (confirm) {
+			giveUpBook(bookId).then((success) => {
+				if (success) {
+					toast.success('책을 포기했어요. 마음이 바뀌시면 언제든지 다시 시작하실 수 있어요!')
+					navigate(`book/detail/${bookId}`)
+				} else {
+					toast.error('오류가 났어요 다시 시도해 주세요')
+				}
+			})
+		}
+	}
+
 	return (
 		<Card>
 			<Card.Body>
@@ -93,17 +113,17 @@ const LastReadBook = ({lastBook}) => {
 				{lastBook == null ? (
 					<NoContent message={messages.book.lastBook.noContent} />
 				) : (
-					<HorizontalBookView
+					<MainBookView
 						book={lastBook}
 						firstButton={
-							<a href={`/reading/${lastBook.bookId}`} className='btn btn-primary w-100'>
+							<a href={`/reading/${lastBook.bookId}`} className='btn btn-book w-100'>
 								이어서 읽기
 							</a>
 						}
 						secondButton={
-							<a href='/book/not-done/all' className='btn btn-warning w-100'>
-								다른 책 읽기
-							</a>
+							<Button variant='book-danger' className='w-100' onClick={() => handleGiveupBook(lastBook.bookId)}>
+								포기하기
+							</Button>
 						}
 						link={lastBook == null ? `/book/not-done` : `/book/detail/${lastBook != null && lastBook.bookId}`}
 					/>
@@ -140,7 +160,8 @@ const GoalChart = ({statistics, goal}) => {
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
 					<h3>{new Date().getFullYear()}년 목표</h3>
 
-					{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
+					<div className='mt-1 d-inline-block d-xl-none' />
+					<div className='mt-5 mb-5'>{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}</div>
 				</a>
 			</Card.Body>
 		</Card>
@@ -149,8 +170,8 @@ const GoalChart = ({statistics, goal}) => {
 
 const SummaryChart = ({statistics}) => {
 	return (
-		<Card>
-			<Card.Body>
+		<Card className='h-100'>
+			<Card.Body className='h-100'>
 				<a href='/statistics' className='text-decoration-none text-black'>
 					<h4>{new Date().getFullYear()}년 독서 요약</h4>
 

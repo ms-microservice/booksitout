@@ -1,0 +1,65 @@
+server:
+  port: 8084
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      default-zone: http://localhost:8761/eureka/
+
+spring:
+  profiles:
+    active: default
+
+  application:
+    name: user
+
+  datasource:
+    url: ${DB_URL}
+    username: ${DB_ID}
+    password: ${DB_PW}
+
+  mail:
+    host: ${EMAIL_HOST}
+    port: ${EMAIL_PORT}
+    username: ${EMAIL_ID}
+    password: ${EMAIL_PW}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls.enable: true
+
+oauth:
+  kakao:
+    token-url: https://kauth.kakao.com/oauth/token
+    user-info-url: https://kapi.kakao.com/v2/user/me
+    client-id: ${OAUTH_KAKAO_CLIENT_ID}
+
+  naver:
+    token-url: https://nid.naver.com/oauth2.0/token
+    user-info-url: https://openapi.naver.com/v1/nid/me
+    client-id: ${OAUTH_NAVER_CLIENT_ID}
+    client-secret: ${OAUTH_NAVER_CLIENT_SECRET}
+
+  google:
+    token-url: https://oauth2.googleapis.com/token
+    user-info-url: https://www.googleapis.com/oauth2/v3/userinfo
+    client-id: ${OAUTH_GOOGLE_CLIENT_ID}
+    client-secret: ${OAUTH_GOOGLE_CLIENT_SECRET}
+
+
+application:
+  jwt:
+    secret-key: "\"really_really_long_secret_key_only_for_development_purposes\""
+    token-prefix: Bearer
+    token-expiration-after-days: 1
+    token-expiration-after-days-stay-login: 7
+
+mail:
+  verification-code:
+    length: 5

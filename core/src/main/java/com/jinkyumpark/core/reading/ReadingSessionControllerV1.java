@@ -1,18 +1,18 @@
 package com.jinkyumpark.core.reading;
 
-import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import com.jinkyumpark.core.reading.request.ReadingAddRequest;
-import com.jinkyumpark.core.reading.request.ReadingEditRequest;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
 import com.jinkyumpark.core.book.exception.BookNotSharingException;
+import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.core.common.response.EditSuccessResponse;
 import com.jinkyumpark.core.common.response.UpdateSuccessResponse;
+import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
+import com.jinkyumpark.core.reading.request.ReadingAddRequest;
+import com.jinkyumpark.core.reading.request.ReadingEditRequest;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
+import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
+import com.jinkyumpark.core.common.exception.http.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
@@ -47,7 +47,7 @@ public class ReadingSessionControllerV1 {
     @GetMapping("{bookId}")
     public List<ReadingSession> getReadingSessionByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
-        Long bookAppUserId = book.getAppUser().getAppUserId();
+        Long bookAppUserId = book.getAppUserId();
 
         if (!loginAppUser.getId().equals(bookAppUserId) && !book.getIsSharing()) {
             throw new BookNotSharingException(messageSource.getMessage("reading.get.fail.not-sharing"));
@@ -125,9 +125,9 @@ public class ReadingSessionControllerV1 {
 
     @PutMapping("{bookId}/end")
     public EditSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
-                                                @RequestParam("page") Integer readingSessionEndPage,
-                                                @RequestParam("time") Integer totalTimeInSecond,
-                                                @LoginUser LoginAppUser loginAppUser) {
+                                                 @RequestParam("page") Integer readingSessionEndPage,
+                                                 @RequestParam("time") Integer totalTimeInSecond,
+                                                 @LoginUser LoginAppUser loginAppUser) {
         ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .endPage(readingSessionEndPage)
                 .readTime(totalTimeInSecond / 60)

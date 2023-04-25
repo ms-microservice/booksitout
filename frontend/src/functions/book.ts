@@ -2,9 +2,9 @@ import axios from 'axios'
 import urls from '../settings/urls'
 import utils from './utils'
 
-const getBookList = (range, page) => {
+const getBookList = (range, page, size = 10) => {
 	return axios
-		.get(urls.api.book.get.all(range, page), { headers: { Authorization: utils.getToken() } })
+		.get(urls.api.book.get.all(range, page, size), { headers: { Authorization: utils.getToken() } })
 		.then((res) => res.data)
 		.catch(() => { return null })
 }

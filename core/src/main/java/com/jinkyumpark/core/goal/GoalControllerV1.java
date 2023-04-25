@@ -1,12 +1,12 @@
 package com.jinkyumpark.core.goal;
 
-import com.jinkyumpark.core.goal.model.GoalId;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
-import com.jinkyumpark.core.goal.model.Goal;
 import com.jinkyumpark.core.common.response.AddSuccessResponse;
 import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.core.common.response.EditSuccessResponse;
+import com.jinkyumpark.core.goal.model.GoalId;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
+import com.jinkyumpark.core.goal.model.Goal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;

@@ -1,7 +1,6 @@
 package com.jinkyumpark.core.book.dto;
 
 import com.jinkyumpark.core.book.model.*;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -54,7 +53,7 @@ public class BookDto {
                 .author(author)
                 .cover(cover)
                 .isSharing(isSharing)
-                .appUser(new AppUser(appUserId))
+                .appUserId(appUserId)
                 .form(form)
                 .category(category)
                 .source(source)

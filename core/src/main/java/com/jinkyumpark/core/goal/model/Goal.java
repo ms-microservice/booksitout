@@ -1,10 +1,8 @@
 package com.jinkyumpark.core.goal.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
@@ -20,12 +18,6 @@ public class Goal {
     @EmbeddedId
     private GoalId goalId;
 
-    @ManyToOne
-    @MapsId("appUserId")
-    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "goal_app_user_fk"))
-    @JsonIgnore
-    private AppUser appUser;
-
     private Integer goal;
     @ColumnDefault("0")
     private Integer current;
@@ -34,7 +26,6 @@ public class Goal {
     public Goal(GoalId goalId, Integer goal, Long appUserId) {
         this.goalId = goalId;
         this.goal = goal;
-        this.appUser = new AppUser(appUserId);
     }
 
     public void addReadingSession(ReadingSessionDto readingSessionDto, Book book) {

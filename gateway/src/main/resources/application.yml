@@ -1,9 +1,29 @@
 server:
   port: 80
 
+jwt:
+  secret: ${JWT_SECRET}
+
+eureka:
+  instance:
+    prefer-ip-address: true
+
+  client:
+    register-with-eureka: true
+    fetch-registry: true
+    service-url:
+      defaultZone: http://eureka:8761/eureka/
+
 spring:
+  application:
+    name: gateway
+
   cloud:
     gateway:
+      discovery:
+        locator:
+            enabled: true
+
       default-filters:
         - DedupeResponseHeader=Access-Control-Allow-Origin Access-Control-Allow-Credentials
 
@@ -11,7 +31,7 @@ spring:
         add-to-simple-url-handler-mapping: true
         cors-configurations:
           '[/**]':
-            allowedOrigins: "http://localhost:3000, https://book.jinkyumpark.com"
+            allowedOrigins: "http://localhost:3000, https://booksitout.com"
             allow-credentials: true
             allowedHeaders: '*'
             allowedMethods:
@@ -23,16 +43,25 @@ spring:
 
       routes:
         - id: user
-          uri: http://localhost:8000
+          uri: lb://user
           predicates:
-            - Path=/login, {segment}/login/**, {segment}/join
+            - Path=/user/**, /{version}/login/**
+
+        - id: search-login
+          uri: lib://search
+          predicates:
+            - Path=/v3/search/library/settings/**
+          filters:
+            - JwtValidationFilter
 
         - id: search
-          uri: http://localhost:8100
+          uri: lb://search
           predicates:
-            - Path=/v2/search/**
+            - Path=/{version}/search/**
 
         - id: core
-          uri: http://localhost:8000
+          uri: lb://core
           predicates:
-            - Path=/v1/**, /v2/**
+            - Path=/{version}/**
+          filters:
+            - JwtValidationFilter

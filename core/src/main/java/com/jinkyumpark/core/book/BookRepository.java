@@ -9,24 +9,24 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
-    @Query("select b from Book b where b.appUser.appUserId = ?1 order by b.lastModifiedDate")
+    @Query("select b from Book b where b.appUserId = ?1 order by b.lastModifiedDate")
     Page<Book> findAllBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage = 0 and b.isGiveUp = false order by b.lastModifiedDate desc")
+    @Query("select b from Book b where b.appUserId = ?1 and b.currentPage = 0 and b.isGiveUp = false order by b.lastModifiedDate desc")
     Page<Book> findAllNotStartedBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage and b.isGiveUp = false order by b.lastModifiedDate desc")
+    @Query("select b from Book b where b.appUserId = ?1 and b.currentPage > 0 and b.currentPage < b.endPage and b.isGiveUp = false order by b.lastModifiedDate desc")
     Page<Book> findAllStartedBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.currentPage = b.endPage order by b.lastModifiedDate desc")
+    @Query("select b from Book b where b.appUserId = :appUserId and b.currentPage = b.endPage order by b.lastModifiedDate desc")
     Page<Book> findAllDoneBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and not b.currentPage = b.endPage and b.isGiveUp = false order by b.lastModifiedDate desc")
+    @Query("select b from Book b where b.appUserId = :appUserId and not b.currentPage = b.endPage and b.isGiveUp = false order by b.lastModifiedDate desc")
     Page<Book> findAllNotDoneBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage order by b.lastModifiedDate desc")
+    @Query("select b from Book b where b.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage order by b.lastModifiedDate desc")
     Page<Book> findAllGiveUpBooks(Long appUserId, Pageable pageRequest);
 
-    @Query("select b from Book b where b.appUser.appUserId = :appUserId and (b.title like %:query% or b.author like %:query%)")
+    @Query("select b from Book b where b.appUserId = :appUserId and (b.title like %:query% or b.author like %:query%)")
     List<Book> findAllByQuery(Long appUserId, String query);
 }

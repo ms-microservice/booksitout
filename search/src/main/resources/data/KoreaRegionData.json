@@ -1,0 +1,104 @@
+[
+  {
+    "country": "KOREA",
+    "englishName": "SEOUL",
+    "koreanName": "서울",
+    "dataLibraryApiCode": 11
+  },
+  {
+    "country": "KOREA",
+    "englishName": "BUSAN",
+    "koreanName": "부산",
+    "dataLibraryApiCode": 21
+  },
+  {
+    "country": "KOREA",
+    "englishName": "DAEGU",
+    "koreanName": "대구",
+    "dataLibraryApiCode": 22
+  },
+  {
+    "country": "KOREA",
+    "englishName": "INCHEON",
+    "koreanName": "인천",
+    "dataLibraryApiCode": 23
+  },
+  {
+    "country": "KOREA",
+    "englishName": "GWANGJU",
+    "koreanName": "광주",
+    "dataLibraryApiCode": 24
+  },
+  {
+    "country": "KOREA",
+    "englishName": "DAEJEON",
+    "koreanName": "대전",
+    "dataLibraryApiCode": 25
+  },
+  {
+    "country": "KOREA",
+    "englishName": "ULSAN",
+    "koreanName": "울산",
+    "dataLibraryApiCode": 26
+  },
+  {
+    "country": "KOREA",
+    "englishName": "SEJONG",
+    "koreanName": "세종",
+    "dataLibraryApiCode": 29
+  },
+  {
+    "country": "KOREA",
+    "englishName": "GYEONGGIDO",
+    "koreanName": "경기도",
+    "dataLibraryApiCode": 31
+  },
+  {
+    "country": "KOREA",
+    "englishName": "GANGWONDO",
+    "koreanName": "강원도",
+    "dataLibraryApiCode": 32
+  },
+  {
+    "country": "KOREA",
+    "englishName": "CHUNGCHEONGBUKDO",
+    "koreanName": "충청북도",
+    "dataLibraryApiCode": 33
+  },
+  {
+    "country": "KOREA",
+    "englishName": "CHUNGCHEONGNAMDO",
+    "koreanName": "충청남도",
+    "dataLibraryApiCode": 34
+  },
+  {
+    "country": "KOREA",
+    "englishName": "JEOLLABUKDO",
+    "koreanName": "전라북도",
+    "dataLibraryApiCode": 35
+  },
+  {
+    "country": "KOREA",
+    "englishName": "JEOLLANAMDO",
+    "koreanName": "전라남도",
+    "dataLibraryApiCode": 36
+  },
+  {
+    "country": "KOREA",
+    "englishName": "GYEONGSANGBUKDO",
+    "koreanName": "경상북도",
+    "dataLibraryApiCode": 37
+  },
+  {
+    "country": "KOREA",
+    "englishName": "GYEONGSANGNAMDO",
+    "koreanName": "경상남도",
+    "dataLibraryApiCode": 38
+  },
+  {
+    "country": "KOREA",
+    "englishName": "JEJU",
+    "koreanName": "제주",
+    "dataLibraryApiCode": 39
+  }
+]

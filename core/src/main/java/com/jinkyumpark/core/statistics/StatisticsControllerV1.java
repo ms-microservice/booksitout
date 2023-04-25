@@ -11,8 +11,8 @@ import com.jinkyumpark.core.statistics.response.CategoryStatisticsResponse;
 import com.jinkyumpark.core.statistics.response.LanguageStatisticsResponse;
 import com.jinkyumpark.core.statistics.response.SummaryStatistics;
 import com.jinkyumpark.core.statistics.model.YearStatistics;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.HttpStatus;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
 import java.util.*;
 
+@Deprecated
 @RequiredArgsConstructor
 @RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {

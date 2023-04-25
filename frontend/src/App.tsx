@@ -25,6 +25,7 @@ import OAuth from './components/user/OAuth'
 import ToastSettings from './settings/ToastSettings'
 import LocationSettings from './settings/LocationSettings'
 import TimerSettings from './settings/TimerSettings'
+import SearchLibrarySettings from './components/user/SearchLibrarySettings'
 
 function App() {
 	return (
@@ -45,6 +46,7 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
+				<Route path='/settings/search/library' element={<SearchLibrarySettings />} />
 				<Route path='/login/oauth/:provider' element={<OAuth />} />
 
 				<Route path='/' element={<Main />} />

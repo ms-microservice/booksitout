@@ -2,7 +2,6 @@ package com.jinkyumpark.core.reading.dto;
 
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.reading.ReadingSession;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -25,7 +24,7 @@ public class ReadingSessionDto {
     public ReadingSession toEntity() {
         return ReadingSession.builder()
                 .book(new Book(bookId))
-                .appUser(new AppUser(appUserId))
+                .appUserId(appUserId)
                 .readTime(readTime)
                 .startTime(startTime)
                 .endTime(endTime)

@@ -1,15 +1,14 @@
 package com.jinkyumpark.core.qna;
 
-import com.jinkyumpark.core.qna.request.QnaAddRequest;
-import com.jinkyumpark.core.qna.request.QnaEditRequest;
-import com.jinkyumpark.core.user.AppUserService;
 import com.jinkyumpark.core.common.exception.http.BadRequestException;
 import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.core.common.response.AddSuccessResponse;
 import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.core.common.response.EditSuccessResponse;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
+import com.jinkyumpark.core.qna.request.QnaAddRequest;
+import com.jinkyumpark.core.qna.request.QnaEditRequest;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
@@ -66,23 +65,23 @@ public class QnaControllerV1 {
         return new EditSuccessResponse(String.format("PUT v1/qna/%d", qnaId), messageSource.getMessage("qna.edit.success"));
     }
 
-    @DeleteMapping("{qnaId}")
-    public DeleteSuccessResponse deleteQna(@PathVariable("qnaId") Long qnaId, @RequestParam(value = "password", required = false) String password) {
-        Qna qna = qnaService.getQnaById(qnaId);
-
-        if (qna.getAppUser() != null) {
-            Long loginAppUser = AppUserService.getLoginAppUserId();
-            if (!qna.getAppUser().getAppUserId().equals(loginAppUser)) {
-                throw new NotAuthorizeException(messageSource.getMessage("qna.delete.fail.not-authorize"));
-            }
-        }
-
-        if (qna.getAppUser() == null && !qna.getPassword().equals(password)) {
-            throw new NotAuthorizeException(messageSource.getMessage("qna.delete.fail.wrong-pw"));
-        }
-
-        qnaService.deleteQnaById(qnaId);
-
-        return new DeleteSuccessResponse(String.format("DELETE v1/qna/%d", qnaId), messageSource.getMessage("qna.delete.success"));
-    }
+//    @DeleteMapping("{qnaId}")
+//    public DeleteSuccessResponse deleteQna(@PathVariable("qnaId") Long qnaId, @RequestParam(value = "password", required = false) String password) {
+//        Qna qna = qnaService.getQnaById(qnaId);
+//
+//        if (qna.getAppUserId() != null) {
+//            Long loginAppUser = AppUserService.getLoginAppUserId();
+//            if (!qna.getAppUserId().getAppUserId().equals(loginAppUser)) {
+//                throw new NotAuthorizeException(messageSource.getMessage("qna.delete.fail.not-authorize"));
+//            }
+//        }
+//
+//        if (qna.getAppUserId() == null && !qna.getPassword().equals(password)) {
+//            throw new NotAuthorizeException(messageSource.getMessage("qna.delete.fail.wrong-pw"));
+//        }
+//
+//        qnaService.deleteQnaById(qnaId);
+//
+//        return new DeleteSuccessResponse(String.format("DELETE v1/qna/%d", qnaId), messageSource.getMessage("qna.delete.success"));
+//    }
 }

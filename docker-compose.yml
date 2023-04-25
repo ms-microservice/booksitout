@@ -1,19 +1,60 @@
 version: "3.8"
 services:
+  eureka:
+    image: "jinkpark/book-it-out:v3-eureka"
+    ports:
+      - "8761:8761"
+    restart: "no"
+    networks:
+      - booksitout
+
   gateway:
-    image: "jinkpark/book-it-out:v2-gateway"
+    image: "jinkpark/book-it-out:v3-gateway"
     ports:
       - "80:80"
-    restart: "always"
+    restart: "no"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
 
   core:
-    image: "jinkpark/book-it-out:v2-core"
+    image: "jinkpark/book-it-out:v3-core"
     ports:
       - "8000:8000"
-    restart: "always"
+    restart: "no"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+  user:
+    image: "jinkpark/book-it-out:v3-user"
+    ports:
+      - "8200:8200"
+    restart: "no"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
 
   search:
-    image: "jinkpark/book-it-out:v2-search"
+    image: "jinkpark/book-it-out:v3-search"
     ports:
       - "8100:8100"
-    restart: "always"
+    restart: "no"
+    networks:
+      - booksitout
+    depends_on:
+      - eureka
+      - redis
+
+  redis:
+    image: "redis"
+    ports:
+      - "6379:6379"
+    restart: "no"
+    networks:
+      - booksitout
+
+networks:
+  booksitout:

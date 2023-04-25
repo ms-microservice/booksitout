@@ -1,16 +1,16 @@
 package com.jinkyumpark.core.quotation;
 
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.quotation.request.QuotationAddRequest;
-import com.jinkyumpark.core.quotation.request.QuotationEditRequest;
-import com.jinkyumpark.core.user.login.LoginAppUser;
-import com.jinkyumpark.core.user.login.LoginUser;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.core.book.exception.BookNotSharingException;
+import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.core.common.response.AddSuccessResponse;
 import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.core.common.response.EditSuccessResponse;
+import com.jinkyumpark.core.quotation.request.QuotationAddRequest;
+import com.jinkyumpark.core.quotation.request.QuotationEditRequest;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class QuotationControllerV1 {
     public List<Quotation> getAllQuotationByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
-        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
+        if (!book.getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
             throw new BookNotSharingException(messageSource.getMessage("quotation.get.fail.not-sharing"));
         }
 
@@ -42,7 +42,7 @@ public class QuotationControllerV1 {
                                            @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
-        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+        if (!book.getAppUserId().equals(loginAppUser.getId())) {
             throw new NotAuthorizeException();
         }
 
@@ -80,7 +80,7 @@ public class QuotationControllerV1 {
                                                  @LoginUser LoginAppUser loginAppUser) {
         Quotation quotation = quotationService.getQuotationByQuotationId(quotationId);
 
-        if (!quotation.getBook().getAppUser().getAppUserId().equals(loginAppUser.getId())) {
+        if (!quotation.getBook().getAppUserId().equals(loginAppUser.getId())) {
             throw new NotAuthorizeException(messageSource.getMessage("quotation.delete.fail.not-authorize"));
         }
 

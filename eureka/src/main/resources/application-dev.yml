@@ -1,0 +1,14 @@
+server:
+  port: 8761
+
+eureka:
+  client:
+    register-with-eureka: false
+    fetch-registry: false
+    service-url:
+      default-zone: http://localhost:8761
+
+  server:
+    wait-time-in-ms-when-sync-empty: 5
+    waitTimeInMsWhenSyncEmpty: 0 # disable waiting for peers on startup
+    enableSelfPreservation: false # disable self-preservation mode for easier testing

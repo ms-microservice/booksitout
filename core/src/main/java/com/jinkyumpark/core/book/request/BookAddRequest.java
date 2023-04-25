@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.book.request;
 
-import com.jinkyumpark.core.book.model.BookSource;
 import com.jinkyumpark.core.book.model.BookForm;
+import com.jinkyumpark.core.book.model.BookSource;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

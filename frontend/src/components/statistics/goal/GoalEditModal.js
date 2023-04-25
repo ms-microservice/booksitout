@@ -11,6 +11,11 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 	const handleEditGoal = (e) => {
 		e.preventDefault()
 
+		if (previousGoal == goal) {
+			toast.error('이전과 같은 목표에요')
+			return
+		}
+
 		if (goal === '') {
 			toast.error('목표를 입력해 주세요')
 			return
@@ -28,6 +33,7 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 
 		addGoal(new Date().getFullYear(), goal).then((success) => {
 			if (success) {
+				toast.success('이번년도 목표를 수정했어요')
 				setCurrentYearGoal({ goal: goal, current: currentBook })
 				setIsModalOpen(false)
 			} else {
@@ -36,7 +42,7 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 	}
 
 	return (
-		<Modal show={isModalOpen} fullscreen='md-down' centered onHide={() => setIsModalOpen(false)}>
+		<Modal show={isModalOpen} centered fullscreen='md-down' onHide={() => setIsModalOpen(false)}>
 			<Modal.Header closeButton>
 				<h4 className='text-center w-100 mt-1'>{`${new Date().getFullYear()}년 목표 수정하기`}</h4>
 			</Modal.Header>
@@ -45,20 +51,23 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 				<Form onSubmit={(e) => handleEditGoal(e)}>
 					<Form.Control
 						type='number'
+						inputMode='numeric'
+						pattern='[0-9]*'
+						autoFocus
 						placeholder={`수정할 목표 (그 전 목표 : ${previousGoal})`}
 						onChange={(e) => setGoal(e.target.value)}
 					/>
 
 					<div className='row justify-content-center mt-3'>
 						<div className='col-12 col-md-5 mt-2'>
-							<Button type='submit' variant='success' className='w-100'>
-								수정하기
+							<Button variant='book-danger' className='w-100' onClick={() => setIsModalOpen(false)}>
+								취소
 							</Button>
 						</div>
 
 						<div className='col-12 col-md-5 mt-2'>
-							<Button variant='danger' className='w-100' onClick={() => setIsModalOpen(false)}>
-								취소
+							<Button type='submit' variant='book' className='w-100'>
+								수정하기
 							</Button>
 						</div>
 					</div>

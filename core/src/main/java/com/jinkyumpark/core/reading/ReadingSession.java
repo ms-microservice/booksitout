@@ -4,7 +4,6 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
@@ -36,20 +35,20 @@ public class ReadingSession {
     private Integer readTime;
 
     @Builder
-    public ReadingSession(Integer startPage, Integer endPage, LocalDateTime startTime, LocalDateTime endTime, Integer readTime, AppUser appUser, Book book) {
+    public ReadingSession(Integer startPage, Integer endPage, LocalDateTime startTime, LocalDateTime endTime, Integer readTime, Long appUserId, Book book) {
         this.startPage = startPage;
         this.endPage = endPage;
         this.startTime = startTime;
         this.endTime = endTime;
         this.readTime = readTime;
-        this.appUser = appUser;
+        this.appUserId = appUserId;
         this.book = book;
     }
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
-    @JsonIgnore
-    private AppUser appUser;
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
+//    @JsonIgnore
+    private Long appUserId;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "book_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_book_fk"))

@@ -44,7 +44,7 @@ const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 					})}
 
 					<div className='col-12 col-md-10'>
-						<Button variant='warning' className='w-100 mt-4' onClick={() => handleAddRating()}>
+						<Button variant='book' className='w-100 mt-4' onClick={() => handleAddRating()}>
 							별점 추가하기
 						</Button>
 					</div>

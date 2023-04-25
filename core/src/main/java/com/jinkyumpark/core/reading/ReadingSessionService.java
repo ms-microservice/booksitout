@@ -2,16 +2,18 @@ package com.jinkyumpark.core.reading;
 
 import com.jinkyumpark.core.book.BookService;
 import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.goal.model.Goal;
-import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import com.jinkyumpark.core.reading.exception.ReadingSessionIsInProgressException;
-import com.jinkyumpark.core.statistics.model.MonthStatistics;
-import com.jinkyumpark.core.goal.GoalService;
-import com.jinkyumpark.core.statistics.StatisticsService;
-import com.jinkyumpark.core.user.login.LoginAppUser;
 import com.jinkyumpark.core.common.exception.http.BadRequestException;
 import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import com.jinkyumpark.core.common.exception.http.NotFoundException;
+import com.jinkyumpark.core.statistics.StatisticsService;
+import com.jinkyumpark.core.statistics.model.MonthStatistics;
+import com.jinkyumpark.core.goal.GoalRepository;
+import com.jinkyumpark.core.goal.GoalService;
+import com.jinkyumpark.core.goal.model.Goal;
+import com.jinkyumpark.core.goal.model.GoalId;
+import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
+import com.jinkyumpark.core.reading.exception.ReadingSessionIsInProgressException;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
@@ -32,8 +34,10 @@ public class ReadingSessionService {
     private final GoalService goalService;
     private final BookService bookService;
 
+    private final GoalRepository goalRepository;
+
     public List<Integer> getReadTimeByDateRange(Long appUserId, LocalDateTime startDate, LocalDateTime endDate) {
-        List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUser_AppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
+        List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
 
         Map<Integer, Integer> readTimeMap = new HashMap<>();
         for (ReadingSession readingSession : readingSessionList) {
@@ -58,7 +62,7 @@ public class ReadingSessionService {
     }
 
     public ReadingSession getCurrentReadingSession(Long appUserId) {
-        return readingSessionRepository.findFirstByAppUser_AppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId)
+        return readingSessionRepository.findFirstByAppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("reading.get.current.fail.not-found")));
     }
 
@@ -68,7 +72,7 @@ public class ReadingSessionService {
     }
 
     public Optional<ReadingSession> getCurrentReadingSessionOptional(Long appUserId) {
-        return readingSessionRepository.findFirstByAppUser_AppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId);
+        return readingSessionRepository.findFirstByAppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId);
     }
 
     public Optional<ReadingSession> getReadingSessionOptionalByReadingSessionId(Long readingSessionId) {
@@ -83,10 +87,9 @@ public class ReadingSessionService {
     public void addReadingSession(ReadingSessionDto readingSessionDto, LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, readingSessionDto.getBookId());
         MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), readingSessionDto.getStartTime().getYear(), readingSessionDto.getStartTime().getMonthValue());
-        Goal goal = goalService.getGoalByYear(readingSessionDto.getStartTime().getYear(), loginAppUser);
         Optional<ReadingSession> currentReadingSessionOptional = this.getCurrentReadingSessionOptional(loginAppUser.getId());
 
-        if (!book.getAppUser().getAppUserId().equals(loginAppUser.getId()))
+        if (!book.getAppUserId().equals(loginAppUser.getId()))
             throw new NotAuthorizeException("독서활동을 추가하시려는 책의 주인이 아니에요");
         if (!readingSessionDto.getStartPage().equals(book.getCurrentPage() + 1) && book.getCurrentPage() != 0)
             throw new BadRequestException("독서활동 시작 페이지는 바로 전 독서활동 페이지 바로 뒤여야만 해요");
@@ -102,7 +105,9 @@ public class ReadingSessionService {
         readingSessionRepository.save(readingSessionDto.toEntity());
         book.addReadingSession(readingSessionDto);
         monthStatistics.addReadingSession(readingSessionDto, book);
-        goal.addReadingSession(readingSessionDto, book);
+
+        Optional<Goal> goal = goalRepository.findByGoalId(new GoalId(loginAppUser.getId(), readingSessionDto.getStartTime().getYear()));
+        goal.ifPresent(value -> value.addReadingSession(readingSessionDto, book));
     }
 
     @Transactional
@@ -110,7 +115,7 @@ public class ReadingSessionService {
         ReadingSession previousReadingSession = readingSessionRepository.findById(readingSessionId)
                 .orElseThrow(() -> new NotFoundException("찾을 수 없어요"));
 
-        if (!previousReadingSession.getAppUser().getAppUserId().equals(loginAppUser.getId()))
+        if (!previousReadingSession.getAppUserId().equals(loginAppUser.getId()))
             throw new NotAuthorizeException("해당 독서활동을 수정할 권한이 없어요");
         if (previousReadingSession.getEndPage() != null && readingSessionDto.getEndPage() != null && readingSessionDto.getEndPage() <= previousReadingSession.getStartPage() && previousReadingSession.getStartPage() != 0)
             throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
@@ -153,7 +158,7 @@ public class ReadingSessionService {
         MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), readingSession.getStartTime().getYear(), readingSession.getStartTime().getMonthValue());
         Goal goal = goalService.getGoalByYear(readingSession.getStartTime().getYear(), loginAppUser);
 
-        if (!loginAppUser.getId().equals(readingSession.getBook().getAppUser().getAppUserId()))
+        if (!loginAppUser.getId().equals(readingSession.getBook().getAppUserId()))
             throw new NotAuthorizeException("독서활동을 지우실 권한이 없어요");
         if (readingSession.getEndPage() != null && !readingSession.getEndPage().equals(readingSession.getBook().getCurrentPage()))
             throw new BadRequestException("가장 최근의 독서활동만 지우실 수 있어요");

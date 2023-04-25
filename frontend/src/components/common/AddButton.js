@@ -1,7 +1,7 @@
 import { AiFillPlusCircle as AddIcon } from 'react-icons/ai'
 import '../../resources/css/button.css'
 
-const AddButton = ({ size, color = 'primary', onClick, right = '2.5%' }) => {
+const AddButton = ({ size, color = 'book', onClick, right = '2.5%' }) => {
 	const addButtonStyle = {
 		right: right,
 		width: `${size}px`,

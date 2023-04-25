@@ -12,6 +12,11 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 	const handleEditGoal = (e) => {
 		e.preventDefault()
 
+		if (goal == selectedGoal.goal) {
+			toast.error('이전과 같은 목표에요')
+			return
+		}
+
 		if (goal === '') {
 			toast.error('새로운 목표를 입력해 주세요')
 			return
@@ -60,20 +65,23 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 				<Form onSubmit={(e) => handleEditGoal(e)}>
 					<Form.Control
 						type='number'
+						inputMode='numeric'
+						pattern='[0-9]*'
+						autoFocus
 						placeholder={`수정할 목표 (그 전 목표 : ${selectedGoal.goal})`}
 						onChange={(e) => setGoal(e.target.value)}
 					/>
 
 					<div className='row justify-content-center mt-3'>
 						<div className='col-12 col-md-5 mt-2'>
-							<Button type='submit' variant='success' className='w-100'>
-								수정하기
+							<Button variant='book-danger' className='w-100' onClick={() => setIsModalOpen(false)}>
+								취소
 							</Button>
 						</div>
 
 						<div className='col-12 col-md-5 mt-2'>
-							<Button variant='danger' className='w-100' onClick={() => setIsModalOpen(false)}>
-								취소
+							<Button type='submit' variant='book' className='w-100'>
+								수정하기
 							</Button>
 						</div>
 					</div>

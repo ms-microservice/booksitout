@@ -1,15 +1,17 @@
 package com.jinkyumpark.search.used
 
+import com.jinkyumpark.search.common.SearchResult
+
 data class UsedSearchResponse(
-    val online: MutableList<UsedSearchBook>,
-    val offline: MutableList<UsedSearchBook>,
+    val online: MutableList<SearchResult>,
+    val offline: MutableList<SearchResult>,
 ) {
 
-    fun addOnlineList(toAdd: List<UsedSearchBook>) {
+    fun addOnlineList(toAdd: List<SearchResult>) {
         online.addAll(toAdd)
     }
 
-    fun addOfflineList(toAdd: List<UsedSearchBook>) {
+    fun addOfflineList(toAdd: List<SearchResult>) {
         offline.addAll(toAdd)
     }
 }

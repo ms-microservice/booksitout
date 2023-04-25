@@ -1,282 +1,221 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
+import { Button, Card } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { useParams, useNavigate, useLocation, useSearchParams } from 'react-router-dom'
-import { Button, Card, Pagination, Tab, Tabs } from 'react-bootstrap'
+import InfiniteScroll from 'react-infinite-scroll-component'
 // Components
 import Loading from '../common/Loading'
 import Error from '../common/Error'
 import NoContent from '../common/NoContent'
 import HorizontalBookView from './HorizontalBookView'
+import DoneHorizontalBookView from './DoneHorizontalBookView'
+import InfiniteScrollLoading from './InfiniteScrollLoading';
 // Images
 import kimchiImage from '../../resources/images/common/kimchi.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
-import { deleteBook, getBookList, giveUpBook, unGiveUpBook } from '../../functions/book'
+import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
 
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
-	const [params] = useSearchParams()
-	const navigate = useNavigate()
-	const location = useLocation()
+	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
+	const noContentMessage = range === 'not-done' ? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!` : range === 'done' ? `아직 다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
+	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
+	const fetchSize = 24
 
 	const [initalFetch, setInitialFetch] = useState(true)
-	const [isLoading, setIsLoading] = useState(false)
+	const [loading, setIsLoading] = useState(false)
 	const [error, setError] = useState(false)
+	const [currentPage, setCurrentPage] = useState(0)
+	const [maxPage, setMaxPage] = useState(0)
 
 	const [bookList, setBookList] = useState(null)
-	const [maxPage, setMaxPage] = useState(0)
-	const [currentPage, setCurrentPage] = useState(params.get('page') == null ? 1 : Number(params.get('page')))
-
-	useEffect(() => {
-		setCurrentPage(params.get('page') == null ? 1 : Number(params.get('page')))
-	}, [params])
 
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 5000)
 
-		getBookList(range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range, currentPage - 1)
+		getBookList(rangeApi, 0, fetchSize)
 			.then((pageList) => {
-				if (pageList == null) {
-					setError(true)
-				} else {
-					setBookList(pageList.content)
-					setMaxPage(pageList.totalPages)
-				}
+				if (pageList == null) throw new Error()
+
+				setBookList(pageList.content)
+				setMaxPage(pageList.totalPages - 1)
+			})
+			.catch(() => {
+				setError(true)
 			})
 			.finally(() => {
 				setInitialFetch(false)
 				setIsLoading(false)
 			})
-	}, [location.pathname, range, rangeDetail, currentPage])
+	}, [])
+
+	const getNextPage = () => {
+		getBookList(rangeApi, currentPage + 1, fetchSize)
+			.then((pageList) => {
+				setBookList([...bookList, ...pageList.content])
+			})
+			.finally(() => {
+				setCurrentPage(currentPage + 1)
+			})
+	}
+
+	if (initalFetch) return <></>
+	if (loading) return <Loading message='잠시만 기다려 주세요' />
+	if (error || bookList == null) return <Error />
+	if (bookList.length === 0) return <NoContent message={noContentMessage} icon={noContentImage}/>
 
 	return (
-		<div className='container-lg'>
-			{initalFetch ? (
-				<></>
-			) : isLoading ? (
-				<Loading message='잠시만 기다려 주세요' />
-			) : error || bookList == null ? (
-				<Error />
-			) : (
-				<>
-					{range === 'not-done' ? (
-						<Tabs
-							className='mb-3'
-							id='controlled-tab-example'
-							fill
-							defaultActiveKey={rangeDetail}
-							onSelect={(key) => {
-								navigate(`/book/not-done/${key}`)
-							}}>
-							<Tab eventKey='all' title='전체'>
-								{bookList.length === 0 ? (
-									<NoContent
-										message={
-											range === 'not-done'
-												? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!`
-												: range === 'done'
-												? `아직 다 읽은 책이 없어요`
-												: range === 'give-up'
-												? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
-												: `텅 비어 있어요`
-										}
-										icon={range === 'give-up' ? kimchiImage : bookShelfImage}
-									/>
-								) : (
-									<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
-								)}
-							</Tab>
-
-							<Tab eventKey='not-started' title='시작 안 함'>
-								{bookList.length === 0 ? (
-									<NoContent
-										message={
-											range === 'not-done'
-												? rangeDetail === 'all'
-													? `등록한 책이 없어요`
-													: rangeDetail === 'not-started'
-													? `등록한 책을 모두 읽고 있어요`
-													: `읽고 있는 책이 없어요`
-												: range === 'done'
-												? `아직 다 읽은 책이 없어요`
-												: range === 'give-up'
-												? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
-												: `텅 비어 있어요`
-										}
-										icon={range === 'give-up' ? kimchiImage : bookShelfImage}
-									/>
-								) : (
-									<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
-								)}
-							</Tab>
-
-							<Tab eventKey='started' title='시작함'>
-								{bookList.length === 0 ? (
-									<NoContent
-										message={
-											range === 'not-done'
-												? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!`
-												: range === 'done'
-												? `아직 다 읽은 책이 없어요`
-												: range === 'give-up'
-												? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
-												: `텅 비어 있어요`
-										}
-										icon={range === 'give-up' ? kimchiImage : bookShelfImage}
-									/>
-								) : (
-									<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
-								)}
-							</Tab>
-						</Tabs>
-					) : bookList.length === 0 ? (
-						<NoContent
-							message={
-								range === 'not-done'
-									? `아직 읽지 않은 책이 없어요. 지금 바로 등록해 보세요!`
-									: range === 'done'
-									? `아직 다 읽은 책이 없어요`
-									: range === 'give-up'
-									? `내 사전에 포기란 없다! ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
-									: `텅 비어 있어요`
-							}
-							icon={range === 'give-up' ? kimchiImage : bookShelfImage}
-						/>
-					) : (
-						<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
-					)}
-
-					{bookList.length !== 0 && (
-						<Pagination className='pagination justify-content-center mb-5'>
-							{Array.from({ length: maxPage }, (_, i) => i + 1).map((p) => {
-								return (
-									<Pagination.Item
-										key={p}
-										active={p === Number(currentPage)}
-										onClick={() => {
-											if (p !== maxPage) {
-												window.scrollTo({
-													top: 0,
-													behavior: 'auto',
-												})									
-											} else {
-												window.scrollTo({top: 0})
-											}
-											
-											navigate(`${location.pathname}?page=${p}`)
-										}}>
-										{p}
-									</Pagination.Item>
-								)
-							})}
-						</Pagination>
-					)}
-				</>
-			)}
+		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
+			<InfiniteScroll
+				dataLength={bookList.length}
+				next={getNextPage}
+				hasMore={currentPage < maxPage}
+				loader={<InfiniteScrollLoading />}
+				className='overflow-hidden'>
+				<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
+			</InfiniteScroll>
 		</div>
 	)
 }
 
 const BookCardList = ({ bookList, range, setBookList }) => {
-	const navigate = useNavigate()
+	const handleGiveupBook = (bookId) => {
+		const confirm = window.confirm('책을 포기할까요?')
 
-	return (
-		<div className='row row-eq-height'>
-			{bookList.map((book) => {
-				return (
-					<div className='col-12 col-md-6 mb-5'>
-						<Card className='h-100'>
-							<Card.Body>
-								<>
-									{range === 'done' ? (
-										<HorizontalBookView book={book} link={`/book/detail/${book.bookId}`} />
-									) : range === 'give-up' ? (
-										<HorizontalBookView
-											book={book}
-											firstButton={
-												<Button
-													variant='success'
-													className='w-100'
-													onClick={() => {
-														const confirm = window.confirm('책을 다시 읽을까요?')
+		if (confirm) {
+			giveUpBook(bookId).then((success) => {
+				if (success) {
+					toast.success('책을 포기했어요. 마음이 바뀌시면 언제든지 다시 시작하실 수 있어요!')
+					setBookList(bookList.filter((b) => b.bookId !== bookId))
+				} else {
+					toast.error('오류가 났어요 다시 시도해 주세요')
+				}
+			})
+		}
+	}
 
-														if (confirm) {
-															unGiveUpBook(book.bookId).then((success) => {
-																if (success) {
-																	toast.success('이제 책을 다시 읽을 수 있어요')
-																	navigate(`/book/detail/${book.bookId}`)
-																} else {
-																	toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-																}
-															})
-														}
-													}}>
-													다시 읽기
-												</Button>
-											}
-											secondButton={
-												<Button
-													variant='danger'
-													className='w-100'
-													onClick={() => {
-														const confirm = window.confirm('정말 이 책을 삭제할까요?')
+	const handleUngiveupBook = (bookId) => {
+		const confirm = window.confirm('책을 다시 읽을까요?')
 
-														if (confirm) {
-															deleteBook(book.bookId).then((success) => {
-																if (success) {
-																	toast.success('책을 삭제했어요')
-																	setBookList(bookList.filter((b) => b.bookId !== book.bookId))
-																} else {
-																	toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-																}
-															})
-														}
-													}}>
-													삭제하기
-												</Button>
-											}
-											link={`/book/detail/${book.bookId}`}
-										/>
-									) : (
-										<HorizontalBookView
-											book={book}
-											link={`/book/detail/${book.bookId}`}
-											firstButton={
-												<a href={`/reading/${book.bookId}`} className='btn btn-primary w-100'>
-													이어서 읽기
-												</a>
-											}
-											secondButton={
-												<Button
-													variant='danger'
-													className='w-100'
-													onClick={() => {
-														const confirm = window.confirm('책을 포기할까요?')
+		if (confirm) {
+			unGiveUpBook(bookId).then((success) => {
+				if (success) {
+					toast.success('이제 책을 다시 읽을 수 있어요')
+					setBookList(bookList.filter((b) => b.bookId !== bookId))
+				} else {
+					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+				}
+			})
+		}
+	}
 
-														if (confirm) {
-															giveUpBook(book.bookId).then((success) => {
-																if (success) {
-																	toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
-																	setBookList(bookList.filter((b) => b.bookId !== book.bookId))
-																} else {
-																	toast.error('오류가 났어요 다시 시도해 주세요')
-																}
-															})
-														}
-													}}>
-													이 책 포기하기
-												</Button>
-											}
-										/>
-									)}
-								</>
-							</Card.Body>
-						</Card>
-					</div>
-				)
-			})}
-		</div>
-	)
+	if (range === 'done') {
+		return (
+			<div className='row row-eq-height mb-4'>
+				{bookList.map((book) => {
+					return (
+						<div className='col-6 col-md-4 col-lg-3 col-xl-2 mb-4'>
+							<DoneHorizontalBookView book={book} />
+						</div>
+					)
+				})}
+			</div>
+		)
+	}
+
+	if (range === 'give-up') {
+		return (
+			<div className='row row-eq-height'>
+				{bookList.map((book) => {
+					return (
+						<div className='col-6 col-md-4 col-lg-3 col-xl-2 mb-4'>
+							<Card className='h-100'>
+								<Card.Body>
+									<HorizontalBookView
+										book={book}
+										firstButton={
+											<Button
+												variant='book'
+												className='w-100'
+												onClick={(e) => {
+													e.preventDefault()
+													handleUngiveupBook(book.bookId)
+												}}>
+												다시 읽기
+											</Button>
+										}
+										secondButton={
+											<Button
+												variant='book-danger'
+												className='w-100'
+												onClick={(e) => {
+													e.preventDefault()
+													const confirm = window.confirm('정말 이 책을 삭제할까요?')
+
+													if (confirm) {
+														deleteBook(book.bookId).then((success) => {
+															if (success) {
+																toast.success('책을 삭제했어요')
+																setBookList(bookList.filter((b) => b.bookId !== book.bookId))
+															} else {
+																toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+															}
+														})
+													}
+												}}>
+												삭제하기
+											</Button>
+										}
+										link={`/book/detail/${book.bookId}`}
+									/>
+								</Card.Body>
+							</Card>
+						</div>
+					)
+				})}
+			</div>
+		)
+	}
+
+	if (range === 'not-done') {
+		return (
+			<div className='row row-eq-height'>
+				{bookList.map((book) => {
+					return (
+						<div className='col-6 col-sm-4 col-md-3 col-xl-2 mb-5'>
+							<Card className='h-100'>
+								<Card.Body>
+									<HorizontalBookView
+										book={book}
+										link={`/book/detail/${book.bookId}`}
+										firstButton={
+											<a href={`/reading/${book.bookId}`} className='btn btn-book w-100'>
+												이어서 읽기
+											</a>
+										}
+										secondButton={
+											<Button
+												variant='book-danger'
+												className='w-100'
+												onClick={(e) => {
+													e.preventDefault()
+													handleGiveupBook(book.bookId)
+												}}>
+												포기하기
+											</Button>
+										}
+									/>
+								</Card.Body>
+							</Card>
+						</div>
+					)
+				})}
+			</div>
+		)
+	}
+
+	return <h1 className='text-center'>잘못된 URL이에요</h1>
 }
 
 export default BookList

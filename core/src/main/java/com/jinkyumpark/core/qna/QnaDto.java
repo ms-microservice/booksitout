@@ -1,6 +1,5 @@
 package com.jinkyumpark.core.qna;
 
-import com.jinkyumpark.core.user.AppUser;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -17,7 +16,7 @@ public class QnaDto {
                 .question(question)
                 .answer(answer)
                 .password(password)
-                .appUser(new AppUser(appUserId))
+                .appUserId(appUserId)
                 .build();
     }
 }

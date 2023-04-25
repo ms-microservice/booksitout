@@ -6,7 +6,6 @@ import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.core.statistics.StatisticsDto;
-import com.jinkyumpark.core.user.AppUser;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
@@ -24,11 +23,12 @@ public class MonthStatistics {
     @EmbeddedId
     private MonthStatisticsId monthStatisticsId;
 
-    @JsonIgnore
-    @ManyToOne
-    @MapsId("appUserId")
-    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "month_statistics_app_user_fk"))
-    private AppUser appUser;
+//    @JsonIgnore
+//    @ManyToOne
+//    @MapsId("appUserId")
+//    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "month_statistics_app_user_fk"))
+    @Column(name = "app_user_id", updatable = false, insertable = false)
+    private Long appUserId;
 
     @Column(name = "total_read_minute")
     private Integer totalReadMinute;
@@ -45,14 +45,14 @@ public class MonthStatistics {
     @Column(name = "total_page")
     private Integer totalPage;
 
-    public MonthStatistics(Integer year, Integer month, AppUser appUser) {
-        monthStatisticsId = new MonthStatisticsId(appUser.getAppUserId(), year, month);
+    public MonthStatistics(Integer year, Integer month, Long appUserId) {
+        monthStatisticsId = new MonthStatisticsId(appUserId, year, month);
         this.totalReadMinute = 0;
         this.finishedBook = 0;
         this.totalStar = 0;
         this.maxReadMinute = 0;
         this.totalPage = 0;
-        this.appUser = appUser;
+        this.appUserId = appUserId;
     }
 
     public void addReadingSession(ReadingSessionDto readingSession, Book book) {
