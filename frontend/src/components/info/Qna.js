@@ -48,11 +48,14 @@ const Qna = () => {
 					<h2 className='mb-3'>질문과 답변</h2>
 
 					<Card className='mb-4'>
+						<Card.Header className='text-white' style={{ background: '#1cb15a' }}>
+							<h5>내가 남긴 질문</h5>
+						</Card.Header>
+
 						<Card.Body>
-							<h4 className='text-muted mb-3'>내가 남긴 질문</h4>
 							{!user.localStorage.get.isLoggedIn() ? (
-								<div className='mt-5'>
-									<Error message='내가 남긴 질문을 보려면 로그인 해 주세요' />
+								<div className='mt-5 mb-5'>
+									<NoContent message='내가 남긴 질문을 보려면 로그인 해 주세요' style={{ width: '100px' }} className='mt-5 mb-5'/>
 								</div>
 							) : myQna == null || myQna.length === 0 ? (
 								<div className='mt-5 mb-5'>
@@ -65,8 +68,11 @@ const Qna = () => {
 					</Card>
 
 					<Card className='mb-4'>
+						<Card.Header className='text-white border-0' style={{ background: '#1cb15a' }}>
+							<h5>다른 사람이 남긴 질문</h5>
+						</Card.Header>
+
 						<Card.Body>
-							<h4 className='text-muted mb-3'>다른 사람이 남긴 질문</h4>
 							{allQnaList == null ? (
 								<Error />
 							) : allQnaList.length === 0 ? (
@@ -80,6 +86,7 @@ const Qna = () => {
 											<Card.Header>
 												<h5 className='text-center mt-2'>{qna.question}</h5>
 											</Card.Header>
+
 											<Card.Body>
 												{qna.answer == null ? (
 													<div className='mt-3'>
@@ -98,10 +105,18 @@ const Qna = () => {
 
 					{(utils.getToken() === '' || typeof utils.getToken() === 'undefined' || utils.getToken() == null) && (
 						<div className='row justify-content-center mt-5'>
-							<div className='col-12 col-lg-6'>
+							<div className='col-12 col-md-7 mt-3'>
 								<a href='/login' className='w-100'>
 									<Button variant='book' className='w-100'>
 										로그인하기
+									</Button>
+								</a>
+							</div>
+
+							<div className='col-12 col-md-7 mt-3'>
+								<a href='/faq' className='w-100'>
+									<Button variant='secondary' className='w-100'>
+										자주 하는 질문 보기
 									</Button>
 								</a>
 							</div>

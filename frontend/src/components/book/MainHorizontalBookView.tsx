@@ -44,6 +44,7 @@ const MainBookView = ({ book, firstButton = <></>, secondButton = <></>, link = 
 					<div className='col-6' style={{ zIndex: 200 }}>
 						{firstButton}
 					</div>
+
 					<div className='col-6'>{secondButton}</div>
 				</div>
 			</div>

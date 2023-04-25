@@ -9,9 +9,11 @@ import messages from '../../../settings/messages'
 
 const GoalView = ({ goal }) => {
 	return (
-		<div className='row text-center h-100' style={{ height: '80%' }}>
+		<div className='row text-center h-100 w-100' style={{ height: '80%' }}>
 			{goal == null ? (
-				<NoContent message={messages.goal.noContent} />
+				<div className='mt-4'>
+					<NoContent message={messages.goal.noContent} />
+				</div>
 			) : (
 				<>
 					{goal.current >= goal.goal && (
@@ -30,7 +32,6 @@ const GoalView = ({ goal }) => {
 							alt=''
 							className='img-fluid align-middle'
 							style={{
-								width: '150px',
 								height: '150px',
 							}}
 						/>

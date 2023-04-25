@@ -10,38 +10,26 @@ const user = {
 		return axios.post(urls.api.user.join, joinRequest, { headers: apiSettings.headers }).then((res) => res.status)
 	},
 
+	joinVerification: (email) => {
+		return axios.post(urls.api.user.emailV3(), { email: email }, {}).then((res) => {
+			return res
+		})
+		.catch((err) => {
+			return err.response
+		})
+	},
+
 	login: (loginRequest) => {
 		return axios
-			.post(urls.api.user.login.basic, loginRequest)
+			.post(urls.api.user.login.basic, loginRequest, {})
 			.then((res) => {
-				if (res.status !== 200) {
-					throw new Error(res.status.toString())
-				}
-				return res.data
+				return res
 			})
-			.then((userData) => {
-				localStorage.setItem('login-token', userData.token)
-				localStorage.setItem('user-name', userData.name)
-				localStorage.setItem('register-year', new Date().getFullYear().toString())
-				localStorage.setItem('login-date', new Date().toString())
-				localStorage.setItem('login-method', userData.loginMethod)
-
-				localStorage.setItem('search-library-region-api', userData.settings.region)
-				localStorage.setItem('search-library-region-detail-api', userData.settings.regionDetail)
-				localStorage.setItem('search-my-book-range', userData.settings.myBookSearchRange)
-				localStorage.setItem('search-library-online-api', userData.settings.libraryOnlineSearchRange)
-				localStorage.setItem('search-subscription-api', userData.settings.subscriptionSearchRange)
-				localStorage.setItem('search-used-online-api', userData.settings.usedOnlineSearchRange)
-				localStorage.setItem('search-used-offline-api', userData.settings.usedOfflineSearchRange)
-
-				toast.dismiss()
-				toast(userData.message, { icon: '✋' })
-				return 200
-			})
-			.catch((e) => {
+			.catch((err) => {
 				localStorage.setItem('login-token', '')
 				localStorage.setItem('user-name', '')
-				return typeof e.response == 'undefined' ? 500 : e.response.status
+				
+				return err.response 
 			})
 	},
 

@@ -22,7 +22,7 @@ const HorizontalBookView = ({ book, firstButton = <></>, secondButton = <></>, l
 					{book.author == null || book.author === '' ? '-' : book.author}
 				</h6>
 
-				<HorizontalPageBar book={book}/>
+				<HorizontalPageBar book={book} />
 			</div>
 
 			<div className='row mt-3 mt-md-4'>

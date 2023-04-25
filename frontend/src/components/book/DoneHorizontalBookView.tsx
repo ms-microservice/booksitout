@@ -1,6 +1,7 @@
 import { Card } from 'react-bootstrap'
 import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
+import '../../resources/css/bookCover.css'
 
 const DoneHorizontalBookView = ({ book }) => {
 	return (
@@ -9,10 +10,10 @@ const DoneHorizontalBookView = ({ book }) => {
 				<Card.Body className='mb-4'>
 					<div className='d-flex justify-content-center'>
 						<img
+							id='book-cover'
 							src={book.cover == null || book.cover === '' ? defaultBookCover : book.cover}
 							alt=''
 							className='img-fluid rounded border'
-							style={{ height: '225px' }}
 						/>
 					</div>
 
@@ -21,12 +22,10 @@ const DoneHorizontalBookView = ({ book }) => {
 						<h6 className='text-secondary'>{book.author}</h6>
 					</div>
 
-					<div
-						className='row justify-content-center'
-						style={{ position: 'absolute', bottom: '0px' }}>
+					<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '0px' }}>
 						{[1, 2, 3, 4, 5].map((rate) => {
 							return (
-								<div className={`col-2 text-center text-warning ps-0 ${book.rating == null && 'text-muted'}`}>
+								<div className={`col-2 text-center text-warning ps-0 pe-0 ms-0 me-0 ${book.rating == null && 'text-muted'}`}>
 									<h1>{rate <= book.rating ? <StarFillIcon /> : <StarIcon />}</h1>
 								</div>
 							)

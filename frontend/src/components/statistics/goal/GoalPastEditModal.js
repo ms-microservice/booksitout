@@ -2,13 +2,14 @@ import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { addGoal } from '../../../functions/goal'
+import { addGoal, deleteGoal } from '../../../functions/goal'
 // Resources
 import '../../../resources/css/input.css'
 import messages from '../../../settings/messages'
 
 const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList, setGoalList }) => {
 	const [goal, setGoal] = useState(0)
+	
 	const handleEditGoal = (e) => {
 		e.preventDefault()
 
@@ -55,6 +56,22 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 		})
 	}
 
+	const handleDeleteGoal = () => {
+		const confirm = window.confirm(`${selectedGoal.year}년 목표를 삭제할까요?`)
+
+		if (confirm) {
+			deleteGoal(selectedGoal.year).then((success) => {
+				if (success) {
+					toast.success(`${selectedGoal.year}년 목표를 삭제했어요`)
+					setGoalList(goalList.filter((g) => g.year !== selectedGoal.year))
+					setIsModalOpen(false)
+				} else {
+					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+				}
+			})
+		}
+	}
+
 	return (
 		<Modal show={isModalOpen} fullscreen='md-down' centered onHide={() => setIsModalOpen(false)}>
 			<Modal.Header closeButton>
@@ -72,14 +89,20 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 						onChange={(e) => setGoal(e.target.value)}
 					/>
 
-					<div className='row justify-content-center mt-3'>
-						<div className='col-12 col-md-5 mt-2'>
+					<div className='row justify-content-end mt-3'>
+						<div className='col-12 col-md-6 ms-0 ms-md-2 mt-2 mb-0 mb-md-1'>
+							<Button variant='book-danger' className='w-100' onClick={() => handleDeleteGoal()}>
+								삭제하기
+							</Button>
+						</div>
+
+						<div className='col-12 col-md-6 mt-2'>
 							<Button variant='book-danger' className='w-100' onClick={() => setIsModalOpen(false)}>
 								취소
 							</Button>
 						</div>
 
-						<div className='col-12 col-md-5 mt-2'>
+						<div className='col-12 col-md-6 mt-2'>
 							<Button type='submit' variant='book' className='w-100'>
 								수정하기
 							</Button>

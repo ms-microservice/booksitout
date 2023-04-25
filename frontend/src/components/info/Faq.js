@@ -28,7 +28,7 @@ const Faq = () => {
 			answer: `
 				불편을 끼쳐드려서 죄송해요. 버그는 아래 이메일 주소로 제보해 주시면 최대한 빨리 고칠게요.
 				<br/>
-				<b>jinkyumpark@naver.com</b>
+				<b>booksitout@gmail.com</b>
 			`,
 		},
 		{
@@ -40,13 +40,13 @@ const Faq = () => {
 
 	return (
 		<div className='container mt-5 mb-5'>
-			<h3>자주 묻는 질문</h3>
+			<h2>자주 묻는 질문</h2>
 
 			{faqList.map((faq) => {
 				return (
 					<Card className='mt-4'>
-						<Card.Header className='text-white' style={{ background: '#1cb15a' }}>
-							{faq.question}
+						<Card.Header className='text-white border-0' style={{ background: '#1cb15a' }}>
+							<h5 className='mt-1'>{faq.question}</h5>
 						</Card.Header>
 
 						<Card.Body>{parse(faq.answer)}</Card.Body>
@@ -67,7 +67,7 @@ const Faq = () => {
 
 				<div className='col-12 col-lg-7 mt-3'>
 					<a href='/qna' className='w-100'>
-						<Button variant='book' className='w-100'>
+						<Button variant='secondary' className='w-100'>
 							직접 질문하기
 						</Button>
 					</a>

@@ -54,7 +54,7 @@ const Introduction = () => {
 			<h1 className='text-center'>책에 관한 모든 것, 책잇아웃!</h1>
 
 			<div className='row justify-content-center mt-4 mb-5'>
-				<div className='col-12 col-md-6 mb-5'>
+				<div className='col-11 col-md-6 mb-5'>
 					<a href='/login' className='w-100'>
 						<Button variant='book' className='w-100'>
 							로그인
@@ -64,20 +64,22 @@ const Introduction = () => {
 
 				{data.map((intro) => {
 					return (
-						<Card className='mb-4'>
-							<Card.Body>
-								<div className='row justify-content-center mb-3'>
-									<div className='col-3 col-lg-1'>
-										<img src={intro.image} alt='' className='img-fluid' style={{ width: '50px', height: '50px' }} />
+						<div className='col-11 col-md-11'>
+							<Card className='mb-4'>
+								<Card.Body>
+									<div className='row justify-content-center mb-3'>
+										<div className='col-3 col-lg-1'>
+											<img src={intro.image} alt='' className='img-fluid' style={{ width: '50px', height: '50px' }} />
+										</div>
+										<div className='col-9 col-lg-11'>
+											<h3>{intro.title}</h3>
+										</div>
 									</div>
-									<div className='col-9 col-lg-11'>
-										<h3>{intro.title}</h3>
-									</div>
-								</div>
 
-								<h5 className='text-muted'>{parse(intro.description)}</h5>
-							</Card.Body>
-						</Card>
+									<h5 className='text-muted'>{parse(intro.description)}</h5>
+								</Card.Body>
+							</Card>
+						</div>
 					)
 				})}
 			</div>

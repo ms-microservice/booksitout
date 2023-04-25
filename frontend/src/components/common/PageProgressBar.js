@@ -14,9 +14,10 @@ const PageProgressBar = ({ book, showPage = true }) => {
 
 			{showPage && (
 				<div className='col-4 col-md-3 text-end'>
-					<span className='align-middle' style={{ whiteSpace: 'nowrap' }}>{`${
-						book.currentPage == null || book.currentPage < 0 ? 0 : book.currentPage
-					} / ${book.endPage}`}</span>
+					<span className='align-middle' style={{ whiteSpace: 'nowrap' }}>
+						<b className='text-book'>{`${book.currentPage == null || book.currentPage < 0 ? 0 : book.currentPage}`}</b> /{' '}
+						{`${book.endPage}`}
+					</span>
 				</div>
 			)}
 		</div>

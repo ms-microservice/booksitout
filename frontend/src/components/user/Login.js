@@ -88,19 +88,32 @@ const Login = () => {
 			stayLogin: stayLogin,
 		}
 
-		user.login(loginRequest).then((status) => {
-			if (status === 200) {
-				dispatch(loginToken(utils.getToken()))
-
-				navigate('/')
-			} else {
+		user.login(loginRequest).then((res) => {
+			if (!res.status.toString().startsWith('2')) {
 				toast.dismiss()
-				if (status === 401) {
-					toast.error('이메일이나 비밀번호가 틀려요. 다시 확인해 주세요')
-				} else {
-					toast.error(`서버에 오류가 난거 같아요. 잠시 후 다시 시도해 주세요 (status = ${status})`)
-				}
+				toast.error(res.data.message)
+				return
 			}
+
+			localStorage.setItem('login-token', res.data.token)
+			localStorage.setItem('user-name', res.data.name)
+			localStorage.setItem('register-year', new Date().getFullYear().toString())
+			localStorage.setItem('login-date', new Date().toString())
+			localStorage.setItem('login-method', res.data.loginMethod)
+
+			// localStorage.setItem('search-library-region-api', res.data.settings.region)
+			// localStorage.setItem('search-library-region-detail-api', res.data.settings.regionDetail)
+			// localStorage.setItem('search-my-book-range', res.data.settings.myBookSearchRange)
+			// localStorage.setItem('search-library-online-api', res.data.settings.libraryOnlineSearchRange)
+			// localStorage.setItem('search-subscription-api', res.data.settings.subscriptionSearchRange)
+			// localStorage.setItem('search-used-online-api', res.data.settings.usedOnlineSearchRange)
+			// localStorage.setItem('search-used-offline-api', res.data.settings.usedOfflineSearchRange)
+
+			toast.dismiss()
+			toast(res.data.message, { icon: '✋' })
+			dispatch(loginToken(utils.getToken()))
+
+			navigate('/')
 		})
 	}
 
@@ -159,7 +172,7 @@ const Login = () => {
 									</label>
 								</div>
 
-								<div className='row justify-content-center mt-3'>
+								<div className='row justify-content-center mt-3 mt-md-4'>
 									<div className='col-6 col-lg-4'>
 										<Button variant='book-danger' className='w-100' href='join'>
 											회원가입
@@ -183,9 +196,7 @@ const Login = () => {
 														pointerEvents: !oauth.active && 'none',
 													}}>
 													<img
-														style={{
-															width: '50px',
-														}}
+														style={{ width: '50px' }}
 														className={'img-fluid ms-1 me-1 ms-md-3 me-md-3 rounded ' + (!oauth.active && 'opacity-50')}
 														src={oauth.image}
 														alt=''
@@ -196,7 +207,10 @@ const Login = () => {
 									</div>
 								</div>
 
-								<h6 className='text-secondary mt-4'>카카오 계정으로 가입하실 때 반드시 이메일을 허용해 주세요</h6>
+								<h6 className='text-secondary mt-5 mt-md-4'>카카오계정으로 가입하실 때 반드시 이메일을 허용해 주세요</h6>
+								<h6 className='text-secondary mt-4'>현재 책잇아웃은 정식 출시하지 않았어요</h6>
+								<h6 className='text-secondary mt-1'>일부 작동하지 않는 기능이 있어요</h6>
+								<h6 className='text-secondary mt-1'>서버가 자주 멈출 수 있어요</h6>
 							</Form>
 						</Card.Body>
 					</Card>

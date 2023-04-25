@@ -37,7 +37,6 @@ const Goal = () => {
 
 	const [goalList, setGoalList] = useState([])
 	const [currentYearGoal, setCurrentYearGoal] = useState(null)
-	const [highlightBookList, setHighlightBookList] = useState([])
 
 	const handleDeleteGoal = () => {
 		const confirm = window.confirm(messages.goal.delete.confirm)
@@ -153,13 +152,9 @@ const Goal = () => {
 							<Card.Body>
 								<h2>목표 분석</h2>
 
-								{highlightBookList.length === 0 ? (
 									<div className='mt-4 mb-4 mb-md-0'>
-										<NoContent message={`목표 분석 기능은 아직 준비중이에요`} style={{ width: '150px' }} />
+										<NoContent message={`목표 분석은 아직 준비중이에요`} style={{ width: '150px' }} />
 									</div>
-								) : (
-									<></>
-								)}
 							</Card.Body>
 						</Card>
 					</div>
@@ -191,26 +186,28 @@ const Goal = () => {
 											.sort((a, b) => b.year - a.year)
 											.map((goal) => {
 												return (
-													<div
-														onClick={() => {
-															setSelectedEditGoal(goal)
-															setIsPastGoalEditModalOpen(true)
-														}}
-														className='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4'
-														style={{ opacity: goal.year === new Date().getFullYear() ? '1' : '0.5' }}>
-														<h3 className='mb-0'>{`${goal.year}년`}</h3>
+													<div className='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4'>
+														<Card className='clickable'>
+															<Card.Body>
+																<div
+																	onClick={() => {
+																		setSelectedEditGoal(goal)
+																		setIsPastGoalEditModalOpen(true)
+																	}}
+																	style={{ opacity: goal.year === new Date().getFullYear() ? '1' : '0.5' }}>
+																	<h3 className='mb-2 mb-md-0'>{`${goal.year}년`}</h3>
 
-														<img
-															src={goalIcon}
-															alt=''
-															className='img-fluid align-middle'
-															style={{
-																width: '150px',
-																height: '150px',
-															}}
-														/>
+																	<img
+																		src={goalIcon}
+																		alt=''
+																		className='img-fluid align-middle'
+																		style={{ height: '100px' }}
+																	/>
 
-														<h4 className='mt-3'>{`${goal.current}권 / ${goal.goal}권`}</h4>
+																	<h4 className='mt-3'>{`${goal.current}권 / ${goal.goal}권`}</h4>
+																</div>
+															</Card.Body>
+														</Card>
 													</div>
 												)
 											})}

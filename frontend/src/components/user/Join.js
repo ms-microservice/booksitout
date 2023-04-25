@@ -15,9 +15,25 @@ const Join = () => {
 	const [emailVerification, setEmailVerification] = useState('')
 	const [password, setPassword] = useState('')
 	const [name, setName] = useState('')
+	const [emailSent, setMailSent] = useState(false)
 
-	const [isEmailSent, setIsEmailSent] = useState(false)
-	const handleVerifyEmail = () => user.change.verificationCode.email(email).then((success) => success && setIsEmailSent(true))
+	const handleVerifyEmail = () => {
+		user.joinVerification(email)
+			.then((res) => {
+				if (res.status === 200 || res.status === 208) {
+					toast.success(res.data.message)
+					setMailSent(true)
+					return
+				}
+
+				if (res.status === 400 || res.status === 409) {
+					toast.error(res.data.message)
+					return
+				}
+
+				toast.error(`오류가 발생했어요. 잠시 후 다시 시도해 주세요. res.status: ${res.status}`)
+			})
+	}
 
 	const handleJoin = (e) => {
 		e.preventDefault()
@@ -69,7 +85,7 @@ const Join = () => {
 
 		user.join(joinRequest).then((status) => {
 			if (status === 200) {
-				toast.success(`책-it-out에 오신걸 환영해요, ${name}님!`)
+				toast.success(`책잇아웃에 오신걸 환영해요, ${name}님!`)
 				navigate('/login')
 			} else if (status.includes('400')) {
 				toast.error(messages.user.join.error.email.codeNotMatch)
@@ -117,7 +133,7 @@ const Join = () => {
 								displayLabel='인증번호'
 								placeholder={messages.user.join.placeHolder.emailVerification}
 								setInputVariable={setEmailVerification}
-								disabled={!isEmailSent}
+								disabled={!emailSent}
 							/>
 							<InputWithLabel
 								type='name'
