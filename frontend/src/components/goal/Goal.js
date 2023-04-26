@@ -1,17 +1,17 @@
 import React from 'react'
 // Components
-import NoContent from '../../common/NoContent'
+import NoContent from '../common/NoContent'
 // Resources
-import goalIcon from '../../../resources/images/statistics/goal.png'
-import goalCompleteIcon from '../../../resources/images/statistics/goal-complete.png'
+import goalIcon from '../../resources/images/statistics/goal.png'
+import goalCompleteIcon from '../../resources/images/statistics/goal-complete.png'
 // Messages
-import messages from '../../../settings/messages'
+import messages from '../../settings/messages'
 
-const GoalView = ({ goal }) => {
+const Goal = ({ goal }) => {
 	return (
 		<div className='row text-center h-100 w-100' style={{ height: '80%' }}>
 			{goal == null ? (
-				<div className='mt-4'>
+				<div className=''>
 					<NoContent message={messages.goal.noContent} />
 				</div>
 			) : (
@@ -19,8 +19,8 @@ const GoalView = ({ goal }) => {
 					{goal.current >= goal.goal && (
 						<div
 							className='row position-absolute opacity-100'
-							style={{ width: '200px', left: '55%', top: '50%', transform: 'translate(-50%, -50%)' }}>
-							<img src={goalCompleteIcon} className='img-fluid' alt='' style={{}} />
+							style={{ width: '180px', left: '55%', top: '50%', transform: 'translate(-50%, -50%)' }}>
+							<img src={goalCompleteIcon} className='img-fluid' alt='' />
 
 							<h4 className='mt-2'>목표달성!</h4>
 						</div>
@@ -48,4 +48,4 @@ const GoalView = ({ goal }) => {
 	)
 }
 
-export default GoalView
+export default Goal

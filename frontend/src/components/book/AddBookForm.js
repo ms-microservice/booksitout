@@ -8,7 +8,7 @@ import defaultBookCover from '../../resources/images/common/default-book-cover.p
 import defaultLoadingBookCover from '../../resources/images/common/loading-default-book-cover.png'
 import ImageSearchModal from './ImageSearchModal'
 // Functions
-import { addBook } from '../..//functions/book'
+import { addBook } from '../../functions/book'
 // Settings
 import messages from '../../settings/messages'
 import urls from '../../settings/urls';
@@ -16,7 +16,7 @@ import NoContent from '../common/NoContent'
 import Error from '../common/Error'
 import utils from '../../functions/utils'
 
-const BookAddForm = () => {
+const AddBookForm = () => {
 	const [selectedMethod, setSelectedMethod] = useState('SEARCH')
 
 	return (
@@ -66,8 +66,8 @@ const AddBookSearchCard = () => {
 
 	const addBook = () => {
 		const book = {
-			title: selectedBook.title,
-			author: selectedBook.author,
+			title: selectedBook.title.slice(0, selectedBook.title.lastIndexOf('(')),
+			author: selectedBook.author.replaceAll("^", ", "),
 			isbn: selectedBook.isbn,
 			cover: selectedBook.cover,
 			page: endPage,
@@ -98,6 +98,11 @@ const AddBookSearchCard = () => {
 	useEffect(() => {
 		setLoading(query !== '')
 
+		if (query === '') {
+			setSearchResult([])
+			return
+		}
+
 		const typingTimer = setTimeout(() => {
 			if (query !== '') {
 				axios
@@ -125,8 +130,11 @@ const AddBookSearchCard = () => {
 				) : (
 					<>
 						<Modal.Header closeButton>
-							<h4>{selectedBook.title}</h4>
-							<h5 className='text-secondary ms-3'>{selectedBook.author}</h5>
+							<h4 className='mb-0'>
+								{selectedBook.title}
+								<br />
+								<h5 className='text-secondary mb-0'>{selectedBook.author}</h5>
+							</h4>
 						</Modal.Header>
 
 						<Modal.Body>
@@ -135,7 +143,7 @@ const AddBookSearchCard = () => {
 									<img src={selectedBook.cover} alt='' className='img-fluid border rounded' />
 								</div>
 
-								<div className='col-12 col-lg-8'>
+								<div className='col-12 col-lg-8 mt-3 mt-lg-0'>
 									<Form onSubmit={(e) => handleAddBook(e)}>
 										<div className='row'>
 											<div className='col-6'>
@@ -283,8 +291,8 @@ const BookAddSearchResult = ({book}) => {
 				<img src={book.cover} alt='book cover' className='img-fluid border' style={{ height: '100px' }} />
 
 				<div className='mt-4'>
-					<h6>{book.title}</h6>
-					<h6 className='text-secondary'>{book.author}</h6>
+					<h6 className='limit-2-line'>{book.title}</h6>
+					<h6 className='text-secondary limit-2-line'>{book.author.replaceAll("^", ", ")}</h6>
 				</div>
 			</Card.Body>
 		</Card>
@@ -328,7 +336,7 @@ const AddBookManualCard = () => {
 		if (title !== '') {
 			setShowModal(true)
 		} else {
-			toast.error('표지를 검색하기 위해 책 제목을 입력해 주세요')
+			toast.error('표지를 찾기 위해 책 제목을 입력해 주세요')
 		}
 	}
 
@@ -528,4 +536,4 @@ return (
 )
 }
 
-export default BookAddForm
+export default AddBookForm

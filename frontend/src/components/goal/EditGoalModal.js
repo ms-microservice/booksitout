@@ -2,11 +2,11 @@ import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { addGoal } from '../../../functions/goal'
+import { addGoal } from '../../functions/goal'
 // Resources
-import '../../../resources/css/input.css'
+import '../../resources/css/input.css'
 
-const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, currentBook, previousGoal }) => {
+const EditGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, currentBook, previousGoal }) => {
 	const [goal, setGoal] = useState(0)
 	const handleEditGoal = (e) => {
 		e.preventDefault()
@@ -77,4 +77,4 @@ const GoalEditModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 	)
 }
 
-export default GoalEditModal
+export default EditGoalModal

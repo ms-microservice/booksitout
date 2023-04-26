@@ -2,24 +2,24 @@ import { useState, useEffect } from 'react'
 import { Card, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Components
-import NoContent from '../../common/NoContent'
-import Loading from '../../common/Loading'
-import GoalView from './GoalView'
-import GoalAddModal from './GoalAddModal'
-import GoalEditModal from './GoalEditModal'
-import AddButton from '../../common/AddButton'
+import NoContent from '../common/NoContent'
+import Loading from '../common/Loading'
+import Goal from './Goal'
+import AddGoalModal from './AddGoalModal'
+import EditGoalModal from './EditGoalModal'
+import AddButton from '../common/AddButton'
 // Functions
-import { getGoalList, deleteGoal } from '../../../functions/goal'
+import { getGoalList, deleteGoal } from '../../functions/goal'
 // Settings
-import uiSettings from '../../../settings/ui'
+import uiSettings from '../../settings/ui'
 // Resources
-import goalIcon from '../../../resources/images/statistics/goal.png'
-import GoalPastAddModal from './GoalPastAddModal'
-import GoalPastEditModal from './GoalPastEditModal'
-import messages from '../../../settings/messages'
+import goalIcon from '../../resources/images/statistics/goal.png'
+import AddPastGoalModal from './AddPastGoalModal'
+import EditPastGoalModal from './EditPastGoalModal'
+import messages from '../../settings/messages'
 import BookReadInYear from './BookReadInYear'
 
-const Goal = () => {
+const GoalRoute = () => {
 	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
 	const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
 
@@ -74,16 +74,16 @@ const Goal = () => {
 	}, [])
 
 	return (
-		<div className='container'>
+		<div className='container-xl'>
 			{intialFetch ? (
 				<></>
 			) : isLoading ? (
 				<Loading />
 			) : (
 				<div className='row row-eq-height'>
-					<GoalAddModal isModalOpen={isGoalModalOpen} setIsModalOpen={setIsGoalModalOpen} setCurrentYearGoal={setCurrentYearGoal} />
+					<AddGoalModal isModalOpen={isGoalModalOpen} setIsModalOpen={setIsGoalModalOpen} setCurrentYearGoal={setCurrentYearGoal} />
 					{currentYearGoal != null && (
-						<GoalEditModal
+						<EditGoalModal
 							isModalOpen={isGoalEditModalOpen}
 							setIsModalOpen={setIsGoalEditModalOpen}
 							setCurrentYearGoal={setCurrentYearGoal}
@@ -91,14 +91,14 @@ const Goal = () => {
 							previousGoal={currentYearGoal.goal}
 						/>
 					)}
-					<GoalPastAddModal
+					<AddPastGoalModal
 						isModalOpen={isPastGoalAddModalOpen}
 						setIsModalOpen={setIsPastGoalAddModalOpen}
 						goalList={goalList}
 						setGoalList={setGoalList}
 					/>
 					{selectedEditGoal != null && (
-						<GoalPastEditModal
+						<EditPastGoalModal
 							isModalOpen={isPastGoalEditModalOpen}
 							setIsModalOpen={setIsPastGoalEditModalOpen}
 							selectedGoal={selectedEditGoal}
@@ -116,7 +116,7 @@ const Goal = () => {
 									{currentYearGoal == null ? (
 										<NoContent message={`${currentYear}년 목표가 없어요`} style={{ width: '150px' }} />
 									) : (
-										<GoalView goal={currentYearGoal} />
+										<Goal goal={currentYearGoal} />
 									)}
 								</div>
 
@@ -222,4 +222,4 @@ const Goal = () => {
 	)
 }
 
-export default Goal
+export default GoalRoute

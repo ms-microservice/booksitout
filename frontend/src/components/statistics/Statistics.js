@@ -8,7 +8,7 @@ import CategoryTable from './CategoryTable'
 import LanguageTable from './LanguageTable'
 import SummaryTable from './SummaryTable'
 import DateLineChart from './DateLineChart'
-import GoalView from './goal/GoalView'
+import GoalRoute from '../goal/GoalRoute'
 // Functions
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
@@ -68,7 +68,7 @@ const Statistics = () => {
 	}, [statisticsSelectedYear])
 
 	return (
-		<div className='container'>
+		<div className='container-xl'>
 			{initialFetch ? (
 				<></>
 			) : isLoading ? (
@@ -155,7 +155,7 @@ const Statistics = () => {
 									</div>
 
 									<div className='mt-5 mb-5'>
-										<GoalView goal={goalData} />
+										<GoalRoute goal={goalData} />
 									</div>
 								</Card.Body>
 							</Card>

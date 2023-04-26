@@ -2,12 +2,12 @@ import React, { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
-import { addGoal, deleteGoal } from '../../../functions/goal'
+import { addGoal, deleteGoal } from '../../functions/goal'
 // Resources
-import '../../../resources/css/input.css'
-import messages from '../../../settings/messages'
+import '../../resources/css/input.css'
+import messages from '../../settings/messages'
 
-const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList, setGoalList }) => {
+const EditPastGoalModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList, setGoalList }) => {
 	const [goal, setGoal] = useState(0)
 	
 	const handleEditGoal = (e) => {
@@ -96,7 +96,7 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 							</Button>
 						</div>
 
-						<div className='col-12 col-md-6 mt-2'>
+						<div className='col-12 col-md-6 mt-5 mt-md-2'>
 							<Button variant='book-danger' className='w-100' onClick={() => setIsModalOpen(false)}>
 								취소
 							</Button>
@@ -114,4 +114,4 @@ const GoalPastEditModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 	)
 }
 
-export default GoalPastEditModal
+export default EditPastGoalModal

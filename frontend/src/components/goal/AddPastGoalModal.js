@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Resources
-import '../../../resources/css/input.css'
+import '../../resources/css/input.css'
 // functions
-import { addGoal } from '../../../functions/goal'
+import { addGoal } from '../../functions/goal'
 
-const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }) => {
+const AddPastGoalModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }) => {
 	const [goalYear, setGoalYear] = useState(0)
 	const [goal, setGoal] = useState(0)
 
@@ -96,4 +96,4 @@ const GoalPastAddModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 	)
 }
 
-export default GoalPastAddModal
+export default AddPastGoalModal

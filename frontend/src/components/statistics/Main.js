@@ -6,7 +6,7 @@ import Error from '../common/Error'
 import NoContent from '../common/NoContent'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
-import GoalView from './goal/GoalView'
+import GoalRoute from '../goal/GoalRoute'
 // Functions
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
@@ -57,7 +57,7 @@ const Main = () => {
 	if (loading) return <Loading />
 
 	return (
-		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
+		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden' }}>
 			<div className='row row-eq-height mb-5'>
 				{showAlert && (
 					<div className='container'>
@@ -81,6 +81,10 @@ const Main = () => {
 				
 				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<GoalChart statistics={statistics} goal={goal} />
+				</div>
+
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<IntroductionCard  />
 				</div>
 			</div>
 		</div>
@@ -160,9 +164,13 @@ const SummaryChart = ({statistics}) => {
 				<a href='/statistics' className='text-decoration-none text-black h-100'>
 					<h3>{new Date().getFullYear()}년 독서 요약</h3>
 
-					<div className='h-100 d-flex align-items-center'>
-						{statistics == null ? <Error message='오류가 났어요' /> : <SummaryTable statistics={statistics} />}
-					</div>
+					{statistics == null ? (
+						<Error message='오류가 났어요' />
+					) : (
+						<div className='h-100 d-flex align-items-center'>
+							<SummaryTable statistics={statistics} />
+						</div>
+					)}
 				</a>
 			</Card.Body>
 		</Card>
@@ -176,10 +184,61 @@ const GoalChart = ({statistics, goal}) => {
 				<a href='/statistics/goal' className='text-decoration-none text-black'>
 					<h3>{new Date().getFullYear()}년 목표</h3>
 
-					<div className='h-100 d-flex align-items-center mt-4 pb-4 mt-md-0 pb-md-0 pt-xl-5 pb-xl-5' style={{'position':'relative', bottom: '20px' }}>
-						{statistics == null ? <Error message='오류가 났어요' /> : <GoalView goal={goal} />}
-					</div>
+					{statistics == null ? (
+						<Error message='오류가 났어요' />
+					) : (
+						<div
+							className='h-100 d-flex align-items-center justify-content-center mt-4 mt-md-0 pb-4 pb-md-0 pt-xl-5 pb-xl-5'
+							style={{ position: 'relative', bottom: '20px' }}>
+							<GoalRoute goal={goal} />
+						</div>
+					)}
 				</a>
+			</Card.Body>
+		</Card>
+	)
+}
+
+const IntroductionCard = () => {
+	const introData = [
+		{
+			id: 1,
+			title: '책잇아웃 간단한 소개',
+			link: '/introduction'
+		},
+		{
+			id: 2,
+			title: '사용 가능한 모든 기능 보기',
+			link: '/introduction/features'
+		}
+	]
+
+	return (
+		<Card className='h-100' style={{ minHeight: '400px' }}>
+			<Card.Body className='h-100'>
+				<h3 className='mb-4'>책잇아웃 소개</h3>
+
+				{introData.map((intro) => {
+					return (
+						<Card className='mt-2'>
+							<a href={intro.link} className='text-decoration-none text-black'>
+								<Card.Body>
+									{intro.title}
+
+									<Button
+										variant='book'
+										style={{
+											position: 'absolute',
+											right: '10px',
+											bottom: '10px',
+										}}>
+										보러 가기
+									</Button>
+								</Card.Body>
+							</a>
+						</Card>
+					)
+				})}
 			</Card.Body>
 		</Card>
 	)
