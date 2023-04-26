@@ -92,7 +92,11 @@ const Topnav = () => {
 						<SearchIcon
 							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 							onClick={() => {
-								toggleSearchBar()
+								if (token !== '' && token != null) {
+									toggleSearchBar()
+									return
+								}
+									toast.error('로그인 해 주세요')
 							}}
 						/>
 					</button>

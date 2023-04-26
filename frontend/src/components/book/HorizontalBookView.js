@@ -16,16 +16,16 @@ const HorizontalBookView = ({ book, firstButton = <></>, secondButton = <></>, l
 			</div>
 
 			<div className='mt-3 text-center'>
-				<h4 style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>{book.title}</h4>
+				<h5 style={{ overflow: 'hidden', height: '50px' }} className={book.title.length <= 7 && 'pt-2'}>{book.title}</h5>
 
-				<h6 className='text-muted' style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
+				<h6 className='text-muted mb-md-0' style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
 					{book.author == null || book.author === '' ? '-' : book.author}
 				</h6>
 
 				<HorizontalPageBar book={book} />
 			</div>
 
-			<div className='row mt-3 mt-md-4'>
+			<div className='row mt-3 mt-md-2'>
 				<div className='col-12 mb-2'>{firstButton}</div>
 				<div className='col-12 mb-2'>{secondButton}</div>
 			</div>

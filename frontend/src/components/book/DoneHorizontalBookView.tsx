@@ -7,7 +7,7 @@ const DoneHorizontalBookView = ({ book }) => {
 	return (
 		<a href={`/book/detail/${book.bookId}`} className='h-100 text-black text-decoration-none'>
 			<Card className='h-100'>
-				<Card.Body className='mb-4'>
+				<Card.Body className='mb-5'>
 					<div className='d-flex justify-content-center'>
 						<img
 							id='book-cover'

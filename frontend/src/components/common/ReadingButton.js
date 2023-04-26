@@ -32,7 +32,7 @@ const ReadingButton = ({ bottomStyle = '40px', url = '/reading' }) => {
 
 	return (
 		<>
-			{token !== '' ? (
+			{token !== '' && token !== null ? (
 				time == null || time === '' || time === 0 || typeof time === 'undefined' ? (
 					<BookIcon
 						className='btn btn-book'

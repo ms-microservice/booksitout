@@ -16,11 +16,20 @@ import kimchiImage from '../../resources/images/common/kimchi-green.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
+import parse from 'html-react-parser'
 
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
 	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
-	const noContentMessage = range === 'not-done' ? `읽지 않은 책이 없어요` : range === 'done' ? `다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
+	const noContentMessage = parse(
+		range === 'not-done'
+			? `읽지 않은 책이 없어요`
+			: range === 'done'
+			? `다 읽은 책이 없어요`
+			: range === 'give-up'
+			? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
+			: `텅 비어 있어요`
+	)
 	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
 	const fetchSize = 24
 

@@ -182,15 +182,15 @@ const ReadingSessionDetailModal = ({
 									) : (
 										<>
 											<div className='row text-center'>
-												<div className='col-3 mt-1'>🗓️ 시작시간</div>
-												<div className='col-9'>
+												<div className='col-4 col-md-3 mt-1'>🗓️ 시작시간</div>
+												<div className='col-8 col-md-9'>
 													<Form.Control className='mb-2' type='number' defaultValue={readingSession.readTime} />
 												</div>
 											</div>
 
 											<div className='row text-center'>
-												<div className='col-3 mt-1'>🗓️ 종료시간</div>
-												<div className='col-9'>
+												<div className='col-4 col-md-3 mt-1'>🗓️ 종료시간</div>
+												<div className='col-8 ncol-md-9'>
 													<Form.Control
 														className='mb-2'
 														type='number'

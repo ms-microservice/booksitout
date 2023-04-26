@@ -16,6 +16,8 @@ import facebookButton from '../../resources/images/login-button/small-facebook.p
 import utils from '../../functions/utils'
 import { loginToken, logoutToken } from '../../redux/userSlice'
 
+import logo from '../../resources/images/logo/logo.png'
+
 const Login = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -123,7 +125,10 @@ const Login = () => {
 				<div className='col-12 col-lg-7 mb-5'>
 					<Card className='text-center'>
 						<Card.Body>
-							<h1>📗 로그인</h1>
+							<div className='d-flex justify-content-center'>
+								<img src={logo} alt='' className='img-fluid rounded me-2 me-md-3 mt-0 mt-md-1' style={{ widht: '40px', height: '40px' }} />
+								<h1 className='mt-1 mt-md-0 mb-0'>로그인</h1>
+							</div>
 
 							<Form onSubmit={(e) => handleLogin(e)}>
 								<Form.Group class='row mt-3'>
