@@ -11,7 +11,8 @@ import HorizontalBookView from './HorizontalBookView'
 import DoneHorizontalBookView from './DoneHorizontalBookView'
 import InfiniteScrollLoading from './InfiniteScrollLoading';
 // Images
-import kimchiImage from '../../resources/images/common/kimchi.png'
+// import kimchiImage from '../../resources/images/common/kimchi-tone-down.png'
+import kimchiImage from '../../resources/images/common/kimchi-green.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
