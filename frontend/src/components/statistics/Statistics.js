@@ -78,7 +78,7 @@ const Statistics = () => {
 				<Loading />
 			) : (
 				<div className='row row-eq-height'>
-					<div className='col-12 col-md-6 col-xl-4 mb-4 graph-height'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4 '>
 						<Card className='h-100'>
 							<Card.Body className='h-100'>
 								<h3>최근 30일 독서시간</h3>
@@ -90,7 +90,7 @@ const Statistics = () => {
 						</Card>
 					</div>
 
-					<div className='col-12 col-md-6 col-xl-4 mb-4 graph-height'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4 '>
 						<Card className='h-100'>
 							<Card.Body>
 								<div className='row h-100'>
