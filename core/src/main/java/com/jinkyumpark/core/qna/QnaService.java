@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.qna;
 
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.qna.request.QnaAddRequest;
 import com.jinkyumpark.core.qna.request.QnaEditRequest;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -43,9 +43,9 @@ public class QnaService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("qna.edit.fail.not-found")));
 
         if (qna.getAppUserId() != null && !qna.getAppUserId().equals(loginAppUser.getId()))
-            throw new NotAuthorizeException();
+            throw new UnauthorizedException("");
         if (!qna.getPassword().equals(qnaEditRequest.getPassword()))
-            throw new NotAuthorizeException();
+            throw new UnauthorizedException("");
 
         qna.editQna(qnaEditRequest);
     }
