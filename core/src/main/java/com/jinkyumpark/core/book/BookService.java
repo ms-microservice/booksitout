@@ -7,8 +7,6 @@ import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.reading.ReadingSession;
-import com.jinkyumpark.core.statistics.StatisticsService;
-import com.jinkyumpark.core.statistics.model.MonthStatistics;
 import com.jinkyumpark.core.reading.ReadingSessionRepository;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
@@ -30,7 +28,6 @@ public class BookService {
     private final MessageSourceAccessor messageSource;
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
-    private final StatisticsService statisticsService;
 
     private final BookRepositoryImpl bookRepositoryImpl;
 
@@ -141,7 +138,6 @@ public class BookService {
             throw new UnauthorizedException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
         bookToEdit.editBook(bookDto);
-        monthStatistics.editBook(bookDto);
     }
 
     @Transactional
@@ -153,12 +149,6 @@ public class BookService {
             throw new UnauthorizedException(messageSource.getMessage("book.delete.fail.not-authorize"));
         }
 
-        Optional<ReadingSession> lastReadingSession = readingSessionRepository.findFirstByBook_BookIdOrderByStartTimeDesc(bookId);
-        int year = lastReadingSession.isPresent() ? lastReadingSession.get().getStartTime().getYear() : book.getCreatedDate().getYear();
-        int month = lastReadingSession.isPresent() ? lastReadingSession.get().getStartTime().getMonthValue() : book.getCreatedDate().getMonthValue();
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), year, month);
-
-        monthStatistics.deleteBook(book);
         bookRepository.deleteById(book.getBookId());
     }
 }

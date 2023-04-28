@@ -6,7 +6,6 @@ import com.jinkyumpark.core.reading.QReadingSession;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.statistics.dto.BookRelatedStatistics;
 import com.jinkyumpark.core.statistics.dto.ReadingSessionRelatedStatistics;
-import com.querydsl.jpa.JPAExpressions;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,7 @@ import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
-public class StatisticsQueryDslService {
+public class StatisticsQueryDslRepository {
 
     private final JPAQueryFactory queryFactory;
 
@@ -27,8 +26,9 @@ public class StatisticsQueryDslService {
 
         List<ReadingSession> readingSessionList = queryFactory
                 .selectFrom(readingSession)
-                .where(readingSession.appUserId.eq(appUserId))
-                .where(readingSession.startTime.year().eq(year))
+                .where(readingSession.appUserId.eq(appUserId)
+                                .and(readingSession.startTime.year().eq(year))
+                )
                 .fetch();
 
         int totalReadTime = readingSessionList
@@ -72,18 +72,23 @@ public class StatisticsQueryDslService {
 
         List<Book> bookList = queryFactory
                 .selectFrom(book)
-                .join(book.readingSessionList, readingSession)
-                // only fetch user's book
-                .where(book.appUserId.eq(appUserId))
-                // only fetch finished book
-                .where(book.currentPage.eq(book.endPage))
-                // only fetch finished in provided year
-//                .where(readingSession.startTime.year().eq(year))
-                .where(readingSession.startTime.eq(
-                        JPAExpressions.select(readingSession.startTime.max())
-                                .from(readingSession)
-                                .where(readingSession.book.eq(book))
-                ))
+
+                .innerJoin(book.readingSessionList, readingSession)
+
+                .where(book.appUserId.eq(appUserId)
+                                .and(book.currentPage.goe(book.endPage))
+                                .and(readingSession.startTime.year().eq(year))
+                                .and(readingSession.startTime.eq(
+                                                queryFactory
+                                                        .select(readingSession.startTime.max())
+                                                        .from(readingSession)
+                                                        .where(readingSession.book.eq(book))
+                                        )
+                                )
+                )
+
+                .groupBy(book, readingSession.startTime)
+
                 .fetch();
 
         long ratedBookCount = bookList.stream()
@@ -94,9 +99,9 @@ public class StatisticsQueryDslService {
                 .filter(Objects::nonNull)
                 .reduce(Integer::sum)
                 .orElse(0);
-        double averageRating = (double) ratingSum / ratedBookCount;
+        double averageRating = (double) ratingSum / (double) (ratedBookCount == 0 ? 1 : ratedBookCount);
 
-        Integer totalReadBookCount = bookList.size();
+        int totalReadBookCount = bookList.size();
 
         return BookRelatedStatistics.builder()
                 .averageRating(averageRating)

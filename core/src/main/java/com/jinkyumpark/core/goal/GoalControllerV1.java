@@ -8,7 +8,6 @@ import com.jinkyumpark.core.goal.model.Goal;
 import com.jinkyumpark.core.goal.model.GoalId;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
-import com.jinkyumpark.core.goal.model.Goal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
@@ -21,7 +20,9 @@ import java.util.stream.Collectors;
 @RestController @RequestMapping("/v1/goal")
 public class GoalControllerV1 {
     private final MessageSourceAccessor messageSource;
+
     private final GoalService goalService;
+    private final BookService bookService;
 
     @GetMapping("{year}")
     public GoalResponse getGoalByYear(@PathVariable(value = "year", required = false) Integer year,
@@ -30,7 +31,7 @@ public class GoalControllerV1 {
 
         Goal goal = goalService.getGoalByYear(year, loginAppUser);
 
-        return new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), goal.getCurrent());
+        return new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(),  bookService.getDoneBookCountByYear(loginAppUser.getId(), year));
     }
 
     @GetMapping
@@ -44,7 +45,7 @@ public class GoalControllerV1 {
         return goalService
                 .getGoalByStartYearAndEndYear(startYear, endYear, loginAppUser)
                 .stream()
-                .map(goal -> new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), goal.getCurrent()))
+                .map(goal -> new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), bookService.getDoneBookCountByYear(loginAppUser.getId(), goal.getGoalId().getYear())))
                 .collect(Collectors.toList());
     }
 
@@ -55,13 +56,12 @@ public class GoalControllerV1 {
         if (year == null) year = LocalDateTime.now().getYear();
 
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
-        Goal newGoal = new Goal(goalId, goal, loginAppUser.getId());
+        Goal newGoal = new Goal(goalId, goal);
 
-        goalService.addGoal(loginAppUser.getId(), newGoal);
+        goalService.addGoal(newGoal);
 
         return AddSuccessResponse.builder()
                 .message(messageSource.getMessage("goal.add.success"))
-                .path(String.format("POST v1/goal/%d/%d", year, goal))
                 .build();
     }
 
@@ -70,7 +70,7 @@ public class GoalControllerV1 {
                                           @RequestParam("goal") Integer goal,
                                           @LoginUser LoginAppUser loginAppUser) {
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
-        Goal editedGoal = new Goal(goalId, goal, loginAppUser.getId());
+        Goal editedGoal = new Goal(goalId, goal);
 
         goalService.editGoal(editedGoal);
 

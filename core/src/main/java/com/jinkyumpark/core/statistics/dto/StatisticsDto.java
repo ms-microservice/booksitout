@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.statistics;
+package com.jinkyumpark.core.statistics.dto;
 
 import lombok.Builder;
 import lombok.Getter;

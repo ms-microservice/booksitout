@@ -1,10 +1,9 @@
 package com.jinkyumpark.core.goal;
 
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
+import com.jinkyumpark.core.book.BookService;
+import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.goal.model.Goal;
 import com.jinkyumpark.core.goal.model.GoalId;
-import com.jinkyumpark.core.statistics.StatisticsService;
-import com.jinkyumpark.core.statistics.model.MonthStatistics;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -18,7 +17,7 @@ import java.util.List;
 public class GoalService {
     private final MessageSourceAccessor messageSource;
     private final GoalRepository goalRepository;
-    private final StatisticsService statisticsService;
+    private final BookService bookService;
 
     public Goal getGoalByYear(Integer year, LoginAppUser loginAppUser) {
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
@@ -35,12 +34,7 @@ public class GoalService {
     }
 
     @Transactional
-    public void addGoal(Long appUserId, Goal newGoal) {
-        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(appUserId, newGoal.getGoalId().getYear());
-        Integer totalBookReadDuringYear = monthStatisticsList.stream().mapToInt(MonthStatistics::getFinishedBook).sum();
-
-        newGoal.setNewCurrent(totalBookReadDuringYear);
-
+    public void addGoal(Goal newGoal) {
         goalRepository.save(newGoal);
     }
 
@@ -54,7 +48,7 @@ public class GoalService {
 
     public void deleteGoal(Long loginUserId, Integer year) {
         GoalId goalId = new GoalId(loginUserId, year);
-        Goal goal = goalRepository.findByGoalId(goalId)
+        goalRepository.findByGoalId(goalId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("goal.delete.fail.not-found")));
 
         goalRepository.deleteByGoalId(goalId);
