@@ -25,7 +25,7 @@ const DoneHorizontalBookView = ({ book }) => {
 					<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '0px' }}>
 						{[1, 2, 3, 4, 5].map((rate) => {
 							return (
-								<div className={`col-2 text-center text-warning ps-0 pe-0 ms-0 me-0 ${book.rating == null && 'text-muted'}`}>
+								<div className={`col-2 text-center text-warning ps-0 pe-0 ms-0 me-0 ${book.rating == null && 'text-muted'}`} style={{opacity: book.rating == null ? '0.1' : '0.7'}}>
 									<h1>{rate <= book.rating ? <StarFillIcon /> : <StarIcon />}</h1>
 								</div>
 							)

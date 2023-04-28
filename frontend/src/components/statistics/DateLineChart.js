@@ -1,7 +1,7 @@
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
-const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 }) => {
+const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, highlightGreatest = false }) => {
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 	return (
@@ -9,8 +9,15 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14 })
 			className='w-100 mt-0 mt-sm-auto ms-2 ms-md-0 pe-0 pe-md-2'
 			style={{ margin: 'auto 0' }}
 			options={{
-				plugins: { legend: { display: false } },
+				plugins: {
+					legend: { display: false },
+				},
 				scales: { y: { min: 0, suggestedMax: 60 } },
+				interaction: {
+					mode: 'nearest',
+					axis: 'x',
+					intersect: false,
+				}
 			}}
 			data={{
 				labels: [

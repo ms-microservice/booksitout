@@ -17,6 +17,7 @@ import utils from '../../functions/utils'
 import { loginToken, logoutToken } from '../../redux/userSlice'
 
 import logo from '../../resources/images/logo/logo.png'
+import axios from 'axios'
 
 const Login = () => {
 	const navigate = useNavigate()
@@ -113,19 +114,22 @@ const Login = () => {
 			localStorage.setItem('login-date', new Date().toString())
 			localStorage.setItem('login-method', res.data.loginMethod)
 
-			// localStorage.setItem('search-library-region-api', res.data.settings.region)
-			// localStorage.setItem('search-library-region-detail-api', res.data.settings.regionDetail)
-			// localStorage.setItem('search-my-book-range', res.data.settings.myBookSearchRange)
-			// localStorage.setItem('search-library-online-api', res.data.settings.libraryOnlineSearchRange)
-			// localStorage.setItem('search-subscription-api', res.data.settings.subscriptionSearchRange)
-			// localStorage.setItem('search-used-online-api', res.data.settings.usedOnlineSearchRange)
-			// localStorage.setItem('search-used-offline-api', res.data.settings.usedOfflineSearchRange)
-
 			toast.dismiss()
 			toast(res.data.message, { icon: '✋' })
 			dispatch(loginToken(utils.getToken()))
 
 			navigate('/')
+
+			axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: res.data.token } }).then((res) => {
+				localStorage.setItem('search-library-region-api', res.data.region)
+				localStorage.setItem('search-library-region-detail-api', res.data.regionDetail)
+				localStorage.setItem('search-my-book-range', res.data.myBookSearchRange)
+				localStorage.setItem('search-library-online-api', res.data.libraryOnlineSearchRange)
+				localStorage.setItem('search-subscription-api', res.data.subscriptionSearchRange)
+				localStorage.setItem('search-used-online-api', res.data.usedOnlineSearchRange)
+				localStorage.setItem('search-used-offline-api', res.data.usedOfflineSearchRange)
+				localStorage.setItem('library-search-method', res.data.librarySearchMethod)
+			})
 		})
 	}
 

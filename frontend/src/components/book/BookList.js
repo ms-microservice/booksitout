@@ -53,6 +53,7 @@ const BookList = () => {
 	const [bookList, setBookList] = useState(null)
 
 	useEffect(() => {
+		document.title = `${range == 'not-done' ? '읽고 있는 책' : range == 'give-up' ? '포기한 책' : '다 읽은 책'} | 책잇아웃`
 		setTimeout(() => setInitialFetch(false), 5000)
 
 		getBookList(rangeApi(), 0, fetchSize)

@@ -172,6 +172,8 @@ const AddBookSearchCard = () => {
 												</Form.Group>
 											</div>
 
+											<p className='text-secondary text-center mb-4'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
+
 											<div className='col-12'>
 												<Form.Group className='mb-3' onChange={(e) => setSource(e.target.value)}>
 													<Form.Label>책은 어디서 얻었나요?</Form.Label>
@@ -468,6 +470,8 @@ return (
 								/>
 							</Form.Group>
 						</div>
+
+						<p className='text-secondary text-center mb-4'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
 
 						<div className='col-6'>
 							<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>

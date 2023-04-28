@@ -21,6 +21,7 @@ import '../../resources/css/mainReadChart.css'
 import MainBookView from '../book/MainHorizontalBookView';
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'
+import MainLibraryCard from '../library/MainLibraryCard'
 
 const Main = () => {
 	const [loading, setIsLoading] = useState(true)
@@ -70,7 +71,7 @@ const Main = () => {
 				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<LastReadBook lastBook={lastBook} />
 				</div>
-				
+
 				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<ReadingTimeChart readTime={readTime} />
 				</div>
@@ -78,13 +79,17 @@ const Main = () => {
 				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<SummaryChart statistics={statistics} />
 				</div>
-				
+
 				<div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<GoalChart statistics={statistics} goal={goal} />
 				</div>
 
+				{/* <div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<MainLibraryCard/>
+				</div> */}
+
 				<div className='col-12 col-md-6 col-xl-4 mb-4'>
-					<IntroductionCard  />
+					<IntroductionCard />
 				</div>
 			</div>
 		</div>
@@ -188,7 +193,7 @@ const GoalChart = ({statistics, goal}) => {
 						<Error message='오류가 났어요' />
 					) : (
 						<div
-							className='h-100 d-flex align-items-center justify-content-center mt-4 mt-md-0 pb-4 pb-md-0 pt-xl-5 pb-xl-5'
+							className='h-100 d-flex align-items-center justify-content-center mt-4 mt-md-0 pb-4 pb-md-0 pt-xl-5 pb-xl-5 pe-3 pe-md-4'
 							style={{ position: 'relative', bottom: '20px' }}>
 							<Goal goal={goal} />
 						</div>
@@ -204,13 +209,13 @@ const IntroductionCard = () => {
 		{
 			id: 1,
 			title: '책잇아웃 간단한 소개',
-			link: '/introduction'
+			link: '/introduction',
 		},
 		{
 			id: 2,
-			title: '사용 가능한 모든 기능 보기',
-			link: '/introduction/features'
-		}
+			title: '사용 가능한 모든 기능',
+			link: '/introduction/features',
+		},
 	]
 
 	return (
@@ -218,27 +223,26 @@ const IntroductionCard = () => {
 			<Card.Body className='h-100'>
 				<h3 className='mb-4'>책잇아웃 소개</h3>
 
+			<div className="row">
+
 				{introData.map((intro) => {
 					return (
-						<Card className='mt-2'>
-							<a href={intro.link} className='text-decoration-none text-black'>
-								<Card.Body>
-									{intro.title}
+						<div className='col-12 col-md-6'>
+							<Card className='mb-3'>
+								<a href={intro.link} className='text-decoration-none text-black'>
+									<Card.Body>
+										<h5 className='text-center'>{intro.title}</h5>
 
-									<Button
-										variant='book'
-										style={{
-											position: 'absolute',
-											right: '10px',
-											bottom: '10px',
-										}}>
-										보러 가기
-									</Button>
-								</Card.Body>
-							</a>
-						</Card>
+										<Button variant='book' className='w-100'>
+											보러 가기
+										</Button>
+									</Card.Body>
+								</a>
+							</Card>
+						</div>
 					)
 				})}
+			</div>
 			</Card.Body>
 		</Card>
 	)

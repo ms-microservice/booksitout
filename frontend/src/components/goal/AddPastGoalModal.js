@@ -15,6 +15,7 @@ const AddPastGoalModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 
 		if (Number(goal) === 0) {
 			toast.error('목표를 입력해 주세요')
+			document.getElementById('goal-input').focus()
 			return
 		}
 
@@ -73,6 +74,7 @@ const AddPastGoalModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 						autoFocus
 						onChange={(e) => setGoal(e.target.value)}
 						className='mb-3'
+						id='goal-input'
 					/>
 
 					<p className='text-muted text-center'>20년 이상 전의 목표는 추가할 수 없어요</p>

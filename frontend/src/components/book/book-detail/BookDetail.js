@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 // Components
 import Loading from '../../common/Loading'
 import NoContent from '../../common/NoContent'
@@ -26,6 +25,8 @@ import { getAllReadingSessionOfBook } from '../../../functions/reading'
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
 import uiSettings from '../../../settings/ui'
 import utils from '../../../functions/utils'
+import Error from '../../common/Error';
+import BookRating from './BookRating'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -34,6 +35,7 @@ const BookDetail = () => {
 
 	const [loading, setLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
+	const [error, setError] = useState(false)
 
 	const [book, setBook] = useState(null)
 	const [memo, setMemo] = useState(null)
@@ -45,10 +47,17 @@ const BookDetail = () => {
 		}, uiSettings.initalFetchTime)
 
 		Promise.all([
-			getBook(id).then((book) => setBook(book)),
+			getBook(id).then((book) => {
+				document.title = `${book.title} | 책잇아웃`
+				setBook(book)
+			}),
 			getMemoListOfBook(id).then((memoList) => setMemo(memoList)),
 			getAllReadingSessionOfBook(id).then((readingSessionList) => setReadingSession(readingSessionList)),
-		]).finally(() => {
+		])
+		.catch((e) => {
+			setError(true)
+		})
+		.finally(() => {
 			setLoading(false)
 			setInitialFetch(false)
 		})
@@ -80,7 +89,9 @@ const BookDetail = () => {
 
 	if (initialFetch) return <></>
 	if (loading) return <Loading message='잠시만 기다려 주세요' />
+	if (error) return <Error message='없는 책이에요' />
 	if (book == null) <NoContent message='책이 없어요 다시 확인해 주세요' />
+
 	return (
 		<div className='container-xl'>
 			<div className='row text-center mt-5' style={{ marginBottom: '150px' }}>
@@ -125,6 +136,7 @@ const BookDetail = () => {
 					<BookCover book={book} />
 					<BookButtons
 						book={book}
+						setBook={setBook}
 						setIsRatingModalOpen={setIsRatingModalOpen}
 						setIsReviewModalOpen={setIsReviewModalOpen}
 						setIsSummaryModalOpen={setIsSummaryModalOpen}
@@ -266,7 +278,7 @@ const BookCover = ({ book }) => {
 	)
 }
 
-const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
+const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
 	const navigate = useNavigate()
 	const BOOK_EDIT_URL = `/book/edit/${book.bookId}`
 	const token = utils.getToken()
@@ -310,19 +322,9 @@ const BookButtons = ({ book, setIsRatingModalOpen, setIsReviewModalOpen, setIsSu
 							</Button>
 						</div>
 					) : (
-						<>
-							{
-								<div className='row justify-content-center mt-4'>
-									{[1, 2, 3, 4, 5].map((rate) => {
-										return (
-											<div className='col-2 text-center text-warning'>
-												<h1>{rate <= book.rating ? <StarFillIcon /> : <StarIcon />}</h1>
-											</div>
-										)
-									})}
-								</div>
-							}
-						</>
+						<div>
+							<BookRating book={book} setBook={setBook}/>
+						</div>
 					)}
 
 					{book.review == null ? (

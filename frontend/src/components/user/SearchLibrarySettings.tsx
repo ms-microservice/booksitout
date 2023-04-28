@@ -26,20 +26,7 @@ const SearchLibrarySettings = () => {
 }
 
 const SearchMethodSettings = () => {
-    const [currentApiKey, setCurrentApiKey] = useState('')
-	useEffect(() => {
-		// fetch(`${urls.api.base}/v3/search/library/settings/method`, {
-		// 	method: 'GET',
-		// 	headers: {
-		// 		Authorization: utils.getToken()!!,
-		// 	},
-		// })
-		// 	.then((res) => res.json())
-		// 	.then((data) => {
-		// 		console.log(data)
-		// 		setCurrentApiKey(data.method)
-		// 	})
-	}, [])
+    const [currentApiKey, setCurrentApiKey] = useState(localStorage.getItem('library-search-method') || 'REGION')
 
     const settingsList = [
         {
@@ -60,17 +47,31 @@ const SearchMethodSettings = () => {
 			return
 		}
 
-		// TODO : Post Search Method
+		axios
+			.put(
+				`${urls.api.base}/v3/search/settings/offline-library/search-method`,
+				{ method: apiKey },
+				{ headers: { Authorization: utils.getToken() } }
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					if (apiKey === 'REGION') {
+						toast.success('이제 도서관은 지역으로 검색할게요')
+					}
 
-		if (apiKey === 'REGION') {
-			toast.success('이제 도서관은 지역으로 검색할게요')
-		}
+					if (apiKey === 'SPECIFIC') {
+						toast.success('이제 직접 지정하신 도서관을 검색할게요')
+					}
 
-		if (apiKey === 'SPECIFIC') {
-			toast.success('이제 직접 지정하신 도서관을 검색할게요')
-		}
-
-		setCurrentApiKey(apiKey)
+					localStorage.setItem('library-search-method', apiKey)
+					setCurrentApiKey(apiKey)
+				} else {
+					toast.error(messages.error)
+				}
+			})
+			.catch(() => {
+				toast.error(messages.error)
+			})
 	}
 
     return (

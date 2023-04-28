@@ -15,16 +15,19 @@ const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 
 		if (goal === '') {
 			toast.error(messages.goal.add.fail.null)
+			document.getElementById('goal-input').focus()
 			return
 		}
 
 		if (isNaN(goal)) {
 			toast.error(messages.goal.add.fail.notNumber)
+			document.getElementById('goal-input').focus()
 			return
 		}
 
 		if (Number(goal) < 2) {
 			toast.error(messages.goal.add.fail.tooSmall)
+			document.getElementById('goal-input').focus()
 			return
 		}
 
@@ -56,6 +59,7 @@ const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 						autoFocus
 						placeholder={messages.goal.add.placeholder}
 						onChange={(e) => setGoal(e.target.value)}
+						id='goal-input'
 					/>
 
 					<div className='row justify-content-center mt-3'>

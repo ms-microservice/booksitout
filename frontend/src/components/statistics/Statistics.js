@@ -28,6 +28,7 @@ const Statistics = () => {
 	const [isStatisticsLoading, setIsStatisticsLoading] = useState(false)
 
 	useEffect(() => {
+		document.title = '통계 | 책잇아웃'
 		setTimeout(() => {
 			setInitialFetch(false)
 		}, 3000)

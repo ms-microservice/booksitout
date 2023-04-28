@@ -12,7 +12,7 @@ const LibraryDetailModal = () => {
 	const searchResult: LibraryBook | null = useSelector((state: RootState) => state.modal.searchLibraryDetailSelected)
 
 	return (
-		<Modal show={libraryModalOpen} onHide={() => dispatch(closeSearchLibraryDetail())} size='lg' fullscreen='md-down' style={{overflow: 'hidden'}}>
+		<Modal show={libraryModalOpen} onHide={() => dispatch(closeSearchLibraryDetail())} size='lg' fullscreen='md-down' style={{overflow: 'hidden'}} centered>
 			{searchResult == null ? (
 				<></>
 			) : (

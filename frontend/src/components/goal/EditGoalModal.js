@@ -13,21 +13,25 @@ const EditGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 
 		if (previousGoal == goal) {
 			toast.error('이전과 같은 목표에요')
+			document.getElementById('goal-input').focus()
 			return
 		}
 
 		if (goal === '') {
 			toast.error('목표를 입력해 주세요')
+			document.getElementById('goal-input').focus()
 			return
 		}
 
 		if (isNaN(goal)) {
 			toast.error('목표는 숫자만 입력할 수 있어요')
+			document.getElementById('goal-input').focus()
 			return
 		}
 
 		if (Number(goal) < 2) {
 			toast.error('2권 이상의 목표를 입력해 주세요')
+			document.getElementById('goal-input').focus()
 			return
 		}
 
@@ -54,8 +58,9 @@ const EditGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, curren
 						inputMode='numeric'
 						pattern='[0-9]*'
 						autoFocus
-						placeholder={`수정할 목표 (그 전 목표 : ${previousGoal})`}
+						placeholder={`수정할 목표 (원래 목표 : ${previousGoal})`}
 						onChange={(e) => setGoal(e.target.value)}
+						id='goal-input'
 					/>
 
 					<div className='row justify-content-center mt-3'>

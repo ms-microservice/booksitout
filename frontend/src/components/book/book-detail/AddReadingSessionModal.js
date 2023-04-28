@@ -49,7 +49,6 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 			endPage: endPage,
 			readTime: readTime,
 		}
-
 		addReadingSession(book.bookId, readingSession)
 			.then((success) => {
 				if (success) {
@@ -75,6 +74,34 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 			.catch(() => {
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			})
+	}
+
+	const predictReadtime = () => {
+		if (readingSessionList.length === 0) {
+			toast.error('그 전 독서활동이 없어서 예측할 수 없어요')
+			document.getElementById('read-time-input').focus()
+			return
+		}
+
+		if (endPage <= book.currentPage) {
+			toast.error('독서활동의 끝 페이지는 그 전 독서활동 페이지보다 작을 수 없어요')
+			document.getElementById('end-page-input').focus()
+			return
+		}
+
+		if (endPage > book.endPage) {
+			toast.error('독서활동의 끝 페이지는 책의 마지막 페이지보다 클 수 없어요')
+			document.getElementById('end-page-input').focus()
+			return
+		}
+
+		const totalReadTime = readingSessionList.reduce((acc, cur) => acc + cur.readTime, 0)
+		const averageReadTimePerPage = totalReadTime / book.currentPage
+		const readPage = endPage - book.currentPage
+
+		setReadTime(Math.round(averageReadTimePerPage * readPage))
+		toast.success('그 전 독서활동을 바탕으로 예측했어요')
+		document.getElementById('read-time-input').focus()
 	}
 
 	return (
@@ -125,21 +152,34 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 						pattern='[0-9]*'
 						onChange={(e) => setEndPage(e.target.value)}
 						autoFocus
+						value={endPage}
 						id='end-page-input'
 					/>
 
 					<Form.Label>⏰ 시간 (분)</Form.Label>
-					<Form.Control
-						className='mb-2'
-						type='number'
-						inputMode='numeric'
-						pattern='[0-9]*'
-						autoComplete='off'
-						onChange={(e) => setReadTime(e.target.value)}
-						id='read-time-input'
-					/>
 
 					<div className='row'>
+						<div className='col-7'>
+							<Form.Control
+								className='mb-2'
+								type='number'
+								inputMode='numeric'
+								pattern='[0-9]*'
+								autoComplete='off'
+								onChange={(e) => setReadTime(e.target.value)}
+								value={readTime}
+								id='read-time-input'
+							/>
+						</div>
+
+						<div className='col-5'>
+							<Button variant='book' disabled={endPage == null} onClick={() => predictReadtime()} className='w-100'>
+								페이지로 예측하기
+							</Button>
+						</div>
+					</div>
+
+					<div className='row mt-2'>
 						<div className='col-12 col-md-6'>
 							<Button variant='book-danger' className='w-100 mt-2' onClick={() => setIsModalOpen(false)}>
 								취소
