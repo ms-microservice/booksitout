@@ -1,4 +1,4 @@
-package com.jinkyumpark.user;
+package com.jinkyumpark.user.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

@@ -1,9 +1,9 @@
-package com.jinkyumpark.user;
+package com.jinkyumpark.user.oauth;
 
 import com.jinkyumpark.user.appUser.AppUser;
 import com.jinkyumpark.user.appUser.AppUserService;
-import com.jinkyumpark.user.dto.response.LoginMethod;
-import com.jinkyumpark.user.dto.response.LoginSuccessResponse;
+import com.jinkyumpark.user.response.LoginMethod;
+import com.jinkyumpark.user.response.LoginSuccessResponse;
 import com.jinkyumpark.user.oauth.google.GoogleToken;
 import com.jinkyumpark.user.oauth.google.GoogleUserInfo;
 import com.jinkyumpark.user.oauth.kakao.KakaoToken;
@@ -21,8 +21,8 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
-@RestController @RequestMapping("user/v2/login/oauth2")
-public class AppUserControllerV2 {
+@RestController @RequestMapping("v2/login/oauth2")
+public class OAuthControllerV2 {
     private final AppUserService appUserService;
     private final Environment environment;
     private final RestTemplate restTemplate;
@@ -69,7 +69,7 @@ public class AppUserControllerV2 {
                 environment.getProperty("oauth.google.token-url"),
                 environment.getProperty("oauth.google.client-id"),
                 environment.getProperty("oauth.google.client-secret"),
-                "https://book.jinkyumpark.com/login/oauth/google",
+                "https://booksitout.com/login/oauth/google",
                 code);
         GoogleToken googleToken = restTemplate.postForObject(tokenUrl, null, GoogleToken.class);
 

@@ -1,7 +1,7 @@
 package com.jinkyumpark.user.oauth.kakao;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.jinkyumpark.user.dto.OAuthDto;
+import com.jinkyumpark.user.oauth.OAuthDto;
 import com.jinkyumpark.user.oauth.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

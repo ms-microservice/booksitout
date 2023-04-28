@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.utils;
+package com.jinkyumpark.user.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;

@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.dto;
+package com.jinkyumpark.user.appUser;
 
 import lombok.Builder;
 import lombok.Getter;

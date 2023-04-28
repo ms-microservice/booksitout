@@ -1,13 +1,12 @@
 package com.jinkyumpark.user.appUser;
 
-import com.jinkyumpark.user.AppUserAuthenticationToken;
-import com.jinkyumpark.user.dto.AppUserDto;
-import com.jinkyumpark.user.dto.OAuthDto;
-import com.jinkyumpark.user.dto.response.LoginMethod;
-import com.jinkyumpark.user.dto.response.LoginSuccessResponse;
-import com.jinkyumpark.user.exception.http.NotFoundException;
-import com.jinkyumpark.user.exception.http.NotLoginException;
+import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.user.response.LoginMethod;
+import com.jinkyumpark.user.response.LoginSuccessResponse;
+import com.jinkyumpark.user.jwt.AppUserAuthenticationToken;
 import com.jinkyumpark.user.jwt.JwtUtils;
+import com.jinkyumpark.user.oauth.OAuthDto;
 import com.jinkyumpark.user.settings.Settings;
 import com.jinkyumpark.user.settings.SettingsService;
 import lombok.RequiredArgsConstructor;
@@ -52,7 +51,7 @@ public class AppUserService implements UserDetailsService {
     public static Long getLoginAppUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.isAuthenticated()) {
-            throw new NotLoginException("Please Login");
+            throw new UnauthorizedException("Please Login");
         }
 
         AppUserAuthenticationToken token = ((AppUserAuthenticationToken) authentication);

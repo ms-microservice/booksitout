@@ -1,6 +1,6 @@
 package com.jinkyumpark.user.oauth.google;
 
-import com.jinkyumpark.user.dto.OAuthDto;
+import com.jinkyumpark.user.oauth.OAuthDto;
 import com.jinkyumpark.user.oauth.OAuthProvider;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

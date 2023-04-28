@@ -1,4 +1,4 @@
-package com.jinkyumpark.user;
+package com.jinkyumpark.user.config;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.user.appUser.AppUserService;
@@ -25,14 +25,7 @@ import javax.crypto.SecretKey;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 @Configuration
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final JwtConfig jwtConfig;
-
-    private final SecretKey secretKey;
     private final PasswordEncoder passwordEncoder;
-    private final JwtUtils jwtUtils;
-    private final ObjectMapper objectMapper;
-    private final SettingsService settingsService;
-
     private final AppUserService appUserService;
 
     @Override

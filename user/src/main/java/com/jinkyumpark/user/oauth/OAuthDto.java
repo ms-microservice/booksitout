@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.dto;
+package com.jinkyumpark.user.oauth;
 
 import com.jinkyumpark.user.oauth.OAuthProvider;
 import lombok.Builder;

@@ -8,8 +8,8 @@ import com.jinkyumpark.user.settings.dtos.ChangeRegionRequest;
 import com.jinkyumpark.user.settings.dtos.SettingsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-import response.DeleteSuccessResponse;
-import response.EditSuccessResponse;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
 
 import javax.validation.Valid;
 
@@ -21,14 +21,12 @@ public class SettingsControllerV2 {
     private final SettingsService settingsService;
 
     @PutMapping("search/my-book/search-range")
-    public EditSuccessResponse changeMyBookSearchRange(@Valid @RequestBody ChangeMyBookSearchRangeRequest changeMyBookSearchRangeRequest,
+    public UpdateSuccessResponse changeMyBookSearchRange(@Valid @RequestBody ChangeMyBookSearchRangeRequest changeMyBookSearchRangeRequest,
                                                        @LoginUser LoginAppUser loginAppUser) {
         SettingsDto settingsDto = changeMyBookSearchRangeRequest.toDto(loginAppUser.getId());
         settingsService.updateSettings(settingsDto);
 
-        return EditSuccessResponse.builder()
-                .path("PUT /v2/settings/my-book/search-range")
-                .build();
+        return UpdateSuccessResponse.builder().build();
     }
 
     @DeleteMapping("search/library-offline/region")
@@ -36,25 +34,21 @@ public class SettingsControllerV2 {
 
         settingsService.deleteRegionSettings(loginAppUser.getId());
 
-        return DeleteSuccessResponse.builder()
-                .path("DELETE search/library-offline/region")
-                .build();
+        return DeleteSuccessResponse.builder().build();
     }
 
     @PutMapping("search/library-offline/region")
-    public EditSuccessResponse changeRegion(@Valid @RequestBody ChangeRegionRequest changeRegionRequest,
+    public UpdateSuccessResponse changeRegion(@Valid @RequestBody ChangeRegionRequest changeRegionRequest,
                                             @LoginUser LoginAppUser loginAppUser) {
 
         SettingsDto settingsDto = changeRegionRequest.toDto(loginAppUser.getId());
         settingsService.updateSettings(settingsDto);
 
-        return EditSuccessResponse.builder()
-                .path("POST /v2/settings/change-region")
-                .build();
+        return UpdateSuccessResponse.builder().build();
     }
 
     @PutMapping("search/library-online/search-range")
-    public EditSuccessResponse changeLibraryOnlineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
+    public UpdateSuccessResponse changeLibraryOnlineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
                                                               @LoginUser LoginAppUser loginAppUser) {
 
         SettingsDto settingsDto = SettingsDto.builder()
@@ -63,13 +57,11 @@ public class SettingsControllerV2 {
                 .build();
         settingsService.updateSettings(settingsDto);
 
-        return EditSuccessResponse.builder()
-                .path("PUT /v2/settings/search/library-online/search-range ")
-                .build();
+        return UpdateSuccessResponse.builder().build();
     }
 
     @PutMapping("search/subscription/search-range")
-    public EditSuccessResponse changeSubscriptionSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
+    public UpdateSuccessResponse changeSubscriptionSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
                                                              @LoginUser LoginAppUser loginAppUser) {
 
         SettingsDto settingsDto = SettingsDto.builder()
@@ -78,13 +70,11 @@ public class SettingsControllerV2 {
                 .build();
         settingsService.updateSettings(settingsDto);
 
-        return EditSuccessResponse.builder()
-                .path("PUT /v2/settings/search/search/subscription/search-range ")
-                .build();
+        return UpdateSuccessResponse.builder().build();
     }
 
     @PutMapping("search/used-online/search-range")
-    public EditSuccessResponse changeUsedOnlineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
+    public UpdateSuccessResponse changeUsedOnlineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
                                                            @LoginUser LoginAppUser loginAppUser) {
 
         SettingsDto settingsDto = SettingsDto.builder()
@@ -93,13 +83,11 @@ public class SettingsControllerV2 {
                 .build();
         settingsService.updateSettings(settingsDto);
 
-        return EditSuccessResponse.builder()
-                .path("PUT /v2/settings/search/used-online/search-range ")
-                .build();
+        return UpdateSuccessResponse.builder().build();
     }
 
     @PutMapping("search/used-offline/search-range")
-    public EditSuccessResponse changeUsedOfflineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
+    public UpdateSuccessResponse changeUsedOfflineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
                                                             @LoginUser LoginAppUser loginAppUser) {
         SettingsDto settingsDto = SettingsDto.builder()
                 .appUserId(loginAppUser.getId())
@@ -107,8 +95,6 @@ public class SettingsControllerV2 {
                 .build();
         settingsService.updateSettings(settingsDto);
 
-        return EditSuccessResponse.builder()
-                .path("PUT /v2/settings/search/used-offline/search-range ")
-                .build();
+        return UpdateSuccessResponse.builder().build();
     }
 }
