@@ -46,10 +46,10 @@ function App() {
 				<Route path='/faq' element={<Faq />} />
 
 				<Route path='/login' element={<Login />} />
+				<Route path='/login/oauth/:provider' element={<OAuth />} />
 				<Route path='/join' element={<Join />} />
 				<Route path='/settings' element={<Settings />} />
 				<Route path='/settings/search/library' element={<SearchLibrarySettings />} />
-				<Route path='/login/oauth/:provider' element={<OAuth />} />
 
 				<Route path='/' element={<Main />} />
 				<Route path='/book/:range' element={<BookList />} />
@@ -61,7 +61,7 @@ function App() {
 				<Route path='/reading' element={<ReadingNoId />} />
 				<Route path='/reading/:id' element={<Reading />} />
 				<Route path='/statistics' element={<Statistics />} />
-				<Route path='/statistics/goal' element={<GoalRoute />} />
+				<Route path='/goal' element={<GoalRoute />} />
 
 				<Route path='/search/:query' element={<Search />} />
 			</Routes>

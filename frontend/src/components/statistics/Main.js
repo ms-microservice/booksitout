@@ -6,7 +6,7 @@ import Error from '../common/Error'
 import NoContent from '../common/NoContent'
 import DateLineChart from './DateLineChart'
 import SummaryTable from './SummaryTable'
-import GoalRoute from '../goal/GoalRoute'
+import Goal from '../goal/Goal'
 // Functions
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
@@ -181,7 +181,7 @@ const GoalChart = ({statistics, goal}) => {
 	return (
 		<Card className='pb-xl-4 h-100'>
 			<Card.Body>
-				<a href='/statistics/goal' className='text-decoration-none text-black'>
+				<a href='/goal' className='text-decoration-none text-black'>
 					<h3>{new Date().getFullYear()}년 목표</h3>
 
 					{statistics == null ? (
@@ -190,7 +190,7 @@ const GoalChart = ({statistics, goal}) => {
 						<div
 							className='h-100 d-flex align-items-center justify-content-center mt-4 mt-md-0 pb-4 pb-md-0 pt-xl-5 pb-xl-5'
 							style={{ position: 'relative', bottom: '20px' }}>
-							<GoalRoute goal={goal} />
+							<Goal goal={goal} />
 						</div>
 					)}
 				</a>

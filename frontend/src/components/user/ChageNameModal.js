@@ -28,18 +28,28 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
 			<Modal.Header className='text-center' closeButton>
 				<h4 className='w-100'>이름 변경하기</h4>
 			</Modal.Header>
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleChangeName(e)}>
-					<Form.Control placeholder='변경할 이름을 입력해 주세요' onChange={(e) => setNewName(e.target.value)} autoFocus/>
+					<Form.Control placeholder='변경할 이름을 입력해 주세요' onChange={(e) => setNewName(e.target.value)} autoFocus />
 
-					<Button type='submit' variant='book' className='mt-3 w-100'>
-						변경하기
-					</Button>
+					<div className='row'>
+						<div className='col-12 col-md-6'>
+							<Button variant='book-danger' className='mt-3 w-100' onClick={() => setIsModalOpen(false)}>
+								취소
+							</Button>
+						</div>
+
+						<div className='col-12 col-md-6'>
+							<Button type='submit' variant='book' className='mt-3 w-100'>
+								변경하기
+							</Button>
+						</div>
+					</div>
 				</Form>
 			</Modal.Body>
 		</Modal>

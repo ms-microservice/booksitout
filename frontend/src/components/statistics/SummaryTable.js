@@ -30,7 +30,7 @@ const SummaryTable = ({ statistics }) => {
 			id: 4,
 			icon: starIcon,
 			name: '평균별점',
-			value: `${statistics.yearStatistics.averageStar != null && Math.round(statistics.yearStatistics.averageStar, 2)}점`,
+			value: `${statistics.yearStatistics.averageStar != null && statistics.yearStatistics.averageStar.toFixed(1)}점`,
 		},
 		{
 			id: 2,

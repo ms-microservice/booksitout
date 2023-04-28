@@ -20,7 +20,18 @@ import parse from 'html-react-parser'
 
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
-	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
+	const rangeApi = () => {
+		if (range === 'not-done') {
+			if (rangeDetail === 'all' || rangeDetail == null) {
+				return 'not-done'
+			} else {
+				return 'not-started'
+			}
+		}
+
+		return range
+	}
+	
 	const noContentMessage = parse(
 		range === 'not-done'
 			? `읽지 않은 책이 없어요`
@@ -44,7 +55,7 @@ const BookList = () => {
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 5000)
 
-		getBookList(rangeApi, 0, fetchSize)
+		getBookList(rangeApi(), 0, fetchSize)
 			.then((pageList) => {
 				if (pageList == null) throw new Error()
 
@@ -61,7 +72,7 @@ const BookList = () => {
 	}, [])
 
 	const getNextPage = () => {
-		getBookList(rangeApi, currentPage + 1, fetchSize)
+		getBookList(rangeApi(), currentPage + 1, fetchSize)
 			.then((pageList) => {
 				setBookList([...bookList, ...pageList.content])
 			})

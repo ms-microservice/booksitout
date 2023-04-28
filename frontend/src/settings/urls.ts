@@ -77,7 +77,7 @@ const urls = {
 
 		reading: {
 			get: {
-				current: `${apiBase}/v1/reading-session/current`,
+				current: `${apiBase}/v3/reading/current`,
 				currentBook: `${apiBase}/v1/book/current-reading-session`,
 				all: (bookId) => `${apiBase}/v1/reading-session/${bookId}`,
 			},
@@ -133,7 +133,7 @@ const urls = {
 		},
 
 		search: {
-			myBook: (query) => `${apiBase}/v2/search/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range') || 'ALL'}`,
+			myBook: (query) => `${apiBase}/v2/book/my-book?query=${query}&range=${localStorage.getItem('search-my-book-range') || 'ALL'}`,
 			used: (query: string, includeOnline: string, includeOffline: string) =>
 				`${apiBase}/v2/search/used?query=${query}&include-online=${includeOnline}&include-offline=${includeOffline}`,
 			subscription: (query, include) => `${apiBase}/v2/search/subscription?query=${query}&include=${include}`,

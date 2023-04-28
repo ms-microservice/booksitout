@@ -27,7 +27,7 @@ const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>별점 추가하기</h4>
 			</Modal.Header>

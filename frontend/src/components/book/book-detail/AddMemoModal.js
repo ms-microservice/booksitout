@@ -49,7 +49,7 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>📋 메모 추가하기</h4>
 			</Modal.Header>

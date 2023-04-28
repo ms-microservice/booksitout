@@ -93,7 +93,17 @@ const Login = () => {
 		user.login(loginRequest).then((res) => {
 			if (!res.status.toString().startsWith('2')) {
 				toast.dismiss()
-				toast.error(res.data.message)
+				if (res.data.message != '' && res.data.message != null) {
+					toast.error(res.data.message)
+					return
+				}
+
+				if (res.status === 503) {
+					toast.error('서버에 오류가 났어요. 열심히 복구하고 있으니 잠시만 기다려 주세요!')
+					return
+				}
+
+				toast.error('알 수 없는 오류가 났어요. 잠시후 다시 시도해 주세요')
 				return
 			}
 

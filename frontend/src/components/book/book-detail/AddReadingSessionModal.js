@@ -78,7 +78,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>독서 활동 직접 추가하기</h4>
 			</Modal.Header>

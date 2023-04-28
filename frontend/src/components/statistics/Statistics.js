@@ -8,10 +8,11 @@ import CategoryTable from './CategoryTable'
 import LanguageTable from './LanguageTable'
 import SummaryTable from './SummaryTable'
 import DateLineChart from './DateLineChart'
-import GoalRoute from '../goal/GoalRoute'
 // Functions
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
+
+import '../../resources/css/statistics.css'
 
 const Statistics = () => {
 	const [initialFetch, setInitialFetch] = useState(true)
@@ -45,6 +46,8 @@ const Statistics = () => {
 	}, [])
 
 	useEffect(() => {
+		if (initialFetch) return
+
 		setIsStatisticsLoading(true)
 
 		let isSecondPassed = false
@@ -68,29 +71,29 @@ const Statistics = () => {
 	}, [statisticsSelectedYear])
 
 	return (
-		<div className='container-xl'>
+		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden' }}>
 			{initialFetch ? (
 				<></>
 			) : isLoading ? (
 				<Loading />
 			) : (
 				<div className='row row-eq-height'>
-					<div className='col-12 col-lg-6 mb-4'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4 graph-height'>
 						<Card className='h-100'>
-							<Card.Body>
+							<Card.Body className='h-100'>
 								<h3>최근 30일 독서시간</h3>
 
-								<div className='row h-100 w-100' id='readTimeChart'>
+								<div className='row h-100 w-100 pt-2 pb-2' id='readTimeChart'>
 									<DateLineChart startDate={new Date().setDate(new Date().getDate() - 30)} data={readTimeList} duration={30} />
 								</div>
 							</Card.Body>
 						</Card>
 					</div>
 
-					<div className='col-12 col-lg-6 mb-4'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4 graph-height'>
 						<Card className='h-100'>
 							<Card.Body>
-								<div className='row'>
+								<div className='row h-100'>
 									<div className='col-6'>
 										<h3>매년 독서현황</h3>
 									</div>
@@ -98,35 +101,43 @@ const Statistics = () => {
 									<div className='col-6'>
 										<Form>
 											<Form.Select onChange={(e) => setStatisticsSelectedYear(e.target.value)}>
-												{Array.from(
-													{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
-													(_, i) => i + Number(localStorage.getItem('register-year'))
-												)
-													.reverse()
-													.map((year) => {
-														return <option value={year}>{`${year}년`}</option>
-													})}
+												{
+													// Array.from(
+													// 	{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
+													// 	(_, i) => i + Number(localStorage.getItem('register-year'))
+													// )
+													Array.from(
+														{ length: new Date().getFullYear() - (new Date().getFullYear() - 5) + 1 },
+														(_, i) => i + new Date().getFullYear() - 5
+													)
+														.reverse()
+														.map((year) => {
+															return <option value={year}>{`${year}년`}</option>
+														})
+												}
 											</Form.Select>
 										</Form>
 									</div>
 
-									{isStatisticsLoading ? (
-										<div className='col-12 mt-5 w-100'>
-											<Loading textSize='h2' />
-										</div>
-									) : statisticsData == null ? (
-										<Error />
-									) : (
-										<div className='mt-3'>
-											<SummaryTable statistics={statisticsData} />
-										</div>
-									)}
+									<div className='mt-2'>
+										{isStatisticsLoading ? (
+											<div className='col-12 w-100'>
+												<Loading textSize='h2' mt='74.5px' mb='74.5px' />
+											</div>
+										) : statisticsData == null ? (
+											<Error />
+										) : (
+											<div className='mt-3'>
+												<SummaryTable statistics={statisticsData} />
+											</div>
+										)}
+									</div>
 								</div>
 							</Card.Body>
 						</Card>
 					</div>
 
-					<div className='col-12 col-lg-6 mb-4'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4'>
 						<Card className='h-100'>
 							<Card.Body>
 								<h3>언어별 독서현황</h3>
@@ -136,7 +147,7 @@ const Statistics = () => {
 						</Card>
 					</div>
 
-					<div className='col-12 col-lg-6 mb-4'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4'>
 						<Card className='h-100'>
 							<Card.Body>
 								<h3>장르별 독서현황</h3>
@@ -144,22 +155,6 @@ const Statistics = () => {
 								<CategoryTable categoryData={categoryData} />
 							</Card.Body>
 						</Card>
-					</div>
-
-					<div className='col-12 col-lg-6 mb-4'>
-						<a href='/statistics/goal' className='text-decoration-none text-black'>
-							<Card className='h-100'>
-								<Card.Body>
-									<div className='row'>
-										<h3>목표 달성 현황</h3>
-									</div>
-
-									<div className='mt-5 mb-5'>
-										<GoalRoute goal={goalData} />
-									</div>
-								</Card.Body>
-							</Card>
-						</a>
 					</div>
 				</div>
 			)}

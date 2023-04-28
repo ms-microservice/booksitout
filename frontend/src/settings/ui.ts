@@ -9,7 +9,7 @@ const uiSettings = {
 
 	responsive: {
 		topnav: {
-			collapse: 'lg',
+			collapse: 'md',
 		},
 	},
 
@@ -18,7 +18,7 @@ const uiSettings = {
 		link: [
 			{
 				id: 1,
-				url: '/book/not-done/all',
+				url: '/book/not-done',
 				activeUrl: '/book/not-done',
 				title: '읽고 있는 책',
 			},

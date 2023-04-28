@@ -113,7 +113,8 @@ const ReadingSessionDetailModal = ({
 				setIsEditMode(false)
 			}}
 			fullscreen='md-down'
-			size={isEditMode ? 'lg' : 'md'}>
+			size={isEditMode ? 'lg' : 'md'}
+			centered>
 			<Modal.Header closeButton className='text-center'>
 				{isEditMode ? <h4 className='w-100'>독서활동 수정하기</h4> : <h4 className='w-100'>독서활동 자세히 보기</h4>}
 			</Modal.Header>
