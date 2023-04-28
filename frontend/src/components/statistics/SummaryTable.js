@@ -1,10 +1,21 @@
 // Icons
 import timeIcon from '../../resources/images/statistics/time.png'
-import bookIcon from '../../resources/images/statistics/book.png'
-import averageIcon from '../../resources/images/statistics/average.png'
+
+// import averageIcon from '../../resources/images/statistics/average.png'
+// import averageIcon from '../../resources/images/statistics/green-chart.png'
+import averageIcon from '../../resources/images/statistics/simple-chart.png'
+
+// import bookIcon from '../../resources/images/statistics/book.png'
+// import bookIcon from '../../resources/images/statistics/green-book.png'
+// import bookIcon from '../../resources/images/statistics/book-shelf.png'
+import bookIcon from '../../resources/images/statistics/book-overlap.png'
+
 import starIcon from '../../resources/images/statistics/star.png'
+
 import longestDayIcon from '../../resources/images/statistics/bookworm.png'
+
 import pageIcon from '../../resources/images/statistics/page.png'
+// import pageIcon from '../../resources/images/statistics/page-simple.png'
 
 const SummaryTable = ({ statistics }) => {
 	const statisticsData = [
