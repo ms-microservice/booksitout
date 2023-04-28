@@ -1,8 +1,10 @@
 package com.jinkyumpark.core.goal;
 
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
+import com.jinkyumpark.core.book.BookService;
+import com.jinkyumpark.core.goal.model.Goal;
 import com.jinkyumpark.core.goal.model.GoalId;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
@@ -64,15 +66,17 @@ public class GoalControllerV1 {
     }
 
     @PutMapping("{year}")
-    public EditSuccessResponse editGoal(@PathVariable("year") Integer year,
-                                        @RequestParam("goal") Integer goal,
-                                        @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse editGoal(@PathVariable("year") Integer year,
+                                          @RequestParam("goal") Integer goal,
+                                          @LoginUser LoginAppUser loginAppUser) {
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
         Goal editedGoal = new Goal(goalId, goal, loginAppUser.getId());
 
         goalService.editGoal(editedGoal);
 
-        return new EditSuccessResponse(String.format("PUT v1/goal/%d?goal=%d", year, goal), messageSource.getMessage("goal.edit.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("goal.edit.success"))
+                .build();
     }
 
     @DeleteMapping("{year}")
@@ -80,6 +84,8 @@ public class GoalControllerV1 {
                                             @LoginUser LoginAppUser loginAppUser) {
         goalService.deleteGoal(loginAppUser.getId(), year);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/goal/%d", year), messageSource.getMessage("goal.delete.success"));
+        return DeleteSuccessResponse.builder()
+                .message(messageSource.getMessage("goal.delete.success"))
+                .build();
     }
 }

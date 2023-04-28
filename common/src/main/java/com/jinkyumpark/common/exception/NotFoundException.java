@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.common.exception.http;
+package com.jinkyumpark.common.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;

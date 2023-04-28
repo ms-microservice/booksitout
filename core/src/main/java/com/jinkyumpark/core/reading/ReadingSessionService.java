@@ -1,5 +1,8 @@
 package com.jinkyumpark.core.reading;
 
+import com.jinkyumpark.common.exception.BadRequestException;
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.book.BookService;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.common.exception.http.BadRequestException;
@@ -90,7 +93,7 @@ public class ReadingSessionService {
         Optional<ReadingSession> currentReadingSessionOptional = this.getCurrentReadingSessionOptional(loginAppUser.getId());
 
         if (!book.getAppUserId().equals(loginAppUser.getId()))
-            throw new NotAuthorizeException("독서활동을 추가하시려는 책의 주인이 아니에요");
+            throw new UnauthorizedException("독서활동을 추가하시려는 책의 주인이 아니에요");
         if (!readingSessionDto.getStartPage().equals(book.getCurrentPage() + 1) && book.getCurrentPage() != 0)
             throw new BadRequestException("독서활동 시작 페이지는 바로 전 독서활동 페이지 바로 뒤여야만 해요");
         if (currentReadingSessionOptional.isPresent())
@@ -139,11 +142,11 @@ public class ReadingSessionService {
     public void endCurrentReadingSession(ReadingSessionDto readingSessionDto, LoginAppUser loginAppUser) {
         ReadingSession currentReadingSession = this.getCurrentReadingSession(loginAppUser.getId());
         Book book = bookService.getBookById(loginAppUser, currentReadingSession.getBook().getBookId());
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), currentReadingSession.getStartTime().getYear(), currentReadingSession.getStartTime().getMonthValue());
-        Goal goal = goalService.getGoalByYear(currentReadingSession.getStartTime().getYear(), loginAppUser);
 
-        if (currentReadingSession.getStartPage() > readingSessionDto.getEndPage()) throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
-        if (readingSessionDto.getEndPage() > book.getEndPage()) throw new BadRequestException("책의 마지막 페이지보다 커요");
+        if (currentReadingSession.getStartPage() > readingSessionDto.getEndPage())
+            throw new BadRequestException("그 전 독서활동보다 적은 페이지에요");
+        if (readingSessionDto.getEndPage() > book.getEndPage())
+            throw new BadRequestException("책의 마지막 페이지보다 커요");
 
         currentReadingSession.updateReadingSession(readingSessionDto);
         book.updateReadingSession(readingSessionDto);
@@ -155,11 +158,9 @@ public class ReadingSessionService {
     public void deleteReadingSession(Long readingSessionId, LoginAppUser loginAppUser) {
         ReadingSession readingSession = this.getReadingSessionByReadingSessionId(readingSessionId);
         Book book = readingSession.getBook();
-        MonthStatistics statistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), readingSession.getStartTime().getYear(), readingSession.getStartTime().getMonthValue());
-        Goal goal = goalService.getGoalByYear(readingSession.getStartTime().getYear(), loginAppUser);
 
         if (!loginAppUser.getId().equals(readingSession.getBook().getAppUserId()))
-            throw new NotAuthorizeException("독서활동을 지우실 권한이 없어요");
+            throw new UnauthorizedException("독서활동을 지우실 권한이 없어요");
         if (readingSession.getEndPage() != null && !readingSession.getEndPage().equals(readingSession.getBook().getCurrentPage()))
             throw new BadRequestException("가장 최근의 독서활동만 지우실 수 있어요");
 

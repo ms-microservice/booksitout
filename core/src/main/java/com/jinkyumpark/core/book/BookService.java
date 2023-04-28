@@ -1,8 +1,11 @@
 package com.jinkyumpark.core.book;
 
+import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.exception.BookNotSharingException;
 import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.statistics.StatisticsService;
 import com.jinkyumpark.core.statistics.model.MonthStatistics;
@@ -36,7 +39,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.fail.not-found")));
 
         if (!loginAppUser.getId().equals(book.getAppUserId())) {
-            throw new BookNotSharingException(messageSource.getMessage("book.get.fail.not-sharing"));
+            throw new UnauthorizedException(messageSource.getMessage("book.get.fail.not-sharing"));
         }
 
         return book;
@@ -110,7 +113,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
         if (!book.getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+            throw new UnauthorizedException("book.edit.fail.not-authorize");
         }
 
         book.giveUpBook();
@@ -123,7 +126,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
         if (!book.getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+            throw new UnauthorizedException("book.edit.fail.not-authorize");
         }
 
         book.unGiveUpBook();
@@ -135,9 +138,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException("book.get.fail.not-found"));
 
         if (!loginUserId.equals(bookToEdit.getAppUserId()))
-            throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
-
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getCreatedDate().getYear(), bookToEdit.getCreatedDate().getMonthValue());
+            throw new UnauthorizedException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
         bookToEdit.editBook(bookDto);
         monthStatistics.editBook(bookDto);
@@ -149,7 +150,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.delete.fail.not-found")));
 
         if (!book.getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException(messageSource.getMessage("book.delete.fail.not-authorize"));
+            throw new UnauthorizedException(messageSource.getMessage("book.delete.fail.not-authorize"));
         }
 
         Optional<ReadingSession> lastReadingSession = readingSessionRepository.findFirstByBook_BookIdOrderByStartTimeDesc(bookId);

@@ -1,10 +1,9 @@
-package com.jinkyumpark.core.common.exception.handler;
+package com.jinkyumpark.core.common.config;
 
-import com.jinkyumpark.core.book.exception.BookNotSharingException;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,12 +11,13 @@ import java.time.LocalDateTime;
 import java.util.Map;
 
 @RestControllerAdvice
-public class CustomExceptionHandler {
+public class InternalServerErrorExceptionHandler {
 
-    @ExceptionHandler(value = {BookNotSharingException.class, NotAuthorizeException.class})
-    public ResponseEntity<Map<String, Object>> handleException(BookNotSharingException e, HttpServletRequest request) {
-        HttpStatus httpStatus = HttpStatus.UNAUTHORIZED;
-        Integer statusCode = HttpStatus.UNAUTHORIZED.value();
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(value = IllegalStateException.class)
+    public ResponseEntity<Map<String, Object>> handleException(IllegalStateException e, HttpServletRequest request) {
+        HttpStatus httpStatus = HttpStatus.INTERNAL_SERVER_ERROR;
+        Integer statusCode = HttpStatus.INTERNAL_SERVER_ERROR.value();
 
         Map<String, Object> responseMap = Map.of(
                 "timestamp", LocalDateTime.now(),
@@ -29,4 +29,5 @@ public class CustomExceptionHandler {
 
         return new ResponseEntity<>(responseMap, httpStatus);
     }
+
 }

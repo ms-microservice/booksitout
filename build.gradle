@@ -22,8 +22,9 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
+
     group 'com.jinkyumpark'
-    version '2.0'
+    version '3.0'
     sourceCompatibility = '11'
 
     jar { enabled = false }
@@ -43,4 +44,15 @@ subprojects {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.5"
         }
     }
+}
+
+project(":core") {
+    dependencies {
+        implementation project(':common')
+    }
+}
+
+project(":common") {
+    bootJar { enabled = false }
+    jar { enabled = true }
 }

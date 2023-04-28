@@ -1,6 +1,8 @@
 rootProject.name = 'BookItOut'
-include 'core'
-include 'search'
+include 'common'
 include 'gateway'
 include 'eureka'
+
+include 'core'
+include 'search'
 include 'user'
