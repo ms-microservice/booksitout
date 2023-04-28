@@ -25,8 +25,7 @@ public class ReadingSessionService {
     private final MessageSourceAccessor messageSource;
     private final ReadingSessionRepository readingSessionRepository;
     private final BookService bookService;
-
-    private final GoalRepository goalRepository;
+    private final ReadingSessionQueryDslRepository readingSessionQueryDslRepository;
 
     public List<Integer> getReadTimeByDateRange(Long appUserId, LocalDateTime startDate, LocalDateTime endDate) {
         List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
@@ -56,6 +55,10 @@ public class ReadingSessionService {
     public ReadingSession getCurrentReadingSession(Long appUserId) {
         return readingSessionRepository.findFirstByAppUserIdAndEndTimeIsNullOrderByStartTimeDesc(appUserId)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("reading.get.current.fail.not-found")));
+    }
+
+    public ReadingSessionDto getCurrentReadingSessionDto(Long appUserId) {
+        return readingSessionQueryDslRepository.getCurrentReadingSession(appUserId);
     }
 
     public ReadingSession getReadingSessionByReadingSessionId(Long readingSessionId) {
