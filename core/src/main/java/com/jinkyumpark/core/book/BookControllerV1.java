@@ -7,9 +7,6 @@ import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.book.request.BookAddRequest;
 import com.jinkyumpark.core.book.request.BookEditRequest;
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -23,10 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RestController @RequestMapping("/v1/book")
+@RestController @RequestMapping("v1/book")
 public class BookControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final BookService bookService;
+    private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
 
     @GetMapping("{id}")
     public Book getBookById(@PathVariable("id") Long bookId,
@@ -49,7 +47,7 @@ public class BookControllerV1 {
         if (range.equals("not-started")) return bookService.getAllNotStartedBook(loginAppUser.getId(), pageRequest);
         if (range.equals("started")) return bookService.getAllStartedBook(loginAppUser.getId(), pageRequest);
         if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginAppUser.getId(), pageRequest);
-        if (range.equals("done")) return bookService.getAllDoneBook(loginAppUser.getId(), pageRequest);
+        if (range.equals("done")) return bookRepositoryQueryDsl.getDoneBookOrderByDoneDateDesc(loginAppUser.getId(), page, size);
         if (range.equals("give-up")) return bookService.getAllGiveUpBook(loginAppUser.getId(), pageRequest);
 
         return bookService.getAllBooks(loginAppUser.getId(), pageRequest);

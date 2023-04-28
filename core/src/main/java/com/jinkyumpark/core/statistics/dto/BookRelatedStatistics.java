@@ -8,7 +8,7 @@ import lombok.Getter;
 @AllArgsConstructor @Builder
 public class BookRelatedStatistics {
 
-    private final Double averageRating;
-    private final Integer totalReadBookCount;
+    private final double averageRating;
+    private final int totalReadBookCount;
 
 }

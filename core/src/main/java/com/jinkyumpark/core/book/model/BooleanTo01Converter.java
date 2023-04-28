@@ -12,6 +12,8 @@ public class BooleanTo01Converter implements AttributeConverter<Boolean, Integer
 
     @Override
     public Boolean convertToEntityAttribute(Integer dbData) {
+        if (dbData == null) return false;
+
         return dbData.equals(1);
     }
 }

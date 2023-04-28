@@ -2,15 +2,11 @@ package com.jinkyumpark.core.book;
 
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
-import com.jinkyumpark.core.book.exception.BookNotSharingException;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.ReadingSessionRepository;
-import com.jinkyumpark.core.loginUser.LoginAppUser;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
@@ -20,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -29,7 +24,7 @@ public class BookService {
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
 
-    private final BookRepositoryImpl bookRepositoryImpl;
+    private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
@@ -86,19 +81,22 @@ public class BookService {
         return currentReadingSession.getBook();
     }
 
-//    public List<Book> getBookByQuery(Long loginUserId, String query, MyBookSearchRange myBookSearchRange) {
-//
-//        if (myBookSearchRange.equals(MyBookSearchRange.ALL))
-//            return bookRepositoryImpl.getAllBookByQuery(loginUserId, query);
-//        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_READING))
-//            return bookRepositoryImpl.getNotDoneBookByQuery(loginUserId, query);
-//        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_DONE))
-//            return bookRepositoryImpl.getDoneBookByQuery(loginUserId, query);
-//        if (myBookSearchRange.equals(MyBookSearchRange.EXCLUDE_GIVE_UP))
-//            return bookRepositoryImpl.getExcludeGiveUpBookByQuery(loginUserId, query);
-//
-//        return List.of();
-//    }
+    public List<Book> getBookByQuery(Long loginUserId, String query, MyBookSearchRange myBookSearchRange) {
+        if (query == null || query.isBlank()) {
+            return List.of();
+        }
+
+        if (myBookSearchRange.equals(MyBookSearchRange.ALL))
+            return bookRepositoryQueryDsl.getAllBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_READING))
+            return bookRepositoryQueryDsl.getNotDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_DONE))
+            return bookRepositoryQueryDsl.getDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.EXCLUDE_GIVE_UP))
+            return bookRepositoryQueryDsl.getExcludeGiveUpBookByQuery(loginUserId, query);
+
+        return List.of();
+    }
 
     public Long addBook(BookDto bookDto) {
         return bookRepository.save(bookDto.toEntity()).getBookId();
@@ -150,5 +148,9 @@ public class BookService {
         }
 
         bookRepository.deleteById(book.getBookId());
+    }
+
+    public int getDoneBookCountByYear(Long appUserId, int year) {
+        return bookRepositoryQueryDsl.getDoneBookCountByYear(appUserId, year);
     }
 }
