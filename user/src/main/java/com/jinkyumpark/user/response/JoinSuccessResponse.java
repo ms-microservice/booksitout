@@ -1,8 +1,9 @@
-package com.jinkyumpark.user.dto.response;
+package com.jinkyumpark.user.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -14,6 +15,7 @@ import java.time.LocalDateTime;
 
 @ResponseStatus(HttpStatus.CREATED)
 public class JoinSuccessResponse {
+    @DateTimeFormat(pattern = "yyyy-MM-ddTHH:mm:ss")
     private LocalDateTime timestamp = LocalDateTime.now();
     private Integer status = HttpStatus.CREATED.value();
     private String message = "해당 이메일과 비밀번호로 가입됐어요";

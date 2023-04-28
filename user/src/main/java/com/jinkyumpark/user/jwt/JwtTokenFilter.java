@@ -1,7 +1,6 @@
 package com.jinkyumpark.user.jwt;
 
 import com.google.common.base.Strings;
-import com.jinkyumpark.user.AppUserAuthenticationToken;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.JwtException;

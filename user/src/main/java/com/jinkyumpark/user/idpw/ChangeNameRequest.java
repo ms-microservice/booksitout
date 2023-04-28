@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.dto.request;
+package com.jinkyumpark.user.idpw;
 
 import lombok.Getter;
 

@@ -1,13 +1,12 @@
 package com.jinkyumpark.user.jwt;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jinkyumpark.user.AppUserAuthenticationToken;
+import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.user.appUser.AppUser;
-import com.jinkyumpark.user.dto.request.EmailPasswordLoginRequest;
-import com.jinkyumpark.user.dto.response.LoginFailResponse;
-import com.jinkyumpark.user.dto.response.LoginMethod;
-import com.jinkyumpark.user.dto.response.LoginSuccessResponse;
-import com.jinkyumpark.user.exception.http.NotLoginException;
+import com.jinkyumpark.user.idpw.EmailPasswordLoginRequest;
+import com.jinkyumpark.user.response.LoginFailResponse;
+import com.jinkyumpark.user.response.LoginMethod;
+import com.jinkyumpark.user.response.LoginSuccessResponse;
 import com.jinkyumpark.user.settings.SettingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -49,7 +48,7 @@ public class JwtLoginFilter extends UsernamePasswordAuthenticationFilter {
             return authenticationManager.authenticate(authentication);
 
         } catch (IOException e) {
-            throw new NotLoginException("Email or Password Not Present");
+            throw new UnauthorizedException("Email or Password Not Present");
         }
     }
 

@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.dto.response;
+package com.jinkyumpark.user.response;
 
 import lombok.Builder;
 import lombok.Getter;

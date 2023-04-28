@@ -1,4 +1,4 @@
-package com.jinkyumpark.user;
+package com.jinkyumpark.user.jwt;
 
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.GrantedAuthority;

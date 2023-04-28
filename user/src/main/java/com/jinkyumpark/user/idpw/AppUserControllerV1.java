@@ -1,17 +1,14 @@
-package com.jinkyumpark.user;
+package com.jinkyumpark.user.idpw;
 
+import com.jinkyumpark.common.exception.PreconditionFailedException;
 import com.jinkyumpark.user.appUser.AppUser;
+import com.jinkyumpark.user.appUser.AppUserDto;
 import com.jinkyumpark.user.appUser.AppUserService;
-import com.jinkyumpark.user.dto.AppUserDto;
-import com.jinkyumpark.user.dto.request.ChangeNameRequest;
-import com.jinkyumpark.user.dto.request.ChangePasswordRequest;
-import com.jinkyumpark.user.dto.request.JoinRequest;
-import com.jinkyumpark.user.dto.response.JoinSuccessResponse;
+import com.jinkyumpark.user.response.JoinSuccessResponse;
 import com.jinkyumpark.user.email.EmailSender;
 import com.jinkyumpark.user.email.Mail;
-import com.jinkyumpark.user.exception.http.BadRequestException;
-import com.jinkyumpark.user.exception.http.ConflictException;
-import com.jinkyumpark.user.exception.http.PreConditionFailedException;
+import com.jinkyumpark.common.exception.BadRequestException;
+import com.jinkyumpark.common.exception.ConflictException;
 import com.jinkyumpark.user.loginUser.LoginAppUser;
 import com.jinkyumpark.user.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -63,7 +60,7 @@ public class AppUserControllerV1 {
     @PostMapping("join")
     public JoinSuccessResponse join(@RequestBody @Valid JoinRequest joinRequest) {
         AppUser existingAppUser = appUserService.getUserByEmail(joinRequest.getEmail())
-                .orElseThrow(() -> new PreConditionFailedException("이메일 인증을 해 주세요"));
+                .orElseThrow(() -> new PreconditionFailedException("이메일 인증을 해 주세요"));
 
         if (!existingAppUser.getEmailVerificationCode().equals(joinRequest.getCode())) {
             throw new BadRequestException("인증번호가 일치하지 않아요");

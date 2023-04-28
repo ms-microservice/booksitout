@@ -52,6 +52,18 @@ project(":core") {
     }
 }
 
+project(":user") {
+    dependencies {
+        implementation project(':common')
+    }
+}
+
+project (":search") {
+    dependencies {
+        implementation project(':common')
+    }
+}
+
 project(":common") {
     bootJar { enabled = false }
     jar { enabled = true }
