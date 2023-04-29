@@ -77,5 +77,5 @@ VALUES ('IRWON1DONGJUMINDOSEOGWAN', '일원1동주민도서관', '서울 강남�
 INSERT INTO library (english_name, korean_name, address, post_code, link, web_crawling_code, city_id)
 VALUES ('IRWONBONDONGJUMINDOSEOGWAN', '일원본동주민도서관', '서울 강남구 광평로 126', '06361', 'http://iblib.gangnam.go.kr/', 'TE', 23); -- 02-3423-8284
 
-INSERT INTO library (english_name, korean_name, address, post_code, link, web_crawling_code, city_id);
-VALUES ('DOGOK2DONGJUMINDOSEOGWAN', '도곡2동주민도서관', '서울 강남구 남부순환로378길 34-9 도곡2동주민센터', '06300', 'http://dg2lib.gangnam.go.kr/', 'TC', 23) -- 02-3423-7584
+INSERT INTO library (english_name, korean_name, address, post_code, link, web_crawling_code, city_id)
+VALUES ('DOGOK2DONGJUMINDOSEOGWAN', '도곡2동주민도서관', '서울 강남구 남부순환로378길 34-9 도곡2동주민센터', '06300', 'http://dg2lib.gangnam.go.kr/', 'TC', 23); -- 02-3423-7584
