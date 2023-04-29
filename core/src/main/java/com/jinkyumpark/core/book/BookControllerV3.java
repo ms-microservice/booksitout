@@ -2,7 +2,7 @@ package com.jinkyumpark.core.book;
 
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.request.BookSearchResultAddRequest;
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;

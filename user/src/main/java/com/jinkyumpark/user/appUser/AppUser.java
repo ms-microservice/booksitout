@@ -1,10 +1,10 @@
 package com.jinkyumpark.user.appUser;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.user.dto.AppUserDto;
-import com.jinkyumpark.user.dto.OAuthDto;
+import com.jinkyumpark.user.config.TimeEntity;
+import com.jinkyumpark.user.oauth.OAuthDto;
 import com.jinkyumpark.user.oauth.OAuthProvider;
-import com.jinkyumpark.user.utils.TimeEntity;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,7 +16,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import java.util.Collection;
 
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Builder
 @Getter
 
 @DynamicUpdate
@@ -75,18 +75,6 @@ public class AppUser extends TimeEntity implements UserDetails {
         this.appUserId = appUserId;
     }
 
-    @Builder
-    public AppUser(Long appUserId, String email, String password, String name, String profileImage, OAuthProvider oAuthProvider, String oAuthId, Integer emailVerificationCode) {
-        this.appUserId = appUserId;
-        this.email = email;
-        this.password = password;
-        this.name = name;
-        this.profileImage = profileImage;
-        this.oAuthProvider = oAuthProvider;
-        this.oAuthId = oAuthId;
-        this.emailVerificationCode = emailVerificationCode;
-    }
-
     public void updateUser(AppUserDto appUserDto) {
         if (appUserDto.getEmail() != null) this.email = appUserDto.getEmail();
         if (appUserDto.getPassword() != null) this.password = appUserDto.getPassword();
@@ -96,8 +84,8 @@ public class AppUser extends TimeEntity implements UserDetails {
 
     public void saveOrUpdateOAuthUser(OAuthDto OAuthDto) {
         if (OAuthDto.getOAuthId() != null) this.oAuthId = OAuthDto.getOAuthId();
-        if (OAuthDto.getName() != null && this.name == null) this.name = OAuthDto.getName();
-        if (OAuthDto.getProfileImage() != null) this.profileImage = OAuthDto.getProfileImage();
+        if (OAuthDto.getName() != null && (this.name == null || this.name.equals(""))) this.name = OAuthDto.getName();
+        if (OAuthDto.getProfileImage() != null && (this.profileImage == null || this.profileImage.equals(""))) this.profileImage = OAuthDto.getProfileImage();
 //        if (OAuthDto.getOAuthProvider() != null) this.oAuthProvider = OAuthDto.getOAuthProvider();
     }
 }

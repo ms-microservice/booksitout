@@ -16,6 +16,9 @@ import facebookButton from '../../resources/images/login-button/small-facebook.p
 import utils from '../../functions/utils'
 import { loginToken, logoutToken } from '../../redux/userSlice'
 
+import logo from '../../resources/images/logo/logo.png'
+import axios from 'axios'
+
 const Login = () => {
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
@@ -91,7 +94,17 @@ const Login = () => {
 		user.login(loginRequest).then((res) => {
 			if (!res.status.toString().startsWith('2')) {
 				toast.dismiss()
-				toast.error(res.data.message)
+				if (res.data.message != '' && res.data.message != null) {
+					toast.error(res.data.message)
+					return
+				}
+
+				if (res.status === 503) {
+					toast.error('서버에 오류가 났어요. 열심히 복구하고 있으니 잠시만 기다려 주세요!')
+					return
+				}
+
+				toast.error('알 수 없는 오류가 났어요. 잠시후 다시 시도해 주세요')
 				return
 			}
 
@@ -101,19 +114,22 @@ const Login = () => {
 			localStorage.setItem('login-date', new Date().toString())
 			localStorage.setItem('login-method', res.data.loginMethod)
 
-			// localStorage.setItem('search-library-region-api', res.data.settings.region)
-			// localStorage.setItem('search-library-region-detail-api', res.data.settings.regionDetail)
-			// localStorage.setItem('search-my-book-range', res.data.settings.myBookSearchRange)
-			// localStorage.setItem('search-library-online-api', res.data.settings.libraryOnlineSearchRange)
-			// localStorage.setItem('search-subscription-api', res.data.settings.subscriptionSearchRange)
-			// localStorage.setItem('search-used-online-api', res.data.settings.usedOnlineSearchRange)
-			// localStorage.setItem('search-used-offline-api', res.data.settings.usedOfflineSearchRange)
-
 			toast.dismiss()
 			toast(res.data.message, { icon: '✋' })
 			dispatch(loginToken(utils.getToken()))
 
 			navigate('/')
+
+			axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: res.data.token } }).then((res) => {
+				localStorage.setItem('search-library-region-api', res.data.region)
+				localStorage.setItem('search-library-region-detail-api', res.data.regionDetail)
+				localStorage.setItem('search-my-book-range', res.data.myBookSearchRange)
+				localStorage.setItem('search-library-online-api', res.data.libraryOnlineSearchRange)
+				localStorage.setItem('search-subscription-api', res.data.subscriptionSearchRange)
+				localStorage.setItem('search-used-online-api', res.data.usedOnlineSearchRange)
+				localStorage.setItem('search-used-offline-api', res.data.usedOfflineSearchRange)
+				localStorage.setItem('library-search-method', res.data.librarySearchMethod)
+			})
 		})
 	}
 
@@ -123,7 +139,10 @@ const Login = () => {
 				<div className='col-12 col-lg-7 mb-5'>
 					<Card className='text-center'>
 						<Card.Body>
-							<h1>📗 로그인</h1>
+							<div className='d-flex justify-content-center'>
+								<img src={logo} alt='' className='img-fluid rounded me-2 me-md-3 mt-0 mt-md-1' style={{ widht: '40px', height: '40px' }} />
+								<h1 className='mt-1 mt-md-0 mb-0'>로그인</h1>
+							</div>
 
 							<Form onSubmit={(e) => handleLogin(e)}>
 								<Form.Group class='row mt-3'>

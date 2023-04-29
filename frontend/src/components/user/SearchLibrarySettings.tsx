@@ -26,20 +26,7 @@ const SearchLibrarySettings = () => {
 }
 
 const SearchMethodSettings = () => {
-    const [currentApiKey, setCurrentApiKey] = useState('')
-	useEffect(() => {
-		fetch(`${urls.api.base}/v3/search/library/settings/method`, {
-			method: 'GET',
-			headers: {
-				Authorization: utils.getToken()!!,
-			},
-		})
-			.then((res) => res.json())
-			.then((data) => {
-				console.log(data)
-				setCurrentApiKey(data.method)
-			})
-	}, [])
+    const [currentApiKey, setCurrentApiKey] = useState(localStorage.getItem('library-search-method') || 'REGION')
 
     const settingsList = [
         {
@@ -60,17 +47,31 @@ const SearchMethodSettings = () => {
 			return
 		}
 
-		// TODO : Post Search Method
+		axios
+			.put(
+				`${urls.api.base}/v3/search/settings/offline-library/search-method`,
+				{ method: apiKey },
+				{ headers: { Authorization: utils.getToken() } }
+			)
+			.then((res) => {
+				if (res.status === 200) {
+					if (apiKey === 'REGION') {
+						toast.success('이제 도서관은 지역으로 검색할게요')
+					}
 
-		if (apiKey === 'REGION') {
-			toast.success('이제 도서관은 지역으로 검색할게요')
-		}
+					if (apiKey === 'SPECIFIC') {
+						toast.success('이제 직접 지정하신 도서관을 검색할게요')
+					}
 
-		if (apiKey === 'SPECIFIC') {
-			toast.success('이제 직접 지정하신 도서관을 검색할게요')
-		}
-
-		setCurrentApiKey(apiKey)
+					localStorage.setItem('library-search-method', apiKey)
+					setCurrentApiKey(apiKey)
+				} else {
+					toast.error(messages.error)
+				}
+			})
+			.catch(() => {
+				toast.error(messages.error)
+			})
 	}
 
     return (
@@ -242,6 +243,10 @@ const SpecificSearchSettings = () => {
 	useEffect(() => {
 		setLoading(query !== '')
 
+		if (query === '') {
+			setSearchResult([])
+		}
+
 		const typingTimer = setTimeout(() => {
 			if (query !== '') {
 				axios
@@ -314,12 +319,12 @@ const SpecificSearchSettings = () => {
 										<NoContent message='추가된 도서관이 없어요' style={{ width: '100px' }} />
 									</div>
 								) : (
-									<div className='row'>
+									<div className='row row-eq-height'>
 										{addedLibrary.map((library) => {
 											return (
 												<div className='col-3 mb-3 button-hover' onClick={() => handleRemoveLibrary(library)}>
-													<Card>
-														<Card.Body>
+													<Card className='h-100'>
+														<Card.Body className='h-100'>
 															<div className='position-absolute' style={{ right: '-10px', top: '-10px' }}>
 																<h1 className='text-danger'>
 																	<RemoveIcon />
@@ -369,7 +374,7 @@ const SpecificSearchSettings = () => {
 											{searchResult.map((library) => {
 												return (
 													<div
-														className='col-6 col-md-3 mb-3 h-100'
+														className='col-6 col-md-3 mb-3 h-100 pb-0 mb-0'
 														onClick={() => {
 															if (library.added) {
 																toast.error('이미 추가된 도서관이에요')
@@ -377,7 +382,7 @@ const SpecificSearchSettings = () => {
 																handleLibraryClicked(library)
 															}
 														}}>
-														<Card>
+														<Card className='h-100'>
 															{library.added && (
 																<div className='position-absolute' style={{ right: '-10px', top: '-10px' }}>
 																	<h1 className='text-book'>
@@ -386,9 +391,9 @@ const SpecificSearchSettings = () => {
 																</div>
 															)}
 
-															<Card.Body>
+															<Card.Body className='h-100'>
 																<img src={library.icon} alt='' className='mb-0 rounded library-image'  />
-																<h6 className='mt-1'>{library.name}</h6>
+																<h6 className={(library.name.length <= 12 ? 'pt-2' : 'mt-1')} style={{height: '30px'}}>{library.name}</h6>
 															</Card.Body>
 														</Card>
 													</div>

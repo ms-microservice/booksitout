@@ -1,15 +1,12 @@
 package com.jinkyumpark.user.appUser;
 
-import com.jinkyumpark.user.AppUserAuthenticationToken;
-import com.jinkyumpark.user.dto.AppUserDto;
-import com.jinkyumpark.user.dto.OAuthDto;
-import com.jinkyumpark.user.dto.response.LoginMethod;
-import com.jinkyumpark.user.dto.response.LoginSuccessResponse;
-import com.jinkyumpark.user.exception.http.NotFoundException;
-import com.jinkyumpark.user.exception.http.NotLoginException;
+import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.user.jwt.AppUserAuthenticationToken;
 import com.jinkyumpark.user.jwt.JwtUtils;
-import com.jinkyumpark.user.settings.Settings;
-import com.jinkyumpark.user.settings.SettingsService;
+import com.jinkyumpark.user.oauth.OAuthDto;
+import com.jinkyumpark.user.response.LoginMethod;
+import com.jinkyumpark.user.response.LoginSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,7 +26,6 @@ import java.util.Optional;
 public class AppUserService implements UserDetailsService {
     private final AppUserRepository appUserRepository;
     private final JwtUtils jwtUtils;
-    private final SettingsService settingsService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -52,7 +48,7 @@ public class AppUserService implements UserDetailsService {
     public static Long getLoginAppUserId() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!authentication.isAuthenticated()) {
-            throw new NotLoginException("Please Login");
+            throw new UnauthorizedException("Please Login");
         }
 
         AppUserAuthenticationToken token = ((AppUserAuthenticationToken) authentication);
@@ -117,7 +113,6 @@ public class AppUserService implements UserDetailsService {
     public LoginSuccessResponse getLoginSuccessResponse(OAuthDto oAuthDto, AppUser addedAppUser, LoginMethod loginMethod) {
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority("ROLE_USER"));
         String jwtToken = jwtUtils.generateAccessToken(oAuthDto.getName(), addedAppUser.getAppUserId(), authorities, true);
-        Settings settings = settingsService.getSettingsByAppUserId(addedAppUser.getAppUserId());
 
         return LoginSuccessResponse.builder()
                 .message(String.format("어서오세요 %s님!", oAuthDto.getName()))
@@ -126,7 +121,6 @@ public class AppUserService implements UserDetailsService {
                 .registerDate(addedAppUser.getCreatedDate())
                 .profileImage(oAuthDto.getProfileImage())
                 .loginMethod(loginMethod)
-                .settings(settings)
                 .build();
     }
 }

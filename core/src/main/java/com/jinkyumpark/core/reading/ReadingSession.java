@@ -45,9 +45,6 @@ public class ReadingSession {
         this.book = book;
     }
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "app_user_id", updatable = false, foreignKey = @ForeignKey(name = "reading_session_app_user_fk"))
-//    @JsonIgnore
     private Long appUserId;
 
     @ManyToOne(fetch = FetchType.LAZY)

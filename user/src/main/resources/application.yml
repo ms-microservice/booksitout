@@ -1,6 +1,9 @@
 server:
   port: 8200
 
+  error:
+    include-message: always
+
 eureka:
   instance:
     prefer-ip-address: true

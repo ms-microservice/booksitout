@@ -18,6 +18,7 @@ public class ReadingSessionDto {
     private Integer startPage;
     private Integer endPage;
 
+    private Long readingSessionId;
     private Long bookId;
     private Long appUserId;
 

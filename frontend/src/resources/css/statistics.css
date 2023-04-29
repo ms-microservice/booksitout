@@ -1,0 +1,9 @@
+.graph-height {
+    height: 600px;
+}
+
+@media(max-width: 768px) {
+    .graph-height {
+        height: 600px;
+    }
+}

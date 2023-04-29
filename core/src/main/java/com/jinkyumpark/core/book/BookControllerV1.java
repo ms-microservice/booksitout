@@ -1,12 +1,12 @@
 package com.jinkyumpark.core.book;
 
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.book.request.BookAddRequest;
 import com.jinkyumpark.core.book.request.BookEditRequest;
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +20,11 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RestController @RequestMapping("/v1/book")
+@RestController @RequestMapping("v1/book")
 public class BookControllerV1 {
     private final MessageSourceAccessor messageSource;
     private final BookService bookService;
+    private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
 
     @GetMapping("{id}")
     public Book getBookById(@PathVariable("id") Long bookId,
@@ -46,7 +47,7 @@ public class BookControllerV1 {
         if (range.equals("not-started")) return bookService.getAllNotStartedBook(loginAppUser.getId(), pageRequest);
         if (range.equals("started")) return bookService.getAllStartedBook(loginAppUser.getId(), pageRequest);
         if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginAppUser.getId(), pageRequest);
-        if (range.equals("done")) return bookService.getAllDoneBook(loginAppUser.getId(), pageRequest);
+        if (range.equals("done")) return bookRepositoryQueryDsl.getDoneBookOrderByDoneDateDesc(loginAppUser.getId(), page, size);
         if (range.equals("give-up")) return bookService.getAllGiveUpBook(loginAppUser.getId(), pageRequest);
 
         return bookService.getAllBooks(loginAppUser.getId(), pageRequest);
@@ -82,9 +83,9 @@ public class BookControllerV1 {
     }
 
     @PutMapping("{id}")
-    public EditSuccessResponse editBook(@PathVariable("id") Long bookId,
-                                        @RequestBody @Valid BookEditRequest bookEditRequest,
-                                        @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse editBook(@PathVariable("id") Long bookId,
+                                          @RequestBody @Valid BookEditRequest bookEditRequest,
+                                          @LoginUser LoginAppUser loginAppUser) {
         BookDto bookDto = BookDto.builder()
                 .title(bookEditRequest.getTitle())
                 .author(bookEditRequest.getAuthor())
@@ -103,27 +104,36 @@ public class BookControllerV1 {
 
         bookService.editBook(bookId, bookDto, loginAppUser.getId());
 
-        return new EditSuccessResponse(String.format("PUT /v1/book/%d", bookId), messageSource.getMessage("book.update.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("book.update.success"))
+                .id(bookId)
+                .build();
     }
 
     @PutMapping("give-up/{bookId}")
-    public EditSuccessResponse giveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse giveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         bookService.giveUpBook(bookId, loginAppUser);
 
-        return new EditSuccessResponse(String.format("v1/book/give-up/%d", bookId));
+        return UpdateSuccessResponse.builder()
+                .id(bookId)
+                .build();
     }
 
     @PutMapping("un-give-up/{bookId}")
-    public EditSuccessResponse unGiveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse unGiveUpBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         bookService.unGiveUpBook(bookId, loginAppUser);
 
-        return new EditSuccessResponse(String.format("v1/book/un-give-up/%d", bookId));
+        return UpdateSuccessResponse.builder()
+                .id(bookId)
+                .build();
     }
 
     @DeleteMapping("{bookId}")
     public DeleteSuccessResponse deleteBook(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         bookService.deleteBookByBookId(bookId, loginAppUser);
 
-        return new DeleteSuccessResponse(String.format("DELETE /v1/book/%d", bookId), messageSource.getMessage("book.delete.success"));
+        return DeleteSuccessResponse.builder()
+                .message(messageSource.getMessage("book.delete.success"))
+                .build();
     }
 }

@@ -7,6 +7,7 @@ import user from '../../functions/user'
 import utils from '../../functions/utils'
 // Messages
 import messages from '../../settings/messages'
+import logo from '../../resources/images/logo/logo.png'
 
 const Join = () => {
 	const navigate = useNavigate()
@@ -102,7 +103,10 @@ const Join = () => {
 			<div className='row justify-content-center'>
 				<Card className='col-12 col-lg-9 col-xl-7 text-center'>
 					<Card.Body>
-						<h1>📗 회원가입</h1>
+					<div className='d-flex justify-content-center'>
+								<img src={logo} alt='' className='img-fluid rounded me-2 me-md-3 mt-0 mt-md-1' style={{ widht: '40px', height: '40px' }} />
+								<h1 className='mt-1 mt-md-0 mb-0'>회원가입</h1>
+							</div>
 
 						<Form onSubmit={(e) => handleJoin(e)}>
 							<Form.Group class='mt-3'>

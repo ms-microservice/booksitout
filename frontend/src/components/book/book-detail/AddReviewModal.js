@@ -30,7 +30,7 @@ const AddReviewModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 	}
 
 	return (
-		<Modal show={isModalOpen} fullscreen='md-down' onHide={() => setIsModalOpen(false)} backdrop='static'>
+		<Modal show={isModalOpen} fullscreen='md-down' onHide={() => setIsModalOpen(false)} backdrop='static' centered>
 			<Modal.Header closeButton className='text-center' onHide={() => setIsModalOpen(false)}>
 				<h4 className='w-100'>책 감상 추가하기</h4>
 			</Modal.Header>

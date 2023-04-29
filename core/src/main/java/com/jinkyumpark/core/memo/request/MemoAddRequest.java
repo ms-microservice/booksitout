@@ -9,7 +9,6 @@ import javax.validation.constraints.NotNull;
 
 @Getter
 public class MemoAddRequest {
-    @NotNull
     private Integer page;
 
     @NotNull

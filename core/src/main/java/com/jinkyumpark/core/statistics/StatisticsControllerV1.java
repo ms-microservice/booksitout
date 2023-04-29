@@ -4,91 +4,30 @@ import com.jinkyumpark.core.book.BookService;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.book.model.BookCategory;
 import com.jinkyumpark.core.book.model.BookLanguage;
-import com.jinkyumpark.core.statistics.model.MonthStatistics;
-import com.jinkyumpark.core.statistics.model.DayStatistics;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
 import com.jinkyumpark.core.reading.ReadingSessionService;
 import com.jinkyumpark.core.statistics.response.CategoryStatisticsResponse;
 import com.jinkyumpark.core.statistics.response.LanguageStatisticsResponse;
-import com.jinkyumpark.core.statistics.response.SummaryStatistics;
-import com.jinkyumpark.core.statistics.model.YearStatistics;
-import com.jinkyumpark.core.loginUser.LoginAppUser;
-import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Deprecated
 @RequiredArgsConstructor
 @RestController @RequestMapping("/v1/statistics")
 public class StatisticsControllerV1 {
-    private final StatisticsService statisticsService;
     private final ReadingSessionService readingSessionService;
     private final BookService bookService;
-
-    @GetMapping("month")
-    public MonthStatistics getStatisticsByMonth(@RequestParam(value = "year", required = false) Integer year,
-                                                @RequestParam(value = "month", required = false) Integer month,
-                                                @LoginUser LoginAppUser loginAppUser) {
-        if (year == null) year = LocalDateTime.now().getYear();
-        if (month == null) month = LocalDateTime.now().getMonthValue();
-
-        return statisticsService.getStatisticsByMonth(loginAppUser.getId(), year, month);
-    }
-
-    @GetMapping("year/{year}")
-    public SummaryStatistics getSummaryStatisticsByYear(@PathVariable(value = "year", required = false) Integer year,
-                                                        @LoginUser LoginAppUser loginAppUser) {
-        if (year == null) year = LocalDateTime.now().getYear();
-
-        List<MonthStatistics> monthStatisticsList = statisticsService.getStatisticsByYear(loginAppUser.getId(), year);
-
-        int totalReadTimeMinute = monthStatisticsList.stream()
-                .mapToInt(MonthStatistics::getTotalReadMinute)
-                .sum();
-
-        int totalReadBookCount = monthStatisticsList.stream()
-                .mapToInt(MonthStatistics::getFinishedBook)
-                .sum();
-
-        int totalStar = monthStatisticsList.stream()
-                .mapToInt(MonthStatistics::getTotalStar)
-                .sum();
-        double averageStar = totalStar / (totalReadBookCount == 0 ? 1 : totalReadBookCount * 1.0);
-
-        int totalReadPage = monthStatisticsList.stream()
-                .mapToInt(MonthStatistics::getTotalPage)
-                .sum();
-
-        boolean isThisYear = LocalDateTime.now().getYear() == year;
-        int averageReadTime = totalReadTimeMinute / (
-                isThisYear ?
-                        LocalDateTime.now().getDayOfYear()
-                        : 365
-        );
-
-        int mostReadTime = monthStatisticsList.stream()
-                .mapToInt(MonthStatistics::getMaxReadMinute)
-                .max().orElse(0);
-
-        // TODO : Goal
-
-        YearStatistics yearStatistics = YearStatistics.builder()
-                .totalReadTime(totalReadTimeMinute)
-                .totalReadBookCount(totalReadBookCount)
-                .averageStar(averageStar)
-                .totalReadPage(totalReadPage)
-                .build();
-        DayStatistics dayStatistics = DayStatistics.builder()
-                .averageReadTime(averageReadTime)
-                .mostReadTime(mostReadTime)
-                .build();
-
-        return new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
-    }
 
     @GetMapping("read-time/{duration}")
     public List<Integer> getReadTime(@PathVariable("duration") Integer duration,

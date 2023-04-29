@@ -46,23 +46,23 @@ spring:
         - id: user
           uri: lb://user
           predicates:
-            - Path=/user/**
+            - Path=/user/**, /{version}/login/**
 
         - id: search-login
-          uri: lib://search
+          uri: lb://search
           predicates:
-            - Path=/v3/search/library/settings/**
+            - Path=/{version}/search/library/settings/**, /{version}/settings/search/**, /{version}/search/settings/**
           filters:
             - JwtValidationFilter
 
         - id: search
           uri: lb://search
           predicates:
-            - Path=/v2/search/**, /v3/search/**
+            - Path=/{version}/search/**
 
         - id: core
           uri: lb://core
           predicates:
-            - Path=/v1/**, /v2/**, /v3/**
+            - Path=/{version}/**
           filters:
             - JwtValidationFilter

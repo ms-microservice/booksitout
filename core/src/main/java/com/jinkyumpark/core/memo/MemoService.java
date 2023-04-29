@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.memo;
 
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
@@ -43,7 +43,7 @@ public class MemoService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("memo.delete.fail.not-found")));
 
         if (!memo.getBook().getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException(messageSource.getMessage("memo.delete.fail.not-authorize"));
+            throw new UnauthorizedException(messageSource.getMessage("memo.delete.fail.not-authorize"));
         }
 
         memoRepository.deleteById(memoId);

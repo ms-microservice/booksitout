@@ -7,8 +7,24 @@ import '../../resources/css/button.css'
 
 import { MdAddCircle as AddIcon } from 'react-icons/md'
 import { AiFillMinusCircle as DeleteIcon } from 'react-icons/ai'
+import axios from 'axios'
+import urls from '../../settings/urls'
+import utils from '../../functions/utils'
 
 const SearchSettings = () => {
+	useEffect(() => {
+		axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: utils.getToken() } }).then((res) => {
+			localStorage.setItem('search-library-region-api', res.data.region)
+			localStorage.setItem('search-library-region-detail-api', res.data.regionDetail)
+			localStorage.setItem('search-my-book-range', res.data.myBookSearchRange)
+			localStorage.setItem('search-library-online-api', res.data.libraryOnlineSearchRange)
+			localStorage.setItem('search-subscription-api', res.data.subscriptionSearchRange)
+			localStorage.setItem('search-used-online-api', res.data.usedOnlineSearchRange)
+			localStorage.setItem('search-used-offline-api', res.data.usedOfflineSearchRange)
+			localStorage.setItem('library-search-method', res.data.librarySearchMethod)
+		})
+	}, [])
+
 	return (
 		<Card className='mb-5'>
 			<Card.Body className='text-center'>

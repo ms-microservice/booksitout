@@ -85,7 +85,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => closeModal()} fullscreen='md-down' backdrop='static'>
+		<Modal show={isModalOpen} onHide={() => closeModal()} fullscreen='md-down' backdrop='static' centered>
 			<Modal.Header className='text-center' closeButton>
 				<h4 className='w-100'>비밀번호 변경하기</h4>
 			</Modal.Header>
@@ -98,11 +98,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 						onChange={(e) => setVerificationCode(e.target.value)}
 						disabled={!isVerificationRequested}
 					/>
-					<Button
-						className='mb-3 w-100'
-						variant='book'
-						onClick={() => handleRequestVerificationCode()}
-						disabled={isVerificationRequested}>
+					<Button className='mb-3 w-100' variant='book' onClick={() => handleRequestVerificationCode()} disabled={isVerificationRequested}>
 						인증번호 요청하기
 					</Button>
 
@@ -119,9 +115,19 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 						onChange={(e) => setNewPassword(e.target.value)}
 					/>
 
-					<Button className='mb-2 mt-2 w-100' variant='book' type='submit'>
-						비밀번호 변경
-					</Button>
+					<div className='row mt-4'>
+						<div className='col-12 col-md-6'>
+							<Button className='mt-2 w-100' variant='book-danger' onClick={() => setIsModalOpen(false)}>
+								취소
+							</Button>
+						</div>
+
+						<div className='col-12 col-md-6'>
+							<Button className='mt-2 w-100' variant='book' type='submit'>
+								비밀번호 변경
+							</Button>
+						</div>
+					</div>
 				</Form>
 			</Modal.Body>
 		</Modal>

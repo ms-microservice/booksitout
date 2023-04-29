@@ -21,7 +21,13 @@ class GeneralControllerV3(
     @GetMapping("image/google")
     fun getBookImageFromGoogle(@RequestParam("query") query: String): List<String> {
         return generalService
-            .getBookImageFromGoogle(query)
+            .getBookImageFromGoogle(query, "")
+    }
+
+    @GetMapping("image/google/separate-title-author")
+    fun getBookImageFromGoogle(@RequestParam("title") title: String, @RequestParam("author") author: String): List<String> {
+        return generalService
+            .getBookImageFromGoogle(title, author)
     }
 
 }

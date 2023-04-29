@@ -13,8 +13,8 @@ import uiSettings from '../../settings/ui'
 import utils from '../../functions/utils'
 
 const Qna = () => {
-	const [isLoading, setIsLoading] = useState(true)
-	const [initialFetch, setInitialFetch] = useState(true)
+	const [isLoading, setIsLoading] = useState(false)
+	const [initialFetch, setInitialFetch] = useState(false)
 
 	const [myQna, setMyQna] = useState(null)
 	const [allQnaList, setAllQnaList] = useState([])
@@ -55,7 +55,7 @@ const Qna = () => {
 						<Card.Body>
 							{!user.localStorage.get.isLoggedIn() ? (
 								<div className='mt-5 mb-5'>
-									<NoContent message='내가 남긴 질문을 보려면 로그인 해 주세요' style={{ width: '100px' }} className='mt-5 mb-5'/>
+									<NoContent message='로그인 해 주세요' style={{ width: '100px' }} className='mt-5 mb-5' />
 								</div>
 							) : myQna == null || myQna.length === 0 ? (
 								<div className='mt-5 mb-5'>
@@ -103,8 +103,8 @@ const Qna = () => {
 						</Card.Body>
 					</Card>
 
-					{(utils.getToken() === '' || typeof utils.getToken() === 'undefined' || utils.getToken() == null) && (
-						<div className='row justify-content-center mt-5'>
+					<div className='row justify-content-center mt-5'>
+						{(utils.getToken() === '' || typeof utils.getToken() === 'undefined' || utils.getToken() == null) && (
 							<div className='col-12 col-md-7 mt-3'>
 								<a href='/login' className='w-100'>
 									<Button variant='book' className='w-100'>
@@ -112,16 +112,16 @@ const Qna = () => {
 									</Button>
 								</a>
 							</div>
+						)}
 
-							<div className='col-12 col-md-7 mt-3'>
-								<a href='/faq' className='w-100'>
-									<Button variant='secondary' className='w-100'>
-										자주 하는 질문 보기
-									</Button>
-								</a>
-							</div>
+						<div className='col-12 col-md-7 mt-3'>
+							<a href='/faq' className='w-100'>
+								<Button variant='secondary' className='w-100'>
+									자주 하는 질문 보기
+								</Button>
+							</a>
 						</div>
-					)}
+					</div>
 				</>
 			)}
 		</div>

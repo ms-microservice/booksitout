@@ -16,6 +16,4 @@ public class SummaryStatistics {
 
     private YearStatistics yearStatistics;
     private DayStatistics dayStatistics;
-
-    private Integer goal;
 }

@@ -1,5 +1,5 @@
 server:
-    port: 0
+    port: 8100
 
 spring:
     application:
@@ -12,25 +12,22 @@ spring:
             max-active: 8
 
         port: 6379
-        host: localhost
+        host: redis
 
     datasource:
-        url: jdbc:mysql://localhost:3306/search
-        username: root
-        password: bookitout
+        url: ${DB_URL}
+        username: ${DB_ID}
+        password: ${DB_PW}
 
     jpa:
-        show-sql: true
+        show-sql: false
         hibernate:
             ddl-auto: update
-        properties:
-            hibernate:
-                format-sql: true
 
 search:
     aladin:
         url: http://www.aladin.co.kr/ttb/api/ItemSearch.aspx
-        api-key: ${ALADIN_SECRET}
+        secret: ${ALADIN_SECRET}
 
     data4library:
         url:
@@ -38,7 +35,7 @@ search:
             has-book-by-isbn: http://data4library.kr/api/libSrchByBook
             search: http://data4library.kr/api/srchBooks
             supported-library-url: http://data4library.kr/api/libSrch
-        api-key: ${DATA4LIBRARY_SECRET}
+        secret: ${DATA4LIBRARY_SECRET}
 
     kyobo:
         url: https://search.kyobobook.co.kr/search
@@ -64,4 +61,4 @@ eureka:
         register-with-eureka: true
         fetch-registry: true
         service-url:
-          default-zone: http://localhost:8761/eureka/
+          defaultZone: http://eureka:8761/eureka/

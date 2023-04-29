@@ -46,7 +46,6 @@ public class BookDto {
         this.memoType = memoType != null ? BookMemoType.valueOf(memoType) : null;
     }
 
-
     public Book toEntity() {
         return Book.builder()
                 .title(title)

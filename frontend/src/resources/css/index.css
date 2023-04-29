@@ -24,3 +24,21 @@ code {
 .clickable {
 	cursor: pointer;
 }
+
+/* limit line */
+.limit-1-line {
+	max-height: 18px; 
+	overflow: hidden;
+}
+
+.limit-2-line {
+	max-height: 58px; 
+	overflow: hidden;
+}
+
+@media (max-width: 768px) {
+	.limit-2-line {
+		max-height: 38px; 
+		overflow: hidden;
+	}	
+}

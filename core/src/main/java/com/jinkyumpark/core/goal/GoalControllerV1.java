@@ -1,12 +1,13 @@
 package com.jinkyumpark.core.goal;
 
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
+import com.jinkyumpark.core.book.BookService;
+import com.jinkyumpark.core.goal.model.Goal;
 import com.jinkyumpark.core.goal.model.GoalId;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
-import com.jinkyumpark.core.goal.model.Goal;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
@@ -19,7 +20,9 @@ import java.util.stream.Collectors;
 @RestController @RequestMapping("/v1/goal")
 public class GoalControllerV1 {
     private final MessageSourceAccessor messageSource;
+
     private final GoalService goalService;
+    private final BookService bookService;
 
     @GetMapping("{year}")
     public GoalResponse getGoalByYear(@PathVariable(value = "year", required = false) Integer year,
@@ -28,7 +31,7 @@ public class GoalControllerV1 {
 
         Goal goal = goalService.getGoalByYear(year, loginAppUser);
 
-        return new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), goal.getCurrent());
+        return new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(),  bookService.getDoneBookCountByYear(loginAppUser.getId(), year));
     }
 
     @GetMapping
@@ -42,7 +45,7 @@ public class GoalControllerV1 {
         return goalService
                 .getGoalByStartYearAndEndYear(startYear, endYear, loginAppUser)
                 .stream()
-                .map(goal -> new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), goal.getCurrent()))
+                .map(goal -> new GoalResponse(goal.getGoalId().getYear(), goal.getGoal(), bookService.getDoneBookCountByYear(loginAppUser.getId(), goal.getGoalId().getYear())))
                 .collect(Collectors.toList());
     }
 
@@ -53,26 +56,27 @@ public class GoalControllerV1 {
         if (year == null) year = LocalDateTime.now().getYear();
 
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
-        Goal newGoal = new Goal(goalId, goal, loginAppUser.getId());
+        Goal newGoal = new Goal(goalId, goal);
 
-        goalService.addGoal(loginAppUser.getId(), newGoal);
+        goalService.addGoal(newGoal);
 
         return AddSuccessResponse.builder()
                 .message(messageSource.getMessage("goal.add.success"))
-                .path(String.format("POST v1/goal/%d/%d", year, goal))
                 .build();
     }
 
     @PutMapping("{year}")
-    public EditSuccessResponse editGoal(@PathVariable("year") Integer year,
-                                        @RequestParam("goal") Integer goal,
-                                        @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse editGoal(@PathVariable("year") Integer year,
+                                          @RequestParam("goal") Integer goal,
+                                          @LoginUser LoginAppUser loginAppUser) {
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
-        Goal editedGoal = new Goal(goalId, goal, loginAppUser.getId());
+        Goal editedGoal = new Goal(goalId, goal);
 
         goalService.editGoal(editedGoal);
 
-        return new EditSuccessResponse(String.format("PUT v1/goal/%d?goal=%d", year, goal), messageSource.getMessage("goal.edit.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("goal.edit.success"))
+                .build();
     }
 
     @DeleteMapping("{year}")
@@ -80,6 +84,8 @@ public class GoalControllerV1 {
                                             @LoginUser LoginAppUser loginAppUser) {
         goalService.deleteGoal(loginAppUser.getId(), year);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/goal/%d", year), messageSource.getMessage("goal.delete.success"));
+        return DeleteSuccessResponse.builder()
+                .message(messageSource.getMessage("goal.delete.success"))
+                .build();
     }
 }

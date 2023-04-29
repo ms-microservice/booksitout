@@ -21,15 +21,15 @@ import java.time.LocalDateTime;
 @RequestMapping("v3/statistics")
 public class StatisticsControllerV3 {
 
-    private final StatisticsQueryDslService statisticsQueryDslService;
+    private final StatisticsQueryDslRepository statisticsQueryDslRepository;
 
     @GetMapping("year/{year}")
     public SummaryStatistics getSummaryStatisticsByYear(@PathVariable(value = "year", required = false) Integer year,
                                                         @LoginUser LoginAppUser loginAppUser) {
         if (year == null) year = LocalDateTime.now().getYear();
 
-        BookRelatedStatistics bookRelated = statisticsQueryDslService.getYearlyBookRelatedStatistics(loginAppUser.getId(), year);
-        ReadingSessionRelatedStatistics readingSessionRelated = statisticsQueryDslService.getYearlyReadingSessionRelatedStatistics(loginAppUser.getId(), year);
+        BookRelatedStatistics bookRelated = statisticsQueryDslRepository.getYearlyBookRelatedStatistics(loginAppUser.getId(), year);
+        ReadingSessionRelatedStatistics readingSessionRelated = statisticsQueryDslRepository.getYearlyReadingSessionRelatedStatistics(loginAppUser.getId(), year);
 
         YearStatistics yearStatistics = YearStatistics.builder()
                 .totalReadTime(readingSessionRelated.getTotalReadTime())
@@ -43,7 +43,7 @@ public class StatisticsControllerV3 {
                 .mostReadTime(readingSessionRelated.getMostReadTime())
                 .build();
 
-        return new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics, 50);
+        return new SummaryStatistics(HttpStatus.OK.value(), year, yearStatistics, dayStatistics);
     }
 
 }

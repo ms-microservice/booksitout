@@ -11,15 +11,36 @@ import HorizontalBookView from './HorizontalBookView'
 import DoneHorizontalBookView from './DoneHorizontalBookView'
 import InfiniteScrollLoading from './InfiniteScrollLoading';
 // Images
-import kimchiImage from '../../resources/images/common/kimchi.png'
+// import kimchiImage from '../../resources/images/common/kimchi-tone-down.png'
+import kimchiImage from '../../resources/images/common/kimchi-green.png'
 import bookShelfImage from '../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
+import parse from 'html-react-parser'
 
 const BookList = () => {
 	const { range, rangeDetail } = useParams()
-	const rangeApi = range === 'not-done' ? (rangeDetail === 'all' ? range : rangeDetail) : range
-	const noContentMessage = range === 'not-done' ? `읽지 않은 책이 없어요` : range === 'done' ? `다 읽은 책이 없어요` : range === 'give-up' ? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요` : `텅 비어 있어요`
+	const rangeApi = () => {
+		if (range === 'not-done') {
+			if (rangeDetail === 'all' || rangeDetail == null) {
+				return 'not-done'
+			} else {
+				return 'not-started'
+			}
+		}
+
+		return range
+	}
+	
+	const noContentMessage = parse(
+		range === 'not-done'
+			? `읽지 않은 책이 없어요`
+			: range === 'done'
+			? `다 읽은 책이 없어요`
+			: range === 'give-up'
+			? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
+			: `텅 비어 있어요`
+	)
 	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
 	const fetchSize = 24
 
@@ -32,9 +53,10 @@ const BookList = () => {
 	const [bookList, setBookList] = useState(null)
 
 	useEffect(() => {
+		document.title = `${range == 'not-done' ? '읽고 있는 책' : range == 'give-up' ? '포기한 책' : '다 읽은 책'} | 책잇아웃`
 		setTimeout(() => setInitialFetch(false), 5000)
 
-		getBookList(rangeApi, 0, fetchSize)
+		getBookList(rangeApi(), 0, fetchSize)
 			.then((pageList) => {
 				if (pageList == null) throw new Error()
 
@@ -51,7 +73,7 @@ const BookList = () => {
 	}, [])
 
 	const getNextPage = () => {
-		getBookList(rangeApi, currentPage + 1, fetchSize)
+		getBookList(rangeApi(), currentPage + 1, fetchSize)
 			.then((pageList) => {
 				setBookList([...bookList, ...pageList.content])
 			})

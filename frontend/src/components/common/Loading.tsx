@@ -1,8 +1,9 @@
 import uiSettings from '../../settings/ui'
 
-const Loading = ({ message = '잠시만 기다려 주세요', textSize = 'h1' }) => {
+const Loading = ({ message = '잠시만 기다려 주세요', textSize = 'h1', mt = '250px', mb='0px' }) => {
 	const containerStyle = {
-		marginTop: '250px',
+		marginTop: mt,
+		marginBottom: mb,
 	}
 
 	const spinnerStyle = {

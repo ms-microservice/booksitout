@@ -29,8 +29,6 @@ public class Qna {
     @JsonIgnore
     private String password;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "qna_app_user_fk"))
     @JsonIgnore
     private Long appUserId;
 

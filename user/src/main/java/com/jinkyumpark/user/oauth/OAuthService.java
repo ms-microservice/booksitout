@@ -1,6 +1,6 @@
 package com.jinkyumpark.user.oauth;
 
-import com.jinkyumpark.user.exception.http.BadRequestException;
+import com.jinkyumpark.common.exception.BadRequestException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -24,27 +24,6 @@ public class OAuthService {
         }
 
         return String.valueOf(response);
-    }
-
-    public String getOauthAccessToken(String requestUrl) {
-        try {
-            URL url = new URL(requestUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setRequestMethod("GET");
-            connection.setConnectTimeout(5000);
-            connection.setReadTimeout(5000);
-            connection.setDoInput(true);
-
-            BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-            String response = getJsonString(bufferedReader);
-            bufferedReader.close();
-
-            return response;
-        } catch (Exception e) {
-            log.info(e.getMessage());
-        }
-
-        throw new BadRequestException("OAuth Access Token Request Fail; Request URL: " + requestUrl);
     }
 
     public String getOauthUserInfo(String requestUrl, String token) {

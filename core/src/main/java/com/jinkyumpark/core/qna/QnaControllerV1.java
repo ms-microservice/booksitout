@@ -1,10 +1,8 @@
 package com.jinkyumpark.core.qna;
 
-import com.jinkyumpark.core.common.exception.http.BadRequestException;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
+import com.jinkyumpark.common.exception.BadRequestException;
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.qna.request.QnaAddRequest;
 import com.jinkyumpark.core.qna.request.QnaEditRequest;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -50,19 +48,21 @@ public class QnaControllerV1 {
         return AddSuccessResponse.builder()
                 .id(qnaId)
                 .message(messageSource.getMessage("qna.add.success"))
-                .path("POST v1/qna")
                 .build();
     }
 
     @PutMapping("{qnaId}")
-    public EditSuccessResponse editQna(@PathVariable("qnaId") Long qnaId,
-                                       @RequestBody @Valid QnaEditRequest qnaEditRequest,
-                                       @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse editQna(@PathVariable("qnaId") Long qnaId,
+                                         @RequestBody @Valid QnaEditRequest qnaEditRequest,
+                                         @LoginUser LoginAppUser loginAppUser) {
         qnaEditRequest.setQnaId(qnaId);
 
         qnaService.editQna(qnaEditRequest, loginAppUser);
 
-        return new EditSuccessResponse(String.format("PUT v1/qna/%d", qnaId), messageSource.getMessage("qna.edit.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("qna.edit.success"))
+                .id(qnaId)
+                .build();
     }
 
 //    @DeleteMapping("{qnaId}")

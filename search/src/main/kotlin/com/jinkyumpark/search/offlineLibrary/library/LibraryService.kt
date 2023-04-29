@@ -1,6 +1,5 @@
 package com.jinkyumpark.search.offlineLibrary.library
 
-import com.jinkyumpark.search.offlineLibrary.model.Library
 import org.springframework.stereotype.Service
 
 @Service

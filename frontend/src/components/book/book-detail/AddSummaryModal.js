@@ -26,7 +26,7 @@ const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 	}
 
 	return (
-		<Modal show={isModalOpen} fullscreen='md-down' onHide={() => setIsModalOpen(false)} backdrop='static'>
+		<Modal show={isModalOpen} fullscreen='md-down' onHide={() => setIsModalOpen(false)} backdrop='static' centered>
 			<Modal.Header closeButton onHide={() => setIsModalOpen(false)} className='text-center'>
 				<h4 className='w-100'>요약 추가하기</h4>
 			</Modal.Header>

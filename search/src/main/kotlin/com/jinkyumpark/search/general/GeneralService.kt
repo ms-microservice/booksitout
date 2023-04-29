@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient
 class GeneralService(
     val webClient: WebClient,
 
-    @Value("\${search.aladin.api-key}") val aladinApiKey: String,
+    @Value("\${search.aladin.secret}") val aladinApiKey: String,
     @Value("\${search.google.url}") val googleUrl: String,
     @Value("\${search.google.secret}") val googleSecret: String,
     @Value("\${search.google.cx}") val googleCx: String,
@@ -73,20 +73,37 @@ class GeneralService(
             }
     }
 
-    @Cacheable(value = ["google-image"], key = "#query.toLowerCase().replace(' ', '')")
-    fun getBookImageFromGoogle(query: String): List<String> {
-        val url = "$googleUrl?key=$googleSecret&cx=$googleCx&q=$query&searchType=image&num=8"
-
-        val response = webClient
+    @Cacheable(value = ["google-image"], key = "#title.toLowerCase().replace(' ', '')")
+    fun getBookImageFromGoogle(title: String, author: String): List<String> {
+        val titleAuthorQuery = "$title - $author".replace(" ".toRegex(), "%20")
+        val titleAuthorUrl = "$googleUrl?key=$googleSecret&cx=$googleCx&q=$titleAuthorQuery&searchType=image&num=8"
+        println(titleAuthorUrl)
+        val titleAuthorResponse = webClient
             .get()
-            .uri(url)
+            .uri(titleAuthorUrl)
             .retrieve()
             .bodyToMono(ApiGoogleImageSearchResponse::class.java)
             .block()
 
-        return response
+        val titleAuthorResult = titleAuthorResponse
             ?.items
             ?.map { it.link }
             ?: listOf()
+
+        if (titleAuthorResult.isNotEmpty()) return titleAuthorResult.filterNotNull()
+        if (author == "") return listOf()
+
+        val titleUrl = "$googleUrl?key=$googleSecret&cx=$googleCx&q=$title&searchType=image&num=8"
+        println(titleUrl)
+        val titleResponse = webClient
+            .get()
+            .uri(titleUrl)
+            .retrieve()
+            .bodyToMono(ApiGoogleImageSearchResponse::class.java)
+            .block()
+
+        return titleResponse
+            ?.items?.mapNotNull { it.link }
+            ?: listOf()
     }
-}
+}   

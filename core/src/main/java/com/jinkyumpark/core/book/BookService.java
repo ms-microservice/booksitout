@@ -1,15 +1,12 @@
 package com.jinkyumpark.core.book;
 
+import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
-import com.jinkyumpark.core.book.exception.BookNotSharingException;
 import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.reading.ReadingSession;
-import com.jinkyumpark.core.statistics.StatisticsService;
-import com.jinkyumpark.core.statistics.model.MonthStatistics;
-import com.jinkyumpark.core.reading.ReadingSessionRepository;
+import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
+import com.jinkyumpark.core.reading.ReadingSession;
+import com.jinkyumpark.core.reading.ReadingSessionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
@@ -19,7 +16,6 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
-import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -27,16 +23,15 @@ public class BookService {
     private final MessageSourceAccessor messageSource;
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
-    private final StatisticsService statisticsService;
 
-    private final BookRepositoryImpl bookRepositoryImpl;
+    private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.get.fail.not-found")));
 
         if (!loginAppUser.getId().equals(book.getAppUserId())) {
-            throw new BookNotSharingException(messageSource.getMessage("book.get.fail.not-sharing"));
+            throw new UnauthorizedException(messageSource.getMessage("book.get.fail.not-sharing"));
         }
 
         return book;
@@ -86,19 +81,22 @@ public class BookService {
         return currentReadingSession.getBook();
     }
 
-//    public List<Book> getBookByQuery(Long loginUserId, String query, MyBookSearchRange myBookSearchRange) {
-//
-//        if (myBookSearchRange.equals(MyBookSearchRange.ALL))
-//            return bookRepositoryImpl.getAllBookByQuery(loginUserId, query);
-//        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_READING))
-//            return bookRepositoryImpl.getNotDoneBookByQuery(loginUserId, query);
-//        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_DONE))
-//            return bookRepositoryImpl.getDoneBookByQuery(loginUserId, query);
-//        if (myBookSearchRange.equals(MyBookSearchRange.EXCLUDE_GIVE_UP))
-//            return bookRepositoryImpl.getExcludeGiveUpBookByQuery(loginUserId, query);
-//
-//        return List.of();
-//    }
+    public List<Book> getBookByQuery(Long loginUserId, String query, MyBookSearchRange myBookSearchRange) {
+        if (query == null || query.isBlank()) {
+            return List.of();
+        }
+
+        if (myBookSearchRange.equals(MyBookSearchRange.ALL))
+            return bookRepositoryQueryDsl.getAllBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_READING))
+            return bookRepositoryQueryDsl.getNotDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.ONLY_DONE))
+            return bookRepositoryQueryDsl.getDoneBookByQuery(loginUserId, query);
+        if (myBookSearchRange.equals(MyBookSearchRange.EXCLUDE_GIVE_UP))
+            return bookRepositoryQueryDsl.getExcludeGiveUpBookByQuery(loginUserId, query);
+
+        return List.of();
+    }
 
     public Long addBook(BookDto bookDto) {
         return bookRepository.save(bookDto.toEntity()).getBookId();
@@ -110,7 +108,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
         if (!book.getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+            throw new UnauthorizedException("book.edit.fail.not-authorize");
         }
 
         book.giveUpBook();
@@ -123,7 +121,7 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.edit.fail.not-found")));
 
         if (!book.getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException("book.edit.fail.not-authorize");
+            throw new UnauthorizedException("book.edit.fail.not-authorize");
         }
 
         book.unGiveUpBook();
@@ -135,12 +133,9 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException("book.get.fail.not-found"));
 
         if (!loginUserId.equals(bookToEdit.getAppUserId()))
-            throw new NotAuthorizeException(messageSource.getMessage("book.edit.fail.not-authorize"));
-
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginUserId, bookToEdit.getCreatedDate().getYear(), bookToEdit.getCreatedDate().getMonthValue());
+            throw new UnauthorizedException(messageSource.getMessage("book.edit.fail.not-authorize"));
 
         bookToEdit.editBook(bookDto);
-        monthStatistics.editBook(bookDto);
     }
 
     @Transactional
@@ -149,15 +144,13 @@ public class BookService {
                 .orElseThrow(() -> new NotFoundException(messageSource.getMessage("book.delete.fail.not-found")));
 
         if (!book.getAppUserId().equals(loginAppUser.getId())) {
-            throw new NotAuthorizeException(messageSource.getMessage("book.delete.fail.not-authorize"));
+            throw new UnauthorizedException(messageSource.getMessage("book.delete.fail.not-authorize"));
         }
 
-        Optional<ReadingSession> lastReadingSession = readingSessionRepository.findFirstByBook_BookIdOrderByStartTimeDesc(bookId);
-        int year = lastReadingSession.isPresent() ? lastReadingSession.get().getStartTime().getYear() : book.getCreatedDate().getYear();
-        int month = lastReadingSession.isPresent() ? lastReadingSession.get().getStartTime().getMonthValue() : book.getCreatedDate().getMonthValue();
-        MonthStatistics monthStatistics = statisticsService.getStatisticsByMonth(loginAppUser.getId(), year, month);
-
-        monthStatistics.deleteBook(book);
         bookRepository.deleteById(book.getBookId());
+    }
+
+    public int getDoneBookCountByYear(Long appUserId, int year) {
+        return bookRepositoryQueryDsl.getDoneBookCountByYear(appUserId, year);
     }
 }

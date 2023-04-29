@@ -10,7 +10,6 @@ import MemoCard from './MemoCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
 import MemoDetailModal from '../book/book-detail/MemoDetailModal'
-import QuotationDetailModal from '../book/book-detail/QuotationDetailModal'
 // Images
 import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 // Functions
@@ -46,10 +45,6 @@ const Reading = () => {
 	const [isMemoDetailModalOpen, setIsMemoDetailModalOpen] = useState(false)
 	const [selectedMemo, setSelectedMemo] = useState(null)
 
-	const [quotationList, setQuotationList] = useState(null)
-	const [isQuotationDetailModalOpen, setIsQuotationDetailModalOpen] = useState(false)
-	const [selectedQuotation, setSelectedQuotation] = useState(null)
-
 	useEffect(() => {
 		dispatch(resumeTimer())
 
@@ -71,13 +66,12 @@ const Reading = () => {
 						}
 					})
 				} else {
-					if (Number(id) !== Number(book.bookId)) {
+					if (id != Number(book.bookId)) {
 						toast.error('진행중인 독서활동이 있어요')
 						navigate(`/reading/${book.bookId}`)
 					}
 
 					getMemoListOfBook(book.bookId).then((memos) => setMemoList(memos))
-					getQuotationListOfBook(book.bookId).then((quotes) => setQuotationList(quotes))
 					setBook(book)
 				}
 			})

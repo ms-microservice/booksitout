@@ -5,7 +5,7 @@ import toast from 'react-hot-toast'
 // React Icons
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
-import {BiSearchAlt2 as SearchIcon} from 'react-icons/bi'
+import { BiSearchAlt2 as SearchIcon } from 'react-icons/bi'
 // Images
 import userIcon from '../../resources/images/user/user3.png'
 import logo from '../../resources/images/logo/logo.png'
@@ -19,6 +19,7 @@ import messages from '../../settings/messages'
 // css
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
+// components
 import SearchHistory from '../search/SearchHistory'
 
 const Topnav = () => {
@@ -92,7 +93,11 @@ const Topnav = () => {
 						<SearchIcon
 							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 							onClick={() => {
-								toggleSearchBar()
+								if (token !== '' && token != null) {
+									toggleSearchBar()
+									return
+								}
+								toast.error('로그인 해 주세요')
 							}}
 						/>
 					</button>
@@ -223,7 +228,7 @@ const Topnav = () => {
 	)
 }
 
-const SearchBar = ({width = {}, autoFocus = false}) => {
+const SearchBar = ({ width = {}, autoFocus = false }) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
@@ -264,7 +269,6 @@ const SearchBar = ({width = {}, autoFocus = false}) => {
 			onKeyDown={(e) => {
 				e.keyCode === 13 && this != null && this.blur()
 			}}>
-
 			{/* {showSearchHistory && <SearchHistory />} */}
 
 			<div className='col-9 p-lg-0 pe-0'>

@@ -19,7 +19,7 @@ import org.springframework.web.reactive.function.client.WebClient
 @Service
 class SubscriptionService(
     val webClient: WebClient
-): BookSearchService {
+) : BookSearchService {
 
     @Cacheable(value = ["subscription"], keyGenerator = "searchKeyGenerator")
     override fun getSearchResult(query: String, provider: SearchProvider): List<SearchResult> {
@@ -33,8 +33,10 @@ class SubscriptionService(
     }
 
     private fun millie(query: String): List<SearchResult> {
-        val url: String = "https://live-api.millie.co.kr/v2/search/content?" +
-                "debug=1&searchType=content&keyword=$query&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1&contentCode=245"
+        val url: String = """
+            https://live-api.millie.co.kr/v2/search/content?
+            debug=1&searchType=content&keyword=$query&contentlimitCount=5&postlimitCount=0&librarylimitCount=0&startPage=1&contentCode=245
+        """.trimIndent()
 
         val response: ApiMillieResponse = webClient
             .get()
@@ -49,7 +51,9 @@ class SubscriptionService(
     private fun yes24(query: String): List<SearchResult> {
         val url = "https://bookclub.yes24.com/BookClub/Search?query=$query"
 
-        val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
+        val document: Document =    try { Jsoup.connect(url).parser(Parser.htmlParser()).get() }
+                                    catch (e: Exception) { return listOf() }
+
         val element: Element = document.getElementById("yesSchList") ?: return listOf()
         val listElements: Elements = element.getElementsByTag("li")
 
@@ -89,8 +93,12 @@ class SubscriptionService(
     private fun kyobo(query: String): List<SearchResult> {
         val url = "https://search.kyobobook.co.kr/search?keyword=$query&target=sam&gbCode=TOT&cat1=eBook@SAM"
 
-        val document: Document = Jsoup.connect(url).get().parser(Parser.htmlParser())
-        val productList: Elements = document.getElementsByClass("prod_item")
+        val productList: Elements = try {
+            val document: Document = Jsoup.connect(url).get().parser(Parser.htmlParser())
+            document.getElementsByClass("prod_item")
+        } catch (e: Exception) {
+            return listOf()
+        }
 
         val result: MutableList<SearchResult> = mutableListOf()
         for (product: Element in productList) {

@@ -1,18 +1,16 @@
 package com.jinkyumpark.core.reading;
 
+import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.exception.BookNotSharingException;
 import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
-import com.jinkyumpark.core.common.response.UpdateSuccessResponse;
+import com.jinkyumpark.core.loginUser.LoginAppUser;
+import com.jinkyumpark.core.loginUser.LoginUser;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.core.reading.request.ReadingAddRequest;
 import com.jinkyumpark.core.reading.request.ReadingEditRequest;
-import com.jinkyumpark.core.loginUser.LoginAppUser;
-import com.jinkyumpark.core.loginUser.LoginUser;
-import com.jinkyumpark.core.common.exception.http.NotAuthorizeException;
-import com.jinkyumpark.core.common.exception.http.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.PageRequest;
@@ -50,7 +48,7 @@ public class ReadingSessionControllerV1 {
         Long bookAppUserId = book.getAppUserId();
 
         if (!loginAppUser.getId().equals(bookAppUserId) && !book.getIsSharing()) {
-            throw new BookNotSharingException(messageSource.getMessage("reading.get.fail.not-sharing"));
+            throw new UnauthorizedException(messageSource.getMessage("reading.get.fail.not-sharing"));
         }
 
         return readingSessionService.getReadingSessionByBookId(bookId);
@@ -62,7 +60,7 @@ public class ReadingSessionControllerV1 {
                                                                    @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
                                                                    @LoginUser LoginAppUser loginAppUser) {
         if (!loginAppUser.getId().equals(requestAppUserId)) {
-            throw new NotAuthorizeException(messageSource.getMessage("reading.get.fail.not-authorize"));
+            throw new UnauthorizedException(messageSource.getMessage("reading.get.fail.not-authorize"));
         }
 
         Pageable pageRequest = PageRequest.of(page, size);
@@ -120,14 +118,16 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.updateReadingSession(readingSessionId, readingSessionDto, loginAppUser);
 
-        return new UpdateSuccessResponse(String.format("PUT v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.edit.read-time.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("reading.edit.read-time.success"))
+                .build();
     }
 
     @PutMapping("{bookId}/end")
-    public EditSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
-                                                 @RequestParam("page") Integer readingSessionEndPage,
-                                                 @RequestParam("time") Integer totalTimeInSecond,
-                                                 @LoginUser LoginAppUser loginAppUser) {
+    public com.jinkyumpark.common.response.UpdateSuccessResponse endReadingSession(@PathVariable("bookId") Long bookId,
+                                                                                   @RequestParam("page") Integer readingSessionEndPage,
+                                                                                   @RequestParam("time") Integer totalTimeInSecond,
+                                                                                   @LoginUser LoginAppUser loginAppUser) {
         ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
                 .endPage(readingSessionEndPage)
                 .readTime(totalTimeInSecond / 60)
@@ -138,11 +138,13 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.endCurrentReadingSession(readingSessionDto, loginAppUser);
 
-        return new EditSuccessResponse("독서활동을 종료했어요");
+        return UpdateSuccessResponse.builder()
+                .message("독서활동을 종료했어요")
+                .build();
     }
 
     @PutMapping("{readingSessionId}/all")
-    public EditSuccessResponse editReadingSession(@PathVariable("readingSessionId") Long readingSessionId,
+    public UpdateSuccessResponse editReadingSession(@PathVariable("readingSessionId") Long readingSessionId,
                                                   @RequestBody @Valid ReadingEditRequest readingEditRequest,
                                                   @LoginUser LoginAppUser loginAppUser) {
         ReadingSessionDto readingSessionDto = ReadingSessionDto.builder()
@@ -154,7 +156,9 @@ public class ReadingSessionControllerV1 {
 
         readingSessionService.updateReadingSession(readingSessionId, readingSessionDto, loginAppUser);
 
-        return new EditSuccessResponse(String.format("PUT /v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.edit.manual.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("reading.edit.manual.success"))
+                .build();
     }
 
     @DeleteMapping("not-saving")
@@ -162,13 +166,15 @@ public class ReadingSessionControllerV1 {
         ReadingSession currentReadingSession = readingSessionService.getCurrentReadingSession(loginAppUser.getId());
         readingSessionService.deleteReadingSession(currentReadingSession.getReadingSessionId(), loginAppUser);
 
-        return new DeleteSuccessResponse("DELETE v1/reading-session/not-saving");
+        return DeleteSuccessResponse.builder().build();
     }
 
     @DeleteMapping("{readingSessionId}")
     public DeleteSuccessResponse deleteReadingSession(@PathVariable("readingSessionId") Long readingSessionId, @LoginUser LoginAppUser loginAppUser) {
         readingSessionService.deleteReadingSession(readingSessionId, loginAppUser);
 
-        return new DeleteSuccessResponse(String.format("DELETE v1/reading-session/%d", readingSessionId), messageSource.getMessage("reading.delete.manual.success"));
+        return DeleteSuccessResponse.builder()
+                .message(messageSource.getMessage("reading.delete.manual.success"))
+                .build();
     }
 }

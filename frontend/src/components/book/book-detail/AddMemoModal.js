@@ -13,16 +13,19 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 		e.preventDefault()
 
 		if (page < 0) {
+			document.getElementById('page-input').focus()
 			toast.error('페이지는 0보다 작을 수 없어요')
 			return
 		}
 
 		if (page > book.endPage) {
+			document.getElementById('page-input').focus()
 			toast.error('메모의 페이지가 책의 마지막 페이지보다 커요')
 			return
 		}
 
 		if (content == null || content === '') {
+			document.getElementById('content-input').focus()
 			toast.error('내용을 입력해 주세요')
 			return
 		}
@@ -46,7 +49,7 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down'>
+		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>📋 메모 추가하기</h4>
 			</Modal.Header>
@@ -54,10 +57,10 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddMemo(e)}>
 					<Form.Label type='number'>페이지</Form.Label>
-					<Form.Control type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setPage(e.target.value)} />
+					<Form.Control type='number' inputMode='numeric' pattern='[0-9]*' onChange={(e) => setPage(e.target.value)} id='page-input' />
 
 					<Form.Label className='mt-2'>내용</Form.Label>
-					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus />
+					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus id='content-input' />
 
 					<div className='row'>
 						<div className='col-12 col-md-6'>

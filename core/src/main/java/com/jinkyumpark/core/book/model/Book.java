@@ -5,7 +5,6 @@ import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.common.jpa.TimeEntity;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.memo.Memo;
-import com.jinkyumpark.core.quotation.Quotation;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
@@ -99,10 +98,6 @@ public class Book extends TimeEntity {
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore
     private List<Memo> memoList;
-
-    @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
-    @JsonIgnore
-    private List<Quotation> quotationList;
 
     @OneToMany(targetEntity = ReadingSession.class, mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     @JsonIgnore

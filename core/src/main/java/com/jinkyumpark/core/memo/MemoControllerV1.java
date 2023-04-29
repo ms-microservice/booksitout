@@ -1,15 +1,15 @@
 package com.jinkyumpark.core.memo;
 
+import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.exception.BookNotSharingException;
 import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.common.response.AddSuccessResponse;
-import com.jinkyumpark.core.common.response.DeleteSuccessResponse;
-import com.jinkyumpark.core.common.response.EditSuccessResponse;
-import com.jinkyumpark.core.memo.request.MemoAddRequest;
-import com.jinkyumpark.core.memo.request.MemoEditRequest;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
+import com.jinkyumpark.core.memo.request.MemoAddRequest;
+import com.jinkyumpark.core.memo.request.MemoEditRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.web.bind.annotation.*;
@@ -29,7 +29,7 @@ public class MemoControllerV1 {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
         if (!book.getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
-            throw new BookNotSharingException(messageSource.getMessage("memo.get.fail.not-sharing"));
+            throw new UnauthorizedException(messageSource.getMessage("memo.get.fail.not-sharing"));
         }
 
         return memoService.getAllMemoByBookId(bookId);
@@ -55,9 +55,9 @@ public class MemoControllerV1 {
     }
 
     @PutMapping("{memoId}")
-    public EditSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
-                                        @RequestBody @Valid MemoEditRequest memoEditRequest,
-                                        @LoginUser LoginAppUser loginAppUser) {
+    public UpdateSuccessResponse editMemo(@PathVariable("memoId") Long memoId,
+                                          @RequestBody @Valid MemoEditRequest memoEditRequest,
+                                          @LoginUser LoginAppUser loginAppUser) {
         MemoDto memoDto = MemoDto.builder()
                 .page(memoEditRequest.getPage())
                 .content(memoEditRequest.getContent())
@@ -65,13 +65,18 @@ public class MemoControllerV1 {
 
         memoService.editMemo(memoId, memoDto, loginAppUser);
 
-        return new EditSuccessResponse(String.format("PUT /v1/memo/%d", memoId), messageSource.getMessage("memo.edit.success"));
+        return UpdateSuccessResponse.builder()
+                .message(messageSource.getMessage("memo.edit.success"))
+                .id(memoId)
+                .build();
     }
 
     @DeleteMapping("{memoId}")
     public DeleteSuccessResponse deleteMemo(@PathVariable("memoId") Long memoId, @LoginUser LoginAppUser loginAppUser) {
         memoService.deleteMemo(memoId, loginAppUser);
 
-        return new DeleteSuccessResponse(String.format("DELETE /v1/memo/%d", memoId), messageSource.getMessage("memo.delete.success"));
+        return DeleteSuccessResponse.builder()
+                .message(messageSource.getMessage("memo.delete.success"))
+                .build();
     }
 }

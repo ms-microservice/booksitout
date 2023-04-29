@@ -27,6 +27,7 @@ const Search = () => {
 	const [loading, setLoading] = useState(true)
 	const [initial, setInitial] = useState(true)
 	useEffect(() => {
+		document.title = `검색 : ${query} | 책잇아웃`
 		setTimeout(() => {
 			setInitial(false)
 		}, uiSettings.initalFetchTime)
