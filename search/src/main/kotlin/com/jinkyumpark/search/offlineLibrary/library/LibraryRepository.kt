@@ -1,6 +1,5 @@
 package com.jinkyumpark.search.offlineLibrary.library
 
-import com.jinkyumpark.search.offlineLibrary.model.Library
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
@@ -12,10 +11,10 @@ interface LibraryRepository : JpaRepository<Library, Long> {
 
     @Query(
         """
-        select l from Library l 
-        where 
-            l.koreanName like %:query% OR 
-            l.englishName like %:query% OR 
+        select l from Library l
+        where
+            l.koreanName like %:query% OR
+            l.englishName like %:query% OR
             l.address like %:query%
     """
     )

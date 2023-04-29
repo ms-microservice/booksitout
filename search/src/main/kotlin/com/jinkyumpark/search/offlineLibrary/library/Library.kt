@@ -1,6 +1,6 @@
-package com.jinkyumpark.search.offlineLibrary.model
+package com.jinkyumpark.search.offlineLibrary.library
 
-import com.jinkyumpark.search.offlineLibrary.model.City
+import com.jinkyumpark.search.offlineLibrary.location.City
 import javax.persistence.*
 
 @Entity
@@ -22,7 +22,16 @@ class Library {
 
     var address: String? = null
     var postCode: String? = null
+    var latitude: Double? = null
+    var longitude: Double? = null
+
     var link: String? = null
+    var phone: String? = null
+
+    var totalBookCount: Int? = null
 
     var webCrawlingCode: String? = null
+
+    @Enumerated(EnumType.STRING)
+    var libraryType: LibraryType? = null
 }
