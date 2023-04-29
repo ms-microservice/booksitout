@@ -159,7 +159,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 					<Form.Label>⏰ 시간 (분)</Form.Label>
 
 					<div className='row'>
-						<div className='col-7'>
+						<div className='col-6 col-md-7'>
 							<Form.Control
 								className='mb-2'
 								type='number'
@@ -172,7 +172,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 							/>
 						</div>
 
-						<div className='col-5'>
+						<div className='col-6 col-md-5'>
 							<Button variant='book' disabled={endPage == null} onClick={() => predictReadtime()} className='w-100'>
 								페이지로 예측하기
 							</Button>
