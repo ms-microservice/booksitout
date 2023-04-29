@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { Button, Card } from 'react-bootstrap'
+import { useNavigate, useParams } from 'react-router-dom'
+import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 // Components
@@ -19,6 +19,8 @@ import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functio
 import parse from 'html-react-parser'
 
 const BookList = () => {
+	const navigate = useNavigate()
+
 	const { range, rangeDetail } = useParams()
 	const rangeApi = () => {
 		if (range === 'not-done') {
@@ -89,6 +91,30 @@ const BookList = () => {
 
 	return (
 		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
+			<Card className='mb-4'>
+				<Card.Body>
+					<ButtonGroup className='w-100'>
+						<a href='/book/not-done' className='w-100'>
+							<ToggleButton variant={range == 'not-done' ? 'book' : 'light'} type='radio' checked={false} className='w-100'>
+								읽고 있는 책
+							</ToggleButton>
+						</a>
+
+						<a href='/book/done' className='w-100'>
+							<ToggleButton variant={range == 'done' ? 'book' : 'light'} type='radio' checked={false} className='w-100'>
+								다 읽은 책
+							</ToggleButton>
+						</a>
+
+						<a href='/book/give-up' className='w-100'>
+							<ToggleButton variant={range == 'give-up' ? 'book' : 'light'} type='radio' checked={false} className='w-100'>
+								포기한 책
+							</ToggleButton>
+						</a>
+					</ButtonGroup>
+				</Card.Body>
+			</Card>
+
 			<InfiniteScroll
 				dataLength={bookList.length}
 				next={getNextPage}
