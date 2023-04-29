@@ -1,33 +1,40 @@
-package com.jinkyumpark.user.settings;
+package com.jinkyumpark.search.settings;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.user.appUser.AppUser;
-import com.jinkyumpark.user.settings.dtos.SettingsDto;
-import com.jinkyumpark.user.settings.model.KoreaRegion;
-import com.jinkyumpark.user.settings.model.MyBookSearchRange;
-import com.jinkyumpark.user.settings.model.SeoulRegionDetail;
+import com.jinkyumpark.search.settings.dtos.SettingsDto;
+import com.jinkyumpark.search.settings.model.KoreaRegion;
+import com.jinkyumpark.search.settings.model.MyBookSearchRange;
+import com.jinkyumpark.search.settings.model.LibrarySearchMethod;
+import com.jinkyumpark.search.settings.model.SeoulRegionDetail;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
-@NoArgsConstructor
+@AllArgsConstructor @NoArgsConstructor @Builder
 @Getter
 
-@Entity @Table
+@Entity @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"appUserId"})})
 public class Settings {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long settingsId;
+    @Column(unique = true)
+    private Long appUserId;
 
     @Enumerated(EnumType.STRING)
     private KoreaRegion region;
-
     @Enumerated(EnumType.STRING)
     private SeoulRegionDetail regionDetail;
 
+    @Enumerated(EnumType.STRING)
+    private LibrarySearchMethod librarySearchMethod;
+
+    @Column(columnDefinition = "varchar(10) default 'REGION")
     @Enumerated(EnumType.STRING)
     private MyBookSearchRange myBookSearchRange;
 
@@ -36,23 +43,18 @@ public class Settings {
     private String usedOnlineSearchRange;
     private String usedOfflineSearchRange;
 
-    @OneToOne(orphanRemoval = true, fetch = FetchType.LAZY)
-    @JoinColumn(name = "app_user_id")
-    @JsonIgnore
-    private AppUser appUser;
-
-    @Builder
-    public Settings(KoreaRegion region, SeoulRegionDetail regionDetail, MyBookSearchRange myBookSearchRange,
-                    String libraryOnlineSearchRange, String subscriptionSearchRange, String usedOnlineSearchRange, String usedOfflineSearchRange,
-                    AppUser appUser) {
-        this.region = region;
-        this.regionDetail = regionDetail;
-        this.myBookSearchRange = myBookSearchRange;
-        this.libraryOnlineSearchRange = libraryOnlineSearchRange;
-        this.subscriptionSearchRange = subscriptionSearchRange;
-        this.usedOnlineSearchRange = usedOnlineSearchRange;
-        this.usedOfflineSearchRange = usedOfflineSearchRange;
-        this.appUser = appUser;
+    public SettingsDto toDto() {
+        return SettingsDto.builder()
+                .appUserId(this.appUserId)
+                .region(this.region)
+                .regionDetail(this.regionDetail)
+                .myBookSearchRange(this.myBookSearchRange)
+                .libraryOnlineSearchRange(this.libraryOnlineSearchRange)
+                .subscriptionSearchRange(this.subscriptionSearchRange)
+                .usedOnlineSearchRange(this.usedOnlineSearchRange)
+                .usedOfflineSearchRange(this.usedOfflineSearchRange)
+                .librarySearchMethod(this.librarySearchMethod)
+                .build();
     }
 
     public void update(SettingsDto settingsDto) {
@@ -63,10 +65,12 @@ public class Settings {
         if (settingsDto.getLibraryOnlineSearchRange() != null) this.libraryOnlineSearchRange = settingsDto.getLibraryOnlineSearchRange();
         if (settingsDto.getUsedOnlineSearchRange() != null) this.usedOnlineSearchRange = settingsDto.getUsedOnlineSearchRange();
         if (settingsDto.getUsedOfflineSearchRange() != null) this.usedOfflineSearchRange = settingsDto.getUsedOfflineSearchRange();
+        if (settingsDto.getLibrarySearchMethod() != null) this.librarySearchMethod = settingsDto.getLibrarySearchMethod();
     }
 
     public void deleteRegion() {
         this.region = null;
         this.regionDetail = null;
     }
+
 }

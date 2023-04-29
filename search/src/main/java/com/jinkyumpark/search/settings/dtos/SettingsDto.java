@@ -1,14 +1,15 @@
-package com.jinkyumpark.user.settings.dtos;
+package com.jinkyumpark.search.settings.dtos;
 
-import com.jinkyumpark.user.appUser.AppUser;
-import com.jinkyumpark.user.settings.Settings;
-import com.jinkyumpark.user.settings.model.KoreaRegion;
-import com.jinkyumpark.user.settings.model.MyBookSearchRange;
-import com.jinkyumpark.user.settings.model.SeoulRegionDetail;
+import com.jinkyumpark.search.settings.Settings;
+import com.jinkyumpark.search.settings.model.KoreaRegion;
+import com.jinkyumpark.search.settings.model.LibrarySearchMethod;
+import com.jinkyumpark.search.settings.model.MyBookSearchRange;
+import com.jinkyumpark.search.settings.model.SeoulRegionDetail;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
-@Builder
+@AllArgsConstructor @Builder
 @Getter
 public class SettingsDto {
     private Long appUserId;
@@ -16,6 +17,7 @@ public class SettingsDto {
     private final KoreaRegion region;
     private final SeoulRegionDetail regionDetail;
     private final MyBookSearchRange myBookSearchRange;
+    private final LibrarySearchMethod librarySearchMethod;
 
     private String libraryOnlineSearchRange;
     private String subscriptionSearchRange;
@@ -24,14 +26,18 @@ public class SettingsDto {
 
     public Settings toEntity() {
         return Settings.builder()
-                .appUser(new AppUser(appUserId))
+                .appUserId(appUserId)
+
                 .region(region)
                 .regionDetail(regionDetail)
                 .myBookSearchRange(myBookSearchRange)
+                .librarySearchMethod(librarySearchMethod)
+
                 .libraryOnlineSearchRange(libraryOnlineSearchRange)
                 .subscriptionSearchRange(subscriptionSearchRange)
                 .usedOnlineSearchRange(usedOnlineSearchRange)
                 .usedOfflineSearchRange(usedOfflineSearchRange)
+
                 .build();
     }
 }

@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.settings.model;
+package com.jinkyumpark.search.settings.model;
 
 public enum MyBookSearchRange {
     ALL,

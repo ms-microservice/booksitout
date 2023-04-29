@@ -1,11 +1,11 @@
-package com.jinkyumpark.user.settings;
+package com.jinkyumpark.search.settings;
 
-import com.jinkyumpark.user.loginUser.LoginAppUser;
-import com.jinkyumpark.user.loginUser.LoginUser;
-import com.jinkyumpark.user.settings.dtos.ChangeMyBookSearchRangeRequest;
-import com.jinkyumpark.user.settings.dtos.ChangeRangeRequest;
-import com.jinkyumpark.user.settings.dtos.ChangeRegionRequest;
-import com.jinkyumpark.user.settings.dtos.SettingsDto;
+import com.jinkyumpark.search.security.LoginUser;
+import com.jinkyumpark.search.security.User;
+import com.jinkyumpark.search.settings.dtos.ChangeMyBookSearchRangeRequest;
+import com.jinkyumpark.search.settings.dtos.ChangeRangeRequest;
+import com.jinkyumpark.search.settings.dtos.ChangeRegionRequest;
+import com.jinkyumpark.search.settings.dtos.SettingsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
@@ -15,31 +15,31 @@ import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/v2/settings")
+@RequestMapping("/v2/settings/search")
 public class SettingsControllerV2 {
 
     private final SettingsService settingsService;
 
-    @PutMapping("search/my-book/search-range")
+    @PutMapping("my-book/search-range")
     public UpdateSuccessResponse changeMyBookSearchRange(@Valid @RequestBody ChangeMyBookSearchRangeRequest changeMyBookSearchRangeRequest,
-                                                       @LoginUser LoginAppUser loginAppUser) {
+                                                         @LoginUser User loginAppUser) {
         SettingsDto settingsDto = changeMyBookSearchRangeRequest.toDto(loginAppUser.getId());
         settingsService.updateSettings(settingsDto);
 
         return UpdateSuccessResponse.builder().build();
     }
 
-    @DeleteMapping("search/library-offline/region")
-    public DeleteSuccessResponse deleteRegion(@LoginUser LoginAppUser loginAppUser) {
+    @DeleteMapping("library-offline/region")
+    public DeleteSuccessResponse deleteRegion(@LoginUser User loginAppUser) {
 
         settingsService.deleteRegionSettings(loginAppUser.getId());
 
         return DeleteSuccessResponse.builder().build();
     }
 
-    @PutMapping("search/library-offline/region")
+    @PutMapping("library-offline/region")
     public UpdateSuccessResponse changeRegion(@Valid @RequestBody ChangeRegionRequest changeRegionRequest,
-                                            @LoginUser LoginAppUser loginAppUser) {
+                                              @LoginUser User loginAppUser) {
 
         SettingsDto settingsDto = changeRegionRequest.toDto(loginAppUser.getId());
         settingsService.updateSettings(settingsDto);
@@ -47,9 +47,9 @@ public class SettingsControllerV2 {
         return UpdateSuccessResponse.builder().build();
     }
 
-    @PutMapping("search/library-online/search-range")
+    @PutMapping("library-online/search-range")
     public UpdateSuccessResponse changeLibraryOnlineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
-                                                              @LoginUser LoginAppUser loginAppUser) {
+                                                                @LoginUser User loginAppUser) {
 
         SettingsDto settingsDto = SettingsDto.builder()
                 .appUserId(loginAppUser.getId())
@@ -60,9 +60,9 @@ public class SettingsControllerV2 {
         return UpdateSuccessResponse.builder().build();
     }
 
-    @PutMapping("search/subscription/search-range")
+    @PutMapping("subscription/search-range")
     public UpdateSuccessResponse changeSubscriptionSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
-                                                             @LoginUser LoginAppUser loginAppUser) {
+                                                               @LoginUser User loginAppUser) {
 
         SettingsDto settingsDto = SettingsDto.builder()
                 .appUserId(loginAppUser.getId())
@@ -73,9 +73,9 @@ public class SettingsControllerV2 {
         return UpdateSuccessResponse.builder().build();
     }
 
-    @PutMapping("search/used-online/search-range")
+    @PutMapping("used-online/search-range")
     public UpdateSuccessResponse changeUsedOnlineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
-                                                           @LoginUser LoginAppUser loginAppUser) {
+                                                             @LoginUser User loginAppUser) {
 
         SettingsDto settingsDto = SettingsDto.builder()
                 .appUserId(loginAppUser.getId())
@@ -86,9 +86,9 @@ public class SettingsControllerV2 {
         return UpdateSuccessResponse.builder().build();
     }
 
-    @PutMapping("search/used-offline/search-range")
+    @PutMapping("used-offline/search-range")
     public UpdateSuccessResponse changeUsedOfflineSearchRange(@Valid @RequestBody ChangeRangeRequest changeRangeRequest,
-                                                            @LoginUser LoginAppUser loginAppUser) {
+                                                              @LoginUser User loginAppUser) {
         SettingsDto settingsDto = SettingsDto.builder()
                 .appUserId(loginAppUser.getId())
                 .usedOfflineSearchRange(changeRangeRequest.getRange())

@@ -1,12 +1,12 @@
-package com.jinkyumpark.user.settings.dtos;
+package com.jinkyumpark.search.settings.dtos;
 
-import com.jinkyumpark.user.settings.model.MyBookSearchRange;
+import com.jinkyumpark.search.settings.model.MyBookSearchRange;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.jetbrains.annotations.NotNull;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 
 @NoArgsConstructor @AllArgsConstructor
 @Getter

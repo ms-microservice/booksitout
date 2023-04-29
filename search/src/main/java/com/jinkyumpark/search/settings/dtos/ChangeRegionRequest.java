@@ -1,7 +1,7 @@
-package com.jinkyumpark.user.settings.dtos;
+package com.jinkyumpark.search.settings.dtos;
 
-import com.jinkyumpark.user.settings.model.KoreaRegion;
-import com.jinkyumpark.user.settings.model.SeoulRegionDetail;
+import com.jinkyumpark.search.settings.model.KoreaRegion;
+import com.jinkyumpark.search.settings.model.SeoulRegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

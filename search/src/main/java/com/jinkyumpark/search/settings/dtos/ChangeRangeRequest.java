@@ -1,4 +1,4 @@
-package com.jinkyumpark.user.settings.dtos;
+package com.jinkyumpark.search.settings.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

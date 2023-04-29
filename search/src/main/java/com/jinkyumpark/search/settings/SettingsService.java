@@ -1,6 +1,6 @@
-package com.jinkyumpark.user.settings;
+package com.jinkyumpark.search.settings;
 
-import com.jinkyumpark.user.settings.dtos.SettingsDto;
+import com.jinkyumpark.search.settings.dtos.SettingsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
