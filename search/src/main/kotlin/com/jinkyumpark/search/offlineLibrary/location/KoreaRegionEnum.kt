@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.offlineLibrary.provider
+package com.jinkyumpark.search.offlineLibrary.location
 
 
 enum class KoreaRegionEnum(val koreanName: String,

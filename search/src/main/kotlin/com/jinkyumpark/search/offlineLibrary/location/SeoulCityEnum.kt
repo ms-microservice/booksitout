@@ -1,4 +1,4 @@
-import com.jinkyumpark.search.offlineLibrary.provider.KoreaRegionEnum
+package com.jinkyumpark.search.offlineLibrary.location
 
 enum class SeoulCity(
     val province: KoreaRegionEnum,
