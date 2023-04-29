@@ -1,6 +1,6 @@
-package com.jinkyumpark.search.offlineLibrary.model
+package com.jinkyumpark.search.offlineLibrary.libraryUser
 
-import com.jinkyumpark.search.offlineLibrary.model.Library
+import com.jinkyumpark.search.offlineLibrary.library.Library
 import javax.persistence.*
 
 @Entity
@@ -9,11 +9,14 @@ import javax.persistence.*
         UniqueConstraint(name = "user_library_unique", columnNames = ["library_id", "appUserId"])
     ]
 )
-class UserLibrary {
+class LibraryUser(id: Long?, appUserId: Long?) {
+
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Long? = null
+    var id: Long? = id
+    var appUserId: Long? = appUserId
 
     @ManyToOne @JoinColumn(name = "library_id", foreignKey = ForeignKey(name = "library_user_fk"))
     var library: Library? = null
-    var appUserId: Long? = null
+
+    constructor() : this(null, null) {}
 }
