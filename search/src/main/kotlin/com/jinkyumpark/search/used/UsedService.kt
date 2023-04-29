@@ -14,7 +14,7 @@ import org.springframework.web.reactive.function.client.WebClient
 
 @Service
 class UsedService(
-    @Value("\${search.aladin.api-key}")
+    @Value("\${search.aladin.secret}")
     private val aladinApiKey: String,
 
     val webClient: WebClient

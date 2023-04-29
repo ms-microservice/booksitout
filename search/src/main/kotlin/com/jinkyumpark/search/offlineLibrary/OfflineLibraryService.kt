@@ -15,7 +15,7 @@ import org.springframework.web.reactive.function.client.WebClient
 
 @Service
 class OfflineLibraryService(
-    @Value("\${search.data4library.api-key}")
+    @Value("\${search.data4library.secret}")
     private val data4LibraryApiKey: String,
 
     val webClient: WebClient,

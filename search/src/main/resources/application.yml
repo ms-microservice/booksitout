@@ -30,7 +30,7 @@ spring:
 search:
     aladin:
         url: http://www.aladin.co.kr/ttb/api/ItemSearch.aspx
-        api-key: ${ALADIN_SECRET}
+        secret: ${ALADIN_SECRET}
 
     data4library:
         url:
@@ -38,7 +38,7 @@ search:
             has-book-by-isbn: http://data4library.kr/api/libSrchByBook
             search: http://data4library.kr/api/srchBooks
             supported-library-url: http://data4library.kr/api/libSrch
-        api-key: ${DATA4LIBRARY_SECRET}
+        secret: ${DATA4LIBRARY_SECRET}
 
     kyobo:
         url: https://search.kyobobook.co.kr/search
