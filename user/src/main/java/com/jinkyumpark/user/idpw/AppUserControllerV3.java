@@ -9,8 +9,6 @@ import com.jinkyumpark.user.email.Mail;
 import com.jinkyumpark.common.exception.*;
 import com.jinkyumpark.user.jwt.JwtUtils;
 import com.jinkyumpark.user.oauth.OAuthProvider;
-import com.jinkyumpark.user.settings.Settings;
-import com.jinkyumpark.user.settings.SettingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +27,6 @@ import java.util.Optional;
 public class AppUserControllerV3 {
 
     private final AppUserService appUserService;
-    private final SettingsService settingsService;
     private final JwtUtils jwtUtils;
     private final PasswordEncoder passwordEncoder;
     private final EmailSender emailSender;
@@ -43,7 +40,6 @@ public class AppUserControllerV3 {
         }
 
         String token = "Bearer " + jwtUtils.generateAccessToken(appUser.getName(), appUser.getAppUserId(), appUser.getAuthorities(), true);
-        Settings settings = settingsService.getSettingsByAppUserId(appUser.getAppUserId());
 
         return LoginSuccessResponse.builder()
                 .message(String.format("어서오세요! %s님!", appUser.getName()))
@@ -52,7 +48,6 @@ public class AppUserControllerV3 {
                 .registerDate(appUser.getCreatedDate())
                 .profileImage(appUser.getProfileImage())
                 .loginMethod(LoginMethod.MANUAL)
-                .settings(settings)
                 .build();
     }
 
