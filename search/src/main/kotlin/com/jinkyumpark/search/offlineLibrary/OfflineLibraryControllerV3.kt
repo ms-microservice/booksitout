@@ -12,6 +12,22 @@ class OfflineLibraryControllerV3(
     val libraryService: LibraryService,
 ) {
 
+    @GetMapping("available-library/{query}")
+    fun getAvailableLibrary(
+        @PathVariable query: String,
+    ): List<AvailableLibraryResponse> {
+        return libraryService.getLibraryByNameOrAddress(query)
+            .map {
+                AvailableLibraryResponse(
+                    id = it.id ?: 0L,
+                    name = it.koreanName ?: "",
+                    icon = it.city?.logo ?: "",
+                    link = it.link,
+                    address = it.address ?: "",
+                )
+            }
+    }
+
     @GetMapping("{query}")
     fun getSearchResult(
         @PathVariable query: String,

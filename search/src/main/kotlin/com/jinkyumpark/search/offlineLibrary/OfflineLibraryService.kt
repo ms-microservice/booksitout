@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLibsLib
 import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
 import com.jinkyumpark.search.config.jsoup.SSLHelper
-import com.jinkyumpark.search.offlineLibrary.model.Library
+import com.jinkyumpark.search.offlineLibrary.library.Library
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
 import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryBook
 import org.jsoup.parser.Parser

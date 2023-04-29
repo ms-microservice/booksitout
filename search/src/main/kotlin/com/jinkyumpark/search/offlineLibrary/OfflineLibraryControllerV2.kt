@@ -3,7 +3,8 @@ package com.jinkyumpark.search.offlineLibrary
 import com.jinkyumpark.search.common.SearchProvider
 import com.jinkyumpark.search.common.SearchResult
 import com.jinkyumpark.search.general.GeneralService
-import com.jinkyumpark.search.offlineLibrary.provider.KoreaRegionEnum
+import com.jinkyumpark.search.offlineLibrary.location.SeoulCity
+import com.jinkyumpark.search.offlineLibrary.location.KoreaRegionEnum
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
 import com.jinkyumpark.search.offlineLibrary.response.OfflineLibraryResponse
 import org.springframework.web.bind.annotation.GetMapping
