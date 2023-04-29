@@ -48,9 +48,9 @@ spring:
             - Path=/user/**, /{version}/login/**
 
         - id: search-login
-          uri: lib://search
+          uri: lb://search
           predicates:
-            - Path=/{version}/search/library/settings/**, /{version}/settings/**
+            - Path=/{version}/search/library/settings/**, /{version}/settings/**, /{version}/search/settings/**
           filters:
             - JwtValidationFilter
 
