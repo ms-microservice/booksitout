@@ -1,7 +1,6 @@
 
 <p align="center">
   <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/216772091-60ecaf03-e77a-4d82-a70e-61822f78b6ab.png">
-  <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/216772022-eefff65d-08fa-4f09-9fbe-d61d33f91db8.png">
 </p>
 
 # 직접 사용해 보기
@@ -63,6 +62,17 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white) (EBS, EC2, RDS, S3)
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
+# 📊 Diagram
+### Architecture Diagram
+<p align="center">
+  <img height="675" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
+</p>
+
+### ER Diagram
+<p align="center">
+  <img height="675" src="https://user-images.githubusercontent.com/61900235/235311468-bc7e8ca8-a1bb-4a2e-86cd-c72da1ae6c2f.png">  
+</p>
+
 # 🆚 버전역사
 ## Version 1 (22년 10월 29일 ~ 23년 1월 14일)
 -   소개 : 소개 페이지, QNA, FAQ
@@ -107,14 +117,3 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 - 내 대출 현황 보기
 - 책 관련 컨텐츠 (사이트 이용 꿀팁, 도서관 관련 정보)
 - 디지털 도서관 회원증 추가 (애플월렛, 삼성페이, 이미지, 사이트에서 보기(위치 기반으로 도서관 근처에 있으면 자동으로 메인 화면 제일 위에))
-
-# 📊 Diagram
-### Architecture Diagram
-<p align="center">
-  <img height="675" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
-</p>
-
-### ER Diagram
-<p align="center">
-  <img height="675" src="https://user-images.githubusercontent.com/61900235/208791254-e5cfce24-8fe4-4d60-9441-a37d324c42c0.png">  
-</p>
