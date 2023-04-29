@@ -22,6 +22,9 @@ dependencies {
     // Eureka
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
 
+    // Config
+    implementation('org.springframework.cloud:spring-cloud-starter-config')
+
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }
     }
