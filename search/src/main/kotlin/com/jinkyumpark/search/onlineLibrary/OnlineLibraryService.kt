@@ -92,12 +92,13 @@ class OnlineLibraryService(
     }
 
     fun gwanghwamunLibrary(query: String): List<SearchResult> {
-        val url =
-            "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
+        val url = "http://kyobostory.dkyobobook.co.kr/Kyobo_T3_Mobile/Tablet/Main/Ebook_List.asp?keyword=$query&sortType=3"
 
-        val document: Document = Jsoup.connect(url).parser(Parser.htmlParser()).get()
-        val bookList: Elements =
-            document.getElementsByClass("bookListType01").first()?.getElementsByTag("li") ?: return listOf()
+        val document: Document =
+            try { Jsoup.connect(url).parser(Parser.htmlParser()).get() }
+            catch (e: Exception) { return listOf() }
+
+        val bookList: Elements = document.getElementsByClass("bookListType01").first()?.getElementsByTag("li") ?: return listOf()
 
         return bookList.map { book ->
             val title: String = book.getElementsByClass("tit").first()!!.text()
