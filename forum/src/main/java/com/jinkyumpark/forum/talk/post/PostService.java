@@ -36,6 +36,8 @@ public class PostService {
         Post post = postRepository.findById(updatedPost.getPostId())
                 .orElseThrow(() -> new NotFoundException("수정하려는 게시글이 없어요"));
 
+        if (post.getAppUserId() != updatedPost.getAppUserId()) throw new UnauthorizedException("게시글은 본인만 수정할 수 있어요");
+
         post.updatePost(updatedPost);
 
         return post;
