@@ -52,7 +52,7 @@ project(":core") {
     }
 }
 
-project(":user") {
+project(":auth") {
     dependencies {
         implementation project(':common')
     }

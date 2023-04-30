@@ -1,0 +1,6 @@
+spring:
+    application:
+        name: search
+
+    config:
+        import: configserver:http://config:8080/

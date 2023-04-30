@@ -1,6 +1,6 @@
 spring:
   application:
-    name: search
+    name: auth
 
   config:
     import: configserver:http://localhost:8080/

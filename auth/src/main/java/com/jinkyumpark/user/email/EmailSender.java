@@ -6,7 +6,7 @@ import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
-@PropertySource("classpath:application.yml")
+@PropertySource("classpath:application-dev.yml")
 @Service
 public class EmailSender {
     private final JavaMailSender javaMailSender;

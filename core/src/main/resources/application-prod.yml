@@ -1,0 +1,6 @@
+spring:
+  application:
+    name: core
+
+  config:
+    import: configserver:http://config:8080/

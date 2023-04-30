@@ -88,9 +88,9 @@ const Main = () => {
 					<MainLibraryCard/>
 				</div> */}
 
-				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+				{/* <div className='col-12 col-md-6 col-xl-4 mb-4'>
 					<IntroductionCard />
-				</div>
+				</div> */}
 			</div>
 		</div>
 	)

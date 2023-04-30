@@ -1,13 +1,10 @@
 package com.jinkyumpark.gateway.security;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
 import io.jsonwebtoken.Jwts;
-import org.springframework.boot.web.reactive.error.ErrorWebExceptionHandler;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
-import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
@@ -61,11 +58,6 @@ public class JwtValidationFilter extends AbstractGatewayFilterFactory<JwtValidat
         request.mutate()
                 .header("X-Authorization-Id", String.valueOf(userInfo.getAppUserId()))
                 .build();
-    }
-
-    @Bean
-    public ErrorWebExceptionHandler tokenValidation() {
-        return new JwtExceptionHandler(new ObjectMapper());
     }
 
 }

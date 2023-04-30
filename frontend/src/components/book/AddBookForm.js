@@ -471,7 +471,7 @@ return (
 							</Form.Group>
 						</div>
 
-						<p className='text-secondary text-center mb-4'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
+						<p className='text-secondary text-center mb-4 d-none d-md-inline'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
 
 						<div className='col-6'>
 							<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
@@ -483,6 +483,8 @@ return (
 								</Form.Select>
 							</Form.Group>
 						</div>
+
+						<p className='text-secondary text-center mb-4 d-md-none'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
 
 						<div className='col-12 col-md-6'>
 							<Form.Group className='mb-3' onChange={(e) => setSource(e.target.value)}>
