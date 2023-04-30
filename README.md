@@ -65,12 +65,12 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 # 📊 Diagram
 ### Architecture Diagram
 <p align="center">
-  <img height="675" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
+  <img height="500" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
 </p>
 
 ### ER Diagram
 <p align="center">
-  <img height="675" src="https://user-images.githubusercontent.com/61900235/235311468-bc7e8ca8-a1bb-4a2e-86cd-c72da1ae6c2f.png">  
+  <img height="500" src="https://user-images.githubusercontent.com/61900235/235311468-bc7e8ca8-a1bb-4a2e-86cd-c72da1ae6c2f.png">  
 </p>
 
 # 🆚 버전역사
