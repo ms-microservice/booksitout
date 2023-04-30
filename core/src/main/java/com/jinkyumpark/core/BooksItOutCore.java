@@ -1,13 +1,13 @@
-package com.jinkyumpark.user;
+package com.jinkyumpark.core;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class BookItOutAuth {
+public class BooksItOutCore {
 
     public static void main(String[] args) {
-        SpringApplication.run(BookItOutAuth.class, args);
+        SpringApplication.run(BooksItOutCore.class, args);
     }
 
 }

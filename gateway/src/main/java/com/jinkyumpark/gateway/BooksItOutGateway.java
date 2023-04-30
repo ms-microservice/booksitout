@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @SpringBootApplication
-public class BookItOutGateway {
+public class BooksItOutGateway {
     public static void main(String[] args) {
-        SpringApplication.run(BookItOutGateway.class, args);
+        SpringApplication.run(BooksItOutGateway.class, args);
     }
 
     @GetMapping

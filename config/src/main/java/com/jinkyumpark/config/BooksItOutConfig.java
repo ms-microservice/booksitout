@@ -6,8 +6,8 @@ import org.springframework.cloud.config.server.EnableConfigServer;
 
 @SpringBootApplication
 @EnableConfigServer
-public class BookItOutConfig {
+public class BooksItOutConfig {
     public static void main(String[] args) {
-        SpringApplication.run(BookItOutConfig.class, args);
+        SpringApplication.run(BooksItOutConfig.class, args);
     }
 }
