@@ -1,6 +1,6 @@
 spring:
   application:
-    name: eureka
+    name: forum
 
   config:
     import: configserver:http://localhost:8888/

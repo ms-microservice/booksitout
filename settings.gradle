@@ -7,3 +7,5 @@ include 'common'
 include 'core'
 include 'search'
 include 'auth'
+include 'forum'
+
