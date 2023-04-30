@@ -19,7 +19,7 @@ import uiSettings from '../../settings/ui'
 // Types
 import { UsedBook, MyBook, LibraryBook, SubscriptionBook } from './BookType'
 import LibraryOnlineCardComponent from './cardComponent/LibraryOnlineCardComponent'
-import { Alert, Card } from 'react-bootstrap'
+import { Alert } from 'react-bootstrap'
 
 const Search = () => {
 	const { query } = useParams()

@@ -3,14 +3,13 @@ package com.jinkyumpark.search.settings;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.search.settings.dtos.SettingsDto;
 import com.jinkyumpark.search.settings.model.KoreaRegion;
-import com.jinkyumpark.search.settings.model.MyBookSearchRange;
 import com.jinkyumpark.search.settings.model.LibrarySearchMethod;
+import com.jinkyumpark.search.settings.model.MyBookSearchRange;
 import com.jinkyumpark.search.settings.model.SeoulRegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 

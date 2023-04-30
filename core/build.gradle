@@ -19,11 +19,11 @@ dependencies {
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
     implementation("com.querydsl:querydsl-apt:${queryDslVersion}")
 
-    // Eureka
+    // MSA Related
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
-
-    // Config
     implementation('org.springframework.cloud:spring-cloud-starter-config')
+    implementation('org.springframework.cloud:spring-cloud-starter-sleuth')
+    implementation('org.springframework.cloud:spring-cloud-starter-zipkin:2.2.8.RELEASE')
 
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }

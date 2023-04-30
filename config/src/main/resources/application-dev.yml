@@ -1,3 +1,6 @@
+server:
+  port: 8888
+
 spring:
   application:
     name: config
@@ -8,7 +11,58 @@ spring:
         git:
           uri: git@github.com:jinkyumpark/booksitout-config.git
           ignoreLocalSshSettings: true
-          privateKey: ${SSH_PRIVATE_KEY}
+          privateKey: |
+            -----BEGIN RSA PRIVATE KEY-----
+            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
+            -----END RSA PRIVATE KEY-----
 
 eureka:
   instance:

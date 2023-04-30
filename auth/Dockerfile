@@ -4,7 +4,7 @@ MAINTAINER JINKYUM PARK
 WORKDIR ./
 
 ARG JAR_FILE_PATH=./build/libs/*.jar
-ENV SPRING_PROFILES_ACTIVE=common,prod,oauth
+ENV SPRING_PROFILES_ACTIVE=common,prod,oauth,log
 
 EXPOSE 80
 

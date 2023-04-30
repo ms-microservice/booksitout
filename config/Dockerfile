@@ -6,7 +6,7 @@ WORKDIR ./
 ARG JAR_FILE_PATH=./build/libs/*.jar
 ENV SPRING_PROFILES_ACTIVE=prod
 
-EXPOSE 80
+EXPOSE 8888
 
 CMD ["./mvnw", "clean", "build"]
 COPY ${JAR_FILE_PATH} ./booksitout.jar
