@@ -13,17 +13,14 @@ import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
 import BookListRangeButton from './BookListRangeButton'
 // Images
 import kimchiImage from '../../../resources/images/common/kimchi-green.png'
-import bookShelfImage from '../../../resources/images/common/bookshelf.png'
 // Functions
 import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../../functions/book'
 import parse from 'html-react-parser'
 import BookListBoarding from '../../info/BookListBoarding'
+import { useSelector } from 'react-redux'
 
 const BookList = () => {
-	const isLogin =
-		localStorage.getItem('login-token') != null &&
-		localStorage.getItem('login-token') != '' &&
-		typeof localStorage.getItem('login-token') != 'undefined'
+	const isLogin = useSelector((state) => state.user.isLogin)
 
 	const { range, rangeDetail } = useParams()
 	const rangeApi = () => {

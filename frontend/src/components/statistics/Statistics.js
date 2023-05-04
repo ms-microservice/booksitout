@@ -14,12 +14,10 @@ import { getGoal } from '../../functions/goal'
 
 import '../../resources/css/statistics.css'
 import StatisticsBoarding from '../info/StatisticsBoarding'
+import { useSelector } from 'react-redux'
 
 const Statistics = () => {
-	const isLogin =
-	localStorage.getItem('login-token') != null &&
-	localStorage.getItem('login-token') != '' &&
-	typeof localStorage.getItem('login-token') != 'undefined'
+	const isLogin = useSelector((state) => state.user.isLogin)
 
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)

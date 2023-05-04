@@ -13,18 +13,15 @@ import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
 
 import uiSettings from '../../settings/ui'
-import { useDispatch } from 'react-redux'
-import { logoutToken } from '../../redux/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { logoutToken, checkIsLogin } from '../../redux/userSlice'
 
 import messages from '../../settings/messages'
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
 
 const Topnav = () => {
-	const isLogin =
-		localStorage.getItem('login-token') != null &&
-		localStorage.getItem('login-token') != '' &&
-		typeof localStorage.getItem('login-token') != 'undefined'
+	const isLogin = useSelector(state => state.user.isLogin)
 
 	const navigate = useNavigate()
 	const location = useLocation()
@@ -49,8 +46,7 @@ const Topnav = () => {
 		dispatch(logoutToken())
 		localStorage.clear()
 		toast.success(messages.user.logout.success)
-		navigate('/')
-		window.location.reload()
+		dispatch(checkIsLogin())
 	}
 
 	useEffect(() => {

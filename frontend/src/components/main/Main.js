@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { useSelector } from 'react-redux';
 import { Card, Alert } from 'react-bootstrap'
 
 import Loading from '../common/Loading'
@@ -21,10 +22,7 @@ import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
 
 const Main = () => {
-	const isLogin =
-		localStorage.getItem('login-token') != null &&
-		localStorage.getItem('login-token') != '' &&
-		typeof localStorage.getItem('login-token') != 'undefined'
+	const isLogin = useSelector((state) => state.user.isLogin)
 
 	const [loading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
@@ -60,7 +58,7 @@ const Main = () => {
 			setInitialFetch(false)
 			setIsLoading(false)
 		})
-	}, [])
+	}, [isLogin])
 
 	const closeAlert = () => {
 		setShowAlert(false)
