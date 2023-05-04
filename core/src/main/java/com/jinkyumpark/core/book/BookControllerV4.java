@@ -13,18 +13,23 @@ import org.springframework.web.bind.annotation.RestController;
 @RequiredArgsConstructor
 
 @RestController
-@RequestMapping("v3/book")
-public class BookControllerV3 {
+@RequestMapping("v4/book")
+public class BookControllerV4 {
 
     private final BookService bookService;
 
     @PostMapping
-    public AddSuccessResponse addBookBySearchResult(@RequestBody BookSearchResultAddRequest bookAddRequest,
-                                                    @LoginUser LoginAppUser loginAppUser) {
-        Long addedBookId = bookService.addBook(bookAddRequest.toDto(loginAppUser.getId()));
+    public AddSuccessResponse addBookBySearchResultAndAddToBookIsbn(@RequestBody BookSearchResultAddRequest bookAddRequest,
+                                                                    @LoginUser LoginAppUser loginAppUser) {
+
+        Long addedBookId = bookService.addBookAndBookIsbn(
+                bookAddRequest.toDto(loginAppUser.getId()),
+                Integer.parseInt(bookAddRequest.getIsbn())
+        );
 
         return AddSuccessResponse.builder()
                 .id(addedBookId)
                 .build();
     }
+
 }

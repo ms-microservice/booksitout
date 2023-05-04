@@ -21,6 +21,10 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    public int getCommentCountByPostId(Long postId) {
+        return commentRepository.countAllCommentByPostId(postId);
+    }
+
     public Long addComment(Comment comment) {
         return commentRepository.save(comment).getCommentId();
     }

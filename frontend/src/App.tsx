@@ -45,6 +45,8 @@ function App() {
 			<Routes>
 				<Route path='/introduction' element={<Introduction />} />
 				<Route path='introduction/features' element={<Feature />} />
+				<Route path='introduction/tips/:range' element={<TipsRoute />} />
+
 				<Route path='/qna' element={<Qna />} />
 				<Route path='/faq' element={<Faq />} />
 

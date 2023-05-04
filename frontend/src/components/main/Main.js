@@ -5,7 +5,7 @@ import { Card, Alert } from 'react-bootstrap'
 import Loading from '../common/Loading'
 import PostPopular from '../forum/post/PostPopular';
 import PostMyBook from '../forum/post/PostMyBook';
-import BooksitoutTip from '../forum/admin/BooksitoutTip';
+import MainTipCard from '../forum/tips/MainTipCard';
 
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
@@ -124,7 +124,7 @@ const Main = () => {
 								</div>
 
 								<div className='col-12 col-xl-6 mt-2 mb-2'>
-									<BooksitoutTip />
+									<MainTipCard />
 								</div>
 							</div>
 						</Card.Body>

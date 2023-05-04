@@ -1,6 +1,7 @@
 package com.jinkyumpark.forum.talk.post;
 
 import com.jinkyumpark.forum.talk.comment.Comment;
+import com.jinkyumpark.forum.talk.postlike.PostLike;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -43,6 +44,9 @@ public class Post {
 
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<PostLike> postLikeList = new ArrayList<>();
 
     public void updatePost(Post updatedPost) {
         if (updatedPost.getTitle() != null) title = updatedPost.getTitle();

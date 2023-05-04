@@ -4,6 +4,8 @@ import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.core.bookIsbn.BookIsbnDto;
+import com.jinkyumpark.core.bookIsbn.BookIsbnRepository;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.ReadingSessionRepository;
@@ -25,6 +27,7 @@ public class BookService {
     private final ReadingSessionRepository readingSessionRepository;
 
     private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
+    private final BookIsbnRepository bookIsbnRepository;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
@@ -152,5 +155,21 @@ public class BookService {
 
     public int getDoneBookCountByYear(Long appUserId, int year) {
         return bookRepositoryQueryDsl.getDoneBookCountByYear(appUserId, year);
+    }
+
+    @Transactional
+    public Long addBookAndBookIsbn(BookDto bookDto, int isbn) {
+        Long savedBookId = bookRepository.save(bookDto.toEntity()).getBookId();
+
+        BookIsbnDto bookIsbnDto = BookIsbnDto.builder()
+                .title(bookDto.getTitle())
+                .author(bookDto.getAuthor())
+                .cover(bookDto.getCover())
+                .isbn13(isbn)
+                .build();
+
+        bookIsbnRepository.save(bookIsbnDto.toEntity());
+
+        return savedBookId;
     }
 }

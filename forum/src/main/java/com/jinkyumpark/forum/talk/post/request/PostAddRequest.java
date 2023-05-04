@@ -6,17 +6,25 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class PostAddRequest {
 
+    @NotBlank
     private String title;
+    @NotBlank
     private String content;
+    @NotNull
+    private Integer isbn;
 
     public Post toEntity(Long appUserId) {
         return Post.builder()
                 .title(title)
                 .content(content)
+                .isbn(isbn)
                 .appUserId(appUserId)
                 .build();
     }
