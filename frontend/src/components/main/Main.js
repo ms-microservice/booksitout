@@ -20,6 +20,7 @@ import MainLastReadBookCard from './MainLastReadBookCard';
 import MainReadingTimeCard from './MainReadingTimeCard';
 import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
+import MainBoarding from '../info/MainBoarding';
 
 const Main = () => {
 	const isLogin = useSelector((state) => state.user.isLogin)
@@ -80,29 +81,34 @@ const Main = () => {
 				)}
 
 				<div>
-					{!isLogin && <MainNoLoginPrompt />}
+					<div className={`${isLogin ? 'd-none' : 'd-block d-md-none'} mb-4`}>
+						<MainBoarding />
+					</div>
 
-					<Card style={{ opacity: isLogin ? 1.0 : 0.3, pointerEvents: isLogin ? 'auto' : 'none' }} className='mb-4'>
-						<Card.Body>
-							<div className='row row-eq-height'>
-								<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
-									<MainLastReadBookCard lastBook={lastBook} />
-								</div>
+					<div className={`${isLogin ? 'd-block' : 'd-none'} d-md-block`}>
+						{!isLogin && <MainNoLoginPrompt />}
+						<Card style={{ opacity: isLogin ? 1.0 : 0.3, pointerEvents: isLogin ? 'auto' : 'none' }} className='mb-4'>
+							<Card.Body>
+								<div className='row row-eq-height'>
+									<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
+										<MainLastReadBookCard lastBook={lastBook} />
+									</div>
 
-								<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
-									<MainReadingTimeCard readTime={readTime} />
-								</div>
+									<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
+										<MainReadingTimeCard readTime={readTime} />
+									</div>
 
-								<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-									<MainSummaryStatisticsCard statistics={statistics} />
-								</div>
+									<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
+										<MainSummaryStatisticsCard statistics={statistics} />
+									</div>
 
-								<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-									<MainGoalCard statistics={statistics} goal={goal} />
+									<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
+										<MainGoalCard statistics={statistics} goal={goal} />
+									</div>
 								</div>
-							</div>
-						</Card.Body>
-					</Card>
+							</Card.Body>
+						</Card>
+					</div>
 
 					<Card className='mb-4'>
 						<Card.Body>

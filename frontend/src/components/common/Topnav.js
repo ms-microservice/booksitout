@@ -14,19 +14,17 @@ import user from '../../functions/user'
 
 import uiSettings from '../../settings/ui'
 import { useDispatch, useSelector } from 'react-redux'
-import { logoutToken, checkIsLogin } from '../../redux/userSlice'
+import { checkIsLogin, logoutToken } from '../../redux/userSlice'
 
 import messages from '../../settings/messages'
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
 
 const Topnav = () => {
-	const isLogin = useSelector(state => state.user.isLogin)
-
-	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
-
+	
+	const isLogin = useSelector((state) => state.user.isLogin)
 	const expand = uiSettings.topnav.collapse
 
 	const [expanded, setExpanded] = useState(false)
@@ -43,10 +41,12 @@ const Topnav = () => {
 			return
 		}
 
-		dispatch(logoutToken())
 		localStorage.clear()
-		toast.success(messages.user.logout.success)
+		localStorage.removeItem('login-token')
+		dispatch(logoutToken())
+		setExpanded(false)
 		dispatch(checkIsLogin())
+		toast.success(messages.user.logout.success)
 	}
 
 	useEffect(() => {

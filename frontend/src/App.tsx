@@ -1,5 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+// Settings
+import ToastSettings from './settings/ToastSettings'
+import LocationSettings from './settings/LocationSettings'
+import TimerSettings from './settings/TimerSettings'
+import SearchLibrarySettings from './components/user/SearchLibrarySettings'
 // Components
 import Topnav from './components/common/Topnav'
 import ReadingButton from './components/common/ReadingButton'
@@ -24,11 +29,7 @@ import OAuth from './components/user/OAuth'
 import Feature from './components/info/Feature'
 import PostDetail from './components/forum/post/PostDetail'
 import ForumMain from './components/forum/ForumMain'
-// Settings
-import ToastSettings from './settings/ToastSettings'
-import LocationSettings from './settings/LocationSettings'
-import TimerSettings from './settings/TimerSettings'
-import SearchLibrarySettings from './components/user/SearchLibrarySettings'
+import PostAddForm from './components/forum/post/PostAddForm'
 
 function App() {
 	return (
@@ -68,6 +69,7 @@ function App() {
 				<Route path='/search/:query' element={<Search />} />
 
 				<Route path='/forum' element={<ForumMain/>}/>
+				<Route path='/forum/post/add' element={<PostAddForm/>}/>
 				<Route path='/forum/post/:postId' element={<PostDetail />} />
 			</Routes>
 

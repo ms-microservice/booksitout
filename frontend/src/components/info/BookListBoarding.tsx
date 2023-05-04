@@ -3,7 +3,7 @@ import { Button } from 'react-bootstrap'
 
 const BookListBoarding = () => {
     return (
-		<div className='mt-center'>
+		<div className='mt-center container'>
 			<div>
 				<div className='d-flex justify-content-center'>
 					<img src={logo} alt='' className='img-fluid rounded me-3' style={{ width: '50px', height: '50px' }} />

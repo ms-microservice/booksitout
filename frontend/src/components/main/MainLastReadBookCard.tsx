@@ -26,14 +26,14 @@ const MainLastReadBookCard = ({ lastBook }) => {
 	}
 
 	return (
-		<Card className='h-100'>
+		<Card className='h-100' style={{ minHeight: '400px' }}>
 			<a href={lastBook == null ? '/book/not-done' : `/reading/${lastBook.bookId}`} className='h-100 text-decoration-none text-black'>
 				<Card.Body className='h-100'>
 					<h3>마지막으로 읽은 책</h3>
 
 					{lastBook == null ? (
 						<div className='mt-5 mb-2 mb-md-3'>
-							<NoContent message={messages.book.lastBook.noContent} useImage={false} mt='30px' mb='50px' />
+							<NoContent message={messages.book.lastBook.noContent} useImage={false} mt='50px' mb='50px' />
 						</div>
 					) : (
 						<MainBookView

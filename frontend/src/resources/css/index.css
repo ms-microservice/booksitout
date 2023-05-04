@@ -43,6 +43,10 @@ code {
 	margin-top: 250px;
 }
 
+.force-1-line {
+	white-space: nowrap;
+}
+
 @media (max-width: 768px) {
 	.limit-2-line {
 		max-height: 38px; 
