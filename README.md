@@ -65,6 +65,10 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 # 📊 Diagram
 ### Architecture Diagram
 <p align="center">
+  <img height="500" src="https://user-images.githubusercontent.com/61900235/236109263-fc35a581-59b0-4bb8-bbaf-b19403e951ec.png">  
+</p>
+
+<p align="center">
   <img height="500" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
 </p>
 
