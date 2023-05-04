@@ -1,15 +1,47 @@
 {
-	"short_name": "책잇아웃",
 	"name": "책잇아웃, 독서생활을 더 편하게",
+	"short_name": "책잇아웃",
+	"description": "책잇아웃, 독서를 더 편하게",
 	"icons": [
 		{
-			"src": "favicon.ico",
-			"sizes": "64x64 32x32 24x24 16x16",
-			"type": "image/x-icon"
+			"src": "iconx48.png",
+			"sizes": "48x48",
+			"type": "image/png"
+		},
+		{
+			"src": "iconx72.png",
+			"sizes": "72x72",
+			"type": "image/png"
+		},
+		{
+			"src": "iconx96.png",
+			"sizes": "96x96",
+			"type": "image/png"
+		},
+		{
+			"src": "iconx128.png",
+			"sizes": "128x128",
+			"type": "image/png"
+		},
+		{
+			"src": "iconx192.png",
+			"sizes": "192x192",
+			"type": "image/png"
+		},
+		{
+			"src": "iconx384.png",
+			"sizes": "384x384",
+			"type": "image/png"
+		},
+		{
+			"src": "iconx512.png",
+			"sizes": "any",
+			"type": "image/png"
 		}
 	],
 	"start_url": "/",
 	"display": "standalone",
-	"theme_color": "#000000",
-	"background_color": "#ffffff"
+	"theme_color": "#7BB972",
+	"background_color": "#ffffff",
+	"orientation": "portrait"
 }
