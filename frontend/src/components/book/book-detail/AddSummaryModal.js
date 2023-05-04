@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { Modal, Form, Button } from 'react-bootstrap'
+
 import { addSummary } from '../../../functions/book'
 
 const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
@@ -11,17 +12,15 @@ const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 
 		if (summary === '') {
 			toast.error('요약을 입력해 주세요')
+			return
 		}
 
 		addSummary(book.bookId, summary).then((success) => {
-			if (success) {
-				setBook({
-					...book,
-					summary: summary,
-				})
-				setIsModalOpen(false)
-				toast.success('요약을 추가했어요')
-			}
+			if (!success) return
+
+			setBook({ ...book, summary: summary })
+			setIsModalOpen(false)
+			toast.success('요약을 추가했어요')
 		})
 	}
 

@@ -108,13 +108,13 @@ const GoalRoute = () => {
 					)}
 
 					<div className='col-12 col-lg-6 mb-4'>
-						<Card className='h-100'>
+						<Card className='h-100' style={{ minHeight: '360px' }}>
 							<Card.Body className='h-100'>
 								<h2 className='mb-3'>{currentYear}년</h2>
 
 								<div className={currentYearGoal != null && 'mt-5 mb-5'}>
 									{currentYearGoal == null ? (
-										<NoContent message={`${currentYear}년 목표가 없어요`} style={{ width: '150px' }} />
+										<NoContent message={`${currentYear}년 목표가 없어요`} useImage={false} mt='40px' mb='35px' />
 									) : (
 										<Goal goal={currentYearGoal} />
 									)}
@@ -152,9 +152,9 @@ const GoalRoute = () => {
 							<Card.Body>
 								<h2>목표 분석</h2>
 
-									<div className='mt-4 mb-4 mb-md-0'>
-										<NoContent message={`목표 분석은 아직 준비중이에요`} style={{ width: '150px' }} />
-									</div>
+								<div className='mt-4 mb-4 mb-md-0'>
+									<NoContent message={`목표 분석은 아직 준비중이에요`} useImage={false} mt='40px' />
+								</div>
 							</Card.Body>
 						</Card>
 					</div>
@@ -164,7 +164,7 @@ const GoalRoute = () => {
 					</div> */}
 
 					<div className='col-12 mb-5'>
-						<Card>
+						<Card style={{ minHeight: '350px' }}>
 							<Card.Body>
 								<h2 className='mb-4'>과거 목표</h2>
 
@@ -178,7 +178,7 @@ const GoalRoute = () => {
 								/>
 
 								{goalList.filter((g) => g.year != new Date().getFullYear()).length === 0 ? (
-									<NoContent message='과거 목표가 없어요' />
+									<NoContent message='과거 목표가 없어요' useImage={false} mt='40px' />
 								) : (
 									<div className='row text-center'>
 										{goalList
@@ -186,7 +186,7 @@ const GoalRoute = () => {
 											.sort((a, b) => b.year - a.year)
 											.map((goal) => {
 												return (
-													<div className='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4'>
+													<div className='col-6 col-sm-4 col-md-3 col-lg-3 col-xl-2 mb-4 mt-2'>
 														<Card className='clickable'>
 															<Card.Body>
 																<div

@@ -1,11 +1,11 @@
+import { useState } from 'react'
+import toast from 'react-hot-toast'
+import { Modal, Form, Button } from 'react-bootstrap'
+
+import { addMemo } from '../../../functions/memo'
 import '../../../resources/css/input.css'
 
-import React, { useState } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
-import toast from 'react-hot-toast'
-import { addMemo } from '../../../functions/memo'
-
-const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList }) => {
+const AddMemoModal = ({ isModalOpen: modalOpen, setIsModalOpen: setModalOpen, book, memoList, setMemoList }) => {
 	const [page, setPage] = useState(null)
 	const [content, setContent] = useState(null)
 
@@ -41,7 +41,7 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 				setMemoList([...memoList, newMemo])
 				setPage(null)
 				setContent(null)
-				setIsModalOpen(false)
+				setModalOpen(false)
 			} else {
 				toast.error('오류가 났어요 잠시 후 다시 시도해 주세요')
 			}
@@ -49,7 +49,7 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
+		<Modal show={modalOpen} onHide={() => setModalOpen(false)} fullscreen='md-down' centered>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>📋 메모 추가하기</h4>
 			</Modal.Header>
@@ -64,7 +64,7 @@ const AddMemoModal = ({ isModalOpen, setIsModalOpen, book, memoList, setMemoList
 
 					<div className='row'>
 						<div className='col-12 col-md-6'>
-							<Button variant='book-danger' className='w-100 mt-3' onClick={() => setIsModalOpen(false)}>
+							<Button variant='book-danger' className='w-100 mt-3' onClick={() => setModalOpen(false)}>
 								취소
 							</Button>
 						</div>

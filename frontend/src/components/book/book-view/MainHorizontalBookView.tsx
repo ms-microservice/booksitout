@@ -1,10 +1,10 @@
 // Book Info
-import BookInfoIcon from './book-info/BookInfoIcon'
+import BookInfoIcon from '../book-info/BookInfoIcon'
 // Images
-import defaultBookCover from '../../resources/images/common/default-book-cover.png'
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
 // Components
-import PageProgressBar from '../common/PageProgressBar'
-import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from './book-info/bookInfoEnum'
+import PageProgressBar from '../../common/PageProgressBar'
+import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from '../book-info/bookInfoEnum'
 
 const MainBookView = ({ book, firstButton = <></>, secondButton = <></>, link = '' }) => {
 	const bookInfoStyle = 'col-4 mb-2'

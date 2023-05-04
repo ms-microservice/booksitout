@@ -1,7 +1,7 @@
 // Images
-import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 import { ProgressBar } from 'react-bootstrap';
-import '../../resources/css/bookCover.css'
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
+import '../../../resources/css/bookCover.css'
 
 const HorizontalBookView = ({ book, firstButton = <></>, secondButton = <></>, link = '' }) => {
 	return (

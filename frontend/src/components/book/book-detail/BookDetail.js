@@ -1,8 +1,8 @@
-import React, { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
-import toast from 'react-hot-toast'
-// Components
+
 import Loading from '../../common/Loading'
 import NoContent from '../../common/NoContent'
 import BookInfoIcon from '../book-info/BookInfoIcon'
@@ -15,18 +15,17 @@ import AddReadingSessionModal from './AddReadingSessionModal'
 import ReadingSessionDetailModal from './ReadingSessionDetailModal'
 import AddMemoModal from './AddMemoModal'
 import MemoDetailModal from './MemoDetailModal'
-// Images
+
 import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
-// Functions
+
 import { deleteBook, getBook, giveUpBook, unGiveUpBook } from '../../../functions/book'
 import { getMemoListOfBook } from '../../../functions/memo'
 import { getAllReadingSessionOfBook } from '../../../functions/reading'
-// Settings
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO, SOURCE_INFO } from '../book-info/bookInfoEnum'
 import uiSettings from '../../../settings/ui'
 import utils from '../../../functions/utils'
 import Error from '../../common/Error';
-import BookRating from './BookRating'
+import BookRatingDetail from './BookRating'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -54,7 +53,7 @@ const BookDetail = () => {
 			getMemoListOfBook(id).then((memoList) => setMemo(memoList)),
 			getAllReadingSessionOfBook(id).then((readingSessionList) => setReadingSession(readingSessionList)),
 		])
-		.catch((e) => {
+		.catch(() => {
 			setError(true)
 		})
 		.finally(() => {
@@ -63,15 +62,15 @@ const BookDetail = () => {
 		})
 	}, [id])
 
-	const [isRatingModalOpen, setIsRatingModalOpen] = useState(false)
-	const [isReviewModalOpen, setIsReviewModalOpen] = useState(false)
-	const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false)
+	const [ratingModalOpen, setRatingModalOpen] = useState(false)
+	const [reviewModalOpen, setReviewModalOpen] = useState(false)
+	const [summaryModalOpen, setSummaryModalOpen] = useState(false)
 
-	const [isAddReadingSessionModalOpen, setIsAddReadingSessionModalOpen] = useState(false)
-	const [isAddMemoModalOpen, setIsAddMemoModalOpen] = useState(false)
+	const [addReadingModalOpen, setAddReadingModalOpen] = useState(false)
+	const [addMemoModalOpen, setAddMemoModalOpen] = useState(false)
 
-	const [isReadingSessionDetailModalOpen, setIsReadingSessionDetailModalOpen] = useState(false)
-	const [isMemoDetailModalOpen, setIsMemoDetailModalOpen] = useState(false)
+	const [readingDetailModalOpen, setReadingDetailModalOpen] = useState(false)
+	const [memoDetailModalOpen, setMemoDetailModalOpen] = useState(false)
 
 	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
 	const [selectedMemo, setSelectedMemo] = useState(null)
@@ -95,56 +94,19 @@ const BookDetail = () => {
 	return (
 		<div className='container-xl'>
 			<div className='row text-center mt-5' style={{ marginBottom: '150px' }}>
-				<AddRatingModal isModalOpen={isRatingModalOpen} setIsModalOpen={setIsRatingModalOpen} book={book} setBook={setBook} />
-				<AddReviewModal isModalOpen={isReviewModalOpen} setIsModalOpen={setIsReviewModalOpen} book={book} setBook={setBook} />
-				<AddSummaryModal isModalOpen={isSummaryModalOpen} setIsModalOpen={setIsSummaryModalOpen} book={book} setBook={setBook} />
-				<AddReadingSessionModal
-					isModalOpen={isAddReadingSessionModalOpen}
-					setIsModalOpen={setIsAddReadingSessionModalOpen}
-					book={book}
-					setBook={setBook}
-					readingSessionList={readingSession}
-					setReadingSessionList={setReadingSession}
-				/>
-				<AddMemoModal
-					isModalOpen={isAddMemoModalOpen}
-					setIsModalOpen={setIsAddMemoModalOpen}
-					book={book}
-					memoList={memo}
-					setMemoList={setMemo}
-				/>
-				<ReadingSessionDetailModal
-					isModalOpen={isReadingSessionDetailModalOpen}
-					setIsModalOpen={setIsReadingSessionDetailModalOpen}
-					readingSession={selectedReadingSession}
-					setReadingSession={setSelectedReadingSession}
-					readingSessionList={readingSession}
-					setReadingSessionList={setReadingSession}
-					book={book}
-					setBook={setBook}
-				/>
-				<MemoDetailModal
-					isModalOpen={isMemoDetailModalOpen}
-					setIsModalOpen={setIsMemoDetailModalOpen}
-					memo={selectedMemo}
-					setMemo={setSelectedMemo}
-					memoList={memo}
-					setMemoList={setMemo}
-				/>
+				<AddRatingModal isModalOpen={ratingModalOpen} setIsModalOpen={setRatingModalOpen} book={book} setBook={setBook} />
+				<AddReviewModal isModalOpen={reviewModalOpen} setIsModalOpen={setReviewModalOpen} book={book} setBook={setBook} />
+				<AddSummaryModal isModalOpen={summaryModalOpen} setIsModalOpen={setSummaryModalOpen} book={book} setBook={setBook} />
+				<AddReadingSessionModal isModalOpen={addReadingModalOpen} setIsModalOpen={setAddReadingModalOpen} book={book} setBook={setBook} readingSessionList={readingSession} setReadingSessionList={setReadingSession} />
+				<AddMemoModal modalOpen={addMemoModalOpen} setModalOpen={setAddMemoModalOpen} book={book} memoList={memo} setMemoList={setMemo} />
+				<ReadingSessionDetailModal isModalOpen={readingDetailModalOpen} setIsModalOpen={setReadingDetailModalOpen} readingSession={selectedReadingSession} setReadingSession={setSelectedReadingSession} readingSessionList={readingSession} setReadingSessionList={setReadingSession} book={book} setBook={setBook} />
+				<MemoDetailModal isModalOpen={memoDetailModalOpen} setIsModalOpen={setMemoDetailModalOpen} memo={selectedMemo} setMemo={setSelectedMemo} memoList={memo} setMemoList={setMemo} />
 
 				<div className='col-12 col-md-4 mb-5'>
 					<BookCover book={book} />
-					<BookButtons
-						book={book}
-						setBook={setBook}
-						setIsRatingModalOpen={setIsRatingModalOpen}
-						setIsReviewModalOpen={setIsReviewModalOpen}
-						setIsSummaryModalOpen={setIsSummaryModalOpen}
-					/>
+					<BookButtons book={book} setBook={setBook} setIsRatingModalOpen={setRatingModalOpen} setIsReviewModalOpen={setReviewModalOpen} setIsSummaryModalOpen={setSummaryModalOpen} />
 
-					<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book.title}`)}>
-						이 책 검색하기
-					</Button>
+					<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book.title}`)}>이 책 검색하기</Button>
 				</div>
 
 				<div className='col-12 col-md-8 mt-0 mt-md-5'>
@@ -223,7 +185,7 @@ const BookDetail = () => {
 								size='30'
 								color='book'
 								onClick={() => {
-									setIsAddReadingSessionModalOpen(true)
+									setAddReadingModalOpen(true)
 								}}
 							/>
 						)}
@@ -241,7 +203,7 @@ const BookDetail = () => {
 										<ReadingSessionList
 											readingSessionList={readingSession}
 											book={book}
-											setIsReadingSessionModalOpen={setIsReadingSessionDetailModalOpen}
+											setIsReadingSessionModalOpen={setReadingDetailModalOpen}
 											setSelectedReadingSession={setSelectedReadingSession}
 										/>
 									)}
@@ -250,14 +212,7 @@ const BookDetail = () => {
 						</Card.Body>
 					</Card>
 
-					<BookRecordCard
-						displayLabel='📋 메모'
-						record={memo}
-						ListComponent={
-							<MemoList memoList={memo} setIsMemoDetailModalOpen={setIsMemoDetailModalOpen} setSelectedMemo={setSelectedMemo} />
-						}
-						setIsAddModalOpen={setIsAddMemoModalOpen}
-					/>
+					<MemoCard memo={memo} setMemoDetailModalOpen={setMemoDetailModalOpen} setAddMemoModalOpen={setAddMemoModalOpen} setSelectedMemo={setSelectedMemo} />
 				</div>
 			</div>
 		</div>
@@ -323,7 +278,7 @@ const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen
 						</div>
 					) : (
 						<div>
-							<BookRating book={book} setBook={setBook}/>
+							<BookRatingDetail book={book} setBook={setBook}/>
 						</div>
 					)}
 
@@ -449,62 +404,56 @@ const BookDescription = ({ book }) => {
 	)
 }
 
-const BookRecordCard = ({ displayLabel, record, ListComponent, setIsAddModalOpen }) => {
+const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelectedMemo }) => {
 	return (
 		<Card className='mt-3'>
 			<AddButton
 				size='30'
 				color='book'
 				onClick={() => {
-					setIsAddModalOpen(true)
+					setAddMemoModalOpen(true)
 				}}
 			/>
 
 			<Card.Body>
-				<h4>{displayLabel}</h4>
+				<h4>📋 메모</h4>
 
 				<div className='row justify-content-center mt-4'>
 					<div className='col-12'>
-						{record == null || record.length === 0 ? (
+						{memo == null || memo.length === 0 ? (
 							<div className='mb-4'>
 								<NoContent style={{ width: '150px' }} />
 							</div>
 						) : (
-							ListComponent
-						)}
+							<div className='row row-eq-height'>
+							{memo.map((memo) => {
+								return (
+									<div className='col-12 mb-2'>
+										<Card
+											style={{ backgroundColor: uiSettings.color.memo }}
+											onClick={() => {
+												setMemoDetailModalOpen(true)
+												setSelectedMemo(memo)
+											}}>
+											<Card.Header>
+												<h6 className='mt-1'>{memo.page}P</h6>
+											</Card.Header>
+				
+											<Card.Body>
+												<div className='row'>
+													<div className='text-center'>{memo.content}</div>
+												</div>
+											</Card.Body>
+										</Card>
+									</div>
+								)
+							})}
+						</div>
+										)}
 					</div>
 				</div>
 			</Card.Body>
 		</Card>
-	)
-}
-
-const MemoList = ({ memoList, setIsMemoDetailModalOpen, setSelectedMemo }) => {
-	return (
-		<div className='row row-eq-height'>
-			{memoList.map((memo) => {
-				return (
-					<div className='col-12 mb-2'>
-						<Card
-							style={{ backgroundColor: uiSettings.color.memo }}
-							onClick={() => {
-								setIsMemoDetailModalOpen(true)
-								setSelectedMemo(memo)
-							}}>
-							<Card.Header>
-								<h6 className='mt-1'>{memo.page}P</h6>
-							</Card.Header>
-
-							<Card.Body>
-								<div className='row'>
-									<div className='text-center'>{memo.content}</div>
-								</div>
-							</Card.Body>
-						</Card>
-					</div>
-				)
-			})}
-		</div>
 	)
 }
 

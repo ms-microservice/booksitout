@@ -118,8 +118,6 @@ const Login = () => {
 			toast(res.data.message, { icon: '✋' })
 			dispatch(loginToken(utils.getToken()))
 
-			navigate('/')
-
 			axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: res.data.token } }).then((res) => {
 				localStorage.setItem('search-library-region-api', res.data.region)
 				localStorage.setItem('search-library-region-detail-api', res.data.regionDetail)
@@ -130,6 +128,8 @@ const Login = () => {
 				localStorage.setItem('search-used-offline-api', res.data.usedOfflineSearchRange)
 				localStorage.setItem('library-search-method', res.data.librarySearchMethod)
 			})
+
+			navigate('/')
 		})
 	}
 
@@ -206,7 +206,7 @@ const Login = () => {
 
 									<div className='mt-4'>
 										<hr />
-										<div className='text-secondary mb-3'>외부계정으로 로그인 / 가입하기</div>
+										<div className='text-secondary mb-3'>3초만에 로그인 / 가입하기</div>
 										{oauthButton.map((oauth) => {
 											return (
 												<a

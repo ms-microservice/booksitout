@@ -1,25 +1,29 @@
-import { useEffect, useState } from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
-import { Button, ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
+import { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
+import { Button, Card } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 // Components
-import Loading from '../common/Loading'
-import Error from '../common/Error'
-import NoContent from '../common/NoContent'
-import HorizontalBookView from './HorizontalBookView'
-import DoneHorizontalBookView from './DoneHorizontalBookView'
-import InfiniteScrollLoading from './InfiniteScrollLoading';
+import Loading from '../../common/Loading'
+import Error from '../../common/Error'
+import NoContent from '../../common/NoContent'
+import HorizontalBookView from '../book-view/HorizontalBookView'
+import DoneHorizontalBookView from '../book-view/DoneHorizontalBookView'
+import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
+import BookListRangeButton from './BookListRangeButton'
 // Images
-// import kimchiImage from '../../resources/images/common/kimchi-tone-down.png'
-import kimchiImage from '../../resources/images/common/kimchi-green.png'
-import bookShelfImage from '../../resources/images/common/bookshelf.png'
+import kimchiImage from '../../../resources/images/common/kimchi-green.png'
+import bookShelfImage from '../../../resources/images/common/bookshelf.png'
 // Functions
-import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../functions/book'
+import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../../functions/book'
 import parse from 'html-react-parser'
+import BookListBoarding from '../../info/BookListBoarding'
 
 const BookList = () => {
-	const navigate = useNavigate()
+	const isLogin =
+		localStorage.getItem('login-token') != null &&
+		localStorage.getItem('login-token') != '' &&
+		typeof localStorage.getItem('login-token') != 'undefined'
 
 	const { range, rangeDetail } = useParams()
 	const rangeApi = () => {
@@ -33,7 +37,7 @@ const BookList = () => {
 
 		return range
 	}
-	
+
 	const noContentMessage = parse(
 		range === 'not-done'
 			? `읽지 않은 책이 없어요`
@@ -43,7 +47,6 @@ const BookList = () => {
 			? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
 			: `텅 비어 있어요`
 	)
-	const noContentImage = range === 'give-up' ? kimchiImage : bookShelfImage
 	const fetchSize = 24
 
 	const [initalFetch, setInitialFetch] = useState(true)
@@ -56,6 +59,12 @@ const BookList = () => {
 
 	useEffect(() => {
 		document.title = `${range == 'not-done' ? '읽고 있는 책' : range == 'give-up' ? '포기한 책' : '다 읽은 책'} | 책잇아웃`
+		if (!isLogin) {
+			setInitialFetch(false)
+			setIsLoading(false)
+			return
+		}
+
 		setTimeout(() => setInitialFetch(false), 5000)
 
 		getBookList(rangeApi(), 0, fetchSize)
@@ -84,45 +93,34 @@ const BookList = () => {
 			})
 	}
 
+	if (!isLogin) return <BookListBoarding />
 	if (initalFetch) return <></>
 	if (loading) return <Loading message='잠시만 기다려 주세요' />
-	if (error || bookList == null) return <Error />
-	if (bookList.length === 0) return <NoContent message={noContentMessage} icon={noContentImage}/>
 
 	return (
 		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
-			<Card className='mb-4'>
-				<Card.Body>
-					<ButtonGroup className='w-100'>
-						<a href='/book/not-done' className='w-100'>
-							<ToggleButton variant={range == 'not-done' ? 'book' : 'light'} type='radio' checked={false} className='w-100'>
-								읽고 있는 책
-							</ToggleButton>
-						</a>
+			<div className='mb-4'>
+				<BookListRangeButton range={range} />
+			</div>
 
-						<a href='/book/done' className='w-100'>
-							<ToggleButton variant={range == 'done' ? 'book' : 'light'} type='radio' checked={false} className='w-100'>
-								다 읽은 책
-							</ToggleButton>
-						</a>
-
-						<a href='/book/give-up' className='w-100'>
-							<ToggleButton variant={range == 'give-up' ? 'book' : 'light'} type='radio' checked={false} className='w-100'>
-								포기한 책
-							</ToggleButton>
-						</a>
-					</ButtonGroup>
-				</Card.Body>
-			</Card>
-
-			<InfiniteScroll
-				dataLength={bookList.length}
-				next={getNextPage}
-				hasMore={currentPage < maxPage}
-				loader={<InfiniteScrollLoading />}
-				className='overflow-hidden'>
-				<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
-			</InfiniteScroll>
+			{ error || bookList == null ? (
+				<Error />
+			) : bookList.length === 0 ? (
+				range == 'give-up' ? (
+					<NoContent message={noContentMessage} textSize='h2' icon={kimchiImage} mt='30px' imageSize='200px' />
+				) : (
+					<NoContent message={noContentMessage} textSize='h2' useImage={false} iconSize='10em' mt='75px' />
+				)
+			) : (
+				<InfiniteScroll
+					dataLength={bookList.length}
+					next={getNextPage}
+					hasMore={currentPage < maxPage}
+					loader={<InfiniteScrollLoading />}
+					className='overflow-hidden'>
+					<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
+				</InfiniteScroll>
+			)}
 		</div>
 	)
 }

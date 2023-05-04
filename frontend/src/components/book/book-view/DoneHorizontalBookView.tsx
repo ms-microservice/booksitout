@@ -1,7 +1,8 @@
 import { Card } from 'react-bootstrap'
-import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
-import '../../resources/css/bookCover.css'
+
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
+import '../../../resources/css/bookCover.css'
 
 const DoneHorizontalBookView = ({ book }) => {
 	return (

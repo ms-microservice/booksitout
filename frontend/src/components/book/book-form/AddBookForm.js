@@ -4,17 +4,17 @@ import {Card, Button, Form, ToggleButton, ButtonGroup, Modal, Placeholder } from
 import toast from 'react-hot-toast'
 import axios from 'axios'
 // Images
-import defaultBookCover from '../../resources/images/common/default-book-cover.png'
-import defaultLoadingBookCover from '../../resources/images/common/loading-default-book-cover.png'
-import ImageSearchModal from './ImageSearchModal'
+import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
+import defaultLoadingBookCover from '../../../resources/images/common/loading-default-book-cover.png'
+import ImageSearchModal from '../ImageSearchModal'
 // Functions
-import { addBook } from '../../functions/book'
+import { addBook } from '../../../functions/book'
 // Settings
-import messages from '../../settings/messages'
-import urls from '../../settings/urls';
-import NoContent from '../common/NoContent'
-import Error from '../common/Error'
-import utils from '../../functions/utils'
+import messages from '../../../settings/messages'
+import urls from '../../../settings/urls';
+import NoContent from '../../common/NoContent'
+import Error from '../../common/Error'
+import utils from '../../../functions/utils'
 
 const AddBookForm = () => {
 	const [selectedMethod, setSelectedMethod] = useState('SEARCH')
@@ -258,12 +258,7 @@ const AddBookSearchCard = () => {
 								})}
 						</div>
 					) : searchResult.length === 0 ? (
-						<div className='row'>
-							<div className='mt-1 mt-md-5' />
-							<div className='mt-1 mt-md-5' />
-
-							<NoContent message='검색 결과가 없어요' />
-						</div>
+						<NoContent message='검색 결과가 없어요' useImage={false} iconSize='10em' textSize='h2' mt='50px'/>
 					) : (
 						<div className='row'>
 							{searchResult.map((book) => {
