@@ -1,21 +1,9 @@
-// Icons
 import timeIcon from '../../resources/images/statistics/time.png'
-
-// import averageIcon from '../../resources/images/statistics/average.png'
-// import averageIcon from '../../resources/images/statistics/green-chart.png'
 import averageIcon from '../../resources/images/statistics/simple-chart.png'
-
-// import bookIcon from '../../resources/images/statistics/book.png'
-// import bookIcon from '../../resources/images/statistics/green-book.png'
-// import bookIcon from '../../resources/images/statistics/book-shelf.png'
 import bookIcon from '../../resources/images/statistics/book-overlap.png'
-
 import starIcon from '../../resources/images/statistics/star.png'
-
 import longestDayIcon from '../../resources/images/statistics/bookworm.png'
-
 import pageIcon from '../../resources/images/statistics/page.png'
-// import pageIcon from '../../resources/images/statistics/page-simple.png'
 
 const SummaryTable = ({ statistics }) => {
 	const statisticsData = [
@@ -28,7 +16,7 @@ const SummaryTable = ({ statistics }) => {
 		{
 			id: 2,
 			icon: averageIcon,
-			name: '하루 평균 독서시간',
+			name: '하루 평균',
 			value: `${statistics.dayStatistics.averageReadTime != null && statistics.dayStatistics.averageReadTime}분`,
 		},
 		{
@@ -46,13 +34,13 @@ const SummaryTable = ({ statistics }) => {
 		{
 			id: 2,
 			icon: longestDayIcon,
-			name: '가장 많이 읽은 날',
+			name: '최대 독서 시간',
 			value: `${statistics.dayStatistics.mostReadTime != null && statistics.dayStatistics.mostReadTime}분`,
 		},
 		{
 			id: 2,
 			icon: pageIcon,
-			name: '총 읽은 페이지 수',
+			name: '총 읽은 페이지',
 			value: `${statistics.yearStatistics.totalReadPage != null && statistics.yearStatistics.totalReadPage} P`,
 		},
 	]

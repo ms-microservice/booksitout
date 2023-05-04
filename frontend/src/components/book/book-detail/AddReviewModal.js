@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { Modal, Form, Button } from 'react-bootstrap'
+
 import { addReview } from '../../../functions/book'
 
 const AddReviewModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
@@ -17,10 +18,7 @@ const AddReviewModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 
 		addReview(book.bookId, review).then((success) => {
 			if (success) {
-				setBook({
-					...book,
-					review: review,
-				})
+				setBook({ ...book, review: review })
 				setIsModalOpen(false)
 				toast.success('감상을 추가했어요')
 			} else {

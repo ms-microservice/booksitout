@@ -1,11 +1,11 @@
-import React, { useState } from 'react'
-import { Modal, Button, Form } from 'react-bootstrap'
-import { deleteReadingSession, editReadingSession } from '../../../functions/reading'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
-// Resources
-import '../../../resources/css/input.css'
+import { Modal, Button, Form } from 'react-bootstrap'
+
+import { deleteReadingSession, editReadingSession } from '../../../functions/reading'
+
 import date from '../../../functions/date'
-// Functions
+import '../../../resources/css/input.css'
 
 const ReadingSessionDetailModal = ({
 	isModalOpen,
@@ -127,7 +127,7 @@ const ReadingSessionDetailModal = ({
 								<Form onSubmit={(e) => handleEditReadingSession(e)}>
 									{isReadingSessionManuallyAdded(readingSession.endTime) ? (
 										<div className='row text-center'>
-											<div className='col-4 col-md-3 mt-1'>🗓️ 독서날짜</div>
+											<div className='col-12 col-md-3 mt-1'>🗓️ 독서날짜</div>
 											<div className='col-12 col-md-9 mt-3 mb-3 mt-md-0 mb-md-0'>
 												<div className='row'>
 													<div className='col-4'>
@@ -183,31 +183,114 @@ const ReadingSessionDetailModal = ({
 									) : (
 										<>
 											<div className='row text-center'>
-												<div className='col-4 col-md-3 mt-1'>🗓️ 시작시간</div>
-												<div className='col-8 col-md-9'>
-													<Form.Control className='mb-2' type='number' defaultValue={readingSession.readTime} />
+												<div className='col-12 col-md-3 mt-1'>🗓️ 시작시간</div>
+
+												<div className='col-12 col-md-9'>
+													<div className='row mb-2 mt-2 mt-md-0'>
+														<div className='col-4'>
+															<Form.Select className='mb-2' onChange={(e) => setYear(e.target.value)}>
+																{Array.from({ length: 10 }, (_, i) => i + new Date().getFullYear() - 9)
+																	.reverse()
+																	.map((year) => {
+																		return (
+																			<option
+																				value={year}
+																				selected={year == getDate(readingSession.startTime)[0]}>
+																				{year}년
+																			</option>
+																		)
+																	})}
+															</Form.Select>
+														</div>
+
+														<div className='col-4'>
+															<Form.Select className='w-100' defaultValue={readingSession.readTime}>
+																{Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+																	return (
+																		<option
+																			value={month}
+																			selected={
+																				month == getDate(readingSession.startTime)[1]
+																			}>{`${month}월`}</option>
+																	)
+																})}
+															</Form.Select>
+														</div>
+
+														<div className='col-4'>
+															<Form.Select className='w-100' defaultValue={readingSession.readTime}>
+																{
+																	// Array.from(length:	date.getDayCountOfMonth(Number(readingSession.startTime.split("-")[0]), Number(readingSession.startTime.split("-")[1])), (_ i) => i + 1 )
+																	// .map((day) => {
+																	// 	return (
+																	// 		<option
+																	// 			value={day}
+																	// 			selected={getDate(readingSession.startTime)[2] == day}>{`${day}일`}</option>
+																	// 	)
+																	// })
+																	// date.getDayCountOfMonth(getDate(readingSession.startTime)[0], getDate(readingSession.startTime)[1]), (_, i) => i + 1)
+																}
+															</Form.Select>
+														</div>
+													</div>
 												</div>
 											</div>
 
-											<div className='row text-center'>
-												<div className='col-4 col-md-3 mt-1'>🗓️ 종료시간</div>
-												<div className='col-8 ncol-md-9'>
-													<Form.Control
-														className='mb-2'
-														type='number'
-														inputMode='numeric'
-														pattern='[0-9]*'
-														defaultValue={readingSession.readTime}
-													/>
+											<div className='row text-center mb-2 mb-md-0'>
+												<div className='col-12 col-md-3 mt-1'>🗓️ 종료시간</div>
+
+												<div className='col-12 col-md-9'>
+													<div className='row mt-2 mt-md-0'>
+														<div className='col-4'>
+															<Form.Select
+																className='mb-2'
+																onChange={(e) => setYear(e.target.value)}
+																defaultValue={getDate(readingSession.startTime)[0]}>
+																{Array.from({ length: 10 }, (_, i) => i + new Date().getFullYear() - 9)
+																	.reverse()
+																	.map((year) => {
+																		return <option value={year}>{year}년</option>
+																	})}
+															</Form.Select>
+														</div>
+
+														<div className='col-4'>
+															<Form.Select
+																className='w-100'
+																defaultValue={Number(readingSession.endTime.split('-')[1])}>
+																{Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+																	return <option value={month}>{`${month}월`}</option>
+																})}
+															</Form.Select>
+														</div>
+
+														<div className='col-4'>
+															<Form.Select
+																className='w-100'
+																defaultValue={Number(readingSession.endTime.split('-')[2])}>
+																{Array.from(
+																	{
+																		length: date.getDayCountOfMonth(
+																			readingSession.endTime.split('-')[0],
+																			readingSession.endTime.split('-')[1]
+																		),
+																	},
+																	(_, i) => i + 1
+																).map((day) => {
+																	return <option value={day}>{`${day}일`}</option>
+																})}
+															</Form.Select>
+														</div>
+													</div>
 												</div>
 											</div>
 										</>
 									)}
 
 									<div className='row text-center'>
-										<div className='col-4 col-md-3 mt-1'>⌛️ 독서시간</div>
+										<div className='col-6 col-md-3 mt-1'>⌛️ 독서시간</div>
 
-										<div className='col-8 col-md-9'>
+										<div className='col-6 col-md-9'>
 											<Form.Control
 												className='mb-2'
 												type='number'
@@ -221,17 +304,17 @@ const ReadingSessionDetailModal = ({
 									</div>
 
 									<div className='row text-center'>
-										<div className='col-4 col-md-3 mt-1'>📃 시작 페이지</div>
+										<div className='col-6 col-md-3 mt-1'>📃 시작 페이지</div>
 
-										<div className='col-8 col-md-9'>
+										<div className='col-6 col-md-9'>
 											<Form.Control className='mb-2' type='number' disabled defaultValue={readingSession.startPage} />
 										</div>
 									</div>
 
 									<div className='row text-center'>
-										<div className='col-4 col-md-3 mt-1'>📃 끝 페이지</div>
+										<div className='col-6 col-md-3 mt-1'>📃 끝 페이지</div>
 
-										<div className='col-8 col-md-9'>
+										<div className='col-6 col-md-9'>
 											<Form.Control
 												className='mb-2'
 												type='number'

@@ -54,13 +54,9 @@ const Qna = () => {
 
 						<Card.Body>
 							{!user.localStorage.get.isLoggedIn() ? (
-								<div className='mt-5 mb-5'>
-									<NoContent message='로그인 해 주세요' style={{ width: '100px' }} className='mt-5 mb-5' />
-								</div>
+								<NoContent message='로그인 해 주세요' useImage={false} mt='50px' mb='50px'/>
 							) : myQna == null || myQna.length === 0 ? (
-								<div className='mt-5 mb-5'>
-									<NoContent message='내가 남긴 QNA가 없어요' style={{ width: '100px' }} className='mt-5 mb-5' />
-								</div>
+								<NoContent message='내가 남긴 QNA가 없어요' useImage={false} mt='50px' mb='50px'/>
 							) : (
 								<></>
 							)}
@@ -76,9 +72,7 @@ const Qna = () => {
 							{allQnaList == null ? (
 								<Error />
 							) : allQnaList.length === 0 ? (
-								<div className='mt-5 mb-5'>
-									<NoContent message='QNA가 없어요' style={{ width: '100px' }} />
-								</div>
+									<NoContent message='QNA가 없어요' useImage={false} mt='50px' mb='50px' />
 							) : (
 								allQnaList.map((qna) => {
 									return (
@@ -89,9 +83,7 @@ const Qna = () => {
 
 											<Card.Body>
 												{qna.answer == null ? (
-													<div className='mt-3'>
-														<NoContent message='아직 답변이 없어요' style={{ width: '100px' }} />
-													</div>
+													<NoContent message='아직 답변이 없어요' useImage={false} mt='50px' mb='50px' />
 												) : (
 													parse(qna.answer)
 												)}

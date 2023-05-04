@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { Button, Modal } from 'react-bootstrap'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
-import { addRating } from '../../../functions/book'
-import toast from 'react-hot-toast'
 
-const BookRating = ({book, setBook}) => {
+import { addRating } from '../../../functions/book'
+
+const BookRatingDetail = ({book, setBook}) => {
     const [show, setShow] = useState(false)
     const [rating, setRating] = useState(book.rating || 0)
 
@@ -76,4 +77,4 @@ const BookRating = ({book, setBook}) => {
 	)
 }
 
-export default BookRating
+export default BookRatingDetail

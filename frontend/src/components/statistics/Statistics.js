@@ -13,8 +13,14 @@ import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatistic
 import { getGoal } from '../../functions/goal'
 
 import '../../resources/css/statistics.css'
+import StatisticsBoarding from '../info/StatisticsBoarding'
 
 const Statistics = () => {
+	const isLogin =
+	localStorage.getItem('login-token') != null &&
+	localStorage.getItem('login-token') != '' &&
+	typeof localStorage.getItem('login-token') != 'undefined'
+
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [isLoading, setIsLoading] = useState(true)
 
@@ -71,94 +77,92 @@ const Statistics = () => {
 			})
 	}, [statisticsSelectedYear])
 
+	if (!isLogin) return <StatisticsBoarding />
+	if (initialFetch) return <></>
+	if (isLoading) return <Loading/>
+
 	return (
 		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden' }}>
-			{initialFetch ? (
-				<></>
-			) : isLoading ? (
-				<Loading />
-			) : (
-				<div className='row row-eq-height'>
-					<div className='col-12 col-md-6 col-xl-4 mb-4 '>
-						<Card className='h-100'>
-							<Card.Body className='h-100'>
-								<h3>최근 30일 독서시간</h3>
+			<div className='row row-eq-height'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4 '>
+					<Card className='h-100'>
+						<Card.Body className='h-100'>
+							<h3>최근 30일 독서시간</h3>
 
-								<div className='row h-100 w-100 pt-2 pb-2' id='readTimeChart'>
-									<DateLineChart startDate={new Date().setDate(new Date().getDate() - 30)} data={readTimeList} duration={30} />
-								</div>
-							</Card.Body>
-						</Card>
-					</div>
-
-					<div className='col-12 col-md-6 col-xl-4 mb-4 '>
-						<Card className='h-100'>
-							<Card.Body>
-								<div className='row h-100'>
-									<div className='col-6'>
-										<h3>매년 독서현황</h3>
-									</div>
-
-									<div className='col-6'>
-										<Form>
-											<Form.Select onChange={(e) => setStatisticsSelectedYear(e.target.value)}>
-												{
-													// Array.from(
-													// 	{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
-													// 	(_, i) => i + Number(localStorage.getItem('register-year'))
-													// )
-													Array.from(
-														{ length: new Date().getFullYear() - (new Date().getFullYear() - 5) + 1 },
-														(_, i) => i + new Date().getFullYear() - 5
-													)
-														.reverse()
-														.map((year) => {
-															return <option value={year}>{`${year}년`}</option>
-														})
-												}
-											</Form.Select>
-										</Form>
-									</div>
-
-									<div className='mt-2'>
-										{isStatisticsLoading ? (
-											<div className='col-12 w-100'>
-												<Loading textSize='h2' mt='74.5px' mb='74.5px' />
-											</div>
-										) : statisticsData == null ? (
-											<Error />
-										) : (
-											<div className='mt-3'>
-												<SummaryTable statistics={statisticsData} />
-											</div>
-										)}
-									</div>
-								</div>
-							</Card.Body>
-						</Card>
-					</div>
-
-					<div className='col-12 col-md-6 col-xl-4 mb-4'>
-						<Card className='h-100'>
-							<Card.Body>
-								<h3>언어별 독서현황</h3>
-
-								<LanguageTable languageData={languageData} />
-							</Card.Body>
-						</Card>
-					</div>
-
-					<div className='col-12 col-md-6 col-xl-4 mb-4'>
-						<Card className='h-100'>
-							<Card.Body>
-								<h3>장르별 독서현황</h3>
-
-								<CategoryTable categoryData={categoryData} />
-							</Card.Body>
-						</Card>
-					</div>
+							<div className='row h-100 w-100 pt-2 pb-2' id='readTimeChart'>
+								<DateLineChart startDate={new Date().setDate(new Date().getDate() - 30)} data={readTimeList} duration={30} />
+							</div>
+						</Card.Body>
+					</Card>
 				</div>
-			)}
+
+				<div className='col-12 col-md-6 col-xl-4 mb-4 '>
+					<Card className='h-100'>
+						<Card.Body>
+							<div className='row h-100'>
+								<div className='col-6'>
+									<h3>매년 독서현황</h3>
+								</div>
+
+								<div className='col-6'>
+									<Form>
+										<Form.Select onChange={(e) => setStatisticsSelectedYear(e.target.value)}>
+											{
+												// Array.from(
+												// 	{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
+												// 	(_, i) => i + Number(localStorage.getItem('register-year'))
+												// )
+												Array.from(
+													{ length: new Date().getFullYear() - (new Date().getFullYear() - 5) + 1 },
+													(_, i) => i + new Date().getFullYear() - 5
+												)
+													.reverse()
+													.map((year) => {
+														return <option value={year}>{`${year}년`}</option>
+													})
+											}
+										</Form.Select>
+									</Form>
+								</div>
+
+								<div className='mt-2'>
+									{isStatisticsLoading ? (
+										<div className='col-12 w-100'>
+											<Loading textSize='h2' mt='74.5px' mb='74.5px' />
+										</div>
+									) : statisticsData == null ? (
+										<Error />
+									) : (
+										<div className='mt-3'>
+											<SummaryTable statistics={statisticsData} />
+										</div>
+									)}
+								</div>
+							</div>
+						</Card.Body>
+					</Card>
+				</div>
+
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<Card className='h-100'>
+						<Card.Body>
+							<h3>언어별 독서현황</h3>
+
+							<LanguageTable languageData={languageData} />
+						</Card.Body>
+					</Card>
+				</div>
+
+				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+					<Card className='h-100'>
+						<Card.Body>
+							<h3>장르별 독서현황</h3>
+
+							<CategoryTable categoryData={categoryData} />
+						</Card.Body>
+					</Card>
+				</div>
+			</div>
 		</div>
 	)
 }

@@ -15,14 +15,6 @@ const LocationSettings = () => {
 	const navigate = useNavigate()
 
 	useEffect(() => {
-		if (token === '' || token == null) {
-			!urls.exclude.some((url) => location.pathname.includes(url)) && navigate('/login')
-		} else {
-			if (location.pathname.startsWith('/login') || location.pathname.startsWith('/join')) {
-				navigate('/')
-			}
-		}
-
 		if (
 			localStorage.getItem('login-date') &&
 			date.getDateDifferenceInDays(new Date(localStorage.getItem('login-date') ?? Date.now()), new Date()) >= 7

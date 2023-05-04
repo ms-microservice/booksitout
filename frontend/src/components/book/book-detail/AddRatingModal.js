@@ -1,7 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
+import toast from 'react-hot-toast'
 import { Button, Modal } from 'react-bootstrap'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
-import toast from 'react-hot-toast'
+
 import { addRating } from '../../../functions/book'
 
 const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
@@ -14,10 +15,7 @@ const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 
 		addRating(book.bookId, rating).then((success) => {
 			if (success) {
-				setBook({
-					...book,
-					rating: rating,
-				})
+				setBook({ ...book, rating: rating })
 				toast.success('별점을 추가했어요')
 				setIsModalOpen(false)
 			} else {

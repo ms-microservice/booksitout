@@ -1,13 +1,11 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Button, Card, Form } from 'react-bootstrap'
-// Functions
-import { deleteMemo, editMemo } from '../../../functions/memo'
-// Settings
-import uiSettings from '../../../settings/ui'
-// Resources
+
 import '../../../resources/css/input.css'
-// Messages
+
+import { deleteMemo, editMemo } from '../../../functions/memo'
+import uiSettings from '../../../settings/ui'
 import messages from '../../../settings/messages'
 
 const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList, setMemoList }) => {
@@ -29,39 +27,30 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 		}
 
 		editMemo(editedMemo).then((success) => {
-			if (success) {
-				toast.success('메모를 수정했어요')
-
-				setMemo(editedMemo)
-				setMemoList(
-					memoList.map((m) => {
-						if (m.memoId == memo.memoId) {
-							return editedMemo
-						} else {
-							return m
-						}
-					})
-				)
-			} else {
+			if (!success) {
 				toast.error(messages.error)
+				return
 			}
+
+			setMemo(editedMemo)
+			setMemoList(memoList.map((m) => (m.memoId == memo.memoId ? editedMemo : m)))
+			toast.success('메모를 수정했어요')
 		})
 	}
 	const handleDeleteMemo = () => {
 		const confirm = window.confirm('메모를 지울까요?')
+		if (!confirm) return
 
-		if (confirm) {
-			deleteMemo(memo.memoId).then((success) => {
-				if (success) {
-					toast.success('메모를 지웠어요')
-					setIsModalOpen(false)
-					setMemoList(memoList.filter((m) => m.memoId !== memo.memoId))
-				} 
-			})
-			.catch(() => {
+		deleteMemo(memo.memoId).then((success) => {
+			if (!success) {
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-			})
-		}
+				return
+			}
+
+			setIsModalOpen(false)
+			setMemoList(memoList.filter((m) => m.memoId !== memo.memoId))
+			toast.success('메모를 지웠어요')
+		})
 	}
 
 	return (

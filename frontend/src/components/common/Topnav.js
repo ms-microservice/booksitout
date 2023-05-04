@@ -1,33 +1,35 @@
 import { useState, useEffect } from 'react'
+import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown, Card } from 'react-bootstrap'
-import toast from 'react-hot-toast'
-// React Icons
+
 import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
 import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
 import { BiSearchAlt2 as SearchIcon } from 'react-icons/bi'
-// Images
+import { GrCircleQuestion as QuestionIcon } from 'react-icons/gr'
+
 import userIcon from '../../resources/images/user/user3.png'
 import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
-// Settings
+
 import uiSettings from '../../settings/ui'
-// Redux
-import { useSelector, useDispatch } from 'react-redux'
+import { useDispatch } from 'react-redux'
 import { logoutToken } from '../../redux/userSlice'
+
 import messages from '../../settings/messages'
-// css
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
-// components
-import SearchHistory from '../search/SearchHistory'
 
 const Topnav = () => {
+	const isLogin =
+		localStorage.getItem('login-token') != null &&
+		localStorage.getItem('login-token') != '' &&
+		typeof localStorage.getItem('login-token') != 'undefined'
+
 	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
 
-	const token = useSelector((state) => state.user.token)
 	const expand = uiSettings.topnav.collapse
 
 	const [expanded, setExpanded] = useState(false)
@@ -47,7 +49,8 @@ const Topnav = () => {
 		dispatch(logoutToken())
 		localStorage.clear()
 		toast.success(messages.user.logout.success)
-		navigate('/login')
+		navigate('/')
+		window.location.reload()
 	}
 
 	useEffect(() => {
@@ -77,15 +80,15 @@ const Topnav = () => {
 					className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
 					style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
 					<Card.Body>
-						<SearchBar autoFocus={autoFocus} />
+						<SearchBar autoFocus={autoFocus} isLogin={isLogin}/>
 					</Card.Body>
 				</Card>
 			}
 
 			<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect expanded={expanded}>
 				<Container fluid style={{ zIndex: '1000' }}>
-					<Navbar.Brand href={token === '' ? '/login' : '/'}>
-						<img src={logo} alt='' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px', height: '30px' }} />
+					<Navbar.Brand href='/'>
+						<img src={logo} alt='booksitout-logo' className='image-fluid me-2 mb-1 rounded' style={{ width: '30px', height: '30px' }} />
 						책잇아웃
 					</Navbar.Brand>
 
@@ -93,11 +96,12 @@ const Topnav = () => {
 						<SearchIcon
 							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 							onClick={() => {
-								if (token !== '' && token != null) {
+								if (isLogin) {
 									toggleSearchBar()
 									return
 								}
-								toast.error('로그인 해 주세요')
+
+								toast.error('검색을 이용하기 위해 로그인 해 주세요')
 							}}
 						/>
 					</button>
@@ -107,19 +111,14 @@ const Topnav = () => {
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<Nav className='me-auto text-center'>
 							{uiSettings.topnav.link.map((url) => (
-								<Nav.Link
-									href={token !== '' && url.url}
-									active={location.pathname.startsWith(url.activeUrl)}
-									onClick={() => {
-										token === '' && toast.error('로그인 해 주세요')
-									}}>
+								<Nav.Link href={url.url} active={location.pathname.startsWith(url.activeUrl)}>
 									{url.title}
 								</Nav.Link>
 							))}
 						</Nav>
 
 						<Nav className={`d-inline d-${expand}-none text-center`}>
-							<Nav.Link href='/login' onClick={(e) => token !== '' && token != null && handleLogout(e)}>
+							<Nav.Link href='/login' onClick={(e) => isLogin && handleLogout(e)}>
 								<div className='row justify-content-center'>
 									<div className='col-4 col-md-2'>
 										<div className='row'>
@@ -127,7 +126,7 @@ const Topnav = () => {
 												<LoginIcon className='me-2 ' />
 											</div>
 
-											{token === '' || token == null ? (
+											{!isLogin ? (
 												<div className='col-xs-10 col-8'>로그인</div>
 											) : (
 												<div className='col-xs-10 col-8'>로그아웃</div>
@@ -137,7 +136,7 @@ const Topnav = () => {
 								</div>
 							</Nav.Link>
 
-							{(token === '' || token == null) && (
+							{!isLogin && (
 								<Nav.Link href='/join'>
 									<div className='row justify-content-center'>
 										<div className='col-4  col-md-2'>
@@ -153,7 +152,7 @@ const Topnav = () => {
 								</Nav.Link>
 							)}
 
-							{(token !== '' || token == null) && (
+							{isLogin && (
 								<Nav.Link href='/settings'>
 									<div className='row justify-content-center'>
 										<div className='col-3 col-md-2'>
@@ -170,11 +169,9 @@ const Topnav = () => {
 							)}
 						</Nav>
 
-						{token !== '' && token != null && (
-							<span className='d-none d-lg-inline'>
-								<SearchBar width={{ width: '400px' }} autoFocus={autoFocus} />
-							</span>
-						)}
+						<span className='d-none d-lg-inline'>
+							<SearchBar width={{ width: '400px' }} autoFocus={autoFocus} isLogin={isLogin}/>
+						</span>
 
 						<Nav>
 							<NavDropdown
@@ -194,13 +191,18 @@ const Topnav = () => {
 								align='end'
 								size='xl'
 								className={`d-none d-${expand}-block`}>
-								{token === '' || token == null ? (
+								{!isLogin ? (
 									<>
 										<NavDropdown.Item href='/login'>
 											<LoginIcon className='me-2 mb-1' /> 로그인
 										</NavDropdown.Item>
+
 										<NavDropdown.Item href='/join'>
 											<JoinIcon className='me-2 mb-1' /> 회원가입
+										</NavDropdown.Item>
+
+										<NavDropdown.Item href='/faq'>
+											<QuestionIcon className='me-2 mb-1 bold' /> FAQ
 										</NavDropdown.Item>
 									</>
 								) : (
@@ -228,7 +230,7 @@ const Topnav = () => {
 	)
 }
 
-const SearchBar = ({ width = {}, autoFocus = false }) => {
+const SearchBar = ({ width = {}, autoFocus = false, isLogin }) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
@@ -242,8 +244,15 @@ const SearchBar = ({ width = {}, autoFocus = false }) => {
 	}, [location])
 
 	const handleSearch = (e) => {
-		if (typeof e.target[0] !== 'undefined') e.target[0].blur()
 		e.preventDefault()
+
+		if (!isLogin) {
+			toast.error('검색을 이용하시려면 로그인 해 주세요!!')
+			e.target[0].blur()
+			return
+		}
+
+		if (typeof e.target[0] !== 'undefined') e.target[0].blur()
 
 		if (keyword.length >= 2) navigate(`/search/${keyword}`)
 		else toast.error('2글자 이상의 검색어를 입력해 주세요')

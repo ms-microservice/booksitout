@@ -316,7 +316,7 @@ const SpecificSearchSettings = () => {
 							<div style={{ height: '280px', overflowX: 'hidden', overflowY: 'scroll' }}>
 								{addedLibrary.length === 0 ? (
 									<div className='mt-4'>
-										<NoContent message='추가된 도서관이 없어요' style={{ width: '100px' }} />
+										<NoContent message='추가된 도서관이 없어요' imageSize='100px' />
 									</div>
 								) : (
 									<div className='row row-eq-height'>
@@ -349,9 +349,8 @@ const SpecificSearchSettings = () => {
 							<Form>
 								<div id='library-list'>
 									{loading ? (
-										<div className="row">
-											{
-												Array(4)
+										<div className='row'>
+											{Array(4)
 												.fill(0)
 												.map(() => {
 													return (
@@ -359,14 +358,13 @@ const SpecificSearchSettings = () => {
 															<LibraryLoadingPlaceholder />
 														</div>
 													)
-												})
-											}
+												})}
 										</div>
 									) : searchResult.length === 0 ? (
 										<>
 											<div className='mt-3'>.</div>
 											<div className='mt-5'>
-												<NoContent message='검색 결과가 없어요' style={{ width: '100px' }} />
+												<NoContent message='검색 결과가 없어요' imageSize='100px' />
 											</div>
 										</>
 									) : (
@@ -392,8 +390,12 @@ const SpecificSearchSettings = () => {
 															)}
 
 															<Card.Body className='h-100'>
-																<img src={library.icon} alt='' className='mb-0 rounded library-image'  />
-																<h6 className={(library.name.length <= 12 ? 'pt-2' : 'mt-1')} style={{height: '30px'}}>{library.name}</h6>
+																<img src={library.icon} alt='' className='mb-0 rounded library-image' />
+																<h6
+																	className={library.name.length <= 12 ? 'pt-2' : 'mt-1'}
+																	style={{ height: '30px' }}>
+																	{library.name}
+																</h6>
 															</Card.Body>
 														</Card>
 													</div>

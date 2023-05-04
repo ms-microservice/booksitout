@@ -1,9 +1,8 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Button, Card, Form } from 'react-bootstrap'
-// Functions
+
 import { deleteQuotation, editQuotation } from '../../../functions/quotation'
-// Messages
 import messages from '../../../settings/messages'
 
 const QuotationDetailModal = ({ isModalOpen, setIsModalOpen, quotation, setQuotation, quotationList, setQuotationList }) => {

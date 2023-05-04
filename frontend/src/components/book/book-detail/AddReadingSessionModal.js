@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { Modal, Form, Button } from 'react-bootstrap'
+import { useState } from 'react'
 import toast from 'react-hot-toast'
+import { Modal, Form, Button } from 'react-bootstrap'
+
 import { addReadingSession } from '../../../functions/reading'
 import date from '../../../functions/date'
 import '../../../resources/css/input.css'
@@ -63,10 +64,7 @@ const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, re
 						},
 					])
 
-					setBook({
-						...book,
-						currentPage: endPage,
-					})
+					setBook({ ...book, currentPage: endPage })
 					setIsModalOpen(false)
 					toast.success('독서활동을 직접 추가했어요')
 				}

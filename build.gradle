@@ -22,16 +22,13 @@ subprojects {
     apply plugin: 'org.springframework.boot'
     apply plugin: 'io.spring.dependency-management'
 
-
     group 'com.jinkyumpark'
-    version '3.0'
+    version '4.0'
     sourceCompatibility = '11'
 
     jar { enabled = false }
 
-    repositories {
-        mavenCentral()
-    }
+    repositories { mavenCentral() }
 
     dependencies {
         // Lombok
@@ -40,31 +37,27 @@ subprojects {
     }
 
     dependencyManagement {
-        imports {
-            mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.5"
-        }
-    }
-}
-
-project(":core") {
-    dependencies {
-        implementation project(':common')
-    }
-}
-
-project(":auth") {
-    dependencies {
-        implementation project(':common')
-    }
-}
-
-project (":search") {
-    dependencies {
-        implementation project(':common')
+        imports { mavenBom "org.springframework.cloud:spring-cloud-dependencies:2021.0.5" }
     }
 }
 
 project(":common") {
     bootJar { enabled = false }
     jar { enabled = true }
+}
+
+project(":core") {
+    dependencies { implementation project(':common') }
+}
+
+project(":auth") {
+    dependencies { implementation project(':common') }
+}
+
+project(":search") {
+    dependencies { implementation project(':common') }
+}
+
+project(":forum") {
+    dependencies { implementation project(':common') }
 }

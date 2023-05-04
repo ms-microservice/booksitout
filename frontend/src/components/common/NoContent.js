@@ -1,12 +1,22 @@
 import errorImage from '../../resources/images/common/error.png'
+import { VscError as XMarkIcon } from 'react-icons/vsc'
 
-const NoContent = ({ message = '텅 비어 있어요', icon = errorImage, style = { width: '250px' } }) => {
+const NoContent = ({ 
+	mt = '', mb = '25px', 
+	message = '텅 비어 있어요', textSize='h4',
+	icon = errorImage, imageSize = '250px', useImage = true,
+	iconSize='6em'
+}) => {
 	return (
-		<div style={{overflowX: 'hidden'}}>
-			<div className='row justify-content-center'>
-				<img src={icon} alt='' className='img-fluid mt-4' style={style} />
+		<div className='row d-flex h-100 justify-content-center align-items-center' style={{ overflowX: 'hidden' }}>
+			<div className='text-center' style={{ marginTop: mt, marginBottom: mb }}>
+				{useImage ? (
+					<img src={icon} alt='' style={{ width: imageSize }} className='img-fluid mt-3' />
+				) : (
+					<XMarkIcon className='text-book' style={{ width: imageSize }} size={iconSize} />
+				)}
 
-				<div className='h2 text-center mt-4' style={{ whiteSpace: 'nowrap' }}>
+				<div className={`${textSize} mt-3`} style={{ whiteSpace: 'nowrap' }}>
 					{message}
 				</div>
 			</div>
