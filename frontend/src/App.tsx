@@ -7,11 +7,11 @@ import FloatingAddButton from './components/common/FloatingAddButton'
 import Login from './components/user/Login'
 import Join from './components/user/Join'
 import Settings from './components/user/Settings'
-import Main from './components/statistics/Main'
-import BookList from './components/book/BookList'
+import Main from './components/main/Main'
+import BookList from './components/book/book-list/BookList'
 import BookDetail from './components/book/book-detail/BookDetail'
-import AddBookForm from './components/book/AddBookForm'
-import BookEditForm from './components/book/BookEditForm'
+import AddBookForm from './components/book/book-form/AddBookForm'
+import EditBookForm from './components/book/book-form/EditBookForm'
 import Reading from './components/reading/Reading'
 import ReadingNoId from './components/reading/ReadingNoId'
 import Statistics from './components/statistics/Statistics'
@@ -22,6 +22,8 @@ import Search from './components/search/Search'
 import GoalRoute from './components/goal/GoalRoute'
 import OAuth from './components/user/OAuth'
 import Feature from './components/info/Feature'
+import PostDetail from './components/forum/post/PostDetail'
+import ForumMain from './components/forum/ForumMain'
 // Settings
 import ToastSettings from './settings/ToastSettings'
 import LocationSettings from './settings/LocationSettings'
@@ -56,7 +58,7 @@ function App() {
 				<Route path='/book/:range/:rangeDetail' element={<BookList />} />
 				<Route path='/book/detail/:id' element={<BookDetail />} />
 				<Route path='/book/add' element={<AddBookForm />} />
-				<Route path='/book/edit/:id' element={<BookEditForm />} />
+				<Route path='/book/edit/:id' element={<EditBookForm />} />
 
 				<Route path='/reading' element={<ReadingNoId />} />
 				<Route path='/reading/:id' element={<Reading />} />
@@ -64,6 +66,9 @@ function App() {
 				<Route path='/goal' element={<GoalRoute />} />
 
 				<Route path='/search/:query' element={<Search />} />
+
+				<Route path='/forum' element={<ForumMain/>}/>
+				<Route path='/forum/post/:postId' element={<PostDetail />} />
 			</Routes>
 
 			<FloatingAddButton />

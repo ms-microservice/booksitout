@@ -20,7 +20,7 @@ const uiSettings = {
 			{
 				id: 1,
 				url: '/book/not-done',
-				activeUrl: '/book/not-done',
+				activeUrl: '/book',
 				title: '내 책',
 			},
 			{
@@ -28,6 +28,12 @@ const uiSettings = {
 				url: '/statistics',
 				activeUrl: '/statistics',
 				title: '독서통계',
+			},
+			{
+				id: 3,
+				url: '/forum',
+				activeUrl: '/forum',
+				title: '책이야기',
 			},
 		],
 	},
