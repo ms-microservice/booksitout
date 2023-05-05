@@ -1,19 +1,8 @@
-import { useState, useEffect } from 'react'
 import { Card } from 'react-bootstrap'
 import SummaryTable from '../statistics/SummaryTable'
 import Error from '../common/Error';
 
 const MainSummaryStatisticsCard = ({ statistics }) => {
-	const [initialFetch, setInitialFetch] = useState(true)
-
-	useEffect(() => {
-		const timer = setTimeout(() => {
-			setInitialFetch(false)
-		}, 500)
-
-		return () => clearTimeout(timer)
-	}, [])
-
 	return (
 		<Card className='h-100' style={{ minHeight: '400px' }}>
 			<Card.Body className='h-100'>
@@ -22,8 +11,6 @@ const MainSummaryStatisticsCard = ({ statistics }) => {
 
 					{statistics == null ? (
 						<Error message='오류가 났어요' mb='75px' />
-					) : initialFetch ? (
-						<></>
 					) : (
 						<div className='h-100 d-flex align-items-center'>
 							<SummaryTable statistics={statistics} />

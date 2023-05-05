@@ -65,7 +65,7 @@ const TipsDetail = () => {
 				</Card.Body>
 			</Card>
 
-			<Card style={{ minHeight: '500px' }}>
+			<Card style={{ minHeight: '500px' }} className="mb-5">
 				<Card.Body>
 					<p>{parse(tip?.content ?? '')}</p>
 				</Card.Body>
