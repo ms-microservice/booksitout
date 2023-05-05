@@ -1,5 +1,10 @@
 import { Routes, Route } from 'react-router-dom'
 import { Toaster } from 'react-hot-toast'
+// Settings
+import ToastSettings from './settings/ToastSettings'
+import LocationSettings from './settings/LocationSettings'
+import TimerSettings from './settings/TimerSettings'
+import SearchLibrarySettings from './components/user/SearchLibrarySettings'
 // Components
 import Topnav from './components/common/Topnav'
 import ReadingButton from './components/common/ReadingButton'
@@ -24,11 +29,9 @@ import OAuth from './components/user/OAuth'
 import Feature from './components/info/Feature'
 import PostDetail from './components/forum/post/PostDetail'
 import ForumMain from './components/forum/ForumMain'
-// Settings
-import ToastSettings from './settings/ToastSettings'
-import LocationSettings from './settings/LocationSettings'
-import TimerSettings from './settings/TimerSettings'
-import SearchLibrarySettings from './components/user/SearchLibrarySettings'
+import PostAddForm from './components/forum/post/PostAddForm'
+import TipsRoute from './components/forum/tips/TipRoute'
+import AdminMain from './components/admin/AdminMain'
 
 function App() {
 	return (
@@ -42,14 +45,19 @@ function App() {
 			<div style={{ marginBottom: '80px' }} />
 
 			<Routes>
+				<Route path='/admin' element={<AdminMain />} />
+
 				<Route path='/introduction' element={<Introduction />} />
 				<Route path='introduction/features' element={<Feature />} />
+				<Route path='introduction/tips/:range' element={<TipsRoute />} />
+
 				<Route path='/qna' element={<Qna />} />
 				<Route path='/faq' element={<Faq />} />
 
 				<Route path='/login' element={<Login />} />
 				<Route path='/login/oauth/:provider' element={<OAuth />} />
 				<Route path='/join' element={<Join />} />
+
 				<Route path='/settings' element={<Settings />} />
 				<Route path='/settings/search/library' element={<SearchLibrarySettings />} />
 
@@ -67,8 +75,16 @@ function App() {
 
 				<Route path='/search/:query' element={<Search />} />
 
-				<Route path='/forum' element={<ForumMain/>}/>
+				<Route path='/forum' element={<ForumMain />} />
+
+				<Route path='/forum/post/all/:sortBy' element={<ForumMain />} />
 				<Route path='/forum/post/:postId' element={<PostDetail />} />
+				<Route path='/forum/post/add' element={<PostAddForm />} />
+				<Route path='/forum/post/edit/:postId' element={<PostAddForm />} />
+
+				<Route path='/forum/quiz' element={<PostAddForm />} />
+
+				<Route path='/forum/survey' element={<PostAddForm />} />
 			</Routes>
 
 			<FloatingAddButton />

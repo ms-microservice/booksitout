@@ -1,6 +1,5 @@
 import { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { useNavigate } from 'react-router-dom'
 
 import { Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
@@ -11,7 +10,7 @@ import urls from '../../settings/urls'
 import utils from '../../functions/utils'
 import messages from '../../settings/messages'
 
-import { loginToken, logoutToken } from '../../redux/userSlice'
+import { checkIsLogin, loginToken, logoutToken } from '../../redux/userSlice'
 
 import logo from '../../resources/images/logo/logo.png'
 import kakaoButton from '../../resources/images/login-button/small-kakao.png'
@@ -20,7 +19,6 @@ import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
 
 const MainLogin = () => {
-	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
 	const [email, setEmail] = useState('')
@@ -129,7 +127,7 @@ const MainLogin = () => {
 				localStorage.setItem('library-search-method', res.data.librarySearchMethod)
 			})
 
-			window.location.reload()
+			dispatch(checkIsLogin())
 		})
 	}
 

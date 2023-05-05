@@ -1,8 +1,7 @@
 package com.jinkyumpark.core.book;
 
-import com.jinkyumpark.core.book.dto.BookDto;
-import com.jinkyumpark.core.book.request.BookSearchResultAddRequest;
 import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.core.book.request.BookSearchResultAddRequest;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -22,18 +21,7 @@ public class BookControllerV3 {
     @PostMapping
     public AddSuccessResponse addBookBySearchResult(@RequestBody BookSearchResultAddRequest bookAddRequest,
                                                     @LoginUser LoginAppUser loginAppUser) {
-        BookDto bookDto = BookDto.builder()
-                .title(bookAddRequest.getTitle())
-                .author(bookAddRequest.getAuthor())
-                .endPage(bookAddRequest.getPage())
-                .cover(bookAddRequest.getCover())
-                .isSharing(bookAddRequest.getSharing())
-                .appUserId(loginAppUser.getId())
-                .form(bookAddRequest.getForm())
-                .source(bookAddRequest.getSource())
-                .build();
-
-        Long addedBookId = bookService.addBook(bookDto);
+        Long addedBookId = bookService.addBook(bookAddRequest.toDto(loginAppUser.getId()));
 
         return AddSuccessResponse.builder()
                 .id(addedBookId)

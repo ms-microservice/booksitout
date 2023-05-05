@@ -5,6 +5,7 @@ import Error from '../../common/Error'
 import Loading from '../../common/Loading'
 
 import { Post } from './Post'
+import Preparing from '../../common/Preparing'
 
 const PostDetail = () => {
     const { postId } = useParams()
@@ -25,7 +26,11 @@ const PostDetail = () => {
     if (loading) return <Loading/>
     if (post == null) return <Error />
 
-    return <div>PostDetail</div>
+    return (
+		<div>
+			<Preparing message='포스트 자세히 보기는 아직 준비 중이에요' />
+		</div>
+	)
 }
 
 export default PostDetail

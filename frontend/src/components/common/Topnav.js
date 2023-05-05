@@ -13,23 +13,18 @@ import logo from '../../resources/images/logo/logo.png'
 import user from '../../functions/user'
 
 import uiSettings from '../../settings/ui'
-import { useDispatch } from 'react-redux'
-import { logoutToken } from '../../redux/userSlice'
+import { useDispatch, useSelector } from 'react-redux'
+import { checkIsLogin, logoutToken } from '../../redux/userSlice'
 
 import messages from '../../settings/messages'
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
 
 const Topnav = () => {
-	const isLogin =
-		localStorage.getItem('login-token') != null &&
-		localStorage.getItem('login-token') != '' &&
-		typeof localStorage.getItem('login-token') != 'undefined'
-
-	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
-
+	
+	const isLogin = useSelector((state) => state.user.isLogin)
 	const expand = uiSettings.topnav.collapse
 
 	const [expanded, setExpanded] = useState(false)
@@ -46,11 +41,12 @@ const Topnav = () => {
 			return
 		}
 
-		dispatch(logoutToken())
 		localStorage.clear()
+		localStorage.removeItem('login-token')
+		dispatch(logoutToken())
+		setExpanded(false)
+		dispatch(checkIsLogin())
 		toast.success(messages.user.logout.success)
-		navigate('/')
-		window.location.reload()
 	}
 
 	useEffect(() => {

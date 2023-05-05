@@ -25,17 +25,19 @@ const MainBookView = ({ book, firstButton = <></>, secondButton = <></>, link = 
 					<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
 					<PageProgressBar book={book} />
 
-					<div className='row text-center mt-4 justify-content-center'>
-						<div className={bookInfoStyle}>
-							<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
-						</div>
+					<div className='d-block d-md-none d-lg-block'>
+						<div className='row text-center mt-4 justify-content-center'>
+							<div className={bookInfoStyle}>
+								<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
+							</div>
 
-						<div className={bookInfoStyle}>
-							<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
-						</div>
+							<div className={bookInfoStyle}>
+								<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
+							</div>
 
-						<div className={bookInfoStyle}>
-							<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
+							<div className={bookInfoStyle}>
+								<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
+							</div>
 						</div>
 					</div>
 				</a>

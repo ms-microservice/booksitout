@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react'
 import { useParams } from 'react-router-dom'
 import { Button, Card } from 'react-bootstrap'
+import { useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
-// Components
+import parse from 'html-react-parser'
+
 import Loading from '../../common/Loading'
 import Error from '../../common/Error'
 import NoContent from '../../common/NoContent'
@@ -11,19 +13,13 @@ import HorizontalBookView from '../book-view/HorizontalBookView'
 import DoneHorizontalBookView from '../book-view/DoneHorizontalBookView'
 import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
 import BookListRangeButton from './BookListRangeButton'
-// Images
-import kimchiImage from '../../../resources/images/common/kimchi-green.png'
-import bookShelfImage from '../../../resources/images/common/bookshelf.png'
-// Functions
+import Boarding from '../../info/Boarding'
+
 import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../../functions/book'
-import parse from 'html-react-parser'
-import BookListBoarding from '../../info/BookListBoarding'
+import kimchiImage from '../../../resources/images/common/kimchi-green.png'
 
 const BookList = () => {
-	const isLogin =
-		localStorage.getItem('login-token') != null &&
-		localStorage.getItem('login-token') != '' &&
-		typeof localStorage.getItem('login-token') != 'undefined'
+	const isLogin = useSelector((state) => state.user.isLogin)
 
 	const { range, rangeDetail } = useParams()
 	const rangeApi = () => {
@@ -93,7 +89,13 @@ const BookList = () => {
 			})
 	}
 
-	if (!isLogin) return <BookListBoarding />
+	if (!isLogin)
+		return (
+			<Boarding
+				title='내 책을 관리하려면 로그인 해 주세요'
+				subtitle='내가 읽고 있는 책, 다 읽은 책을 쉽게 관리하고 남은 독서시간을 예측해줘요'
+			/>
+		)
 	if (initalFetch) return <></>
 	if (loading) return <Loading message='잠시만 기다려 주세요' />
 

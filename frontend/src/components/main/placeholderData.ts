@@ -8,7 +8,7 @@ const placeholderData = {
 		source: 'LIBRARY',
 		form: 'PHYSICAL',
 		language: 'KOREAN',
-		category: 'NOT_PROVIDED'
+		category: 'NOT_PROVIDED',
 	},
 	readTime: [31, 41, 59, 1, 65, 35, 89],
 	statistics: {
@@ -19,4 +19,4 @@ const placeholderData = {
 	goal: { year: 2023, goal: 50, current: 9 },
 }
 
-export default placeholderData;
+export default placeholderData
