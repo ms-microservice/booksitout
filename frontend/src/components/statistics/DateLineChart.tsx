@@ -1,4 +1,3 @@
-import Chart from 'chart.js/auto'
 import { useEffect, useRef } from 'react'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
@@ -7,11 +6,14 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, h
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 	const greatestIndex = data.lastIndexOf(Math.max(...data))
-	const chartRef = useRef<Chart | null>(null)
+	// @ts-ignore
+	const chartRef = useRef<Line | null>(null)
 
 	const focusOnGreatestIndex = () => {
 		const chart = chartRef.current
-		chart?.tooltip?.setActiveElements([{ datasetIndex: 0, index: greatestIndex }], { x: 0, y: 0 })
+		if (data[greatestIndex] !== 0) {
+			chart?.tooltip?.setActiveElements([{ datasetIndex: 0, index: greatestIndex }], { x: 0, y: 0 })
+		}
 	}
 
 	useEffect(() => {
