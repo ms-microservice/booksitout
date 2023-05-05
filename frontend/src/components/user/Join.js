@@ -99,76 +99,86 @@ const Join = () => {
 	}
 
 	return (
-		<div className='mt-5 container'>
+		<div className='container mt-5 '>
 			<div className='row justify-content-center'>
-				<Card className='col-12 col-lg-9 col-xl-7 text-center'>
-					<Card.Body>
-					<div className='d-flex justify-content-center'>
-								<img src={logo} alt='' className='img-fluid rounded me-2 me-md-3 mt-0 mt-md-1' style={{ widht: '40px', height: '40px' }} />
+				<div className='col-12 col-lg-9 col-xl-7'>
+					<Card className='text-center'>
+						<Card.Body>
+							<div className='d-flex justify-content-center'>
+								<img
+									src={logo}
+									alt=''
+									className='img-fluid rounded me-2 me-md-3 mt-0 mt-md-1'
+									style={{ widht: '40px', height: '40px' }}
+								/>
 								<h1 className='mt-1 mt-md-0 mb-0'>회원가입</h1>
 							</div>
 
-						<Form onSubmit={(e) => handleJoin(e)}>
-							<Form.Group class='mt-3'>
-								<div className='row'>
-									<label for='text' class='col-12 col-sm-2 col-form-label text-start'>
-										이메일
-									</label>
+							<Form onSubmit={(e) => handleJoin(e)}>
+								<Form.Group class='mt-3'>
+									<div className='row'>
+										<label for='text' class='col-12 col-sm-2 col-form-label text-start'>
+											이메일
+										</label>
 
-									<div className='col-12 col-sm-7'>
-										<input
-											type='text'
-											class='form-control'
-											placeholder={messages.user.join.placeHolder.email}
-											onChange={(e) => setEmail(e.target.value)}
-										/>
+										<div className='col-12 col-sm-7'>
+											<input
+												type='text'
+												class='form-control'
+												placeholder={messages.user.join.placeHolder.email}
+												onChange={(e) => setEmail(e.target.value)}
+											/>
+										</div>
+
+										<div className='col-12 col-sm-3 mt-3 mt-sm-0'>
+											<Button
+												variant='book'
+												className='w-100'
+												onClick={() => handleVerifyEmail()}
+												disabled={!utils.isEmailValid(email)}>
+												인증번호 보내기
+											</Button>
+										</div>
 									</div>
+								</Form.Group>
 
-									<div className='col-12 col-sm-3 mt-3 mt-sm-0'>
-										<Button variant='book' className='w-100' onClick={() => handleVerifyEmail()} disabled={!utils.isEmailValid(email)}>
-											인증번호 보내기
+								<InputWithLabel
+									label='email-verification'
+									displayLabel='인증번호'
+									placeholder={messages.user.join.placeHolder.emailVerification}
+									setInputVariable={setEmailVerification}
+									disabled={!emailSent}
+								/>
+								<InputWithLabel
+									type='name'
+									displayLabel='이름'
+									placeholder={messages.user.join.placeHolder.name}
+									setInputVariable={setName}
+								/>
+								<InputWithLabel
+									type='password'
+									displayLabel='비밀번호'
+									placeholder={messages.user.join.placeHolder.password}
+									setInputVariable={setPassword}
+								/>
+
+								<div className='row justify-content-center mt-3'>
+									<div className='col-12 col-md-7 mt-3'>
+										<Button variant='book' type='submit' className='w-100'>
+											회원가입
 										</Button>
 									</div>
+
+									<div className='col-12 col-md-7 mt-3'>
+										<a className='btn btn-secondary w-100' href='login'>
+											로그인
+										</a>
+									</div>
 								</div>
-							</Form.Group>
-
-							<InputWithLabel
-								label='email-verification'
-								displayLabel='인증번호'
-								placeholder={messages.user.join.placeHolder.emailVerification}
-								setInputVariable={setEmailVerification}
-								disabled={!emailSent}
-							/>
-							<InputWithLabel
-								type='name'
-								displayLabel='이름'
-								placeholder={messages.user.join.placeHolder.name}
-								setInputVariable={setName}
-							/>
-							<InputWithLabel
-								type='password'
-								displayLabel='비밀번호'
-								placeholder={messages.user.join.placeHolder.password}
-								setInputVariable={setPassword}
-							/>
-
-							<div className='row justify-content-center mt-3'>
-							<div className='col-12 col-md-7 mt-3'>
-									<Button variant='book' type='submit' className='w-100'>
-										회원가입
-									</Button>
-								</div>
-
-							<div className='col-12 col-md-7 mt-3'>
-									<a className='btn btn-secondary w-100' href='login'>
-										로그인
-									</a>
-								</div>
-
-							</div>
-						</Form>
-					</Card.Body>
-				</Card>
+							</Form>
+						</Card.Body>
+					</Card>
+				</div>
 			</div>
 		</div>
 	)

@@ -14,7 +14,7 @@ import naverButton from '../../resources/images/login-button/small-naver.png'
 import googleButton from '../../resources/images/login-button/small-google.png'
 import facebookButton from '../../resources/images/login-button/small-facebook.png'
 import utils from '../../functions/utils'
-import { loginToken, logoutToken } from '../../redux/userSlice'
+import { checkIsLogin, loginToken, logoutToken } from '../../redux/userSlice'
 
 import logo from '../../resources/images/logo/logo.png'
 import axios from 'axios'
@@ -117,6 +117,7 @@ const Login = () => {
 			toast.dismiss()
 			toast(res.data.message, { icon: '✋' })
 			dispatch(loginToken(utils.getToken()))
+			dispatch(checkIsLogin())
 
 			axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: res.data.token } }).then((res) => {
 				localStorage.setItem('search-library-region-api', res.data.region)

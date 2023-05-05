@@ -30,6 +30,8 @@ import Feature from './components/info/Feature'
 import PostDetail from './components/forum/post/PostDetail'
 import ForumMain from './components/forum/ForumMain'
 import PostAddForm from './components/forum/post/PostAddForm'
+import TipsRoute from './components/forum/tips/TipRoute'
+import AdminMain from './components/admin/AdminMain'
 
 function App() {
 	return (
@@ -43,6 +45,8 @@ function App() {
 			<div style={{ marginBottom: '80px' }} />
 
 			<Routes>
+				<Route path='/admin' element={<AdminMain />} />
+
 				<Route path='/introduction' element={<Introduction />} />
 				<Route path='introduction/features' element={<Feature />} />
 				<Route path='introduction/tips/:range' element={<TipsRoute />} />
@@ -53,6 +57,7 @@ function App() {
 				<Route path='/login' element={<Login />} />
 				<Route path='/login/oauth/:provider' element={<OAuth />} />
 				<Route path='/join' element={<Join />} />
+
 				<Route path='/settings' element={<Settings />} />
 				<Route path='/settings/search/library' element={<SearchLibrarySettings />} />
 
@@ -70,9 +75,16 @@ function App() {
 
 				<Route path='/search/:query' element={<Search />} />
 
-				<Route path='/forum' element={<ForumMain/>}/>
-				<Route path='/forum/post/add' element={<PostAddForm/>}/>
+				<Route path='/forum' element={<ForumMain />} />
+
+				<Route path='/forum/post/all/:sortBy' element={<ForumMain />} />
 				<Route path='/forum/post/:postId' element={<PostDetail />} />
+				<Route path='/forum/post/add' element={<PostAddForm />} />
+				<Route path='/forum/post/edit/:postId' element={<PostAddForm />} />
+
+				<Route path='/forum/quiz' element={<PostAddForm />} />
+
+				<Route path='/forum/survey' element={<PostAddForm />} />
 			</Routes>
 
 			<FloatingAddButton />
