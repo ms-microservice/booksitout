@@ -10,12 +10,10 @@ import java.time.LocalDate;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class TipsDto {
+public class TipsSimple {
 
     private Long id;
     private String title;
-    private String content;
-    private String summary;
     private Integer estimatedReadTime;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
@@ -23,15 +21,14 @@ public class TipsDto {
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate lastModifiedDate;
 
-    public static TipsDto of(Tips tips) {
-        return TipsDto.builder()
+    public static TipsSimple of(Tips tips) {
+        return TipsSimple.builder()
                 .id(tips.getTipsId())
                 .title(tips.getTitle())
-                .summary(tips.getSummary())
-                .content(tips.getContent())
                 .estimatedReadTime(tips.getEstimatedReadTime())
                 .createdDate(tips.getCreatedDate())
                 .lastModifiedDate(tips.getLastModifiedDate())
                 .build();
     }
+
 }

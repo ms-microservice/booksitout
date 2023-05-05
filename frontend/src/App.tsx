@@ -32,6 +32,7 @@ import ForumMain from './components/forum/ForumMain'
 import PostAddForm from './components/forum/post/PostAddForm'
 import TipsRoute from './components/forum/tips/TipRoute'
 import AdminMain from './components/admin/AdminMain'
+import TipsDetail from './components/forum/tips/TipsDetail'
 
 function App() {
 	return (
@@ -50,6 +51,7 @@ function App() {
 				<Route path='/introduction' element={<Introduction />} />
 				<Route path='introduction/features' element={<Feature />} />
 				<Route path='introduction/tips/:range' element={<TipsRoute />} />
+				<Route path='introduction/tips/detail/:id' element={<TipsDetail />} />
 
 				<Route path='/qna' element={<Qna />} />
 				<Route path='/faq' element={<Faq />} />

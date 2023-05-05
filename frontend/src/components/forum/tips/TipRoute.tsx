@@ -1,14 +1,10 @@
-import { useState } from 'react'
 import { ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
-
-import TipPost from './Tip'
-import TipPostDetailListGroup from './TipPostDetailListGroup'
 import { useParams } from 'react-router-dom'
+
+import TipPostDetailListGroup from './TipPostDetailListGroup'
 
 const TipsRoute = () => {
 	const { range } = useParams()
-	
-	const [tipPost, setTipPost] = useState<TipPost[]>([])
 
     return (
 		<div className='container-xl'>
@@ -60,7 +56,7 @@ const TipsRoute = () => {
 				</Card.Body>
 			</Card>
 
-			<TipPostDetailListGroup postList={tipPost} />
+			<TipPostDetailListGroup range={range} />
 		</div>
 	)
 }

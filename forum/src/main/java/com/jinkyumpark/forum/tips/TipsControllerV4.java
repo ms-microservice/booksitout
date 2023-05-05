@@ -1,11 +1,14 @@
 package com.jinkyumpark.forum.tips;
 
+import com.jinkyumpark.common.response.AddSuccessResponse;
+import com.jinkyumpark.forum.config.security.adminOnly.AdminOnly;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import javax.validation.Valid;
 
 @RequiredArgsConstructor
 @RequestMapping("v4/forum/tips")
@@ -14,20 +17,36 @@ public class TipsControllerV4 {
 
     private final TipsService tipsService;
 
-    @GetMapping("{type}")
-    public List<TipsDto> getTipsByTipsType(@PathVariable("type") String type,
-                                           @RequestParam("page") Integer page,
-                                           @RequestParam("size") Integer size) {
+    @GetMapping
+    public TipsSimplePaged getTipsByTipsType(@RequestParam("type") String type,
+                                           @RequestParam(value = "page", required = false) Integer page,
+                                           @RequestParam(value = "size", required = false) Integer size) {
         if (page == null) page = 1;
         if (size == null) size = 10;
-        Pageable pageable = PageRequest.of(page, size);
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDate").descending());
 
         if (type.equalsIgnoreCase("all")) {
-            return tipsService.getAllTips(pageable);
+            return tipsService.getAllSimpleTips(pageable);
         }
 
-        TipsType requestedType = TipsType.valueOf(type);
-        return tipsService.getTipsByType(pageable, requestedType);
+        TipsType requestedType = TipsType.valueOf(type.toUpperCase());
+        return tipsService.getTipsSimpleByType(pageable, requestedType);
+    }
+
+    @GetMapping("{tipsId}")
+    public TipsDto getTipsByTipsId(@PathVariable("tipsId") Long tipsId) {
+        return tipsService.getTipsByTipsId(tipsId);
+    }
+
+    @AdminOnly
+    @PostMapping
+    public AddSuccessResponse addTips(@RequestBody @Valid TipsAddRequest tipsAddRequest) {
+        Long tipsId = tipsService.addTips(tipsAddRequest.toEntity());
+
+        return AddSuccessResponse.builder()
+                .id(tipsId)
+                .message("꿀팁을 추가헀어요")
+                .build();
     }
 
 }
