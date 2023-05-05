@@ -5,11 +5,13 @@ import { Line } from 'react-chartjs-2'
 const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, highlightGreatest = false }) => {
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
-	const greatestIndex = data.lastIndexOf(Math.max(...data))
 	// @ts-ignore
 	const chartRef = useRef<Line | null>(null)
 
 	const focusOnGreatestIndex = () => {
+		if (data == null) return
+
+		const greatestIndex = data.lastIndexOf(Math.max(...data))
 		const chart = chartRef.current
 		if (data[greatestIndex] !== 0) {
 			chart?.tooltip?.setActiveElements([{ datasetIndex: 0, index: greatestIndex }], { x: 0, y: 0 })
@@ -18,7 +20,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, h
 
 	useEffect(() => {
 		focusOnGreatestIndex()
-	}, [greatestIndex])
+	}, [])
 
 	return (
 		<Line

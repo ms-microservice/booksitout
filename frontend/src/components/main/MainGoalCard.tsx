@@ -21,14 +21,14 @@ const MainGoalCard = ({statistics, goal}) => {
 				<a href='/goal' className='text-decoration-none text-black h-100'>
 					<h3>{new Date().getFullYear()}년 목표</h3>
 
-					{statistics != null ? (
-						<div className='h-100'>
-							<Goal goal={goal} />
-						</div>
+					{statistics == null || typeof statistics == 'undefined' ? (
+						<Error message='오류가 났어요' mb='75px' />
 					) : initialFetch ? (
 						<></>
 					) : (
-						<Error message='오류가 났어요' />
+						<div className='h-100'>
+							<Goal goal={goal} />
+						</div>
 					)}
 				</a>
 			</Card.Body>
