@@ -1,11 +1,27 @@
+import Chart from 'chart.js/auto'
+import { useEffect, useRef } from 'react'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
 const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, highlightGreatest = false }) => {
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
+	const greatestIndex = data.lastIndexOf(Math.max(...data))
+	const chartRef = useRef<Chart | null>(null)
+
+	const focusOnGreatestIndex = () => {
+		const chart = chartRef.current
+		chart?.tooltip?.setActiveElements([{ datasetIndex: 0, index: greatestIndex }], { x: 0, y: 0 })
+	}
+
+	useEffect(() => {
+		focusOnGreatestIndex()
+	}, [greatestIndex])
+
 	return (
 		<Line
+			ref={chartRef}
+			onMouseOut={() => focusOnGreatestIndex()}
 			className='w-100 mt-0 mt-sm-auto ms-2 ms-md-0 pe-0 pe-md-2'
 			style={{ margin: 'auto 0' }}
 			options={{
@@ -17,7 +33,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, h
 					mode: 'nearest',
 					axis: 'x',
 					intersect: false,
-				}
+				},
 			}}
 			data={{
 				labels: [

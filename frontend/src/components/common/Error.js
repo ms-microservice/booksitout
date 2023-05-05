@@ -7,7 +7,7 @@ const Error = ({
 }) => {
 
 	return (
-		<div className='row d-flex h-100 justify-content-center align-items-center'>
+		<div className='row d-flex h-100 justify-content-center align-items-center mt-center'>
 			<div className='text-center' style={{marginTop: mt, marginBottom: mb}}>
 				<ErrorIcon className={color} style={iconStyle} />
 				<h3 className='mt-3'>{message}</h3>

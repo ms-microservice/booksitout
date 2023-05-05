@@ -12,7 +12,7 @@ const Feature = () => {
 			title: '책 관련 기능',
 			subtitle: '내가 읽었던, 읽고있는, 읽을 책을 등록하고 관리할 수 있어요',
 			description: [
-				'오른쪽 아래 <b class="text-book">초록색의 추가 버튼</b>을 눌러 책을 추가할 수 있어요',
+				'오른쪽 아래 <b class="text-book">초록색의 추가 버튼</b>을 눌러 책을 추가할 수 있어요 (로그인 해야 보여요) ',
 				'이 책을 <b class="text-book">어디서 얻었는지</b>, <b class="text-book">어떤 형태</b>(종이책, 전자책, 오디오북)인지 기록해 둘 수 있어요',
 				'책을 다 읽으면 <b class="text-book">별점</b>을 매기고, <b class="text-book">감상</b>을 쓰고, <b class="text-book">요약</b>을 적을 수 있어요',
 				'책을 읽는 도중에 <b class="text-book">메모</b>할 수 있어요',
@@ -50,7 +50,7 @@ const Feature = () => {
 			],
 		},
 		{
-			title: '도서관과 더 친해지기',
+			title: '도서관과 더 친해지기 (개발중)',
 			subtitle: '도서관과 관련된 다양한 편의기능과 정보를 제공해 줘요',
 			description: [
 				'<b class="text-book">도서관 회원증</b>을 귀찮게 들고 다닐 필요 없이 저장해 둘 수 있어요 <br/>(책잇아웃, 애플월랫, 삼성페이 지원)',
@@ -59,7 +59,7 @@ const Feature = () => {
 			],
 		},
 		{
-			title: '읽고 싶은 책 알림받기',
+			title: '읽고 싶은 책 알림받기 (개발중)',
 			subtitle: '읽고 싶은 책이 내가 정한 곳에서 새롭게 등록되면 알려줘요',
 			description: [
 				'주변 <b class="text-book">도서관</b> 신착도서 알림',

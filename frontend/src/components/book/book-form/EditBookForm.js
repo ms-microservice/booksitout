@@ -14,6 +14,7 @@ import defaultBookCover from '../../../resources/images/common/default-book-cove
 import { editBook } from '../../../functions/book'
 import urls from '../../../settings/urls'
 import utils from '../../../functions/utils'
+import messages from '../../../settings/messages';
 
 const BookEditForm = () => {
 	const { id } = useParams()
@@ -118,51 +119,50 @@ const BookEditForm = () => {
 
 	return (
 		<div className='container mb-5'>
-			<Card className='container'>
-				<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
+			<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
 
+			<Card>
 				<Card.Body>
-					<Form onSubmit={handleEdit} className='mt-4'>
+					<Form onSubmit={handleEdit} className='h-100 container mt-3 mb-3 text-start'>
 						<div className='row row-eq-height text-center'>
-							<div className='col-12 col-lg-4 mb-3'>
+							<div className='col-12 col-lg-4 mb-3 mt-md-4'>
 								<img src={cover === '' ? defaultBookCover : cover} alt='' className='img-fluid rounded border' />
-
-								<div className='row mt-5'>
-									<div className='col-6'>
-										<Button variant='book' className='w-100' onClick={openModal}>
-											책 표지 검색
-										</Button>
-									</div>
-									<div className='col-6'>
-										<Button variant='book' className='w-100' disabled>
-											직접 업로드
-										</Button>
-									</div>
-								</div>
 							</div>
 
 							<div className='col-12 col-lg-8 mb-3 text-start'>
-								<Form.Group className='mb-3'>
-									<Form.Label>책 제목</Form.Label>
-									<Form.Control
-										type='text'
-										placeholder={TITLE_MESSAGE}
-										required
-										onChange={(e) => setTitle(e.target.value)}
-										value={title}
-									/>
-								</Form.Group>
+								<div className='row'>
+									<div className='col-12 col-md-6'>
+										<Form.Group className='mb-3'>
+											<Form.Label>책 제목</Form.Label>
+											<Form.Control
+												type='text'
+												placeholder={TITLE_MESSAGE}
+												required
+												onChange={(e) => setTitle(e.target.value)}
+												value={title}
+											/>
+										</Form.Group>
+									</div>
 
-								<Form.Group className='mb-3'>
-									<Form.Label>저자</Form.Label>
-									<Form.Control
-										type='text'
-										placeholder={AUTHOR_MESSAGE}
-										required
-										onChange={(e) => setAuthor(e.target.value)}
-										value={author}
-									/>
-								</Form.Group>
+									<div className='col-12 col-md-6'>
+										<Form.Group className='mb-3'>
+											<Form.Label>저자</Form.Label>
+											<Form.Control
+												type='text'
+												placeholder={AUTHOR_MESSAGE}
+												required
+												onChange={(e) => setAuthor(e.target.value)}
+												value={author}
+											/>
+										</Form.Group>
+									</div>
+								</div>
+
+								<Button className='w-100 mt-2 mb-3' onClick={openModal} variant={title !== '' ? 'book' : 'secondary'}>
+									책 표지 검색
+								</Button>
+
+								<hr />
 
 								<div className='row'>
 									<div className='col-6 col-md-4'>
@@ -251,24 +251,24 @@ const BookEditForm = () => {
 									</div>
 								</div>
 
-								<Form.Group className='mb-3' controlId='formBasicCheckbox'>
+								<Form.Group className='mb-5' controlId='formBasicCheckbox'>
 									<Form.Check
 										type='checkbox'
 										label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
 										onChange={() => setIsSharing(!isSharing)}
 										value={isSharing}
-										style={{ whiteSpace: 'nowrap' }}
+										className='force-1-line'
 									/>
 								</Form.Group>
 
-								<div className='row justify-content-center mt-5'>
-									<div className='col-6'>
+								<div className='row justify-content-center'>
+									<div className='col-12 col-md-6 mb-2 mb-md-0'>
 										<Button variant='book-danger' type='reset' className='w-100'>
 											다시 입력하기
 										</Button>
 									</div>
 
-									<div className='col-6'>
+									<div className='col-12 col-md-6 mb-2 mb-md-0'>
 										<Button variant='book' type='submit' className='w-100'>
 											수정하기
 										</Button>

@@ -33,7 +33,7 @@ const TipsRoute = () => {
 
 						<a href='/introduction/tips/integration' className='w-100'>
 							<ToggleButton variant={range === 'integration' ? 'book' : 'light'} type='radio' className='w-100' value='integration'>
-								다른 서비스와 연동
+								연동
 							</ToggleButton>
 						</a>
 					</ButtonGroup>
@@ -41,19 +41,19 @@ const TipsRoute = () => {
 					<ButtonGroup className='w-100 mt-1'>
 						<a href='/introduction/tips/library' className='w-100'>
 							<ToggleButton variant={range === 'library' ? 'book' : 'light'} type='radio' className='w-100' value='library'>
-								도서관 관련
+								도서관
 							</ToggleButton>
 						</a>
 
 						<a href='/introduction/tips/search' className='w-100'>
 							<ToggleButton variant={range === 'search' ? 'book' : 'light'} type='radio' className='w-100' value='search'>
-								검색 관련
+								검색
 							</ToggleButton>
 						</a>
 
-						<a href='/introduction/tips/forum' className='w-100'>
+						<a href='/introduction/tips/forum' className='w-100 force-1-line'>
 							<ToggleButton variant={range === 'forum' ? 'book' : 'light'} type='radio' className='w-100' value='forum'>
-								커뮤니티 관련
+								커뮤니티
 							</ToggleButton>
 						</a>
 					</ButtonGroup>

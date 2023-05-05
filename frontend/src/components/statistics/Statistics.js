@@ -1,20 +1,19 @@
 import React, { useState, useEffect } from 'react'
 import { Card, Form } from 'react-bootstrap'
-// Components
+import { useSelector } from 'react-redux'
+
 import Error from '../common/Error'
 import Loading from '../common/Loading'
-
 import CategoryTable from './CategoryTable'
 import LanguageTable from './LanguageTable'
 import SummaryTable from './SummaryTable'
 import DateLineChart from './DateLineChart'
-// Functions
+import Boarding from '../info/Boarding'
+
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getGoal } from '../../functions/goal'
 
 import '../../resources/css/statistics.css'
-import StatisticsBoarding from '../info/StatisticsBoarding'
-import { useSelector } from 'react-redux'
 
 const Statistics = () => {
 	const isLogin = useSelector((state) => state.user.isLogin)
@@ -75,7 +74,13 @@ const Statistics = () => {
 			})
 	}, [statisticsSelectedYear])
 
-	if (!isLogin) return <StatisticsBoarding />
+	if (!isLogin)
+		return (
+			<Boarding
+				title='내 독서활동에 대한 통계를 보시려면 로그인 해 주세요'
+				subtitle='독서시간 그래프, 평균 독서시간, 언어별, 장르별 독서 현황을 볼 수 있어요'
+			/>
+		)
 	if (initialFetch) return <></>
 	if (isLoading) return <Loading/>
 
@@ -123,7 +128,7 @@ const Statistics = () => {
 									</Form>
 								</div>
 
-								<div className='mt-2'>
+								<div className='mt-2' style={{ minHeight: '320px' }}>
 									{isStatisticsLoading ? (
 										<div className='col-12 w-100'>
 											<Loading textSize='h2' mt='74.5px' mb='74.5px' />
