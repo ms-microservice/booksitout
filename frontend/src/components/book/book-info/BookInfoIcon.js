@@ -12,7 +12,7 @@ const BookInfoIcon = ({
 			<Card.Body>
 				<div className='row justify-content-center'>
 					<div className={responsiveImageStyle}>
-						<img src={infoType.imageFunction(infoData)} alt='' className='img-fluid mb-0 mb-md-2' />
+						<img src={infoType.imageFunction(infoData)} alt='' className='img-fluid mb-0 mb-md-2' style={{ maxHeight: '40px' }} />
 					</div>
 
 					<div className={responsiveTextStyle}>

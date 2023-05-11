@@ -1,8 +1,10 @@
 interface TipPost {
     id: number;
     title: string;
+    summary?: string;
     type: string;
-    content: string;
+
+    content?: string;
     estimatedReadTime: number;
 
     createdDate?: string;

@@ -12,7 +12,7 @@ const PostPopular = () => {
 
 	return (
 		<a href='/forum/post/all/popular' className='text-decoration-none text-black'>
-			<Card className='h-100' style={{ minHeight: '400px' }}>
+			<Card className='h-100' style={{ minHeight: '425px' }}>
 				<a href='/forum/post/add'>
 					<AddButton size='30' color='book' top='15px' right='15px' />
 				</a>

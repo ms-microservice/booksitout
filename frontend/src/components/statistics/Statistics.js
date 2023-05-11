@@ -85,7 +85,7 @@ const Statistics = () => {
 	if (isLoading) return <Loading/>
 
 	return (
-		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden' }}>
+		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden', overflowY: 'hidden' }}>
 			<div className='row row-eq-height'>
 				<div className='col-12 col-md-6 col-xl-4 mb-4 '>
 					<Card className='h-100'>
@@ -110,20 +110,14 @@ const Statistics = () => {
 								<div className='col-6'>
 									<Form>
 										<Form.Select onChange={(e) => setStatisticsSelectedYear(e.target.value)}>
-											{
-												// Array.from(
-												// 	{ length: new Date().getFullYear() - localStorage.getItem('register-year') + 1 },
-												// 	(_, i) => i + Number(localStorage.getItem('register-year'))
-												// )
-												Array.from(
-													{ length: new Date().getFullYear() - (new Date().getFullYear() - 5) + 1 },
-													(_, i) => i + new Date().getFullYear() - 5
-												)
-													.reverse()
-													.map((year) => {
-														return <option value={year}>{`${year}년`}</option>
-													})
-											}
+											{Array.from(
+												{ length: new Date().getFullYear() - (new Date().getFullYear() - 5) + 1 },
+												(_, i) => i + new Date().getFullYear() - 5
+											)
+												.reverse()
+												.map((year) => {
+													return <option value={year}>{`${year}년`}</option>
+												})}
 										</Form.Select>
 									</Form>
 								</div>
@@ -146,7 +140,7 @@ const Statistics = () => {
 					</Card>
 				</div>
 
-				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4' style={{minHeight: '450px'}}>
 					<Card className='h-100'>
 						<Card.Body>
 							<h3>언어별 독서현황</h3>
@@ -156,7 +150,7 @@ const Statistics = () => {
 					</Card>
 				</div>
 
-				<div className='col-12 col-md-6 col-xl-4 mb-4'>
+				<div className='col-12 col-md-6 col-xl-4 mb-4' style={{minHeight: '450px'}}>
 					<Card className='h-100'>
 						<Card.Body>
 							<h3>장르별 독서현황</h3>
