@@ -20,13 +20,13 @@ https://booksitout.com
 - Search with ease (supports South Korea only as of May 2023)
 - Talk about books with others
 
-# 🧑‍🔧 Technology Stack (from version 4)
-### DB
+# 🧑‍🔧 Technology Stack (as of version 4)
+## DB
 ![MySQL](https://img.shields.io/badge/mysql-%2300f.svg?style=for-the-badge&logo=mysql&logoColor=white)
 ![Redis](https://img.shields.io/badge/redis-%23DD0031.svg?style=for-the-badge&logo=redis&logoColor=white)
 ![jpa](https://img.shields.io/badge/JPA-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) (Hibernate, QueryDSL)
 
-### Server
+## Server
 ![Gradle](https://img.shields.io/badge/Gradle-02303A.svg?style=for-the-badge&logo=Gradle&logoColor=white)
 ![springboot](https://img.shields.io/badge/Springboot-6DB33F?style=for-the-badge&logo=SpringBoot&logoColor=white)
 ![springsecurity](https://img.shields.io/badge/Spring_Security-6DB33F?style=for-the-badge&logo=Spring-Security&logoColor=white)
@@ -43,7 +43,7 @@ https://booksitout.com
 
 ![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)
 
-### DevOps
+## DevOps
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
@@ -58,7 +58,7 @@ https://booksitout.com
 
 [//]: # (![Kubernetes]&#40;https://img.shields.io/badge/kubernetes-%23326ce5.svg?style=for-the-badge&logo=kubernetes&logoColor=white&#41;)
 
-### Frontend
+## Frontend
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
@@ -133,10 +133,9 @@ https://booksitout.com
     - manually written security to spring security's features
 
 - Improve UI / UX
-    - 메인 색상 정해서 전체적으로 통일 + 각 색별 의미 정하고 그 의미로만 사용 (예 : 빨강 - 비교적 큰 상태 변화가 있는 행동, 메인초록 - 특정 상황에 가장 할 만한 행동)
-    - Set main color, keep color consistency across ui (ex : 
-      - red - behaviors accompanied state change, 
-      - main green - most common behavior in certain situations
+    - Set main color, keep color consistency across ui
+      - red : behaviors accompanied state change, 
+      - main green : most common behavior in certain situations
     - Improve mobile usage
       - automatically show keyboards when necessary
       - PWA support
@@ -144,8 +143,7 @@ https://booksitout.com
 ## Version 4, Community (Apr. 29, 2023 - May. 14, 2023)
 - Forum
     - Provide surveys, quizzes, free forum for each book 
-    - isbn13을 기준으로 나눔 + 같은 책이라 판단할 수 있는 isbn13끼리 묶는 테이블 사용
-    - Group with isbn13 + table to group isbn estimated to indicate the same books
+    - Group with isbn13, DB schema to group isbn estimated to indicate the same books
     - Provide popular books (use Batch to process for certain intervals)
 
 - Book Gatherings
