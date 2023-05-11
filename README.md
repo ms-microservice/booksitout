@@ -12,7 +12,7 @@ https://booksitout.com
 # 🙋 What is booksitout?
 - Initially, it began as my portfolio website; however, over time, I developed a strong desire to transform it into a fully-fledged product. As a result, I am now passionately dedicated to its development.
 - Being a huge bookworm, I have amassed a bunch of ideas and insights during my reading journeys. I'm incorporating these ideas into the product.
-- The product caters to both ardent book enthusiasts and individuals seeking to cultivate a deeper relationship with books, offering a comprehensive range of functionalities.
+- BOOKSITOUT caters to both ardent book enthusiasts and individuals seeking to cultivate a deeper relationship with books, offering a comprehensive range of functionalities.
 
 # ⚙️ Main Functionality
 - Add / manage my books
