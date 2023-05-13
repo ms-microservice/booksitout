@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Button, Form } from 'react-bootstrap'
 
@@ -17,6 +17,39 @@ const ReadingSessionDetailModal = ({
 	book,
 	setBook,
 }) => {
+	
+	const currentYear = new Date().getFullYear()
+	const currentMonth = new Date().getMonth() + 1
+	const currentDay = new Date().getDate()
+
+	const [year, setYear] = useState(currentYear)
+	const [month, setMonth] = useState(currentMonth)
+	const [day, setDay] = useState(currentDay)
+
+	const [yearArray, setYearArray] = useState<number[]>(Array.from({ length: 5 }, (_, i) => i + (new Date().getFullYear() - 5 + 1)).reverse())
+	const [monthArray, setMonthArray] = useState<number[]>([])
+	const [dayArray, setDayArray] = useState<number[]>([])
+
+	const [isEditMode, setIsEditMode] = useState(false)
+
+	const [readTime, setReadTime] = useState(0)
+	const [endPage, setEndPage] = useState(0)
+
+	useEffect(() => {
+		if (year === currentYear && month === currentMonth) {
+			setDayArray(Array.from({length: currentDay}, (_, i) => i + 1))
+		} else {
+			setDayArray(Array.from({ length: date.getDayCountOfMonth(year, month) }, (_, i) => i + 1))
+		}
+
+		if (year === currentYear) {
+			setMonthArray(Array.from({ length: currentMonth }, (_, i) => i + 1))
+		} else {
+			setMonthArray(Array.from({ length: 12 }, (_, i) => i + 1))
+		}
+
+	}, [year, month, day])
+
 	const isReadingSessionManuallyAdded = (time) => {
 		if (time.substring(readingSession.endTime.indexOf('T') + 1).match('00:00:00') == null) {
 			return false
@@ -24,6 +57,7 @@ const ReadingSessionDetailModal = ({
 			return true
 		}
 	}
+	
 	const getDate = (time) => {
 		const timeString = time.substring(0, time.indexOf('T'))
 		const year = timeString.substring(0, timeString.indexOf('-'))
@@ -33,19 +67,12 @@ const ReadingSessionDetailModal = ({
 		return [year, month, day]
 	}
 
-	const [isEditMode, setIsEditMode] = useState(false)
-	const [year, setYear] = useState(null)
-	const [month, setMonth] = useState(null)
-	const [day, setDay] = useState(null)
-	const [readTime, setReadTime] = useState(null)
-	const [endPage, setEndPage] = useState(null)
-
 	const handleEditReadingSession = (e) => {
 		e.preventDefault()
 
 		if (
 			(year == null && month == null && day == null && readTime == null && endPage == null) ||
-			(readTime == readingSession.readTime && endPage == readingSession.endPage)
+			(readTime === readingSession.readTime && endPage === readingSession.endPage)
 		) {
 			toast.error('수정사항이 없어요')
 			return
@@ -64,7 +91,7 @@ const ReadingSessionDetailModal = ({
 				setReadingSession(editedReadingSession)
 				setReadingSessionList(
 					readingSessionList.map((r) => {
-						if (r.readingSessionId == readingSession.readingSessionId) {
+						if (r.readingSessionId === readingSession.readingSessionId) {
 							return {
 								...r,
 								readingSessionId: r.readingSessionId,
@@ -78,7 +105,7 @@ const ReadingSessionDetailModal = ({
 				)
 				setIsModalOpen(false)
 			} else {
-				toast.error(res.message)
+				// toast.error(res.message)
 			}
 		})
 	}
@@ -113,7 +140,7 @@ const ReadingSessionDetailModal = ({
 				setIsEditMode(false)
 			}}
 			fullscreen='md-down'
-			size={isEditMode ? 'lg' : 'md'}
+			size={'lg'}
 			centered>
 			<Modal.Header closeButton className='text-center'>
 				{isEditMode ? <h4 className='w-100'>독서활동 수정하기</h4> : <h4 className='w-100'>독서활동 자세히 보기</h4>}
@@ -131,22 +158,20 @@ const ReadingSessionDetailModal = ({
 											<div className='col-12 col-md-9 mt-3 mb-3 mt-md-0 mb-md-0'>
 												<div className='row'>
 													<div className='col-4'>
-														<Form.Select className='mb-2' onChange={(e) => setYear(e.target.value)}>
-															{Array.from({ length: 10 }, (_, i) => i + new Date().getFullYear() - 9)
-																.reverse()
-																.map((year) => {
-																	return (
-																		<option value={year} selected={year == getDate(readingSession.startTime)[0]}>
-																			{year}년
-																		</option>
-																	)
-																})}
+														<Form.Select className='mb-2' onChange={(e) => setYear(Number(e.target.value))}>
+															{yearArray.map((year) => {
+																return (
+																	<option value={year} selected={year == getDate(readingSession.startTime)[0]}>
+																		{year}년
+																	</option>
+																)
+															})}
 														</Form.Select>
 													</div>
 
 													<div className='col-4'>
-														<Form.Select className='mb-2' onChange={(e) => setMonth(e.target.value)}>
-															{Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+														<Form.Select className='mb-2' onChange={(e) => setMonth(Number(e.target.value))}>
+															{monthArray.map((month) => {
 																return (
 																	<option
 																		value={month}
@@ -159,16 +184,8 @@ const ReadingSessionDetailModal = ({
 													</div>
 
 													<div className='col-4'>
-														<Form.Select className='mb-2' onChange={(e) => setDay(e.target.value)}>
-															{Array.from(
-																{
-																	length: date.getDayCountOfMonth(
-																		getDate(readingSession.startTime)[0],
-																		getDate(readingSession.startTime)[1]
-																	),
-																},
-																(_, i) => i + 1
-															).map((day) => {
+														<Form.Select className='mb-2' onChange={(e) => setDay(Number(e.target.value))}>
+															{dayArray.map((day) => {
 																return (
 																	<option
 																		value={day}
@@ -188,29 +205,25 @@ const ReadingSessionDetailModal = ({
 												<div className='col-12 col-md-9'>
 													<div className='row mb-2 mt-2 mt-md-0'>
 														<div className='col-4'>
-															<Form.Select className='mb-2' onChange={(e) => setYear(e.target.value)}>
-																{Array.from({ length: 10 }, (_, i) => i + new Date().getFullYear() - 9)
-																	.reverse()
-																	.map((year) => {
-																		return (
-																			<option
-																				value={year}
-																				selected={year == getDate(readingSession.startTime)[0]}>
-																				{year}년
-																			</option>
-																		)
-																	})}
+															<Form.Select className='mb-2' onChange={(e) => setYear(Number(e.target.value))}>
+																{yearArray.map((year) => {
+																	return (
+																		<option value={year} selected={year == getDate(readingSession.startTime)[0]}>
+																			{year}년
+																		</option>
+																	)
+																})}
 															</Form.Select>
 														</div>
 
 														<div className='col-4'>
 															<Form.Select className='w-100' defaultValue={readingSession.readTime}>
-																{Array.from({ length: 12 }, (_, i) => i + 1).map((month) => {
+																{monthArray.map((month) => {
 																	return (
 																		<option
 																			value={month}
 																			selected={
-																				month == getDate(readingSession.startTime)[1]
+																				month === getDate(readingSession.startTime)[1]
 																			}>{`${month}월`}</option>
 																	)
 																})}
@@ -219,17 +232,15 @@ const ReadingSessionDetailModal = ({
 
 														<div className='col-4'>
 															<Form.Select className='w-100' defaultValue={readingSession.readTime}>
-																{
-																	// Array.from(length:	date.getDayCountOfMonth(Number(readingSession.startTime.split("-")[0]), Number(readingSession.startTime.split("-")[1])), (_ i) => i + 1 )
-																	// .map((day) => {
-																	// 	return (
-																	// 		<option
-																	// 			value={day}
-																	// 			selected={getDate(readingSession.startTime)[2] == day}>{`${day}일`}</option>
-																	// 	)
-																	// })
-																	// date.getDayCountOfMonth(getDate(readingSession.startTime)[0], getDate(readingSession.startTime)[1]), (_, i) => i + 1)
-																}
+																{dayArray.map((day) => {
+																	return (
+																		<option
+																			value={day}
+																			selected={
+																				getDate(readingSession.startTime)[2] === day
+																			}>{`${day}일`}</option>
+																	)
+																})}
 															</Form.Select>
 														</div>
 													</div>
@@ -244,7 +255,7 @@ const ReadingSessionDetailModal = ({
 														<div className='col-4'>
 															<Form.Select
 																className='mb-2'
-																onChange={(e) => setYear(e.target.value)}
+																onChange={(e) => setYear(Number(e.target.value))}
 																defaultValue={getDate(readingSession.startTime)[0]}>
 																{Array.from({ length: 10 }, (_, i) => i + new Date().getFullYear() - 9)
 																	.reverse()
@@ -297,8 +308,8 @@ const ReadingSessionDetailModal = ({
 												inputMode='numeric'
 												pattern='[0-9]*'
 												defaultValue={readingSession.readTime}
-												autocomplete='off'
-												onChange={(e) => setReadTime(e.target.value)}
+												autoComplete='off'
+												onChange={(e) => setReadTime(Number(e.target.value))}
 											/>
 										</div>
 									</div>
@@ -320,9 +331,9 @@ const ReadingSessionDetailModal = ({
 												type='number'
 												inputMode='numeric'
 												pattern='[0-9]*'
-												autocomplete='off'
+												autoComplete='off'
 												defaultValue={readingSession.endPage}
-												onChange={(e) => setEndPage(e.target.value)}
+												onChange={(e) => setEndPage(Number(e.target.value))}
 											/>
 										</div>
 									</div>

@@ -5,16 +5,41 @@ import defaultBookCover from '../../../resources/images/common/default-book-cove
 // Components
 import PageProgressBar from '../../common/PageProgressBar'
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from '../book-info/bookInfoEnum'
+import { Button } from 'react-bootstrap'
 
-const MainBookView = ({ book, firstButton = <></>, secondButton = <></>, link = '' }) => {
+import { giveUpBook } from '../../../functions/book'
+import { toast } from 'react-hot-toast';
+import { useNavigate } from 'react-router-dom'
+
+
+
+const MainHorizontalBookView = ({ book, link = '' }) => {
+	const navigate = useNavigate()
+
 	const bookInfoStyle = 'col-4 mb-2'
+
+	const handleGiveupBook = (bookId) => {
+		const confirm = window.confirm('책을 포기할까요?')
+
+		if (confirm) {
+			giveUpBook(bookId).then((success) => {
+				if (success) {
+					toast.success('책을 포기했어요. 마음이 바뀌시면 언제든지 다시 시작하실 수 있어요!')
+					navigate(`book/detail/${bookId}`)
+				} else {
+					toast.error('오류가 났어요 다시 시도해 주세요')
+				}
+			})
+		}
+	}
 
 	return (
 		<div className='row row-eq-height justify-content-center mt-3'>
-			<a href={link} className='mb-4 col-8 col-lg-4 align-self-center'>
+			<a href={link} className='mb-4 col-8 col-lg-4 align-self-center text-center'>
 				<img
 					className={`img-fluid rounded  ${book.cover !== '' && 'border'} text-decoration-none text-black`}
 					src={book.cover === '' ? defaultBookCover : book.cover}
+					style={{ maxHeight: '250px' }}
 					alt=''
 				/>
 			</a>
@@ -42,16 +67,25 @@ const MainBookView = ({ book, firstButton = <></>, secondButton = <></>, link = 
 					</div>
 				</a>
 
-				<div className='row mt-4'>
-					<div className='col-6' style={{ zIndex: 200 }}>
-						{firstButton}
+
+				<div className='row mt-3 mt-md-5'>
+					<div className='col-6 mt-md-2'>
+						<a href={`/reading/${book.bookId}`} className='w-100'>
+							<Button variant='book' className='w-100'>
+								이어서 읽기
+							</Button>
+						</a>
 					</div>
 
-					<div className='col-6'>{secondButton}</div>
+					<div className='col-6 mt-md-2'>
+						<Button variant='book-danger' className='w-100' onClick={() => handleGiveupBook(book.bookId)}>
+							포기하기
+						</Button>
+					</div>
 				</div>
 			</div>
 		</div>
 	)
 }
 
-export default MainBookView
+export default MainHorizontalBookView

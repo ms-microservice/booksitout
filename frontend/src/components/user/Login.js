@@ -1,6 +1,6 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
-import { useDispatch } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Card, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 // Functions
@@ -20,12 +20,20 @@ import logo from '../../resources/images/logo/logo.png'
 import axios from 'axios'
 
 const Login = () => {
+	const isLogin = useSelector((state) => state.user.isLogin)
+
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
 	const [email, setEmail] = useState('')
 	const [password, setPassword] = useState('')
 	const [stayLogin, setStayLogin] = useState(true)
+
+	useEffect(() => {
+		if (isLogin) {
+			navigate('/')
+		}
+	}, [isLogin, navigate])
 
 	const oauthButton = [
 		{

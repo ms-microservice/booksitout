@@ -5,7 +5,7 @@ import { Modal, Form, Button } from 'react-bootstrap'
 import { addMemo } from '../../../functions/memo'
 import '../../../resources/css/input.css'
 
-const AddMemoModal = ({ isModalOpen: modalOpen, setIsModalOpen: setModalOpen, book, memoList, setMemoList }) => {
+const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) => {
 	const [page, setPage] = useState(null)
 	const [content, setContent] = useState(null)
 

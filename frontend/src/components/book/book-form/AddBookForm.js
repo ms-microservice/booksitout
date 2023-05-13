@@ -16,6 +16,8 @@ import NoContent from '../../common/NoContent'
 import Error from '../../common/Error'
 import utils from '../../../functions/utils'
 
+import '../../../resources/css/addBookModal.css'
+
 const AddBookForm = () => {
 	const [selectedMethod, setSelectedMethod] = useState('SEARCH')
 
@@ -77,7 +79,7 @@ const AddBookSearchCard = () => {
 		}
 
 		axios
-			.post(`${urls.api.base}/v3/book`, book, { headers: { Authorization: utils.getToken() } })
+			.post(`${urls.api.base}/v4/book`, book, { headers: { Authorization: utils.getToken() } })
 			.then((res) => {
 				return res.status
 			})
@@ -119,12 +121,14 @@ const AddBookSearchCard = () => {
 	return (
 		<>
 			<Modal
+				id='add-book-modal'
 				show={modalOpen}
 				size='lg'
 				fullscreen='sm-down'
 				onHide={() => {
 					setModalOpen(false)
-				}}>
+				}}
+				centered>
 				{selectedBook == null ? (
 					<Error />
 				) : (
@@ -258,7 +262,7 @@ const AddBookSearchCard = () => {
 								})}
 						</div>
 					) : searchResult.length === 0 ? (
-						<NoContent message='검색 결과가 없어요' useImage={false} iconSize='10em' textSize='h2' mt='50px'/>
+						<NoContent message='검색 결과가 없어요' useImage={false} iconSize='10em' textSize='h2' mt='50px' />
 					) : (
 						<div className='row'>
 							{searchResult.map((book) => {
@@ -283,13 +287,13 @@ const AddBookSearchCard = () => {
 
 const BookAddSearchResult = ({book}) => {
 	return (
-		<Card className='text-center mt-2 mb-2' style={{height: '250px'}}>
+		<Card className='text-center mt-2 mb-2 clickable' style={{ height: '250px' }}>
 			<Card.Body>
 				<img src={book.cover} alt='book cover' className='img-fluid border' style={{ height: '100px' }} />
 
-				<div className='mt-4'>
+				<div className='h-50 d-flex flex-column justify-content-center mt-3'>
 					<h6 className='limit-2-line'>{book.title}</h6>
-					<h6 className='text-secondary limit-2-line'>{book.author.replaceAll("^", ", ")}</h6>
+					<h6 className='text-secondary limit-2-line'>{book.author.replaceAll('^', ', ')}</h6>
 				</div>
 			</Card.Body>
 		</Card>
@@ -374,165 +378,167 @@ const AddBookManualCard = () => {
 	}
 
 return (
-	<div className='row justify-content-center mt-4'>
+	<div className='mt-4'>
 		<ImageSearchModal showModal={showModal} setShowModal={setShowModal} setCover={setCover} title={title} author={author} />
 
-		<Card className='col-12 col-md-8'>
-			<Card.Body>
-				<Form onSubmit={(e) => handleAddBook(e)} className='h-100 container mt-3 mb-3 text-start' onReset={handleReset}>
-					<div className='row'>
-						<div className='col-12 col-md-6'>
-							<Form.Group className='mb-3'>
-								<Form.Label>책 제목</Form.Label>
-								<Form.Control
-									type='text'
-									placeholder={messages.book.placeholder.title}
-									autoComplete='off'
-									required
-									onChange={(e) => setTitle(e.target.value)}
-								/>
-							</Form.Group>
+		<div className='d-flex justify-content-center'>
+			<Card className='col-12 col-md-8 p-0 p-md-1'>
+				<Card.Body>
+					<Form onSubmit={(e) => handleAddBook(e)} className='h-100 container mt-3 mb-3 text-start' onReset={handleReset}>
+						<div className='row'>
+							<div className='col-12 col-md-6'>
+								<Form.Group className='mb-3'>
+									<Form.Label>책 제목</Form.Label>
+									<Form.Control
+										type='text'
+										placeholder={messages.book.placeholder.title}
+										autoComplete='off'
+										required
+										onChange={(e) => setTitle(e.target.value)}
+									/>
+								</Form.Group>
+							</div>
+
+							<div className='col-12 col-md-6'>
+								<Form.Group className='mb-3'>
+									<Form.Label>저자</Form.Label>
+									<Form.Control
+										type='text'
+										placeholder={messages.book.placeholder.author}
+										autoComplete='off'
+										required
+										onChange={(e) => setAuthor(e.target.value)}
+									/>
+								</Form.Group>
+							</div>
 						</div>
 
-						<div className='col-12 col-md-6'>
-							<Form.Group className='mb-3'>
-								<Form.Label>저자</Form.Label>
-								<Form.Control
-									type='text'
-									placeholder={messages.book.placeholder.author}
-									autoComplete='off'
-									required
-									onChange={(e) => setAuthor(e.target.value)}
-								/>
-							</Form.Group>
-						</div>
-					</div>
+						<Button className='w-100 mt-2 mb-3' onClick={openModal} variant={title !== '' ? 'book' : 'secondary'}>
+							책 표지 검색
+						</Button>
 
-					<Button className='w-100 mt-2 mb-3' onClick={openModal} variant={title !== '' ? 'book' : 'secondary'}>
-						책 표지 검색
-					</Button>
+						<hr />
 
-					<hr />
+						<div className='row'>
+							<div className='col-6 col-md-4'>
+								<Form.Group className='mb-3' onChange={(e) => setLanguage(e.target.value)}>
+									<Form.Label>책 언어</Form.Label>
+									<Form.Select>
+										<option value='KOREAN'>🇰🇷 한국어</option>
+										<option value='ENGLISH'>🇺🇸 영어</option>
+										<option value='JAPANESE'>🇯🇵 일본어</option>
+										<option value='CHINESE'>🇨🇳 중국어</option>
 
-					<div className='row'>
-						<div className='col-6 col-md-4'>
-							<Form.Group className='mb-3' onChange={(e) => setLanguage(e.target.value)}>
-								<Form.Label>책 언어</Form.Label>
-								<Form.Select>
-									<option value='KOREAN'>🇰🇷 한국어</option>
-									<option value='ENGLISH'>🇺🇸 영어</option>
-									<option value='JAPANESE'>🇯🇵 일본어</option>
-									<option value='CHINESE'>🇨🇳 중국어</option>
+										<option value='FRENCH'>🇫🇷 프랑스어</option>
+										<option value='SPANISH'>🇪🇸 스페인어 </option>
+									</Form.Select>
+								</Form.Group>
+							</div>
 
-									<option value='FRENCH'>🇫🇷 프랑스어</option>
-									<option value='SPANISH'>🇪🇸 스페인어 </option>
-								</Form.Select>
-							</Form.Group>
-						</div>
+							<div className='col-6 col-md-4'>
+								<Form.Group>
+									<Form.Label>장르</Form.Label>
+									<Form.Select onChange={(e) => setCategory(e.target.value)}>
+										<option value='LITERATURE'>문학</option>
 
-						<div className='col-6 col-md-4'>
-							<Form.Group>
-								<Form.Label>장르</Form.Label>
-								<Form.Select onChange={(e) => setCategory(e.target.value)}>
-									<option value='LITERATURE'>문학</option>
+										<option value='NATURAL_SCIENCE'>자연과학</option>
+										<option value='SOCIAL_SCIENCE'>사회과학</option>
+										<option value='TECHNOLOGY'>기술</option>
 
-									<option value='NATURAL_SCIENCE'>자연과학</option>
-									<option value='SOCIAL_SCIENCE'>사회과학</option>
-									<option value='TECHNOLOGY'>기술</option>
+										<option value='PHILOSOPHY'>철학</option>
+										<option value='LANGUAGE'>언어</option>
+										<option value='ART'>예술</option>
+										<option value='HISTORY'>역사</option>
 
-									<option value='PHILOSOPHY'>철학</option>
-									<option value='LANGUAGE'>언어</option>
-									<option value='ART'>예술</option>
-									<option value='HISTORY'>역사</option>
+										<option value='RELIGION'>종교</option>
 
-									<option value='RELIGION'>종교</option>
+										<option value='OTHERS'>기타</option>
+									</Form.Select>
+								</Form.Group>
+							</div>
 
-									<option value='OTHERS'>기타</option>
-								</Form.Select>
-							</Form.Group>
-						</div>
+							<div className='col-6 col-md-4'>
+								<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
+									<Form.Label>총 페이지 수</Form.Label>
+									<Form.Control
+										type='number'
+										inputMode='numeric'
+										pattern='[0-9]*'
+										autoComplete='off'
+										placeholder={messages.book.placeholder.page}
+										required
+									/>
+								</Form.Group>
+							</div>
 
-						<div className='col-6 col-md-4'>
-							<Form.Group className='mb-3' onChange={(e) => setEndPage(e.target.value)}>
-								<Form.Label>총 페이지 수</Form.Label>
-								<Form.Control
-									type='number'
-									inputMode='numeric'
-									pattern='[0-9]*'
-									autoComplete='off'
-									placeholder={messages.book.placeholder.page}
-									required
-								/>
-							</Form.Group>
-						</div>
+							<p className='text-secondary text-center mb-4 d-none d-md-inline'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
 
-						<p className='text-secondary text-center mb-4 d-none d-md-inline'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
+							<div className='col-6'>
+								<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
+									<Form.Label>책 형태</Form.Label>
+									<Form.Select>
+										<option value='PHYSICAL'>📄 종이책</option>
+										<option value='EBOOK'>🔋 전자책</option>
+										<option value='AUDIO'>🎧 오디오북</option>
+									</Form.Select>
+								</Form.Group>
+							</div>
 
-						<div className='col-6'>
-							<Form.Group className='mb-3' onChange={(e) => setForm(e.target.value)}>
-								<Form.Label>책 형태</Form.Label>
-								<Form.Select>
-									<option value='PHYSICAL'>📄 종이책</option>
-									<option value='EBOOK'>🔋 전자책</option>
-									<option value='AUDIO'>🎧 오디오북</option>
-								</Form.Select>
-							</Form.Group>
-						</div>
+							<p className='text-secondary text-center mb-4 d-md-none'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
 
-						<p className='text-secondary text-center mb-4 d-md-none'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
+							<div className='col-12 col-md-6'>
+								<Form.Group className='mb-3' onChange={(e) => setSource(e.target.value)}>
+									<Form.Label>책은 어디서 얻었나요?</Form.Label>
+									<Form.Select>
+										<option value='NOT_PROVIDED'>말하고 싶지 않아요</option>
 
-						<div className='col-12 col-md-6'>
-							<Form.Group className='mb-3' onChange={(e) => setSource(e.target.value)}>
-								<Form.Label>책은 어디서 얻었나요?</Form.Label>
-								<Form.Select>
-									<option value='NOT_PROVIDED'>말하고 싶지 않아요</option>
+										<option value='BUY_NEW_OFFLINE'>새 책 - 온라인 서점</option>
+										<option value='BUY_NEW_ONLINE'>새 책 - 오프라인 서점</option>
 
-									<option value='BUY_NEW_OFFLINE'>새 책 - 온라인 서점</option>
-									<option value='BUY_NEW_ONLINE'>새 책 - 오프라인 서점</option>
+										<option value='BUY_USED_OFFLINE'>중고책 - 오프라인 서점</option>
+										<option value='BUY_USED_ONLINE'>중고책 - 온라인 서점</option>
 
-									<option value='BUY_USED_OFFLINE'>중고책 - 오프라인 서점</option>
-									<option value='BUY_USED_ONLINE'>중고책 - 온라인 서점</option>
+										<option value='LIBRARY'>도서관</option>
+										<option value='BORROW_STORE'>돈 주고 빌렸어요</option>
+										<option value='BORROW_FRIENDS'>친구에게 빌렸어요</option>
 
-									<option value='LIBRARY'>도서관</option>
-									<option value='BORROW_STORE'>돈 주고 빌렸어요</option>
-									<option value='BORROW_FRIENDS'>친구에게 빌렸어요</option>
+										<option value='SUBSCRIPTION'>구독</option>
 
-									<option value='SUBSCRIPTION'>구독</option>
-
-									<opton value='OTHERS'>기타</opton>
-								</Form.Select>
-							</Form.Group>
-						</div>
-					</div>
-
-					<Form.Group className='mb-3' controlId='formBasicCheckbox'>
-						<Form.Check
-							type='checkbox'
-							label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
-							onChange={() => setIsSharing(!isSharing)}
-							style={{ whiteSpace: 'nowrap' }}
-						/>
-					</Form.Group>
-
-					<div className='row justify-content-center align-items-end mt-1 mt-md-5'>
-						<div className='mt-1 mt-md-5 d-block'></div>
-						<div className='mt-3 mt-md-3 d-block'></div>
-
-						<div className='col-6'>
-							<Button variant='book-danger' type='reset' className='w-100'>
-								다시 입력하기
-							</Button>
+										<opton value='OTHERS'>기타</opton>
+									</Form.Select>
+								</Form.Group>
+							</div>
 						</div>
 
-						<div className='col-6'>
-							<Button variant='book' type='submit' className='w-100'>
-								추가하기
-							</Button>
+						<Form.Group className='mb-3' controlId='formBasicCheckbox'>
+							<Form.Check
+								type='checkbox'
+								label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
+								onChange={() => setIsSharing(!isSharing)}
+								style={{ whiteSpace: 'nowrap' }}
+							/>
+						</Form.Group>
+
+						<div className='row justify-content-center align-items-end mt-1 mt-md-5'>
+							<div className='mt-1 mt-md-5 d-block'></div>
+							<div className='mt-3 mt-md-3 d-block'></div>
+
+							<div className='col-6'>
+								<Button variant='book-danger' type='reset' className='w-100'>
+									다시 입력하기
+								</Button>
+							</div>
+
+							<div className='col-6'>
+								<Button variant='book' type='submit' className='w-100'>
+									추가하기
+								</Button>
+							</div>
 						</div>
-					</div>
-				</Form>
-			</Card.Body>
-		</Card>
+					</Form>
+				</Card.Body>
+			</Card>
+		</div>
 	</div>
 )
 }
