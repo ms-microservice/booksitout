@@ -10,7 +10,9 @@ import java.util.stream.Collectors;
 @AllArgsConstructor
 public enum AppUserRole {
     USER(Sets.newHashSet()),
-    ADMIN(Sets.newHashSet());
+    ADMIN(Sets.newHashSet()),
+    OWNER(Sets.newHashSet())
+    ;
 
     private final Set<AppUserPermission> permissions;
 
