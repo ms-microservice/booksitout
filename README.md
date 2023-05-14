@@ -84,7 +84,7 @@ https://booksitout.com
 
 ### ER Diagram (from v3)
 <p align="center">
-  <img height="500" src="https://github.com/jinkyumpark/booksitout/assets/61900235/55e163b8-b3de-4ee3-ba39-91984be7f801">  
+  <img height="500" src="https://github.com/jinkyumpark/booksitout/assets/61900235/0e162c56-8b14-44b2-a498-ffb9c254b451">  
 </p>
 
 # 🆚 Version History
