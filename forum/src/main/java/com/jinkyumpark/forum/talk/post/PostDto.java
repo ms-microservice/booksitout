@@ -14,9 +14,11 @@ public class PostDto {
     private Long postId;
     private String title;
     private String content;
+
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
-    private Integer isbn;
+
+    private Long isbn;
     private Long appUserId;
 
     public static PostDto of(Post post) {

@@ -1,25 +1,24 @@
 package com.jinkyumpark.forum.talk.post;
 
+import com.jinkyumpark.forum.config.jpa.TimeEntity;
 import com.jinkyumpark.forum.talk.comment.Comment;
 import com.jinkyumpark.forum.talk.postlike.PostLike;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
+
 @Table
 @Entity
-public class Post {
+public class Post extends TimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long postId;
@@ -31,14 +30,8 @@ public class Post {
     @Column(columnDefinition = "VARCHAR(1000)")
     private String content;
 
-    @CreatedDate
-    private LocalDateTime createdDate;
-
-    @LastModifiedDate
-    private LocalDateTime lastModifiedDate;
-
-    @Column(length = 20)
-    private Integer isbn;
+    @Column(length = 15)
+    private Long isbn;
 
     private Long appUserId;
 
@@ -49,8 +42,9 @@ public class Post {
     private List<PostLike> postLikeList = new ArrayList<>();
 
     public void updatePost(Post updatedPost) {
-        if (updatedPost.getTitle() != null) title = updatedPost.getTitle();
-        if (updatedPost.getContent() != null) content = updatedPost.getContent();
+        if (updatedPost.getTitle() != null) this.title = updatedPost.getTitle();
+        if (updatedPost.getContent() != null) this.content = updatedPost.getContent();
+        if (updatedPost.getIsbn() != null) this.isbn = updatedPost.getIsbn();
     }
 
 }

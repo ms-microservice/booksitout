@@ -1,4 +1,4 @@
-package com.jinkyumpark.forum.talk.post.request;
+package com.jinkyumpark.forum.talk.post.dto;
 
 import com.jinkyumpark.forum.talk.post.Post;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class PostAddRequest {
     @NotBlank
     private String content;
     @NotNull
-    private Integer isbn;
+    private Long isbn;
 
     public Post toEntity(Long appUserId) {
         return Post.builder()
