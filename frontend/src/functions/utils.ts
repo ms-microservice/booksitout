@@ -5,8 +5,15 @@ const moneyFormatter = new Intl.NumberFormat('kr-KO', {
 
 const utils = {
 	getToken: () => localStorage.getItem('login-token'),
+
+	getUserId: () => Number(localStorage.getItem('user-id')),
+
 	isEmailValid: (email) => {
-		return email.toLowerCase().match(/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/)
+		return email
+			.toLowerCase()
+			.match(
+				/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
+			)
 	},
 
 	formatMoney: (money: number | null) => {
@@ -20,12 +27,12 @@ const utils = {
 
 		const splitList: any[][] = []
 
-		for (let i = 0; i < originalArray.length; i += 2) {
-			splitList.push([originalArray[i], originalArray.length - 1 === i ? null : originalArray[i + 1]])
+		for (let i = 0; i < originalArray.length; i += count) {
+			splitList.push(originalArray.slice(i, i + count))
 		}
 
 		return splitList
-	}
+	},
 }
 
 export default utils

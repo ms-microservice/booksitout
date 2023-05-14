@@ -4,11 +4,11 @@ const messages = {
 	user: {
 		join: {
 			placeHolder: {
-				email: `ID로 사용하실 이메일을 입력해 주세요`,
-				emailVerification: `이메일로 온 인증번호를 입력해 주세요`,
-				password: `비밀번호를 입력해 주세요`,
-				name: `이름을 알려주세요`,
-			},
+			email: `ID로 사용하실 이메일을 입력해 주세요`,
+			emailVerification: `이메일로 온 인증번호를 입력해 주세요`,
+			password: `비밀번호를 입력해 주세요`,
+			name: `이름을 알려주세요`,
+		},
 			error: {
 				id: {
 					null: `아이디로 사용하실 이메일을 입력해 주세요`,
@@ -22,7 +22,7 @@ const messages = {
 				name: {
 					null: `이름을 입력해 주세요`,
 				},
-				pw: {
+					pw: {
 					null: `비밀번호를 입력해 주세요`,
 					short: `6자리 이상의 비밀번호를 입력해 주세요`,
 				},

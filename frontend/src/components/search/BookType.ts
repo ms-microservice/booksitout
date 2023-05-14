@@ -44,5 +44,12 @@ interface SubscriptionBook {
 	link: string
 	provider: string
 }
+interface NewBookSearchResult {
+	title: string
+	author: string
+	cover: string
+	isbn: string
+	link: string
+}
 
-export type { MyBook, UsedBook, LibraryBook, SubscriptionBook }
+export type { MyBook, UsedBook, LibraryBook, SubscriptionBook, NewBookSearchResult }

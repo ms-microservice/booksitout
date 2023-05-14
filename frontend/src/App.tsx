@@ -27,12 +27,16 @@ import Search from './components/search/Search'
 import GoalRoute from './components/goal/GoalRoute'
 import OAuth from './components/user/OAuth'
 import Feature from './components/info/Feature'
-import PostDetail from './components/forum/post/PostDetail'
-import ForumMain from './components/forum/ForumMain'
-import PostAddForm from './components/forum/post/PostAddForm'
-import TipsRoute from './components/forum/tips/TipRoute'
+import PostDetail from './components/community/post/PostDetail'
+import ForumMain from './components/community/community-main/ForumRoute'
+import AddPostForm from './components/community/post/AddPostForm'
+import TipsRoute from './components/community/tips/TipRoute'
 import AdminMain from './components/admin/AdminMain'
-import TipsDetail from './components/forum/tips/TipsDetail'
+import TipsDetail from './components/community/tips/TipsDetail'
+import GatheringRoute from './components/community/gathering/GatheringRoute'
+import PostRoute from './components/community/post/post-route/PostRoute'
+import AddCommunityRoute from './components/community/AddCommunityRoute'
+import EditPostForm from './components/community/post/EditPostForm'
 
 function App() {
 	return (
@@ -77,16 +81,21 @@ function App() {
 
 				<Route path='/search/:query' element={<Search />} />
 
-				<Route path='/forum' element={<ForumMain />} />
+				<Route path='/community' element={<ForumMain />} />
+				<Route path='/community/:type/add' element={<AddCommunityRoute />} />
 
-				<Route path='/forum/post/all/:sortBy' element={<ForumMain />} />
-				<Route path='/forum/post/:postId' element={<PostDetail />} />
-				<Route path='/forum/post/add' element={<PostAddForm />} />
-				<Route path='/forum/post/edit/:postId' element={<PostAddForm />} />
+				<Route path='/community/post/all/:sortBy' element={<PostRoute />} />
+				<Route path='/community/post/:postId' element={<PostDetail />} />
+				<Route path='/community/post/edit/:postId' element={<EditPostForm />} />
 
-				<Route path='/forum/quiz' element={<PostAddForm />} />
+				 <Route path='/community/quiz' element={<AddPostForm />} />
+				
+				 <Route path='/community/survey' element={<AddPostForm />} />
 
-				<Route path='/forum/survey' element={<PostAddForm />} />
+				<Route path='/community/gathering' element={<GatheringRoute />} />
+				<Route path='/community/gathering/add' element={<GatheringRoute />} />
+				<Route path='/community/gathering/edit/:gatheringId' element={<GatheringRoute />} />
+				<Route path='/community/gathering/:gatheringId' element={<GatheringRoute />} />
 			</Routes>
 
 			<FloatingAddButton />

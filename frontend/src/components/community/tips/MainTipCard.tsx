@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
-import { Button, Card } from "react-bootstrap"
+import { Card } from "react-bootstrap"
+import axios from "axios"
 
-import TipPostListGroup from "./TipPostListGroup"
-import TipPost from "./Tip"
 import Loading from "../../common/Loading"
 import Error from '../../common/Error'
 
+import TipPostListGroup from "./TipPostListGroup"
+import TipPost from "./Tip"
+import AllButton from "../../common/AllButton"
+
 import logo from '../../../resources/images/logo/logo.png'
 
-import axios from "axios"
 import urls from "../../../settings/urls"
 
 const MainTipCard = () => {
@@ -44,19 +46,11 @@ const MainTipCard = () => {
 					<h3 className='mt-2'>책잇아웃 꿀팁</h3>
 				</div>
 
-				{error ? <Error mb='100px' /> : initialFetch ? <></> : loading ? <Loading /> : <TipPostListGroup postList={tipPost} />}
+				{error ? <Error mt='0px' mb='140px' /> : initialFetch ? <></> : loading ? <Loading /> : <TipPostListGroup postList={tipPost} />}
 
 				<div className='d-inline-block mt-2 d-md-none' />
 
-				<div className='row justify-content-center mt-5'>
-					<div className='col-12 col-md-6' style={{ position: 'absolute', bottom: '20px' }}>
-						<a href='/introduction/tips/all'>
-							<Button variant='book' className='w-100'>
-								전체보기
-							</Button>
-						</a>
-					</div>
-				</div>
+				<AllButton url='/introduction/tips/all'/>
 			</Card.Body>
 		</Card>
 	)
