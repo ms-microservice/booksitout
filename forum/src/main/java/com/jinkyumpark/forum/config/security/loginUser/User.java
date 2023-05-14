@@ -1,4 +1,4 @@
-package com.jinkyumpark.forum.loginUser;
+package com.jinkyumpark.forum.config.security.loginUser;
 
 import lombok.Builder;
 import lombok.Getter;

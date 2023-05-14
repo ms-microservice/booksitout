@@ -1,5 +1,7 @@
-package com.jinkyumpark.forum.loginUser;
+package com.jinkyumpark.forum.config.security;
 
+import com.jinkyumpark.forum.config.security.adminOnly.AdminOnlyArgumentResolver;
+import com.jinkyumpark.forum.config.security.loginUser.LoginUserArgumentResolver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
@@ -9,11 +11,14 @@ import java.util.List;
 
 @RequiredArgsConstructor
 @Configuration
-public class LoginUserConfig implements WebMvcConfigurer {
+public class ArgumentConfig implements WebMvcConfigurer {
+
+    private final AdminOnlyArgumentResolver adminOnlyArgumentResolver;
     private final LoginUserArgumentResolver loginUserArgumentResolver;
 
     @Override
     public void addArgumentResolvers(List<HandlerMethodArgumentResolver> resolvers) {
-        resolvers.add(loginUserArgumentResolver);
+        resolvers.addAll(List.of(adminOnlyArgumentResolver, loginUserArgumentResolver));
     }
+
 }

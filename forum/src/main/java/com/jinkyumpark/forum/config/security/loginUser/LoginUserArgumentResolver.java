@@ -1,4 +1,4 @@
-package com.jinkyumpark.forum.loginUser;
+package com.jinkyumpark.forum.config.security.loginUser;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.MethodParameter;
@@ -14,7 +14,7 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public boolean supportsParameter(MethodParameter parameter) {
-        boolean isLoginUserAnnotation = parameter.getParameterAnnotation(LoginUser.class) != null;
+        boolean isLoginUserAnnotation = true;
         boolean isAppUserClass = User.class.equals(parameter.getParameterType());
 
         return isLoginUserAnnotation && isAppUserClass;
@@ -22,7 +22,10 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        Long appUserId = Long.valueOf(webRequest.getHeader("X-Authorization-Id"));
+        String header = webRequest.getHeader("X-Authorization-Id");
+        if (header == null) return null;
+
+        Long appUserId = Long.valueOf(header);
 
         return User.builder()
                 .id(appUserId)
