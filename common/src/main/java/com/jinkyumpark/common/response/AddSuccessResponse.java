@@ -21,4 +21,6 @@ public class AddSuccessResponse {
     private final String message;
     private final Long id;
 
+    private final Object added;
+
 }
