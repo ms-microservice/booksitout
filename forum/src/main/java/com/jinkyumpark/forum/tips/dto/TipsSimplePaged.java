@@ -1,4 +1,4 @@
-package com.jinkyumpark.forum.tips;
+package com.jinkyumpark.forum.tips.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

@@ -1,5 +1,6 @@
-package com.jinkyumpark.forum.tips;
+package com.jinkyumpark.forum.tips.dto;
 
+import com.jinkyumpark.forum.tips.Tips;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,8 +27,8 @@ public class TipsSimple {
                 .id(tips.getTipsId())
                 .title(tips.getTitle())
                 .estimatedReadTime(tips.getEstimatedReadTime())
-                .createdDate(tips.getCreatedDate())
-                .lastModifiedDate(tips.getLastModifiedDate())
+                .createdDate(LocalDate.from(tips.getCreatedDate()))
+                .lastModifiedDate(LocalDate.from(tips.getLastModifiedDate()))
                 .build();
     }
 

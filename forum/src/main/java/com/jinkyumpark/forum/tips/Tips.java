@@ -1,5 +1,7 @@
 package com.jinkyumpark.forum.tips;
 
+import com.jinkyumpark.forum.config.jpa.TimeEntity;
+import com.jinkyumpark.forum.tips.dto.TipsDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -15,9 +17,8 @@ import java.time.LocalDate;
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
 
-@EntityListeners(AuditingEntityListener.class)
 @Entity @Table
-public class Tips {
+public class Tips extends TimeEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long tipsId;
@@ -34,9 +35,13 @@ public class Tips {
 
     private Integer estimatedReadTime;
 
-    @CreatedDate
-    private LocalDate createdDate;
-    @LastModifiedDate
-    private LocalDate lastModifiedDate;
+    public Tips editTips(TipsDto tipsDto) {
+        if (tipsDto.getTitle() != null) title = tipsDto.getTitle();
+        if (tipsDto.getContent() != null) content = tipsDto.getContent();
+        if (tipsDto.getSummary() != null) summary = tipsDto.getSummary();
+        if (tipsDto.getEstimatedReadTime() != null) estimatedReadTime = tipsDto.getEstimatedReadTime();
+
+        return this;
+    }
 
 }
