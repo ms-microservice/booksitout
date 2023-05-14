@@ -9,4 +9,5 @@ import lombok.Getter;
 public class JwtUserInfo {
     private final String email;
     private final Long appUserId;
+    private final String roles;
 }
