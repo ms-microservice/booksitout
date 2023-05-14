@@ -24,13 +24,17 @@ public class ReadingSessionDto {
 
     public ReadingSession toEntity() {
         return ReadingSession.builder()
-                .book(new Book(bookId))
+                .book(Book.builder().bookId(bookId).build())
                 .appUserId(appUserId)
+
                 .readTime(readTime)
+
                 .startTime(startTime)
                 .endTime(endTime)
+
                 .startPage(startPage)
                 .endPage(endPage)
+
                 .build();
     }
 }

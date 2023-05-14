@@ -1,5 +1,7 @@
 package com.jinkyumpark.core.book;
 
+import com.jinkyumpark.core.book.dto.MyBookSearchRange;
+import com.jinkyumpark.core.book.dto.MyBookSearchResult;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.common.exception.BadRequestException;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -37,7 +39,8 @@ public class BookControllerV2 {
                         .currentPage(b.getCurrentPage())
                         .endPage(b.getEndPage())
                         .isGiveUp(b.getIsGiveUp())
-                        .build())
+                        .build()
+                )
                 .collect(Collectors.toList());
     }
 }

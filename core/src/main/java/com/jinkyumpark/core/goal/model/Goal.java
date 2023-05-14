@@ -1,13 +1,14 @@
 package com.jinkyumpark.core.goal.model;
 
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.reading.ReadingSession;
-import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import lombok.*;
-import org.hibernate.annotations.ColumnDefault;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
 @Getter
 @NoArgsConstructor
@@ -18,6 +19,7 @@ public class Goal {
     @EmbeddedId
     private GoalId goalId;
 
+    @Column(nullable = false)
     private Integer goal;
 
     @Builder

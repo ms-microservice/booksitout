@@ -13,7 +13,7 @@ public class MemoDto {
 
     public Memo toEntity() {
         return Memo.builder()
-                .book(new Book(bookId))
+                .book(Book.builder().bookId(bookId).build())
                 .page(page)
                 .content(content)
                 .build();

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 public interface ReadingSessionRepository extends JpaRepository<ReadingSession, Long> {
-    @Query("select r from ReadingSession r join fetch r.book where r.appUserId = ?1 and r.book.currentPage < r.book.endPage and r.book.isGiveUp = false order by r.endTime desc")
+    @Query("select r from ReadingSession r join fetch r.book where r.appUserId = ?1 and r.book.currentPage < r.book.endPage and (r.book.isGiveUp = false or r.book.isGiveUp is null) order by r.endTime desc")
     List<ReadingSession> findAllBookNotDoneReadingSession(Long appUserId, Pageable pageable);
 
     List<ReadingSession> findAllByAppUserIdAndStartTimeBetween(Long appUserId, LocalDateTime startTime, LocalDateTime endTime);

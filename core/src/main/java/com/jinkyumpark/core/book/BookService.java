@@ -1,9 +1,12 @@
 package com.jinkyumpark.core.book;
 
+import com.jinkyumpark.common.exception.NoContentException;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
+import com.jinkyumpark.core.book.dto.MyBookSearchRange;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.core.book.model.BookRepository;
 import com.jinkyumpark.core.bookIsbn.BookIsbnDto;
 import com.jinkyumpark.core.bookIsbn.BookIsbnRepository;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -40,7 +43,7 @@ public class BookService {
         return book;
     }
 
-    public Book getLastBookByAppUserid(Long appUserId) {
+    public Book getLastBookByAppUserId(Long appUserId) {
         PageRequest pageRequest = PageRequest.of(0, 1);
 
         List<ReadingSession> readingSessionList = readingSessionRepository
@@ -99,6 +102,10 @@ public class BookService {
             return bookRepositoryQueryDsl.getExcludeGiveUpBookByQuery(loginUserId, query);
 
         return List.of();
+    }
+
+    public List<Book> getAllBookByAppUserId(Long appUserId, Pageable pageable) {
+        return bookRepository.findAllByAppUserId(appUserId, pageable);
     }
 
     public Long addBook(BookDto bookDto) {
