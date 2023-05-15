@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book;
+package com.jinkyumpark.core.book.model;
 
 import com.jinkyumpark.core.book.model.Book;
 import org.springframework.data.domain.Page;
@@ -29,4 +29,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b where b.appUserId = :appUserId and b.isGiveUp = true and b.currentPage < b.endPage order by b.lastModifiedDate desc")
     Page<Book> findAllGiveUpBooks(Long appUserId, Pageable pageRequest);
+
+    @Query("select b from Book b where b.appUserId = ?1")
+    List<Book> findAllByAppUserId(Long appUserId, Pageable pageable);
+
 }

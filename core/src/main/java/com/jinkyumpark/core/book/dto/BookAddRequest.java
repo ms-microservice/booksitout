@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book.request;
+package com.jinkyumpark.core.book.dto;
 
 import com.jinkyumpark.core.book.model.BookForm;
 import com.jinkyumpark.core.book.model.BookSource;

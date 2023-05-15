@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book;
+package com.jinkyumpark.core.book.dto;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -16,6 +16,8 @@ public class BookDto {
     private final String summary;
     private final String review;
 
+    private final Long isbn13;
+
     private final BookForm form;
     private final BookCategory category;
     private final BookSource source;
@@ -25,7 +27,8 @@ public class BookDto {
     private final String memoLink;
 
     @Builder
-    public BookDto(String title, String author, Integer endPage, String cover, Boolean isSharing, Long appUserId,
+    public BookDto(String title, String author, String cover, Long isbn13,
+                   Boolean isSharing, Long appUserId, Integer endPage,
                    String form, String category, String source, String language,
                    Integer rating, String summary, String review, String memoLink, String memoType) {
         this.title = title;
@@ -38,6 +41,7 @@ public class BookDto {
         this.summary = summary;
         this.review = review;
         this.memoLink = memoLink;
+        this.isbn13 = isbn13;
 
         this.form = form != null ? BookForm.valueOf(form) : null;
         this.category = category != null ? BookCategory.valueOf(category) : null;
@@ -51,16 +55,22 @@ public class BookDto {
                 .title(title)
                 .author(author)
                 .cover(cover)
+                .isbn13(isbn13)
+
                 .isSharing(isSharing)
                 .appUserId(appUserId)
-                .form(form)
-                .category(category)
-                .source(source)
-                .language(language)
+
                 .rating(rating)
                 .summary(summary)
                 .review(review)
                 .endPage(endPage)
+
+                .form(form)
+                .category(category == null ? BookCategory.OTHERS : category)
+                .language(language == null ? BookLanguage.UNKNOWN : language)
+                .source(source == null ? BookSource.OTHERS : source)
+
                 .build();
     }
+
 }

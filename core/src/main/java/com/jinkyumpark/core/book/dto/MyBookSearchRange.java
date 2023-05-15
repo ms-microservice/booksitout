@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book;
+package com.jinkyumpark.core.book.dto;
 
 public enum MyBookSearchRange {
     ALL,

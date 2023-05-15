@@ -56,6 +56,20 @@ public class BookService {
         return readingSessionList.get(0).getBook();
     }
 
+    public Book getLastBookByAppUserIdThrowNoContent(Long appUserId) {
+        PageRequest pageRequest = PageRequest.of(0, 1);
+
+        List<ReadingSession> readingSessionList = readingSessionRepository
+                .findAllBookNotDoneReadingSession(appUserId, pageRequest);
+
+        if (readingSessionList.size() < 1) {
+            throw new NoContentException(messageSource.getMessage("book.get.fail.last-reading-session.not-found"));
+        }
+
+        return readingSessionList.get(0).getBook();
+    }
+
+
     public Page<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllBooks(loginUserId, pageRequest);
     }
@@ -165,14 +179,14 @@ public class BookService {
     }
 
     @Transactional
-    public Long addBookAndBookIsbn(BookDto bookDto, int isbn) {
+    public Long addBookAndBookIsbn(BookDto bookDto, long isbn) {
         Long savedBookId = bookRepository.save(bookDto.toEntity()).getBookId();
 
         BookIsbnDto bookIsbnDto = BookIsbnDto.builder()
                 .title(bookDto.getTitle())
                 .author(bookDto.getAuthor())
                 .cover(bookDto.getCover())
-                .isbn13(isbn)
+                .isbn(isbn)
                 .build();
 
         bookIsbnRepository.save(bookIsbnDto.toEntity());

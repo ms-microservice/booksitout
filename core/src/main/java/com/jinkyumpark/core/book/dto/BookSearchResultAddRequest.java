@@ -1,6 +1,5 @@
-package com.jinkyumpark.core.book.request;
+package com.jinkyumpark.core.book.dto;
 
-import com.jinkyumpark.core.book.dto.BookDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,7 @@ public class BookSearchResultAddRequest {
 
     @NotNull private String title;
     @NotNull private String author;
-    @NotNull private String isbn;
+    @NotNull private Long isbn;
     private String cover;
 
     private Integer page;
@@ -26,12 +25,18 @@ public class BookSearchResultAddRequest {
         return BookDto.builder()
                 .title(title)
                 .author(author)
-                .endPage(page)
                 .cover(cover)
-                .isSharing(sharing)
-                .appUserId(appUserId)
+                .isbn13(isbn)
+
+                .endPage(page)
+
                 .form(form)
                 .source(source)
+
+                .isSharing(sharing)
+
+                .appUserId(appUserId)
+
                 .build();
     }
 

@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book.request;
+package com.jinkyumpark.core.book.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

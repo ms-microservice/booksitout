@@ -3,97 +3,69 @@ package com.jinkyumpark.core.book.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.common.jpa.TimeEntity;
-import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.memo.Memo;
+import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 
-@DynamicUpdate
 @DynamicInsert
-@EntityListeners(AuditingEntityListener.class)
-
 @Entity @Table(name = "book")
 public class Book extends TimeEntity {
-    @Id
-    @SequenceGenerator(name = "book_seq", sequenceName = "book_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "book_seq")
-    @Column(name = "book_id", updatable = false)    private Long bookId;
 
-    @Column(name = "title", nullable = false)
-    private String title;
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "book_id")
+    private Long bookId;
 
-    @Column(name = "cover", length = 1000)
-    private String cover;
+    @Column(nullable = false) private String title;
+    @Column(nullable = false) private String author;
+    @Column(length = 1000) private String cover;
 
-    @Column(name = "published_at")
-    @JsonIgnore
     private LocalDateTime publishedAt;
 
-    @Column(name = "summary")
-    private String summary;
+    @ColumnDefault("0") private Integer currentPage;
+    @Column(nullable = false) private Integer endPage;
 
-    @Column(name = "currentPage")
-    @ColumnDefault("0")
-    private Integer currentPage;
+    @Enumerated(EnumType.ORDINAL) private BookSource source;
+    @Enumerated(EnumType.ORDINAL) private BookForm form;
 
-    @Column(name = "endPage", nullable = false)
-    private Integer endPage;
-
-    @Column(name = "source")
-    @Enumerated(EnumType.ORDINAL)
-    private BookSource source;
-
-    @Column(name = "form")
-    @Enumerated(EnumType.ORDINAL)
-    private BookForm form;
-
-    @Column(name = "review")
     private String review;
+    private String summary;
+    @Column(length = 5) private Integer rating;
 
-    @Column(name = "rating", length = 5)
-    private Integer rating;
-
-    @Column(name = "sharing")
-    @ColumnDefault("false")
-    private Boolean isSharing;
-
-    @Column(name = "language", nullable = false)
     @ColumnDefault(value = "1")
     @Enumerated(value = EnumType.ORDINAL)
+    @Column(nullable = true)
     private BookLanguage language;
 
-    @Column(name = "category", nullable = false)
     @ColumnDefault(value = "1")
     @Enumerated(value = EnumType.ORDINAL)
+    @Column(nullable = true)
     private BookCategory category;
 
-    // TODO : change to FK
-    @Column(name = "author", nullable = false)
-    private String author;
-
-    @Column(name = "isGiveUp")
-    @Convert(converter = BooleanTo01Converter.class)
-    private Boolean isGiveUp;
+    @ColumnDefault("false") private Boolean isGiveUp;
+    @ColumnDefault("false") private Boolean isSharing;
 
     @Enumerated(EnumType.STRING)
-    private BookMemoType memoType = BookMemoType.NONE;
+    @ColumnDefault("NONE")
+    private BookMemoType memoType;
     private String memoLink;
 
-//    @ManyToOne(fetch = FetchType.LAZY)
-//    @JoinColumn(name = "app_user_id", referencedColumnName = "app_user_id", foreignKey = @ForeignKey(name = "book_user_fk"))
-//    @JsonIgnore
     private Long appUserId;
+
+    @Column(length = 13)
+    private Long isbn13;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore
@@ -102,34 +74,6 @@ public class Book extends TimeEntity {
     @OneToMany(targetEntity = ReadingSession.class, mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     @JsonIgnore
     private List<ReadingSession> readingSessionList;
-
-    public Book(Long bookId) {
-        this.bookId = bookId;
-    }
-
-    @Builder
-    public Book(String title, String cover, LocalDateTime publishedAt, String summary, Integer currentPage, Integer endPage,
-                BookSource source, BookForm form, String review, Integer rating, Boolean isSharing, BookLanguage language, BookCategory category,
-                String author, Boolean isGiveUp, Long appUserId, BookMemoType memoType, String memoLink) {
-        this.title = title;
-        this.cover = cover;
-        this.publishedAt = publishedAt;
-        this.summary = summary;
-        this.currentPage = currentPage;
-        this.endPage = endPage;
-        this.source = source;
-        this.form = form;
-        this.review = review;
-        this.rating = rating;
-        this.isSharing = isSharing;
-        this.language = language;
-        this.category = category;
-        this.author = author;
-        this.isGiveUp = isGiveUp;
-        this.appUserId = appUserId;
-        this.memoType = memoType;
-        this.memoLink = memoLink;
-    }
 
     public void addReadingSession(ReadingSessionDto readingSessionDto) {
         if (readingSessionDto.getEndPage() != null) this.currentPage = readingSessionDto.getEndPage();
@@ -177,4 +121,5 @@ public class Book extends TimeEntity {
         if (bookDto.getMemoLink() != null)
             this.memoLink = bookDto.getMemoLink();
     }
+
 }
