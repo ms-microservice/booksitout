@@ -1,27 +1,28 @@
-
 <p align="center">
-  <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/216772091-60ecaf03-e77a-4d82-a70e-61822f78b6ab.png">
+  <img width="600" height="450" src="https://user-images.githubusercontent.com/61900235/237720750-2e3e3d44-af5d-46fa-ba9c-d5413ef55f2b.png">
 </p>
 
 # 직접 사용해 보기
 https://booksitout.com
 
-# 📗 책잇아웃 (books it out) 소개
-Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현입니다.
-어렸을때는 친했지만, 어느세 책과 멀어진 사람들에게는 책 읽는 즐거움을 다시.
-책을 좋아하는 책 벌레들에게는 나의 독서 활동을 기록할 수 있는,
-책에 관한 모든 것이 있는 종합 책 플렛폼입니다.
+# 🙋 책잇아웃 (booksitout) 이 뭔가요?
+- 제가 책을 좋아해서 포트폴리오용 사이트로 책을 읽으면서 느낀 불편한 점을 해결하고, 있었으면 좋겠다고 생각한 기능을 담은 종합 책 커뮤니티입니다.
+- 처음에는 단순 포트폴리오용으로 만들었지만, 갈 수록 서비스에 애정이 생겨 현재는 실제 출시까지를 목표로 열심히 개발 중입니다.
+- 이름의 유래는 "Check it out" 이라는 영어 표현에서 유래했습니다. 무언가를 권할 때 쓰는 표현인데, 책을 권하는 마음, 언어유희를 담았습니다.
 
 # ⚙️ 주요기능
--   내 독서활동을 기록 : 책을 읽을 떄 기록을 누르고, 끝날 때 종료를 누르면 내 독서활동을 기록해 줘요. 독서 중간중간에는 인상깊은 구절을 써 두거나, 내 생각을 메모할 수 있어요.
--   내가 읽은 책을 기록 : 평점, 리뷰, 독서활동을 한 번에 볼 수 있어요.
--   내 독서활동을 공유 : 특정 책이나 내 프로필을 다른 사람들과 공유할 수 있어요.
--   책 검색
-    - 공공기관의 도서관 사이트를 쓰면서 답답하신적이 있나요? 내가 구독하는 곳에 있는 책인지 모르고 사진 적은 없으신가요?
-    - Open API와 Web Crawling을 활용해서 나쁜 UX를 경험하면서 답답하시지 않게 책잇아웃이 대신 책을 찾아드려요.
-    - 도서관, 전자 도서관, 구독 서비스, 중고서점까지. 이 모든 곳에서 단 1번에 검색할 수 있어요.
--   책 알림 : 내가 읽고 싶은 책을 등록해 놓으면 도서관, 중고서점, 구독서비스 등에서 새로 등록될 떄 이메일로 알려줘요
--   책 추천 : 내가 읽은 책, 혹은 내가 입력한 키워드를 바탕으로 책을 추천해 줘요.
+-   내가 읽는 책, 독서활동, 메모 기록
+-   책 검색 : 도서관, 전자 도서관, 구독, 중고책 한 번에 검색 (Open API, 웹 크롤링 활용)
+-   커뮤니티 
+    - 책을 지정해서 책에 관한 얘기, 퀴즈, 조사 가능
+    - 독서모임 모집, 사이트 내 책 측정을 서로 공유할 수 있음
+    - 매일 인기 책 알려줌 (Spring Batch로 매일 취합, 인기 알고리즘 구현)
+-   책 알림 : 내가 읽고 싶은 책을 등록해 놓으면 원하는 곳에서 등록 될 떄 알림 (Spring Batch, Kafka 사용)
+-   도서관 관련 편의 기능
+    - 대출 / 예약 이력 사이트 내에서 관리
+    - 도서관 회원증 등록 (애플웰렛, 삼성페이, 사이트 자체)
+    - 도서관 책 검색 가능 (Spring Batch로 자체 DB 구축함)
+    - 근처 도서관 검색
 
 # 🧑‍🔧 사용된 기술 (V4 기준)
 ### DB
@@ -77,21 +78,17 @@ Check it out! 친구에게 무언가를 추천할때 흔히 쓰는 영어 표현
 # 📊 Diagram
 ### CI/CD Diagram (from v1)
 <p align="center">
-  <img height="500" src="https://user-images.githubusercontent.com/61900235/236109263-fc35a581-59b0-4bb8-bbaf-b19403e951ec.png">  
-</p>
-
-<p align="center">
-  <img height="500" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
+  <img src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
 </p>
 
 ### MSA Diagram (from v4)
 <p align="center">
-  <img height="500" src="https://user-images.githubusercontent.com/61900235/237717617-8de30586-ddfb-4d27-881b-247996a738b7.png">  
+  <img src="https://user-images.githubusercontent.com/61900235/237717617-8de30586-ddfb-4d27-881b-247996a738b7.png">  
 </p>
 
-### ER Diagram (from v3)
+### ER Diagram (from v4)
 <p align="center">
-  <img height="500" src="https://user-images.githubusercontent.com/61900235/235311468-bc7e8ca8-a1bb-4a2e-86cd-c72da1ae6c2f.png">  
+  <img src="https://github.com/jinkyumpark/booksitout/assets/61900235/0e162c56-8b14-44b2-a498-ffb9c254b451">  
 </p>
 
 # 🆚 Version History

@@ -74,17 +74,17 @@ https://booksitout.com
 # 📊 Diagram
 ### CI/CD Diagram (from v1)
 <p align="center">
-  <img height="500" src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
+  <img src="https://user-images.githubusercontent.com/61900235/208791246-55ec74ce-200e-4ddf-9250-2634a54dd277.png">  
 </p>
 
 ### MSA Diagram (from v4)
 <p align="center">
-  <img height="500" src="https://user-images.githubusercontent.com/61900235/237717617-8de30586-ddfb-4d27-881b-247996a738b7.png">  
+  <img src="https://user-images.githubusercontent.com/61900235/237717617-8de30586-ddfb-4d27-881b-247996a738b7.png">  
 </p>
 
 ### ER Diagram (from v3)
 <p align="center">
-  <img height="500" src="https://github.com/jinkyumpark/booksitout/assets/61900235/0e162c56-8b14-44b2-a498-ffb9c254b451">  
+  <img src="https://github.com/jinkyumpark/booksitout/assets/61900235/0e162c56-8b14-44b2-a498-ffb9c254b451">  
 </p>
 
 # 🆚 Version History
