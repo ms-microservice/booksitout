@@ -1,5 +1,6 @@
-package com.jinkyumpark.forum.talk.comment;
+package com.jinkyumpark.forum.talk.comment.dto;
 
+import com.jinkyumpark.forum.talk.comment.Comment;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

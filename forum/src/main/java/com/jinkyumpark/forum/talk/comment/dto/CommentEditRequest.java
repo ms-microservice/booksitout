@@ -1,4 +1,4 @@
-package com.jinkyumpark.forum.talk.comment.request;
+package com.jinkyumpark.forum.talk.comment.dto;
 
 import com.jinkyumpark.forum.talk.comment.Comment;
 import lombok.AllArgsConstructor;
