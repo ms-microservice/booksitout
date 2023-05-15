@@ -1,6 +1,9 @@
 package com.jinkyumpark.forum.tips;
 
 import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.forum.tips.dto.TipsDto;
+import com.jinkyumpark.forum.tips.dto.TipsSimple;
+import com.jinkyumpark.forum.tips.dto.TipsSimplePaged;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -22,7 +25,7 @@ public class TipsService {
     }
 
     public TipsSimplePaged getAllSimpleTips(Pageable pageable) {
-        Page<Tips> tipsPaged = tipsRepository.findAllPageed(pageable);
+        Page<Tips> tipsPaged = tipsRepository.findAllPaged(pageable);
 
         List<TipsSimple> content = tipsPaged.stream()
                 .map(TipsSimple::of)
@@ -66,8 +69,11 @@ public class TipsService {
         return tipsRepository.save(tips).getTipsId();
     }
 
-    public TipsDto editTips(TipsDto editedTips) {
-        return null;
+    public void editTips(TipsDto editedTips) {
+        Tips tips = tipsRepository.findById(editedTips.getId())
+                .orElseThrow(() -> new NotFoundException("수정하려는 꿀팁이 없어요"));
+
+        tips.editTips(editedTips);
     }
 
     public void deleteTips(Long tipsId) {

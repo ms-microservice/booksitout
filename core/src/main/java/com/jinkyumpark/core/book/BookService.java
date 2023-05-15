@@ -1,9 +1,12 @@
 package com.jinkyumpark.core.book;
 
+import com.jinkyumpark.common.exception.NoContentException;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
+import com.jinkyumpark.core.book.dto.MyBookSearchRange;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.common.exception.NotFoundException;
+import com.jinkyumpark.core.book.model.BookRepository;
 import com.jinkyumpark.core.bookIsbn.BookIsbnDto;
 import com.jinkyumpark.core.bookIsbn.BookIsbnRepository;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -40,7 +43,7 @@ public class BookService {
         return book;
     }
 
-    public Book getLastBookByAppUserid(Long appUserId) {
+    public Book getLastBookByAppUserId(Long appUserId) {
         PageRequest pageRequest = PageRequest.of(0, 1);
 
         List<ReadingSession> readingSessionList = readingSessionRepository
@@ -52,6 +55,20 @@ public class BookService {
 
         return readingSessionList.get(0).getBook();
     }
+
+    public Book getLastBookByAppUserIdThrowNoContent(Long appUserId) {
+        PageRequest pageRequest = PageRequest.of(0, 1);
+
+        List<ReadingSession> readingSessionList = readingSessionRepository
+                .findAllBookNotDoneReadingSession(appUserId, pageRequest);
+
+        if (readingSessionList.size() < 1) {
+            throw new NoContentException(messageSource.getMessage("book.get.fail.last-reading-session.not-found"));
+        }
+
+        return readingSessionList.get(0).getBook();
+    }
+
 
     public Page<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllBooks(loginUserId, pageRequest);
@@ -99,6 +116,10 @@ public class BookService {
             return bookRepositoryQueryDsl.getExcludeGiveUpBookByQuery(loginUserId, query);
 
         return List.of();
+    }
+
+    public List<Book> getAllBookByAppUserId(Long appUserId, Pageable pageable) {
+        return bookRepository.findAllByAppUserId(appUserId, pageable);
     }
 
     public Long addBook(BookDto bookDto) {
@@ -158,14 +179,14 @@ public class BookService {
     }
 
     @Transactional
-    public Long addBookAndBookIsbn(BookDto bookDto, int isbn) {
+    public Long addBookAndBookIsbn(BookDto bookDto, long isbn) {
         Long savedBookId = bookRepository.save(bookDto.toEntity()).getBookId();
 
         BookIsbnDto bookIsbnDto = BookIsbnDto.builder()
                 .title(bookDto.getTitle())
                 .author(bookDto.getAuthor())
                 .cover(bookDto.getCover())
-                .isbn13(isbn)
+                .isbn(isbn)
                 .build();
 
         bookIsbnRepository.save(bookIsbnDto.toEntity());

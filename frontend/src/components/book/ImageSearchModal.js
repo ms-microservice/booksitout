@@ -7,8 +7,9 @@ import uiSettings from '../../settings/ui';
 import NoContent from '../common/NoContent'
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {
-	const coverImageStyle = {  width: '100%', objectPosition: 'center' }
-	const coverSelectedStyle = {  width: '100%', objectPosition: 'center', opacity: 0.4 }
+	const coverImageStyle = { width: '100%', objectPosition: 'center' }
+	const coverSelectedStyle = { width: '100%', objectPosition: 'center', opacity: 0.4 }
+
 	const [selectedImageIndex, setSelectedImageIndex] = useState(-1)
 	const [imageSearchResult, setImageSearchResult] = useState([])
 	const [initialFetch, setInitialFetch] = useState(false)
@@ -78,14 +79,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 						<div className='mt-4 h2'>이미지를 불러오고 있어요</div>
 					</div>
 				) : imageSearchResult == null || imageSearchResult === undefined || imageSearchResult.length === 0 ? (
-					<div className='row'>
-						<div className='d-inline-block mt-5 mt-md-1' />
-						<div className='d-inline-block mt-5 mt-md-1' />
-
-						<NoContent message='검색 결과가 없어요' style={{ width: '200px' }} />
-
-						<div className='d-inline-block mb-5 mb-md-4' />
-					</div>
+					<NoContent useImage={false} message='검색 결과가 없어요' />
 				) : (
 					<div className='row'>
 						{imageSearchResult.map((link) => {

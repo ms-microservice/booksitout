@@ -21,6 +21,7 @@ import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
 
 const Topnav = () => {
+	const navigate = useNavigate()
 	const location = useLocation()
 	const dispatch = useDispatch()
 	
@@ -47,6 +48,7 @@ const Topnav = () => {
 		setExpanded(false)
 		dispatch(checkIsLogin())
 		toast.success(messages.user.logout.success)
+		navigate('/')
 	}
 
 	useEffect(() => {

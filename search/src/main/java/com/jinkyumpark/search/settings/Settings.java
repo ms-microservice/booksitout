@@ -10,6 +10,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -18,10 +19,11 @@ import javax.persistence.*;
 
 @Entity @Table(uniqueConstraints = {@UniqueConstraint(columnNames = {"appUserId"})})
 public class Settings {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonIgnore
     private Long settingsId;
+
     @Column(unique = true)
     private Long appUserId;
 
@@ -33,7 +35,8 @@ public class Settings {
     @Enumerated(EnumType.STRING)
     private LibrarySearchMethod librarySearchMethod;
 
-    @Column(columnDefinition = "varchar(10) default 'REGION")
+    @Column(length = 10)
+    @ColumnDefault("REGION")
     @Enumerated(EnumType.STRING)
     private MyBookSearchRange myBookSearchRange;
 

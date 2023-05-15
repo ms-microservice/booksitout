@@ -11,10 +11,14 @@ import lombok.NoArgsConstructor;
 import org.hibernate.annotations.DynamicInsert;
 import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor @NoArgsConstructor @Builder
 @Getter
@@ -24,10 +28,8 @@ import java.util.Collection;
 @Entity
 @Table(name = "app_user", uniqueConstraints = { @UniqueConstraint(name = "app_user_email_unique", columnNames = "email") })
 public class AppUser extends TimeEntity implements UserDetails {
-    @Id
-    @SequenceGenerator(name = "app_user_seq", sequenceName = "app_user_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "app_user_seq")
-    @Column(name = "app_user_id")
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long appUserId;
 
     @Column(unique = true, nullable = false)
@@ -45,6 +47,9 @@ public class AppUser extends TimeEntity implements UserDetails {
 
     @JsonIgnore
     private Integer emailVerificationCode;
+
+    @JsonIgnore
+    private String roles;
 
     @JsonIgnore @Override
     public String getPassword() { return password; }
@@ -66,9 +71,20 @@ public class AppUser extends TimeEntity implements UserDetails {
     }
     @JsonIgnore @Override
     public boolean isEnabled() { return true; }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
+        if (roles == null) return List.of(new GrantedAuthority() {
+            @Override
+            public String getAuthority() {
+                return "ROLE_USER";
+            }
+        });
+
+        return Arrays.stream(roles.split(","))
+                .filter(r -> !r.isBlank())
+                .map(SimpleGrantedAuthority::new)
+                .collect(Collectors.toList());
     }
 
     public AppUser(Long appUserId) {

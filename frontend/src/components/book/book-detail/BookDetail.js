@@ -426,30 +426,30 @@ const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelect
 							</div>
 						) : (
 							<div className='row row-eq-height'>
-							{memo.map((memo) => {
-								return (
-									<div className='col-12 mb-2'>
-										<Card
-											style={{ backgroundColor: uiSettings.color.memo }}
-											onClick={() => {
-												setMemoDetailModalOpen(true)
-												setSelectedMemo(memo)
-											}}>
-											<Card.Header>
-												<h6 className='mt-1'>{memo.page}P</h6>
-											</Card.Header>
-				
-											<Card.Body>
-												<div className='row'>
-													<div className='text-center'>{memo.content}</div>
-												</div>
-											</Card.Body>
-										</Card>
-									</div>
-								)
-							})}
-						</div>
-										)}
+								{memo.map((memo) => {
+									return (
+										<div className='col-12 mb-2'>
+											<Card
+												style={{ backgroundColor: uiSettings.color.memo }}
+												onClick={() => {
+													setMemoDetailModalOpen(true)
+													setSelectedMemo(memo)
+												}}>
+												<Card.Header>
+													<h6 className='mt-1'>{memo.page}P</h6>
+												</Card.Header>
+
+												<Card.Body>
+													<div className='row'>
+														<div className='text-center'>{memo.content}</div>
+													</div>
+												</Card.Body>
+											</Card>
+										</div>
+									)
+								})}
+							</div>
+						)}
 					</div>
 				</div>
 			</Card.Body>

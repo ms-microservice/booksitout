@@ -5,9 +5,10 @@ import { useQuery } from '../../functions/useQuery'
 import axios from 'axios'
 import toast from 'react-hot-toast'
 import urls from '../../settings/urls'
-import { loginToken } from '../../redux/userSlice'
+import { checkIsLogin, loginToken } from '../../redux/userSlice'
 import messages from '../../settings/messages'
 import Loading from '../common/Loading'
+import utils from '../../functions/utils'
 
 const OAuth = () => {
 	const { provider } = useParams()
@@ -35,21 +36,26 @@ const OAuth = () => {
 
 				localStorage.setItem('login-token', userData.token)
 				localStorage.setItem('user-name', userData.name)
-				// localStorage.setItem('register-year', new Date().getFullYear().toString())
+				localStorage.setItem('register-year', new Date().getFullYear().toString())
 				localStorage.setItem('login-date', new Date().toString())
 				localStorage.setItem('profile-image', userData.profileImage)
 
-				// localStorage.setItem('search-library-region-api', userData.settings.region)
-				// localStorage.setItem('search-library-region-detail-api', userData.settings.regionDetail)
-				// localStorage.setItem('search-my-book-range', userData.settings.myBookSearchRange)
-				// localStorage.setItem('search-library-online-api', userData.settings.libraryOnlineSearchRange)
-				// localStorage.setItem('search-subscription-api', userData.settings.subscriptionSearchRange)
-				// localStorage.setItem('search-used-online-api', userData.settings.usedOnlineSearchRange)
-				// localStorage.setItem('search-used-offline-api', userData.settings.usedOfflineSearchRange)
-
 				toast.dismiss()
 				toast(userData.message, { icon: '✋' })
+				dispatch(loginToken(utils.getToken()))
+				dispatch(checkIsLogin())	
 				navigate('/')
+
+				axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: userData.data.token } }).then((res) => {
+					localStorage.setItem('search-library-region-api', res.data.region)
+					localStorage.setItem('search-library-region-detail-api', res.data.regionDetail)
+					localStorage.setItem('search-my-book-range', res.data.myBookSearchRange)
+					localStorage.setItem('search-library-online-api', res.data.libraryOnlineSearchRange)
+					localStorage.setItem('search-subscription-api', res.data.subscriptionSearchRange)
+					localStorage.setItem('search-used-online-api', res.data.usedOnlineSearchRange)
+					localStorage.setItem('search-used-offline-api', res.data.usedOfflineSearchRange)
+					localStorage.setItem('library-search-method', res.data.librarySearchMethod)
+				})
 			})
 	}, [dispatch, navigate, query, provider])
 

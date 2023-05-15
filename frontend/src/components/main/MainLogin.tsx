@@ -111,6 +111,7 @@ const MainLogin = () => {
 			localStorage.setItem('register-year', new Date().getFullYear().toString())
 			localStorage.setItem('login-date', new Date().toString())
 			localStorage.setItem('login-method', res.data.loginMethod)
+			localStorage.setItem('user-id', res.data.appUserId)
 
 			toast.dismiss()
 			toast(res.data.message, { icon: '✋' })

@@ -5,8 +5,8 @@ import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.book.request.BookAddRequest;
-import com.jinkyumpark.core.book.request.BookEditRequest;
+import com.jinkyumpark.core.book.dto.BookAddRequest;
+import com.jinkyumpark.core.book.dto.BookEditRequest;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import lombok.RequiredArgsConstructor;
@@ -34,7 +34,7 @@ public class BookControllerV1 {
 
     @GetMapping("last")
     public Book getLastBook(@LoginUser LoginAppUser loginAppUser) {
-        return bookService.getLastBookByAppUserid(loginAppUser.getId());
+        return bookService.getLastBookByAppUserId(loginAppUser.getId());
     }
 
     @GetMapping("all/{range}")

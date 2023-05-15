@@ -117,9 +117,12 @@ public class AppUserService implements UserDetailsService {
         return LoginSuccessResponse.builder()
                 .message(String.format("어서오세요 %s님!", oAuthDto.getName()))
                 .token("Bearer " + jwtToken)
+
                 .name(oAuthDto.getName())
                 .registerDate(addedAppUser.getCreatedDate())
                 .profileImage(oAuthDto.getProfileImage())
+                .appUserId(addedAppUser.getAppUserId())
+
                 .loginMethod(loginMethod)
                 .build();
     }

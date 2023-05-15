@@ -3,9 +3,9 @@ import { useSelector } from 'react-redux';
 import { Card, Alert } from 'react-bootstrap'
 
 import Loading from '../common/Loading'
-import PostPopular from '../forum/post/PostPopular';
-import PostMyBook from '../forum/post/PostMyBook';
-import MainTipCard from '../forum/tips/MainTipCard';
+import PostPopular from '../community/post/PostPopular';
+import PostMyBook from '../community/post/PostMyBook';
+import MainTipCard from '../community/tips/MainTipCard';
 
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
@@ -87,6 +87,7 @@ const Main = () => {
 
 					<div className={`${isLogin ? 'd-block' : 'd-none'} d-md-block`}>
 						{!isLogin && <MainNoLoginPrompt />}
+
 						<Card style={{ opacity: isLogin ? 1.0 : 0.3, pointerEvents: isLogin ? 'auto' : 'none' }} className='mb-4'>
 							<Card.Body>
 								<div className='row row-eq-height'>

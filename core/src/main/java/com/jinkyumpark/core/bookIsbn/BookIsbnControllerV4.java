@@ -1,10 +1,7 @@
 package com.jinkyumpark.core.bookIsbn;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 
@@ -15,8 +12,13 @@ public class BookIsbnControllerV4 {
     private final BookIsbnService bookIsbnService;
 
     @GetMapping("{isbn}")
-    public BookIsbnDto getBookInfoByIsbn(@PathVariable("isbn") Integer isbn) {
+    public BookIsbnDto getBookInfoByIsbn(@PathVariable("isbn") Long isbn) {
         return bookIsbnService.getBookInfoByIsbn(isbn);
+    }
+
+    @PostMapping("{isbn}")
+    public void addBookIsbnIfAbsent(@PathVariable("isbn") Long isbn) {
+        bookIsbnService.addBookIsbnIfAbsent(isbn);
     }
 
 }

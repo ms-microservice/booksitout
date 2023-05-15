@@ -6,5 +6,7 @@ public enum BookLanguage {
     JAPANESE,
     CHINESE,
     FRENCH,
-    SPANISH
+    SPANISH,
+
+    UNKNOWN
 }

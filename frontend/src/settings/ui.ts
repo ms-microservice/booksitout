@@ -4,7 +4,7 @@ const uiSettings = {
 
 	color: {
 		// memo: `rgb(242, 227, 142)`,
-		memo: `rgb(0, 0, 0)`,
+		memo: `rgb(255, 255, 255)`,
 		theme: `rgb(123, 185, 114)`,
 	},
 
@@ -31,9 +31,9 @@ const uiSettings = {
 			},
 			{
 				id: 3,
-				url: '/forum',
-				activeUrl: '/forum',
-				title: '책이야기',
+				url: '/community',
+				activeUrl: '/community',
+				title: '커뮤니티',
 			},
 		],
 	},

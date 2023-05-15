@@ -11,7 +11,7 @@ const AddButton = ({ size, color = 'book', onClick = () => {}, right = '2.5%', t
 		top: top,
 	}
 
-	return <AddIcon id='addButton' className={`text-${color} p-0`} style={addButtonStyle} onClick={() => onClick()} />
+	return <AddIcon id='addButton' className={`text-${color} p-0 clickable`} style={addButtonStyle} onClick={() => onClick()} />
 }
 
 export default AddButton

@@ -4,24 +4,22 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.book.model.Book;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
-import lombok.*;
-import org.hibernate.annotations.DynamicInsert;
-import org.hibernate.annotations.DynamicUpdate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 
-@DynamicUpdate
-@DynamicInsert
-@Entity @Table
+@Table
+@Entity
 public class ReadingSession {
-    @Id
-    @SequenceGenerator(name = "reading_session_seq", sequenceName = "reading_session_seq", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "reading_session_seq")
-    @Column(name = "reading_session_id")
+
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long readingSessionId;
 
     private Integer startPage;
@@ -30,20 +28,11 @@ public class ReadingSession {
     @Column(name = "start_time", updatable = false, nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime startTime;
+
     @JsonFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss")
     private LocalDateTime endTime;
-    private Integer readTime;
 
-    @Builder
-    public ReadingSession(Integer startPage, Integer endPage, LocalDateTime startTime, LocalDateTime endTime, Integer readTime, Long appUserId, Book book) {
-        this.startPage = startPage;
-        this.endPage = endPage;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.readTime = readTime;
-        this.appUserId = appUserId;
-        this.book = book;
-    }
+    private Integer readTime;
 
     private Long appUserId;
 

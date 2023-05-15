@@ -19,6 +19,6 @@ public class BooksItOutGateway {
                 .message("private api for booksitout")
                 .redirectUrl("https://booksitout.com")
                 .build();
-
     }
+
 }

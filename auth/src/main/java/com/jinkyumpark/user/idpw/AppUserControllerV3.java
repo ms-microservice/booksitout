@@ -44,10 +44,14 @@ public class AppUserControllerV3 {
         return LoginSuccessResponse.builder()
                 .message(String.format("어서오세요! %s님!", appUser.getName()))
                 .token(token)
+
                 .name(appUser.getName())
                 .registerDate(appUser.getCreatedDate())
                 .profileImage(appUser.getProfileImage())
+                .appUserId(appUser.getAppUserId())
+
                 .loginMethod(LoginMethod.MANUAL)
+
                 .build();
     }
 

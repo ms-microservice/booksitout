@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class BookIsbnDto {
 
-    private int isbn13;
+    private Long isbn;
     private String title;
     private String author;
     private String cover;
@@ -19,13 +19,13 @@ public class BookIsbnDto {
                 .title(bookIsbn.getTitle())
                 .author(bookIsbn.getAuthor())
                 .cover(bookIsbn.getCover())
-                .isbn13(bookIsbn.getIsbn13())
+                .isbn(bookIsbn.getIsbn13())
                 .build();
     }
 
     public BookIsbn toEntity() {
         return BookIsbn.builder()
-                .isbn13(isbn13)
+                .isbn13(isbn)
                 .title(title)
                 .author(author)
                 .cover(cover)
