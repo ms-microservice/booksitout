@@ -9,8 +9,15 @@ public class PostLikeService {
 
     private final PostLikeRepository postLikeRepository;
 
-    public int getPostLikeCount(Long postId) {
-        return postLikeRepository.countAllPostLike(postId);
+    public PostLikeCount getPostLikeCount(Long postId) {
+        int positiveLike = postLikeRepository.countPositiveLikeCount(postId);
+        int negativeLike = postLikeRepository.countNegativeLikeCount(postId);
+
+        return PostLikeCount.builder()
+                .postId(postId)
+                .positiveCount(positiveLike)
+                .negativeCount(negativeLike)
+                .build();
     }
 
 }
