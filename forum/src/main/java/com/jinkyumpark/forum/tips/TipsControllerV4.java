@@ -36,15 +36,15 @@ public class TipsControllerV4 {
         return tipsService.getTipsByTipsId(tipsId);
     }
 
-    @AdminOnly
-    @PostMapping
-    public AddSuccessResponse addTips(@RequestBody @Valid TipsAddRequest tipsAddRequest) {
-        Long tipsId = tipsService.addTips(tipsAddRequest.toEntity());
-
-        return AddSuccessResponse.builder()
-                .id(tipsId)
-                .message("꿀팁을 추가헀어요")
-                .build();
-    }
+//    @AdminOnly
+//    @PostMapping
+//    public AddSuccessResponse addTips(@RequestBody @Valid TipsAddRequest tipsAddRequest) {
+//        Long tipsId = tipsService.addTips(tipsAddRequest.toEntity());
+//
+//        return AddSuccessResponse.builder()
+//                .id(tipsId)
+//                .message("꿀팁을 추가헀어요")
+//                .build();
+//    }
 
 }
