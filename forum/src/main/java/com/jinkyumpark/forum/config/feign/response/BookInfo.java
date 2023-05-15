@@ -1,4 +1,4 @@
-package com.jinkyumpark.forum.feign.response;
+package com.jinkyumpark.forum.config.feign.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -12,6 +12,6 @@ public class BookInfo {
     private String title;
     private String author;
     private String cover;
-    private Integer isbn;
+    private Long isbn;
 
 }
