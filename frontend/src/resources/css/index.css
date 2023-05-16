@@ -61,3 +61,41 @@ code {
 		margin-top: 100px;
 	}
 }
+
+.button-bottom-left {
+	position: absolute;
+	bottom: 20px;
+
+	width: 95%;
+	left: 2.5%;
+}
+
+.button-bottom-half-right {
+	position: absolute;
+	bottom: 20px;
+
+	width: 45%;
+	right: 2.5%;
+}
+
+.button-bottom-half-left {
+	position: absolute;
+	bottom: 20px;
+
+	width: 45%;
+	left: 2.5%;
+}
+
+@media (max-width: 768px) {
+	.button-bottom-half-left {
+		bottom: 70px;
+
+		width: 95%;
+		left: 2.5%;
+	}
+
+	.button-bottom-half-right {
+		width: 95%;
+		right: 2.5%;
+	}
+}

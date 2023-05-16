@@ -4,7 +4,6 @@ import { Card, Alert } from 'react-bootstrap'
 
 import Loading from '../common/Loading'
 import PostPopular from '../community/post/PostPopular';
-import PostMyBook from '../community/post/PostMyBook';
 import MainTipCard from '../community/tips/MainTipCard';
 
 import { getLastBook } from '../../functions/book'
@@ -53,7 +52,9 @@ const Main = () => {
 		Promise.all([
 			getLastBook().then((book) => setLastBook(book)),
 			getReadTime(7).then((readTime) => setReadTime(readTime)),
-			getGoal(new Date().getFullYear()).then((res) => setGoal(res)),
+			getGoal(new Date().getFullYear())
+				.then((res) => setGoal(res))
+				.catch(() => setGoal({})),
 			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats)),
 		]).finally(() => {
 			setInitialFetch(false)
@@ -104,7 +105,7 @@ const Main = () => {
 									</div>
 
 									<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-										<MainGoalCard statistics={statistics} goal={goal} />
+										<MainGoalCard goal={goal} />
 									</div>
 								</div>
 							</Card.Body>
@@ -115,17 +116,11 @@ const Main = () => {
 						<Card.Body>
 							<div className='row row-eq-height'>
 								<div className='col-12 col-xl-6 mt-2 mb-2'>
-									<PostPopular />
-								</div>
-
-								<div
-									className='col-12 col-xl-6 mt-2 mb-2'
-									style={{ opacity: isLogin ? 1.0 : 0.5, pointerEvents: isLogin ? 'auto' : 'none' }}>
-									<PostMyBook />
+									<MainTipCard />
 								</div>
 
 								<div className='col-12 col-xl-6 mt-2 mb-2'>
-									<MainTipCard />
+									<PostPopular />
 								</div>
 							</div>
 						</Card.Body>

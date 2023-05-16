@@ -4,14 +4,14 @@ import { Toaster } from 'react-hot-toast'
 import ToastSettings from './settings/ToastSettings'
 import LocationSettings from './settings/LocationSettings'
 import TimerSettings from './settings/TimerSettings'
-import SearchLibrarySettings from './components/user/SearchLibrarySettings'
+import SearchLibrarySettings from './components/settings/SearchLibrarySettings'
 // Components
 import Topnav from './components/common/Topnav'
 import ReadingButton from './components/common/ReadingButton'
 import FloatingAddButton from './components/common/FloatingAddButton'
 import Login from './components/user/Login'
 import Join from './components/user/Join'
-import Settings from './components/user/Settings'
+import SettingsRoute from './components/settings/SettingsRoute'
 import Main from './components/main/Main'
 import BookList from './components/book/book-list/BookList'
 import BookDetail from './components/book/book-detail/BookDetail'
@@ -37,6 +37,10 @@ import GatheringRoute from './components/community/gathering/GatheringRoute'
 import PostRoute from './components/community/post/post-route/PostRoute'
 import AddCommunityRoute from './components/community/AddCommunityRoute'
 import EditPostForm from './components/community/post/EditPostForm'
+import PersonalInfoSettings from './components/settings/PersonalInfoSettings'
+import SearchSettings from './components/settings/SearchSettings'
+import CommunitySettings from './components/settings/CommunitySettings'
+import NotificationSettings from './components/settings/NotificationSettings'
 
 function App() {
 	return (
@@ -64,8 +68,12 @@ function App() {
 				<Route path='/login/oauth/:provider' element={<OAuth />} />
 				<Route path='/join' element={<Join />} />
 
-				<Route path='/settings' element={<Settings />} />
+				<Route path='/settings' element={<SettingsRoute />} />
+				<Route path='/settings/search' element={<SearchSettings />} />
 				<Route path='/settings/search/library' element={<SearchLibrarySettings />} />
+				<Route path='/settings/personal-info' element={<PersonalInfoSettings />} />
+				<Route path='/settings/community' element={<CommunitySettings />} />
+				<Route path='/settings/notification' element={<NotificationSettings />} />
 
 				<Route path='/' element={<Main />} />
 				<Route path='/book/:range' element={<BookList />} />
@@ -88,9 +96,9 @@ function App() {
 				<Route path='/community/post/:postId' element={<PostDetail />} />
 				<Route path='/community/post/edit/:postId' element={<EditPostForm />} />
 
-				 <Route path='/community/quiz' element={<AddPostForm />} />
-				
-				 <Route path='/community/survey' element={<AddPostForm />} />
+				<Route path='/community/quiz' element={<AddPostForm />} />
+
+				<Route path='/community/survey' element={<AddPostForm />} />
 
 				<Route path='/community/gathering' element={<GatheringRoute />} />
 				<Route path='/community/gathering/add' element={<GatheringRoute />} />

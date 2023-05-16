@@ -1,10 +1,10 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import user from '../../functions/user'
 import messages from '../../settings/messages'
 
-const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
+const ChangePasswordModal = ({ show, setShow }) => {
 	const [oldPassword, setOldPassword] = useState('')
 	const [newPassword, setNewPassword] = useState('')
 	const [verificationCode, setVerificationCode] = useState('')
@@ -81,11 +81,11 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 		setNewPassword('')
 		setVerificationCode('')
 		setIsVerificationRequested(false)
-		setIsModalOpen(false)
+		setShow(false)
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => closeModal()} fullscreen='md-down' backdrop='static' centered>
+		<Modal show={show} onHide={() => closeModal()} fullscreen='md-down' backdrop='static' centered>
 			<Modal.Header className='text-center' closeButton>
 				<h4 className='w-100'>비밀번호 변경하기</h4>
 			</Modal.Header>
@@ -117,7 +117,7 @@ const ChangePasswordModal = ({ isModalOpen, setIsModalOpen }) => {
 
 					<div className='row mt-4'>
 						<div className='col-12 col-md-6'>
-							<Button className='mt-2 w-100' variant='book-danger' onClick={() => setIsModalOpen(false)}>
+							<Button className='mt-2 w-100' variant='book-danger' onClick={() => setShow(false)}>
 								취소
 							</Button>
 						</div>

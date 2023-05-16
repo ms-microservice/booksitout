@@ -4,7 +4,7 @@ import toast from 'react-hot-toast'
 import user from '../../functions/user'
 import messages from '../../settings/messages'
 
-const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
+const ChangeNameModal = ({ show, setShow }) => {
 	const [newName, setNewName] = useState('')
 
 	const handleChangeName = (e) => {
@@ -18,7 +18,7 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 		user.change.name(newName).then((success) => {
 			if (success) {
 				toast.success(`이름을 ${newName}으로 변경했어요`)
-				setIsModalOpen(false)
+				setShow(false)
 				user.localStorage.update.name(newName)
 				setNewName('')
 			} else {
@@ -28,7 +28,7 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 	}
 
 	return (
-		<Modal show={isModalOpen} onHide={() => setIsModalOpen(false)} fullscreen='md-down' centered>
+		<Modal show={show} onHide={() => setShow(false)} fullscreen='md-down' centered backdrop='static'>
 			<Modal.Header className='text-center' closeButton>
 				<h4 className='w-100'>이름 변경하기</h4>
 			</Modal.Header>
@@ -39,7 +39,7 @@ const ChangeNameModal = ({ isModalOpen, setIsModalOpen }) => {
 
 					<div className='row'>
 						<div className='col-12 col-md-6'>
-							<Button variant='book-danger' className='mt-3 w-100' onClick={() => setIsModalOpen(false)}>
+							<Button variant='book-danger' className='mt-3 w-100' onClick={() => setShow(false)}>
 								취소
 							</Button>
 						</div>
