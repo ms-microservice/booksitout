@@ -50,7 +50,7 @@ project(":core") {
     dependencies { implementation project(':common') }
 }
 
-project(":auth") {
+project(":user") {
     dependencies { implementation project(':common') }
 }
 
