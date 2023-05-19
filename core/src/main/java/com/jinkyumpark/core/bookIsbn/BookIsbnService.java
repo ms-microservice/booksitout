@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.bookIsbn;
 
 import com.jinkyumpark.common.exception.NoContentException;
-import com.jinkyumpark.core.common.feign.NewBookSearchResponse;
+import com.jinkyumpark.core.common.feign.response.NewBookSearchResponse;
 import com.jinkyumpark.core.common.feign.SearchClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

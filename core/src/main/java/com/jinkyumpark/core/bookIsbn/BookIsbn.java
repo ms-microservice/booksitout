@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.bookIsbn;
 
-import com.jinkyumpark.core.common.feign.NewBookSearchResponse;
+import com.jinkyumpark.core.common.feign.response.NewBookSearchResponse;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

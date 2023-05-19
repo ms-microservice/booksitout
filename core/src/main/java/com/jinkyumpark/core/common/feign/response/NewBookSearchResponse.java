@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.common.feign;
+package com.jinkyumpark.core.common.feign.response;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

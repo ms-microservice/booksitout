@@ -33,4 +33,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.appUserId = ?1")
     List<Book> findAllByAppUserId(Long appUserId, Pageable pageable);
 
+    @Query("select b from Book b where b.appUserId = ?1 and b.isSharing = true")
+    List<Book> getAllSharingBooks(Long appUserId, Pageable pageable);
+
+    @Query("select b from Book b where b.appUserId = ?1 and b.isSharing = true")
+    Page<Book> getAllSharingBooksPaged(Long appUserId, Pageable pageable);
+
 }

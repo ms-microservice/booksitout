@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.goal;
 
-import com.jinkyumpark.core.book.BookService;
+import com.jinkyumpark.common.exception.NoContentException;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.goal.model.Goal;
 import com.jinkyumpark.core.goal.model.GoalId;
@@ -17,12 +17,11 @@ import java.util.List;
 public class GoalService {
     private final MessageSourceAccessor messageSource;
     private final GoalRepository goalRepository;
-    private final BookService bookService;
 
     public Goal getGoalByYear(Integer year, LoginAppUser loginAppUser) {
         GoalId goalId = new GoalId(loginAppUser.getId(), year);
         Goal goal = goalRepository.findByGoalId(goalId)
-                .orElseThrow(() -> new NotFoundException(messageSource.getMessage("goal.get.fail.not-found")));
+                .orElseThrow(() -> new NoContentException(messageSource.getMessage("goal.get.fail.not-found")));
 
         if (goal.getGoal() <= 0) throw new IllegalStateException(messageSource.getMessage("goal.get.fail.too-small"));
 

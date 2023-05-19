@@ -69,7 +69,6 @@ public class BookService {
         return readingSessionList.get(0).getBook();
     }
 
-
     public Page<Book> getAllBooks(Long loginUserId, Pageable pageRequest) {
         return bookRepository.findAllBooks(loginUserId, pageRequest);
     }
@@ -120,6 +119,14 @@ public class BookService {
 
     public List<Book> getAllBookByAppUserId(Long appUserId, Pageable pageable) {
         return bookRepository.findAllByAppUserId(appUserId, pageable);
+    }
+
+    public List<Book> getAllSharingBooksByAppUserId(Long appUserId, Pageable pageable) {
+        return bookRepository.getAllSharingBooks(appUserId, pageable);
+    }
+
+    public Page<Book> getAllSharingBooksByAppUserIdPaged(Long appUserId, Pageable pageable) {
+        return bookRepository.getAllSharingBooksPaged(appUserId, pageable);
     }
 
     public Long addBook(BookDto bookDto) {
