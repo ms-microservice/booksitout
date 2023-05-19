@@ -15,7 +15,7 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 		<ListGroup>
 			{postList.map((post) => {
 				return (
-					<a href={`community/post/${post.postId}`} className='text-decoration-none w-100'>
+					<a href={`/community/post/${post.postId}`} className='text-decoration-none w-100'>
 						<ListGroup.Item as='li' className='d-flex w-100 pe-0'>
 							<div className='row w-100'>
 								<div className={`${col1}`}>
@@ -44,11 +44,13 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 										)}
 									</div>
 
+									<div className='ms-0 ms-xl-5' />
+
 									<Badge bg='book' style={{ width: '65px' }}>
 										<LikeIcon /> {post.likeCount}
 									</Badge>
 
-									<div className='ms-2' />
+									<div className='ms-2 ms-xl-2' />
 
 									<Badge bg='danger' style={{ width: '65px' }}>
 										<DislikeIcon /> {post.dislikeCount}

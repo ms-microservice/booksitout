@@ -24,9 +24,7 @@ if ('serviceWorker' in navigator) {
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
-    <Provider store={store}>
-        <Router basename={process.env.PUBLIC_URL} refresh>
-            <App/>
-        </Router>
-    </Provider>
+	<Provider store={store}>
+		<App />
+	</Provider>
 )

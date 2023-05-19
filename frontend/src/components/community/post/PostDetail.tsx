@@ -6,7 +6,7 @@ import { useSelector } from 'react-redux'
 import Error from '../../common/Error'
 import Loading from '../../common/Loading'
 
-import { Post } from './PostType'
+import { Post } from '../../../types/PostType'
 
 import axios from 'axios'
 import parse from 'html-react-parser'
@@ -155,7 +155,9 @@ const PostDetailSummaryCard = ({ post, isMyPost, commentList }) => {
 						<div className='col-12 col-md-8 mt-3'>
 							<div className='row justify-content-end mb-3'>
 								<div className='col-12 col-md-6'>
-									<PostBookCard book={post.book} />
+									<a href={`/book/info/${post.book.isbn}`}>
+										<PostBookCard book={post.book} />
+									</a>
 								</div>
 							</div>
 
@@ -354,24 +356,26 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 									)}
 
 									<div className='row'>
-										<div className='col-3 col-md-1'>
-											<div className='text-center'>
-												{comment.user.profileImage == null || comment.user.profileImage === '' ? (
-													<ProfileIcon className='text-book h1 m-0' />
-												) : (
-													<img
-														src={comment.user.profileImage}
-														alt='user profile'
-														className='img-fluid rounded'
-														style={{ height: '30px' }}
-													/>
-												)}
+										<div className='col-3 col-md-2'>
+											<a href={`/user/${comment.user.name}`}>
+												<div className='text-center'>
+													{comment.user.profileImage == null || comment.user.profileImage === '' ? (
+														<ProfileIcon className='text-book h1 m-0' />
+													) : (
+														<img
+															src={comment.user.profileImage}
+															alt='user profile'
+															className='img-fluid rounded'
+															style={{ height: '30px' }}
+														/>
+													)}
 
-												<h5>{comment.user.name}</h5>
-											</div>
+													<h6>{comment.user.name}</h6>
+												</div>
+											</a>
 										</div>
 
-										<div className='col-9 col-md-9'>
+										<div className='col-9 col-md-8'>
 											<p>{parse(comment.content)}</p>
 										</div>
 

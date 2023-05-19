@@ -1,7 +1,7 @@
 import { ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
 import { useParams } from 'react-router-dom'
 
-import TipPostDetailListGroup from './TipPostDetailListGroup'
+import TipsListGroup from './TipsListGroup'
 
 const TipsRoute = () => {
 	const { range } = useParams()
@@ -56,7 +56,7 @@ const TipsRoute = () => {
 				</Card.Body>
 			</Card>
 
-			<TipPostDetailListGroup range={range} />
+			<TipsListGroup range={range} />
 		</div>
 	)
 }

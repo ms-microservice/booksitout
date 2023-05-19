@@ -1,6 +1,7 @@
 import { ButtonGroup, ToggleButton } from "react-bootstrap"
 import { useParams } from "react-router-dom"
 import AddPostForm from "./post/AddPostForm"
+import Preparing from "../common/Preparing"
 
 const AddCommunityRoute = () => {
     const {type} = useParams()
@@ -35,7 +36,7 @@ const AddCommunityRoute = () => {
 				</a>
 			</ButtonGroup>
 
-			<div className='mt-4'>{type === 'post' ? <AddPostForm /> : <></>}</div>
+			<div className='mt-4'>{type === 'post' ? <AddPostForm /> : <Preparing message='아직 준비 중이에요' />}</div>
 		</div>
 	)
 }

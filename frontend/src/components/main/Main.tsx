@@ -4,7 +4,7 @@ import { Card, Alert } from 'react-bootstrap'
 
 import Loading from '../common/Loading'
 import PostPopular from '../community/post/PostPopular';
-import MainTipCard from '../community/tips/MainTipCard';
+import MainTipsCard from '../community/tips/MainTipsCard';
 
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
@@ -20,18 +20,22 @@ import MainReadingTimeCard from './MainReadingTimeCard';
 import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
 import MainBoarding from '../info/MainBoarding';
+import { RootState } from '../../redux/store';
+import { GoalType } from '../../types/GoalType';
+import { StatisticsType } from '../../types/StatisticsType';
+import { Book } from '../../types/PostType';
 
 const Main = () => {
-	const isLogin = useSelector((state) => state.user.isLogin)
+	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
 	const [loading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [showAlert, setShowAlert] = useState(getIsAlertShowing())
 
-	const [lastBook, setLastBook] = useState(null)
-	const [readTime, setReadTime] = useState(null)
-	const [goal, setGoal] = useState(null)
-	const [statistics, setStatistics] = useState(null)
+	const [lastBook, setLastBook] = useState<Book | null>(null)
+	const [readTime, setReadTime] = useState<number[] | null>()
+	const [goal, setGoal] = useState<GoalType | null | undefined>(null)
+	const [statistics, setStatistics] = useState<StatisticsType | null>(null)
 	
 	useEffect(() => {
 		setTimeout(() => {
@@ -52,11 +56,10 @@ const Main = () => {
 		Promise.all([
 			getLastBook().then((book) => setLastBook(book)),
 			getReadTime(7).then((readTime) => setReadTime(readTime)),
-			getGoal(new Date().getFullYear())
-				.then((res) => setGoal(res))
-				.catch(() => setGoal({})),
-			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats)),
+			getGoal(new Date().getFullYear()).then((res) => (res.status === 204 ? setGoal(undefined) : setGoal(res.data))),
+			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats || null)),
 		]).finally(() => {
+			console.log(goal)
 			setInitialFetch(false)
 			setIsLoading(false)
 		})
@@ -116,7 +119,7 @@ const Main = () => {
 						<Card.Body>
 							<div className='row row-eq-height'>
 								<div className='col-12 col-xl-6 mt-2 mb-2'>
-									<MainTipCard />
+									<MainTipsCard />
 								</div>
 
 								<div className='col-12 col-xl-6 mt-2 mb-2'>

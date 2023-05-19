@@ -16,7 +16,7 @@ import '../../../resources/css/customCarousel.css'
 import AddIsbnCard from './AddIsbnCard'
 import BookSearchModal from '../BookSearchModal'
 
-import { RecentBook } from './PostType'
+import { RecentBook } from '../../../types/PostType'
 
 const AddPostForm = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)

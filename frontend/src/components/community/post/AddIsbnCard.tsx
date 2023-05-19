@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import axios from "axios"
 
-import { RecentBook } from "./PostType"
+import { RecentBook } from "../../../types/PostType"
 import utils from "../../../functions/utils"
 import urls from "../../../settings/urls"
 import { Button, Card, Carousel } from "react-bootstrap"

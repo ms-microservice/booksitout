@@ -1,8 +1,8 @@
 import logo from '../../resources/images/logo/logo.png'
 
-const Preparing = ({message}) => {
+const Preparing = ({message, mt='mt-center'}) => {
     return (
-		<div className='mt-center'>
+		<div className={mt} style={{marginTop: mt}}>
 			<div>
 				<div className='d-flex justify-content-center'>
 					<img src={logo} alt='' className='img-fluid rounded me-3' style={{ width: '50px', height: '50px' }} />

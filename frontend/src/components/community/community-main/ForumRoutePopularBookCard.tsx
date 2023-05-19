@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react"
 import { Card, ListGroup } from "react-bootstrap"
-import { PopularBook } from "../post/PostType"
+import { PopularBook } from "../../../types/PostType"
 import axios from "axios"
 import urls from "../../../settings/urls"
 import Error from '../../common/Error';
 
-const ForumRoutePopularBookCard = () => {
+const CommunityRoutePopularBookCard = () => {
     const [popularBook, setPopularBook] = useState<PopularBook[]>([])
 	useEffect(() => {
 		axios
@@ -51,4 +51,4 @@ const ForumRoutePopularBookCard = () => {
 	)
 }
 
-export default ForumRoutePopularBookCard
+export default CommunityRoutePopularBookCard

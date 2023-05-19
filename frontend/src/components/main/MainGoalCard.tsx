@@ -17,9 +17,9 @@ const MainGoalCard = ({ goal }) => {
 				<a href='/goal' className='text-decoration-none text-black h-100'>
 					<h3>{new Date().getFullYear()}년 목표</h3>
 
-					{Object.keys(goal).length === 0 ? (
+					{goal == null ? (
 						<NoContent message={`${new Date().getFullYear()}년 목표가 없어요`} />
-					) : goal == null || typeof goal == 'undefined' ? (
+					) : typeof goal == 'undefined' ? (
 						<Error message='오류가 났어요' mb='75px' />
 					) : (
 						<div className='h-100'>

@@ -1,20 +1,20 @@
-import MainTipCard from '../tips/MainTipCard';
+import MainTipsCard from '../tips/MainTipsCard';
 import ForumRouteGatheringCard from './ForumRouteGatheringCard';
-import ForumRoutePopularBookCard from './ForumRoutePopularBookCard';
+import CommunityRoutePopularBookCard from './ForumRoutePopularBookCard';
 import ForumRoutePopularQuizCard from './ForumRoutePopularQuizCard';
 import ForumRoutePopularSurveyCard from './ForumRoutePopularSurveyCard';
-import ForumRoutePostCard from './ForumRoutePostCard'
+import CommunityRoutePostCard from './ForumRoutePostCard'
 
-const ForumMain = () => {
+const CommunityRoute = () => {
 	return (
 		<div className='container-xl'>
 			<div className='row'>
 				<div className='cl-12 col-md-8'>
-					<ForumRoutePostCard />
+					<CommunityRoutePostCard />
 				</div>
 
 				<div className='col-12 col-md-4'>
-					<ForumRoutePopularBookCard />
+					<CommunityRoutePopularBookCard />
 				</div>
 
 				{/* <div className='col-12 col-md-6'>
@@ -30,7 +30,7 @@ const ForumMain = () => {
 				</div> */}
 
 				<div className='col-12'>
-					<MainTipCard />
+					<MainTipsCard />
 				</div>
 
 				<div className='mb-5' />
@@ -39,4 +39,4 @@ const ForumMain = () => {
 	)
 }
 
-export default ForumMain
+export default CommunityRoute

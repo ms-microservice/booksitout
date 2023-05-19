@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap'
 import { BsFire as FireIcon } from 'react-icons/bs'
 import axios from 'axios'
 
-import { Post } from './PostType'
+import { Post } from '../../../types/PostType'
 import urls from '../../../settings/urls'
 
 import PostListGroup from './PostListGroup'

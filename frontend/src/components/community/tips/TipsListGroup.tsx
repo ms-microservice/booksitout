@@ -11,7 +11,7 @@ import urls from '../../../settings/urls'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
 
-const TipPostDetailListGroup = ({ range }) => {
+const TipsListGroup = ({ range }) => {
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
@@ -62,7 +62,7 @@ const TipPostDetailListGroup = ({ range }) => {
 						<a href={`/introduction/tips/detail/${post.id}`} className={`text-decoration-none text-black mb-3`}>
 							<li className='d-flex w-100 pe-0 border p-3 rounded'>
 								<div className='row w-100'>
-									<div className='col-8'>
+									<div className='col-12 col-md-8'>
 										<div className='text-book'>
 											<TimeIcon className='mb-1' /> 약 {post.estimatedReadTime}분
 										</div>
@@ -70,7 +70,7 @@ const TipPostDetailListGroup = ({ range }) => {
 										<h5>{post.title}</h5>
 									</div>
 
-									<div className='col-4'>
+									<div className='col-12 col-md-4'>
 										<p className='text-secondary text-end mt-3'>{`${post.createdDate?.split('-')[0].slice(2) ?? '-'}년  ${
 											post.createdDate?.split('-')[1] ?? '-'
 										}월`}</p>
@@ -85,4 +85,4 @@ const TipPostDetailListGroup = ({ range }) => {
 	)
 }
 
-export default TipPostDetailListGroup
+export default TipsListGroup

@@ -14,7 +14,7 @@ const PostRoutePost = ({post}) => {
 						</h3>
 
 						<p className='text-secondary' style={{ height: '50px', overflowY: 'hidden' }}>
-							{post.content.replaceAll('<br>', ' ')}
+							{post.content.replaceAll(/<[^>]+>/g, ' ')}
 						</p>
 
 						<div className='row mt-2 justify-content-end align-items-end'>

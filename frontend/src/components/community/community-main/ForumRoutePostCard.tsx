@@ -12,9 +12,9 @@ import AllButton from '../../common/AllButton'
 
 import urls from '../../../settings/urls'
 
-import { Post } from '../post/PostType'
+import { Post } from '../../../types/PostType'
 
-const ForumRoutePostCard = () => {
+const CommunityRoutePostCard = () => {
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
@@ -26,9 +26,7 @@ const ForumRoutePostCard = () => {
 		axios
 			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=6`)
 			.then((res) => setPopularPost(res.data))
-			.catch((e) => {
-				setError(true)
-			})
+			.catch((e) => setError(true))
 			.finally(() => {
 				setInitialFetch(false)
 				setLoading(false)
@@ -55,7 +53,7 @@ const ForumRoutePostCard = () => {
 						) : loading ? (
 							<Loading mt='125px' message='' />
 						) : error ? (
-							<Error mt='0px' mb='100px' />
+							<Error mt='125px' mb='100px' />
 						) : (
 							<PostListGroup postList={popularPost} col1='col-12 col-md-6' col2='col-12 col-md-6' />
 						)}
@@ -70,4 +68,4 @@ const ForumRoutePostCard = () => {
 	)
 }
 
-export default ForumRoutePostCard
+export default CommunityRoutePostCard

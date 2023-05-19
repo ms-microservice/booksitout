@@ -13,6 +13,11 @@ code {
 	font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
+a {
+	text-decoration: none;
+	color: black;
+}
+
 @supports (padding: max(0px)) {
 	body,
 	header {
@@ -62,7 +67,7 @@ code {
 	}
 }
 
-.button-bottom-left {
+.bottom-left {
 	position: absolute;
 	bottom: 20px;
 
@@ -70,7 +75,7 @@ code {
 	left: 2.5%;
 }
 
-.button-bottom-half-right {
+.bottom-half-right {
 	position: absolute;
 	bottom: 20px;
 
@@ -78,7 +83,7 @@ code {
 	right: 2.5%;
 }
 
-.button-bottom-half-left {
+.bottom-half-left {
 	position: absolute;
 	bottom: 20px;
 
@@ -87,15 +92,30 @@ code {
 }
 
 @media (max-width: 768px) {
-	.button-bottom-half-left {
+	.bottom-half-left {
 		bottom: 70px;
 
 		width: 95%;
 		left: 2.5%;
 	}
 
-	.button-bottom-half-right {
+	.bottom-half-right {
 		width: 95%;
 		right: 2.5%;
 	}
+}
+
+.mt-6 {
+	margin-top: 65px;
+}
+
+.container-xl {
+	max-width: 1920px;
+	--bs-gutter-x: 1.5rem;
+    --bs-gutter-y: 0;
+    width: 100%;
+    padding-right: calc(var(--bs-gutter-x) * .5);
+    padding-left: calc(var(--bs-gutter-x) * .5);
+    margin-right: auto;
+	margin-left: auto;
 }

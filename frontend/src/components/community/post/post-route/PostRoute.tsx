@@ -1,55 +1,38 @@
-import { useEffect, useState } from 'react'
+import { useLoaderData, useParams } from 'react-router-dom'
+import axios from 'axios'
 import { ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
-import { useParams } from 'react-router-dom'
-import { Post } from '../PostType'
+
 import PostRoutePost from './PostRoutePost'
 import NoContent from '../../../common/NoContent'
-import Error from '../../../common/Error';
-import axios from 'axios'
+
+import { Post } from '../../../../types/PostType'
 import urls from '../../../../settings/urls'
-import Loading from '../../../common/Loading'
+
+export async function loader({ params }) {
+	const sortBy = params.sortBy
+
+	return axios
+		.get(`${urls.api.base}/v4/forum/post?sort=${sortBy}`)
+		.then((res) => {
+			if (res.status === 200) {
+				return res.data
+			}
+		})
+		.catch((e) => {
+			throw e
+		})
+}
 
 const PostRoute = () => {
 	const { sortBy } = useParams()
-
-	const [initialFetch, setIntialFetch] = useState<boolean>(true)
-	const [loading, setLoading] = useState<boolean>(true)
-	const [error, setError] = useState<boolean>(false)
-
-	const [postList, setPostList] = useState<Post[]>([])
-	useEffect(() => {
-		setTimeout(() => {
-			setIntialFetch(false)
-		}, 500)
-
-		axios
-			.get(`${urls.api.base}/v4/forum/post?sort=${sortBy}`)
-			.then((res) => {
-				if (res.status === 200) {
-					setPostList(res.data)
-				}
-			})
-			.catch((e) => {
-				setError(true)
-			})
-			.finally(() => {
-				setIntialFetch(false)
-				setLoading(false)
-			})
-	}, [])
+	const postList = useLoaderData() as Post[]
 
 	return (
 		<div className='container-xl'>
 			<PostRouteButton sortBy={sortBy} />
 
 			<div className='mt-3'>
-				{initialFetch ? (
-					<></>
-				) : loading ? (
-					<Loading />
-				) : error ? (
-					<Error />
-				) : postList.length === 0 ? (
+				{postList.length === 0 ? (
 					<NoContent mt='50px' />
 				) : (
 					postList.map((post) => {
@@ -61,7 +44,7 @@ const PostRoute = () => {
 	)
 }
 
-const PostRouteButton = ({sortBy}) => {
+const PostRouteButton = ({ sortBy }) => {
 	return (
 		<Card>
 			<Card.Body>

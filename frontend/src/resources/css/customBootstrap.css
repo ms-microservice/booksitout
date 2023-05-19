@@ -110,3 +110,18 @@
 .dropdown-menu {
     --bs-dropdown-link-active-bg: #1cb15a;
 } 
+
+.form-check-input:checked {
+    background-color: #1cb15a;
+    border-color: #1cb15a;
+}
+
+/* Pagination */
+.active>.page-link {
+    background-color: #1cb15a;
+    border-color: #1cb15a;
+}
+
+.page-link {
+    color: #1cb15a;
+}

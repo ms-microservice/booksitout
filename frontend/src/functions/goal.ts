@@ -9,7 +9,7 @@ const getGoalList = (duration = 5) => {
 
 const getGoal = (year) => {
 	return axios.get(urls.api.goal.get.year(year), { headers: { Authorization: utils.getToken() } })
-		.then((res) => res.data)
+		.then((res) => res)
 }
 
 const addGoal = (year, goal) => {

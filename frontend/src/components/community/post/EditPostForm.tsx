@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom"
 import { Button, Card, Form } from "react-bootstrap"
 import axios from "axios"
 
-import { Post, RecentBook } from './PostType'
+import { Post, RecentBook } from '../../../types/PostType'
 import urls from "../../../settings/urls"
 
 import Loading from '../../common/Loading';

@@ -17,7 +17,7 @@ const SettingsLinkCard = ({ title, contentList, link }) => {
 							</div>
 						</div>
 
-						<div className='mt-5 col-2 d-flex justify-content-end align-items-center'>
+						<div className='mt-6 col-2 d-flex justify-content-end align-items-center'>
 							<RightArrowIcon className='text-book' size={30} />
 						</div>
 					</div>
