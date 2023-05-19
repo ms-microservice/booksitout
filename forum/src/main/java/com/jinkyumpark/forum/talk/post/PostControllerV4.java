@@ -2,9 +2,11 @@ package com.jinkyumpark.forum.talk.post;
 
 import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.forum.config.feign.BookClient;
 import com.jinkyumpark.forum.config.feign.response.BookInfo;
+import com.jinkyumpark.forum.config.feign.response.PublicUserResponse;
 import com.jinkyumpark.forum.config.security.loginUser.LoginUser;
 import com.jinkyumpark.forum.config.security.loginUser.User;
 import com.jinkyumpark.forum.talk.comment.CommentService;
@@ -14,9 +16,10 @@ import com.jinkyumpark.forum.talk.post.dto.PostSort;
 import com.jinkyumpark.forum.talk.post.dto.PostResponse;
 import com.jinkyumpark.forum.talk.postlike.PostLikeCount;
 import com.jinkyumpark.forum.talk.postlike.PostLikeService;
-import com.jinkyumpark.forum.config.feign.AppUserClient;
+import com.jinkyumpark.forum.config.feign.UserClient;
 import com.jinkyumpark.forum.config.feign.response.AppUserInfo;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -36,13 +39,13 @@ public class PostControllerV4 {
     private final PostLikeService postLikeService;
     private final CommentService commentService;
 
-    private final AppUserClient appUserClient;
+    private final UserClient userClient;
     private final BookClient bookClient;
 
     @GetMapping("{postId}")
     public PostResponse getPostByPostId(@PathVariable("postId") Long postId) {
         PostDto postDto = postService.getPostByPostId(postId);
-        AppUserInfo appUserInfo = appUserClient.getUserInfoByUserId(postDto.getAppUserId());
+        AppUserInfo appUserInfo = userClient.getUserInfoByUserId(postDto.getAppUserId());
         BookInfo bookInfo = bookClient.getBookInfoByIsbn(postDto.getIsbn());
 
         PostLikeCount likeCount = postLikeService.getPostLikeCount(postId);
@@ -53,8 +56,8 @@ public class PostControllerV4 {
 
     @GetMapping("by-isbn")
     public List<PostResponse> getPostByIsbn(@RequestParam("isbn") Long isbn,
-                                            @RequestParam("page") Integer page,
-                                            @RequestParam("size") Integer size
+                                            @RequestParam(value = "page", required = false) Integer page,
+                                            @RequestParam(value = "size", required = false) Integer size
     ) {
         if (page == null) page = 1;
         if (size == null) size = 10;
@@ -63,7 +66,7 @@ public class PostControllerV4 {
         return postService.getPostByIsbn(isbn, pageable).stream()
                 .map(post -> PostResponse.of(
                                 post,
-                                appUserClient.getUserInfoByUserId(post.getAppUserId()),
+                                userClient.getUserInfoByUserId(post.getAppUserId()),
                                 bookClient.getBookInfoByIsbn(post.getIsbn()),
                                 postLikeService.getPostLikeCount(post.getPostId()),
                                 commentService.getCommentCountByPostId(post.getPostId()
@@ -72,6 +75,68 @@ public class PostControllerV4 {
                 )
                 .collect(Collectors.toList());
     }
+
+    @GetMapping("by-name")
+    public List<PostResponse> getAllPostByNickname(@RequestParam("name") String nickName,
+                                                   @RequestParam(value = "page", required = false) Integer page,
+                                                   @RequestParam(value = "size", required = false) Integer size) {
+        if (page == null) page = 1;
+        if (size == null) size = 10;
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDate").descending());
+
+        PublicUserResponse publicUser = userClient.getUserByNickname(nickName);
+
+        return postService.getAllPostByAppUserId(publicUser.getAppUserId(), pageable).stream()
+                .map(post -> PostResponse.of(
+                                post,
+                                AppUserInfo.builder().build(),
+                                bookClient.getBookInfoByIsbn(post.getIsbn()),
+                                postLikeService.getPostLikeCount(post.getPostId()),
+                                commentService.getCommentCountByPostId(post.getPostId()
+                                )
+                        )
+                )
+                .collect(Collectors.toList());
+    }
+
+    @GetMapping("by-name/paged")
+    public PagedResponse getAllPostByNicknamePaged(@RequestParam("name") String nickName,
+                                                                 @RequestParam(value = "page", required = false) Integer page,
+                                                                 @RequestParam(value = "size", required = false) Integer size) {
+        if (page == null) page = 1;
+        if (size == null) size = 10;
+        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDate").descending());
+
+        PublicUserResponse publicUser = userClient.getUserByNickname(nickName);
+        Page<Post> postPaged = postService.getAllPostByAppUserIdPaged(publicUser.getAppUserId(), pageable);
+        AppUserInfo appUserInfo = AppUserInfo.builder()
+                .appUserId(publicUser.getAppUserId())
+                .name(publicUser.getName())
+                .profileImage(publicUser.getProfileImage())
+                .build();
+
+        List<PostResponse> content = postPaged.getContent()
+                .stream()
+                .map(post -> PostResponse.of(
+                                PostDto.of(post),
+                                appUserInfo,
+                                bookClient.getBookInfoByIsbn(post.getIsbn()),
+                                postLikeService.getPostLikeCount(post.getPostId()),
+                                commentService.getCommentCountByPostId(post.getPostId()
+                                )
+                        )
+                )
+                .collect(Collectors.toList());
+
+        return PagedResponse.builder()
+                .first(postPaged.isFirst())
+                .last(postPaged.isLast())
+                .totalElements(postPaged.getNumberOfElements())
+                .totalPages(postPaged.getTotalPages())
+                .content(content)
+                .build();
+    }
+
 
     @GetMapping
     public List<PostResponse> getPostByOrder(@RequestParam("sort") String sort,
@@ -88,7 +153,7 @@ public class PostControllerV4 {
                 .map(post ->
                         PostResponse.of(
                                 post,
-                                appUserClient.getUserInfoByUserId(post.getAppUserId()),
+                                userClient.getUserInfoByUserId(post.getAppUserId()),
                                 bookClient.getBookInfoByIsbn(post.getIsbn()),
                                 postLikeService.getPostLikeCount(post.getPostId()),
                                 commentService.getCommentCountByPostId(post.getPostId())

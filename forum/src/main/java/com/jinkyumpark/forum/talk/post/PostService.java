@@ -5,6 +5,7 @@ import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.forum.config.feign.BookClient;
 import com.jinkyumpark.forum.talk.post.dto.PostSort;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -44,6 +45,16 @@ public class PostService {
                 .findAll(pageable).stream()
                 .map(PostDto::of)
                 .collect(Collectors.toList());
+    }
+
+    public List<PostDto> getAllPostByAppUserId(Long appUserId, Pageable pageable) {
+        return postRepository.findAllByAppUserId(appUserId, pageable).stream()
+                .map(PostDto::of)
+                .collect(Collectors.toList());
+    }
+
+    public Page<Post> getAllPostByAppUserIdPaged(Long appUserId, Pageable pageable) {
+        return postRepository.findAllByAppUserIdPaged(appUserId, pageable);
     }
 
     @Transactional

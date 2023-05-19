@@ -9,7 +9,7 @@ import com.jinkyumpark.forum.config.security.loginUser.User;
 import com.jinkyumpark.forum.talk.comment.dto.CommentAddRequest;
 import com.jinkyumpark.forum.talk.comment.dto.CommentEditRequest;
 import com.jinkyumpark.forum.talk.comment.dto.CommentResponse;
-import com.jinkyumpark.forum.config.feign.AppUserClient;
+import com.jinkyumpark.forum.config.feign.UserClient;
 import com.jinkyumpark.forum.talk.commentlike.CommentLikeCount;
 import com.jinkyumpark.forum.talk.commentlike.CommentLikeService;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +29,7 @@ public class CommentControllerV4 {
 
     private final CommentService commentService;
     private final CommentLikeService commentLikeService;
-    private final AppUserClient appUserClient;
+    private final UserClient userClient;
 
     @GetMapping("post/{postId}/comments")
     public List<CommentResponse> getCommentsByPostId(@PathVariable("postId") Long postId,
@@ -45,7 +45,7 @@ public class CommentControllerV4 {
                 .getCommentsByPostId(postId, pageable).stream()
                 .map(comment -> CommentResponse.of(
                                 comment,
-                                appUserClient.getUserInfoByUserId(comment.getAppUserId()),
+                                userClient.getUserInfoByUserId(comment.getAppUserId()),
                                 commentLikeService.getCommentLikeCount(comment.getCommentId()),
                                 appUserId == null || appUserId == 0 ? 0 : commentLikeService.getCommentScore(appUserId, comment.getCommentId())
                         )
@@ -58,7 +58,7 @@ public class CommentControllerV4 {
                                          @PathVariable("postId") Long postId,
                                          @RequestBody @Valid CommentAddRequest commentAddRequest) {
         Comment comment = commentService.addComment(commentAddRequest.toEntity(user.getId(), postId));
-        AppUserInfo appUserInfo = appUserClient.getUserInfoByUserId(user.getId());
+        AppUserInfo appUserInfo = userClient.getUserInfoByUserId(user.getId());
         CommentLikeCount commentLikeCount = CommentLikeCount.builder()
                 .positiveCount(0)
                 .negativeCount(0)
