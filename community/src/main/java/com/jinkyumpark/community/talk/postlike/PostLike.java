@@ -28,4 +28,9 @@ public class PostLike {
 
     private Long appUserId;
 
+    public PostLike updateScore(int score) {
+        this.score = score;
+        return this;
+    }
+
 }

@@ -45,7 +45,7 @@ public class CommentControllerV4 {
                 .getCommentsByPostId(postId, pageable).stream()
                 .map(comment -> CommentResponse.of(
                                 comment,
-                                userClient.getUserInfoByUserId(comment.getAppUserId()),
+                                userClient.getPublicUserByAppUserId(comment.getAppUserId()),
                                 commentLikeService.getCommentLikeCount(comment.getCommentId()),
                                 appUserId == null || appUserId == 0 ? 0 : commentLikeService.getCommentScore(appUserId, comment.getCommentId())
                         )
@@ -58,7 +58,7 @@ public class CommentControllerV4 {
                                          @PathVariable("postId") Long postId,
                                          @RequestBody @Valid CommentAddRequest commentAddRequest) {
         Comment comment = commentService.addComment(commentAddRequest.toEntity(user.getId(), postId));
-        AppUserInfo appUserInfo = userClient.getUserInfoByUserId(user.getId());
+        PublicUserInfo publicUserInfo = userClient.getPublicUserByAppUserId(user.getId());
         CommentLikeCount commentLikeCount = CommentLikeCount.builder()
                 .positiveCount(0)
                 .negativeCount(0)
@@ -66,7 +66,7 @@ public class CommentControllerV4 {
 
         return AddSuccessResponse.builder()
                 .id(comment.getCommentId())
-                .added(CommentResponse.of(comment, appUserInfo, commentLikeCount, 0))
+                .added(CommentResponse.of(comment, publicUserInfo, commentLikeCount, 0))
 
                 .message("댓글을 추가했어요")
                 .build();

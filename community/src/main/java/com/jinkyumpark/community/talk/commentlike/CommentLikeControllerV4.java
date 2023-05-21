@@ -27,7 +27,7 @@ public class CommentLikeControllerV4 {
                 .appUserId(loginUser.getId())
                 .build();
 
-        Long commentLikeId = commentLikeService.addCommentLike(commentLikeDto.toEntity());
+        Long commentLikeId = commentLikeService.addCommentLike(commentLikeDto.toEntity()).getCommentLikeId();
 
         return AddSuccessResponse.builder()
                 .id(commentLikeId)

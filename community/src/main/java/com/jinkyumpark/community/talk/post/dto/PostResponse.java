@@ -21,15 +21,17 @@ public class PostResponse {
 
     private Integer likeCount;
     private Integer dislikeCount;
+    private Integer userLikeScore;
+
     private Integer commentCount;
 
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
-    private AppUserInfo user;
+    private PublicUserInfo user;
     private BookInfo book;
 
-    public static PostResponse of(PostDto postDto, AppUserInfo appUserInfo, BookInfo bookInfo, PostLikeCount postLikeCount, int commentCount) {
+    public static PostResponse of(PostDto postDto, PublicUserInfo appUserInfo, BookInfo bookInfo, PostLikeCount postLikeCount, int commentCount, int userLikeScore) {
         return PostResponse.builder()
                 .postId(postDto.getPostId())
                 .title(postDto.getTitle())
@@ -40,6 +42,7 @@ public class PostResponse {
 
                 .likeCount(postLikeCount.getPositiveCount())
                 .dislikeCount(postLikeCount.getNegativeCount())
+                .userLikeScore(userLikeScore)
                 .commentCount(commentCount)
 
                 .book(bookInfo)

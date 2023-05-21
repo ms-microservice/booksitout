@@ -34,15 +34,15 @@ public class CommentLikeService {
     }
 
     @Transactional
-    public Long addCommentLike(CommentLike commentLike) {
+    public CommentLike addCommentLike(CommentLike commentLike) {
         Optional<CommentLike> existingCommentLike = commentLikeRepository.findByAppUserIdAndCommentId(commentLike.getAppUserId(), commentLike.getComment().getCommentId());
 
         if (existingCommentLike.isPresent()) {
             existingCommentLike.get().updateScore(commentLike.getScore());
-            return existingCommentLike.get().getCommentLikeId();
+            return existingCommentLike.get();
         }
 
-        return commentLikeRepository.save(commentLike).getCommentLikeId();
+        return commentLikeRepository.save(commentLike);
     }
 
     @Transactional
