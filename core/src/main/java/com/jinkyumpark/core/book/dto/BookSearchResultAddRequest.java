@@ -33,7 +33,7 @@ public class BookSearchResultAddRequest {
                 .form(form)
                 .source(source)
 
-                .isSharing(sharing)
+                .sharing(sharing)
 
                 .appUserId(appUserId)
 

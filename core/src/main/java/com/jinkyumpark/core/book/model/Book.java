@@ -55,7 +55,7 @@ public class Book extends TimeEntity {
     private BookCategory category;
 
     @ColumnDefault("false") private Boolean isGiveUp;
-    @ColumnDefault("false") private Boolean isSharing;
+    @ColumnDefault("true") private Boolean sharing;
 
     @Enumerated(EnumType.STRING)
     @ColumnDefault("NONE")
@@ -110,8 +110,8 @@ public class Book extends TimeEntity {
             this.source = bookDto.getSource();
         if (bookDto.getReview() != null)
             this.review = bookDto.getReview();
-        if (bookDto.getIsSharing() != null)
-            this.isSharing = bookDto.getIsSharing();
+        if (bookDto.getSharing() != null)
+            this.sharing = bookDto.getSharing();
         if (bookDto.getEndPage() != null)
             this.endPage = bookDto.getEndPage();
         if (bookDto.getRating() != null)

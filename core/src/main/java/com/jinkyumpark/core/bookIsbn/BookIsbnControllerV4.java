@@ -1,5 +1,6 @@
 package com.jinkyumpark.core.bookIsbn;
 
+import com.jinkyumpark.core.book.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -13,7 +14,9 @@ public class BookIsbnControllerV4 {
 
     @GetMapping("{isbn}")
     public BookIsbnDto getBookInfoByIsbn(@PathVariable("isbn") Long isbn) {
-        return bookIsbnService.getBookInfoByIsbn(isbn);
+        BookIsbn bookIsbn = bookIsbnService.getBookInfoAddIfAbsent(isbn);
+
+        return BookIsbnDto.of(bookIsbn);
     }
 
     @PostMapping("{isbn}")

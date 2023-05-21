@@ -69,7 +69,7 @@ public class BookControllerV1 {
                 .cover(bookAddRequest.getCover())
                 .category(bookAddRequest.getCategory())
                 .language(bookAddRequest.getLanguage())
-                .isSharing(bookAddRequest.getIsSharing())
+                .sharing(bookAddRequest.getSharing())
                 .form(bookAddRequest.getForm())
                 .appUserId(loginAppUser.getId())
                 .build();
@@ -94,7 +94,7 @@ public class BookControllerV1 {
                 .endPage(bookEditRequest.getEndPage())
                 .cover(bookEditRequest.getCover())
                 .source(bookEditRequest.getSource())
-                .isSharing(bookEditRequest.getIsSharing())
+                .sharing(bookEditRequest.getIsSharing())
                 .rating(bookEditRequest.getRating())
                 .summary(bookEditRequest.getSummary())
                 .review(bookEditRequest.getReview())

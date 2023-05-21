@@ -28,7 +28,7 @@ public class MemoControllerV1 {
     public List<Memo> getAllMemoByBookId(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
-        if (!book.getAppUserId().equals(loginAppUser.getId()) && !book.getIsSharing()) {
+        if (!book.getAppUserId().equals(loginAppUser.getId()) && !book.getSharing()) {
             throw new UnauthorizedException(messageSource.getMessage("memo.get.fail.not-sharing"));
         }
 

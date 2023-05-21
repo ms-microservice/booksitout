@@ -118,7 +118,7 @@ public class BookService {
     }
 
     public List<Book> getAllBookByAppUserId(Long appUserId, Pageable pageable) {
-        return bookRepository.findAllByAppUserId(appUserId, pageable);
+        return bookRepository.findAllIsbnNotEmptyByAppUserId(appUserId, pageable);
     }
 
     public List<Book> getAllSharingBooksByAppUserId(Long appUserId, Pageable pageable) {

@@ -40,4 +40,15 @@ public class BookIsbnService {
         return bookIsbnRepository.save(bookIsbn);
     }
 
+    public BookIsbn getBookInfoAddIfAbsent(Long isbn) {
+        Optional<BookIsbn> book = bookIsbnRepository.findByIsbn13(isbn);
+
+        if (book.isEmpty()) {
+            BookIsbn bookIsbn = searchClient.getBookDetailByIsbnFromData4library(isbn).toEntity();
+            return bookIsbnRepository.save(bookIsbn);
+        }
+
+        return book.get();
+    }
+
 }

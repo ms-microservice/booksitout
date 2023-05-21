@@ -27,7 +27,7 @@ public class BookIsbn {
     private String title;
     private String author;
     private String cover;
-
+    private String description;
 
     public static BookIsbn of(NewBookSearchResponse newBookSearchResponse) {
         int index = newBookSearchResponse.getTitle().lastIndexOf('(') == -1 ? newBookSearchResponse.getTitle().length() : newBookSearchResponse.getTitle().lastIndexOf('(');
