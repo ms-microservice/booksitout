@@ -1,7 +1,6 @@
 package com.jinkyumpark.search.common
 
 import com.jinkyumpark.search.config.exception.BadRequestException
-import com.jinkyumpark.search.general.GeneralService
 import com.jinkyumpark.search.offlineLibrary.OfflineLibraryService
 import com.jinkyumpark.search.onlineLibrary.OnlineLibraryService
 import com.jinkyumpark.search.subscription.SubscriptionService
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("v2/search")
 class SearchControllerV2(
-    val generalService: GeneralService,
     val usedService: UsedService,
     val subscriptionService: SubscriptionService,
     val onlineLibraryService: OnlineLibraryService,
