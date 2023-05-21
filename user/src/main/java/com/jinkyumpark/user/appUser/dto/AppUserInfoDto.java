@@ -11,9 +11,9 @@ import lombok.NoArgsConstructor;
 public class AppUserInfoDto {
 
     private Long appUserId;
-    private String email;
     private String name;
     private String profileImage;
+    private String email;
 
     public static AppUserInfoDto of(AppUser appUser) {
         return AppUserInfoDto.builder()

@@ -1,16 +1,16 @@
 package com.jinkyumpark.user.publicUser.dto;
 
 import com.jinkyumpark.user.appUser.AppUser;
-import com.jinkyumpark.user.publicUser.PublicUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 
 @Getter
 @AllArgsConstructor @Builder
-public class PublicUserResponse {
+public class PublicUser {
     private final Long appUserId;
     private final String email;
     private final String name;
@@ -19,14 +19,17 @@ public class PublicUserResponse {
     private final Boolean isPaidUser;
     private final Integer joinDayCount;
 
-    public static PublicUserResponse of(PublicUser publicUser, AppUser appUser) {
-        int joinDayCount = appUser.getCreatedDate().toLocalDate().until(LocalDate.now()).getDays();
+    public static PublicUser of(AppUser appUser) {
+        int joinDayCount = (int) ChronoUnit.DAYS.between(appUser.getCreatedDate().toLocalDate(), LocalDate.now());
 
-        return PublicUserResponse.builder()
-                .appUserId(publicUser.getAppUser().getAppUserId())
-                .name(publicUser.getNickName())
+        String name = appUser.getPublicName() == null ? appUser.getName() : appUser.getPublicName();
+
+        return PublicUser.builder()
+                .appUserId(appUser.getAppUserId())
+                .name(name)
+                .profileImage(appUser.getPublicProfileImage())
+
                 .email(appUser.getEmail())
-                .profileImage(publicUser.getProfileImage())
                 .isPaidUser(true)
                 .joinDayCount(joinDayCount)
                 .build();

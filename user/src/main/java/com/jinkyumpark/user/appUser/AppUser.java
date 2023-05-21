@@ -5,7 +5,6 @@ import com.jinkyumpark.user.appUser.dto.AppUserDto;
 import com.jinkyumpark.user.config.TimeEntity;
 import com.jinkyumpark.user.oauth.OAuthDto;
 import com.jinkyumpark.user.oauth.OAuthProvider;
-import com.jinkyumpark.user.publicUser.PublicUser;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,26 +60,41 @@ public class AppUser extends TimeEntity implements UserDetails {
     private String publicName;
     private String publicProfileImage;
 
-    @JsonIgnore @Override
-    public String getPassword() { return password; }
-    @JsonIgnore @Override
+    @JsonIgnore
+    @Override
+    public String getPassword() {
+        return password;
+    }
+
+    @JsonIgnore
+    @Override
     public String getUsername() {
         return email;
     }
-    @JsonIgnore @Override
+
+    @JsonIgnore
+    @Override
     public boolean isAccountNonExpired() {
         return true;
     }
-    @JsonIgnore @Override
+
+    @JsonIgnore
+    @Override
     public boolean isAccountNonLocked() {
         return true;
     }
-    @JsonIgnore @Override
+
+    @JsonIgnore
+    @Override
     public boolean isCredentialsNonExpired() {
         return true;
     }
-    @JsonIgnore @Override
-    public boolean isEnabled() { return true; }
+
+    @JsonIgnore
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -98,19 +112,59 @@ public class AppUser extends TimeEntity implements UserDetails {
     }
 
     public AppUser updateUser(AppUserDto appUserDto) {
-        if (appUserDto.getEmail() != null) this.email = appUserDto.getEmail();
-        if (appUserDto.getPassword() != null) this.password = appUserDto.getPassword();
-        if (appUserDto.getEmailVerificationCode() != null) this.emailVerificationCode = appUserDto.getEmailVerificationCode();
-        if (appUserDto.getName() != null) this.name = appUserDto.getName();
+        if (appUserDto.getEmail() != null) {
+            this.email = appUserDto.getEmail();
+        }
+
+        if (appUserDto.getPassword() != null) {
+            this.password = appUserDto.getPassword();
+        }
+
+        if (appUserDto.getEmailVerificationCode() != null) {
+            this.emailVerificationCode = appUserDto.getEmailVerificationCode();
+        }
+
+        if (appUserDto.getName() != null) {
+            this.name = appUserDto.getName();
+        }
 
         return this;
     }
 
-    public void saveOrUpdateOAuthUser(OAuthDto OAuthDto) {
-        if (OAuthDto.getOAuthId() != null) this.oAuthId = OAuthDto.getOAuthId();
-        if (OAuthDto.getName() != null && (this.name == null || this.name.equals(""))) this.name = OAuthDto.getName();
-        if (OAuthDto.getProfileImage() != null && (this.profileImage == null || this.profileImage.equals(""))) this.profileImage = OAuthDto.getProfileImage();
-        if (OAuthDto.getOAuthProvider() != null) this.oAuthProvider = OAuthDto.getOAuthProvider();
+    public void saveOrUpdateOAuthUser(OAuthDto oauthDto) {
+
+        if (oauthDto.getOAuthId() != null) {
+            this.oAuthId = oauthDto.getOAuthId();
+        }
+
+        if (oauthDto.getName() != null && (this.name == null || this.name.equals(""))) {
+            this.name = oauthDto.getName();
+        }
+
+        if (oauthDto.getProfileImage() != null && (this.profileImage == null || this.profileImage.equals(""))) {
+            this.profileImage = oauthDto.getProfileImage();
+        }
+
+        if (oauthDto.getOAuthProvider() != null) {
+            this.oAuthProvider = oauthDto.getOAuthProvider();
+        }
+
+        if (this.publicProfileImage == null) {
+            this.publicProfileImage = oauthDto.getProfileImage();
+        }
+
+    }
+
+    public AppUser updatePublicProfile(String name, String profileImage) {
+        if (name != null) {
+            this.publicName = name;
+        }
+
+        if (profileImage != null) {
+            this.publicProfileImage = profileImage;
+        }
+
+        return this;
     }
 
 }

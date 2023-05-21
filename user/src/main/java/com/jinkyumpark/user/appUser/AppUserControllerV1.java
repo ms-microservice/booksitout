@@ -104,7 +104,7 @@ public class AppUserControllerV1 {
     @PostMapping("change-password")
     public ResponseEntity<String> changePassword(@RequestBody @Valid ChangePasswordRequest changePasswordRequest) {
         Long loginUserId = AppUserService.getLoginAppUserId();
-        AppUser loginAppUser = appUserService.getAppUserById(loginUserId);
+        AppUser loginAppUser = appUserService.getAppUserByAppUserId(loginUserId);
 
         if (! loginAppUser.getEmailVerificationCode().equals(changePasswordRequest.getCode())) {
             return new ResponseEntity<>("인증번호가 일치하지 않아요. 다시 확인해 주세요", HttpStatus.BAD_REQUEST);

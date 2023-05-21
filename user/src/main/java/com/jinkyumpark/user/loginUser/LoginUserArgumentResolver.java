@@ -22,7 +22,10 @@ public class LoginUserArgumentResolver implements HandlerMethodArgumentResolver 
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer, NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
-        Long appUserId = Long.valueOf(webRequest.getHeader("X-Authorization-Id"));
+        String header = webRequest.getHeader("X-Authorization-Id");
+        if (header == null) return User.builder().build();
+
+        Long appUserId = Long.valueOf(header);
 
         return User.builder()
                 .id(appUserId)

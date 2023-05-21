@@ -3,17 +3,17 @@ package com.jinkyumpark.user.publicUser;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.user.appUser.AppUser;
 import com.jinkyumpark.user.appUser.AppUserService;
-import com.jinkyumpark.user.publicUser.dto.PublicUserEditRequest;
-import com.jinkyumpark.user.publicUser.dto.PublicUserResponse;
+import com.jinkyumpark.user.loginUser.LoginUser;
+import com.jinkyumpark.user.loginUser.User;
+import com.jinkyumpark.user.publicUser.dto.PublicUser;
 import com.jinkyumpark.user.utils.s3.S3Service;
-import com.jinkyumpark.user.utils.s3.S3UploadSuccessResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.validation.Valid;
 import java.io.File;
+import java.io.IOException;
 import java.util.UUID;
 
 @RequiredArgsConstructor
@@ -27,48 +27,38 @@ public class PublicUserControllerV4 {
     private final S3Service s3Service;
 
     @GetMapping("{appUserId}")
-    public PublicUserResponse getPublicUserByAppUserId(@PathVariable("appUserId") Long appUserId) {
-        PublicUser publicUser = publicUserService.getPublicUserByAppUserId(appUserId);
-        AppUser appUser = appUserService.getAppUserById(appUserId);
+    public PublicUser getPublicUserByAppUserId(@PathVariable("appUserId") Long appUserId) {
+        AppUser appUser = appUserService.getAppUserByAppUserId(appUserId);
 
-        return PublicUserResponse.of(publicUser, appUser);
+        return PublicUser.of(appUser);
     }
 
     @GetMapping("by-name")
-    public PublicUserResponse getPublicUserByNickname(@RequestParam("name") String nickName) {
-        PublicUser publicUser = publicUserService.getPublicUserByNickname(nickName);
-        AppUser appUser = appUserService.getAppUserById(publicUser.getAppUser().getAppUserId());
-
-        return PublicUserResponse.of(publicUser, appUser);
+    public PublicUser getPublicUserByNickname(@RequestParam("name") String publicName) {
+        return publicUserService.getPublicUserByPublicName(publicName);
     }
 
-    @PutMapping("{appUserId}")
-    public UpdateSuccessResponse editPublicUser(@PathVariable("appUserId") Long appUserId,
-                                                @RequestBody @Valid PublicUserEditRequest publicUserEditRequest) {
+    @SneakyThrows
+    @PutMapping
+    public UpdateSuccessResponse editPublicUser(@LoginUser User loginUser,
+                                                @RequestParam(value = "file", required = false) MultipartFile multipartFile,
+                                                @RequestParam(value = "name", required = false) String name) {
+        String imageUrl = null;
+        if (multipartFile != null) {
+                String fileName = UUID.randomUUID().toString().substring(0, 10);
+                imageUrl = s3Service.uploadFile(fileName, "profile-image", multipartFile.getInputStream().readAllBytes());
+        }
+
         PublicUser publicUser = PublicUser.builder()
-                .appUserId(appUserId)
-                .nickName(publicUserEditRequest.getNickName())
-                .profileImage(publicUserEditRequest.getProfileImage())
+                .appUserId(loginUser.getId())
+                .name(name)
+                .profileImage(imageUrl)
                 .build();
 
         PublicUser updatedPublicUser = publicUserService.updatePublicUser(publicUser);
 
         return UpdateSuccessResponse.builder()
                 .updated(updatedPublicUser)
-                .build();
-    }
-
-    @SneakyThrows
-    @PostMapping("/upload")
-    public S3UploadSuccessResponse uploadProfileImage(@RequestParam("file") MultipartFile multipartFile) {
-        String fileName = UUID.randomUUID().toString().substring(0, 10);
-        File fileToUpload = new File(multipartFile.getOriginalFilename());
-        multipartFile.transferTo(fileToUpload);
-
-        String uploadedUrl = s3Service.uploadFile(fileName, fileToUpload);
-
-        return S3UploadSuccessResponse.builder()
-                .url(uploadedUrl)
                 .build();
     }
 

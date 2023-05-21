@@ -4,12 +4,12 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class PublicUserEditRequest {
 
-    private String nickName;
-    private String profileImage;
+    private String name;
 
 }

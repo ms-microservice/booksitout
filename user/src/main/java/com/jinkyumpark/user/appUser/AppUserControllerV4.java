@@ -16,7 +16,7 @@ public class AppUserControllerV4 {
 
     @GetMapping("{appUserId}")
     public AppUserInfoDto getAppUserProfileByAppUserId(@PathVariable("appUserId") Long appUserId) {
-        AppUser appUser = appUserService.getAppUserById(appUserId);
+        AppUser appUser = appUserService.getAppUserByAppUserId(appUserId);
 
         return AppUserInfoDto.of(appUser);
     }

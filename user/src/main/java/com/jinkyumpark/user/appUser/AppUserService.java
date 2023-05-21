@@ -1,5 +1,6 @@
 package com.jinkyumpark.user.appUser;
 
+import com.jinkyumpark.common.exception.NoContentException;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.user.appUser.dto.AppUserDto;
@@ -8,8 +9,6 @@ import com.jinkyumpark.user.appUser.dto.LoginSuccessResponse;
 import com.jinkyumpark.user.jwt.AppUserAuthenticationToken;
 import com.jinkyumpark.user.jwt.JwtUtils;
 import com.jinkyumpark.user.oauth.OAuthDto;
-import com.jinkyumpark.user.publicUser.PublicUser;
-import com.jinkyumpark.user.publicUser.PublicUserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -23,13 +22,13 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @RequiredArgsConstructor
 @Service
 public class AppUserService implements UserDetailsService {
 
     private final AppUserRepository appUserRepository;
-    private final PublicUserRepository publicUserRepository;
     private final JwtUtils jwtUtils;
 
     @Override
@@ -41,14 +40,13 @@ public class AppUserService implements UserDetailsService {
                 );
     }
 
-
     public Optional<AppUser> getUserByEmail(String email) {
         return appUserRepository.findByEmail(email);
     }
 
-    public AppUser getAppUserById(Long appUserId) {
+    public AppUser getAppUserByAppUserId(Long appUserId) {
         return appUserRepository.findById(appUserId)
-                .orElseThrow(() -> new NotFoundException(""));
+                .orElseThrow(() -> new NoContentException(""));
     }
 
     public static Long getLoginAppUserId() {
@@ -112,17 +110,10 @@ public class AppUserService implements UserDetailsService {
                 .name(OAuthDto.getName())
                 .profileImage(OAuthDto.getProfileImage())
                 .oAuthProvider(OAuthDto.getOAuthProvider())
+                .publicName(OAuthDto.getName() + UUID.randomUUID().toString().substring(0, 5))
                 .build();
 
         AppUser savedAppUser = appUserRepository.save(appUser);
-
-        PublicUser publicUser = PublicUser.builder()
-                .appUserId(savedAppUser.getAppUserId())
-                .nickName(savedAppUser.getName())
-                .profileImage(savedAppUser.getProfileImage())
-                .build();
-
-        publicUserRepository.save(publicUser);
 
         return savedAppUser;
     }
