@@ -10,7 +10,7 @@ const ErrorPage = () => {
 
 			<ErrorIcon style={{ fontSize: '100px' }} />
 
-			<h1 className='mt-4'>에러가 났어요!</h1>
+			<h1 className='mt-4'>오류가 났어요!</h1>
 		</div>
 	)
 }
