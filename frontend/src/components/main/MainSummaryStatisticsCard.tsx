@@ -12,8 +12,10 @@ const MainSummaryStatisticsCard = ({ statistics }) => {
 					{statistics == null ? (
 						<Error message='오류가 났어요' mb='75px' />
 					) : (
-						<div className='h-100 d-flex align-items-center'>
-							<SummaryTable statistics={statistics} />
+						<div className='h-100 '>
+							<div className='d-flex align-items-center' style={{ marginTop: '40px', marginBottom: '10px' }}>
+								<SummaryTable statistics={statistics} />
+							</div>
 						</div>
 					)}
 				</a>

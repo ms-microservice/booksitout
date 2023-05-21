@@ -1,10 +1,13 @@
+import defaultBookCover from '../../resources/images/common/default-book-cover.png'
+
 const placeholderData = {
 	lastBook: {
-		title: '동물농장',
-		author: '조지 오웰',
-		cover: 'https://shopping-phinf.pstatic.net/main_3251178/32511789962.20230407071442.jpg',
-		currentPage: 23,
-		endPage: 329,
+		isbn: 12345678910,
+		title: '책잇아웃의 역사',
+		author: '책잇아웃',
+		cover: defaultBookCover,
+		currentPage: 77,
+		endPage: 777,
 		source: 'LIBRARY',
 		form: 'PHYSICAL',
 		language: 'KOREAN',

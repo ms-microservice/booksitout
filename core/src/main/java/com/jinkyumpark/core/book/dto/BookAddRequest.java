@@ -29,6 +29,6 @@ public class BookAddRequest {
     @NotNull
     private Integer endPage;
 
-    private Boolean isSharing = false;
+    private Boolean sharing = true;
     private String category;
 }

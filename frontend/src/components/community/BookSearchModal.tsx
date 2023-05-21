@@ -1,24 +1,23 @@
-import { useEffect, useState } from "react"
+import React from "react"
 import { Modal, Form, Button } from "react-bootstrap"
-import axios from 'axios'
 
-import urls from "../../settings/urls"
-import BookAddSearchResultLoading from "../search/BookAddSearchResultLoading"
+import AddBookSearchResultLoading from "../search/AddBookSearchResultLoading"
 import NoContent from "../common/NoContent"
-import BookAddSearchResult from "../search/BookAddSearchResult"
+import AddBookSearchResult from "../search/AddBookSearchResult"
 
-import { NewBookSearchResult } from '../search/BookType';
+import { NewBookSearchResult } from '../../types/BookType';
 
 import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'  
 import toast from "react-hot-toast"
+import { booksitoutServer } from "../../functions/axios"
 
 const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRecentBookList }) => {
-	const [loading, setLoading] = useState(false)
-	const [error, setError] = useState(false)
+	const [loading, setLoading] = React.useState(false)
+	const [error, setError] = React.useState(false)
 
-	const [query, setQuery] = useState('')
-	const [searchResult, setSearchResult] = useState<NewBookSearchResult[]>([])
-	useEffect(() => {
+	const [query, setQuery] = React.useState('')
+	const [searchResult, setSearchResult] = React.useState<NewBookSearchResult[]>([])
+	React.useEffect(() => {
 		setLoading(query !== '')
 
 		if (query === '') {
@@ -28,8 +27,8 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 
 		const typingTimer = setTimeout(() => {
 			if (query !== '') {
-				axios
-					.get(`${urls.api.base}/v3/search/new/naver?query=${query}&size=12`)
+				booksitoutServer
+					.get(`/v3/search/new/naver?query=${query}&size=12`)
 					.then((res) => setSearchResult(res.data))
 					.catch(() => setError(true))
 					.finally(() => setLoading(false))
@@ -81,7 +80,7 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 								.map(() => {
 									return (
 										<div className='col-6 col-md-3'>
-											<BookAddSearchResultLoading />
+											<AddBookSearchResultLoading />
 										</div>
 									)
 								})}
@@ -93,12 +92,12 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 							{searchResult.map((book) => {
 								return (
 									<div className='col-6 col-md-3' onClick={() => setIsbn(Number(book.isbn ?? 0))}>
-										{book.isbn == isbn && (
+										{book.isbn === isbn && (
 											<CheckIcon className='text-book opacity-100 h1' style={{ zIndex: '200', position: 'absolute' }} />
 										)}
 
 										<span className={`${book.isbn == isbn && 'opacity-50'}`}>
-											<BookAddSearchResult book={book} />
+											<AddBookSearchResult book={book} />
 										</span>
 									</div>
 								)

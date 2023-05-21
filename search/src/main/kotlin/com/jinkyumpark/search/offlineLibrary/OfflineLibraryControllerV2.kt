@@ -2,7 +2,7 @@ package com.jinkyumpark.search.offlineLibrary
 
 import com.jinkyumpark.search.common.SearchProvider
 import com.jinkyumpark.search.common.SearchResult
-import com.jinkyumpark.search.general.GeneralService
+import com.jinkyumpark.search.general.service.BookInfoService
 import com.jinkyumpark.search.offlineLibrary.location.SeoulCity
 import com.jinkyumpark.search.offlineLibrary.location.KoreaRegionEnum
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController
 @RestController
 @RequestMapping("v2/search/library/offline")
 class OfflineLibraryControllerV2(
-    val generalService: GeneralService,
+    val bookInfoService: BookInfoService,
     val offlineLibraryService: OfflineLibraryService,
 ) {
     @GetMapping("by-region")
@@ -25,7 +25,7 @@ class OfflineLibraryControllerV2(
         @RequestParam("region-detail", required = false) regionDetail: String,
     ): List<OfflineLibraryResponse> {
         val isbnToBookMap: Map<String, SearchResult> =
-            generalService.getBookByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
+            bookInfoService.getBookInfoByQueryFromAladin(query, 5).associateBy { it.isbn ?: "" }
 
         val result: MutableList<OfflineLibraryResponse> = mutableListOf()
         for (isbn: String in isbnToBookMap.keys) {

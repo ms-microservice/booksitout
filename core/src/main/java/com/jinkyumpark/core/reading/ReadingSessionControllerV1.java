@@ -47,7 +47,7 @@ public class ReadingSessionControllerV1 {
         Book book = bookService.getBookById(loginAppUser, bookId);
         Long bookAppUserId = book.getAppUserId();
 
-        if (!loginAppUser.getId().equals(bookAppUserId) && !book.getIsSharing()) {
+        if (!loginAppUser.getId().equals(bookAppUserId) && !book.getSharing()) {
             throw new UnauthorizedException(messageSource.getMessage("reading.get.fail.not-sharing"));
         }
 

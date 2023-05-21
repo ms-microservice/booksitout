@@ -15,8 +15,8 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 		<ListGroup>
 			{postList.map((post) => {
 				return (
-					<a href={`community/post/${post.postId}`} className='text-decoration-none w-100'>
-						<ListGroup.Item as='li' className='d-flex w-100 pe-0'>
+					<ListGroup.Item as='li' className='d-flex w-100 pe-0'>
+						<a href={`/community/post/${post.postId}`} className='text-decoration-none w-100'>
 							<div className='row w-100'>
 								<div className={`${col1}`}>
 									<div>
@@ -34,7 +34,8 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 												<BookIcon className='text-book me-2' />
 
 												<div className='d-block'>
-													{post.book.title.slice(0, 10)} <span className="text-secondary">{post.book.title.length > 10 ? '...' : ''}</span>
+													{post.book.title.slice(0, 10)}{' '}
+													<span className='text-secondary force-1-line'>{post.book.title.length > 10 ? '...' : ''}</span>
 													<br />
 													<span className='text-secondary'>{post.book.author}</span>
 												</div>
@@ -44,19 +45,21 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 										)}
 									</div>
 
+									<div className='ms-0 ms-xl-5' />
+
 									<Badge bg='book' style={{ width: '65px' }}>
 										<LikeIcon /> {post.likeCount}
 									</Badge>
 
-									<div className='ms-2' />
+									<div className='ms-2 ms-xl-2' />
 
 									<Badge bg='danger' style={{ width: '65px' }}>
 										<DislikeIcon /> {post.dislikeCount}
 									</Badge>
 								</div>
 							</div>
-						</ListGroup.Item>
-					</a>
+						</a>
+					</ListGroup.Item>
 				)
 			})}
 		</ListGroup>

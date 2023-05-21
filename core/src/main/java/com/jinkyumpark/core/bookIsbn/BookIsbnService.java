@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.bookIsbn;
 
 import com.jinkyumpark.common.exception.NoContentException;
-import com.jinkyumpark.core.common.feign.NewBookSearchResponse;
+import com.jinkyumpark.core.common.feign.response.NewBookSearchResponse;
 import com.jinkyumpark.core.common.feign.SearchClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -38,6 +38,17 @@ public class BookIsbnService {
         BookIsbn bookIsbn = BookIsbn.of(firstResult.get());
 
         return bookIsbnRepository.save(bookIsbn);
+    }
+
+    public BookIsbn getBookInfoAddIfAbsent(Long isbn) {
+        Optional<BookIsbn> book = bookIsbnRepository.findByIsbn13(isbn);
+
+        if (book.isEmpty()) {
+            BookIsbn bookIsbn = searchClient.getBookDetailByIsbnFromData4library(isbn).toEntity();
+            return bookIsbnRepository.save(bookIsbn);
+        }
+
+        return book.get();
     }
 
 }

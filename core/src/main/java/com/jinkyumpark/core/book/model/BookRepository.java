@@ -1,6 +1,5 @@
 package com.jinkyumpark.core.book.model;
 
-import com.jinkyumpark.core.book.model.Book;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -32,5 +31,14 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b where b.appUserId = ?1")
     List<Book> findAllByAppUserId(Long appUserId, Pageable pageable);
+
+    @Query("select b from Book b where b.appUserId = ?1 and b.sharing = true")
+    List<Book> getAllSharingBooks(Long appUserId, Pageable pageable);
+
+    @Query("select b from Book b where b.appUserId = ?1 and b.sharing = true")
+    Page<Book> getAllSharingBooksPaged(Long appUserId, Pageable pageable);
+
+    @Query("select b from Book b where b.appUserId = ?1 and b.isbn13 is not null")
+    List<Book> findAllIsbnNotEmptyByAppUserId(Long appUserId, Pageable pageable);
 
 }

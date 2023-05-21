@@ -1,6 +1,0 @@
-spring:
-  application:
-    name: forum
-
-  config:
-    import: configserver:http://localhost:8888/

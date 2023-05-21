@@ -50,7 +50,7 @@ project(":core") {
     dependencies { implementation project(':common') }
 }
 
-project(":auth") {
+project(":user") {
     dependencies { implementation project(':common') }
 }
 
@@ -58,6 +58,6 @@ project(":search") {
     dependencies { implementation project(':common') }
 }
 
-project(":forum") {
+project(":community") {
     dependencies { implementation project(':common') }
 }

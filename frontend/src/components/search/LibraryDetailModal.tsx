@@ -1,7 +1,7 @@
 import { Card, Modal } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { closeSearchLibraryDetail } from '../../redux/modalSlice'
-import { LibraryBook } from './BookType'
+import { LibraryBook } from '../../types/BookType'
 import { RootState } from '../../redux/store'
 import libraryIcon from '../../resources/images/book-classifications/sources/library.png'
 

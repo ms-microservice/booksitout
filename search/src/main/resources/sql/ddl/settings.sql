@@ -3,7 +3,8 @@ CREATE TABLE settings
     settings_id
     BIGINT
     NOT NULL
-    PRIMARY KEY,
+    PRIMARY KEY
+    auto_increment,
 
     app_user_id
     BIGINT
@@ -39,7 +40,7 @@ CREATE TABLE settings
 
     used_offline_search_range
     VARCHAR(255)
-    NULL,
+    NULL
 
 );
 

@@ -21,4 +21,5 @@ public class UpdateSuccessResponse {
     private final String message;
     private final Long id;
 
+    private final Object updated;
 }

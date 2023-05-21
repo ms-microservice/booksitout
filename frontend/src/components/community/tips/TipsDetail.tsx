@@ -1,38 +1,30 @@
-import { useEffect, useState } from "react"
+import React from "react"
 import { Card } from "react-bootstrap"
 import { useParams } from "react-router-dom"
 
 import parse from 'html-react-parser'
 
-import Tip from "./Tip"
+import Tip from "../../../types/TipsType"
 import TipsTimeIcon from "./TipsTimeIcon"
 
 import Loading from "../../common/Loading"
 import Error from '../../common/Error'
-import urls from "../../../settings/urls"
-import axios from "axios"
+
+import { booksitoutServer } from "../../../functions/axios"
 
 const TipsDetail = () => {
     const { id } = useParams()
 
-    const [initialFetch, setInitialFetch] = useState(true)
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState(false)
+    const [initialFetch, setInitialFetch] = React.useState(true)
+	const [loading, setLoading] = React.useState(true)
+	const [error, setError] = React.useState(false)
 
-    const [tip, setTip] = useState<Tip | null>(null)
-    useEffect(() => {
-        axios
-			.get(`${urls.api.base}/v4/forum/tips/${id}`)
-			.then((res) => {
-				if (!res.status.toString().startsWith('2')) {
-					throw Error()
-				}
-
-				setTip(res.data)
-			})
-			.catch(() => {
-				setError(true)
-			})
+    const [tip, setTip] = React.useState<Tip | null>(null)
+    React.useEffect(() => {
+        booksitoutServer
+			.get(`/v4/forum/tips/${id}`)
+			.then((res) => setTip(res.data))
+			.catch(() => setError(true))
 			.finally(() => {
 				setInitialFetch(false)
 				setLoading(false)

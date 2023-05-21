@@ -1,6 +1,7 @@
 package com.jinkyumpark.core.book.dto;
 
 import com.jinkyumpark.core.book.model.*;
+import com.jinkyumpark.core.bookIsbn.BookIsbn;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -10,7 +11,7 @@ public class BookDto {
     private final String author;
     private final Integer endPage;
     private final String cover;
-    private final Boolean isSharing;
+    private final Boolean sharing;
     private final Long appUserId;
     private final Integer rating;
     private final String summary;
@@ -28,14 +29,14 @@ public class BookDto {
 
     @Builder
     public BookDto(String title, String author, String cover, Long isbn13,
-                   Boolean isSharing, Long appUserId, Integer endPage,
+                   Boolean sharing, Long appUserId, Integer endPage,
                    String form, String category, String source, String language,
                    Integer rating, String summary, String review, String memoLink, String memoType) {
         this.title = title;
         this.author = author;
         this.endPage = endPage;
         this.cover = cover;
-        this.isSharing = isSharing;
+        this.sharing = sharing;
         this.appUserId = appUserId;
         this.rating = rating;
         this.summary = summary;
@@ -57,7 +58,7 @@ public class BookDto {
                 .cover(cover)
                 .isbn13(isbn13)
 
-                .isSharing(isSharing)
+                .sharing(sharing)
                 .appUserId(appUserId)
 
                 .rating(rating)
