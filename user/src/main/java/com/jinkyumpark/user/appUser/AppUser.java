@@ -25,8 +25,15 @@ import java.util.stream.Collectors;
 @Getter
 @AllArgsConstructor @NoArgsConstructor @Builder
 
-@DynamicInsert @DynamicUpdate
-@Entity @Table(name = "app_user", uniqueConstraints = { @UniqueConstraint(name = "app_user_email_unique", columnNames = "email") })
+@DynamicInsert
+@DynamicUpdate
+
+@Entity
+@Table(name = "app_user",
+        uniqueConstraints = {
+                @UniqueConstraint(name = "app_user_email_unique", columnNames = "email"),
+                @UniqueConstraint(name = "app_user_public_name_unique", columnNames = "publicName")
+        })
 public class AppUser extends TimeEntity implements UserDetails {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -51,9 +58,8 @@ public class AppUser extends TimeEntity implements UserDetails {
     @JsonIgnore
     private String roles;
 
-    @OneToOne(cascade = CascadeType.REMOVE)
-    @JoinColumn
-    private PublicUser publicUser;
+    private String publicName;
+    private String publicProfileImage;
 
     @JsonIgnore @Override
     public String getPassword() { return password; }
