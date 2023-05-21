@@ -12,6 +12,7 @@ public class RankingResponse {
     private Integer id;
     private String title;
     private String author;
+    private String cover;
     private Long isbn;
 
 }

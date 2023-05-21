@@ -1,5 +1,6 @@
 package com.jinkyumpark.community.ranking;
 
+import com.jinkyumpark.community.config.feign.SearchClient;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +17,7 @@ import java.util.List;
 public class RankingControllerV4 {
 
     private final RankingService rankingService;
+    private final SearchClient searchClient;
 
     @GetMapping
     public List<RankingResponse> getRankingByDate(@RequestParam(value = "year", required = false) Integer year,
@@ -30,7 +32,7 @@ public class RankingControllerV4 {
 
         LocalDate requestedDay = LocalDate.of(year, month, day);
 
-        return rankingService.getRankingByDate(requestedDay, size);
+        return searchClient.getBestSellerFromAladin();
     }
 
 }
