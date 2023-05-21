@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.apiResponse.availableLibrary
+package com.jinkyumpark.search.apiResponse.data4library.availableLibrary
 
 data class ApiAvailableLibraryResponseResponse(
     val pageNo: String,

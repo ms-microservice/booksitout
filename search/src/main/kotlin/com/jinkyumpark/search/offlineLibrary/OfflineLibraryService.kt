@@ -1,8 +1,8 @@
 package com.jinkyumpark.search.offlineLibrary
 
 import com.fasterxml.jackson.databind.ObjectMapper
-import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryLibsLib
-import com.jinkyumpark.search.apiResponse.availableLibrary.ApiAvailableLibraryResponse
+import com.jinkyumpark.search.apiResponse.data4library.availableLibrary.ApiAvailableLibraryLibsLib
+import com.jinkyumpark.search.apiResponse.data4library.availableLibrary.ApiAvailableLibraryResponse
 import com.jinkyumpark.search.config.jsoup.SSLHelper
 import com.jinkyumpark.search.offlineLibrary.library.Library
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibrary
@@ -115,7 +115,7 @@ class OfflineLibraryService(
                         ?: "",
 
                     isbn = it
-                        .getElementsByClass("data")
+                        .getElementsByClass("sql/data")
                         .first()
                         ?.getElementsByTag("span")
                         ?.first()
@@ -139,7 +139,7 @@ class OfflineLibraryService(
                         ?: "",
 
                     location = it
-                        .getElementsByClass("data")
+                        .getElementsByClass("sql/data")
                         .first()
                         ?.getElementsByTag("span")
                         ?.last()
