@@ -5,7 +5,7 @@ import toast from "react-hot-toast"
 import urls from "../../../settings/urls"
 import utils from "../../../functions/utils"
 
-const CommentEditModal = ({show, setShow, comment, commentList, setCommentList}) => {
+const EditCommentModal = ({show, setShow, comment, commentList, setCommentList}) => {
 
     const [content, setContent] = useState('')
     const handleEditComment = (e) => {
@@ -54,6 +54,7 @@ const CommentEditModal = ({show, setShow, comment, commentList, setCommentList})
 							as='textarea'
 							rows={5}
 							defaultValue={comment.content}
+							autoFocus
 							onChange={(e) => setContent(e.target.value)}
 						/>
 
@@ -77,4 +78,4 @@ const CommentEditModal = ({show, setShow, comment, commentList, setCommentList})
 	)
 }
 
-export default CommentEditModal
+export default EditCommentModal

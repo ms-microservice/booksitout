@@ -1,28 +1,27 @@
 import { useEffect, useState } from 'react'
 import { Card } from 'react-bootstrap'
 import { BsFire as FireIcon } from 'react-icons/bs'
-import axios from 'axios'
 
-import { Post } from '../../../types/PostType'
-import urls from '../../../settings/urls'
+import { PostType } from '../../../types/PostType'
 
 import PostListGroup from './PostListGroup'
 import AddButton from '../../common/AddButton'
 import Error from '../../common/Error';
 import Loading from '../../common/Loading';
 import AllButton from '../../common/AllButton'
+import { booksitoutServer } from '../../../functions/axios'
 
 const PostPopular = () => {
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
 
-    const [popularPost, setPopularPost] = useState<Post[]>([])
+    const [popularPost, setPopularPost] = useState<PostType[]>([])
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 300)
 
-		axios
-			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=5`)
+		booksitoutServer
+			.get('/v4/forum/post?sort=popular&size=5')
 			.then((res) => setPopularPost(res.data))
 			.catch((e) => {
 				setError(true)
@@ -53,8 +52,10 @@ const PostPopular = () => {
 					) : error ? (
 						<Error mt='0px' mb='100px' />
 					) : (
-						<PostListGroup postList={popularPost} />
+						<PostListGroup postList={popularPost} col1='col-12 col-md-8 col-xl-6' col2='col-12 col-md-4 col-xl-6' />
 					)}
+
+					<div className='pb-4' />
 
 					<AllButton url='/community/post/all/popular' />
 				</Card.Body>

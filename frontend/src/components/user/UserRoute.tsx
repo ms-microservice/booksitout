@@ -2,15 +2,15 @@ import { useLoaderData, useParams } from 'react-router-dom'
 import UserProfileCard from './UserProfileCard'
 import UserSharingBookCard from './UserSharingBookCard'
 import UserCommunityCard from './UserCommunityCard'
-import { PublicUser } from '../../types/UserType'
-import { Book, Post } from '../../types/PostType'
+import { PublicUserType } from '../../types/UserType'
+import { BookType, PostType } from '../../types/PostType'
 import axios from 'axios'
 import urls from '../../settings/urls'
 
 interface LoaderData {
-	user: PublicUser;
-	bookList: Book[];
-	postList: Post[];
+	user: PublicUserType;
+	bookList: BookType[];
+	postList: PostType[];
 }
 
 export async function loader({ params }) {

@@ -17,11 +17,11 @@ import LibraryDetailModal from './LibraryDetailModal'
 import search from '../../functions/search'
 import uiSettings from '../../settings/ui'
 // Types
-import { UsedBook, MyBook, LibraryBook, SubscriptionBook } from './BookType'
+import { UsedBook, MyBook, LibraryBook, SubscriptionBook } from '../../types/BookType'
 import LibraryOnlineCardComponent from './cardComponent/LibraryOnlineCardComponent'
 import { Alert } from 'react-bootstrap'
 
-const Search = () => {
+const SearchRoute = () => {
 	const { query } = useParams()
 
 	const [loading, setLoading] = useState(true)
@@ -90,4 +90,4 @@ const Search = () => {
 	)
 }
 
-export default Search
+export default SearchRoute

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { Card, Form } from "react-bootstrap"
-import { Library } from "../../library/Library"
+import { LibraryType } from "../../../types/LibraryType"
 import axios from "axios"
 import LibraryLoadingPlaceholder from "../../library/LibraryLoadingPlaceholder"
 import NoContent from "../../common/NoContent"
@@ -40,7 +40,7 @@ const LibrarySearchSettingsSearchCard = ({ setShow, setSelectedLibrary, searchRe
 		return () => clearTimeout(typingTimer)
 	}, [query])
 
-	const handleLibraryClicked = (library: Library) => {
+	const handleLibraryClicked = (library: LibraryType) => {
 		setShow(true)
 		setSelectedLibrary(library)
 	}

@@ -1,7 +1,7 @@
 import { Card, Placeholder } from 'react-bootstrap'
 import defaultLoadingBookCover from '../../resources/images/common/loading-default-book-cover.png'
 
-const BookAddSearchResultLoading = () => {
+const AddBookSearchResultLoading = () => {
 	return (
 		<Card className='text-center mt-2 mb-2' style={{ height: '250px' }}>
 			<Card.Body>
@@ -19,4 +19,4 @@ const BookAddSearchResultLoading = () => {
 	)
 }
 
-export default BookAddSearchResultLoading
+export default AddBookSearchResultLoading

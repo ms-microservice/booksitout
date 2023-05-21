@@ -1,32 +1,27 @@
 import { useEffect, useState } from "react"
 import { Card } from "react-bootstrap"
-import axios from "axios"
 
 import Loading from "../../common/Loading"
 import Error from '../../common/Error'
 
 import MainTipsListGroup from "./MainTipsListGroup"
-import TipPost from "./Tip"
+import TipsType from "../../../types/TipsType"
 import AllButton from "../../common/AllButton"
 
 import logo from '../../../resources/images/logo/logo.png'
 
-import urls from "../../../settings/urls"
+import { booksitoutServer } from "../../../functions/axios"
 
 const MainTipsCard = () => {
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
 
-    const [tipPost, setTipPost] = useState<TipPost[]>([])
+    const [tipPost, setTipPost] = useState<TipsType[]>([])
 	useEffect(() => {
-		axios
-			.get(`${urls.api.base}/v4/forum/tips?type=all&size=6`)
+		booksitoutServer
+			.get(`/v4/forum/tips?type=all&size=6`)
 			.then((res) => {
-				if (res.status !== 200) {
-					throw Error()
-				}
-
 				setTipPost(res.data.content)
 			})
 			.catch(() => {
@@ -39,7 +34,7 @@ const MainTipsCard = () => {
 	}, [])
 
 	return (
-		<a href='/introduction/tips/all' className='text-decoration-none text-black'>
+		<a href='/introduction/tips/all' className="text-black">
 			<Card className='h-100' style={{ minHeight: '480px' }}>
 				<Card.Body>
 					<div className='d-flex mb-3'>

@@ -1,4 +1,4 @@
-export 	interface Library {
+export 	interface LibraryType {
 	name: string
 	icon: string
 	link: string | undefined

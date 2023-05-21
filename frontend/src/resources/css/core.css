@@ -1,0 +1,20 @@
+a {
+	text-decoration: none;
+	color: black;
+}
+
+a:hover {
+	color: var(--primary-color);
+}
+
+.clickable {
+	cursor: pointer;
+}
+
+.force-1-line {
+	white-space: nowrap;
+}
+
+.state-active {
+	filter: brightness(70%) saturate(90%);
+}

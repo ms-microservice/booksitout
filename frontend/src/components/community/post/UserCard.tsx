@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap"
 
-import {MdPeopleAlt as ProfileIcon} from 'react-icons/md'
+import { MdPeopleAlt as ProfileIcon } from 'react-icons/md'
 
 const UserCard = ({user}) => {
     return (
@@ -12,7 +12,7 @@ const UserCard = ({user}) => {
 							{user.profileImage == null ? (
 								<ProfileIcon className='text-book h1 m-0' />
 							) : (
-								<img src={user.profileImage} alt='' className='img-fluid rounded' style={{ height: '30px' }} />
+								<img src={user.profileImage} alt='' className='img-fluid rounded' style={{ height: '30px', width: '30px' }} />
 							)}
 						</div>
 

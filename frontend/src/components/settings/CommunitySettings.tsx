@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useCallback } from "react"
 import { Button, Card, Form } from "react-bootstrap"
 
-import { User } from "../../types/PostType"
+import { UserType } from "../../types/PostType"
 import SettingsCard from "./SettingsCard"
 
+import { MdPeopleAlt as ProfileIcon } from 'react-icons/md'
 import { BsFillPatchCheckFill as PaidIcon, BsFillImageFill as ImageIcon } from 'react-icons/bs'
 import { useDropzone } from "react-dropzone"
 import urls from "../../settings/urls"
@@ -17,20 +18,34 @@ import { toast } from "react-hot-toast"
 const CommunitySettings = () => {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		multiple: false,
-		onDrop: dropedImage => {
-			// setUser({ ...user, profileImage: dropedImage.toString() })
-			console.log(dropedImage)
-		}
+		onDrop: useCallback((image) => {
+			
+			const reader = new FileReader()
+			
+			reader.onabort = () => console.log('file reading was aborted')
+			reader.onerror = () => console.log('file reading has failed')
+			reader.onload = () => {
+				const buffer = reader.result as ArrayBuffer
+				const blob = new Blob([buffer])
+				const imageUrl = URL.createObjectURL(blob);
+				
+				setProfileImage(imageUrl)
+				setImageData(image[0])
+			}
+
+			reader.readAsArrayBuffer(image[0])
+		}, []),
 	})
 
 	const [initialFetch, setInitialFetch] = useState<boolean>(true)
 	const [loading, setLoading] = useState<boolean>(false)
 	const [error, setError] = useState<boolean>(false)
 
+	const [user, setUser] = useState<UserType>()
 	const [name, setName] = useState('')
+	const [imageData, setImageData] = useState<Blob>()
 	const [profileImage, setProfileImage] = useState<string | null>(null)
 
-	const [user, setUser] = useState<User>()
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 500)
 
@@ -60,15 +75,24 @@ const CommunitySettings = () => {
 			return
 		}
 
-		const editRequest = {
-			nickName: name,
-			profileImage: profileImage
-		}
+		const formData = new FormData()
+		formData.append('file', imageData ?? '')
+		formData.append('name', name)
 
 		axios
-			.put(`${urls.api.base}/v4/user/public-user/${utils.getUserId()}`, editRequest, { headers: { Authorization: utils.getToken() } })
-			.then((res) => setUser(res.data.updated))
+			.put(`${urls.api.base}/v4/user/public-user`, formData, {
+				headers: { Authorization: utils.getToken(), 'Content-Type': 'multipart/form-data' },
+			})
+			.then((res) => {
+				setUser(res.data.updated)
+				toast.success('프로필을 수정했어요')
+			})
 			.catch((e) => {
+				if (e.response.status === 503) {
+					toast.error('서버가 불안정해요. 잠시 후 다시 시도해 주세요')
+					return
+				}
+
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요.')
 			})
 	}
@@ -86,18 +110,18 @@ const CommunitySettings = () => {
 					<SettingsCard
 						title='프로필 설정'
 						content={
-							<div className='row'>
-								<div className='col-12'>
-									<ProfileCard user={user} />
+							<div className='row justify-content-center'>
+								<div className='col-12 col-md-6'>
+									<ProfileCard user={user} profileImage={profileImage} />
 								</div>
 
 								<hr className='mt-5 mb-5' />
 
-								<Form className='row m-0' onSubmit={handleEditUser}>
-									<div className='col-12 col-md-6 mb-3'>
-										<Form.Label>프로필 사진</Form.Label>
+								<Form className='row justify-content-center m-0' onSubmit={handleEditUser}>
+									<div className='col-12 mb-3'>
+										<h5 className="mb-2">프로필 사진</h5>
 										<Card {...getRootProps()}>
-											<Card.Body>
+											<Card.Body className='text-center'>
 												<input {...getInputProps()} />
 
 												<ImageIcon className='text-book h3' />
@@ -113,10 +137,12 @@ const CommunitySettings = () => {
 										</Card>
 									</div>
 
-									<div className='col-12 col-md-6 mb-3'>
-										<Form.Label>이름</Form.Label>
-										<Form.Control onChange={(e) => setName(e.target.value)} value={name} id='input-name'/>
+									<div className='col-12 mb-3'>
+										<h5 className="mb-2">이름</h5>
+										<Form.Control onChange={(e) => setName(e.target.value)} value={name} id='input-name' />
+									</div>
 
+									<div className='col-12 col-md-6 mb-3'>
 										<Button
 											type='submit'
 											variant='book'
@@ -165,18 +191,23 @@ const CommunitySettings = () => {
 	)
 }
 
-const ProfileCard = ({user}) => {
+const ProfileCard = ({ user, profileImage }) => {
 	return (
-		<div className='d-flex align-items-center text-center'>
-			{/* <img src={user.profileImage} alt='' className='img-fluid rounded' style={{ width: '100px', height: '100px' }} /> */}
-			<img src='https://booksitout-bucket.s3.ap-northeast-2.amazonaws.com/profile-image/f2465ed2-8' alt='' className='img-fluid rounded' style={{ width: '100px', height: '100px' }} />
+		<div className='d-flex justify-content-center align-items-center text-center'>
+			{profileImage != null && profileImage != '' ? (
+				<img src={profileImage} alt='' className='img-fluid rounded border' style={{ width: '100px', height: '100px' }} />
+			) : user.profileImage == null || user.profileImage === '' ? (
+				<ProfileIcon style={{ width: '100px', height: '100px' }} className='text-book rounded border' />
+			) : (
+				<img src={user.profileImage} alt='' className='img-fluid rounded border' style={{ width: '100px', height: '100px' }} />
+			)}
 
 			<div className='row ms-4 text-start'>
 				<h4>{user.name}</h4>
-				<h6  className='text-secondary'>{user.email}</h6>
+				{/* <h6 className='text-secondary'>{user.email}</h6> */}
 			</div>
 
-			<PaidIcon className='text-book h3 ms-2' />
+			<PaidIcon className='text-book h3 ms-3' />
 		</div>
 	)
 }

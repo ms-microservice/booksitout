@@ -21,18 +21,18 @@ import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
 import MainBoarding from '../info/MainBoarding';
 import { RootState } from '../../redux/store';
-import { GoalType } from '../../types/GoalType';
+import { GoalType } from '../../types/GoalType'
 import { StatisticsType } from '../../types/StatisticsType';
-import { Book } from '../../types/PostType';
+import { BookType } from '../../types/PostType';
 
-const Main = () => {
+const MainRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
 	const [loading, setIsLoading] = useState(true)
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [showAlert, setShowAlert] = useState(getIsAlertShowing())
 
-	const [lastBook, setLastBook] = useState<Book | null>(null)
+	const [lastBook, setLastBook] = useState<BookType | null>(null)
 	const [readTime, setReadTime] = useState<number[] | null>()
 	const [goal, setGoal] = useState<GoalType | null | undefined>(null)
 	const [statistics, setStatistics] = useState<StatisticsType | null>(null)
@@ -134,4 +134,4 @@ const Main = () => {
 	)
 }
 
-export default Main
+export default MainRoute

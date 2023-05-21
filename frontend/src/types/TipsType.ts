@@ -1,4 +1,4 @@
-interface TipPost {
+interface TipsType {
     id: number;
     title: string;
     summary?: string;
@@ -11,4 +11,4 @@ interface TipPost {
     lastModifiedDate?: string;
 }
 
-export default TipPost;
+export default TipsType;

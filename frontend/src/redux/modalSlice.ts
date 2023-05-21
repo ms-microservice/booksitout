@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit'
-import { LibraryBook } from '../components/search/BookType'
+import { LibraryBook } from '../types/BookType'
 
 interface ModalInitialState {
 	searchLibraryDetailOpen: boolean

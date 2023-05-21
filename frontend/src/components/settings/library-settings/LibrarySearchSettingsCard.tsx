@@ -3,7 +3,7 @@ import toast from "react-hot-toast";
 
 import '../../../resources/css/button.css'
 import '../../../resources/css/library-search.css'
-import { Library } from "../../library/Library";
+import { LibraryType } from "../../../types/LibraryType";
 
 import SettingsCard from "../SettingsCard";
 import LibrarySearchSettingsAddedLibraryCard from "./AddedLibraryCard";
@@ -11,10 +11,10 @@ import LibrarySearchSettingsDetailModal from "./LibrarySearchSettingsDetailModal
 import LibrarySearchSettingsSearchCard from "./LibrarySearchSettingsSearchCard";
 
 const LibrarySearchSpecificCard = () => {
-  const [addedLibrary, setAddedLibrary] = useState<Library[]>([])
-	const [selectedLibrary, setSelectedLibrary] = useState<Library | null>(null)
+  const [addedLibrary, setAddedLibrary] = useState<LibraryType[]>([])
+	const [selectedLibrary, setSelectedLibrary] = useState<LibraryType | null>(null)
 	const [modalOpen, setModalOpen] = useState<Boolean>(false)
-  const [searchResult, setSearchResult] = useState<Library[]>([])
+  const [searchResult, setSearchResult] = useState<LibraryType[]>([])
 
   useEffect(() => {
 		// TODO : initial added library fetch
@@ -33,7 +33,7 @@ const LibrarySearchSpecificCard = () => {
 		}))
 	}
 
-  const removeLibrary = (library: Library) => {
+  const removeLibrary = (library: LibraryType) => {
 		const confirm = window.confirm(`${library.name.replaceAll(' ', '')}을 검색범위에서 삭제할까요?`)
 		if (!confirm) return
 

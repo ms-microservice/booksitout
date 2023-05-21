@@ -1,17 +1,14 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Button, Card, Form } from "react-bootstrap"
-import axios from "axios"
 
-import { Post, RecentBook } from '../../../types/PostType'
-import urls from "../../../settings/urls"
-
+import { PostType, RecentBookType } from '../../../types/PostType'
 import Loading from '../../common/Loading';
 import Error from "../../common/Error"
 import AddIsbnCard from "./AddIsbnCard"
 import toast from "react-hot-toast"
-import utils from "../../../functions/utils"
 import BookSearchModal from "../BookSearchModal"
+import { booksitoutServer } from "../../../functions/axios";
 
 const EditPostForm = () => {
     const navigate = useNavigate()
@@ -21,12 +18,12 @@ const EditPostForm = () => {
     const [error, setError] = useState(false)
 
     const { postId } = useParams()
-    const [post, setPost] = useState<Post | null>(null)
+    const [post, setPost] = useState<PostType | null>(null)
     useEffect(() => {
         setTimeout(() => setInitalFetch(false), 500)
 
-        axios
-			.get(`${urls.api.base}/v4/forum/post/${postId}`)
+        booksitoutServer
+			.get(`/v4/forum/post/${postId}`)
 			.then((res) => {
 				setPost(res.data)
 				setTitle(res.data?.title ?? '')
@@ -71,13 +68,13 @@ const EditPostForm = () => {
             isbn: isbn
         }
 
-        axios
-			.put(`${urls.api.base}/v4/forum/post/${postId}`, editedPost, { headers: { Authorization: utils.getToken() } })
+        booksitoutServer
+			.put(`/v4/forum/post/${postId}`, editedPost)
 			.then((res) => navigate(`/community/post/${res.data.id}`))
 			.catch(() => toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요'))
     }
 
-	const [recentBookList, setRecentBookList] = useState<RecentBook[]>([])
+	const [recentBookList, setRecentBookList] = useState<RecentBookType[]>([])
 	const [modalShow, setModalShow] = useState(false)
 
     if (initialFetch) return<></>    

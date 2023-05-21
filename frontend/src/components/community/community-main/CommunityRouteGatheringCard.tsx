@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap"
 
-const ForumRouteGatheringCard = () => {
+const CommunityRouteGatheringCard = () => {
     return (
 		<Card style={{ minHeight: '450px' }} className='mb-4'>
 			<Card.Body>
@@ -10,4 +10,4 @@ const ForumRouteGatheringCard = () => {
 	)
 }
 
-export default ForumRouteGatheringCard
+export default CommunityRouteGatheringCard

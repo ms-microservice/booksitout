@@ -1,4 +1,4 @@
-export interface PublicUser {
+export interface PublicUserType {
     name: string;
     profileImage: string;
     joinDayCount: number;

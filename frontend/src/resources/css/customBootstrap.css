@@ -1,16 +1,16 @@
 .text-book {
     --bs-text-opacity: 1;
-    color: #1cb15a;
+    color: var(--primary-color);
 }
 
 .bg-book {
     --bs-bg-opacity: 1;
-    background-color: #1cb15a;
+    background-color: var(--primary-color);
 }
 
 .btn-book {
     --bs-btn-color: #fff;
-    --bs-btn-bg: #1cb15a;
+    --bs-btn-bg: var(--primary-color);
     --bs-btn-border-color: #1cad59;
 
     --bs-btn-hover-color: #fff;
@@ -73,12 +73,12 @@
 }
 
 .btn-outline-book {
-    --bs-btn-color: #1cb15a;
-    --bs-btn-border-color: #1cb15a;
+    --bs-btn-color: var(--primary-color);
+    --bs-btn-border-color: var(--primary-color);
 
     --bs-btn-hover-color: #fff;
-    --bs-btn-hover-bg: #1cb15a;
-    --bs-btn-hover-border-color: #1cb15a;
+    --bs-btn-hover-bg: var(--primary-color);
+    --bs-btn-hover-border-color: var(--primary-color);
 
     --bs-btn-focus-shadow-rgb: 25,135,84;
 
@@ -95,33 +95,33 @@
 
 .table-dark {
     --bs-table-color: #fff;
-    --bs-table-bg: #1cb15a;
-    --bs-table-border-color: #1cb15a;
+    --bs-table-bg: var(--primary-color);
+    --bs-table-border-color: var(--primary-color);
     --bs-table-striped-bg: #2c3034;
-    --bs-table-striped-color: #1cb15a;
-    --bs-table-active-bg: #1cb15a;
-    --bs-table-active-color: #1cb15a;
-    --bs-table-hover-bg: #1cb15a;
-    --bs-table-hover-color: #1cb15a;
+    --bs-table-striped-color: var(--primary-color);
+    --bs-table-active-bg: var(--primary-color);
+    --bs-table-active-color: var(--primary-color);
+    --bs-table-hover-bg: var(--primary-color);
+    --bs-table-hover-color: var(--primary-color);
     color: var(--bs-table-color);
-    border-color: #1cb15a;
+    border-color: var(--primary-color);
 }
 
 .dropdown-menu {
-    --bs-dropdown-link-active-bg: #1cb15a;
+    --bs-dropdown-link-active-bg: var(--primary-color);
 } 
 
 .form-check-input:checked {
-    background-color: #1cb15a;
-    border-color: #1cb15a;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 /* Pagination */
 .active>.page-link {
-    background-color: #1cb15a;
-    border-color: #1cb15a;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
 }
 
 .page-link {
-    color: #1cb15a;
+    color: var(--primary-color);
 }

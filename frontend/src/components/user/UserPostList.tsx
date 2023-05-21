@@ -2,7 +2,7 @@ import axios from "axios"
 import urls from "../../settings/urls"
 import { useLoaderData, useSearchParams } from 'react-router-dom'
 import PostRoutePost from "../community/post/post-route/PostRoutePost"
-import { Post } from "../../types/PostType"
+import { PostType } from "../../types/PostType"
 import { Pagination } from "react-bootstrap"
 import { PageType } from "../../types/PageType"
 
@@ -14,7 +14,7 @@ export async function loader({ params, request }) {
 }
 
 const UserPostList = () => {
-    const pagedPost = useLoaderData() as PageType<Post[]>
+    const pagedPost = useLoaderData() as PageType<PostType[]>
     const [searchParams, _] = useSearchParams();
     const page = Number(searchParams.get('page') ?? 1) ?? 1
     

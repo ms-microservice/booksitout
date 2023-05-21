@@ -6,9 +6,8 @@ import { useSelector } from 'react-redux'
 import Error from '../../common/Error'
 import Loading from '../../common/Loading'
 
-import { Post } from '../../../types/PostType'
+import { PostType } from '../../../types/PostType'
 
-import axios from 'axios'
 import parse from 'html-react-parser'
 
 import NoContent from '../../common/NoContent'
@@ -16,19 +15,19 @@ import UserCard from './UserCard'
 
 import { MdPeopleAlt as ProfileIcon } from 'react-icons/md'
 import { AiFillLike as LikeIcon, AiFillDislike as DislikeIcon } from 'react-icons/ai'
-import urls from '../../../settings/urls'
 import PostBookCard from './PostBookCard'
 import utils from '../../../functions/utils'
 import toast from 'react-hot-toast'
 import { RootState } from '../../../redux/store'
 import DeleteButton from './DeleteButton'
 import EditButton from './EditButton'
-import CommentEditModal from '../comment/CommentEditModal'
+import EditCommentModal from '../comment/EditCommentModal' 
+import { booksitoutServer } from '../../../functions/axios'
 
 const PostDetail = () => {
     const { postId } = useParams()
 
-    const [post, setPost] = useState<Post | null>(null)
+    const [post, setPost] = useState<PostType | null>(null)
     const [commentList, setCommentList] = useState<Comment[]>([])
 
     const [initialFetch, setInitialFetch] = useState(true)
@@ -36,17 +35,22 @@ const PostDetail = () => {
 	const [error, setError] = useState(false)
 
 	const [isMyPost, setIsMyPost] = useState(false)
+
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
     useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 500)
 
 		Promise.all([
-			axios.get(`${urls.api.base}/v4/forum/post/${postId}`).then((res) => {
-				setIsMyPost(isLogin && res.data?.user.appUserId === utils.getUserId())
-				setPost(res.data)
-			}),
-			axios.get(`${urls.api.base}/v4/forum/post/${postId}/comments?user-id=${utils.getUserId()}`).then((res) => setCommentList(res.data)),
+			booksitoutServer
+				.get(`/v4/forum/post/${postId}?user-id=${utils.getUserId()}`)
+				.then((res) => {
+					setIsMyPost(isLogin && res.data?.user.appUserId === utils.getUserId())
+					setPost(res.data)
+				}),
+			booksitoutServer
+				.get(`/v4/forum/post/${postId}/comments?user-id=${utils.getUserId()}`)
+				.then((res) => setCommentList(res.data)),
 		])
 			.catch((e) => {})
 			.finally(() => {
@@ -64,7 +68,7 @@ const PostDetail = () => {
 			<PostDetailSummaryCard post={post} isMyPost={isMyPost} commentList={commentList} />
 			<div className='mb-4' />
 
-			<PostDetailContentCard post={post} />
+			<PostDetailContentCard post={post} setPost={setPost} isLogin={isLogin}/>
 			<div className='mb-4' />
 
 			<PostDetailCommentCard post={post} setPost={setPost} commentList={commentList ?? []} setCommentList={setCommentList} />
@@ -84,17 +88,17 @@ const PostDetailSummaryCard = ({ post, isMyPost, commentList }) => {
 		const confirm = window.confirm('게시글을 지울까요?')
 
 		if (confirm) {
-			axios
-			.delete(`${urls.api.base}/v4/forum/post/${post.postId}`, {headers: {Authorization: utils.getToken()}})
-			.then((res) => {
-				if (res.status.toString().startsWith('2')) {
-					toast.success('게시글을 지웠어요')
-					navigate('/community/post/all/popular')
-				}
-			})
-			.catch(() => {
-				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-			})
+			booksitoutServer
+				.delete(`/v4/forum/post/${post.postId}`)
+				.then((res) => {
+					if (res.status.toString().startsWith('2')) {
+						toast.success('게시글을 지웠어요')
+						navigate('/community/post/all/popular')
+					}
+				})
+				.catch(() => {
+					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+				})
 		}
 	}
 
@@ -170,11 +174,82 @@ const PostDetailSummaryCard = ({ post, isMyPost, commentList }) => {
 	)
 }
 
-const PostDetailContentCard = ({post}) => {
+const PostDetailContentCard = ({post, setPost, isLogin}) => {
+
+	const addPostLike = (postId: number, score: number, userScore: number) => {
+		if (!isLogin) {
+			toast.error('로그인 해 주세요')
+			return
+		}
+
+		booksitoutServer
+			.post(`/v4/forum/post/like/${postId}?score=${score}`, {})
+			.then((res) => {
+				toast.success(score === 1 ? '좋아요 했어요' : '싫어요 했어요')
+				setPost({
+					...post,
+					userLikeScore: score,
+					likeCount: score === 1 ? post.likeCount + 1 : post.likeCount - Math.abs(userScore),
+					dislikeCount: score === -1 ? post.dislikeCount + 1 : post.dislikeCount - Math.abs(userScore),
+				})
+			})
+			.catch(() => {
+				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+			})
+	}
+
+	const deletePostLike = (postId: number, score: number) => {
+		if (!isLogin) {
+			toast.error('로그인 해 주세요')
+			return
+		}
+
+		booksitoutServer
+			.delete(`/v4/forum/post/like/${postId}`)
+			.then((res) => {
+				toast.success(`${score === 1 ? '좋아요' : '싫어요'} 취소 했어요`)
+				setPost({
+					...post,
+					userLikeScore: 0,
+					likeCount: score === 1 ? post.likeCount - 1 : post.likeCount,
+					dislikeCount: score === -1 ? post.dislikeCount - 1 : post.dislikeCount,
+				})
+			})
+			.catch(() => {
+				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
+			})
+	}
+
     return (
-		<Card style={{ minHeight: '100px' }}>
-			<Card.Body className='p-4'>
-				<p className='m-0'>{parse(post.content)}</p>
+		<Card style={{ minHeight: '200px' }}>
+			<Card.Body className='p-4' style={{ display: 'flex', justifyContent: 'flex-end', flexDirection: 'column' }}>
+				<p className='m-0 pb-5' style={{ fontSize: '20px' }}>
+					{parse(post.content)}
+				</p>
+
+				<div className='row justify-content-center'>
+					<div className='col-6 col-md-3 p-1' onClick={() => {
+						post.userLikeScore === 1 ? deletePostLike(post.postId, 1) : addPostLike(post.postId, 1, post.userLikeScore)
+					}}>
+						<Badge
+							bg='book'
+							style={{ height: '30px' }}
+							className={`w-100 d-flex align-items-center justify-content-center clickable ${post.userLikeScore === 1 && 'state-active'}`}>
+							<LikeIcon /> {post.likeCount}
+						</Badge>
+					</div>
+
+					<div className='col-6 col-md-3 p-1' onClick={() => {
+						post.userLikeScore === -1 ? deletePostLike(post.postId, -1) : addPostLike(post.postId, -1, post.userLikeScore)
+					}}>
+						<Badge
+							bg='danger'
+							style={{ height: '30px' }}
+							className={`w-100 d-flex align-items-center justify-content-center clickable ${post.userLikeScore === -1 && 'state-active'}`}>
+							<DislikeIcon /> {post.dislikeCount}
+						</Badge>
+					</div>
+				</div>
 			</Card.Body>
 		</Card>
 	)
@@ -188,6 +263,11 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 	const handleAddComment = (e) => {
 		e.preventDefault()
 
+		if (!isLogin) {
+			toast.error('로그인 해 주세요')
+			return
+		}
+
 		if (content.length === 0) {
 			document.getElementById('content-input')!!.focus()
 			toast.error('댓글 내용을 입력해 주세요')
@@ -196,8 +276,8 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 
 		const comment = { content: content.replaceAll('\n', '<br>') }
 
-		axios
-			.post(`${urls.api.base}/v4/forum/post/${post.postId}/comment`, comment, { headers: { Authorization: utils.getToken() } })
+		booksitoutServer
+			.post(`/v4/forum/post/${post.postId}/comment`, comment)
 			.then((res) => {
 				if (res.status.toString().startsWith('2')) {
 					toast.success('댓글을 남겼어요')
@@ -217,9 +297,14 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 	const handleDeleteComment = (commentId) => {
 		const confirm = window.confirm('댓글을 지울까요?')
 
+		if (!isLogin) {
+			toast.error('로그인 해 주세요')
+			return
+		}
+
 		if (confirm) {
-			axios
-				.delete(`${urls.api.base}/v4/forum/comment/${commentId}`, { headers: { Authorization: utils.getToken() } })
+			booksitoutServer
+				.delete(`/v4/forum/comment/${commentId}`)
 				.then((res) => {
 					if (res.status.toString().startsWith('2')) {
 						setCommentList(commentList.filter((comment) => comment.commentId !== commentId))
@@ -242,8 +327,8 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 			return
 		}
 
-		axios
-			.post(`${urls.api.base}/v4/forum/comment/like/${commentId}?score=${score}`, {}, { headers: { Authorization: utils.getToken() } })
+		booksitoutServer
+			.post(`/v4/forum/comment/like/${commentId}?score=${score}`, {})
 			.then((res) => {
 				toast.success(score === 1 ? '좋아요 했어요' : '싫어요 했어요')
 				setCommentList(
@@ -270,8 +355,8 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 			return
 		}
 
-		axios
-			.delete(`${urls.api.base}/v4/forum/comment/like/${commentId}`, { headers: { Authorization: utils.getToken() } })
+		booksitoutServer
+			.delete(`/v4/forum/comment/like/${commentId}`)
 			.then((res) => {
 				toast.success(`${score === 1 ? '좋아요' : '싫어요'} 취소 했어요`)
 				setCommentList(
@@ -294,7 +379,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 
 	return (
 		<Card style={{ minHeight: '100px' }}>
-			<CommentEditModal
+			<EditCommentModal
 				show={commentEditModalOpen}
 				setShow={setCommentEditModalOpen}
 				comment={selectedComment}
@@ -337,9 +422,9 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 							<Card className='mt-3'>
 								<Card.Body>
 									{loginUserId === comment.user.appUserId && (
-										<>
+										<div>
 											<div
-												style={{ position: 'absolute', top: '-10px', right: '35px', zIndex: 10 }}
+												style={{ position: 'absolute', top: '-10px', right: '35px' }}
 												onClick={() => {
 													setCommentEditModalOpen(true)
 													setSelectedComment(comment)
@@ -348,11 +433,11 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 											</div>
 
 											<div
-												style={{ position: 'absolute', top: '-10px', right: '0px', zIndex: 10 }}
+												style={{ position: 'absolute', top: '-10px', right: '0px' }}
 												onClick={() => handleDeleteComment(comment.commentId)}>
 												<DeleteButton />
 											</div>
-										</>
+										</div>
 									)}
 
 									<div className='row'>
@@ -370,7 +455,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 														/>
 													)}
 
-													<h6>{comment.user.name}</h6>
+													<h6 className='pt-2'>{comment.user.name}</h6>
 												</div>
 											</a>
 										</div>
@@ -392,7 +477,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 														bg='book'
 														style={{ height: '30px' }}
 														className={`w-100 d-flex align-items-center justify-content-center clickable ${
-															comment.userLikeScore === 1 && 'opacity-50'
+															comment.userLikeScore === 1 && 'state-active'
 														}`}>
 														<LikeIcon /> {comment.likeCount}
 													</Badge>
@@ -409,7 +494,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 														bg='danger'
 														style={{ height: '30px' }}
 														className={`w-100 d-flex align-items-center justify-content-center clickable ${
-															comment.userLikeScore === -1 && 'opacity-50'
+															comment.userLikeScore === -1 && 'state-active'
 														}`}>
 														<DislikeIcon /> {comment.dislikeCount}
 													</Badge>

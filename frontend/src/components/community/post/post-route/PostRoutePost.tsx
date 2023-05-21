@@ -10,7 +10,7 @@ const PostRoutePost = ({post}) => {
 				<Card.Body className='row'>
 					<div className='col-12 col-md-8'>
 						<h3 style={{ maxHeight: '32px', overflowY: 'hidden' }}>
-							{post.title.slice(0, 40)} <span className='text-book'>[{post.commentCount}]</span>
+							{post.title.slice(0, 20)} {post.title.length > 20 && '...'} <span className='text-book'>[{post.commentCount}]</span>
 						</h3>
 
 						<p className='text-secondary' style={{ height: '50px', overflowY: 'hidden' }}>

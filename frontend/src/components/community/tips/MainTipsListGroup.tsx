@@ -12,7 +12,7 @@ const MainTipsListGroup = ({postList}) => {
 		<div className='row'>
 			{postList.map((post, i) => {
 				return (
-					<a href={`/introduction/tips/detail/${post.id}`} className={`text-decoration-none text-black col-12 col-md-6 ${i % 2 == 0 ? 'pe-md-0' : 'ps-md-0'}`}>
+					<a href={`/introduction/tips/detail/${post.id}`} className={`col-12 col-md-6 ${i % 2 === 0 ? 'pe-md-0' : 'ps-md-0'}`}>
 						<li className='d-flex w-100 pe-0 border p-3'>
 							<div className='row w-100'>
 								<div className='col-12 col-lg-9'>

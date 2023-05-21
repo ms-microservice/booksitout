@@ -12,19 +12,19 @@ import AllButton from '../../common/AllButton'
 
 import urls from '../../../settings/urls'
 
-import { Post } from '../../../types/PostType'
+import { PostType } from '../../../types/PostType'
 
 const CommunityRoutePostCard = () => {
 	const [initialFetch, setInitialFetch] = useState(true)
 	const [loading, setLoading] = useState(true)
 	const [error, setError] = useState(false)
 
-	const [popularPost, setPopularPost] = useState<Post[]>([])
+	const [popularPost, setPopularPost] = useState<PostType[]>([])
 	useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 300)
 
 		axios
-			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=6`)
+			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=10`)
 			.then((res) => setPopularPost(res.data))
 			.catch((e) => setError(true))
 			.finally(() => {
@@ -35,8 +35,8 @@ const CommunityRoutePostCard = () => {
 
 
     return (
-		<a href='/community/post/all/popular' className='text-decoration-none text-black'>
-			<Card style={{ height: '550px', overflow: 'hidden' }} className='mb-4'>
+		<a href='/community/post/all/popular' className='h-100'>
+			<Card style={{ minHeight: '550px' }} className='mb-4 h-100'>
 				<Card.Body>
 					<a href='/community/post/add'>
 						<AddButton size='30' color='book' top='15px' right='15px' />
@@ -47,7 +47,7 @@ const CommunityRoutePostCard = () => {
 						인기글
 					</h3>
 
-					<div style={{ height: '400px', overflow: 'hidden' }} className='border'>
+					<div className='border'>
 						{initialFetch ? (
 							<></>
 						) : loading ? (

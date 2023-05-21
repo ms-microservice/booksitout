@@ -1,8 +1,8 @@
 import { useState } from 'react'
 import { Button, Card } from 'react-bootstrap'
 import parse from 'html-react-parser'
-import ChangeNameModal from './ChageNameModal'
-import ChangePasswordModal from './ChangePasswordModal'
+import EditNameModal from './EditNameModal'
+import EditPasswordModal from './EditPasswordModal'
 
 const PersonalInfoSettings = () => {
 	const [passwordModalShow, setPasswordModalShow] = useState(false)
@@ -10,8 +10,8 @@ const PersonalInfoSettings = () => {
 
 	return (
 		<div className='container-xl'>
-			<ChangePasswordModal show={passwordModalShow} setShow={setPasswordModalShow} />
-			<ChangeNameModal show={nameModalShow} setShow={setNameModalShow} />
+			<EditPasswordModal show={passwordModalShow} setShow={setPasswordModalShow} />
+			<EditNameModal show={nameModalShow} setShow={setNameModalShow} />
 
 			<Card className='mb-5'>
 				<Card.Body>

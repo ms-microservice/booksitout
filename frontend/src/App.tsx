@@ -1,22 +1,22 @@
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 
 import Root from './components/common/Root'
-import Main from './components/main/Main'
+import MainRoute from './components/main/MainRoute'
 import NotFound from './components/common/NotFound'
 import ErrorPage from './components/common/ErrorPage'
 
-import AdminMain from './components/admin/AdminMain'
+import AdminRoute from './components/admin/AdminRoute'
 
-import Introduction from './components/info/Introduction'
-import Faq from './components/info/Faq'
-import Qna from './components/info/Qna'
-import Feature from './components/info/Feature'
+import IntroductionRoute from './components/info/IntroductionRoute'
+import FaqRoute from './components/info/FaqRoute'
+import QnaRoute, {loader as QnaLoader} from './components/info/QnaRoute'
+import FeatureRoute from './components/info/FeatureRoute'
 import TipsRoute from './components/community/tips/TipsRoute'
 import TipsDetail from './components/community/tips/TipsDetail'
 
-import Login from './components/user/Login'
+import LoginRoute from './components/user/LoginRoute'
 import OAuth from './components/user/OAuth'
-import Join from './components/user/Join'
+import JoinRoute from './components/user/JoinRoute'
 
 import SettingsRoute from './components/settings/SettingsRoute'
 import SearchLibrarySettings from './components/settings/SearchLibrarySettings'
@@ -27,16 +27,16 @@ import PersonalInfoSettings from './components/settings/PersonalInfoSettings'
 
 import BookList from './components/book/book-list/BookList'
 import BookDetail from './components/book/book-detail/BookDetail'
-import AddBookForm from './components/book/book-form/AddBookForm'
+import AddBookRoute from './components/book/book-form/AddBookRoute'
 import EditBookForm from './components/book/book-form/EditBookForm'
 
-import Reading from './components/reading/Reading'
+import ReadingRoute from './components/reading/ReadingRoute'
 import ReadingNoId from './components/reading/ReadingNoId'
 
-import Statistics from './components/statistics/Statistics'
+import StatisticsRoute from './components/statistics/StatisticsRoute'
 import GoalRoute from './components/goal/GoalRoute'
 
-import Search from './components/search/Search'
+import SearchRoute from './components/search/SearchRoute'
 
 import CommunityRoute from './components/community/community-main/CommunityRoute'
 import AddCommunityRoute from './components/community/AddCommunityRoute'
@@ -58,19 +58,19 @@ const router = createBrowserRouter(
 		<Route path='/' element={<Root />}>
 			<Route path='*' element={<NotFound />} />
 
-			<Route path='/admin' element={<AdminMain />} />
+			<Route path='/admin' element={<AdminRoute />} />
 
-			<Route path='/introduction' element={<Introduction />} />
-			<Route path='introduction/features' element={<Feature />} />
+			<Route path='/introduction' element={<IntroductionRoute />} />
+			<Route path='introduction/features' element={<FeatureRoute />} />
 			<Route path='introduction/tips/:range' element={<TipsRoute />} />
 			<Route path='introduction/tips/detail/:id' element={<TipsDetail />} />
 
-			<Route path='/qna' element={<Qna />} />
-			<Route path='/faq' element={<Faq />} />
+			<Route path='/qna' element={<QnaRoute />} loader={QnaLoader} />
+			<Route path='/faq' element={<FaqRoute />} />
 
-			<Route path='/login' element={<Login />} />
+			<Route path='/login' element={<LoginRoute />} />
 			<Route path='/login/oauth/:provider' element={<OAuth />} />
-			<Route path='/join' element={<Join />} />
+			<Route path='/join' element={<JoinRoute />} />
 
 			<Route path='/settings' element={<SettingsRoute />} />
 			<Route path='/settings/search' element={<SearchSettings />} />
@@ -79,19 +79,19 @@ const router = createBrowserRouter(
 			<Route path='/settings/community' element={<CommunitySettings />} />
 			<Route path='/settings/notification' element={<NotificationSettings />} />
 
-			<Route path='/' element={<Main />} />
+			<Route path='/' element={<MainRoute />} />
 			<Route path='/book/:range' element={<BookList />} />
 			<Route path='/book/:range/:rangeDetail' element={<BookList />} />
 			<Route path='/book/detail/:id' element={<BookDetail />} />
-			<Route path='/book/add' element={<AddBookForm />} />
+			<Route path='/book/add' element={<AddBookRoute />} />
 			<Route path='/book/edit/:id' element={<EditBookForm />} />
 
 			<Route path='/reading' element={<ReadingNoId />} />
-			<Route path='/reading/:id' element={<Reading />} />
-			<Route path='/statistics' element={<Statistics />} />
+			<Route path='/reading/:id' element={<ReadingRoute />} />
+			<Route path='/statistics' element={<StatisticsRoute />} />
 			<Route path='/goal' element={<GoalRoute />} />
 
-			<Route path='/search/:query' element={<Search />} />
+			<Route path='/search/:query' element={<SearchRoute />} />
 
 			<Route path='/community' element={<CommunityRoute />} />
 			<Route path='/community/:type/add' element={<AddCommunityRoute />} />

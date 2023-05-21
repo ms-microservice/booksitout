@@ -5,18 +5,14 @@ import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
 import toast from 'react-hot-toast'
-import axios from 'axios'
-
-import urls from '../../../settings/urls'
-import utils from '../../../functions/utils'
-
 import Error from '../../common/Error'
 
 import '../../../resources/css/customCarousel.css'
 import AddIsbnCard from './AddIsbnCard'
 import BookSearchModal from '../BookSearchModal'
 
-import { RecentBook } from '../../../types/PostType'
+import { RecentBookType } from '../../../types/PostType'
+import { booksitoutServer } from '../../../functions/axios'
 
 const AddPostForm = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
@@ -53,8 +49,8 @@ const AddPostForm = () => {
 			isbn: isbn,
 		}
 
-		axios
-			.post(`${urls.api.base}/v4/forum/post`, post, { headers: { Authorization: utils.getToken() } })
+		booksitoutServer
+			.post('/v4/forum/post', post)
 			.then((res) => {
 				if (res.status.toString().startsWith('2')) {
 					toast.success('게시글을 추가했어요')
@@ -72,7 +68,7 @@ const AddPostForm = () => {
 			})
 	}
 
-	const [recentBookList, setRecentBookList] = useState<RecentBook[]>([])
+	const [recentBookList, setRecentBookList] = useState<RecentBookType[]>([])
 	const [modalShow, setModalShow] = useState(false)
 
 	if (!isLogin) return <Error message='게시글을 추가하기 위해서 로그인 해 주세요' />

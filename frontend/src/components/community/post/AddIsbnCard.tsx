@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react"
-import axios from "axios"
-
-import { RecentBook } from "../../../types/PostType"
-import utils from "../../../functions/utils"
-import urls from "../../../settings/urls"
+import { RecentBookType } from "../../../types/PostType"
 import { Button, Card, Carousel } from "react-bootstrap"
-
 import {AiFillCheckCircle as CheckIcon} from 'react-icons/ai'
+import { booksitoutServer } from "../../../functions/axios"
+import utils from "../../../functions/utils"
 
 const AddIsbnCard = ({isbn, setIsbn, setShow, recentBookList, setRecentBookList}) => {
-	const [splitRecentBookList, setSplitRecentBookList] = useState<RecentBook[][]>([[]])
+	const [splitRecentBookList, setSplitRecentBookList] = useState<RecentBookType[][]>([[]])
 	useEffect(() => {
-		axios
-			.get(`${urls.api.base}/v4/book/recent?size=12`, { headers: { Authorization: utils.getToken() } })
+		booksitoutServer
+			.get('/v4/book/recent?size=12')
 			.then((res) => setRecentBookList(res.data))
 			.catch((e) => {})
 	}, [])
@@ -24,7 +21,7 @@ const AddIsbnCard = ({isbn, setIsbn, setShow, recentBookList, setRecentBookList}
 	return (
 		<Card style={{ minHeight: '325px' }} className='pb-5 pb-md-0'>
 			<Card.Body>
-				<Carousel controls={recentBookList.length > 1} interval={null} indicators={false} variant='dark' className={'custom-carousel'}>
+				<Carousel controls={recentBookList.length > 1} interval={null} indicators={false} variant='dark' >
 					{splitRecentBookList.map((bookArray) => {
 						return (
 							<Carousel.Item>

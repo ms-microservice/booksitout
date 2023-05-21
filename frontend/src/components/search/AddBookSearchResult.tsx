@@ -1,6 +1,6 @@
 import { Card } from "react-bootstrap"
 
-const BookAddSearchResult = ({book}) => {
+const AddBookSearchResult = ({book}) => {
 	return (
 		<Card className='text-center mt-2 mb-2 clickable' style={{ height: '250px' }}>
 			<Card.Body>
@@ -14,4 +14,4 @@ const BookAddSearchResult = ({book}) => {
 		</Card>
 	)
 }
-export default BookAddSearchResult
+export default AddBookSearchResult

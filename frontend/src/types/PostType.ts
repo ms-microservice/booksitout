@@ -1,17 +1,21 @@
-export interface Post {
+export interface PostType {
     postId: number;
     title: string;
     content: string;
-    postLikeCount: number;
+
+    likeCount: number;
+    dislikeCount: number;
+    userLikeScore: number;
+
     commentCount: number;
     createdDate: string;
     lastModifiedDate: string;
     
-    user: User;
-    book?: Book;
+    user: UserType;
+    book?: BookType;
 }
 
-export interface Comment {
+export interface CommentType {
     commentId: number;
     content: string;
 
@@ -22,35 +26,36 @@ export interface Comment {
     createdDate?: string;
     lastModifiedDate?: string;
 
-    User: User;
+    User: UserType;
 }
 
-export interface User {
+export interface UserType {
     appUserId: number;
     email: string;
     name: string;
     profileImage?: string;
 }
 
-export interface Book {
+export interface BookType {
     title: string;
     author: string;
     cover?: string;
     isbn: number;
 }
 
-export interface RecentBook {
+export interface RecentBookType {
     title: string;
     author: string;
     cover: string;
     isbn?: number;
 }
 
-export interface PopularBook {
+export interface PopularBookType {
 	id: number;
 	title: string;
     author: string;
     isbn: number;
+    cover: string;
 }
 
 export {}

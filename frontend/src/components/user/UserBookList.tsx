@@ -1,6 +1,6 @@
 import axios from "axios"
 import urls from "../../settings/urls"
-import { useLoaderData, useSearchParams } from "react-router-dom"
+import { useLoaderData, useParams, useSearchParams } from "react-router-dom"
 import { PageType } from "../../types/PageType"
 import { Pagination } from 'react-bootstrap'
 import SharingBookCard from "./SharingBookCard"
@@ -14,9 +14,10 @@ export async function loader({params, request}) {
 }
 
 const UserBookList = () => {
-    const pagedPost = useLoaderData() as PageType<SharingBook[]>
     const [searchParams, _] = useSearchParams();
+    const pagedPost = useLoaderData() as PageType<SharingBook[]>
     const page = Number(searchParams.get('page') ?? 1) ?? 1
+	const { nickName } = useParams()
     
     return (
 		<div className='container-xl'>
@@ -32,13 +33,17 @@ const UserBookList = () => {
 
 			<div className='d-flex justify-content-center mb-5 mt-5'>
 				<Pagination>
-					<Pagination.First />
+					<Pagination.First href={`/user/${nickName}/books?page=1`} />
 
 					{Array.from({ length: pagedPost.totalPages }, (_, index) => index + 1).map((p) => {
-						return <Pagination.Item active={p === page ?? 1}>{p}</Pagination.Item>
+						return (
+							<Pagination.Item active={p === page ?? 1} href={`/user/${nickName}/books?page=${p}`}>
+								{p}
+							</Pagination.Item>
+						)
 					})}
 
-					<Pagination.Last />
+					<Pagination.Last href={`/user/${nickName}/books?page=${pagedPost.totalPages}`} />
 				</Pagination>
 			</div>
 		</div>

@@ -7,13 +7,13 @@ import BookInfoPostCard from './BookInfoPostCard'
 import BookInfoStatisticsCard from './BookInfoStatisticsCard'
 import BookInfoCoverCard from './BookInfoCoverCard'
 import BookInfoQuizCard from './BookInfoQuizCard'
-import { Post } from '../../types/PostType'
+import { PostType } from '../../types/PostType'
 import axios from 'axios'
 import urls from '../../settings/urls'
 
 interface LoaderData {
 	book: Book
-	postList: Post[]
+	postList: PostType[]
 }
 
 export async function loader({ params }) {

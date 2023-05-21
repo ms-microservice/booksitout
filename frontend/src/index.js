@@ -1,13 +1,13 @@
 import ReactDOM from 'react-dom/client'
 import App from './App'
-import {BrowserRouter as Router} from 'react-router-dom'
 
-import {Provider} from 'react-redux'
+import { Provider } from 'react-redux'
 import store from './redux/store'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import './resources/css/index.css'
 import './resources/css/customBootstrap.css'
+import './resources/css/core.css'
 
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', () => {

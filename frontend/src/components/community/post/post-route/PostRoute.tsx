@@ -1,18 +1,17 @@
 import { useLoaderData, useParams } from 'react-router-dom'
-import axios from 'axios'
 import { ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
 
 import PostRoutePost from './PostRoutePost'
 import NoContent from '../../../common/NoContent'
 
-import { Post } from '../../../../types/PostType'
-import urls from '../../../../settings/urls'
+import { PostType } from '../../../../types/PostType'
+import { booksitoutServer } from '../../../../functions/axios'
 
 export async function loader({ params }) {
 	const sortBy = params.sortBy
 
-	return axios
-		.get(`${urls.api.base}/v4/forum/post?sort=${sortBy}`)
+	return booksitoutServer
+		.get(`/v4/forum/post?sort=${sortBy}`)
 		.then((res) => {
 			if (res.status === 200) {
 				return res.data
@@ -25,7 +24,7 @@ export async function loader({ params }) {
 
 const PostRoute = () => {
 	const { sortBy } = useParams()
-	const postList = useLoaderData() as Post[]
+	const postList = useLoaderData() as PostType[]
 
 	return (
 		<div className='container-xl'>
@@ -66,16 +65,17 @@ const PostRouteButton = ({ sortBy }) => {
 						</ToggleButton>
 					</a>
 
-					<a href='/community/post/all/relevant' className='w-100'>
+					{/* <a href='/community/post/all/relevant' className='w-100'> */}
 						<ToggleButton
 							variant={sortBy === 'relevant' ? 'book' : 'light'}
+							disabled
 							type='radio'
 							checked={false}
 							className='w-100'
 							value={'give-up'}>
 							내 책 관련
 						</ToggleButton>
-					</a>
+					{/* </a> */}
 				</ButtonGroup>
 			</Card.Body>
 		</Card>
