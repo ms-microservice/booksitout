@@ -17,7 +17,7 @@ export async function loader({ params }) {
 	const nickName = params.nickName
 
 	const fetchUser = axios.get(`${urls.api.base}/v4/user/public-user/by-name?name=${nickName}`).then((res) => res.data)
-	const fetchBooks = axios.get(`${urls.api.base}/v4/book/sharing?name=${nickName}`).then((res) => res.data)
+	const fetchBooks = axios.get(`${urls.api.base}/v4/book/sharing?name=${nickName}&size=7`).then((res) => res.data)
 	const fetchPosts = axios.get(`${urls.api.base}/v4/forum/post/by-name?name=${nickName}`).then((res) => res.data)
 
 	const [user, bookList, postList] = await Promise.all([fetchUser, fetchBooks, fetchPosts]);

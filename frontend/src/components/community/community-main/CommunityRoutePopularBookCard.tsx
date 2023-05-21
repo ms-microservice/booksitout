@@ -41,7 +41,9 @@ const CommunityRoutePopularBookCard = () => {
 											<div className='col-11 m-0 ps-3'>
 												<p className='m-0'>{book.title}</p>
 
-												<p className='text-secondary m-0'>{book.author}</p>
+												<p className='text-secondary m-0 force-1-line'>
+													{book.author.substring(0, 20)} {book.author.length > 20 ? '...' : ''}
+												</p>
 											</div>
 										</div>
 									</a>

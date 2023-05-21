@@ -27,9 +27,9 @@ const UserProfileCard = ({ user }) => {
 						<h3 className='d-inline-block'>{user.name}</h3>
 						{user.isPaidUser && <PaidIcon className='text-book h3 ms-3' />}
 
-						<h5 className='text-secondary'>
-							책잇아웃과 함께한지 <span className='text-book'>{user.joinDayCount}</span>일
-						</h5>
+						<p className='text-secondary' style={{ fontSize: '20px' }}>
+							책잇아웃과 함께한지 <b className='text-book'>{user.joinDayCount}</b>일
+						</p>
 					</div>
 				</div>
 			</Card.Body>

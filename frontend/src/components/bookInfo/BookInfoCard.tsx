@@ -7,7 +7,7 @@ const BookInfoCard = ({ title, content }) => {
 				<div className='row h-100'>
 					<h2 className='mb-4'>{title}</h2>
 
-					{content}
+					<div className='m-0'>{content}</div>
 				</div>
 			</Card.Body>
 		</Card>

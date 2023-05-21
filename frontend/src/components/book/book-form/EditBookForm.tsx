@@ -72,7 +72,7 @@ const BookEditForm = () => {
 				setForm(book.form)
 				setSource(book.source)
 				setCover(book.cover)
-				setSharing(book.isSharing)
+				setSharing(book.sharing)
 			})
 			.catch(() => setIsError(true))
 			.finally(() => {
@@ -248,8 +248,8 @@ const BookEditForm = () => {
 
 								<Form.Group className='mb-5' controlId='formBasicCheckbox'>
 									<Form.Check
-										type='checkbox'
-										label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
+										type='switch'
+										label='내 책 정보 공개하기'
 										checked={sharing}
 										onChange={() => setSharing(!sharing)}
 										className='force-1-line'

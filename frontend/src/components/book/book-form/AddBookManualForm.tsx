@@ -205,7 +205,7 @@ const AddBookManualForm = () => {
 							<Form.Group className='mb-3 mt-3' controlId='formBasicCheckbox'>
 								<Form.Check
 									type='switch'
-									label='다른 사람이 내 독서활동을 볼 수 있도록 하기'
+									label='내 책 정보 공개하기'
 									checked={isSharing}
 									onChange={() => setIsSharing(!isSharing)}
 									style={{ whiteSpace: 'nowrap' }}
