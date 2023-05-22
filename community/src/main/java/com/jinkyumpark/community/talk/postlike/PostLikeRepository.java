@@ -3,6 +3,7 @@ package com.jinkyumpark.community.talk.postlike;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
@@ -18,5 +19,8 @@ public interface PostLikeRepository extends JpaRepository<PostLike, Long> {
 
     @Query("select pl from PostLike pl where pl.appUserId = :appUserId and pl.post.postId=:postId")
     Optional<PostLike> findByAppUserIdAndPostId(Long appUserId, Long postId);
+
+    @Query("select pl from PostLike pl where pl.post.postId = :postId")
+    List<PostLike> findAllByPostId(Long postId);
 
 }
