@@ -16,13 +16,13 @@ https://booksitout.com
 -   커뮤니티 
     - 책을 지정해서 책에 관한 얘기, 퀴즈, 조사 가능
     - 독서모임 모집, 사이트 내 책 측정을 서로 공유할 수 있음
-    - 매일 인기 책 알려줌 (Spring Batch로 매일 취합, 인기 알고리즘 구현)
--   책 알림 : 내가 읽고 싶은 책을 등록해 놓으면 원하는 곳에서 등록 될 떄 알림 (Spring Batch, Kafka 사용)
+    - 매일 인기 책 알려줌 (Spring Batch 매일 인기 점수 계산, 인기 알고리즘 구현 (Reddit의 Hot Ranking 알고리즘 참고))
+-   책 알림 : 내가 읽고 싶은 책을 등록해 놓으면 원하는 곳에서 등록 될 떄 알림 (Spring Batch, AWS SNS 사용)
 -   도서관 관련 편의 기능
-    - 대출 / 예약 이력 사이트 내에서 관리
+    - 대출 / 예약 이력 관리
     - 도서관 회원증 등록 (애플웰렛, 삼성페이, 사이트 자체)
-    - 도서관 책 검색 가능 (Spring Batch로 자체 DB 구축함)
-    - 근처 도서관 검색
+    - 도서관 책 검색 (Spring Batch로 자체 DB 구축)
+    - 근처 도서관 검색 (Naver Map API 사용)
 
 # 🧑‍🔧 사용된 기술 (V4 기준)
 ### DB
@@ -38,14 +38,15 @@ https://booksitout.com
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
-![ReactiveX](https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white) (Spring Webflux)
+
+[//]: # (![ReactiveX]&#40;https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white&#41; &#40;Spring Webflux&#41;)
 
 ![Spring Cloud](https://img.shields.io/badge/SpringCloud-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) 
 - Spring Cloud Gateway, Spring Cloud Config (Github를 Backend로 사용), Eureka, Hystrix
 - Open Feign
 - Logging : Sleuth, Zipkin
 
-![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)
+[//]: # (![Apache Kafka]&#40;https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka&#41;)
 
 ### DevOps
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
@@ -57,6 +58,7 @@ https://booksitout.com
 - EC2
 - RDS (MySQL)
 - S3
+- SQS
 
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
@@ -66,8 +68,9 @@ https://booksitout.com
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
-![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
+
+[//]: # (![React Query]&#40;https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white&#41;)
 
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
 ![Chart.js](https://img.shields.io/badge/chart.js-F5788D.svg?style=for-the-badge&logo=chart.js&logoColor=white)
@@ -130,11 +133,11 @@ https://booksitout.com
   - 모바일 사용성 개선 (입력해야 될 상황에 키보드 자동으로 보이기, PWA 지원, 쓸데없는 autoComplete 숨기기)
   - 유저가 알고 싶은 정보는 강조, 아닌 정보는 색 secondary / 작게 (예 : 책 List에서 현재 페이지 bold / main-color로 강조)
 
-## Version 4, 커뮤니티 (23년 4월 29일 ~ 23년 5월 14일)
+## Version 4, 커뮤니티 (23년 4월 29일 ~ 23년 5월 22일)
 - 커뮤니티
   - 책 별로 궁금한걸 물어볼 수 있는 설문, 퀴즈로 책 내용 복습, 자유롭게 얘기(포스트, 댓글, 좋아요)
   - isbn13을 기준으로 나눔 + 같은 책이라 판단할 수 있는 isbn13끼리 묶는 테이블 사용
-  - 인기있는 책 순위 제공 (매일 새벽 Batch로 취합)
+  - 인기있는 책 순위 제공 (매일 1번 Spring Batch로 점수 계산, Reddit의 Hot Ranking 알고리즘 참고)
 
 - 독서모임
   - 책잇아웃에 있는 독서측정 기능으로 서로 공유 가능
@@ -143,6 +146,20 @@ https://booksitout.com
 
 - 책잇아웃 꿀팁
   - 관리자가 올릴 수 있는 콘텐츠
+
+- 책 페이지
+  - 처음 접근시 데이터가 없으면 Message Queue로 만들기
+  - 관련 커뮤니티 게시글 보여줌
+  - 책 관련 통계 보여줌
+
+- 유저 페이지
+  - 유저가 공유 설정한 책
+  - 유저가 작성한 커뮤니티 게시글
+
+- 리팩토링
+  - React Router 고급 기능 사용 (Data Layer API, Loader, Nested Routes)
+  - Front / Back 간 타입 통일 (모든 component TS로 전환 후 타입 정의, 비슷한 티입은 통일)
+  - 시간이 오래 걸리는 작업 Message Queue로 처리
 
 ## Version 5 (예정)
 - 알림 : Spring Batch, Kafka를 사용해 내가 원하는 곳에서(도서관, 구독, 중고서점 등) 원하는 책이 등록되면 이메일로 알림

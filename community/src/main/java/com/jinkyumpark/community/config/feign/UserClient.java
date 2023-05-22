@@ -1,7 +1,6 @@
 package com.jinkyumpark.community.config.feign;
 
 import com.jinkyumpark.community.config.feign.response.AppUserInfo;
-import com.jinkyumpark.community.config.feign.response.PublicUserInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -15,9 +14,9 @@ public interface UserClient {
     AppUserInfo getUserInfoByUserId(@PathVariable("appUserId") Long userId);
 
     @RequestMapping(method = RequestMethod.GET, value = "v4/user/public-user/by-name")
-    PublicUserInfo getUserByNickname(@RequestParam("name") String nickName);
+    AppUserInfo getUserByNickname(@RequestParam("name") String nickName);
 
     @RequestMapping(method = RequestMethod.GET, value = "v4/user/public-user/{appUserId}")
-    PublicUserInfo getPublicUserByAppUserId(@PathVariable("appUserId") Long appUserId);
+    AppUserInfo getPublicUserByAppUserId(@PathVariable("appUserId") Long appUserId);
 
 }

@@ -112,20 +112,20 @@ const PostDetailSummaryCard = ({ post, isMyPost, commentList }) => {
 
 					<div className='col-3 col-md-2 text-end'>
 						{isMyPost ? (
-							<a href={`/community/post/edit/${post.postId}`} className='text-decoration-none text-black'>
-								<Button variant='warning' className='mb-1 mb-md-0 me-md-1'>
-									수정
-								</Button>
-							</a>
-						) : (
-							<Button variant='warning' className='mb-1 mb-md-0 me-md-1' disabled>
-								수정
-							</Button>
-						)}
+							<>
+								<a href={`/community/post/edit/${post.postId}`} className='text-decoration-none text-black'>
+									<Button variant='warning' className='mb-1 mb-md-0 me-md-1'>
+										수정
+									</Button>
+								</a>
 
-						<Button variant='book-danger' disabled={!isMyPost} onClick={handleDeletePost}>
-							삭제
-						</Button>
+								<Button variant='book-danger' disabled={!isMyPost} onClick={handleDeletePost}>
+									삭제
+								</Button>
+							</>
+						) : (
+							<></>
+						)}
 					</div>
 				</div>
 
@@ -451,7 +451,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 															src={comment.user.profileImage}
 															alt='user profile'
 															className='img-fluid rounded'
-															style={{ height: '30px' }}
+															style={{ height: '30px', width: '30px' }}
 														/>
 													)}
 

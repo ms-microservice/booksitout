@@ -2,16 +2,15 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 
-import { BsBookHalf as BookIcon } from 'react-icons/bs'
+import { HiDocumentText as PostIcon } from 'react-icons/hi'
 
-const FloatingAddBookButton = ({ url = '/book/add' }) => {
+const FloatingAddPostButton = () => {
 	const navigate = useNavigate()
-
-	const token = useSelector((state: RootState) => state.user.token)
+    const token = useSelector((state: RootState) => state.user.token)
 
 	const addButtonStyle = {
 		right: '2.5%',
-		bottom: '30px',
+		bottom: '100px',
 
 		width: '60px',
 		height: '60px',
@@ -23,11 +22,11 @@ const FloatingAddBookButton = ({ url = '/book/add' }) => {
 		<>
 			{token !== '' && token !== null && (
 				<>
-					<BookIcon className='btn btn-book z- position-fixed' style={addButtonStyle} onClick={() => navigate(url)} />
+						<PostIcon className='btn btn-book z- position-fixed' style={addButtonStyle} onClick={() => navigate('/community/post/add')} />
 				</>
 			)}
 		</>
 	)
 }
 
-export default FloatingAddBookButton
+export default FloatingAddPostButton

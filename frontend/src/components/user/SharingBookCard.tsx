@@ -4,13 +4,18 @@ import defaultBookCover from '../../resources/images/common/default-book-cover.p
 
 
 const SharingBookCard = ({book}) => {
-    return (
-		<a href={`/book/info/${book.isbn}`} className='text-decoration-none text-black'>
-			<Card>
-				<Card.Body>
-					<div className='row row-eq-height'>
-						<div className='col-4 text-center'>
-							<img src={book.cover == null || book.cover === '' ? defaultBookCover : book.cover} alt='' className='img-fluid rounded border w-100' style={{ maxHeight: '200px' }} />
+	return (
+		<a href={`/book/info/${book.isbn}`} className='h-100'>
+			<Card className='h-100'>
+				<Card.Body className='h-100'>
+					<div className='row row-eq-height h-100'>
+						<div className='d-flex col-4 text-center align-items-center'>
+							<img
+								src={book.cover == null || book.cover === '' ? defaultBookCover : book.cover}
+								alt=''
+								className='img-fluid rounded border'
+								style={{ maxHeight: '200px' }}
+							/>
 						</div>
 
 						<div className='col-8' style={{ position: 'relative' }}>

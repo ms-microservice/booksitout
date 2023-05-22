@@ -13,8 +13,8 @@ const NoContent = ({
 	mBetween='3'
 }) => {
 	return (
-		<div className='row h-100 align-items-center' style={{ overflowX: 'hidden' }}>
-			<div className='text-center' style={{ marginTop: mt, marginBottom: mb }}>
+		<div className='row h-100 w-100 align-items-center me-0 ms-0 ps-0 pe-0' style={{ overflowX: 'hidden' }}>
+			<div className='text-center w-100' style={{ marginTop: mt, marginBottom: mb }}>
 				{useImage ? (
 					<img src={icon} alt='' style={{ width: imageSize }} className='img-fluid mt-3' />
 				) : (
