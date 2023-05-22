@@ -35,14 +35,21 @@ public class PostService {
     }
 
     public List<PostDto> getAllPostOrderBy(PostSort postSort, Pageable pageable) {
+        List<Post> postList = new ArrayList<>();
 
-        if (postSort == PostSort.POPULAR) return postRepository
-                .findAllOrderByPopular(pageable).stream()
-                .map(PostDto::of)
-                .collect(Collectors.toList());
+        switch (postSort) {
+            case POPULAR:
+                postList.addAll(postRepository.findAllOrderByPopular(pageable));
+                break;
+            case RECENT:
+                postList.addAll(postRepository.findAllOrderByCreatedDate(pageable));
+                break;
+            case RELEVANT:
+                postList.addAll(List.of());
+                break;
+        }
 
-        return postRepository
-                .findAll(pageable).stream()
+        return postList.stream()
                 .map(PostDto::of)
                 .collect(Collectors.toList());
     }

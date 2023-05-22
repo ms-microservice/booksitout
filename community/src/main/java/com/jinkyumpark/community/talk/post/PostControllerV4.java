@@ -150,12 +150,11 @@ public class PostControllerV4 {
                                                @RequestParam(value = "size", required = false) Integer size) {
         if (page == null) page = 1;
         if (size == null) size = 10;
+        Pageable pageable = PageRequest.of(page - 1, size);
 
-        Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDate").descending());
+        List<PostDto> postList = postService.getAllPostOrderBy(PostSort.valueOf(sort.toUpperCase()), pageable);
 
-        List<PostDto> posts = postService.getAllPostOrderBy(PostSort.valueOf(sort.toUpperCase()), pageable);
-
-        return posts.stream()
+        return postList.stream()
                 .map(post ->
                         PostResponse.of(
                                 post,
