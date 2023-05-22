@@ -3,7 +3,7 @@ import { Card } from 'react-bootstrap'
 const BookInfoIcon = ({
 	infoType,
 	infoData,
-	responsiveImageStyle = 'col-9 col-md-10 align-self-center',
+	responsiveImageStyle = 'col-9 col-md-10 align-self-center p-0',
 	responsiveTextStyle = 'col-12 col-md-12 mt-2 mt-md-0',
 }) => {
 	return (
@@ -11,7 +11,7 @@ const BookInfoIcon = ({
 			<Card.Body>
 				<div className='row justify-content-center'>
 					<div className={responsiveImageStyle}>
-						<img src={infoType.imageFunction(infoData)} alt='' className='img-fluid mb-0 mb-md-2' style={{ maxHeight: '40px' }} />
+						<img src={infoType.imageFunction(infoData)} alt='' className='img-fluid mb-0 mb-md-2 p-0' style={{ maxHeight: '50px' }} />
 					</div>
 
 					<div className={responsiveTextStyle}>
