@@ -34,14 +34,15 @@ https://booksitout.com
 
 ![Java](https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=java&logoColor=white)
 ![Kotlin](https://img.shields.io/badge/kotlin-%237F52FF.svg?style=for-the-badge&logo=kotlin&logoColor=white)
-![ReactiveX](https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white) (Spring Webflux)
+
+[//]: # (![ReactiveX]&#40;https://img.shields.io/badge/ReactiveX-B7178C?style=for-the-badge&logo=ReactiveX&logoColor=white&#41; &#40;Spring Webflux&#41;)
 
 ![Spring Cloud](https://img.shields.io/badge/SpringCloud-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white)
 - Spring Cloud Gateway, Spring Cloud Config (using Github as backend), Eureka, Hystrix
 - Open Feign
 - Logging : Sleuth, Zipkin
 
-![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka)
+[//]: # (![Apache Kafka]&#40;https://img.shields.io/badge/Apache%20Kafka-000?style=for-the-badge&logo=apachekafka&#41;)
 
 ## DevOps
 ![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
@@ -53,6 +54,7 @@ https://booksitout.com
 - EC2
 - RDS (MySQL)
 - S3
+- SQS
 
 ![GitHub Actions](https://img.shields.io/badge/github%20actions-%232671E5.svg?style=for-the-badge&logo=githubactions&logoColor=white)
 
@@ -62,7 +64,8 @@ https://booksitout.com
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![React Router](https://img.shields.io/badge/React_Router-CA4245?style=for-the-badge&logo=react-router&logoColor=white)
 ![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
-![React Query](https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white)
+
+[//]: # (![React Query]&#40;https://img.shields.io/badge/-React%20Query-FF4154?style=for-the-badge&logo=react%20query&logoColor=white&#41;)
 ![SASS](https://img.shields.io/badge/SASS-hotpink.svg?style=for-the-badge&logo=SASS&logoColor=white)
 
 ![Bootstrap](https://img.shields.io/badge/bootstrap-%23563D7C.svg?style=for-the-badge&logo=bootstrap&logoColor=white)
@@ -140,18 +143,33 @@ https://booksitout.com
       - automatically show keyboards when necessary
       - PWA support
 
-## Version 4, Community (Apr. 29, 2023 - May. 14, 2023)
+## Version 4, Community (Apr. 29, 2023 - May. 22, 2023)
+- Manage Public Profile
+  - upload profile image with AWS S3
+
 - Forum
-    - Provide surveys, quizzes, free forum for each book 
+    - Provide surveys, quizzes, forum for each book 
     - Group with isbn13, DB schema to group isbn estimated to indicate the same books
-    - Provide popular books (use Batch to process for certain intervals)
+    - Provide popular books (uses Spring Batch to calculate popularity score on certain intervals)
 
 - Book Gatherings
     - share booksitout reading stats before each gatherings
     - accept/deny based on profiles
-    - supports maps, notifications for easier gatherings
 
 - Booksitout Tips (Admin write only)
+  - Spring Security based Authorization
+
+- User page for sharing my readings
+
+- Book page
+  - add with message queue when it is empty on first accessing 
+  - view book-related Forum
+  - view statistics
+
+- use advanced React Router features
+  - nested routes
+  - Outlet Context
+  - Data Layer APIs, Loaders
 
 ## Version 5, Notifications (Scheduled)
 
