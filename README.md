@@ -5,6 +5,7 @@
 # Multi Language README
 
 - [Korean (한국어)](https://github.com/jinkyumpark/booksitout/blob/main/README-kr.md)
+- [Japanese](https://github.com/jinkyumpark/booksitout/blob/main/README-jp.md)
 
 # Available at:
 https://booksitout.com
