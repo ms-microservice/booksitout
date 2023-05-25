@@ -4,8 +4,8 @@
 	"description": "책잇아웃, 독서를 더 편하게",
 	"icons": [
 		{
-			"src": "icon.png",
-			"sizes": "any",
+			"src": "logo.png",
+			"sizes": "721*721",
 			"type": "image/png"
 		}
 	],
