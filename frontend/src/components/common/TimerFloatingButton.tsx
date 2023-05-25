@@ -2,14 +2,14 @@ import { Button } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 
-const ReadingButton = ({ url = '/reading' }) => {
+const TimerFloatingButton = ({ url = '/reading' }) => {
 	const time: number = useSelector((state: RootState) => state.timer.readingTimeInSeconds)
 	const token: string | null = useSelector((state: RootState) => state.user.token)
 
 	const timeStyle: React.CSSProperties = {
 		position: 'fixed',
-		right: '100px',
-		bottom: '30px',
+		left: '2.5%',
+		bottom: '20px',
 
 		width: '80px',
 		height: '60px',
@@ -37,4 +37,4 @@ const ReadingButton = ({ url = '/reading' }) => {
 	)
 }
 
-export default ReadingButton
+export default TimerFloatingButton

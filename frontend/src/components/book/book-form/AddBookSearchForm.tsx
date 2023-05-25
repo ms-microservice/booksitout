@@ -122,8 +122,10 @@ const AddBookSearchForm = () => {
 														onChange={(e) => setEndPage(Number(e.target.value))}
 														placeholder={messages.book.placeholder.add.page}
 														required
-														autoComplete='off'
 														autoFocus
+														autoComplete='off'
+														autoCapitalize='off'
+														autoCorrect='off'
 													/>
 												</Form.Group>
 											</div>
@@ -138,8 +140,6 @@ const AddBookSearchForm = () => {
 													</Form.Select>
 												</Form.Group>
 											</div>
-
-											<p className='text-secondary text-center mb-4'>페이지를 추가하지 않으면 독서활동을 기록할 수 없어요</p>
 
 											<div className='col-12'>
 												<Form.Group className='mb-3'>
@@ -167,10 +167,11 @@ const AddBookSearchForm = () => {
 
 										<Form.Group className='mb-3' controlId='formBasicCheckbox'>
 											<Form.Check
-												type='checkbox'
-												checked={sharing}
+												type='switch'
 												label='내 책 정보 공개하기'
+												checked={sharing}
 												onChange={() => setSharing(!sharing)}
+												className='force-1-line'
 											/>
 										</Form.Group>
 
@@ -180,8 +181,8 @@ const AddBookSearchForm = () => {
 											<div className='mt-1 mt-lg-3 d-block' />
 
 											<div className='col-6'>
-												<Button variant='book-danger' className='w-100' type='reset'>
-													다시 입력
+												<Button variant='book-danger' className='w-100' onClick={() => setModalOpen(false)}>
+													취소
 												</Button>
 											</div>
 
