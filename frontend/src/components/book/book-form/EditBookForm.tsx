@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Button, Form, Card } from 'react-bootstrap'
 import toast from 'react-hot-toast'
@@ -24,27 +24,27 @@ const BookEditForm = () => {
 	const PAGE_MESSAGE = `마지막 페이지를 알려 주세요`
 	const EDIT_SUCCESS_MESSAGE = `책을 수정했어요`
 
-	const [initalFetch, setInitialFetch] = useState(true)
-	const [loading, setIsLoading] = useState(true)
-	const [error, setIsError] = useState(false)
-	const [notFound, setNotFound] = useState(false)
+	const [initalFetch, setInitialFetch] = React.useState(true)
+	const [loading, setIsLoading] = React.useState(true)
+	const [error, setIsError] = React.useState(false)
+	const [notFound, setNotFound] = React.useState(false)
 
-	const [showModal, setShowModal] = useState(false)
+	const [showModal, setShowModal] = React.useState(false)
 	const openModal = () => {
 		title !== '' ? setShowModal(true) : alert('표지를 검색하기 위해 책 제목을 입력해 주세요')
 	}
 
-	const [title, setTitle] = useState('')
-	const [author, setAuthor] = useState('')
-	const [endPage, setEndPage] = useState(0)
-	const [cover, setCover] = useState('')
-	const [language, setLanguage] = useState('KOREAN')
-	const [category, setCategory] = useState('LITERATURE')
-	const [sharing, setSharing] = useState<boolean>(true)
-	const [form, setForm] = useState('PHYSICAL')
-	const [source, setSource] = useState('NOT_PROVIDED')
+	const [title, setTitle] = React.useState('')
+	const [author, setAuthor] = React.useState('')
+	const [endPage, setEndPage] = React.useState(0)
+	const [cover, setCover] = React.useState('')
+	const [language, setLanguage] = React.useState('KOREAN')
+	const [category, setCategory] = React.useState('LITERATURE')
+	const [sharing, setSharing] = React.useState<boolean>(true)
+	const [form, setForm] = React.useState('PHYSICAL')
+	const [source, setSource] = React.useState('NOT_PROVIDED')
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const BOOK_GET_API_URL = `${urls.api.base}/v1/book/${id}`
 
 		setTimeout(() => {

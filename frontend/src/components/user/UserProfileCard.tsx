@@ -17,7 +17,7 @@ const UserProfileCard = ({ user }) => {
 							<img
 								src={user.profileImage}
 								alt=''
-								className='img-fluid rounded mb-4 mb-md-0'
+								className='img-fluid rounded mb-4 mb-md-0 border'
 								style={{ width: '150px', height: '150px' }}
 							/>
 						)}

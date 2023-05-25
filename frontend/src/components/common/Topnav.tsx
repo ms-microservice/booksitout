@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Button, Container, Form, Navbar, Nav, NavDropdown, Card } from 'react-bootstrap'
@@ -29,11 +29,11 @@ const Topnav = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 	const expand = uiSettings.topnav.collapse
 
-	const [expanded, setExpanded] = useState(false)
-	const [showSearchBar, setShowSearchBar] = useState(false)
-	const [autoFocus, setAutoFocus] = useState(false)
+	const [expanded, setExpanded] = React.useState(false)
+	const [showSearchBar, setShowSearchBar] = React.useState(false)
+	const [autoFocus, setAutoFocus] = React.useState(false)
 
-	const [initialLoad, setInitialLoad] = useState(true)
+	const [initialLoad, setInitialLoad] = React.useState(true)
 
 	const handleLogout = (e) => {
 		e.preventDefault()
@@ -52,13 +52,13 @@ const Topnav = () => {
 		navigate('/')
 	}
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setExpanded(false)
 		setShowSearchBar(false)
 		setAutoFocus(false)
 	}, [location.pathname])
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (expanded) {
 			setShowSearchBar(false)
 			setAutoFocus(false)
@@ -232,10 +232,10 @@ const SearchBar = ({ width = {}, autoFocus = false, isLogin }) => {
 	const navigate = useNavigate()
 	const location = useLocation()
 
-	// const [showSearchHistory, setShowSearchHistory] = useState(false)
-	const [keyword, setKeyword] = useState('')
+	// const [showSearchHistory, setShowSearchHistory] = React.useState(false)
+	const [keyword, setKeyword] = React.useState('')
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (location.pathname.startsWith('/search')) {
 			setKeyword(decodeURI(location.pathname.substring(8)))
 		}
@@ -256,7 +256,7 @@ const SearchBar = ({ width = {}, autoFocus = false, isLogin }) => {
 		else toast.error('2글자 이상의 검색어를 입력해 주세요')
 	}
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const input = document.getElementById('searchInput')
 
 		if (autoFocus) {

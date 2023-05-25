@@ -4,10 +4,9 @@ import App from './App'
 import { Provider } from 'react-redux'
 import store from './redux/store'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
 import './resources/css/index.css'
-import './resources/css/customBootstrap.css'
-import './resources/css/core.css'
+import './resources/css/customBootstrap.scss'
+import './resources/css/core.scss'
 
 if ('serviceWorker' in navigator) {
 	window.addEventListener('load', () => {

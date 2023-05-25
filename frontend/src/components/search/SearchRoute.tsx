@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 // Components
 import Loading from '../common/Loading'
@@ -24,22 +24,22 @@ import { Alert } from 'react-bootstrap'
 const SearchRoute = () => {
 	const { query } = useParams()
 
-	const [loading, setLoading] = useState(true)
-	const [initial, setInitial] = useState(true)
-	useEffect(() => {
+	const [loading, setLoading] = React.useState(true)
+	const [initial, setInitial] = React.useState(true)
+	React.useEffect(() => {
 		document.title = `검색 : ${query} | 책잇아웃`
 		setTimeout(() => {
 			setInitial(false)
 		}, uiSettings.initalFetchTime)
 	}, [])
 
-	const [myBookList, setMyBookList] = useState<MyBook[]>([])
-	const [libraryList, setLibraryBookList] = useState<LibraryBook[]>([])
-	const [onlineLibraryList, setOnlineLibraryBookList] = useState([])
-	const [onlineUsedList, setOnlineUsedBookList] = useState<UsedBook[]>([])
-	const [offlineUsedList, setOfflineUsedBookList] = useState<UsedBook[]>([])
-	const [subscriptionList, setSubscriptionBookList] = useState<SubscriptionBook[]>([])
-	useEffect(() => {
+	const [myBookList, setMyBookList] = React.useState<MyBook[]>([])
+	const [libraryList, setLibraryBookList] = React.useState<LibraryBook[]>([])
+	const [onlineLibraryList, setOnlineLibraryBookList] = React.useState([])
+	const [onlineUsedList, setOnlineUsedBookList] = React.useState<UsedBook[]>([])
+	const [offlineUsedList, setOfflineUsedBookList] = React.useState<UsedBook[]>([])
+	const [subscriptionList, setSubscriptionBookList] = React.useState<SubscriptionBook[]>([])
+	React.useEffect(() => {
 		setLoading(true)
 
 		Promise.all([

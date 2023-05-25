@@ -1,34 +1,33 @@
-import { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Button, Modal } from 'react-bootstrap'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
 
 import { addRating } from '../../../functions/book'
 
-const BookRatingDetail = ({book, setBook}) => {
-    const [show, setShow] = useState(false)
-    const [rating, setRating] = useState(book.rating || 0)
+const BookRatingDetail = ({ book, setBook }) => {
+	const [show, setShow] = React.useState(false)
+	const [rating, setRating] = React.useState(book.rating || 0)
 
-    const handleEditRating = () => {
-        if ((book.rating || 0) == rating) {
-            toast.error('별점을 수정하지 않으셨어요')
-            return
-        }
+	const handleEditRating = () => {
+		if ((book.rating || 0) == rating) {
+			toast.error('별점을 수정하지 않으셨어요')
+			return
+		}
 
-        addRating(book.bookId, rating)
-        .then((success) => {
-            if (success) {
-                setBook({
-                    ...book,
-                    rating: rating
-                })
+		addRating(book.bookId, rating).then((success) => {
+			if (success) {
+				setBook({
+					...book,
+					rating: rating,
+				})
 				toast.success('별점을 수정했어요')
-                setShow(false)
-            } else {
+				setShow(false)
+			} else {
 				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
 			}
-        })
-    }
+		})
+	}
 
 	return (
 		<>

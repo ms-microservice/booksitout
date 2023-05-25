@@ -1,9 +1,9 @@
-import { useState } from 'react'
+import React from 'react'
 import {Card, ListGroup} from 'react-bootstrap'
 import '../../resources/css/searchHistory.css'
 
 const SearchHistory = () => {
-    const [searchHistory, setSearchHistory] = useState([
+    const [searchHistory, setSearchHistory] = React.useState([
         {id: 1, content: '이것이 자바다', time: '2022-04-19T02:33:54'},
         {id: 2, content: '유난한 도전', time: '2022-04-19T02:33:54'},
         {id: 3, content: '사회적 원자', time: '2022-04-19T02:33:54'},

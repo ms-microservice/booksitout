@@ -1,12 +1,12 @@
-import { useState } from 'react'
+import React from 'react'
 import { Button, Card } from 'react-bootstrap'
 import parse from 'html-react-parser'
 import EditNameModal from './EditNameModal'
 import EditPasswordModal from './EditPasswordModal'
 
 const PersonalInfoSettings = () => {
-	const [passwordModalShow, setPasswordModalShow] = useState(false)
-	const [nameModalShow, setNameModalShow] = useState(false)
+	const [passwordModalShow, setPasswordModalShow] = React.useState(false)
+	const [nameModalShow, setNameModalShow] = React.useState(false)
 
 	return (
 		<div className='container-xl'>
@@ -24,7 +24,7 @@ const PersonalInfoSettings = () => {
 							'알림 메일을 변경하고 싶으시면 <a href="/settings/notification">여기</a>를 눌러 주세요',
 						]}
 						button={
-							<Button variant='book-danger' className='w-100' disabled>
+							<Button variant='book' className='w-100' disabled>
 								이메일 변경
 							</Button>
 						}

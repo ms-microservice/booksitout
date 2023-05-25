@@ -216,13 +216,7 @@ const AddBookManualForm = () => {
 								<div className='mt-1 mt-md-5 d-block'></div>
 								<div className='mt-3 mt-md-3 d-block'></div>
 
-								<div className='col-6'>
-									<Button variant='book-danger' type='reset' className='w-100'>
-										다시 입력하기
-									</Button>
-								</div>
-
-								<div className='col-6'>
+								<div className='col-12 col-md-7'>
 									<Button variant='book' type='submit' className='w-100'>
 										추가하기
 									</Button>

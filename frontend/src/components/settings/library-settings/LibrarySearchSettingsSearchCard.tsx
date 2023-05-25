@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React from "react"
 import { Card, Form } from "react-bootstrap"
 import { LibraryType } from "../../../types/LibraryType"
 import axios from "axios"
@@ -10,15 +10,15 @@ import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'
 import urls from "../../../settings/urls"
 
 const LibrarySearchSettingsSearchCard = ({ setShow, setSelectedLibrary, searchResult, setSearchResult }) => {
-	const [error, setError] = useState(false)
-	const [loading, setLoading] = useState(false)
-	const [query, setQuery] = useState<String>('')
+	const [error, setError] = React.useState(false)
+	const [loading, setLoading] = React.useState(false)
+	const [query, setQuery] = React.useState<String>('')
 
 	const handleSearch = (e) => {
 		setQuery(e.target.value)
 	}
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setLoading(query !== '')
 
 		if (query === '') {

@@ -1,17 +1,11 @@
-// Book Info
 import BookInfoIcon from '../book-info/BookInfoIcon'
-// Images
 import defaultBookCover from '../../../resources/images/common/default-book-cover.png'
-// Components
 import PageProgressBar from '../../common/PageProgressBar'
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from '../book-info/bookInfoEnum'
 import { Button } from 'react-bootstrap'
-
 import { giveUpBook } from '../../../functions/book'
 import { toast } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom'
-
-
 
 const MainHorizontalBookView = ({ book, link = '' }) => {
 	const navigate = useNavigate()
@@ -44,7 +38,7 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 				/>
 			</a>
 
-			<div className='col-12 col-lg-8'>
+			<div className='col-12 col-lg-8 pb-5 pb-md-0'>
 				<a href={link} className='text-decoration-none text-black'>
 					<h4>{book.title}</h4>
 					<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
@@ -66,22 +60,21 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 						</div>
 					</div>
 				</a>
+			</div>
 
+			<div className='row w-100' style={{ position: 'absolute', bottom: '20px' }}>
+				<div className='col-6 mt-md-2'>
+					<Button variant='book-danger' className='w-100' onClick={() => handleGiveupBook(book.bookId)}>
+						포기하기
+					</Button>
+				</div>
 
-				<div className='row mt-3 mt-md-5'>
-					<div className='col-6 mt-md-2'>
-						<a href={`/reading/${book.bookId}`} className='w-100'>
-							<Button variant='book' className='w-100'>
-								이어서 읽기
-							</Button>
-						</a>
-					</div>
-
-					<div className='col-6 mt-md-2'>
-						<Button variant='book-danger' className='w-100' onClick={() => handleGiveupBook(book.bookId)}>
-							포기하기
+				<div className='col-6 mt-md-2'>
+					<a href={`/reading/${book.bookId}`} className='w-100'>
+						<Button variant='book' className='w-100'>
+							이어서 읽기
 						</Button>
-					</div>
+					</a>
 				</div>
 			</div>
 		</div>

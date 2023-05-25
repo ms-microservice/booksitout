@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import { Button, Card, Form } from 'react-bootstrap'
 import search from '../../functions/search'
 import toast from 'react-hot-toast'
@@ -13,7 +13,7 @@ import SettingsLinkCard from './SettingsLinkCard'
 import AddRemoveSearchSettings from './library-settings/AddRemoveSearchSettings'
 
 const SearchSettings = () => {
-	useEffect(() => {
+	React.useEffect(() => {
 		axios.get(`${urls.api.base}/v3/search/settings/search-range/all`, { headers: { Authorization: utils.getToken() } }).then((res) => {
 			localStorage.setItem('search-library-region-api', res.data.region)
 			localStorage.setItem('search-library-region-detail-api', res.data.regionDetail)
@@ -98,10 +98,10 @@ const SearchSettings = () => {
 const MyBookSettings = () => {
 	const initialRange: string = search.local.settings.myBook.range()
 	
-	const [buttonDisabled, setButtonDisabled] = useState(true)
-	const [selectedRange, setSelectedRange] = useState(initialRange)
+	const [buttonDisabled, setButtonDisabled] = React.useState(true)
+	const [selectedRange, setSelectedRange] = React.useState(initialRange)
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setButtonDisabled(selectedRange === initialRange)
 	}, [selectedRange, initialRange])
 

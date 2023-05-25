@@ -19,8 +19,7 @@ const getBook = (bookId) => {
 const getLastBook = () => {
 	return axios
 		.get(urls.api.book.get.last, { headers: { Authorization: utils.getToken() } })
-		.then((res) => res.data)
-		.catch(() => { return null })
+		.then((res) => res)
 }
 
 const addBook = (book) => {

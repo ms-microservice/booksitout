@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Button, Modal } from 'react-bootstrap'
 import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-icons/ai'
@@ -6,7 +6,7 @@ import { AiFillStar as StarFillIcon, AiOutlineStar as StarIcon } from 'react-ico
 import { addRating } from '../../../functions/book'
 
 const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
-	const [rating, setRating] = useState(0)
+	const [rating, setRating] = React.useState(0)
 
 	const handleAddRating = () => {
 		if (rating === 0) {

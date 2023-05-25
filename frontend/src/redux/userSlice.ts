@@ -15,6 +15,7 @@ export const userSlice = createSlice({
 		},
 		logoutToken: (state) => {
 			state.token = ''
+			state.isLogin = false
 		},
 		checkIsLogin: (state) => {
 			state.isLogin = state.token != null && state.token != '' && typeof state.token != 'undefined'

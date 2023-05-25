@@ -1,4 +1,4 @@
-import { useState } from "react"
+import React from "react"
 import search from "../../../functions/search"
 import toast from "react-hot-toast"
 import messages from "../../../settings/messages"
@@ -9,13 +9,13 @@ const LibraryRegionSettings = () => {
 	const regionData = search.data.region
 	const regionDetailData = search.data.regionDetail.get('SEOUL')
 
-	const [modalOpen, setModalOpen] = useState(false)
+	const [modalOpen, setModalOpen] = React.useState(false)
 
-	const [region, setRegion] = useState(search.local.settings.library.display.region())
-	const [regionDetail, setRegionDetail] = useState(search.local.settings.library.display.regionDetail())
+	const [region, setRegion] = React.useState(search.local.settings.library.display.region())
+	const [regionDetail, setRegionDetail] = React.useState(search.local.settings.library.display.regionDetail())
 
-	const [editedRegion, setEditedRegion] = useState(region === '' ? 'SEOUL' : search.local.settings.library.api.region())
-	const [editedRegionDetail, setEditedRegionDetail] = useState(regionDetail === '' ? 'JONGNOGU' : search.local.settings.library.api.regionDetail())
+	const [editedRegion, setEditedRegion] = React.useState(region === '' ? 'SEOUL' : search.local.settings.library.api.region())
+	const [editedRegionDetail, setEditedRegionDetail] = React.useState(regionDetail === '' ? 'JONGNOGU' : search.local.settings.library.api.regionDetail())
 
 	const handleSubmit = (e) => {
 		e.preventDefault()

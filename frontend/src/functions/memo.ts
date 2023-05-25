@@ -16,7 +16,7 @@ const addMemo = (memo, bookId) => {
 			return false
 		})
 		.then((status) => {
-			return true
+			return status.toString().startsWith('2')
 		})
 }
 

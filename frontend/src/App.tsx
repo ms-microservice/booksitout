@@ -5,14 +5,14 @@ import MainRoute from './components/main/MainRoute'
 import NotFound from './components/common/NotFound'
 import ErrorPage from './components/common/ErrorPage'
 
-import AdminRoute from './components/admin/AdminRoute'
+import AdminRoute from './admin/AdminRoute'
 
 import IntroductionRoute from './components/info/IntroductionRoute'
 import FaqRoute from './components/info/FaqRoute'
 import QnaRoute, {loader as QnaLoader} from './components/info/QnaRoute'
 import FeatureRoute from './components/info/FeatureRoute'
-import TipsRoute from './components/community/tips/TipsRoute'
-import TipsDetail from './components/community/tips/TipsDetail'
+import TipsRoute from './community/tips/TipsRoute'
+import TipsDetail from './community/tips/TipsDetail'
 
 import LoginRoute from './components/user/LoginRoute'
 import OAuth from './components/user/OAuth'
@@ -38,14 +38,16 @@ import GoalRoute from './goal/GoalRoute'
 
 import SearchRoute from './components/search/SearchRoute'
 
-import CommunityRoute from './components/community/community-main/CommunityRoute'
-import AddCommunityRoute from './components/community/AddCommunityRoute'
+import CommunityRoute, {loader as communityRouteLoader} from './components/community/community-main/CommunityRoute'
+import AddCommunityRoute from './community/AddCommunityRoute'
 
 import PostRoute, { loader as postRouteLoader } from './components/community/post/post-route/PostRoute'
 import PostDetail from './components/community/post/PostDetail'
 import EditPostForm from './components/community/post/EditPostForm'
 
-import GatheringRoute from './components/community/gathering/GatheringRoute'
+import GatheringRoute, {loader as gatheringRouteLoader} from './community/gathering/GatheringRoute'
+import GatheringDetail, {loader as gatheringDetailLoader} from './community/gathering/GatheringDetail'
+import GatheringJoinForm, { loader as gatheringJoinLoader } from './community/gathering/GatheringJoinForm'
 
 import UserRoute, { loader as userRouteLoader } from './components/user/UserRoute'
 import UserPostList, {loader as userPostListLoader} from './components/user/UserPostList'
@@ -83,7 +85,7 @@ const router = createBrowserRouter(
 			<Route path='/book/:range' element={<BookList />} />
 			<Route path='/book/:range/:rangeDetail' element={<BookList />} />
 			<Route path='/book/detail/:id' element={<BookDetail />} />
-			<Route path='/book/add' element={<AddBookRoute />} />
+			<Route path='/book/add/:method' element={<AddBookRoute />} />
 			<Route path='/book/edit/:id' element={<EditBookForm />} />
 
 			<Route path='/reading' element={<ReadingNoId />} />
@@ -93,7 +95,7 @@ const router = createBrowserRouter(
 
 			<Route path='/search/:query' element={<SearchRoute />} />
 
-			<Route path='/community' element={<CommunityRoute />} />
+			<Route path='/community' element={<CommunityRoute />} errorElement={<ErrorPage />} loader={communityRouteLoader} />
 			<Route path='/community/:type/add' element={<AddCommunityRoute />} />
 
 			<Route path='/community/post/all/:sortBy' element={<PostRoute />} errorElement={<ErrorPage />} loader={postRouteLoader} />
@@ -108,9 +110,10 @@ const router = createBrowserRouter(
 			<Route path='/community/survey/:surveyId' element={<></>} />
 			<Route path='/community/survey/edit/:surveyId' element={<></>} />
 
-			<Route path='/community/gathering' element={<GatheringRoute />} />
-			<Route path='/community/gathering/edit/:gatheringId' element={<></>} />
-			<Route path='/community/gathering/:gatheringId' element={<></>} />
+			<Route path='/community/gathering/:type' element={<GatheringRoute />} errorElement={<ErrorPage />} loader={gatheringRouteLoader} />
+			<Route path='/community/gathering/detail/:id' element={<GatheringDetail />} errorElement={<ErrorPage />} loader={gatheringDetailLoader} />
+			<Route path='/community/gathering/edit/:id' element={<></>} />
+			<Route path='/community/gathering/join/:id' element={<GatheringJoinForm />} errorElement={<ErrorPage />} loader={gatheringJoinLoader} />
 
 			<Route path='/book/info/:isbn' element={<BookInfoRoute />} errorElement={<ErrorPage />} loader={bookInfoRouteLoader} />
 			<Route path='/book/info/:isbn/related-posts' element={<></>} />

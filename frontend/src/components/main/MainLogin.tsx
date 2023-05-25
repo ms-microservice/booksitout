@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import { Button, Form } from 'react-bootstrap'
@@ -21,9 +21,9 @@ import facebookButton from '../../resources/images/login-button/small-facebook.p
 const MainLogin = () => {
 	const dispatch = useDispatch()
 
-	const [email, setEmail] = useState('')
-	const [password, setPassword] = useState('')
-	const [stayLogin, setStayLogin] = useState(true)
+	const [email, setEmail] = React.useState('')
+	const [password, setPassword] = React.useState('')
+	const [stayLogin, setStayLogin] = React.useState(true)
 
 	const oauthButton = [
 		{
@@ -173,38 +173,30 @@ const MainLogin = () => {
 					</div>
 				</Form.Group>
 
-				<div className='form-check mt-3 ms-3 text-start'>
-					<label
-						onClick={() => {
-							setStayLogin(!stayLogin)
-						}}>
-						<label className='form-check-label' htmlFor='stay-login'>
-							일주일간 로그인 유지하기
-						</label>
-
-						<input type='checkbox' className='form-check-input' checked={stayLogin} value={stayLogin.toString()} />
-					</label>
-				</div>
+				<Form.Group className='d-flex mt-3'>
+					<Form.Switch type='switch' onClick={() => setStayLogin(!stayLogin)} checked={stayLogin} className='me-2' />
+					<Form.Label htmlFor='stay-login'>일주일간 로그인 유지하기</Form.Label>
+				</Form.Group>
 
 				<div className='row justify-content-center mt-3 mt-md-4'>
-					<div className='col-6 col-lg-4'>
-						<Button variant='book-danger' className='w-100' href='join'>
-							회원가입
-						</Button>
-					</div>
-
-					<div className='col-6 col-lg-4'>
+					<div className='col-12 col-md-6 ms-1 me-1 mb-2'>
 						<Button variant='book' type='submit' className='w-100'>
 							로그인
 						</Button>
 					</div>
 
-					<div className='mt-4'>
+					<div className='col-12 col-md-6 ms-1 me-1 mb-2'>
+						<Button variant='outline-book' className='w-100' href='join'>
+							회원가입
+						</Button>
+					</div>
+
+					<div>
 						<hr />
 
 						<div className='text-secondary mb-3 text-center'>외부계정으로 로그인 / 가입하기</div>
 
-						<div className='text-center'>
+						<div className='text-center pb-5'>
 							{oauthButton.map((oauth) => {
 								return (
 									<a href={oauth.redirectUrl} style={{ pointerEvents: !oauth.active ? 'none' : 'auto' }}>

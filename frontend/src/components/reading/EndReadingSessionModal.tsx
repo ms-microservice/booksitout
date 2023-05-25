@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Form, Modal, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
@@ -18,7 +18,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 	const navigate = useNavigate()
 	const dispatch = useDispatch()
 
-	const [endPage, setEndPage] = useState<number>(-1)
+	const [endPage, setEndPage] = React.useState<number>(-1)
 
 	const hideModal = () => {
 		setIsShowingModal(false)
@@ -96,7 +96,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 		}
 	}
 
-	const [isPercentMode, setIsPercentMode] = useState(false)
+	const [isPercentMode, setIsPercentMode] = React.useState(false)
 
 	return (
 		<Modal show={isShowingModal} onHide={hideModal} size='lg' centered fullscreen='md-down'>

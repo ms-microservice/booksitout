@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Form, Button, Card, Badge } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
@@ -11,7 +11,6 @@ import { PostType } from '../../../types/PostType'
 import parse from 'html-react-parser'
 
 import NoContent from '../../common/NoContent'
-import UserCard from './UserCard'
 
 import { MdPeopleAlt as ProfileIcon } from 'react-icons/md'
 import { AiFillLike as LikeIcon, AiFillDislike as DislikeIcon } from 'react-icons/ai'
@@ -23,22 +22,23 @@ import DeleteButton from './DeleteButton'
 import EditButton from './EditButton'
 import EditCommentModal from '../comment/EditCommentModal' 
 import { booksitoutServer } from '../../../functions/axios'
+import UserRightCard from './UserRightCard'
 
 const PostDetail = () => {
     const { postId } = useParams()
 
-    const [post, setPost] = useState<PostType | null>(null)
-    const [commentList, setCommentList] = useState<Comment[]>([])
+    const [post, setPost] = React.useState<PostType | null>(null)
+    const [commentList, setCommentList] = React.useState<Comment[]>([])
 
-    const [initialFetch, setInitialFetch] = useState(true)
-    const [loading, setLoading] = useState(true)
-	const [error, setError] = useState(false)
+    const [initialFetch, setInitialFetch] = React.useState(true)
+    const [loading, setLoading] = React.useState(true)
+	const [error, setError] = React.useState(false)
 
-	const [isMyPost, setIsMyPost] = useState(false)
+	const [isMyPost, setIsMyPost] = React.useState(false)
 
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
-    useEffect(() => {
+    React.useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 500)
 
 		Promise.all([
@@ -165,7 +165,7 @@ const PostDetailSummaryCard = ({ post, isMyPost, commentList }) => {
 								</div>
 							</div>
 
-							<UserCard user={post.user} />
+							<UserRightCard user={post.user} />
 						</div>
 					</div>
 				</div>
@@ -259,7 +259,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 	const loginUserId: number = utils.getUserId()
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
-	const [content, setContent] = useState('')
+	const [content, setContent] = React.useState('')
 	const handleAddComment = (e) => {
 		e.preventDefault()
 
@@ -318,8 +318,8 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 		}
 	}
 
-	const [commentEditModalOpen, setCommentEditModalOpen] = useState(false)
-	const [selectedComment, setSelectedComment] = useState(null)
+	const [commentEditModalOpen, setCommentEditModalOpen] = React.useState(false)
+	const [selectedComment, setSelectedComment] = React.useState(null)
 
 	const addCommentLike = (commentId: number, score: number, userScore: number) => {
 		if (!isLogin) {

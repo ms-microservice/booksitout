@@ -1,14 +1,14 @@
 import { Card } from 'react-bootstrap';
 
-import UserCard from '../UserCard';
 import PostBookCard from '../PostBookCard';
+import UserRightCard from '../UserRightCard';
 
 const PostRoutePost = ({post}) => {
     return (
 		<Card style={{ height: '210px' }} className='mb-4 h-100'>
-			<a href={`/community/post/${post.postId}`} className='text-decoration-none text-black'>
-				<Card.Body className='row'>
-					<div className='col-12 col-md-8'>
+			<Card.Body className='row'>
+				<div className='col-12 col-md-8'>
+					<a href={`/community/post/${post.postId}`}>
 						<h3 style={{ maxHeight: '32px', overflowY: 'hidden' }}>
 							{post.title.slice(0, 20)} {post.title.length > 20 && '...'} <span className='text-book'>[{post.commentCount}]</span>
 						</h3>
@@ -18,7 +18,7 @@ const PostRoutePost = ({post}) => {
 						</p>
 
 						<div className='row mt-2 justify-content-end align-items-end'>
-							<div className='col-4'>
+							<div className='col-6 col-md-7 col-xl-8'>
 								<div className='text-secondary'>
 									{post.createdDate == null ? (
 										<>-</>
@@ -43,19 +43,21 @@ const PostRoutePost = ({post}) => {
 								</div>
 							</div>
 
-							<div className='col-8'>
-								<div className='row justify-content-end pe-2'>
-									<UserCard user={post.user} />
+							<div className='col-6 col-md-5 col-xl-4'>
+								<div className='row justify-content-end pe-2' style={{ zIndex: '5' }}>
+									<UserRightCard user={post.user} />
 								</div>
 							</div>
 						</div>
-					</div>
+					</a>
+				</div>
 
-					<div className='col-6 col-md-4 d-none d-md-block'>
+				<div className='col-6 col-md-4 d-none d-md-block'>
+					<a href={`/book/info/${post.book.isbn}`}>
 						<PostBookCard book={post.book} />
-					</div>
-				</Card.Body>
-			</a>
+					</a>
+				</div>
+			</Card.Body>
 		</Card>
 	)
 }

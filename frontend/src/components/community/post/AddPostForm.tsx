@@ -1,6 +1,6 @@
-import {  useState } from 'react'
+import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import { Button, Card, Form } from 'react-bootstrap'
+import { Button, Card, Form, FormGroup } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../../redux/store'
 
@@ -19,9 +19,9 @@ const AddPostForm = () => {
 
 	const navigate = useNavigate()
 
-	const [title, setTitle] = useState('')
-	const [content, setContent] = useState('')
-	const [isbn, setIsbn] = useState(null)
+	const [title, setTitle] = React.useState('')
+	const [content, setContent] = React.useState('')
+	const [isbn, setIsbn] = React.useState(null)
 
 	const handlePostAdd = (e) => {
 		e.preventDefault()
@@ -68,8 +68,8 @@ const AddPostForm = () => {
 			})
 	}
 
-	const [recentBookList, setRecentBookList] = useState<RecentBookType[]>([])
-	const [modalShow, setModalShow] = useState(false)
+	const [recentBookList, setRecentBookList] = React.useState<RecentBookType[]>([])
+	const [modalShow, setModalShow] = React.useState(false)
 
 	if (!isLogin) return <Error message='게시글을 추가하기 위해서 로그인 해 주세요' />
 
@@ -85,36 +85,36 @@ const AddPostForm = () => {
 			/>
 
 			<Card.Body>
-				<Form className='mt-4' onSubmit={handlePostAdd}>
-					<Form.Label>제목</Form.Label>
-					<Form.Control id='title-input' type='text' className='mb-3' onChange={(e) => setTitle(e.target.value)} value={title} />
+				<Form className='mt-3' onSubmit={handlePostAdd}>
+					<FormGroup>
+						<Form.Label>제목</Form.Label>
+						<Form.Control id='title-input' type='text' className='mb-3' onChange={(e) => setTitle(e.target.value)} value={title} />
+					</FormGroup>
 
-					<Form.Label>내용</Form.Label>
-					<Form.Control
-						id='content-input'
-						as='textarea'
-						rows={10}
-						className='mb-3'
-						onChange={(e) => setContent(e.target.value)}
-						value={content}
-					/>
+					<Form.Group>
+						<Form.Label>내용</Form.Label>
+						<Form.Control
+							id='content-input'
+							as='textarea'
+							rows={12}
+							className='mb-3'
+							onChange={(e) => setContent(e.target.value)}
+							value={content}
+						/>
+					</Form.Group>
 
-					<Form.Label>게시글을 추가할 책</Form.Label>
-					<AddIsbnCard
-						isbn={isbn}
-						setIsbn={setIsbn}
-						setShow={setModalShow}
-						recentBookList={recentBookList}
-						setRecentBookList={setRecentBookList}
-					/>
+					<FormGroup>
+						<Form.Label>게시글을 추가할 책</Form.Label>
+						<AddIsbnCard
+							isbn={isbn}
+							setIsbn={setIsbn}
+							setShow={setModalShow}
+							recentBookList={recentBookList}
+							setRecentBookList={setRecentBookList}
+						/>
+					</FormGroup>
 
-					<div className='row mt-5'>
-						<div className='col-12 col-md-6'>
-							<Button variant='book-danger' type='reset' className='w-100 mb-2'>
-								다시 입력
-							</Button>
-						</div>
-
+					<div className='row justify-content-center mt-5'>
 						<div className='col-12 col-md-6'>
 							<Button variant='book' type='submit' className='w-100 mb-2'>
 								등록하기

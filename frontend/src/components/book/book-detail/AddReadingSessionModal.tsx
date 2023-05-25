@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Form, Button } from 'react-bootstrap'
 
@@ -7,22 +7,22 @@ import date from '../../../functions/date'
 import '../../../resources/css/input.css'
 
 const AddReadingSessionModal = ({ isModalOpen, setIsModalOpen, book, setBook, readingSessionList, setReadingSessionList }) => {
-	const [year, setYear] = useState(new Date().getFullYear())
-	const [month, setMonth] = useState(new Date().getMonth() + (1 % 12))
-	const [day, setDay] = useState(new Date().getDate())
+	const [year, setYear] = React.useState(new Date().getFullYear())
+	const [month, setMonth] = React.useState(new Date().getMonth() + (1 % 12))
+	const [day, setDay] = React.useState(new Date().getDate())
 
 	const currentYear = new Date().getFullYear()
 	const currentMonth = new Date().getMonth() + 1
 	const currentDay = new Date().getDate()
 
-	const [yearArray, setYearArray] = useState<number[]>(Array.from({ length: 5 }, (_, i) => i + (new Date().getFullYear() - 5 + 1)).reverse())
-	const [monthArray, setMonthArray] = useState<number[]>([])
-	const [dayArray, setDayArray] = useState<number[]>([])
+	const [yearArray, setYearArray] = React.useState<number[]>(Array.from({ length: 5 }, (_, i) => i + (new Date().getFullYear() - 5 + 1)).reverse())
+	const [monthArray, setMonthArray] = React.useState<number[]>([])
+	const [dayArray, setDayArray] = React.useState<number[]>([])
 	
-	const [endPage, setEndPage] = useState<number | null>()
-	const [readTime, setReadTime] = useState<number | null>()
+	const [endPage, setEndPage] = React.useState<number | null>()
+	const [readTime, setReadTime] = React.useState<number | null>()
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (year === currentYear && month === currentMonth) {
 			setDayArray(Array.from({length: currentDay}, (_, i) => i + 1))
 		} else {

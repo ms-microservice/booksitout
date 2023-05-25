@@ -1,15 +1,15 @@
-import React from "react"
-import { Modal, Form, Button } from "react-bootstrap"
+import React from 'react'
+import { Modal, Form, Button } from 'react-bootstrap'
 
-import AddBookSearchResultLoading from "../search/AddBookSearchResultLoading"
-import NoContent from "../common/NoContent"
-import AddBookSearchResult from "../search/AddBookSearchResult"
+import AddBookSearchResultLoading from '../search/AddBookSearchResultLoading'
+import NoContent from '../common/NoContent'
+import AddBookSearchResult from '../search/AddBookSearchResult'
 
-import { NewBookSearchResult } from '../../types/BookType';
+import { NewBookSearchResult } from '../../types/BookType'
 
-import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'  
-import toast from "react-hot-toast"
-import { booksitoutServer } from "../../functions/axios"
+import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'
+import toast from 'react-hot-toast'
+import { booksitoutServer } from '../../functions/axios'
 
 const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRecentBookList }) => {
 	const [loading, setLoading] = React.useState(false)
@@ -38,14 +38,14 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 		return () => clearTimeout(typingTimer)
 	}, [query])
 
-    const handleSelect = () => {
-        const selectedBook = searchResult.find((book) => book.isbn == isbn) ?? null
-        if (selectedBook === null) {
-            toast.error('사용할 책을 선택해 주세요')
-            return
-        }
+	const handleSelect = () => {
+		const selectedBook = searchResult.find((book) => book.isbn == isbn) ?? null
+		if (selectedBook === null) {
+			toast.error('사용할 책을 선택해 주세요')
+			return
+		}
 
-        setRecentBookList([
+		setRecentBookList([
 			{
 				title: selectedBook.title,
 				author: selectedBook.author,
@@ -55,8 +55,8 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 			...recentBookList,
 		])
 
-        setShow(false)
-    }
+		setShow(false)
+	}
 
 	return (
 		<Modal show={show} onHide={() => setShow(false)} size='lg' backdrop='static' fullscreen='md-down' centered>
