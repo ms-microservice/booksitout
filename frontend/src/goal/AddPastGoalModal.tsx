@@ -1,8 +1,8 @@
 import React from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import '../../resources/css/input.css'
-import { addGoal } from '../../functions/goal'
+import { addGoal } from './goalFunctions'
+import goalMessage from './goalMessage'
 
 const AddPastGoalModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }) => {
 	const [goalYear, setGoalYear] = React.useState(0)
@@ -12,21 +12,20 @@ const AddPastGoalModal = ({ isModalOpen, setIsModalOpen, goalList, setGoalList }
 		e.preventDefault()
 
 		if (Number(goal) === 0) {
-			toast.error('목표를 입력해 주세요')
+			toast.error(goalMessage.add.fail.null)
 			document.getElementById('goal-input')!!.focus()
 			return
 		}
 
 		const isGoalAlreadyPresent = typeof goalList.find((g) => Number(g.year) === Number(goalYear)) != 'undefined'
-
 		if (isGoalAlreadyPresent) {
-			toast.error('해당 년도의 목표를 이미 설정했어요')
+			toast.error(goalMessage.add.fail.alreadyPresent)
 			return
 		}
 
 		addGoal(goalYear, goal).then((success) => {
 			if (success) {
-				toast.success(`${goalYear}년 목표를 추가했어요`)
+				toast.success(goalMessage.add.success.past(goalYear))
 				setIsModalOpen(false)
 				setGoalList([
 					...goalList,

@@ -1,19 +1,18 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import NoContent from '../common/NoContent'
-import Loading from '../common/Loading'
+import NoContent from '../components/common/NoContent'
+import Loading from '../components/common/Loading'
 import Goal from './Goal'
 import AddGoalModal from './AddGoalModal'
 import EditGoalModal from './EditGoalModal'
-import AddButton from '../common/AddButton'
-import { getGoalList, deleteGoal } from '../../functions/goal'
-import uiSettings from '../../settings/ui'
-import goalIcon from '../../resources/images/statistics/goal.png'
+import AddButton from '../components/common/AddButton'
+import { getGoalList, deleteGoal } from './goalFunctions'
+import goalIcon from './images/goal.png'
 import AddPastGoalModal from './AddPastGoalModal'
 import EditPastGoalModal from './EditPastGoalModal'
-import messages from '../../settings/messages'
-import { GoalType } from '../../types/GoalType'
+import goalMessage from './goalMessage'
+import { GoalType } from './GoalType'
 
 const GoalRoute = () => {
 	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
@@ -34,7 +33,7 @@ const GoalRoute = () => {
 	const [currentYearGoal, setCurrentYearGoal] = React.useState<GoalType | null>(null)
 
 	const handleDeleteGoal = () => {
-		const confirm = window.confirm(messages.goal.delete.confirm)
+		const confirm = window.confirm(goalMessage.delete.confirm)
 
 		if (confirm) {
 			deleteGoal(currentYear).then((success) => {
@@ -51,7 +50,7 @@ const GoalRoute = () => {
 	React.useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
-		}, uiSettings.initalFetchTime)
+		}, 500)
 
 		getGoalList(6)
 			.then((goalListData) => {

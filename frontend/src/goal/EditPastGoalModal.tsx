@@ -1,13 +1,12 @@
 import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { addGoal, deleteGoal } from '../../functions/goal'
-import '../../resources/css/input.css'
-import messages from '../../settings/messages'
+import { addGoal, deleteGoal } from './goalFunctions'
+import goalMessage from './goalMessage'
 
 const EditPastGoalModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList, setGoalList }) => {
 	const [goal, setGoal] = React.useState<number>(0)
-	
+
 	const handleEditGoal = (e) => {
 		e.preventDefault()
 
@@ -53,7 +52,7 @@ const EditPastGoalModal = ({ isModalOpen, setIsModalOpen, selectedGoal, goalList
 				)
 				setIsModalOpen(false)
 			} else {
-				toast.error(messages.error)
+				toast.error(goalMessage.error)
 			}
 		})
 	}

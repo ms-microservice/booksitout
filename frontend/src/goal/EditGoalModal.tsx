@@ -1,8 +1,7 @@
 import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import { addGoal } from '../../functions/goal'
-import '../../resources/css/input.css'
+import { addGoal } from './goalFunctions'
 
 const EditGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal, currentBook, previousGoal }) => {
 	const [goal, setGoal] = React.useState<number>(0)

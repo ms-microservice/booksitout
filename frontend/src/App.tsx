@@ -34,7 +34,7 @@ import ReadingRoute from './components/reading/ReadingRoute'
 import ReadingNoId from './components/reading/ReadingNoId'
 
 import StatisticsRoute from './components/statistics/StatisticsRoute'
-import GoalRoute from './components/goal/GoalRoute'
+import GoalRoute from './goal/GoalRoute'
 
 import SearchRoute from './components/search/SearchRoute'
 

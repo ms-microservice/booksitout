@@ -1,31 +1,30 @@
 import React from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-
-import { addGoal, getGoal } from '../../functions/goal'
-import messages from '../../settings/messages'
-import '../../resources/css/input.css'
+import goalMessage from './goalMessage'
+import { addGoal, getGoal } from './goalFunctions'
 
 const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 	const [goal, setGoal] = React.useState<string>('')
+	const currentYear = new Date().getFullYear()
 
 	const handleAddGoal = (e) => {
 		e.preventDefault()
 
 		if (goal === '') {
-			toast.error(messages.goal.add.fail.null)
+			toast.error(goalMessage.add.fail.null)
 			document.getElementById('goal-input')!!.focus()
 			return
 		}
 
 		if (isNaN(Number(goal))) {
-			toast.error(messages.goal.add.fail.notNumber)
+			toast.error(goalMessage.add.fail.notNumber)
 			document.getElementById('goal-input')!!.focus()
 			return
 		}
 
 		if (Number(goal) < 2) {
-			toast.error(messages.goal.add.fail.tooSmall)
+			toast.error(goalMessage.add.fail.tooSmall)
 			document.getElementById('goal-input')!!.focus()
 			return
 		}
@@ -38,7 +37,7 @@ const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 				})
 				toast.success('목표를 추가했어요')
 			} else {
-				toast.error(messages.error)
+				toast.error(goalMessage.error)
 			}
 		})
 	}
@@ -46,7 +45,7 @@ const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 	return (
 		<Modal show={isModalOpen} centered fullscreen='md-down' onHide={() => setIsModalOpen(false)}>
 			<Modal.Header closeButton>
-				<h4 className='text-center w-100 mt-1'>{`${new Date().getFullYear()}년 목표 설정하기`}</h4>
+				<h4 className='text-center w-100 mt-1'>{`${currentYear}년 목표 설정하기`}</h4>
 			</Modal.Header>
 
 			<Modal.Body>
@@ -56,7 +55,7 @@ const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 						inputMode='numeric'
 						pattern='[0-9]*'
 						autoFocus
-						placeholder={messages.goal.add.placeholder}
+						placeholder={goalMessage.add.placeholder}
 						onChange={(e) => setGoal(e.target.value)}
 						id='goal-input'
 					/>

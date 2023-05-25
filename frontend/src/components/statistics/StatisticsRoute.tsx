@@ -11,7 +11,7 @@ import DateLineChart from './DateLineChart'
 import Boarding from '../info/Boarding'
 
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatisticsSummary } from '../../functions/statistics'
-import { getGoal } from '../../functions/goal'
+import { getGoal } from '../../goal/goalFunctions'
 
 import '../../resources/css/statistics.css'
 import { RootState } from '../../redux/store'
