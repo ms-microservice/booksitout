@@ -14,7 +14,10 @@ public interface PostRepository extends JpaRepository<Post, Long> {
     List<Post> findAllByIsbn(Long isbn, Pageable pageable);
 
     @Query("select p from Post p order by p.score desc")
-    List<Post> findAllOrderByPopular(Pageable pageable);
+    Page<Post> findAllOrderByPopular(Pageable pageable);
+
+    @Query("select p from Post p order by p.createdDate desc")
+    Page<Post> findAllOrderByCreatedDate(Pageable pageable);
 
     @Query("select p from Post p where p.appUserId = ?1")
     List<Post> findAllByAppUserId(Long appUserId, Pageable pageable);

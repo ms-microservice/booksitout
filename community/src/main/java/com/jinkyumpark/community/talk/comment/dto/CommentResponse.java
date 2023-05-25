@@ -1,6 +1,6 @@
 package com.jinkyumpark.community.talk.comment.dto;
 
-import com.jinkyumpark.community.config.feign.response.PublicUserInfo;
+import com.jinkyumpark.community.config.feign.response.AppUserInfo;
 import com.jinkyumpark.community.talk.comment.Comment;
 import com.jinkyumpark.community.talk.commentlike.CommentLikeCount;
 import lombok.AllArgsConstructor;
@@ -18,7 +18,7 @@ public class CommentResponse {
 
     private String content;
 
-    private PublicUserInfo user;
+    private AppUserInfo user;
 
     private Integer likeCount;
     private Integer dislikeCount;
@@ -27,7 +27,7 @@ public class CommentResponse {
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
-    public static CommentResponse of(CommentDto commentDto, PublicUserInfo publicUserInfo, CommentLikeCount commentLikeCount, int userLikeScore) {
+    public static CommentResponse of(CommentDto commentDto, AppUserInfo publicUserInfo, CommentLikeCount commentLikeCount, int userLikeScore) {
         return CommentResponse.builder()
                 .commentId(commentDto.getCommentId())
 
@@ -44,7 +44,7 @@ public class CommentResponse {
                 .build();
     }
 
-    public static CommentResponse of(Comment comment, PublicUserInfo publicUserInfo, CommentLikeCount commentLikeCount, int userLikeScore) {
+    public static CommentResponse of(Comment comment, AppUserInfo publicUserInfo, CommentLikeCount commentLikeCount, int userLikeScore) {
         return CommentResponse.builder()
                 .commentId(comment.getCommentId())
 

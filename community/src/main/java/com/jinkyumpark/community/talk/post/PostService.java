@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -34,24 +35,15 @@ public class PostService {
                 .collect(Collectors.toList());
     }
 
-    public List<PostDto> getAllPostOrderBy(PostSort postSort, Pageable pageable) {
-        List<Post> postList = new ArrayList<>();
-
+    public Page<Post> getAllPostOrderBy(PostSort postSort, Pageable pageable) {
         switch (postSort) {
             case POPULAR:
-                postList.addAll(postRepository.findAllOrderByPopular(pageable));
-                break;
+                return postRepository.findAllOrderByPopular(pageable);
             case RECENT:
-                postList.addAll(postRepository.findAllOrderByCreatedDate(pageable));
-                break;
-            case RELEVANT:
-                postList.addAll(List.of());
-                break;
+                return postRepository.findAllOrderByCreatedDate(pageable);
         }
 
-        return postList.stream()
-                .map(PostDto::of)
-                .collect(Collectors.toList());
+        return postRepository.findAllOrderByCreatedDate(pageable);
     }
 
     public List<PostDto> getAllPostByAppUserId(Long appUserId, Pageable pageable) {

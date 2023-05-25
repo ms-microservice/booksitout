@@ -1,7 +1,7 @@
 package com.jinkyumpark.community.talk.post.dto;
 
+import com.jinkyumpark.community.config.feign.response.AppUserInfo;
 import com.jinkyumpark.community.config.feign.response.BookInfo;
-import com.jinkyumpark.community.config.feign.response.PublicUserInfo;
 import com.jinkyumpark.community.talk.post.PostDto;
 import com.jinkyumpark.community.talk.postlike.PostLikeCount;
 import lombok.AllArgsConstructor;
@@ -28,10 +28,10 @@ public class PostResponse {
     private LocalDateTime createdDate;
     private LocalDateTime lastModifiedDate;
 
-    private PublicUserInfo user;
+    private AppUserInfo user;
     private BookInfo book;
 
-    public static PostResponse of(PostDto postDto, PublicUserInfo appUserInfo, BookInfo bookInfo, PostLikeCount postLikeCount, int commentCount, int userLikeScore) {
+    public static PostResponse of(PostDto postDto, AppUserInfo appUserInfo, BookInfo bookInfo, PostLikeCount postLikeCount, int commentCount, int userLikeScore) {
         return PostResponse.builder()
                 .postId(postDto.getPostId())
                 .title(postDto.getTitle())
