@@ -12,14 +12,12 @@ import lombok.NoArgsConstructor;
 public class GatheringDetailResponse {
 
     private Long id;
-
     private String title;
     private String content;
-
     private GatheringTypeResponse type;
-    private GatheringLocationTypeResponse location;
 
-    private AppUserInfo user;
+    private GatheringUserResponse user;
+    private GatheringLocationTypeResponse location;
 
     private int joinCount;
     private int capacityCount;
@@ -31,7 +29,7 @@ public class GatheringDetailResponse {
                 .content(gathering.getContent())
                 .type(new GatheringTypeResponse(gathering.getType(), gathering.getType().getDisplayName()))
                 .location(new GatheringLocationTypeResponse(gathering.getLocationType(), gathering.getLocation()))
-                .user(appUserInfo)
+                .user(new GatheringUserResponse(appUserInfo.getAppUserId(), appUserInfo.getName(), appUserInfo.getProfileImage()))
                 .joinCount(joinCount)
                 .capacityCount(gathering.getCapacity())
                 .build();

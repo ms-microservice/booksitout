@@ -5,7 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
 
@@ -25,7 +24,6 @@ public class GatheringJoin extends TimeEntity {
     private String content;
 
     @Column(nullable = false, length = 10)
-    @ColumnDefault("PENDING")
     @Enumerated(value = EnumType.STRING)
     private GatheringJoinStatus status;
 

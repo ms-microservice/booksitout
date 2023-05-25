@@ -15,7 +15,7 @@ import javax.validation.constraints.NotBlank;
 public class GatheringAddRequest {
 
     @NotBlank private String title;
-    @NotBlank @Min(value = 10L) private String content;
+    @NotBlank private String content;
     private String type;
 
     @NotBlank private String locationType;

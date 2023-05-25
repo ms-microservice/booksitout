@@ -4,5 +4,6 @@ public enum GatheringLocationType {
 
     SUBWAY,
     ONLINE,
+    OTHERS,
 
 }
