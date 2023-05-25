@@ -33,7 +33,10 @@ const Goal = ({ goal }) => {
 									</Placeholder>
 								) : (
 									<>
-										<span className='text-book'>{goal.current}</span>권 / {goal.goal}권
+										<span className='text-book' style={{ fontWeight: 'bold' }}>
+											{goal.current}
+										</span>
+										권 / {goal.goal}권
 									</>
 								)}
 							</h1>

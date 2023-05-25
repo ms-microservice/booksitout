@@ -96,7 +96,7 @@ const messages = {
 			add: {
 				title: '책 제목을 알려 주세요',
 				author: '책의 저자를 알려 주세요',
-				page: '마지막 페이지를 알려 주세요',
+				page: '마지막 페이지',
 			},
 		},
 

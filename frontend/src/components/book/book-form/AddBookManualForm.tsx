@@ -208,7 +208,7 @@ const AddBookManualForm = () => {
 									label='내 책 정보 공개하기'
 									checked={isSharing}
 									onChange={() => setIsSharing(!isSharing)}
-									style={{ whiteSpace: 'nowrap' }}
+									className='force-1-line'
 								/>
 							</Form.Group>
 

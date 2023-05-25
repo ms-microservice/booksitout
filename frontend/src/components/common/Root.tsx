@@ -6,7 +6,7 @@ import LocationSettings from '../../settings/LocationSettings'
 import TimerSettings from '../../settings/TimerSettings'
 import Topnav from './Topnav'
 import BookFloatingButton from './BookFloatingButton'
-import ReadingButton from './ReadingButton'
+import TimerFloatingButton from './TimerFloatingButton'
 import CommunityFloatingButton from './CommunityFloatingButton'
 
 const Root = () => {
@@ -22,8 +22,8 @@ const Root = () => {
 
 			<Outlet />
 
+			<TimerFloatingButton />
 			<CommunityFloatingButton />
-			<ReadingButton />
 			<BookFloatingButton />
 		</>
 	)

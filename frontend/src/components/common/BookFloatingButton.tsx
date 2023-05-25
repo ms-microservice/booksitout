@@ -12,7 +12,7 @@ const BookFloatingButton = ({ url = '/book/add' }) => {
 
 	const addButtonStyle = {
 		right: '2.5%',
-		bottom: '30px',
+		bottom: '20px',
 
 		width: '60px',
 		height: '60px',

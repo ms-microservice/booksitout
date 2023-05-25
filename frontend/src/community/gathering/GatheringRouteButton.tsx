@@ -11,7 +11,7 @@ const GatheringRouteButton = ({ type }) => {
 							variant={type.toUpperCase() === 'ALL' ? 'book' : 'light'}
 							type='radio'
 							checked={false}
-							className='w-100'
+							className='w-100 force-1-line'
 							value={'not-done'}>
 							전체
 						</ToggleButton>
@@ -22,7 +22,7 @@ const GatheringRouteButton = ({ type }) => {
 							variant={type.toUpperCase() === 'CHECKING' ? 'book' : 'light'}
 							type='radio'
 							checked={false}
-							className='w-100'
+							className='w-100 force-1-line'
 							value={'done'}>
 							서로 확인만
 						</ToggleButton>
@@ -33,7 +33,7 @@ const GatheringRouteButton = ({ type }) => {
 							variant={type.toUpperCase() === 'TALKING' ? 'book' : 'light'}
 							type='radio'
 							checked={false}
-							className='w-100'
+							className='w-100 force-1-line'
 							value={'give-up'}>
 							가볍게 얘기만
 						</ToggleButton>
@@ -46,7 +46,7 @@ const GatheringRouteButton = ({ type }) => {
 							variant={type.toUpperCase() === 'DISCUSSION' ? 'book' : 'light'}
 							type='radio'
 							checked={false}
-							className='w-100'
+							className='w-100 force-1-line'
 							value={'not-done'}>
 							진지하게 토론
 						</ToggleButton>
@@ -57,7 +57,7 @@ const GatheringRouteButton = ({ type }) => {
 							variant={type.toUpperCase() === 'BOOK-REPORT' ? 'book' : 'light'}
 							type='radio'
 							checked={false}
-							className='w-100'
+							className='w-100 force-1-line'
 							value={'done'}>
 							독후감 포함
 						</ToggleButton>
@@ -68,7 +68,7 @@ const GatheringRouteButton = ({ type }) => {
 							variant={type.toUpperCase() === 'FREE' ? 'book' : 'light'}
 							type='radio'
 							checked={false}
-							className='w-100'
+							className='w-100 force-1-line'
 							value={'give-up'}>
 							자유롭게
 						</ToggleButton>

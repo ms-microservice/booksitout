@@ -52,11 +52,8 @@ const AddPostForm = () => {
 		booksitoutServer
 			.post('/v4/forum/post', post)
 			.then((res) => {
-				if (res.status.toString().startsWith('2')) {
-					toast.success('게시글을 추가했어요')
-					navigate(`/community/post/${res.data.id}`)
-					return
-				}
+				toast.success('게시글을 추가했어요')
+				navigate(`/community/post/${res.data.id}`)
 			})
 			.catch((e) => {
 				if (e.response.status === 401) {

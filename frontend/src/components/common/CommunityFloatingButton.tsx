@@ -10,7 +10,7 @@ const CommunityFloatingButton = () => {
 
 	const addButtonStyle = {
 		right: '2.5%',
-		bottom: '100px',
+		bottom: '90px',
 
 		width: '60px',
 		height: '60px',

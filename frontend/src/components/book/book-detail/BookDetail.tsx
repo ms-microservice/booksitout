@@ -313,7 +313,7 @@ const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen
 
 					<div className='col-12 mt-3'>
 						<Button
-							variant='outline-book-danger'
+							variant='book-danger'
 							className='w-100'
 							onClick={() => {
 								const confirm = window.confirm('책을 포기할까요?')
