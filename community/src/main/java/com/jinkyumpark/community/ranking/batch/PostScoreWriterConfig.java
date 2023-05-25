@@ -4,12 +4,12 @@ import com.jinkyumpark.community.talk.post.Post;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.context.annotation.Bean;
-import org.springframework.stereotype.Component;
+import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
 
 @RequiredArgsConstructor
-@Component
+@Configuration
 public class PostScoreWriterConfig {
 
     private final EntityManagerFactory entityManagerFactory;
