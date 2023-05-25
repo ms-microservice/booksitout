@@ -4,7 +4,7 @@ import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.community.config.feign.UserClient;
-import com.jinkyumpark.community.config.feign.response.PublicUserInfo;
+import com.jinkyumpark.community.config.feign.response.AppUserInfo;
 import com.jinkyumpark.community.config.security.loginUser.LoginUser;
 import com.jinkyumpark.community.config.security.loginUser.User;
 import com.jinkyumpark.community.talk.comment.dto.CommentAddRequest;
@@ -58,7 +58,7 @@ public class CommentControllerV4 {
                                          @PathVariable("postId") Long postId,
                                          @RequestBody @Valid CommentAddRequest commentAddRequest) {
         Comment comment = commentService.addComment(commentAddRequest.toEntity(user.getId(), postId));
-        PublicUserInfo publicUserInfo = userClient.getPublicUserByAppUserId(user.getId());
+        AppUserInfo publicUserInfo = userClient.getPublicUserByAppUserId(user.getId());
         CommentLikeCount commentLikeCount = CommentLikeCount.builder()
                 .positiveCount(0)
                 .negativeCount(0)

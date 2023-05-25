@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { Modal, Card, Button } from 'react-bootstrap'
 // Resources
 import checkIcon from '../../resources/images/common/check.png'
@@ -11,10 +11,10 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 	const coverImageStyle = { width: '100%', objectPosition: 'center' }
 	const coverSelectedStyle = { width: '100%', objectPosition: 'center', opacity: 0.4 }
 
-	const [selectedImageIndex, setSelectedImageIndex] = useState(-1)
-	const [imageSearchResult, setImageSearchResult] = useState<ImageSearchResult[]>([])
-	const [initialFetch, setInitialFetch] = useState(false)
-	const [loading, setLoading] = useState(true)
+	const [selectedImageIndex, setSelectedImageIndex] = React.useState(-1)
+	const [imageSearchResult, setImageSearchResult] = React.useState<ImageSearchResult[]>([])
+	const [initialFetch, setInitialFetch] = React.useState(false)
+	const [loading, setLoading] = React.useState(true)
 
 	const closeModal = () => {
 		setSelectedImageIndex(-1)
@@ -26,7 +26,7 @@ const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) 
 		setShowModal(false)
 	}
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (!showModal) return
 
 		setTimeout(() => {

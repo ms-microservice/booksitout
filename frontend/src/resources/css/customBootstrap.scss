@@ -1,0 +1,146 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
+.text-book {
+    --bs-text-opacity: 1;
+    color: var(--primary-color);
+}
+
+.bg-book {
+    --bs-bg-opacity: 1;
+    background-color: var(--primary-color);
+}
+
+.btn-book {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--primary-color);
+    --bs-btn-border-color: #1cad59;
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #19a252;
+    --bs-btn-hover-border-color:#19a252;
+
+    --bs-btn-focus-shadow-rgb: 60,153,110;
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--primary-active);
+    --bs-btn-active-border-color: var(--primary-active);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: #1eb85e;
+    --bs-btn-disabled-border-color: #1eb85e;
+}
+
+.btn-outline-book {
+    --bs-btn-color: var(--primary-color);
+    --bs-btn-border-color: var(--primary-color);
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--primary-color);
+    --bs-btn-hover-border-color: var(--primary-color);
+
+    --bs-btn-focus-shadow-rgb: 25,135,84;
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #198754;
+    --bs-btn-active-border-color: #198754;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+    --bs-btn-disabled-color: #198754;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #198754;
+    --bs-gradient: none;
+}
+
+.btn-book-danger {
+    --bs-btn-color: #fff;
+    --bs-btn-bg: var(--danger);
+    --bs-btn-border-color: var(--danger);
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--danger-hover);
+    --bs-btn-hover-border-color:var(--danger-hover);
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--danger-active);
+    --bs-btn-active-border-color: var(--danger-active);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--danger-disabled);
+    --bs-btn-disabled-border-color: var(--danger-disabled);
+}
+
+.btn-outline-book-danger {
+    --bs-btn-color: var(--danger);
+    --bs-btn-border-color: var(--danger);
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: var(--danger);
+    --bs-btn-hover-border-color: var(--danger);
+
+    --bs-btn-focus-shadow-rgb: 25,135,84;
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: #198754;
+    --bs-btn-active-border-color: #198754;
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+    --bs-btn-disabled-color: #198754;
+    --bs-btn-disabled-bg: transparent;
+    --bs-btn-disabled-border-color: #198754;
+    --bs-gradient: none;
+}
+
+.btn-book-warning {
+    --bs-btn-color: black;
+    --bs-btn-bg: #FFDF82;
+    --bs-btn-border-color:#FFDF82;
+
+    --bs-btn-hover-color: #fff;
+    --bs-btn-hover-bg: #c52f48;
+    --bs-btn-hover-border-color:#cd304a;
+
+    /* --bs-btn-focus-shadow-rgb: 60,153,110; */
+
+    --bs-btn-active-color: #fff;
+    --bs-btn-active-bg: var(--danger-active);
+    --bs-btn-active-border-color:var(--danger-active);
+    --bs-btn-active-shadow: inset 0 3px 5px rgba(0, 0, 0, 0.125);
+
+    --bs-btn-disabled-color: #fff;
+    --bs-btn-disabled-bg: var(--danger-disabled);
+    --bs-btn-disabled-border-color: var(--danger-disabled);
+}
+
+.table-dark {
+    --bs-table-color: #fff;
+    --bs-table-bg: var(--primary-color);
+    --bs-table-border-color: var(--primary-color);
+    --bs-table-striped-bg: #2c3034;
+    --bs-table-striped-color: var(--primary-color);
+    --bs-table-active-bg: var(--primary-color);
+    --bs-table-active-color: var(--primary-color);
+    --bs-table-hover-bg: var(--primary-color);
+    --bs-table-hover-color: var(--primary-color);
+    color: var(--bs-table-color);
+    border-color: var(--primary-color);
+}
+
+.dropdown-menu {
+    --bs-dropdown-link-active-bg: var(--primary-color);
+} 
+
+.form-check-input:checked {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.active>.page-link {
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.page-link {
+    color: var(--primary-color);
+}

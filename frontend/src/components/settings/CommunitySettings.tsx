@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react"
+import React from "react"
 import { Button, Card, Form } from "react-bootstrap"
 
 import { UserType } from "../../types/PostType"
@@ -18,7 +18,7 @@ import { toast } from "react-hot-toast"
 const CommunitySettings = () => {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		multiple: false,
-		onDrop: useCallback((image) => {
+		onDrop: React.useCallback((image) => {
 			
 			const reader = new FileReader()
 			
@@ -37,16 +37,16 @@ const CommunitySettings = () => {
 		}, []),
 	})
 
-	const [initialFetch, setInitialFetch] = useState<boolean>(true)
-	const [loading, setLoading] = useState<boolean>(false)
-	const [error, setError] = useState<boolean>(false)
+	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
+	const [loading, setLoading] = React.useState<boolean>(false)
+	const [error, setError] = React.useState<boolean>(false)
 
-	const [user, setUser] = useState<UserType>()
-	const [name, setName] = useState('')
-	const [imageData, setImageData] = useState<Blob>()
-	const [profileImage, setProfileImage] = useState<string | null>(null)
+	const [user, setUser] = React.useState<UserType>()
+	const [name, setName] = React.useState('')
+	const [imageData, setImageData] = React.useState<Blob>()
+	const [profileImage, setProfileImage] = React.useState<string | null>(null)
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 500)
 
 		axios

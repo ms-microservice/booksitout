@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React from "react"
 import { RecentBookType } from "../../../types/PostType"
 import { Button, Card, Carousel } from "react-bootstrap"
 import {AiFillCheckCircle as CheckIcon} from 'react-icons/ai'
@@ -6,15 +6,15 @@ import { booksitoutServer } from "../../../functions/axios"
 import utils from "../../../functions/utils"
 
 const AddIsbnCard = ({isbn, setIsbn, setShow, recentBookList, setRecentBookList}) => {
-	const [splitRecentBookList, setSplitRecentBookList] = useState<RecentBookType[][]>([[]])
-	useEffect(() => {
+	const [splitRecentBookList, setSplitRecentBookList] = React.useState<RecentBookType[][]>([[]])
+	React.useEffect(() => {
 		booksitoutServer
 			.get('/v4/book/recent?size=12')
 			.then((res) => setRecentBookList(res.data))
 			.catch((e) => {})
 	}, [])
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setSplitRecentBookList(utils.splitArray(recentBookList, 6))
 	}, [recentBookList])
 
@@ -80,7 +80,7 @@ const AddIsbnCard = ({isbn, setIsbn, setShow, recentBookList, setRecentBookList}
 
 				<div className='row justify-content-center'>
 					<div className='col-12 col-md-6' style={{ position: 'absolute', bottom: '20px' }} onClick={() => setShow(true)}>
-						<Button variant='book' className='w-100'>
+						<Button variant='outline-book' className='w-100'>
 							직접 검색해서 추가하기
 						</Button>
 					</div>

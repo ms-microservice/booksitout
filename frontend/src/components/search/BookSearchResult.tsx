@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { Card, Carousel } from 'react-bootstrap'
 
 import NoSearchResult from './NoSearchResult'
@@ -11,9 +11,9 @@ import utils from '../../functions/utils'
 import { UsedBook } from '../../types/BookType'
 
 const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isConfigured, notConfiguredUrl = '/settings' }) => {
-	const [splitBookList, setSplitBookList] = useState<UsedBook[][]>([])
+	const [splitBookList, setSplitBookList] = React.useState<UsedBook[][]>([])
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setSplitBookList(utils.splitArray(bookList, 2))
 	}, [bookList])
 

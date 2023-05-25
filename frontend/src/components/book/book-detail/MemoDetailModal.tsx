@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Button, Card, Form } from 'react-bootstrap'
 
@@ -9,9 +9,9 @@ import uiSettings from '../../../settings/ui'
 import messages from '../../../settings/messages'
 
 const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList, setMemoList }) => {
-	const [isEditMode, setIsEditMode] = useState<boolean>(false)
-	const [editedPage, setEditedPage] = useState<number | null>(null)
-	const [editedContent, setEditedContent] = useState<string | null>(null)
+	const [isEditMode, setIsEditMode] = React.useState<boolean>(false)
+	const [editedPage, setEditedPage] = React.useState<number | null>(null)
+	const [editedContent, setEditedContent] = React.useState<string | null>(null)
 
 	const handleEditMemo = () => {
 		if ((editedPage === null && editedContent === null) || (editedPage === memo.page && editedContent === memo.content)) {

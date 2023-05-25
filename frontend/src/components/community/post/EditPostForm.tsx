@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import { Button, Card, Form } from "react-bootstrap"
 
@@ -13,13 +13,13 @@ import { booksitoutServer } from "../../../functions/axios";
 const EditPostForm = () => {
     const navigate = useNavigate()
 
-    const [initialFetch, setInitalFetch] = useState(true)
-    const [loading, setLoading] = useState(true)
-    const [error, setError] = useState(false)
+    const [initialFetch, setInitalFetch] = React.useState(true)
+    const [loading, setLoading] = React.useState(true)
+    const [error, setError] = React.useState(false)
 
     const { postId } = useParams()
-    const [post, setPost] = useState<PostType | null>(null)
-    useEffect(() => {
+    const [post, setPost] = React.useState<PostType | null>(null)
+    React.useEffect(() => {
         setTimeout(() => setInitalFetch(false), 500)
 
         booksitoutServer
@@ -39,9 +39,9 @@ const EditPostForm = () => {
             console.log(post)
     }, [postId])
 
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
-    const [isbn, setIsbn] = useState(0)
+    const [title, setTitle] = React.useState('')
+    const [content, setContent] = React.useState('')
+    const [isbn, setIsbn] = React.useState(0)
     const handleEditPost = (e) => {
         e.preventDefault()
 
@@ -74,8 +74,8 @@ const EditPostForm = () => {
 			.catch(() => toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요'))
     }
 
-	const [recentBookList, setRecentBookList] = useState<RecentBookType[]>([])
-	const [modalShow, setModalShow] = useState(false)
+	const [recentBookList, setRecentBookList] = React.useState<RecentBookType[]>([])
+	const [modalShow, setModalShow] = React.useState(false)
 
     if (initialFetch) return<></>    
     if (loading) return <Loading />

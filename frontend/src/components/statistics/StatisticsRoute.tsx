@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React from 'react'
 import { Card, Form } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 
@@ -11,7 +11,7 @@ import DateLineChart from './DateLineChart'
 import Boarding from '../info/Boarding'
 
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime, getStatisticsSummary } from '../../functions/statistics'
-import { getGoal } from '../../functions/goal'
+import { getGoal } from '../../goal/goalFunctions'
 
 import '../../resources/css/statistics.css'
 import { RootState } from '../../redux/store'
@@ -19,19 +19,19 @@ import { RootState } from '../../redux/store'
 const StatisticsRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
-	const [initialFetch, setInitialFetch] = useState(true)
-	const [isLoading, setIsLoading] = useState(true)
+	const [initialFetch, setInitialFetch] = React.useState(true)
+	const [isLoading, setIsLoading] = React.useState(true)
 
-	const [readTimeList, setReadTimeList] = useState(null)
-	const [statisticsData, setStatisticsData] = useState(null)
-	const [languageData, setLanguageData] = useState(null)
-	const [categoryData, setCategoryData] = useState(null)
-	const [goalData, setGoalData] = useState(null)
+	const [readTimeList, setReadTimeList] = React.useState(null)
+	const [statisticsData, setStatisticsData] = React.useState(null)
+	const [languageData, setLanguageData] = React.useState(null)
+	const [categoryData, setCategoryData] = React.useState(null)
+	const [goalData, setGoalData] = React.useState(null)
 
-	const [statisticsSelectedYear, setStatisticsSelectedYear] = useState(new Date().getFullYear())
-	const [isStatisticsLoading, setIsStatisticsLoading] = useState(false)
+	const [statisticsSelectedYear, setStatisticsSelectedYear] = React.useState(new Date().getFullYear())
+	const [isStatisticsLoading, setIsStatisticsLoading] = React.useState(false)
 
-	useEffect(() => {
+	React.useEffect(() => {
 		document.title = '통계 | 책잇아웃'
 		setTimeout(() => {
 			setInitialFetch(false)
@@ -50,7 +50,7 @@ const StatisticsRoute = () => {
 		})
 	}, [])
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (initialFetch) return
 
 		setIsStatisticsLoading(true)

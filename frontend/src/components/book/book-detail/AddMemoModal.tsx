@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Form, Button } from 'react-bootstrap'
 
@@ -6,13 +6,13 @@ import { addMemo } from '../../../functions/memo'
 import '../../../resources/css/input.css'
 
 const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) => {
-	const [page, setPage] = useState<number | null>(null)
-	const [content, setContent] = useState<string | null>(null)
+	const [page, setPage] = React.useState<number | null>(null)
+	const [content, setContent] = React.useState<string | null>(null)
 
 	const handleAddMemo = (e) => {
 		e.preventDefault()
 
-		if (page ?? -1 < 0) {
+		if (page ?? 1 < 0) {
 			document.getElementById('page-input')!!.focus()
 			toast.error('페이지는 0보다 작을 수 없어요')
 			return
@@ -31,7 +31,7 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 		}
 
 		const newMemo = {
-			page: page,
+			page: page ?? null,
 			content: content,
 		}
 

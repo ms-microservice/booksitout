@@ -1,18 +1,4 @@
-import defaultBookCover from '../../resources/images/common/default-book-cover.png'
-
 const placeholderData = {
-	lastBook: {
-		isbn: 12345678910,
-		title: '책잇아웃의 역사',
-		author: '책잇아웃',
-		cover: defaultBookCover,
-		currentPage: 77,
-		endPage: 777,
-		source: 'LIBRARY',
-		form: 'PHYSICAL',
-		language: 'KOREAN',
-		category: 'NOT_PROVIDED',
-	},
 	readTime: [31, 41, 59, 1, 65, 35, 89],
 	statistics: {
 		year: 2023,

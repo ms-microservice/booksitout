@@ -4,9 +4,13 @@ import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
+import com.jinkyumpark.community.config.feign.UserClient;
 import com.jinkyumpark.community.config.security.loginUser.LoginUser;
 import com.jinkyumpark.community.config.security.loginUser.User;
+import com.jinkyumpark.community.gathering.GatheringService;
+import com.jinkyumpark.community.gathering.dto.GatheringResponse;
 import com.jinkyumpark.community.gathering.join.dto.GatheringJoinAddRequest;
+import com.jinkyumpark.community.gathering.join.dto.GatheringJoinResponse;
 import com.jinkyumpark.community.gathering.join.dto.GatheringJoinUpdateRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,18 +20,21 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("v4/gathering")
+@RequestMapping("v4/forum/gathering")
 public class GatheringJoinControllerV4 {
 
     private final GatheringJoinService gatheringJoinService;
+    private final GatheringService gatheringService;
+    private final UserClient userClient;
 
     @GetMapping("{gatheringId}/join-request/all")
     public PagedResponse getAllJoinRequestByGatheringId(@PathVariable("gatheringId") Long gatheringId,
-                                                                               @RequestParam(value = "page", required = false) Integer page,
-                                                                               @RequestParam(value = "size", required = false) Integer size) {
+                                                        @RequestParam(value = "page", required = false) Integer page,
+                                                        @RequestParam(value = "size", required = false) Integer size) {
         if (page == null) page = 1;
         if (size == null) size = 10;
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("lastModifiedDate"));
@@ -39,7 +46,18 @@ public class GatheringJoinControllerV4 {
                 .last(gatheringPaged.isLast())
                 .totalElements((int) gatheringPaged.getTotalElements())
                 .totalPages(gatheringPaged.getTotalPages())
-                .content(gatheringPaged.getContent())
+
+                .content(gatheringPaged.getContent().stream()
+                        .map(g -> GatheringJoinResponse.of(g,
+                                        GatheringResponse.of(
+                                                gatheringService.getGatheringById(g.getGatheringId()),
+                                                userClient.getPublicUserByAppUserId(gatheringService.getGatheringById(g.getGatheringId()).getAppUserId())
+                                        ),
+                                        userClient.getPublicUserByAppUserId(g.getAppUserId())
+                                )
+                        )
+                        .collect(Collectors.toList())
+                )
                 .build();
     }
 
@@ -58,7 +76,17 @@ public class GatheringJoinControllerV4 {
                 .last(pagedGathering.isLast())
                 .totalElements((int) pagedGathering.getTotalElements())
                 .totalPages(pagedGathering.getTotalPages())
-                .content(pagedGathering.getContent())
+                .content(pagedGathering.getContent().stream()
+                        .map(g -> GatheringJoinResponse.of(g,
+                                        GatheringResponse.of(
+                                                gatheringService.getGatheringById(g.getGatheringId()),
+                                                userClient.getPublicUserByAppUserId(gatheringService.getGatheringById(g.getGatheringId()).getAppUserId())
+                                        ),
+                                        userClient.getPublicUserByAppUserId(g.getAppUserId())
+                                )
+                        )
+                        .collect(Collectors.toList())
+                )
                 .build();
     }
 
@@ -81,10 +109,10 @@ public class GatheringJoinControllerV4 {
                 .build();
     }
 
-    @PutMapping("join-request/{gatheringJoinId}")
+    @PutMapping("join-request/{gatheringJoinId}/status")
     public UpdateSuccessResponse acceptDeclineJoinRequest(@LoginUser User loginUser,
-                                                       @PathVariable("gatheringJoinId") Long gatheringJoinId,
-                                                       @RequestParam("status") GatheringJoinStatus status) {
+                                                          @PathVariable("gatheringJoinId") Long gatheringJoinId,
+                                                          @RequestParam("status") GatheringJoinStatus status) {
         GatheringJoin updated = gatheringJoinService.updateStatus(gatheringJoinId, loginUser.getId(), status);
 
         return UpdateSuccessResponse.builder()

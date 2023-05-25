@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import React from "react";
 import toast from "react-hot-toast";
 
 import '../../../resources/css/button.css'
@@ -11,12 +11,12 @@ import LibrarySearchSettingsDetailModal from "./LibrarySearchSettingsDetailModal
 import LibrarySearchSettingsSearchCard from "./LibrarySearchSettingsSearchCard";
 
 const LibrarySearchSpecificCard = () => {
-  const [addedLibrary, setAddedLibrary] = useState<LibraryType[]>([])
-	const [selectedLibrary, setSelectedLibrary] = useState<LibraryType | null>(null)
-	const [modalOpen, setModalOpen] = useState<Boolean>(false)
-  const [searchResult, setSearchResult] = useState<LibraryType[]>([])
+	const [addedLibrary, setAddedLibrary] = React.useState<LibraryType[]>([])
+	const [selectedLibrary, setSelectedLibrary] = React.useState<LibraryType | null>(null)
+	const [modalOpen, setModalOpen] = React.useState<Boolean>(false)
+  const [searchResult, setSearchResult] = React.useState<LibraryType[]>([])
 
-  useEffect(() => {
+  React.useEffect(() => {
 		// TODO : initial added library fetch
   }, [])
 

@@ -1,15 +1,17 @@
-import React from "react"
-import { Modal, Form, Button } from "react-bootstrap"
+import React from 'react'
+import { Modal, Form, Button } from 'react-bootstrap'
 
-import AddBookSearchResultLoading from "../search/AddBookSearchResultLoading"
-import NoContent from "../common/NoContent"
-import AddBookSearchResult from "../search/AddBookSearchResult"
+import AddBookSearchResultLoading from '../search/AddBookSearchResultLoading'
+import NoContent from '../common/NoContent'
+import AddBookSearchResult from '../search/AddBookSearchResult'
 
-import { NewBookSearchResult } from '../../types/BookType';
+import { NewBookSearchResult } from '../../types/BookType'
 
-import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'  
-import toast from "react-hot-toast"
-import { booksitoutServer } from "../../functions/axios"
+import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'
+import toast from 'react-hot-toast'
+import { booksitoutServer } from '../../functions/axios'
+
+import '../../resources/css/addBookModal.css'
 
 const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRecentBookList }) => {
 	const [loading, setLoading] = React.useState(false)
@@ -38,14 +40,18 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 		return () => clearTimeout(typingTimer)
 	}, [query])
 
-    const handleSelect = () => {
-        const selectedBook = searchResult.find((book) => book.isbn == isbn) ?? null
-        if (selectedBook === null) {
-            toast.error('사용할 책을 선택해 주세요')
-            return
-        }
+	const getSelectedBook = () => {
+		return searchResult.find((book) => book.isbn == isbn) ?? null
+	}
 
-        setRecentBookList([
+	const handleSelect = () => {
+		const selectedBook = getSelectedBook()
+		if (selectedBook === null) {
+			toast.error('사용할 책을 선택해 주세요')
+			return
+		}
+
+		setRecentBookList([
 			{
 				title: selectedBook.title,
 				author: selectedBook.author,
@@ -55,8 +61,8 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 			...recentBookList,
 		])
 
-        setShow(false)
-    }
+		setShow(false)
+	}
 
 	return (
 		<Modal show={show} onHide={() => setShow(false)} size='lg' backdrop='static' fullscreen='md-down' centered>
@@ -92,7 +98,7 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 							{searchResult.map((book) => {
 								return (
 									<div className='col-6 col-md-3' onClick={() => setIsbn(Number(book.isbn ?? 0))}>
-										{book.isbn === isbn && (
+										{book.isbn == isbn && (
 											<CheckIcon className='text-book opacity-100 h1' style={{ zIndex: '200', position: 'absolute' }} />
 										)}
 
@@ -105,11 +111,9 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 						</div>
 					)}
 
-					<div style={{ position: 'absolute', bottom: '30px' }} className='w-100'>
-						<Button variant='book' onClick={handleSelect} style={{ width: '95%' }}>
-							이 책 선택하기
-						</Button>
-					</div>
+					<Button variant='book' onClick={handleSelect} id='search-modal-button' disabled={getSelectedBook() == null}>
+						이 책 선택하기
+					</Button>
 				</Form>
 			</Modal.Body>
 		</Modal>

@@ -3,9 +3,11 @@ import { ToggleButton, ButtonGroup } from 'react-bootstrap'
 
 import AddBookManualForm from './AddBookManualForm'
 import AddBookSearchForm from './AddBookSearchForm'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const AddBookRoute = () => {
-	const [selectedMethod, setSelectedMethod] = React.useState('SEARCH')
+	const navigate = useNavigate()
+	const { method } = useParams()
 
 	return (
 		<div className='container mb-5'>
@@ -15,8 +17,8 @@ const AddBookRoute = () => {
 					value={'SEARCH'}
 					type='radio'
 					checked={false}
-					onClick={() => setSelectedMethod('SEARCH')}
-					variant={selectedMethod === 'SEARCH' ? 'book' : 'light'}>
+					onClick={() => navigate('/book/add/search')}
+					variant={method?.toUpperCase() === 'SEARCH' ? 'book' : 'light'}>
 					검색으로 추가하기
 				</ToggleButton>
 
@@ -25,13 +27,13 @@ const AddBookRoute = () => {
 					value={'MANUAL'}
 					type='radio'
 					checked={false}
-					onClick={() => setSelectedMethod('MANUAL')}
-					variant={selectedMethod === 'MANUAL' ? 'book' : 'light'}>
+					onClick={() => navigate('/book/add/manual')}
+					variant={method?.toUpperCase() === 'MANUAL' ? 'book' : 'light'}>
 					직접 추가하기
 				</ToggleButton>
 			</ButtonGroup>
 
-			{selectedMethod === 'SEARCH' ? <AddBookSearchForm /> : <AddBookManualForm />}
+			{method?.toUpperCase() === 'SEARCH' ? <AddBookSearchForm /> : <AddBookManualForm />}
 		</div>
 	)
 }

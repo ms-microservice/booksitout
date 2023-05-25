@@ -1,5 +1,11 @@
 :root {
 	--primary-color:  #1cb15a;
+	--primary-active: #1d8549;
+
+	--danger: #d6334e;
+	--danger-hover: #c52f4e;
+	--danger-active: #cd304a;
+	--danger-disabled: #d6334e;
 }
 
 body {
@@ -107,4 +113,18 @@ code {
     padding-left: calc(var(--bs-gutter-x) * .5);
     margin-right: auto;
 	margin-left: auto;
+}
+
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+.clamp-two-lines {
+	display: inline-block;
+	height: calc(2em + 1px);
+	line-height: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }

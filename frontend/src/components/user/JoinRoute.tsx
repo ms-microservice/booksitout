@@ -41,6 +41,7 @@ const JoinRoute = () => {
 
 		if (email === '') {
 			toast.error(messages.user.join.error.email.null)
+			document.getElementById('email-input')!!.focus()
 			return
 		}
 
@@ -52,26 +53,31 @@ const JoinRoute = () => {
 				)
 		) {
 			toast.error(messages.user.join.error.email.invalid)
+			document.getElementById('email-input')!!.focus()
 			return
 		}
 
 		if (emailVerification === '') {
 			toast.error(messages.user.join.error.email.notVerified)
+			document.getElementById('email-input')!!.focus()
 			return
 		}
 
 		if (name === '') {
 			toast.error(messages.user.join.error.name.null)
+			document.getElementById('name-input')!!.focus()
 			return
 		}
 
 		if (password === '') {
 			toast.error(messages.user.join.error.pw.null)
+			document.getElementById('password-input')!!.focus()
 			return
 		}
 
 		if (password.length < 6) {
 			toast.error(messages.user.join.error.pw.short)
+			document.getElementById('password-input')!!.focus()
 			return
 		}
 
@@ -121,6 +127,7 @@ const JoinRoute = () => {
 
 										<div className='col-12 col-sm-7'>
 											<Form.Control
+											id = 'email-input'
 												placeholder={messages.user.join.placeHolder.email}
 												onChange={(e) => setEmail(e.target.value)}
 											/>
@@ -158,16 +165,18 @@ const JoinRoute = () => {
 									setInputVariable={setPassword}
 								/>
 
-								<div className='row justify-content-center mt-3'>
-									<div className='col-12 col-md-7 mt-3'>
+								<div className='bottom-btn-container'>
+									<div className='bottom-btn'>
 										<Button variant='book' type='submit' className='w-100'>
 											회원가입
 										</Button>
 									</div>
 
-									<div className='col-12 col-md-7 mt-3'>
-										<a className='btn btn-secondary w-100' href='/login'>
-											로그인
+									<div className='bottom-btn'>
+										<a className='w-100' href='/login'>
+											<Button variant='outline-book' className='w-100'>
+												로그인
+											</Button>
 										</a>
 									</div>
 								</div>

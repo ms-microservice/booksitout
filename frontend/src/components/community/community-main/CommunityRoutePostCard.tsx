@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import { Card } from "react-bootstrap"
 import axios from 'axios'
 
@@ -15,17 +15,17 @@ import urls from '../../../settings/urls'
 import { PostType } from '../../../types/PostType'
 
 const CommunityRoutePostCard = () => {
-	const [initialFetch, setInitialFetch] = useState(true)
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState(false)
+	const [initialFetch, setInitialFetch] = React.useState(true)
+	const [loading, setLoading] = React.useState(true)
+	const [error, setError] = React.useState(false)
 
-	const [popularPost, setPopularPost] = useState<PostType[]>([])
-	useEffect(() => {
+	const [popularPost, setPopularPost] = React.useState<PostType[]>([])
+	React.useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 300)
 
 		axios
 			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=10`)
-			.then((res) => setPopularPost(res.data))
+			.then((res) => setPopularPost(res.data.content))
 			.catch((e) => setError(true))
 			.finally(() => {
 				setInitialFetch(false)
@@ -62,7 +62,7 @@ const CommunityRoutePostCard = () => {
 
 				<div className='mt-3' />
 
-				<AllButton url='/community/post/all/popular' label='더 보기' col='col-12 col-md-8' />
+				<AllButton url='/community/post/all/popular' col='col-12 col-md-8' />
 			</Card>
 		</a>
 	)

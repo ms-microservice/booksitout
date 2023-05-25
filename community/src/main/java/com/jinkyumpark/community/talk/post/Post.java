@@ -35,6 +35,8 @@ public class Post extends TimeEntity {
 
     private Long appUserId;
 
+    private Integer score;
+
     @OneToMany(mappedBy = "post")
     private List<Comment> commentList = new ArrayList<>();
 

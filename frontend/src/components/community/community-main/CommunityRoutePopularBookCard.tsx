@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import React from "react"
 import { Card, ListGroup } from "react-bootstrap"
 import { PopularBookType } from "../../../types/PostType"
 import axios from "axios"
@@ -8,25 +8,27 @@ import Error from '../../common/Error';
 import { BsBookHalf as BookIcon } from 'react-icons/bs'
 
 const CommunityRoutePopularBookCard = () => {
-    const [popularBook, setPopularBook] = useState<PopularBookType[]>([])
-	useEffect(() => {
+    const [popularBook, setPopularBook] = React.useState<PopularBookType[]>([])
+	React.useEffect(() => {
 		axios
 			.get(`${urls.api.base}/v4/forum/ranking?size=7`)
-			.then((res) => setPopularBook(res.data))
+			.then((res) => setPopularBook(res.data.content))
 			.catch((e) => setError(true))
 	}, [])
 
-	const [error, setError] = useState(false)
+	const [error, setError] = React.useState(false)
 
     return (
 		<Card style={{ minHeight: '700px' }} className='mb-4 h-100'>
 			<Card.Body>
-				<h3><BookIcon className="me-2 text-book"/> 인기 책</h3>
+				<h3>
+					<BookIcon className='me-2 text-book' /> 인기 책
+				</h3>
 
 				<div className='mb-4' />
 
 				<ListGroup>
-					{error ? (
+					{error || popularBook === undefined ? (
 						<Error mt='150px' />
 					) : (
 						popularBook.map((book) => {

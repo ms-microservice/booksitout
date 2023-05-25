@@ -5,8 +5,8 @@ import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.community.config.feign.BookClient;
+import com.jinkyumpark.community.config.feign.response.AppUserInfo;
 import com.jinkyumpark.community.config.feign.response.BookInfo;
-import com.jinkyumpark.community.config.feign.response.PublicUserInfo;
 import com.jinkyumpark.community.config.security.loginUser.LoginUser;
 import com.jinkyumpark.community.config.security.loginUser.User;
 import com.jinkyumpark.community.talk.comment.CommentService;
@@ -45,7 +45,7 @@ public class PostControllerV4 {
     public PostResponse getPostByPostId(@PathVariable("postId") Long postId,
                                         @RequestParam(value = "user-id", required = false) Long appUserId) {
         PostDto postDto = postService.getPostByPostId(postId);
-        PublicUserInfo publicUserInfo = userClient.getPublicUserByAppUserId(postDto.getAppUserId());
+        AppUserInfo publicUserInfo = userClient.getPublicUserByAppUserId(postDto.getAppUserId());
         BookInfo bookInfo = bookClient.getBookInfoByIsbn(postDto.getIsbn());
 
         PostLikeCount likeCount = postLikeService.getPostLikeCount(postId);
@@ -88,7 +88,7 @@ public class PostControllerV4 {
         if (size == null) size = 10;
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDate").descending());
 
-        PublicUserInfo publicUser = userClient.getUserByNickname(nickName);
+        AppUserInfo publicUser = userClient.getUserByNickname(nickName);
 
         return postService.getAllPostByAppUserId(publicUser.getAppUserId(), pageable).stream()
                 .map(post -> PostResponse.of(
@@ -112,9 +112,9 @@ public class PostControllerV4 {
         if (size == null) size = 10;
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("createdDate").descending());
 
-        PublicUserInfo publicUser = userClient.getUserByNickname(nickName);
+        AppUserInfo publicUser = userClient.getUserByNickname(nickName);
         Page<Post> postPaged = postService.getAllPostByAppUserIdPaged(publicUser.getAppUserId(), pageable);
-        PublicUserInfo publicUserInfo = PublicUserInfo.builder()
+        AppUserInfo publicUserInfo = AppUserInfo.builder()
                 .appUserId(publicUser.getAppUserId())
                 .name(publicUser.getName())
                 .profileImage(publicUser.getProfileImage())
@@ -144,7 +144,7 @@ public class PostControllerV4 {
 
 
     @GetMapping
-    public List<PostResponse> getAllPostBySort(@RequestParam("sort") String sort,
+    public PagedResponse getAllPostBySort(@RequestParam("sort") String sort,
                                                @RequestParam(value = "user-id", required = false) Long appUserId,
                                                @RequestParam(value = "page", required = false) Integer page,
                                                @RequestParam(value = "size", required = false) Integer size) {
@@ -152,12 +152,13 @@ public class PostControllerV4 {
         if (size == null) size = 10;
         Pageable pageable = PageRequest.of(page - 1, size);
 
-        List<PostDto> postList = postService.getAllPostOrderBy(PostSort.valueOf(sort.toUpperCase()), pageable);
+        Page<Post> pagedPost = postService.getAllPostOrderBy(PostSort.valueOf(sort.toUpperCase()), pageable);
 
-        return postList.stream()
+
+        List<PostResponse> content = pagedPost.getContent().stream()
                 .map(post ->
                         PostResponse.of(
-                                post,
+                                PostDto.of(post),
                                 userClient.getPublicUserByAppUserId(post.getAppUserId()),
                                 bookClient.getBookInfoByIsbn(post.getIsbn()),
                                 postLikeService.getPostLikeCount(post.getPostId()),
@@ -166,6 +167,14 @@ public class PostControllerV4 {
                         )
                 )
                 .collect(Collectors.toList());
+
+        return PagedResponse.builder()
+                .first(pagedPost.isFirst())
+                .last(pagedPost.isLast())
+                .totalPages(pagedPost.getTotalPages())
+                .totalElements((int) pagedPost.getTotalElements())
+                .content(content)
+                .build();
     }
 
     @PostMapping

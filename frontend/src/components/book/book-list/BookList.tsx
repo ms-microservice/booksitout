@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import { useParams } from 'react-router-dom'
 import { Button, Card } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
@@ -15,7 +15,7 @@ import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
 import BookListRangeButton from './BookListRangeButton'
 import Boarding from '../../info/Boarding'
 
-import { deleteBook, getBookList, unGiveUpBook, giveUpBook } from '../../../functions/book'
+import { getBookList, giveUpBook } from '../../../functions/book'
 import kimchiImage from '../../../resources/images/common/kimchi-green.png'
 import { RootState } from '../../../redux/store'
 import { BookUserType } from '../../../types/BookType'
@@ -47,15 +47,15 @@ const BookList = () => {
 	).toString()
 	const fetchSize = 24
 
-	const [initalFetch, setInitialFetch] = useState(true)
-	const [loading, setIsLoading] = useState(false)
-	const [error, setError] = useState(false)
-	const [currentPage, setCurrentPage] = useState(0)
-	const [maxPage, setMaxPage] = useState(0)
+	const [initalFetch, setInitialFetch] = React.useState(true)
+	const [loading, setIsLoading] = React.useState(false)
+	const [error, setError] = React.useState(false)
+	const [currentPage, setCurrentPage] = React.useState(0)
+	const [maxPage, setMaxPage] = React.useState(0)
 
-	const [bookList, setBookList] = useState<BookUserType[]>([])
+	const [bookList, setBookList] = React.useState<BookUserType[]>([])
 
-	useEffect(() => {
+	React.useEffect(() => {
 		document.title = `${range === 'not-done' ? '읽고 있는 책' : range === 'give-up' ? '포기한 책' : '다 읽은 책'} | 책잇아웃`
 		if (!isLogin) {
 			setInitialFetch(false)
@@ -145,20 +145,6 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 		}
 	}
 
-	const handleUngiveupBook = (bookId) => {
-		const confirm = window.confirm('책을 다시 읽을까요?')
-
-		if (confirm) {
-			unGiveUpBook(bookId).then((success) => {
-				if (success) {
-					toast.success('이제 책을 다시 읽을 수 있어요')
-					setBookList(bookList.filter((b) => b.bookId !== bookId))
-				} else {
-					toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-				}
-			})
-		}
-	}
 
 	if (range === 'done') {
 		return (
@@ -184,40 +170,9 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 								<Card.Body>
 									<HorizontalBookView
 										book={book}
-										firstButton={
-											<Button
-												variant='book'
-												className='w-100'
-												onClick={(e) => {
-													e.preventDefault()
-													handleUngiveupBook(book.bookId)
-												}}>
-												다시 읽기
-											</Button>
-										}
-										secondButton={
-											<Button
-												variant='book-danger'
-												className='w-100'
-												onClick={(e) => {
-													e.preventDefault()
-													const confirm = window.confirm('정말 이 책을 삭제할까요?')
-
-													if (confirm) {
-														deleteBook(book.bookId).then((success) => {
-															if (success) {
-																toast.success('책을 삭제했어요')
-																setBookList(bookList.filter((b) => b.bookId !== book.bookId))
-															} else {
-																toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-															}
-														})
-													}
-												}}>
-												삭제하기
-											</Button>
-										}
 										link={`/book/detail/${book.bookId}`}
+										bookList={bookList}
+										setBookList={setBookList}
 									/>
 								</Card.Body>
 							</Card>
@@ -255,6 +210,8 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 												포기하기
 											</Button>
 										}
+										bookList={bookList}
+										setBookList={setBookList}
 									/>
 								</Card.Body>
 							</Card>

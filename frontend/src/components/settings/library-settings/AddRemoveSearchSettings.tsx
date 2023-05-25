@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 
 import { AiFillMinusCircle as DeleteIcon } from 'react-icons/ai'
@@ -9,14 +9,14 @@ import { Button, Card, Form } from 'react-bootstrap'
 const AddRemoveSearchSettings = ({ title, includedLabel, excludedLabel, initialServiceList, apiFunction, localStorageKey }) => {
 	const iconStyle = { widht: '50px', height: '50px' }
 
-	const [buttonDisabled, setButtonDisabled] = useState(true)
-	const [serviceList, setServiceList] = useState(initialServiceList)
+	const [buttonDisabled, setButtonDisabled] = React.useState(true)
+	const [serviceList, setServiceList] = React.useState(initialServiceList)
 
 	const includeExclude = (key: string) => {
 		setServiceList(serviceList.map((s) => (s.key === key ? { ...s, included: !s.included } : s)))
 	}
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const filteredList = serviceList.filter((service) => initialServiceList.find((s) => s.key === service.key).included === service.included)
 		setButtonDisabled(filteredList.length >= serviceList.length)
 	}, [serviceList, initialServiceList])

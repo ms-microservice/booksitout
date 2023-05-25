@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Form, Button } from 'react-bootstrap'
 
 import { addSummary } from '../../../functions/book'
 
 const AddSummaryModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
-	const [summary, setSummary] = useState('')
+	const [summary, setSummary] = React.useState('')
 
 	const handleAddSummary = (e) => {
 		e.preventDefault()

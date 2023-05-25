@@ -1,5 +1,5 @@
+import React from "react"
 import axios from "axios"
-import { useState } from "react"
 import { Button, Form, Modal } from "react-bootstrap"
 import toast from "react-hot-toast"
 import urls from "../../../settings/urls"
@@ -7,7 +7,7 @@ import utils from "../../../functions/utils"
 
 const EditCommentModal = ({show, setShow, comment, commentList, setCommentList}) => {
 
-    const [content, setContent] = useState('')
+    const [content, setContent] = React.useState('')
     const handleEditComment = (e) => {
 		e.preventDefault()
 

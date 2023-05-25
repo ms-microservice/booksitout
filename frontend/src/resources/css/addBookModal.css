@@ -7,3 +7,19 @@
     padding-bottom: 0px;
     }
 }
+
+#search-modal-button {
+    position: absolute;
+    bottom: 20px;
+    left: 2.5%;
+    width: 95%
+}
+
+@media (max-width: 768px) {
+    #search-modal-button {
+        position: fixed;
+        bottom: 20px;
+        left: 2.5%;
+        width: 95%
+    }
+}

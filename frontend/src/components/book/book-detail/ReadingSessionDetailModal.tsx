@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Button, Form } from 'react-bootstrap'
 
@@ -22,20 +22,20 @@ const ReadingSessionDetailModal = ({
 	const currentMonth = new Date().getMonth() + 1
 	const currentDay = new Date().getDate()
 
-	const [year, setYear] = useState(currentYear)
-	const [month, setMonth] = useState(currentMonth)
-	const [day, setDay] = useState(currentDay)
+	const [year, setYear] = React.useState(currentYear)
+	const [month, setMonth] = React.useState(currentMonth)
+	const [day, setDay] = React.useState(currentDay)
 
-	const [yearArray, setYearArray] = useState<number[]>(Array.from({ length: 5 }, (_, i) => i + (new Date().getFullYear() - 5 + 1)).reverse())
-	const [monthArray, setMonthArray] = useState<number[]>([])
-	const [dayArray, setDayArray] = useState<number[]>([])
+	const [yearArray, setYearArray] = React.useState<number[]>(Array.from({ length: 5 }, (_, i) => i + (new Date().getFullYear() - 5 + 1)).reverse())
+	const [monthArray, setMonthArray] = React.useState<number[]>([])
+	const [dayArray, setDayArray] = React.useState<number[]>([])
 
-	const [isEditMode, setIsEditMode] = useState(false)
+	const [isEditMode, setIsEditMode] = React.useState(false)
 
-	const [readTime, setReadTime] = useState(0)
-	const [endPage, setEndPage] = useState(0)
+	const [readTime, setReadTime] = React.useState(0)
+	const [endPage, setEndPage] = React.useState(0)
 
-	useEffect(() => {
+	React.useEffect(() => {
 		if (year === currentYear && month === currentMonth) {
 			setDayArray(Array.from({length: currentDay}, (_, i) => i + 1))
 		} else {

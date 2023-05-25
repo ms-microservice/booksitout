@@ -3,7 +3,7 @@ import { Button, Card } from 'react-bootstrap'
 import logo from '../../resources/images/logo/logo.png'
 
 const MainBoarding = () => {
-    return (
+	return (
 		<Card>
 			<Card.Body>
 				<div>
@@ -12,7 +12,7 @@ const MainBoarding = () => {
 						<h3 className='mt-2'>책잇아웃, 독서를 더 편하게</h3>
 					</div>
 
-					<h5 className='mt-5 mb-4 text-center force-1-line' >로그인하면 모든 기능을 이용할 수 있어요</h5>
+					<h5 className='mt-5 mb-4 text-center force-1-line'>로그인하면 모든 기능을 이용할 수 있어요</h5>
 					<p className='text-center text-secondary mb-2'>내 책을 관리하고 독서활동을 기록할 수 있어요</p>
 					<p className='text-center text-secondary mb-2'>다양한 곳에서 한 번에 책을 검색할 수 있어요</p>
 					<p className='text-center text-secondary'>도서관을 더 편리하게 이용할 수 있어요</p>

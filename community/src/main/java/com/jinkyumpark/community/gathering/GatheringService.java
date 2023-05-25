@@ -3,11 +3,11 @@ package com.jinkyumpark.community.gathering;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -15,8 +15,12 @@ public class GatheringService {
 
     private final GatheringRepository gatheringRepository;
 
-    public List<Gathering> getAllGatheringByType(GatheringType gatheringType, Pageable pageable) {
+    public Page<Gathering> getAllGatheringByType(GatheringType gatheringType, Pageable pageable) {
         return gatheringRepository.findAllByType(gatheringType, pageable);
+    }
+
+    public Page<Gathering> getAllGathering(Pageable pageable) {
+        return gatheringRepository.findAllGathering(pageable);
     }
 
     public Gathering getGatheringById(Long gatheringId) {

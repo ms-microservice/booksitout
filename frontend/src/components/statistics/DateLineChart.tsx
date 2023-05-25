@@ -1,4 +1,4 @@
-import { useEffect, useRef } from 'react'
+import React from 'react'
 import { Chart as ChartJS, CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend } from 'chart.js'
 import { Line } from 'react-chartjs-2'
 
@@ -6,7 +6,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, h
 	ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement, Title, Tooltip, Legend)
 
 	// @ts-ignore
-	const chartRef = useRef<Line | null>(null)
+	const chartRef = React.useRef<Line | null>(null)
 
 	const focusOnGreatestIndex = () => {
 		if (data == null) return
@@ -18,7 +18,7 @@ const DateLineChart = ({ startDate, endDate = Date.now(), data, duration = 14, h
 		}
 	}
 
-	useEffect(() => {
+	React.useEffect(() => {
 		focusOnGreatestIndex()
 	}, [])
 

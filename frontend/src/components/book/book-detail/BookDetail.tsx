@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { useNavigate, useParams } from 'react-router-dom'
 import { Card, Button, ProgressBar } from 'react-bootstrap'
@@ -34,15 +34,15 @@ const BookDetail = () => {
 
 	const navigate = useNavigate()
 
-	const [loading, setLoading] = useState(true)
-	const [initialFetch, setInitialFetch] = useState(true)
-	const [error, setError] = useState(false)
+	const [loading, setLoading] = React.useState(true)
+	const [initialFetch, setInitialFetch] = React.useState(true)
+	const [error, setError] = React.useState(false)
 
-	const [book, setBook] = useState<BookUserType | null>(null)
-	const [memo, setMemo] = useState(null)
-	const [readingSession, setReadingSession] = useState<ReadingSessionType[]>([])
+	const [book, setBook] = React.useState<BookUserType | null>(null)
+	const [memo, setMemo] = React.useState(null)
+	const [readingSession, setReadingSession] = React.useState<ReadingSessionType[]>([])
 
-	useEffect(() => {
+	React.useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
 		}, uiSettings.initalFetchTime)
@@ -64,18 +64,18 @@ const BookDetail = () => {
 		})
 	}, [id])
 
-	const [ratingModalOpen, setRatingModalOpen] = useState<boolean>(false)
-	const [reviewModalOpen, setReviewModalOpen] = useState<boolean>(false)
-	const [summaryModalOpen, setSummaryModalOpen] = useState<boolean>(false)
+	const [ratingModalOpen, setRatingModalOpen] = React.useState<boolean>(false)
+	const [reviewModalOpen, setReviewModalOpen] = React.useState<boolean>(false)
+	const [summaryModalOpen, setSummaryModalOpen] = React.useState<boolean>(false)
 
-	const [addReadingModalOpen, setAddReadingModalOpen] = useState<boolean>(false)
-	const [addMemoModalOpen, setAddMemoModalOpen] = useState<boolean>(false)
+	const [addReadingModalOpen, setAddReadingModalOpen] = React.useState<boolean>(false)
+	const [addMemoModalOpen, setAddMemoModalOpen] = React.useState<boolean>(false)
 
-	const [readingDetailModalOpen, setReadingDetailModalOpen] = useState<boolean>(false)
-	const [memoDetailModalOpen, setMemoDetailModalOpen] = useState<boolean>(false)
+	const [readingDetailModalOpen, setReadingDetailModalOpen] = React.useState<boolean>(false)
+	const [memoDetailModalOpen, setMemoDetailModalOpen] = React.useState<boolean>(false)
 
-	const [selectedReadingSession, setSelectedReadingSession] = useState(null)
-	const [selectedMemo, setSelectedMemo] = useState(null)
+	const [selectedReadingSession, setSelectedReadingSession] = React.useState(null)
+	const [selectedMemo, setSelectedMemo] = React.useState(null)
 
 	const getTotalReadTIme = (readingSessionList) => {
 		return readingSessionList.map((r) => r.readTime).reduce((pre, cur) => pre + cur, 0)
@@ -238,19 +238,18 @@ const BookCover = ({ book }) => {
 const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
 	const navigate = useNavigate()
 	const BOOK_EDIT_URL = `/book/edit/${book.bookId}`
-	const token = utils.getToken()
 
 	return (
 		<div className='row mt-3'>
 			<div className='col-6'>
-				<Button variant='book-danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
+				<Button variant='outline-book-danger' className='w-100' onClick={() => navigate(BOOK_EDIT_URL)}>
 					수정하기
 				</Button>
 			</div>
 
 			<div className='col-6'>
 				<Button
-					variant='book-danger'
+					variant='outline-book-danger'
 					className='w-100'
 					onClick={() => {
 						const confirm = window.confirm('정말 책을 삭제할까요?')

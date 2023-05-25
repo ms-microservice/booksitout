@@ -1,4 +1,4 @@
-import { useEffect } from 'react'
+import React from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 import { useQuery } from '../../functions/useQuery'
@@ -17,7 +17,7 @@ const OAuth = () => {
 	const query = useQuery()
 	const dispatch = useDispatch()
 
-	useEffect(() => {
+	React.useEffect(() => {
 		const code = query.get('code')
 		const additional = query.get(provider?.toUpperCase() === 'NAVER' ? 'state' : provider?.toUpperCase() === 'GOOGLE' ? 'scope' : 'none')
 

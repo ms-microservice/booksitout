@@ -2,6 +2,7 @@ package com.jinkyumpark.core.memo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.jinkyumpark.core.book.model.Book;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
+@NoArgsConstructor @AllArgsConstructor @Builder
 
 @Entity @Table(name = "Memo")
 public class Memo {
@@ -18,7 +19,7 @@ public class Memo {
     @Column(name = "memo_id")
     private Long memoId;
 
-    @Column(name = "page", nullable = false)
+    @Column(name = "page")
     private Integer page;
 
     @Column(name = "content", nullable = false)
@@ -29,15 +30,9 @@ public class Memo {
     @JsonIgnore
     private Book book;
 
-    @Builder
-    public Memo(Integer page, String content, Book book) {
-        this.page = page;
-        this.content = content;
-        this.book = book;
-    }
-
     public void editMemo(MemoDto memoDto) {
         if (memoDto.getContent() != null) this.content = memoDto.getContent();
         if (memoDto.getPage() != null) this.page = memoDto.getPage();
     }
+
 }

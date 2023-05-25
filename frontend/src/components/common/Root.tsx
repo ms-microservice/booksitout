@@ -5,9 +5,9 @@ import ToastSettings from '../../settings/ToastSettings'
 import LocationSettings from '../../settings/LocationSettings'
 import TimerSettings from '../../settings/TimerSettings'
 import Topnav from './Topnav'
-import FloatingAddBookButton from './FloatingAddButton'
-import ReadingButton from './ReadingButton'
-import FloatingAddPostButton from './AddPostFloatingButton'
+import BookFloatingButton from './BookFloatingButton'
+import TimerFloatingButton from './TimerFloatingButton'
+import CommunityFloatingButton from './CommunityFloatingButton'
 
 const Root = () => {
     return (
@@ -22,9 +22,9 @@ const Root = () => {
 
 			<Outlet />
 
-			<FloatingAddPostButton />
-			<ReadingButton />
-			<FloatingAddBookButton />
+			<TimerFloatingButton />
+			<CommunityFloatingButton />
+			<BookFloatingButton />
 		</>
 	)
 }

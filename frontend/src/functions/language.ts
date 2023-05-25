@@ -23,11 +23,11 @@ const languageImageMap = new Map([
 ])
 
 const getLanguageKoreanLabel = (language: string) => {
-	return languageTextKoreanMap.get(language)
+	return languageTextKoreanMap.get(language) ?? '한국어'
 }
 
 const getLangaugeImage = (language: string) => {
-	return languageImageMap.get(language)
+	return languageImageMap.get(language) ?? koreanIcon
 }
 
 export { getLangaugeImage, getLanguageKoreanLabel }

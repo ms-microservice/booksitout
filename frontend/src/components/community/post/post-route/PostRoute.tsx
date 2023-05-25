@@ -1,44 +1,47 @@
-import { useLoaderData, useParams } from 'react-router-dom'
+import { useLoaderData, useParams, useSearchParams } from 'react-router-dom'
 import { ButtonGroup, Card, ToggleButton } from 'react-bootstrap'
-
 import PostRoutePost from './PostRoutePost'
 import NoContent from '../../../common/NoContent'
-
 import { PostType } from '../../../../types/PostType'
 import { booksitoutServer } from '../../../../functions/axios'
+import Page from '../../../common/Page';
+import { PageType } from '../../../../types/PageType'
 
 export async function loader({ params }) {
 	const sortBy = params.sortBy
 
 	return booksitoutServer
 		.get(`/v4/forum/post?sort=${sortBy}`)
-		.then((res) => {
-			if (res.status === 200) {
-				return res.data
-			}
-		})
+		.then((res) => res.data)
 		.catch((e) => {
 			throw e
 		})
 }
 
 const PostRoute = () => {
+	const [searchParams] = useSearchParams();
+    const currentPage = Number(searchParams.get('page') ?? 1) ?? 1
+
 	const { sortBy } = useParams()
-	const postList = useLoaderData() as PostType[]
+	const pagedPost = useLoaderData() as PageType<PostType[]>
 
 	return (
 		<div className='container-xl'>
-			<PostRouteButton sortBy={sortBy} />
+			<div className='mb-3'>
+				<PostRouteButton sortBy={sortBy} />
+			</div>
 
-			<div className='mt-3'>
-				{postList.length === 0 ? (
+			<div>
+				{pagedPost.content.length === 0 ? (
 					<NoContent mt='50px' />
 				) : (
-					postList.map((post) => {
+					pagedPost.content.map((post) => {
 						return <PostRoutePost post={post} />
 					})
 				)}
 			</div>
+
+			<Page paged={pagedPost} currentPage={currentPage} url={`/community/post/${sortBy}`}></Page>
 		</div>
 	)
 }

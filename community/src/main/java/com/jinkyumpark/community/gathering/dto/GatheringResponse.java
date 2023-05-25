@@ -11,15 +11,17 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class GatheringResponse {
 
+    private Long id;
     private String title;
     private String content;
-    private GatheringTypeResponse type;
 
+    private GatheringTypeResponse type;
     private GatheringUserResponse user;
     private GatheringLocationTypeResponse location;
 
     public static GatheringResponse of(Gathering gathering, AppUserInfo appUserInfo) {
         return GatheringResponse.builder()
+                .id(gathering.getGatheringId())
                 .title(gathering.getTitle())
                 .content(gathering.getContent())
                 .type(new GatheringTypeResponse(gathering.getType(), gathering.getType().getDisplayName()))

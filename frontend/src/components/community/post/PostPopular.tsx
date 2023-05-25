@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import React from 'react'
 import { Card } from 'react-bootstrap'
 import { BsFire as FireIcon } from 'react-icons/bs'
 
@@ -12,17 +12,17 @@ import AllButton from '../../common/AllButton'
 import { booksitoutServer } from '../../../functions/axios'
 
 const PostPopular = () => {
-	const [initialFetch, setInitialFetch] = useState(true)
-	const [loading, setLoading] = useState(true)
-	const [error, setError] = useState(false)
+	const [initialFetch, setInitialFetch] = React.useState(true)
+	const [loading, setLoading] = React.useState(true)
+	const [error, setError] = React.useState(false)
 
-    const [popularPost, setPopularPost] = useState<PostType[]>([])
-	useEffect(() => {
+    const [popularPost, setPopularPost] = React.useState<PostType[]>([])
+	React.useEffect(() => {
 		setTimeout(() => setInitialFetch(false), 300)
 
 		booksitoutServer
 			.get('/v4/forum/post?sort=popular&size=5')
-			.then((res) => setPopularPost(res.data))
+			.then((res) => setPopularPost(res.data.content))
 			.catch((e) => {
 				setError(true)
 			})

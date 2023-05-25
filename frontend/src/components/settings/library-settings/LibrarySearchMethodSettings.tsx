@@ -1,5 +1,5 @@
+import React from "react"
 import axios from "axios"
-import { useState } from "react"
 import toast from "react-hot-toast"
 import utils from "../../../functions/utils"
 import messages from "../../../settings/messages"
@@ -8,7 +8,7 @@ import urls from "../../../settings/urls"
 import SettingsCard from "../SettingsCard"
 
 const LibrarySearchMethodSettings = () => {
-	const [currentApiKey, setCurrentApiKey] = useState(localStorage.getItem('library-search-method') || 'REGION')
+	const [currentApiKey, setCurrentApiKey] = React.useState(localStorage.getItem('library-search-method') || 'REGION')
 
 	const settingsList = [
 		{

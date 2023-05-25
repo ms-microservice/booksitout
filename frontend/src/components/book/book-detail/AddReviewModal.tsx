@@ -1,11 +1,11 @@
-import { useState } from 'react'
+import React from 'react'
 import toast from 'react-hot-toast'
 import { Modal, Form, Button } from 'react-bootstrap'
 
 import { addReview } from '../../../functions/book'
 
 const AddReviewModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
-	const [review, setReview] = useState('')
+	const [review, setReview] = React.useState('')
 
 	const handleAddReview = (e) => {
 		e.preventDefault()
