@@ -1,0 +1,2 @@
+INSERT INTO region_detail (english_name, korean_name, data4lib_code, logo, region_id)
+VALUES ('SEJONG', '세종시', 29010, 'https://i.namu.wiki/i/XiQ63aY60qQ5Tdridk3OrUPA3Y4i9TfGYrPYeSp51x-Z7veiBYkgNgs1dxkoaqFaWN1p2IBfH5M1KXlUIeoICpLgbvVWvvG6iI7dP0pT0OOTJSue1DoAX7joI7S40SBcF67BWwByFDUsPVfWfCzLXQ.svg', 8);
