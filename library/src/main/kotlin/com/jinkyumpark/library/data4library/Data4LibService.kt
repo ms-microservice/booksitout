@@ -1,6 +1,8 @@
 package com.jinkyumpark.library.data4library
 
+import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse
+import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponseLibraryLib
 import com.jinkyumpark.library.library.Library
 import com.jinkyumpark.library.region.RegionDetail
 import org.springframework.beans.factory.annotation.Value
@@ -10,44 +12,46 @@ import org.springframework.web.reactive.function.client.WebClient
 @Service
 class Data4LibService(
     val webClient: WebClient,
+    val objectMapper: ObjectMapper,
 
     @Value("\${api.secret.data4lib}")
-    val data4LibSecret: String,
+    private val data4LibSecret: String,
 ) {
 
     fun getAvailableLibrary(page: Int = 1, size: Int = 10): ApiData4LibraryAvailableLibraryResponse? {
         val uri = "http://data4library.kr/api/libSrch?format=JS&authKey=$data4LibSecret&pageNo=$page&size=$size"
 
-        return webClient
+        val responseString = webClient
             .get()
             .uri(uri)
             .retrieve()
-            .bodyToMono(ApiData4LibraryAvailableLibraryResponse::class.java)
+            .bodyToMono(String::class.java)
             .block()
+
+        return objectMapper.readValue(responseString, ApiData4LibraryAvailableLibraryResponse::class.java)
     }
 
-    fun availableLibraryToEntity(availableLibrary: ApiData4LibraryAvailableLibraryResponse, regionDetailId: Long): List<Library> {
-        return availableLibrary
-            .response
-            .libs
-            .map {
-                Library.builder()
-                    .name(it.lib.libName)
+    fun getAvailableLibraryTotalPages(size: Int): Int {
+        return getAvailableLibrary(1, size)
+            ?.response
+            ?.numFound!!
+            .let { it / size }
+    }
 
-                    .address(it.lib.address)
-                    .latitude(it.lib.latitude.toDouble())
-                    .longitude(it.lib.longitude.toDouble())
-                    .regionDetail(RegionDetail.builder().regionDetailId(regionDetailId).build())
-
-                    .phone(it.lib.tel.toInt())
-                    .homePage(it.lib.homepage)
-                    .openHour(it.lib.operatingTime)
-                    .openDay(it.lib.closed)
-                    .bookCount(it.lib.BookCount.toInt())
-                    .data4LibCode(it.lib.libCode.toInt())
-
-                    .build()
-            }
+    fun availableLibraryToEntity(availableLibrary: ApiData4LibraryAvailableLibraryResponseLibraryLib, regionDetailId: Long): Library {
+        return Library(
+            availableLibrary.libName,
+            availableLibrary.address,
+            availableLibrary.latitude.toDouble(),
+            availableLibrary.longitude.toDouble(),
+            RegionDetail(regionDetailId),
+            availableLibrary.tel.replace("[^0-9]".toRegex(), "").toLong(),
+            availableLibrary.homepage,
+            availableLibrary.operatingTime,
+            availableLibrary.closed,
+            availableLibrary.BookCount.replace("[^0-9]".toRegex(), "").toInt(),
+            availableLibrary.libCode.replace("[^0-9]".toRegex(), "").toInt(),
+            )
     }
 
 }

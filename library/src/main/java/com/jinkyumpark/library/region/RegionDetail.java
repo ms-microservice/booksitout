@@ -26,4 +26,8 @@ public class RegionDetail {
     @JoinColumn(name = "region_id", nullable = false)
     private Region region;
 
+    public RegionDetail(Long regionDetailId) {
+        this.regionDetailId = regionDetailId;
+    }
+
 }
