@@ -1,6 +1,8 @@
 package com.jinkyumpark.library.region;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -13,8 +15,8 @@ public class RegionService {
     private final RegionRepository regionRepository;
     private final RegionDetailRepository regionDetailRepository;
 
-    public RegionDetail getRegionDetailByAddress(String address) {
-        String[] split = address.split("\\W+");
+    public RegionDetail getMostMatchRegionDetailByAddress(String address) {
+        String[] split = address.split("\\s+");
         String region = split[0];
         String regionDetail = split[1];
 
@@ -24,6 +26,10 @@ public class RegionService {
                 .findFirst();
 
         return regionDetailOptional.orElseGet(() -> regionDetailRepository.findById(1L).get());
+    }
+
+    public Page<RegionDetail> getAllRegionByName(String query, Pageable pageable) {
+        return regionDetailRepository.findAllByKoreanName(query, pageable);
     }
 
 }
