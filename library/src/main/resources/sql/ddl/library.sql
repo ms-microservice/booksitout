@@ -1,5 +1,5 @@
 CREATE TABLE library(
-    library_id                     BIGINT       NOT NULL,
+    library_id                     BIGINT       NOT NULL auto_increment,
     CONSTRAINT pk_library PRIMARY KEY (library_id),
 
     name                           VARCHAR(100) NULL,
@@ -18,7 +18,7 @@ CREATE TABLE library(
 
     book_count                     smallint unsigned          NULL,
 
-    data4lib_code                  smallint unsigned          NULL
+    data4lib_code                  MEDIUMINT unsigned          NULL
 );
 
 ALTER TABLE library ADD CONSTRAINT fk_library_region_detail_id FOREIGN KEY (region_detail_id) REFERENCES region_detail (region_detail_id);

@@ -1,5 +1,5 @@
 CREATE TABLE library_book(
-    library_book_id BIGINT NOT NULL,
+    library_book_id BIGINT NOT NULL auto_increment,
     CONSTRAINT pk_library_book PRIMARY KEY (library_book_id),
 
     isbn            BIGINT unsigned NULL,
