@@ -27,14 +27,14 @@ public class Library {
     @JoinColumn(name = "region_detail_id", nullable = false)
     private RegionDetail regionDetail;
 
-    private Long phone;
+    private String phone;
     private String homePage;
     private String openHour;
     private String openDay;
     private Integer bookCount;
     private Integer data4LibCode;
 
-    public Library(String name, String address, Double latitude, Double longitude, RegionDetail regionDetail, Long phone, String homePage, String openHour, String openDay, Integer bookCount, Integer data4LibCode) {
+    public Library(String name, String address, Double latitude, Double longitude, RegionDetail regionDetail, String phone, String homePage, String openHour, String openDay, Integer bookCount, Integer data4LibCode) {
         this.name = name;
         this.address = address;
         this.latitude = latitude;

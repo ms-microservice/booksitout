@@ -45,13 +45,17 @@ class Data4LibService(
             availableLibrary.latitude.toDouble(),
             availableLibrary.longitude.toDouble(),
             RegionDetail(regionDetailId),
-            availableLibrary.tel.replace("[^0-9]".toRegex(), "").toLong(),
+            availableLibrary.tel,
             availableLibrary.homepage,
             availableLibrary.operatingTime,
             availableLibrary.closed,
-            availableLibrary.BookCount.replace("[^0-9]".toRegex(), "").toInt(),
-            availableLibrary.libCode.replace("[^0-9]".toRegex(), "").toInt(),
-            )
+
+            if ((availableLibrary.BookCount?.replace("[^0-9]".toRegex(), "") ?: "") == "") 0
+            else availableLibrary.BookCount?.replace("[^0-9]".toRegex(), "")?.toInt(),
+
+            if (availableLibrary.libCode.replace("[^0-9]".toRegex(), "") == "") 0
+            else availableLibrary.libCode.replace("[^0-9]".toRegex(), "").toInt(),
+        )
     }
 
 }

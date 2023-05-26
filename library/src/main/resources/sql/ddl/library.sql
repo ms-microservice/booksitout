@@ -9,7 +9,7 @@ CREATE TABLE library(
     latitude                       DOUBLE       NULL,
     longitude                      DOUBLE       NULL,
 
-    phone                          INT          NULL,
+    phone                          varchar(20)          NULL,
 
     home_page                      VARCHAR(255) NULL,
 
