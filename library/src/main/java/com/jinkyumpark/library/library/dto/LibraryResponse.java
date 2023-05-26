@@ -44,3 +44,16 @@ public class LibraryResponse {
     }
 
 }
+
+@Getter
+@NoArgsConstructor @AllArgsConstructor @Builder
+class LibraryResponseLocation {
+
+    private String address;
+    private Double latitude;
+    private Double longitude;
+
+    private String name;
+    private String logo;
+
+}

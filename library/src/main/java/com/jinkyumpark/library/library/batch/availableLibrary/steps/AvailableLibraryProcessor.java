@@ -25,7 +25,7 @@ public class AvailableLibraryProcessor implements ItemProcessor<ApiData4LibraryA
                 .map(libs ->
                         data4LibService.availableLibraryToEntity(
                                 libs.getLib(),
-                                regionService.getRegionDetailByAddress(libs.getLib().getAddress()).getRegionDetailId()
+                                regionService.getMostMatchRegionDetailByAddress(libs.getLib().getAddress()).getRegionDetailId()
                         )
 
                 )
