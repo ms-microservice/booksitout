@@ -1,11 +1,13 @@
 package com.jinkyumpark.library.library;
 
 import com.jinkyumpark.common.exception.NotFoundException;
-import com.jinkyumpark.library.common.LocationService;
+import com.jinkyumpark.library.location.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service

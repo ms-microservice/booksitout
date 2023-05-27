@@ -19,7 +19,7 @@ class Data4LibService(
 ) {
 
     fun getAvailableLibrary(page: Int = 1, size: Int = 10): ApiData4LibraryAvailableLibraryResponse? {
-        val uri = "http://data4library.kr/api/libSrch?format=JS&authKey=$data4LibSecret&pageNo=$page&size=$size"
+        val uri = "http://data4library.kr/api/libSrch?format=JS&authKey=$data4LibSecret&pageNo=$page&pageSize=$size"
 
         val responseString = webClient
             .get()
@@ -41,10 +41,12 @@ class Data4LibService(
     fun availableLibraryToEntity(availableLibrary: ApiData4LibraryAvailableLibraryResponseLibraryLib, regionDetailId: Long): Library {
         return Library(
             availableLibrary.libName,
+
             availableLibrary.address,
             availableLibrary.latitude.toDouble(),
             availableLibrary.longitude.toDouble(),
             RegionDetail(regionDetailId),
+
             availableLibrary.tel,
             availableLibrary.homepage,
             availableLibrary.operatingTime,

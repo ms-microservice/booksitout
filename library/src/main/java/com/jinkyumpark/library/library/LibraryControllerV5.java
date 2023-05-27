@@ -1,9 +1,9 @@
 package com.jinkyumpark.library.library;
 
 import com.jinkyumpark.common.response.PagedResponse;
-import com.jinkyumpark.library.common.LocationService;
 import com.jinkyumpark.library.common.PageService;
 import com.jinkyumpark.library.library.dto.LibraryResponse;
+import com.jinkyumpark.library.location.LocationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
