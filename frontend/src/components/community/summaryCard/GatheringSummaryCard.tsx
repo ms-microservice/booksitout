@@ -15,21 +15,21 @@ const CommunityRouteGatheringCard = ({ gatheringList, title = '독서모임', mi
 						<PeopleIcon className='me-2 text-book' /> {title}
 					</h3>
 
-					<div className='row row-eq-height'>
-						{gatheringList === undefined ? (
-							<Error />
-						) : gatheringList == null || gatheringList.length === 0 ? (
-							<NoContent mt='120px' message='독서모임이 없어요' />
-						) : (
-							gatheringList.slice(0, 6).map((gathering) => {
+					{gatheringList === undefined ? (
+						<Error mt='100px' />
+					) : gatheringList == null || gatheringList.length === 0 ? (
+						<NoContent mt='120px' message='독서모임이 없어요' />
+					) : (
+						<div className='row row-eq-height'>
+							{gatheringList.slice(0, 6).map((gathering) => {
 								return (
 									<div className={`${col} mb-3`}>
 										<GatheringSimpleCard gathering={gathering} />
 									</div>
 								)
-							})
-						)}
-					</div>
+							})}
+						</div>
+					)}
 
 					<div className='pt-2' />
 
