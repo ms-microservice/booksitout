@@ -5,6 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface LibraryRepository extends JpaRepository<Library, Long> {
@@ -26,5 +27,8 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
 
     @Query("select l from Library l where l.name = ?1")
     Optional<Library> findByName(String name);
+
+    @Query("select l from Library l where l.name like concat('%', :query, '%') or l.address like concat('%', :query, '%')")
+    List<Library> findAllByNameOrAddress(String query, Pageable pageable);
 
 }

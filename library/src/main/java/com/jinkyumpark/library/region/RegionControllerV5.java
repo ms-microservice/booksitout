@@ -36,4 +36,11 @@ public class RegionControllerV5 {
                 .build();
     }
 
+    @GetMapping("by-english-name")
+    public RegionResponse getRegionByEnglishName(@RequestParam("english-name") String englishName) {
+        RegionDetail regionDetail = regionService.getRegionDetailByEnglishName(englishName.toUpperCase());
+
+        return RegionResponse.of(regionDetail);
+    }
+
 }

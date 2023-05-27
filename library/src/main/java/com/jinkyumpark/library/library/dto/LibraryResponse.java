@@ -64,6 +64,7 @@ public class LibraryResponse {
                                 .latitude(library.getLatitude())
                                 .longitude(library.getLongitude())
                                 .name(library.getRegionDetail().getKoreanName())
+                                .englishName(library.getRegionDetail().getEnglishName())
                                 .logo(library.getRegionDetail().getLogo())
                                 .build()
                 )
@@ -83,6 +84,7 @@ class LibraryResponseLocation {
     private Double longitude;
 
     private String name;
+    private String englishName;
     private String logo;
 
     private double distance;

@@ -1,5 +1,6 @@
 package com.jinkyumpark.library.region;
 
+import com.jinkyumpark.common.exception.NotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -30,6 +31,11 @@ public class RegionService {
 
     public Page<RegionDetail> getAllRegionByName(String query, Pageable pageable) {
         return regionDetailRepository.findAllByKoreanName(query, pageable);
+    }
+
+    public RegionDetail getRegionDetailByEnglishName(String englishName) {
+        return regionDetailRepository.findByEnglishName(englishName)
+                .orElseThrow(() -> new NotFoundException("region with that name not present"));
     }
 
 }

@@ -2,11 +2,13 @@ package com.jinkyumpark.library.library;
 
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.library.location.LocationService;
+import com.jinkyumpark.library.region.RegionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
@@ -15,6 +17,7 @@ public class LibraryService {
 
     private final LibraryRepository libraryRepository;
     private final LocationService locationService;
+    private final RegionService regionService;
 
     public Library getLibraryId(Long libraryId) {
         return libraryRepository.findById(libraryId)
@@ -47,6 +50,16 @@ public class LibraryService {
 
     public Optional<Library> getLibraryByName(String name) {
         return libraryRepository.findByName(name);
+    }
+
+    public Page<Library> getLibraryByEnglishName(String englishName, Pageable pageable) {
+        Long regionDetailId = regionService.getRegionDetailByEnglishName(englishName).getRegionDetailId();
+
+        return getLibraryByRegionDetailId(regionDetailId, pageable);
+    }
+
+    public List<Library> getLibraryByQueryLike(String query, Pageable pageable) {
+        return libraryRepository.findAllByNameOrAddress(query, pageable);
     }
 
 }
