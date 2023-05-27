@@ -23,6 +23,32 @@ public class LibraryResponse {
 
     private LibraryResponseLocation location;
 
+    public Double getDistance() {
+        return location.getDistance();
+    }
+
+    public static LibraryResponse of(Library library, double distance) {
+        return LibraryResponse.builder()
+                .id(library.getLibraryId())
+                .name(library.getName())
+                .phone(library.getPhone())
+                .homepage(library.getHomePage())
+                .bookCount(library.getBookCount())
+                .openDay(library.getOpenDay())
+                .openHour(library.getOpenHour())
+                .location(
+                        LibraryResponseLocation.builder()
+                                .address(library.getAddress())
+                                .latitude(library.getLatitude())
+                                .longitude(library.getLongitude())
+                                .name(library.getRegionDetail().getKoreanName())
+                                .logo(library.getRegionDetail().getLogo())
+                                .distance(distance)
+                                .build()
+                )
+                .build();
+    }
+
     public static LibraryResponse of(Library library) {
         return LibraryResponse.builder()
                 .id(library.getLibraryId())
@@ -32,7 +58,8 @@ public class LibraryResponse {
                 .bookCount(library.getBookCount())
                 .openDay(library.getOpenDay())
                 .openHour(library.getOpenHour())
-                .location(LibraryResponseLocation.builder()
+                .location(
+                        LibraryResponseLocation.builder()
                                 .address(library.getAddress())
                                 .latitude(library.getLatitude())
                                 .longitude(library.getLongitude())
@@ -46,7 +73,9 @@ public class LibraryResponse {
 }
 
 @Getter
-@NoArgsConstructor @AllArgsConstructor @Builder
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
 class LibraryResponseLocation {
 
     private String address;
@@ -55,5 +84,7 @@ class LibraryResponseLocation {
 
     private String name;
     private String logo;
+
+    private double distance;
 
 }

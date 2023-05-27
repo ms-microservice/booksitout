@@ -1,6 +1,7 @@
 package com.jinkyumpark.library.library;
 
 import com.jinkyumpark.common.response.PagedResponse;
+import com.jinkyumpark.library.common.LocationService;
 import com.jinkyumpark.library.common.PageService;
 import com.jinkyumpark.library.library.dto.LibraryResponse;
 import lombok.RequiredArgsConstructor;
@@ -8,6 +9,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Comparator;
+import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -97,15 +100,21 @@ public class LibraryControllerV5 {
 
         Page<Library> libraryPaged = libraryService.getLibraryByLatitudeAndLongitudeRange(latitude, longitude, radiusInMeter, pageable);
 
+        List<LibraryResponse> content = libraryPaged.getContent().stream()
+                .map(l -> LibraryResponse.of(
+                                l,
+                                LocationService.distanceBetweenLatitudeAndLongitude(latitude, longitude, l.getLatitude(), l.getLongitude())
+                        )
+                )
+                .sorted(Comparator.comparing(LibraryResponse::getDistance))
+                .collect(Collectors.toList());
+
         return PagedResponse.builder()
                 .first(libraryPaged.isFirst())
                 .last(libraryPaged.isLast())
                 .totalElements((int) libraryPaged.getTotalElements())
                 .totalPages(libraryPaged.getTotalPages())
-                .content(libraryPaged.getContent().stream()
-                        .map(LibraryResponse::of)
-                        .collect(Collectors.toList())
-                )
+                .content(content)
                 .build();
     }
 
