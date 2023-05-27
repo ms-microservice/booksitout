@@ -6,8 +6,17 @@ const SimpleLibraryCard = ({ library }) => {
 		<Card style={{ minHeight: '80px' }} className='mb-2'>
 			<a href={`/library/detail/${library.id}`}>
 				<Card.Body>
-					<h5 className='text-center'>{library.name}</h5>
-					<h6 className='text-secondary text-center clamp-1-line'>{library.location.address}</h6>
+					<div className='row'>
+						<div className='col-8'>
+							<h5>{library.name}</h5>
+						</div>
+
+						<div className='col-4 text-end'>
+							<div className='text-secondary'>{library.location.distance?.toFixed(2) ?? '-'} km</div>
+						</div>
+					</div>
+
+					<h6 className='text-secondary clamp-1-line'>{library.location.address}</h6>
 				</Card.Body>
 			</a>
 		</Card>

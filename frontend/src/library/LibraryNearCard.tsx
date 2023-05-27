@@ -8,33 +8,40 @@ import SimpleLibraryCard from './SimpleLibraryCard'
 import Loading from '../components/common/Loading'
 import AllButton from '../components/common/AllButton'
 import NoContent from '../components/common/NoContent'
+import Error from '../components/common/Error';
+import location from './locationFunction'
 
 const LibraryNearCard = () => {
-	const [nearLibraryList, setNearLibraryList] = React.useState<null | LibraryType[]>(null)
+	const [nearLibraryList, setNearLibraryList] = React.useState<null | LibraryType[] | undefined>(null)
 	
 	const [latitude, setLatitude] = React.useState<number | null>(null)
 	const [longitude, setLongitude] = React.useState<number | null>(null)
-	const [locationName, setLocationName] = React.useState<string | null>('서울특별시 영등포구')
+	const [locationName, setLocationName] = React.useState<string | null>(null)
 	const [locationError, setLocationError] = React.useState<boolean>(false)
+
 	React.useEffect(() => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					setLatitude(position.coords.latitude)
-					setLongitude(position.coords.longitude)
-				},
-				(error) => setLocationError(true)
-			)
-		} else {
-			setLocationError(true)
+		const getLocation = async () => {
+			const locationResult = location.getLatitudeAndLongitude()
+
+			if (locationResult === undefined || locationResult[0] === null || locationResult[1] === null) {
+				setLocationError(true)
+			} else {
+				setLatitude(locationResult[0])
+				setLongitude(locationResult[1])
+				const address = await location.getAddressByLatitudeAndLongitude(locationResult[0], locationResult[1])
+				setLocationName(address)
+			}
 		}
+
+		getLocation()
 	}, [])
 
 	React.useEffect(() => {
-		if (latitude !== null && longitude !== null) {
+		if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
 			booksitoutServer
-				.get(`v5/library/available-library/by-radius?lat=${latitude}&long=${longitude}&radius=20000&size=6`)
+				.get(`v5/library/available-library/by-radius?lat=${latitude}&long=${longitude}&radius=3000&size=20`)
 				.then((res) => setNearLibraryList(res.data.content))
+				.catch(() => setNearLibraryList(undefined))
 		}
 	}, [latitude, longitude])
 
@@ -54,22 +61,22 @@ const LibraryNearCard = () => {
 					<LocationError />
 				) : (
 					<>
-						{nearLibraryList == null ? (
+						{nearLibraryList === undefined ? (
+							<Error message='서버에 오류가 났어요' mt='50px'/>
+						) : nearLibraryList == null ? (
 							<Loading mt='100px' message='' />
 						) : nearLibraryList.length === 0 ? (
 							<NoContent message='2km 내에 도서관이 없어요' />
 						) : (
-							<>
-								<div className='row'>
-									{nearLibraryList.map((library) => {
-										return (
-											<div className='col-12 col-md-6'>
-												<SimpleLibraryCard library={library} />
-											</div>
-										)
-									})}
-								</div>
-							</>
+							<div className='row'>
+								{nearLibraryList.map((library) => {
+									return (
+										<div className='col-12 col-md-6'>
+											<SimpleLibraryCard library={library} />
+										</div>
+									)
+								})}
+							</div>
 						)}
 					</>
 				)}

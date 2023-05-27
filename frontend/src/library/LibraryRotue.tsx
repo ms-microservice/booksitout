@@ -18,9 +18,9 @@ const LibraryRotue = () => {
 					<LibraryNearCard />
 				</div>
 
-				{/* <div className='col-12 col-xl-6 mb-3'>
+				<div className='col-12 col-xl-6 mb-3'>
 					<LibrarySearchCard />
-				</div> */}
+				</div>
 			</div>
 		</div>
 	)

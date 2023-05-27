@@ -137,6 +137,6 @@ input::-webkit-inner-spin-button {
 	text-overflow: ellipsis;
 }
 
-hover-secondary:hover {
-	color: var(--primary-color);
+.nav-link:hover {
+	color: var(--primary-color) !important;
 }

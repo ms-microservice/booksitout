@@ -1,13 +1,14 @@
 import React from 'react'
-import { booksitoutServer } from '../functions/axios'
+import { booksitoutServer } from '../../functions/axios'
 import { useLoaderData } from 'react-router-dom'
-import { LibraryType } from './LibraryType'
+import { LibraryType } from '../LibraryType'
 import { Card } from 'react-bootstrap'
 
 import {  BsGeoAltFill as LocationIcon, BsBrowserChrome as HomePageIcon, BsBookHalf  as BookIcon, BsAlarmFill as TimeIcon } from 'react-icons/bs'
 import { GiPhone as PhoneIcon } from 'react-icons/gi'
-import utils from '../functions/utils'
-import LibraryTextWithIcon from './LibraryTextWithIcon'
+import utils from '../../functions/utils'
+import LibraryTextWithIcon from '../LibraryTextWithIcon'
+import LibraryDetailSearchBookCard from './LibraryDetailSearchBookCard'
 
 export async function loader({ params }) {
 	const id = params.id
@@ -62,11 +63,18 @@ const LibraryDetail = () => {
 
 					<div className='ms-md-5'>
 						<LibraryTextWithIcon icon={<LocationIcon />} text={library.location.address} />
-						<LibraryTextWithIcon icon={<PhoneIcon />} text={library.phone} />
+						<LibraryTextWithIcon
+							icon={<PhoneIcon />}
+							text={
+								<a href={`tel:${library.phone}`} className='a-secondary'>
+									{library.phone}
+								</a>
+							}
+						/>
 						<LibraryTextWithIcon
 							icon={<HomePageIcon />}
 							text={
-								<a href={library.homepage} target='_blank' rel='noreferrer' className='text-secondary'>
+								<a href={library.homepage} target='_blank' rel='noreferrer' className='a-secondary'>
 									{library.homepage?.substring(library.homepage.indexOf('://') + 3)}
 								</a>
 							}
@@ -83,6 +91,10 @@ const LibraryDetail = () => {
 					<div ref={mapElement} style={{ width: '100%', height: '400px' }} className='rounded' />
 				</Card.Body>
 			</Card>
+			<div className='mb-3' />
+
+			<LibraryDetailSearchBookCard library={library} />
+			<div className='mb-3' />
 		</div>
 	)
 }

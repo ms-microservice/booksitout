@@ -4,10 +4,19 @@
 a {
 	text-decoration: none;
 	color: black;
+
+	&:hover {
+		color: var(--primary-color);
+	}
 }
 
-a:hover {
-	color: var(--primary-color);
+.a-secondary {
+	text-decoration: none;
+	@extend .text-secondary ;
+
+	&:hover {
+		color: var(--primary-color) !important;
+	}
 }
 
 .clickable {

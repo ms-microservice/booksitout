@@ -56,7 +56,7 @@ import UserBookList, { loader as userBookListLoader } from './components/user/Us
 import BookInfoRoute, { loader as bookInfoRouteLoader } from './components/bookInfo/BookInfoRoute'
 
 import LibraryRoute from './library/LibraryRotue'
-import LibraryDetail, {loader as libraryDetailLoader} from './library/LibraryDetail'
+import LibraryDetail, {loader as libraryDetailLoader} from './library/detail/LibraryDetail'
 import LibraryNearRoute from './library/LibraryNearRoute'
 
 const router = createBrowserRouter(

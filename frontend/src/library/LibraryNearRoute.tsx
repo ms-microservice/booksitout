@@ -9,29 +9,36 @@ import {  BsBookHalf as BookIcon } from 'react-icons/bs'
 import LibraryTextWithIcon from './LibraryTextWithIcon'
 import utils from '../functions/utils'
 import NoContent from '../components/common/NoContent';
+import LocationError from './LocationError'
+import location from './locationFunction'
+import CardTitle from '../common/CardTitle'
 
 const LibraryNearRoute = () => {
 	const [latitude, setLatitude] = React.useState<number | null>(null)
 	const [longitude, setLongitude] = React.useState<number | null>(null)
-	const [locationName, setLocationName] = React.useState<string | null>('서울특별시 영등포구')
+	const [locationName, setLocationName] = React.useState<string | null>(null)
 	const [locationError, setLocationError] = React.useState<boolean>(false)
+
 	React.useEffect(() => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					setLatitude(position.coords.latitude)
-					setLongitude(position.coords.longitude)
-				},
-				(error) => setLocationError(true)
-			)
-		} else {
-			setLocationError(true)
+		const getLocation = async () => {
+			const locationResult = location.getLatitudeAndLongitude()
+
+			if (locationResult === undefined || locationResult[0] === null || locationResult[1] === null) {
+				setLocationError(true)
+			} else {
+				setLatitude(locationResult[0])
+				setLongitude(locationResult[1])
+				const address = await location.getAddressByLatitudeAndLongitude(locationResult[0], locationResult[1])
+				setLocationName(address)
+			}
 		}
+
+		getLocation()
 	}, [])
 
     const [nearLibraryList, setNearLibraryList] = React.useState<null | LibraryType[] | undefined>(null)
 	React.useEffect(() => {
-		if (latitude !== null && longitude !== null) {
+		if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
 			booksitoutServer
 				.get(`v5/library/available-library/by-radius?lat=${latitude}&long=${longitude}&radius=3000&size=20`)
 				.then((res) => setNearLibraryList(res.data.content))
@@ -41,21 +48,14 @@ const LibraryNearRoute = () => {
 
 	return (
 		<div className='container-xl'>
-			<div className='d-flex mb-3'>
-				<h1>
-					<LocationIcon className='me-2 text-book' />
-				</h1>
-				<h1 className='pt-1'>내 주변 도서관</h1>
-
-				<h6 className='text-secondary ms-2 mt-4'>{locationName ?? '?'}</h6>
-			</div>
+			<CardTitle icon ={<LocationIcon/>} title='내 주변 도서관' subTitle={locationName ?? '?'} />
 
 			{locationError ? (
-				<Error message='위치 정보를 가져올 수 없었어요' />
-			) : nearLibraryList == null ? (
-				<Loading mt='100px' />
+				<LocationError />
 			) : nearLibraryList === undefined ? (
 				<Error message='서버에 오류가 났어요' />
+			) : nearLibraryList == null ? (
+				<Loading mt='100px' />
 			) : nearLibraryList.length === 0 ? (
 				<NoContent message='3km 내에 도서관이 없어요' mt='100px' textSize='h2' iconSize='7em' />
 			) : (
