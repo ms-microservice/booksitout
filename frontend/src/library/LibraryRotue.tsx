@@ -15,11 +15,11 @@ const LibraryRotue = () => {
 
 			<div className='row row-eq-height'>
 				<div className='col-12 col-xl-6 mb-3'>
-					<LibraryNearCard />
+					<LibrarySearchCard />
 				</div>
 
 				<div className='col-12 col-xl-6 mb-3'>
-					<LibrarySearchCard />
+					<LibraryNearCard />
 				</div>
 			</div>
 		</div>

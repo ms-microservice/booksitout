@@ -58,6 +58,7 @@ import BookInfoRoute, { loader as bookInfoRouteLoader } from './components/bookI
 import LibraryRoute from './library/LibraryRotue'
 import LibraryDetail, {loader as libraryDetailLoader} from './library/detail/LibraryDetail'
 import LibraryNearRoute from './library/LibraryNearRoute'
+import LibraryRegionDetail, { loader as libraryRegionDetailLoader } from './library/region/LibraryRegionDetail'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -134,6 +135,7 @@ const router = createBrowserRouter(
 			<Route path='/library' element={<LibraryRoute />} />
 			<Route path='/library/detail/:id' element={<LibraryDetail />} errorElement={<ErrorPage />} loader={libraryDetailLoader} />
 			<Route path='/library/near' element={<LibraryNearRoute />} />
+			<Route path='/library/region/:name' element={<LibraryRegionDetail />} errorElement={<ErrorPage />} loader={libraryRegionDetailLoader} />
 		</Route>
 	)
 )

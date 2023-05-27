@@ -46,7 +46,7 @@ const LibraryNearCard = () => {
 	}, [latitude, longitude])
 
     return (
-		<Card style={{ minHeight: '450px' }}>
+		<Card style={{ minHeight: '500px' }}>
 			<Card.Body>
 				<div className='d-flex mb-3'>
 					<h3>

@@ -11,9 +11,11 @@ const SimpleLibraryCard = ({ library }) => {
 							<h5>{library.name}</h5>
 						</div>
 
-						<div className='col-4 text-end'>
-							<div className='text-secondary'>{library.location.distance?.toFixed(2) ?? '-'} km</div>
-						</div>
+						{library.location.distance !== 0 && (
+							<div className='col-4 text-end'>
+								<div className='text-secondary'>{library.location.distance?.toFixed(2) ?? '-'} km</div>
+							</div>
+						)}
 					</div>
 
 					<h6 className='text-secondary clamp-1-line'>{library.location.address}</h6>
