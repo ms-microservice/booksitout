@@ -55,6 +55,10 @@ import UserBookList, { loader as userBookListLoader } from './components/user/Us
 
 import BookInfoRoute, { loader as bookInfoRouteLoader } from './components/bookInfo/BookInfoRoute'
 
+import LibraryRoute from './library/LibraryRotue'
+import LibraryDetail, {loader as libraryDetailLoader} from './library/LibraryDetail'
+import LibraryNearRoute from './library/LibraryNearRoute'
+
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path='/' element={<Root />}>
@@ -126,6 +130,10 @@ const router = createBrowserRouter(
 			<Route path='/user/:nickName/quizes' element={<></>} />
 			<Route path='/user/:nickName/surveys' element={<></>} />
 			<Route path='/user/:nickName/gatherings' element={<></>} />
+
+			<Route path='/library' element={<LibraryRoute />} />
+			<Route path='/library/detail/:id' element={<LibraryDetail />} errorElement={<ErrorPage />} loader={libraryDetailLoader} />
+			<Route path='/library/near' element={<LibraryNearRoute />} />
 		</Route>
 	)
 )

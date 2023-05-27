@@ -33,6 +33,13 @@ const utils = {
 
 		return splitList
 	},
+
+	insertCommas: (str) => {
+		var reversed = str.toString().split('').reverse().join('')
+		var result = reversed.replace(/(\d{3})/g, '$1,').split('').reverse().join('')
+
+		return result.startsWith(',') ? result.substring(1) : result
+	},
 }
 
 export default utils
