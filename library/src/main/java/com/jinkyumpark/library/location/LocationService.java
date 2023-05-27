@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.common;
+package com.jinkyumpark.library.location;
 
 import org.springframework.stereotype.Service;
 
