@@ -48,4 +48,44 @@ public class Library {
         this.data4LibCode = data4LibCode;
     }
 
+    public Library update(Library library) {
+        if (library.getAddress() != null) {
+            this.address = library.getAddress();
+        }
+
+        if (library.getLatitude() != null) {
+            this.latitude = library.getLatitude();
+        }
+
+        if (library.getLongitude() != null) {
+            this.longitude = library.getLongitude();
+        }
+
+        if (library.getPhone() != null) {
+            this.phone = library.getPhone();
+        }
+
+        if (library.getHomePage() != null) {
+            this.homePage = library.getHomePage();
+        }
+
+        if (library.getOpenHour() != null) {
+            this.openHour = library.getOpenHour();
+        }
+
+        if (library.getOpenDay() != null) {
+            this.openDay = library.getOpenDay();
+        }
+
+        if (library.getBookCount() != null && library.getBookCount() != 0) {
+            this.bookCount = library.getBookCount();
+        }
+
+        if (library.getData4LibCode() != null) {
+            this.data4LibCode = library.getData4LibCode();
+        }
+
+        return this;
+    }
+
 }

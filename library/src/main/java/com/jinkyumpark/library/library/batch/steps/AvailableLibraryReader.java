@@ -1,9 +1,9 @@
-package com.jinkyumpark.library.library.batch.availableLibrary.steps;
+package com.jinkyumpark.library.library.batch.steps;
 
 import com.jinkyumpark.library.data4library.Data4LibService;
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse;
-import com.jinkyumpark.library.library.batch.availableLibrary.status.AvailableLibraryBatch;
-import com.jinkyumpark.library.library.batch.availableLibrary.status.AvailableLibraryBatchService;
+import com.jinkyumpark.library.library.batch.status.AvailableLibraryBatch;
+import com.jinkyumpark.library.library.batch.status.AvailableLibraryBatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;
@@ -24,6 +24,7 @@ public class AvailableLibraryReader implements ItemReader<ApiData4LibraryAvailab
     @Override
     public ApiData4LibraryAvailableLibraryResponse read() throws UnexpectedInputException, ParseException, NonTransientResourceException {
         List<AvailableLibraryBatch> batchByMonth = batchService.getBatchByMonth(LocalDateTime.now());
+
         if (batchByMonth.isEmpty()) {
             int size = 1;
             AvailableLibraryBatch availableLibraryBatch = AvailableLibraryBatch.builder()

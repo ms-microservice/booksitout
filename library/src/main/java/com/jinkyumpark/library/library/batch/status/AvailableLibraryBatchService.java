@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.library.batch.availableLibrary.status;
+package com.jinkyumpark.library.library.batch.status;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

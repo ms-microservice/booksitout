@@ -5,6 +5,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
+import java.util.Optional;
+
 public interface LibraryRepository extends JpaRepository<Library, Long> {
 
     @Query("select l from Library l where l.name like concat('%', ?1, '%')")
@@ -21,5 +23,8 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
 
     @Query("select l from Library l where (l.latitude between :latitudeStart and :latitudeEnd) and (l.longitude between :longitudeStart and :longitudeEnd)")
     Page<Library> findAllByLatitudeAndLongitudeRange(double latitudeStart, double latitudeEnd, double longitudeStart, double longitudeEnd, Pageable pageable);
+
+    @Query("select l from Library l where l.name = ?1")
+    Optional<Library> findByName(String name);
 
 }

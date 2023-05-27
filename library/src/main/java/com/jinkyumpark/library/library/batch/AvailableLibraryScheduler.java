@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.library.batch.availableLibrary;
+package com.jinkyumpark.library.library.batch;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

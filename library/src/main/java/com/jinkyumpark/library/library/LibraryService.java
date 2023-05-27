@@ -43,4 +43,8 @@ public class LibraryService {
         return libraryRepository.findAllByLatitudeAndLongitudeRange(latitudeRange[0], latitudeRange[1], longitudeRange[0], longitudeRange[1], pageable);
     }
 
+    public Optional<Library> getLibraryByName(String name) {
+        return libraryRepository.findByName(name);
+    }
+
 }

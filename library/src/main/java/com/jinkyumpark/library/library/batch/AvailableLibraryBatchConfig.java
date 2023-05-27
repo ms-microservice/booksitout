@@ -1,15 +1,16 @@
-package com.jinkyumpark.library.library.batch.availableLibrary;
+package com.jinkyumpark.library.library.batch;
 
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse;
 import com.jinkyumpark.library.library.Library;
-import com.jinkyumpark.library.library.batch.availableLibrary.steps.AvailableLibraryProcessor;
-import com.jinkyumpark.library.library.batch.availableLibrary.steps.AvailableLibraryReader;
+import com.jinkyumpark.library.library.batch.steps.AvailableLibraryProcessor;
+import com.jinkyumpark.library.library.batch.steps.AvailableLibraryReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
+import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -24,7 +25,7 @@ public class AvailableLibraryBatchConfig {
 
     private final AvailableLibraryReader reader;
     private final AvailableLibraryProcessor processor;
-    private final JpaItemWriter<Library> writer;
+    private final ItemWriter<Library> writer;
 
     @Bean
     public Job availableLibraryJob() {

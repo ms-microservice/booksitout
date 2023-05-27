@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.library.batch.availableLibrary.status;
+package com.jinkyumpark.library.library.batch.status;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;

@@ -1,11 +1,13 @@
-package com.jinkyumpark.library.library.batch.availableLibrary;
+package com.jinkyumpark.library.library.batch;
 
 import com.jinkyumpark.library.library.Library;
-import com.jinkyumpark.library.library.batch.availableLibrary.status.AvailableLibraryBatchService;
+import com.jinkyumpark.library.library.LibraryService;
+import com.jinkyumpark.library.library.batch.status.AvailableLibraryBatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.*;
 import org.springframework.stereotype.Component;
 
+import javax.persistence.PersistenceException;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -14,6 +16,7 @@ import java.util.List;
 public class AvailableLibraryListener implements ItemWriteListener<Library> {
 
     private final AvailableLibraryBatchService libraryBatchService;
+    private final LibraryService libraryService;
 
     @Override
     public void beforeWrite(List<? extends Library> items) {
@@ -27,7 +30,6 @@ public class AvailableLibraryListener implements ItemWriteListener<Library> {
 
     @Override
     public void onWriteError(Exception exception, List<? extends Library> items) {
-
     }
 
 }
