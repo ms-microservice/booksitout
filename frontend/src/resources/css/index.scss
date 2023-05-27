@@ -1,3 +1,5 @@
+@import "node_modules/bootstrap/scss/bootstrap";
+
 :root {
 	--primary-color:  #1cb15a;
 	--primary-active: #1d8549;
@@ -121,10 +123,20 @@ input::-webkit-inner-spin-button {
 	margin: 0;
 }
 
+.clamp-1-line {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
 .clamp-two-lines {
 	display: inline-block;
 	height: calc(2em + 1px);
 	line-height: 1em;
 	overflow: hidden;
 	text-overflow: ellipsis;
+}
+
+hover-secondary:hover {
+	color: var(--primary-color);
 }
