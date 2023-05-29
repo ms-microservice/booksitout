@@ -4,7 +4,7 @@ const CACHE_NAME = 'booksitout-cache-v4'
 const urlsToCache = [
     '/',
     '/index.html',
-    './manifest.json',
+    // './manifest.json',
     '/src/resources'
 ]
 
