@@ -11,7 +11,6 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JpaItemWriter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -21,7 +20,9 @@ public class AvailableLibraryBatchConfig {
 
     private final JobBuilderFactory jobBuilderFactory;
     private final StepBuilderFactory stepBuilderFactory;
+
     private final AvailableLibraryListener listener;
+    private final AvailableLibrarySkipListener skipListener;
 
     private final AvailableLibraryReader reader;
     private final AvailableLibraryProcessor processor;
@@ -46,6 +47,10 @@ public class AvailableLibraryBatchConfig {
                 .reader(reader)
                 .processor(processor)
                 .writer(writer)
+                .faultTolerant()
+
+                .skipPolicy(new UniqueConstraintFailSkipPolicy())
+                .listener(skipListener)
 
                 .listener(listener)
                 .build();

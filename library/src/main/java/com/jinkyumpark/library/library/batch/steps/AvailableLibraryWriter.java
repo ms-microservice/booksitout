@@ -9,7 +9,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import javax.persistence.EntityManagerFactory;
-import javax.persistence.PersistenceException;
 
 @RequiredArgsConstructor
 @Configuration
@@ -24,15 +23,7 @@ public class AvailableLibraryWriter {
             JpaItemWriter<Library> writer = new JpaItemWriter<>();
             writer.setEntityManagerFactory(entityManagerFactory);
 
-            try {
-                writer.write(items);
-            } catch (PersistenceException e) {
-                Library library = libraryService.getLibraryByName(items.get(0).getName())
-                        .orElseThrow(() -> new IllegalStateException("not a duplicate name problem"));
-
-                library.update(items.get(0));
-            }
-
+            writer.write(items);
         };
 
     }
