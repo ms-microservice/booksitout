@@ -11,6 +11,7 @@ import AllButton from "../../components/common/AllButton"
 import logo from '../../images/logo.png'
 
 import { booksitoutServer } from "../../functions/axios"
+import CardTitle from "../../common/CardTitle"
 
 const MainTipsCard = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
@@ -34,13 +35,13 @@ const MainTipsCard = () => {
 	}, [])
 
 	return (
-		<a href='/introduction/tips/all' className="text-black">
+		<a href='/introduction/tips/all' className='text-black'>
 			<Card className='h-100' style={{ minHeight: '480px' }}>
 				<Card.Body>
-					<div className='d-flex mb-3'>
-						<img src={logo} alt='' className='img-fluid rounded me-2 mt-0 mt-md-1' style={{ width: '40px', height: '40px' }} />
-						<h3 className='mt-2'>책잇아웃 꿀팁</h3>
-					</div>
+					<CardTitle
+						icon={<img src={logo} alt='' className='img-fluid rounded me-2 mt-0 mt-md-1' style={{ width: '40px', height: '40px' }} />}
+						title={'책잇아웃 꿀팁'}
+					/>
 
 					{error ? <Error mt='0px' mb='140px' /> : initialFetch ? <></> : loading ? <Loading /> : <MainTipsListGroup postList={tipPost} />}
 

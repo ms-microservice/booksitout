@@ -1,6 +1,25 @@
 #search-bar-form {
-
     @media (min-width: 768px) {
         width: 350px;
+    }
+}
+
+.topnav-link-container {
+    @media (max-width: 768px) {
+        min-height: 20px;
+    }
+}
+
+.topnav-icon {
+    @media (max-width: 768px) {
+        position: absolute;
+        left: 35%;
+    }
+}
+
+.topnav-text {
+    @media (max-width: 768px) {
+        position: absolute;
+        left: 50%;
     }
 }

@@ -2,10 +2,10 @@ import { useNavigate } from 'react-router-dom'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
 
-import { BsBookHalf as BookIcon } from 'react-icons/bs'
+import { MdAddCircle as BookIcon } from 'react-icons/md'
 import { Button } from 'react-bootstrap'
 
-const BookFloatingButton = ({ url = '/book/add' }) => {
+const BookFloatingButton = () => {
 	const navigate = useNavigate()
 
 	const token = useSelector((state: RootState) => state.user.token)
@@ -18,6 +18,7 @@ const BookFloatingButton = ({ url = '/book/add' }) => {
 		height: '60px',
 
 		borderRadius: '50px',
+		zIndex: '5',
 	}
 
 	const getNavigateUrl = () => {

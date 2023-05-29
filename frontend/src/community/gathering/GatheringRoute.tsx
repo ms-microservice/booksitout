@@ -21,6 +21,8 @@ export async function loader({ params, request }) {
 }
 
 const GatheringRoute = () => {
+	document.title = '독서모임 | 책잇아웃'
+
 	const [searchParams] = useSearchParams();
     const currentPage = Number(searchParams.get('page') ?? 1) ?? 1
 	

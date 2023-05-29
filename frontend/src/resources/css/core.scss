@@ -23,6 +23,11 @@ a {
 	cursor: pointer;
 }
 
+.not-clickable {
+    pointer-events: none;
+	cursor: not-allowed;
+}
+
 .force-1-line {
 	white-space: nowrap;
 }

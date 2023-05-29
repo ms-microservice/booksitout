@@ -15,45 +15,29 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 			id: 1,
 			url: '/book/not-done',
 			activeUrl: '/book',
-			title: (
-				<>
-					<BookIcon className='me-1' />
-					<span>내 책</span>
-				</>
-			),
+			icon: <BookIcon />,
+			label: '내 책',
 		},
 		{
 			id: 2,
 			url: '/statistics',
 			activeUrl: '/statistics',
-			title: (
-				<>
-					<StatisticsIcon className='me-1' />
-					<span>독서통계</span>
-				</>
-			),
+			icon: <StatisticsIcon />,
+			label: '독서통계',
 		},
 		{
 			id: 3,
 			url: '/community',
 			activeUrl: '/community',
-			title: (
-				<>
-					<CommunityIcon className='me-1' />
-					<span>커뮤니티</span>
-				</>
-			),
+			icon: <CommunityIcon />,
+			label: '커뮤니티',
 		},
 		{
 			id: 4,
 			url: '/library',
 			activeUrl: '/library',
-			title: (
-				<>
-					<LibraryIcon className='me-1' />
-					<span>도서관</span>
-				</>
-			),
+			icon: <LibraryIcon />,
+			label: '도서관',
 		},
 	]
 
@@ -68,54 +52,46 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 						className={`d-flex align-items-center justify-content-center ${
 							location.pathname.startsWith(url.activeUrl) ? 'text-book' : ''
 						}`}>
-						{url.title}
+						<div className='topnav-link-container'>
+							<span className='me-1 topnav-icon'>{url.icon}</span>
+							<span className='topnav-text'>{url.label}</span>
+						</div>
 					</Nav.Link>
 				))}
-			</Nav>
 
-			<Nav className={`d-inline d-${expand}-none text-center`}>
-				<Nav.Link href='/login' onClick={(e) => isLogin && handleLogout(e)}>
-					<div className='row justify-content-center'>
-						<div className='col-4 col-md-2'>
-							<div className='row'>
-								<div className='col-4'>
-									<LoginIcon className='me-2 ' />
-								</div>
+				<Nav.Link
+					href='/login'
+					className={`d-flex d-${expand}-none align-items-center justify-content-center`}
+					onClick={(e) => isLogin && handleLogout(e)}>
+					<div className='topnav-link-container'>
+						<span className='me-1 topnav-icon'>
+							<LoginIcon />
+						</span>
 
-								{!isLogin ? <div className='col-xs-10 col-8'>로그인</div> : <div className='col-xs-10 col-8'>로그아웃</div>}
-							</div>
-						</div>
+						<span className='topnav-text'> {!isLogin ? '로그인' : '로그아웃'}</span>
 					</div>
 				</Nav.Link>
 
 				{!isLogin && (
-					<Nav.Link href='/join'>
-						<div className='row justify-content-center'>
-							<div className='col-4  col-md-2'>
-								<div className='row'>
-									<div className='col-4'>
-										<JoinIcon className='me-2 ' />
-									</div>
+					<Nav.Link href='/join' className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
+						<div className='topnav-link-container'>
+							<span className='me-1 topnav-icon'>
+								<JoinIcon />
+							</span>
 
-									<div className='col-xs-10 col-8'>회원가입</div>
-								</div>
-							</div>
+							<span className='topnav-text'> 회원가입</span>
 						</div>
 					</Nav.Link>
 				)}
 
 				{isLogin && (
-					<Nav.Link href='/settings'>
-						<div className='row justify-content-center'>
-							<div className='col-3 col-md-2'>
-								<div className='row'>
-									<div className='col-4'>
-										<SettingIcon className='me-2' />
-									</div>
+					<Nav.Link href='/settings' className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
+						<div className='topnav-link-container'>
+							<span className='me-1 topnav-icon'>
+								<SettingIcon />
+							</span>
 
-									<div className='col-xs-10 col-8'>설정</div>
-								</div>
-							</div>
+							<span className='topnav-text'> 설정</span>
 						</div>
 					</Nav.Link>
 				)}

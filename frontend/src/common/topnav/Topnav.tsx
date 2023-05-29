@@ -3,17 +3,15 @@ import toast from 'react-hot-toast'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Container, Navbar, Nav, Card } from 'react-bootstrap'
-
 import { BiSearchAlt2 as SearchIcon } from 'react-icons/bi'
 
 import user from '../../functions/user'
+import messages from '../../settings/messages'
 
 import uiSettings from '../../settings/ui'
 import { useDispatch, useSelector } from 'react-redux'
 import { checkIsLogin, logoutToken } from '../../redux/userSlice'
 import { RootState } from '../../redux/store'
-
-import messages from '../../settings/messages'
 
 import '../../resources/css/button.css'
 import '../../resources/css/topnav.css'
@@ -32,11 +30,10 @@ const Topnav = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 	const expand = uiSettings.topnav.collapse
 
-	const [expanded, setExpanded] = React.useState(false)
-	const [showSearchBar, setShowSearchBar] = React.useState(false)
-	const [autoFocus, setAutoFocus] = React.useState(false)
-
-	const [initialLoad, setInitialLoad] = React.useState(true)
+	const [expanded, setExpanded] = React.useState<boolean>(false)
+	const [showSearchBar, setShowSearchBar] = React.useState<boolean>(false)
+	const [autoFocus, setAutoFocus] = React.useState<boolean>(false)
+	const [initialLoad, setInitialLoad] = React.useState<boolean>(true)
 
 	const handleLogout = (e) => {
 		e.preventDefault()
@@ -98,7 +95,7 @@ const Topnav = () => {
 				</Card.Body>
 			</Card>
 
-			<Navbar key={expand} expand={expand} fixed='top' bg='light' collapseOnSelect expanded={expanded}>
+			<Navbar key={expand} expand={expand} expanded={expanded} fixed='top' bg='light' collapseOnSelect>
 				<Container fluid style={{ zIndex: '1000' }}>
 					<TopnavLogo />
 

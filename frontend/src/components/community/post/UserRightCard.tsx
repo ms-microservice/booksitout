@@ -12,12 +12,12 @@ const UserRightCard = ({user}) => {
 							{user.profileImage == null || user.profileImage === '' ? (
 								<ProfileIcon className='text-book h1 m-0' />
 							) : (
-								<img src={user.profileImage} alt='' className='img-fluid rounded' style={{ height: '30px', width: '30px' }} />
+								<img src={user.profileImage} alt='' className='img-fluid rounded' style={{ width: '30px' }} />
 							)}
 						</div>
 
 						<div className='col-8'>
-							<h5 className='m-0 w-100 text-center'>{user.name}</h5>
+							<h6 className='m-0 w-100 text-center clmap-1-line'>{user.name}</h6>
 						</div>
 					</div>
 				</Card.Body>

@@ -6,7 +6,7 @@ const ErrorPage = () => {
 
     return (
 		<div className='text-center h-100'>
-			<div style={{ marginTop: '300px' }} />
+			<div style={{ marginTop: '250px' }} />
 
 			<ErrorIcon style={{ fontSize: '150px' }} className='text-book' />
 

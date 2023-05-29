@@ -2,7 +2,7 @@ import { BiErrorCircle as ErrorIcon } from 'react-icons/bi'
 
 const Error = ({ 
 	mt = '30px', mb = '30px', 
-	message = '오류가 났어요', color = 'text-danger', 
+	message = '서버에 오류가 났어요', color = 'text-danger', 
 	iconStyle = { width: '100px', height: '100px' } 
 }) => {
 

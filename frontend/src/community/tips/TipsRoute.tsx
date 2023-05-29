@@ -5,6 +5,7 @@ import TipsListGroup from './TipsListGroup'
 
 const TipsRoute = () => {
 	const { range } = useParams()
+	document.title = '꿀팁 | 책잇아웃'
 
     return (
 		<div className='container-xl'>

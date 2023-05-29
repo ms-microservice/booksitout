@@ -1,6 +1,8 @@
 import React from 'react'
-import { useSelector } from 'react-redux';
 import { Card, Alert } from 'react-bootstrap'
+
+import { RootState } from '../../redux/store';
+import { useSelector } from 'react-redux';
 
 import Loading from '../common/Loading'
 import PostPopular from '../community/post/PostPopular';
@@ -9,31 +11,35 @@ import MainTipsCard from '../../community/tips/MainTipsCard';
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
 import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
+
 import uiSettings from '../../settings/ui'
 import '../../resources/css/mainReadChart.css'
 import '../../resources/css/mainLoginPrompt.css'
 import placeholderData from './placeholderData';
+
 import MainNoLoginPrompt from './MainNoLoginPrompt'
 import MainLastReadBookCard from './MainLastReadBookCard';
 import MainReadingTimeCard from './MainReadingTimeCard';
 import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
 import MainBoarding from '../info/MainBoarding';
-import { RootState } from '../../redux/store';
+import GatheringSummaryCard from '../community/summaryCard/GatheringSummaryCard';
+import MainBookNotLoginCard from './MainBookNotLoginCard';
+
 import { GoalType } from '../../goal/GoalType'
 import { StatisticsType } from '../../types/StatisticsType';
 import { BookType } from '../../types/PostType';
+import { GatheringType } from '../../community/gathering/GatheringType'
+
 import { booksitoutServer } from '../../functions/axios';
-import GatheringSummaryCard from '../community/summaryCard/GatheringSummaryCard';
-import MainBookNotLoginCard from './MainBookNotLoginCard';
-import { GatheringType } from '../../community/gathering/GatheringType';
 
 const MainRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
-
+	
+	const [showAlert, setShowAlert] = React.useState(getIsAlertShowing())
+	
 	const [loading, setIsLoading] = React.useState(true)
 	const [initialFetch, setInitialFetch] = React.useState(true)
-	const [showAlert, setShowAlert] = React.useState(getIsAlertShowing())
 
 	const [lastBook, setLastBook] = React.useState<BookType | null | undefined>(null)
 	const [readTime, setReadTime] = React.useState<number[] | null>(null)
@@ -69,7 +75,7 @@ const MainRoute = () => {
 			getReadTime(7).then((readTime) => setReadTime(readTime)),
 
 			booksitoutServer
-				.get(`/v1/goal/${new Date().getFullYear()}`)
+				.get(`v1/goal/${new Date().getFullYear()}`)
 				.then((res) => (res.status === 204 ? setGoal(null) : setGoal(res.data)))
 				.catch(() => setGoal(undefined)),
 
@@ -96,7 +102,7 @@ const MainRoute = () => {
 						<Alert variant='success' dismissible onClose={() => closeAlert()}>
 							{isLogin
 								? getAlertMessage()
-								: '책잇아웃 - 책을 기록하고, 원하는 책을 도서관/중고책/구독 등 한 번에 검색/알림. 책 관련 커뮤니티까지.'}
+								: '책잇아웃 : 책을 기록하고, 원하는 책을 도서관-중고책-구독 등 한 번에 검색 + 알림. 책 관련 커뮤니티까지.'}
 						</Alert>
 					</div>
 				)}
@@ -125,7 +131,7 @@ const MainRoute = () => {
 									</div>
 
 									<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-										<MainGoalCard goal={isLogin ? goal : null} />
+										<MainGoalCard goal={goal} loading={!isLogin} />
 									</div>
 								</div>
 							</Card.Body>

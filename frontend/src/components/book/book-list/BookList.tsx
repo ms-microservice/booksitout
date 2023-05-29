@@ -1,5 +1,4 @@
 import React from 'react'
-import { useParams } from 'react-router-dom'
 import { Button, Card } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import toast from 'react-hot-toast'
@@ -20,10 +19,9 @@ import kimchiImage from '../../../resources/images/common/kimchi-green.png'
 import { RootState } from '../../../redux/store'
 import { BookUserType } from '../../../types/BookType'
 
-const BookList = () => {
+const BookList = ({range, rangeDetail}) => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 
-	const { range, rangeDetail } = useParams()
 	const rangeApi = () => {
 		if (range === 'not-done') {
 			if (rangeDetail === 'all' || rangeDetail == null) {
@@ -38,7 +36,7 @@ const BookList = () => {
 
 	const noContentMessage = parse(
 		range === 'not-done'
-			? `읽지 않은 책이 없어요`
+			? `읽고 있는 책이 없어요`
 			: range === 'done'
 			? `다 읽은 책이 없어요`
 			: range === 'give-up'
@@ -102,7 +100,7 @@ const BookList = () => {
 	if (loading) return <Loading message='잠시만 기다려 주세요' />
 
 	return (
-		<div className='container-fluid' style={{ maxWidth: '1920px' }}>
+		<>
 			<div className='mb-4'>
 				<BookListRangeButton range={range} />
 			</div>
@@ -125,7 +123,7 @@ const BookList = () => {
 					<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
 				</InfiniteScroll>
 			)}
-		</div>
+		</>
 	)
 }
 

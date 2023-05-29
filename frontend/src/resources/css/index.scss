@@ -137,6 +137,20 @@ input::-webkit-inner-spin-button {
 	text-overflow: ellipsis;
 }
 
+.clamp-2-lines {
+	display: inline-block;
+	height: calc(2em + 1px);
+	line-height: 1em;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 .nav-link:hover {
 	color: var(--primary-color) !important;
+}
+
+.hover-primary {
+	&:hover {
+		color: var(--primary-color)
+	}
 }

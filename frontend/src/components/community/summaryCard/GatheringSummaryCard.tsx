@@ -5,15 +5,14 @@ import GatheringSimpleCard from './GatheringSimpleCard'
 import AllButton from "../../common/AllButton"
 import NoContent from "../../common/NoContent"
 import Error from '../../common/Error';
+import CardTitle from "../../../common/CardTitle"
 
 const CommunityRouteGatheringCard = ({ gatheringList, title = '독서모임', minHeight = '500px', col='col-12 col-md-6 col-xl-4' }) => {
 	return (
 		<Card style={{ minHeight: minHeight }}>
 			<a href='/community/gathering/all' className='text-black'>
 				<Card.Body>
-					<h3 className='mb-3 text-black'>
-						<PeopleIcon className='me-2 text-book' /> {title}
-					</h3>
+					<CardTitle icon={<PeopleIcon />} title={title} />
 
 					{gatheringList === undefined ? (
 						<Error mt='100px' />

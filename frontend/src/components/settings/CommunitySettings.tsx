@@ -119,7 +119,7 @@ const CommunitySettings = () => {
 
 								<Form className='row justify-content-center m-0' onSubmit={handleEditUser}>
 									<div className='col-12 mb-3'>
-										<h5 className="mb-2">프로필 사진</h5>
+										<h5 className='mb-2'>프로필 사진</h5>
 										<Card {...getRootProps()}>
 											<Card.Body className='text-center'>
 												<input {...getInputProps()} />
@@ -128,7 +128,7 @@ const CommunitySettings = () => {
 
 												<p className='m-0 text-secondary'>
 													{isDragActive ? (
-														<>맞아요! 여기에 올려 주세요</>
+														<span className='text-book'>맞아요! 여기에 올려 주세요</span>
 													) : (
 														<>여기에 이미지를 올리거나 클릭해서 올릴 이미지를 선택할 수 있어요</>
 													)}
@@ -138,7 +138,7 @@ const CommunitySettings = () => {
 									</div>
 
 									<div className='col-12 mb-3'>
-										<h5 className="mb-2">이름</h5>
+										<h5 className='mb-2'>이름</h5>
 										<Form.Control onChange={(e) => setName(e.target.value)} value={name} id='input-name' />
 									</div>
 
