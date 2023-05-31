@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.config;
+package com.jinkyumpark.library.common.config;
 
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.context.annotation.Configuration;

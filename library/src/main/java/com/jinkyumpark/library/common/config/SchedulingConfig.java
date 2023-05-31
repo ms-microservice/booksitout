@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.config;
+package com.jinkyumpark.library.common.config;
 
 import org.springframework.context.annotation.Configuration;
 import org.springframework.scheduling.annotation.EnableScheduling;
