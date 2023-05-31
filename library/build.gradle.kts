@@ -35,6 +35,9 @@ dependencies {
     testImplementation("io.projectreactor:reactor-test")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin:2.9.+")
 
+    // Apple Wallet DSK
+    implementation("de.brendamour:jpasskit:0.3.3")
+
     // Mac M1 Compatability
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }

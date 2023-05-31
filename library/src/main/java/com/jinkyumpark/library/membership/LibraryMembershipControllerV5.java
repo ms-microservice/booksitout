@@ -79,6 +79,18 @@ public class LibraryMembershipControllerV5 {
                 .build();
     }
 
+    @GetMapping(value = "apple-wallet/{membershipId}", produces = "application/vnd.apple.pkpass")
+    public ResponseEntity<byte[]> getAppleWalletPass(@PathVariable Long membershipId) throws PKSigningException, CertificateException, IOException {
+        PKPass pkPass = appleWalletService.getAppleWalletJson(membershipId);
+        byte[] appleWalletPass = appleWalletService.getAppleWalletPass(pkPass);
+
+        HttpHeaders headers = new HttpHeaders();
+        headers.setContentType(MediaType.valueOf("application/vnd.apple.pkpass"));
+        headers.set("Content-Disposition", "attachment; filename=appleWalletPass.pkpass");
+
+        return new ResponseEntity<>(appleWalletPass, headers, HttpStatus.OK);
+    }
+
     @PostMapping
     public AddSuccessResponse addMembership(@LoginUser User user,
                                             @RequestBody @Valid MembershipAddRequest membershipAddRequest) {
