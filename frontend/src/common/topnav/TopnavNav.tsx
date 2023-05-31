@@ -44,7 +44,7 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 	const expand = uiSettings.topnav.collapse
 
 	return (
-		<>
+		<div>
 			<Nav className='me-auto text-center'>
 				{link.map((url) => (
 					<Nav.Link
@@ -96,7 +96,7 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 					</Nav.Link>
 				)}
 			</Nav>
-		</>
+		</div>
 	)
 }
 

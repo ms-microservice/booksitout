@@ -29,7 +29,7 @@ const CommunityRoutePopularBookCard = () => {
 
 				<ListGroup>
 					{error || popularBook === undefined ? (
-						<Error mt='150px' />
+						<Error />
 					) : (
 						popularBook.map((book) => {
 							return (

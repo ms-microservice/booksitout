@@ -7,7 +7,7 @@ import DateLineChart from '../DateLineChart'
 
 const MonthReadTimeCard = ({ readTimeList }) => {
 	return (
-		<Card className='h-100' style={{minHeight: '400px'}}>
+		<Card className='h-100' style={{minHeight: '200px'}}>
 			<Card.Body className='h-100'>
 				<CardTitle icon={<GraphIcon />} title={'최근 30일 독서시간'} />
 

@@ -7,13 +7,13 @@ const SimpleLibraryCard = ({ library }) => {
 			<a href={`/library/detail/${library.id}`}>
 				<Card.Body>
 					<div className='row'>
-						<div className='col-8'>
-							<h5>{library.name}</h5>
+						<div className='col-7'>
+							<h5 className='clamp-1-line'>{library.name}</h5>
 						</div>
 
 						{library.location.distance !== 0 && (
-							<div className='col-4 text-end'>
-								<div className='text-secondary'>{library.location.distance?.toFixed(2) ?? '-'} km</div>
+							<div className='col-5 text-end'>
+								<div className='text-secondary clamp-1-line'>{library.location.distance?.toFixed(1) ?? '-'} km</div>
 							</div>
 						)}
 					</div>

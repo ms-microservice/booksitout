@@ -16,7 +16,7 @@ const UserSharingBook = ({ bookList, nickName }) => {
 			content={
 				<div className='row row-eq-height'>
 					{bookList.length === 0 ? (
-						<NoContent mt='125px' message='공개된 책이 없어요' />
+						<NoContent message='공개된 책이 없어요' />
 					) : (
 						bookList.slice(0, 6).map((book) => {
 							return (

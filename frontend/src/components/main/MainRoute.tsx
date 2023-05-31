@@ -25,6 +25,7 @@ import MainGoalCard from './MainGoalCard';
 import MainBoarding from '../info/MainBoarding';
 import GatheringSummaryCard from '../community/summaryCard/GatheringSummaryCard';
 import MainBookNotLoginCard from './MainBookNotLoginCard';
+import MainLibraryMembershipCard from './MainLibraryMembershipCard';
 
 import { GoalType } from '../../goal/GoalType'
 import { StatisticsType } from '../../types/StatisticsType';
@@ -32,6 +33,8 @@ import { BookType } from '../../types/PostType';
 import { GatheringType } from '../../community/gathering/GatheringType'
 
 import { booksitoutServer } from '../../functions/axios';
+
+import parse from 'html-react-parser'
 
 const MainRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
@@ -79,7 +82,7 @@ const MainRoute = () => {
 				.then((res) => (res.status === 204 ? setGoal(null) : setGoal(res.data)))
 				.catch(() => setGoal(undefined)),
 
-			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats || null)),
+			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats.data || null)),
 		]).finally(() => {
 			setInitialFetch(false)
 			setIsLoading(false)
@@ -102,7 +105,9 @@ const MainRoute = () => {
 						<Alert variant='success' dismissible onClose={() => closeAlert()}>
 							{isLogin
 								? getAlertMessage()
-								: '책잇아웃 : 책을 기록하고, 원하는 책을 도서관-중고책-구독 등 한 번에 검색 + 알림. 책 관련 커뮤니티까지.'}
+								: parse(
+										'책잇아웃 : 책을 <b>기록</b>하고, 원하는 책을 <b>도서관</b> / <b>중고책</b> / <b>구독</b> 등 한 번에 <b>검색</b> / <b>알림</b>. 책 관련 <b>커뮤니티</b>까지.'
+								  )}
 						</Alert>
 					</div>
 				)}
@@ -133,6 +138,18 @@ const MainRoute = () => {
 									<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
 										<MainGoalCard goal={goal} loading={!isLogin} />
 									</div>
+
+									{isLogin && (
+										<>
+											{/* <div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
+												<MainNearLibraryCard />
+											</div> */}
+
+											<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
+												<MainLibraryMembershipCard />
+											</div>
+										</>
+									)}
 								</div>
 							</Card.Body>
 						</Card>

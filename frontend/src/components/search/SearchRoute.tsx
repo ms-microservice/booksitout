@@ -43,29 +43,30 @@ const SearchRoute = () => {
 		setLoading(true)
 
 		Promise.all([
-			
-			search.api.search.myBook(query || '')
-				.then((result) => setMyBookList(result)),
+			search.api.search.myBook(query || '').then((result) => setMyBookList(result)),
 
-			search.local.settings.library.isConfigured() && 
-				search.api.search.library(query || '', search.local.settings.library.api.region(), search.local.settings.library.api.regionDetail())
+			search.local.settings.library.isConfigured() &&
+				search.api.search
+					.library(query || '', search.local.settings.library.api.region(), search.local.settings.library.api.regionDetail())
 					.then((result) => setLibraryBookList(result)),
 
-			search.local.settings.subscription.isConfigured() && 
-				search.api.search.subscription(query || '', search.local.settings.subscription.api())
+			search.local.settings.subscription.isConfigured() &&
+				search.api.search
+					.subscription(query || '', search.local.settings.subscription.api())
 					.then((result) => setSubscriptionBookList(result)),
 
 			search.local.settings.onlineLibrary.isConfigured() &&
-				search.api.search.libraryOnline(query || '', search.local.settings.onlineLibrary.api())
+				search.api.search
+					.libraryOnline(query || '', search.local.settings.onlineLibrary.api())
 					.then((result) => setOnlineLibraryBookList(result)),
 
 			(search.local.settings.usedOnline.isConfigured() || search.local.settings.usedOffline.isConfigured()) &&
-				search.api.search.used(query || '', search.local.settings.usedOnline.api(), search.local.settings.usedOffline.api())
-					.then((result) => {	setOnlineUsedBookList(result.online)
-													setOfflineUsedBookList(result.offline)
-					}
-			),
-
+				search.api.search
+					.used(query || '', search.local.settings.usedOnline.api(), search.local.settings.usedOffline.api())
+					.then((result) => {
+						setOnlineUsedBookList(result.online)
+						setOfflineUsedBookList(result.offline)
+					}),
 		]).finally(() => {
 			setLoading(false)
 			setInitial(false)

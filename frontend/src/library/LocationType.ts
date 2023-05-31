@@ -14,3 +14,12 @@ interface RegionTypeDepth {
     englishName: string;
     logo: string;
 }
+
+export interface RegionSearchResultType {
+    id: number;
+    name: {
+        korean: string;
+        english: string;
+    },
+    logo: string
+}

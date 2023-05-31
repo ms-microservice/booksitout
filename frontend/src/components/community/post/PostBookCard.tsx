@@ -7,7 +7,7 @@ const PostBookCard = ({book}) => {
 		<Card className='h-100'>
 			<Card.Body>
 				{book == null ? (
-					<NoContent mt='0px' mb='0px' textSize='h5' iconSize='5em' mBetween='2' message='책 정보가 없어요' />
+					<NoContent message='책 정보가 없어요' textSize={5} iconSize={5} mBetween={2} />
 				) : (
 					<div className='row h-100 align-items-center'>
 						<div className='col-4'>

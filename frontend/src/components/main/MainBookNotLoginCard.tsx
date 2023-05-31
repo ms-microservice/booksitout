@@ -10,7 +10,7 @@ const MainBookNotLoginCard = () => {
     return (
 		<Card className='h-100' style={{ minHeight: '420px' }}>
 			<Card.Body className='h-100'>
-				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} subTitle={undefined} size='h3' iconSize='h2' />
+				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} textSize={3} iconSize={2} />
 
 				<div className='row row-eq-height justify-content-center mt-3'>
 					<div className='mb-4 col-8 col-lg-4 align-self-center text-center'>

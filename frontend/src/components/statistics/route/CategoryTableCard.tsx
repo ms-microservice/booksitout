@@ -8,7 +8,7 @@ const CategoryTableCard = ({ categoryData }) => {
 	return (
 		<Card className='h-100'>
 			<Card.Body>
-				<CardTitle icon={<CategoryIcon />} title={'장르별 독서현황'} iconSize='h1' />
+				<CardTitle icon={<CategoryIcon />} title={'장르별 독서현황'} iconSize={1} />
 
 				<CategoryTable categoryData={categoryData} />
 			</Card.Body>

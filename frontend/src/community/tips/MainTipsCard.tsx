@@ -40,10 +40,10 @@ const MainTipsCard = () => {
 				<Card.Body>
 					<CardTitle
 						icon={<img src={logo} alt='' className='img-fluid rounded me-2 mt-0 mt-md-1' style={{ width: '40px', height: '40px' }} />}
-						title={'책잇아웃 꿀팁'}
+						title='책잇아웃 꿀팁'
 					/>
 
-					{error ? <Error mt='0px' mb='140px' /> : initialFetch ? <></> : loading ? <Loading /> : <MainTipsListGroup postList={tipPost} />}
+					{error ? <Error /> : initialFetch ? <></> : loading ? <Loading /> : <MainTipsListGroup postList={tipPost} />}
 
 					<div className='d-inline-block pb-4 d-md-none' />
 

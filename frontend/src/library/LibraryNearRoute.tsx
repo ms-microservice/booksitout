@@ -10,14 +10,18 @@ import location from './locationFunction'
 import CardTitle from '../common/CardTitle'
 import { TbLocationFilled as LocationIcon } from 'react-icons/tb'
 import LibraryCard from './LibraryCard'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const LibraryNearRoute = () => {
+	const navigate = useNavigate()
+
+	const { range } = useParams()
+	const [currentRange, setCurrentRange] = React.useState<number>(Number(range) ?? 3)
+
 	const [latitude, setLatitude] = React.useState<number | null>(null)
 	const [longitude, setLongitude] = React.useState<number | null>(null)
 	const [locationName, setLocationName] = React.useState<string | null>(null)
 	const [locationError, setLocationError] = React.useState<boolean>(false)
-
-	const [range, setRange] = React.useState(3)
 
 	React.useEffect(() => {
 		const getLocation = async () => {
@@ -40,7 +44,7 @@ const LibraryNearRoute = () => {
 	React.useEffect(() => {
 		if (latitude !== null && latitude !== undefined && longitude !== null && longitude !== undefined) {
 			booksitoutServer
-				.get(`v5/library/available-library/by-radius?lat=${latitude}&long=${longitude}&radius=${range * 1000}&size=20`)
+				.get(`v5/library/available-library/by-radius?lat=${latitude}&long=${longitude}&radius=${currentRange * 1000}&size=20`)
 				.then((res) => setNearLibraryList(res.data.content))
 				.catch(() => setNearLibraryList(undefined))
 		}
@@ -55,10 +59,13 @@ const LibraryNearRoute = () => {
 
 				<div className='col-6 col-md-2 pt-md-3'>
 					<Form>
-						<Form.Select onChange={(e) => setRange(Number(e.target.value))}>
+						<Form.Select onChange={(e) => {
+							navigate(`/library/near?range=${e.target.value}`)
+							setCurrentRange(Number(e.target.value))
+						}}>
 							{[1, 2, 3, 4, 5].map((r) => {
 								return (
-									<option selected={r === range} value={r}>
+									<option selected={r === currentRange} value={r}>
 										{r}km 근처까지
 									</option>
 								)
@@ -75,7 +82,7 @@ const LibraryNearRoute = () => {
 			) : nearLibraryList == null ? (
 				<Loading mt='100px' />
 			) : nearLibraryList.length === 0 ? (
-				<NoContent message={`${range}km 내에 도서관이 없어요`} mt='100px' textSize='h2' iconSize='7em' />
+				<NoContent message={`${range}km 내에 도서관이 없어요`} textSize={2} iconSize={7} />
 			) : (
 				nearLibraryList.map((library) => {
 					return <LibraryCard library={library} />

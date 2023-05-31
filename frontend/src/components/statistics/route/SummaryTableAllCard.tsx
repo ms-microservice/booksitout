@@ -24,7 +24,7 @@ const SummaryTableAllCard = () => {
 		}, 500)
 
 		getStatisticsSummary(statisticsSelectedYear)
-			.then((stats) => setStatisticsData(stats))
+			.then((stats) => setStatisticsData(stats.data))
 			.finally(() => (isSecondPassed ? setIsStatisticsLoading(false) : (isLoadingDone = true)))
 	}, [statisticsSelectedYear])
 
@@ -32,11 +32,11 @@ const SummaryTableAllCard = () => {
 		<Card className='h-100'>
 			<Card.Body>
 				<div className='row h-100'>
-					<div className='col-6'>
+					<div className='col-7'>
 						<CardTitle icon={<DateIcon />} title={'매년 독서현황'} />
 					</div>
 
-					<div className='col-6'>
+					<div className='col-5'>
 						<Form>
 							<Form.Select onChange={(e) => setStatisticsSelectedYear(Number(e.target.value))}>
 								{Array.from(

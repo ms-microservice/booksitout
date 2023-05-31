@@ -8,7 +8,7 @@ const LanguageSummaryCard = ({ languageData }) => {
 	return (
 		<Card className='h-100'>
 			<Card.Body>
-				<CardTitle icon={<LanguageIcon />} title={'언어별 독서현황'} iconSize='h1' />
+				<CardTitle icon={<LanguageIcon />} title={'언어별 독서현황'} iconSize={1} />
 
 				<LanguageTable languageData={languageData} />
 			</Card.Body>

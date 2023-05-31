@@ -42,7 +42,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 				<div className='row row-eq-height'>
 					{memoList == null || memoList.length === 0 ? (
-						<NoContent message={messages.memo.noContent} useImage={false} />
+						<NoContent message={messages.memo.noContent} />
 					) : (
 						memoList.map((memo) => {
 							return (

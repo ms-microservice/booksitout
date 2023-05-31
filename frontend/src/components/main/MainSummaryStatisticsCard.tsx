@@ -11,10 +11,10 @@ const MainSummaryStatisticsCard = ({ statistics, loading }) => {
 		<Card className='h-100' style={{ minHeight: '400px' }}>
 			<Card.Body className='h-100'>
 				<a href='/statistics' className='text-decoration-none text-black h-100'>
-					<CardTitle icon={<StatisticsIcon />} title={`${currentYear}년 독서 요약`} subTitle={undefined} iconSize='h2'/>
+					<CardTitle icon={<StatisticsIcon />} title={`${currentYear}년 독서 요약`} iconSize={2} />
 
 					{statistics == null && statistics !== undefined ? (
-						<Error message='오류가 났어요' mb='75px' />
+						<Error />
 					) : (
 						<div className='h-100 '>
 							<div className='d-flex align-items-center' style={{ marginTop: '40px', marginBottom: '10px' }}>

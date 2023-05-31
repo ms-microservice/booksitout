@@ -45,7 +45,7 @@ const SummaryTable = ({ statistics, loading = false  }) => {
 			icon: pageIcon,
 			name: '총 읽은 페이지',
 			value: (statistics) =>
-				`${statistics.yearStatistics.totalReadPage != null && utils.insertCommas(statistics.yearStatistics.totalReadPage)} P`,
+				`${statistics.yearStatistics.totalReadPage != null && utils.insertCommas(statistics.yearStatistics.totalReadPage)}`,
 		},
 	]
 

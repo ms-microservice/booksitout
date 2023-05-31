@@ -20,15 +20,19 @@ const TopnavSearchBar = ({ isLogin, autoFocus = false }) => {
 		e.preventDefault()
 
 		if (!isLogin) {
-			toast.error('검색을 이용하시려면 로그인 해 주세요!!')
+			toast.error('검색을 이용하시려면 로그인 해 주세요!')
 			e.target[0].blur()
 			return
 		}
 
 		if (typeof e.target[0] !== 'undefined') e.target[0].blur()
 
-		if (keyword.length >= 2) navigate(`/search/${keyword}`)
-		else toast.error('2글자 이상의 검색어를 입력해 주세요')
+		if (keyword.length >= 2) {
+			navigate(`/search/${keyword}`)
+		} else {
+			document.getElementById('search-input')!!.focus()
+			toast.error('2글자 이상의 검색어를 입력해 주세요')
+		}
 	}
 
 	const handleKeydown = (e) => {
@@ -38,7 +42,7 @@ const TopnavSearchBar = ({ isLogin, autoFocus = false }) => {
 	}
 
 	React.useEffect(() => {
-		const input = document.getElementById('searchInput')
+		const input = document.getElementById('search-input')
 
 		if (autoFocus) {
 			input!!.focus()
@@ -52,7 +56,7 @@ const TopnavSearchBar = ({ isLogin, autoFocus = false }) => {
 			<div className='row'>
 				<div className='col-9 p-lg-0 pe-0'>
 					<Form.Control
-						id='searchInput'
+						id='search-input'
 						type='search'
 						autoComplete='off'
 						placeholder='한 번에 책 검색하기'

@@ -9,6 +9,7 @@ import { GiPhone as PhoneIcon } from 'react-icons/gi'
 import utils from '../../functions/utils'
 import LibraryTextWithIcon from '../LibraryTextWithIcon'
 import LibraryDetailSearchBookCard from './LibraryDetailSearchBookCard'
+import toast from 'react-hot-toast'
 
 export async function loader({ params }) {
 	const id = params.id
@@ -42,6 +43,19 @@ const LibraryDetail = () => {
 		new naver.maps.Marker({ position: location, map })
 	}, [library.location.latitude, library.location.longitude])
 
+	const copyText = (text: string) => {
+		var tempTextarea = document.createElement('textarea')
+		tempTextarea.value = text
+		document.body.appendChild(tempTextarea);
+		
+		tempTextarea.select();
+		document.execCommand("copy");
+
+		document.body.removeChild(tempTextarea);
+
+		toast.success('주소를 복사했어요')
+	}
+
     return (
 		<div className='container-xl'>
 			<Card className='mb-3'>
@@ -64,7 +78,14 @@ const LibraryDetail = () => {
 					</div>
 
 					<div className='ms-md-5'>
-						<LibraryTextWithIcon icon={<LocationIcon />} text={library.location.address} />
+						<LibraryTextWithIcon
+							icon={<LocationIcon />}
+							text={
+								<div onClick={() => copyText(library.location.address)} className='clickable hover-primary clamp-1-line'>
+									{library.location.address}
+								</div>
+							}
+						/>
 						<LibraryTextWithIcon
 							icon={<PhoneIcon />}
 							text={

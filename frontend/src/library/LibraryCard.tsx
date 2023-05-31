@@ -25,7 +25,10 @@ const LibraryCard = ({library}) => {
 
 					<div className='ms-4'>
 						<LibraryTextWithIcon icon={<LocationIcon />} text={library.location.address} />
-						<LibraryTextWithIcon icon={<BookIcon />} text={`${utils.insertCommas(library.bookCount)} 권` ?? '?'} />
+						<LibraryTextWithIcon
+							icon={<BookIcon />}
+							text={`${library.bookCount === 0 ? '?' : utils.insertCommas(library.bookCount)} 권` ?? '?'}
+						/>
 					</div>
 				</Card.Body>
 			</Card>

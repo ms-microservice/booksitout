@@ -15,7 +15,6 @@ import BookListRangeButton from './BookListRangeButton'
 import Boarding from '../../info/Boarding'
 
 import { getBookList, giveUpBook } from '../../../functions/book'
-import kimchiImage from '../../../resources/images/common/kimchi-green.png'
 import { RootState } from '../../../redux/store'
 import { BookUserType } from '../../../types/BookType'
 
@@ -40,7 +39,7 @@ const BookList = ({range, rangeDetail}) => {
 			: range === 'done'
 			? `다 읽은 책이 없어요`
 			: range === 'give-up'
-			? `내 사전에 포기란 없다! <br/> ${localStorage.getItem('user-name')}님은 포기를 모르시는 분이네요`
+			? `내 사전에 포기란 없다! 포기한 책이 없어요`
 			: `텅 비어 있어요`
 	).toString()
 	const fetchSize = 24
@@ -108,11 +107,7 @@ const BookList = ({range, rangeDetail}) => {
 			{error || bookList == null ? (
 				<Error />
 			) : bookList.length === 0 ? (
-				range === 'give-up' ? (
-					<NoContent message={noContentMessage ?? ''} textSize='h2' icon={kimchiImage} mt='30px' imageSize='200px' />
-				) : (
-					<NoContent message={noContentMessage ?? ''} textSize='h2' useImage={false} iconSize='10em' mt='75px' />
-				)
+				<NoContent message={noContentMessage ?? ''} textSize={2} iconSize={10} move={-120} />
 			) : (
 				<InfiniteScroll
 					dataLength={bookList.length}

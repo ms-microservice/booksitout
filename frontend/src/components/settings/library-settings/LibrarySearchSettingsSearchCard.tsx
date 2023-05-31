@@ -65,7 +65,7 @@ const LibrarySearchSettingsSearchCard = ({ setShow, setSelectedLibrary, searchRe
 						) : searchResult.length === 0 ? (
 							<>
 								<div className='mt-5'>
-									<NoContent message='검색 결과가 없어요' mt='80px' />
+									<NoContent message='검색 결과가 없어요' />
 								</div>
 							</>
 						) : (

@@ -48,7 +48,7 @@ const PostPopular = () => {
 					) : loading ? (
 						<Loading mt='125px' message='' />
 					) : error ? (
-						<Error mt='0px' mb='100px' />
+						<Error  />
 					) : (
 						<PostListGroup postList={popularPost} col1='col-12 col-md-8 col-xl-6' col2='col-12 col-md-4 col-xl-6' />
 					)}

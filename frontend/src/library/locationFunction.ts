@@ -33,6 +33,23 @@ const location = {
 		}
 	},
 
+	getLatitudeAndLongitudeNoCache: () => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				(position) => {
+					const latitude = position.coords.latitude
+					const longitude = position.coords.longitude
+
+					localStorage.setItem('location', latitude + ',' + longitude)
+					localStorage.setItem('location-time', new Date().toString())
+
+					return [latitude, longitude]
+				},
+				(error) => [null, null]
+			)
+		}
+	},
+
 	getAddressByLatitudeAndLongitude: async (latitude: number, longitude: number) => {
         if (localStorage.getItem('location-name') !== null) return localStorage.getItem('location-name')
 

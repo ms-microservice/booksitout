@@ -108,7 +108,7 @@ const GoalRoute = () => {
 
 								<div className={currentYearGoal != null ? 'mt-5 mb-5' : ''}>
 									{currentYearGoal == null ? (
-										<NoContent message={`${currentYear}년 목표가 없어요`} useImage={false} mt='40px' mb='35px' />
+										<NoContent message={`${currentYear}년 목표가 없어요`} />
 									) : (
 										<Goal goal={currentYearGoal} />
 									)}
@@ -147,7 +147,7 @@ const GoalRoute = () => {
 								<h2>목표 분석</h2>
 
 								<div className='mt-4 mb-4 mb-md-0'>
-									<NoContent message={`목표 분석은 아직 준비중이에요`} useImage={false} mt='40px' />
+									<NoContent message={`목표 분석은 아직 준비중이에요`} />
 								</div>
 							</Card.Body>
 						</Card>
@@ -168,7 +168,7 @@ const GoalRoute = () => {
 								/>
 
 								{goalList.filter((g) => g.year !== new Date().getFullYear()).length === 0 ? (
-									<NoContent message='과거 목표가 없어요' useImage={false} mt='40px' />
+									<NoContent message='과거 목표가 없어요' />
 								) : (
 									<div className='row text-center'>
 										{goalList

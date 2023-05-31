@@ -25,7 +25,7 @@ export async function loader({ params }) {
 	}
 }
 
-const LibraryRegionDetail = () => {
+const LibraryRegionRoute = () => {
     const { region, pagedLibrary} = useLoaderData() as LoaderData
 
     return (
@@ -39,4 +39,4 @@ const LibraryRegionDetail = () => {
 	)
 }
 
-export default LibraryRegionDetail
+export default LibraryRegionRoute

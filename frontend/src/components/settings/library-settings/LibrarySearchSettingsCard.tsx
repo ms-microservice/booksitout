@@ -14,11 +14,11 @@ const LibrarySearchSpecificCard = () => {
 	const [addedLibrary, setAddedLibrary] = React.useState<LibraryType[]>([])
 	const [selectedLibrary, setSelectedLibrary] = React.useState<LibraryType | null>(null)
 	const [modalOpen, setModalOpen] = React.useState<Boolean>(false)
-  const [searchResult, setSearchResult] = React.useState<LibraryType[]>([])
+	const [searchResult, setSearchResult] = React.useState<LibraryType[]>([])
 
-  React.useEffect(() => {
+	React.useEffect(() => {
 		// TODO : initial added library fetch
-  }, [])
+	}, [])
 
 	const addLibrary = () => {
 		setModalOpen(false)
@@ -33,7 +33,7 @@ const LibrarySearchSpecificCard = () => {
 		}))
 	}
 
-  const removeLibrary = (library: LibraryType) => {
+	const removeLibrary = (library: LibraryType) => {
 		const confirm = window.confirm(`${library.name.replaceAll(' ', '')}을 검색범위에서 삭제할까요?`)
 		if (!confirm) return
 
@@ -46,7 +46,7 @@ const LibrarySearchSpecificCard = () => {
 		// )
 
 		toast.error(<>{library.name.replaceAll(' ', '')}은 이제 검색하지 않을게요</>)
-  }
+	}
 
     return (
 		<>

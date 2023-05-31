@@ -35,7 +35,7 @@ const Goal = ({ goal, loading = false }) => {
 										<Placeholder xs='2' /> 권
 									</Placeholder>
 								) : goal === null ? (
-									<NoContent iconSize='3em' mb='0px' />
+									<NoContent iconSize={3}/>
 								) : (
 									<>
 										<span className='text-book' style={{ fontWeight: 'bold' }}>

@@ -8,9 +8,9 @@ const MainGoalCard = ({ goal, loading }) => {
 		<Card className='h-100' style={{ minHeight: '400px' }}>
 			<Card.Body className='h-100 mb-4'>
 				<a href='/goal' className='text-black h-100'>
-					<CardTitle icon={<GoalIcon />} title={`${new Date().getFullYear()}년 목표`} subTitle={undefined} pt='3' iconSize='h1' />
+					<CardTitle icon={<GoalIcon />} title={`${new Date().getFullYear()}년 목표`} iconSize={1} />
 
-					<div className='mt-5 mb-5 pt-3'>
+					<div className='h-100 d-flex align-items-center' style={{ transform: 'translateY(-30px)' }}>
 						<Goal goal={goal} loading={loading} />
 					</div>
 				</a>

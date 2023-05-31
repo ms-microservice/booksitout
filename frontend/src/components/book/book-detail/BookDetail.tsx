@@ -199,7 +199,7 @@ const BookDetail = () => {
 								<div className='col-12'>
 									{readingSession == null || readingSession.length === 0 ? (
 										<div className='mb-4'>
-											<NoContent mt='40px' message='독서활동이 없어요' />
+											<NoContent message='독서활동이 없어요' />
 										</div>
 									) : (
 										<ReadingSessionList
@@ -423,7 +423,7 @@ const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelect
 					<div className='col-12'>
 						{memo == null || memo.length === 0 ? (
 							<div className='mb-4'>
-								<NoContent useImage={false} mt='40px' message='메모가 없어요' />
+								<NoContent message='메모가 없어요' />
 							</div>
 						) : (
 							<div className='row row-eq-height'>

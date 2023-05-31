@@ -1,10 +1,17 @@
 #search-bar-form {
+    
     @media (min-width: 768px) {
+        position: absolute;
+        right: 70px;
+        top: 11px;
         width: 350px;
     }
 }
 
 .topnav-link-container {
+    position: relative;
+    width: 100%;
+
     @media (max-width: 768px) {
         min-height: 20px;
     }

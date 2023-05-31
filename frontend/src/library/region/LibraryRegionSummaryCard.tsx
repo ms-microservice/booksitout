@@ -8,7 +8,7 @@ const LibraryRegionSummaryCard = ({ region, pagedLibrary }) => {
 				<div className='row align-items-center'>
 					<div className='col-12 col-md-8'>
 						<div className='d-flex align-items-center'>
-							<img src={region.depth2.logo} alt='' style={{ width: '50px', height: '50px' }} className='border rounded me-3' />
+							<img src={region.depth2.logo} alt='' style={{ height: '50px' }} className='rounded me-3' />
 							<h2 className='pt-2'>
 								{region.depth1.koreanName} {region.depth2.koreanName}
 							</h2>

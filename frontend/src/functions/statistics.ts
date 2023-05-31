@@ -10,10 +10,7 @@ const getReadTime = (duration) => {
 const getStatisticsSummary = (year) => {
 	return axios
 		.get(urls.api.statistics.get.summary(year), { headers: { Authorization: utils.getToken() } })
-		.then((res) => res.data)
-		.catch((e) => {
-			console.log(e.response.data.message)
-		})
+		.then((res) => res)
 }
 
 const getLangaugeStatistics = () => {

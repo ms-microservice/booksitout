@@ -4,7 +4,7 @@ import LibrarySearchSpecificCard from './library-settings/LibrarySearchSettingsC
 
 const SearchLibrarySettings = () => {
 	return (
-		<div className='container-xl'>
+		<div className='container-xl' style={{ overflowX: 'hidden' }}>
 			<LibrarySearchMethodSettings />
 
 			<LibraryRegionSettingsCard />

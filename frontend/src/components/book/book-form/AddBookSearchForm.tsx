@@ -3,8 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import toast from 'react-hot-toast'
 import axios from 'axios'
-import { Button, Form, ToggleButton, ButtonGroup, Modal } from 'react-bootstrap'
-
+import { Button, Form, Modal } from 'react-bootstrap'
 
 import messages from '../../../settings/messages'
 import urls from '../../../settings/urls'
@@ -53,7 +52,7 @@ const AddBookSearchForm = () => {
 			.then((res) => {
 				return res.status
 			})
-			.then((status) => {
+			.then(() => {
 				toast.success('책을 추가했어요')
 				navigate('/book/not-done/all')
 			})
@@ -227,7 +226,7 @@ const AddBookSearchForm = () => {
 								})}
 						</div>
 					) : searchResult.length === 0 ? (
-						<NoContent message='검색 결과가 없어요' useImage={false} iconSize='10em' textSize='h2' mt='50px' />
+						<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} />
 					) : (
 						<div className='row'>
 							{searchResult.map((book) => {

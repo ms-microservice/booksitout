@@ -111,11 +111,11 @@ const Topnav = () => {
 					<Navbar.Collapse id='responsive-navbar-nav'>
 						<TopnavNav isLogin={isLogin} handleLogout={handleLogout} />
 
-						<span className='d-none d-lg-inline'>
+						<span className='d-none d-md-inline'>
 							<TopnavSearchBar isLogin={isLogin} autoFocus={autoFocus} />
 						</span>
 
-						<Nav>
+						<Nav className='ms-auto'>
 							<TopnavDropdown isLogin={isLogin} handleLogout={handleLogout} />
 						</Nav>
 					</Navbar.Collapse>
