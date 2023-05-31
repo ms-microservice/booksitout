@@ -5,6 +5,7 @@ import starIcon from '../../resources/images/statistics/star.png'
 import longestDayIcon from '../../resources/images/statistics/bookworm.png'
 import pageIcon from '../../resources/images/statistics/page.png'
 import { Card, Placeholder } from 'react-bootstrap'
+import utils from '../../functions/utils'
 
 const SummaryTable = ({ statistics, loading = false  }) => {
 	const statisticsData = [
@@ -43,7 +44,8 @@ const SummaryTable = ({ statistics, loading = false  }) => {
 			id: 2,
 			icon: pageIcon,
 			name: '총 읽은 페이지',
-			value: (statistics) => `${statistics.yearStatistics.totalReadPage != null && statistics.yearStatistics.totalReadPage} P`,
+			value: (statistics) =>
+				`${statistics.yearStatistics.totalReadPage != null && utils.insertCommas(statistics.yearStatistics.totalReadPage)}`,
 		},
 	]
 
@@ -55,14 +57,10 @@ const SummaryTable = ({ statistics, loading = false  }) => {
 						<tr>
 							<th className='col-8 h5'>
 								<img
+									className='img-fluid me-3'
 									src={stat.icon}
 									alt=''
-									className='img-fluid me-3'
-									style={{
-										width: '30px',
-										height: '30px',
-										whiteSpace: 'nowrap',
-									}}
+									style={{ width: '30px', height: '30px', whiteSpace: 'nowrap' }}
 								/>
 								{stat.name}
 							</th>

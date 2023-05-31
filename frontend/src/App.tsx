@@ -25,7 +25,7 @@ import CommunitySettings from './components/settings/CommunitySettings'
 import NotificationSettings from './components/settings/NotificationSettings'
 import PersonalInfoSettings from './components/settings/PersonalInfoSettings'
 
-import BookList from './components/book/book-list/BookList'
+import BookRoute from './components/book/BookRoute'
 import BookDetail from './components/book/book-detail/BookDetail'
 import AddBookRoute from './components/book/book-form/AddBookRoute'
 import EditBookForm from './components/book/book-form/EditBookForm'
@@ -55,10 +55,21 @@ import UserBookList, { loader as userBookListLoader } from './components/user/Us
 
 import BookInfoRoute, { loader as bookInfoRouteLoader } from './components/bookInfo/BookInfoRoute'
 
+import LibraryRoute from './library/LibraryRoute'
+import LibraryDetail, {loader as libraryDetailLoader} from './library/detail/LibraryDetail'
+import LibraryNearRoute from './library/LibraryNearRoute'
+import LibraryRegionRoute, { loader as libraryRegionDetailLoader } from './library/region/LibraryRegionRoute'
+
+import MembershipDetail from './library/membership/MembershipDetail'
+import MembershipList from './library/membership/MembershipList'
+import MembershipAddForm from './library/membership/add/MembershipAddForm'
+
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path='/' element={<Root />}>
 			<Route path='*' element={<NotFound />} />
+
+			<Route path='/' element={<MainRoute />} />
 
 			<Route path='/admin' element={<AdminRoute />} />
 
@@ -81,9 +92,8 @@ const router = createBrowserRouter(
 			<Route path='/settings/community' element={<CommunitySettings />} />
 			<Route path='/settings/notification' element={<NotificationSettings />} />
 
-			<Route path='/' element={<MainRoute />} />
-			<Route path='/book/:range' element={<BookList />} />
-			<Route path='/book/:range/:rangeDetail' element={<BookList />} />
+			<Route path='/book/:range' element={<BookRoute />} />
+			<Route path='/book/:range/:rangeDetail' element={<BookRoute />} />
 			<Route path='/book/detail/:id' element={<BookDetail />} />
 			<Route path='/book/add/:method' element={<AddBookRoute />} />
 			<Route path='/book/edit/:id' element={<EditBookForm />} />
@@ -126,6 +136,15 @@ const router = createBrowserRouter(
 			<Route path='/user/:nickName/quizes' element={<></>} />
 			<Route path='/user/:nickName/surveys' element={<></>} />
 			<Route path='/user/:nickName/gatherings' element={<></>} />
+
+			<Route path='/library' element={<LibraryRoute />} />
+			<Route path='/library/detail/:id' element={<LibraryDetail />} errorElement={<ErrorPage />} loader={libraryDetailLoader} />
+			<Route path='/library/near' element={<LibraryNearRoute />} />
+			<Route path='/library/region/:name' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionDetailLoader} />
+
+			<Route path='/library/membership/all' element={<MembershipList />} />
+			<Route path='/library/membership/:id' element={<MembershipDetail />} />
+			<Route path='/library/membership/add/:method' element={<MembershipAddForm />} />
 		</Route>
 	)
 )

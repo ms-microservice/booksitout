@@ -7,11 +7,7 @@ const BookInfoRelatedPost = ({postList}) => {
 		<BookInfoCard
 			title='관련 게시글'
 			content={
-				postList.length === 0 ? (
-					<NoContent message='게시글이 없어요' mt='150px' useImage={false} />
-				) : (
-					<div className='mt-0'>{<PostListGroup postList={postList} />}</div>
-				)
+				postList.length === 0 ? <NoContent message='게시글이 없어요' /> : <div className='mt-0'>{<PostListGroup postList={postList} />}</div>
 			}
 		/>
 	)

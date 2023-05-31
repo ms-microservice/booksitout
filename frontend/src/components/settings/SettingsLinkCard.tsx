@@ -1,15 +1,14 @@
-import SettingsCard from "./SettingsCard"
-
+import { Card } from "react-bootstrap"
 import { BsFillArrowRightCircleFill as RightArrowIcon } from 'react-icons/bs'
 
 const SettingsLinkCard = ({ title, contentList, link }) => {
 	return (
-		<a href={link} className='text-decoration-none text-black'>
-			<SettingsCard
-				title={title}
-				content={
-					<div className='row row-eq-height h-100'>
+		<Card className='mb-4'>
+			<Card.Body style={{ minHeight: '300px' }}>
+				<a href={link}>
+					<div className='row row-eq-height'>
 						<div className='col-10'>
+							<h3 className='mb-4'>{title}</h3>
 							<div className='ms-4 text-secondary'>
 								{contentList.map((content) => (
 									<p className='mb-2'>{content}</p>
@@ -17,13 +16,15 @@ const SettingsLinkCard = ({ title, contentList, link }) => {
 							</div>
 						</div>
 
-						<div className='mt-6 col-2 d-flex justify-content-end align-items-center'>
-							<RightArrowIcon className='text-book' size={30} />
+						<div className='col-2' style={{ minHeight: '280px' }}>
+							<div className='d-flex justify-content-end align-items-center h-100'>
+								<RightArrowIcon className='text-book' size={30} />
+							</div>
 						</div>
 					</div>
-				}
-			/>
-		</a>
+				</a>
+			</Card.Body>
+		</Card>
 	)
 }
 

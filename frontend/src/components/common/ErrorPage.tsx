@@ -5,12 +5,12 @@ const ErrorPage = () => {
     const error = useRouteError()
 
     return (
-		<div className='text-center text-book h-100'>
-			<div style={{ marginTop: '300px' }} />
+		<div className='text-center h-100'>
+			<div style={{ marginTop: '250px' }} />
 
-			<ErrorIcon style={{ fontSize: '100px' }} />
+			<ErrorIcon style={{ fontSize: '150px' }} className='text-book' />
 
-			<h1 className='mt-4'>오류가 났어요!</h1>
+			<h1 className='mt-3'>오류가 났어요!</h1>
 		</div>
 	)
 }

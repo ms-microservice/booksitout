@@ -1,16 +1,13 @@
 import { BiErrorCircle as ErrorIcon } from 'react-icons/bi'
 
-const Error = ({ 
-	mt = '30px', mb = '30px', 
-	message = '오류가 났어요', color = 'text-danger', 
-	iconStyle = { width: '100px', height: '100px' } 
-}) => {
+const Error = ({ message = '서버에 오류가 났어요', color = 'text-danger', iconSize = 100, move = 60, mt = 0 }) => {
+	const iconStyle = { width: `${iconSize}px`, height: `${iconSize}px` }
 
 	return (
-		<div className='row d-flex h-100 justify-content-center align-items-center'>
-			<div className='text-center' style={{marginTop: mt, marginBottom: mb}}>
-				<ErrorIcon className={color} style={iconStyle} />
-				<h3 className='mt-3'>{message}</h3>
+		<div className='h-100 d-flex justify-content-center align-items-center' style={{ transform: `translateY(-${move}px)`, marginTop: `${mt}px` }}>
+			<div className='row justify-content-center'>
+				<ErrorIcon className={`${color} m-0`} style={iconStyle} />
+				<h3 className='text-center'>{message}</h3>
 			</div>
 		</div>
 	)

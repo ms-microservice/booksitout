@@ -39,9 +39,9 @@ const QnaRoute = () => {
 
 					<Card.Body>
 						{!user.localStorage.get.isLoggedIn() ? (
-							<NoContent message='로그인 해 주세요' useImage={false} mt='50px' mb='50px' />
+							<NoContent message='로그인 해 주세요' />
 						) : myQnaList == null || myQnaList.length === 0 ? (
-							<NoContent message='내가 남긴 QNA가 없어요' useImage={false} mt='50px' mb='50px' />
+							<NoContent message='내가 남긴 QNA가 없어요' />
 						) : (
 							<></>
 						)}
@@ -57,7 +57,7 @@ const QnaRoute = () => {
 						{allQnaList == null ? (
 							<Error />
 						) : allQnaList.length === 0 ? (
-							<NoContent message='QNA가 없어요' useImage={false} mt='50px' mb='50px' />
+							<NoContent message='QNA가 없어요' />
 						) : (
 							allQnaList.map((qna) => {
 								return (
@@ -68,7 +68,7 @@ const QnaRoute = () => {
 
 										<Card.Body>
 											{qna.answer == null ? (
-												<NoContent message='아직 답변이 없어요' useImage={false} mt='50px' mb='50px' />
+												<NoContent message='아직 답변이 없어요' />
 											) : (
 												parse(qna.answer)
 											)}

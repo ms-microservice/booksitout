@@ -9,9 +9,10 @@ const PostRoutePost = ({post}) => {
 			<Card.Body className='row'>
 				<div className='col-12 col-md-8'>
 					<a href={`/community/post/${post.postId}`}>
-						<h3 style={{ maxHeight: '32px', overflowY: 'hidden' }}>
-							{post.title.slice(0, 20)} {post.title.length > 20 && '...'} <span className='text-book'>[{post.commentCount}]</span>
-						</h3>
+						<div className='d-flex'>
+							<h3 className='clamp-1-line'>{post.title}</h3>
+							<h4 className='text-book ps-2'>[{post.commentCount}]</h4>
+						</div>
 
 						<p className='text-secondary' style={{ height: '50px', overflowY: 'hidden' }}>
 							{post.content.replaceAll(/<[^>]+>/g, ' ')}

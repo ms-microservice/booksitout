@@ -29,9 +29,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-
-@RequestMapping("v4/forum/post")
-@RestController
+@RestController @RequestMapping("v4/forum/post")
 public class PostControllerV4 {
 
     private final PostService postService;

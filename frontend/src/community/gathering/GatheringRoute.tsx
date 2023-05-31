@@ -21,6 +21,8 @@ export async function loader({ params, request }) {
 }
 
 const GatheringRoute = () => {
+	document.title = '독서모임 | 책잇아웃'
+
 	const [searchParams] = useSearchParams();
     const currentPage = Number(searchParams.get('page') ?? 1) ?? 1
 	
@@ -35,7 +37,7 @@ const GatheringRoute = () => {
 
 			<div>
 				{pagedGathering.content.length === 0 ? (
-					<NoContent message='독서모임 모집글이 없어요' mt='100px' />
+					<NoContent message='독서모임 모집글이 없어요' />
 				) : (
 					pagedGathering.content.map((gathering) => {
 						return (

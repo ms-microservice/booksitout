@@ -3,7 +3,6 @@ const uiSettings = {
 	toastLimit: 1,
 
 	color: {
-		// memo: `rgb(242, 227, 142)`,
 		memo: `rgb(255, 255, 255)`,
 		theme: `rgb(123, 185, 114)`,
 	},
@@ -15,7 +14,7 @@ const uiSettings = {
 	},
 
 	topnav: {
-		collapse: 'lg',
+		collapse: 'md',
 		link: [
 			{
 				id: 1,
@@ -34,6 +33,12 @@ const uiSettings = {
 				url: '/community',
 				activeUrl: '/community',
 				title: '커뮤니티',
+			},
+			{
+				id: 4,
+				url: '/library',
+				activeUrl: '/library',
+				title: '도서관',
 			},
 		],
 	},

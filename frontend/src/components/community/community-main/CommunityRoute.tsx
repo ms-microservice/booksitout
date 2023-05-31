@@ -7,6 +7,8 @@ import CommunityRoutePostCard from './CommunityRoutePostCard'
 import { useLoaderData } from 'react-router-dom';
 import { GatheringType } from '../../../community/gathering/GatheringType';
 import { booksitoutServer } from '../../../functions/axios';
+import { BsPeopleFill as CommunityIcon } from 'react-icons/bs'
+import RouteTitle from '../../../common/RouteTitle';
 
 export async function loader({ params }) {
 	return booksitoutServer
@@ -19,9 +21,12 @@ export async function loader({ params }) {
 
 const CommunityRoute = () => {
 	const gatheringList = useLoaderData() as GatheringType[]
+	document.title = '커뮤니티 | 책잇아웃'
 
 	return (
 		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden', overflowY: 'hidden' }}>
+			<RouteTitle icon={<CommunityIcon />} title={'커뮤니티'} />
+
 			<div className='row row-eq-height'>
 				<div className='col-12 mb-4 col-md-4'>
 					<CommunityRoutePopularBookCard />

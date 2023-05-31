@@ -415,7 +415,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 				</Card>
 
 				{commentList.length === 0 ? (
-					<NoContent useImage={false} mt='50px' mb='75px' message='댓글이 없어요' />
+					<NoContent message='댓글이 없어요' />
 				) : (
 					commentList.map((comment) => {
 						return (

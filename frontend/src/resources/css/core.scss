@@ -4,14 +4,28 @@
 a {
 	text-decoration: none;
 	color: black;
+
+	&:hover {
+		color: var(--primary-color);
+	}
 }
 
-a:hover {
-	color: var(--primary-color);
+.a-secondary {
+	text-decoration: none;
+	@extend .text-secondary ;
+
+	&:hover {
+		color: var(--primary-color) !important;
+	}
 }
 
 .clickable {
 	cursor: pointer;
+}
+
+.not-clickable {
+    pointer-events: none;
+	cursor: not-allowed;
 }
 
 .force-1-line {

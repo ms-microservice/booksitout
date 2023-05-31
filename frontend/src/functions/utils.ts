@@ -33,6 +33,40 @@ const utils = {
 
 		return splitList
 	},
+
+	insertCommas: (str) => {
+		var reversed = str.toString().split('').reverse().join('')
+		var result = reversed
+			.replace(/(\d{3})/g, '$1,')
+			.split('')
+			.reverse()
+			.join('')
+
+		return result.startsWith(',') ? result.substring(1) : result
+	},
+
+	isHoursPassed: (key: string, hours: number): boolean => {
+		const storedTimestamp = localStorage.getItem(key)
+
+		if (storedTimestamp) {
+			const storedTime = new Date(storedTimestamp)
+			const currentTime = new Date()
+			const timeDiff = currentTime.getTime() - storedTime.getTime()
+			const hoursPassed = timeDiff / (1000 * 60 * 60)
+			return hoursPassed >= hours
+		}
+
+		return false
+	},
+
+	getNumbersFromLocalStorage: (key: string): [number | null, number | null] => {
+		const storedValue = localStorage.getItem(key)
+		if (storedValue) {
+			const [firstValue, secondValue] = storedValue.split(',')
+			return [parseFloat(firstValue), parseFloat(secondValue)]
+		}
+		return [null, null]
+	},
 }
 
 export default utils

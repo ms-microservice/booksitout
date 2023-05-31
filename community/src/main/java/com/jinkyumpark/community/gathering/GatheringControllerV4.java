@@ -8,7 +8,10 @@ import com.jinkyumpark.community.config.feign.UserClient;
 import com.jinkyumpark.community.config.feign.response.AppUserInfo;
 import com.jinkyumpark.community.config.security.loginUser.LoginUser;
 import com.jinkyumpark.community.config.security.loginUser.User;
-import com.jinkyumpark.community.gathering.dto.*;
+import com.jinkyumpark.community.gathering.dto.GatheringAddRequest;
+import com.jinkyumpark.community.gathering.dto.GatheringDetailResponse;
+import com.jinkyumpark.community.gathering.dto.GatheringResponse;
+import com.jinkyumpark.community.gathering.dto.GatheringUpdateRequest;
 import com.jinkyumpark.community.gathering.join.GatheringJoinService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -18,7 +21,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 

@@ -3,12 +3,14 @@ import { Button, Card, Placeholder } from 'react-bootstrap';
 
 import bookCoverLoading from '../../resources/images/common/loading-default-book-cover.png'
 import categoryLoading from '../../resources/images/common/library-loading.png'
+import CardTitle from '../../common/CardTitle';
+import {BsBookHalf as BookIcon} from 'react-icons/bs'
 
 const MainBookNotLoginCard = () => {
     return (
 		<Card className='h-100' style={{ minHeight: '420px' }}>
 			<Card.Body className='h-100'>
-				<h3>마지막으로 읽은 책</h3>
+				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} textSize={3} iconSize={2} />
 
 				<div className='row row-eq-height justify-content-center mt-3'>
 					<div className='mb-4 col-8 col-lg-4 align-self-center text-center'>

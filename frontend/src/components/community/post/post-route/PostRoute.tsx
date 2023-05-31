@@ -25,6 +25,8 @@ const PostRoute = () => {
 	const { sortBy } = useParams()
 	const pagedPost = useLoaderData() as PageType<PostType[]>
 
+	document.title = `${sortBy === 'popular' ? '인기' : ' 최근'} 글 | 책잇아웃`
+
 	return (
 		<div className='container-xl'>
 			<div className='mb-3'>
@@ -33,7 +35,7 @@ const PostRoute = () => {
 
 			<div>
 				{pagedPost.content.length === 0 ? (
-					<NoContent mt='50px' />
+					<NoContent />
 				) : (
 					pagedPost.content.map((post) => {
 						return <PostRoutePost post={post} />

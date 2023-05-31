@@ -92,7 +92,7 @@ const BookSearchModal = ({ show, setShow, isbn, setIsbn, recentBookList, setRece
 								})}
 						</div>
 					) : searchResult.length === 0 ? (
-						<NoContent message='검색 결과가 없어요' useImage={false} iconSize='10em' textSize='h2' mt='100px' />
+						<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} />
 					) : (
 						<div className='row'>
 							{searchResult.map((book) => {

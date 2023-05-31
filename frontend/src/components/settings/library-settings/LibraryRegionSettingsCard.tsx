@@ -105,22 +105,24 @@ const LibraryRegionSettings = () => {
 						</div>
 
 						<div className='text-center'>
-							<h5 className='mt-3'>
+							<h5 className='mt-3 mb-5'>
 								{`설정된 지역 :`} <b>{`${region === '' && regionDetail === '' ? '없음' : `${region} ${regionDetail}`}`}</b>
 							</h5>
 
-							{region !== '' && regionDetail !== '' && (
-								<div className='button-bottom-half-left'>
-									<Button variant='book-danger' className='w-100' onClick={() => handleDeleteRegion()}>
-										도서관은 검색 하지 않기
+							<div className='row justify-content-center w-100' style={{position: 'absolute', bottom: '20px'}}>
+								{region !== '' && regionDetail !== '' && (
+									<div className='col-12 col-md-6'>
+										<Button variant='book-danger' className='w-100 mb-2' onClick={() => handleDeleteRegion()}>
+											도서관은 검색 하지 않기
+										</Button>
+									</div>
+								)}
+
+								<div className='col-12 col-md-6'>
+									<Button variant='book' className='w-100 mb-2' onClick={() => setModalOpen(true)}>
+										{region === '' && regionDetail === '' ? '지역 설정하기' : '지역 변경하기'}
 									</Button>
 								</div>
-							)}
-
-							<div className='button-bottom-half-right'>
-								<Button variant='book' className='w-100' onClick={() => setModalOpen(true)}>
-									{region === '' && regionDetail === '' ? '지역 설정하기' : '지역 변경하기'}
-								</Button>
 							</div>
 						</div>
 					</div>

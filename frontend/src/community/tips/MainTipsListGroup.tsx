@@ -6,7 +6,7 @@ import Error from '../../components/common/Error'
 const MainTipsListGroup = ({postList}) => {
 
     if (postList == null) return <Error/>
-    if (postList.length === 0) return <NoContent message='아직 꿀팁이 없어요' useImage={false} mb='75px' />
+    if (postList.length === 0) return <NoContent message='아직 꿀팁이 없어요' />
 
     return (
 		<div className='row'>

@@ -10,6 +10,7 @@ import Error from '../../common/Error';
 import Loading from '../../common/Loading';
 import AllButton from '../../common/AllButton'
 import { booksitoutServer } from '../../../functions/axios'
+import CardTitle from '../../../common/CardTitle'
 
 const PostPopular = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
@@ -40,17 +41,14 @@ const PostPopular = () => {
 				</a>
 
 				<Card.Body>
-					<h3 className='mb-3'>
-						<FireIcon className='me-2 text-book h2' />
-						지금 인기있는 게시글
-					</h3>
+					<CardTitle icon={<FireIcon />} title={'지금 인기있는 게시글'} />
 
 					{initialFetch ? (
 						<></>
 					) : loading ? (
 						<Loading mt='125px' message='' />
 					) : error ? (
-						<Error mt='0px' mb='100px' />
+						<Error  />
 					) : (
 						<PostListGroup postList={popularPost} col1='col-12 col-md-8 col-xl-6' col2='col-12 col-md-4 col-xl-6' />
 					)}

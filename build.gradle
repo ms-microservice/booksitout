@@ -63,3 +63,7 @@ project(":search") {
 project(":community") {
     dependencies { implementation project(":common") }
 }
+
+project(":library") {
+    dependencies { implementation project(":common") }
+}
