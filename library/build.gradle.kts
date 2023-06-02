@@ -38,6 +38,10 @@ dependencies {
     // Apple Wallet DSK
     implementation("de.brendamour:jpasskit:0.3.3")
 
+    // S3
+    implementation(platform("software.amazon.awssdk:bom:2.19.1"))
+    implementation("software.amazon.awssdk:s3-transfer-manager")
+
     // Mac M1 Compatability
     developmentOnly("io.netty:netty-resolver-dns-native-macos:4.1.75.Final") {
         artifact { classifier = "osx-aarch_64" }

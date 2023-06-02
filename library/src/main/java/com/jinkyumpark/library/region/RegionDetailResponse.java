@@ -24,7 +24,7 @@ public class RegionDetailResponse {
                         .korean(regionDetail.getKoreanName())
                         .english(regionDetail.getEnglishName())
                         .build())
-                .logo(builder().logo)
+                .logo(regionDetail.getLogo())
 
                 .region(RegionDetailResponseRegion.builder()
                         .name(RegionDetailResponseName.builder()
