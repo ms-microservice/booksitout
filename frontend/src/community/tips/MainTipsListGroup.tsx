@@ -2,6 +2,7 @@ import { BiTime as TimeIcon } from 'react-icons/bi'
 
 import NoContent from '../../components/common/NoContent'
 import Error from '../../components/common/Error'
+import { ListGroup } from 'react-bootstrap'
 
 const MainTipsListGroup = ({postList}) => {
 
@@ -13,14 +14,14 @@ const MainTipsListGroup = ({postList}) => {
 			{postList.map((post, i) => {
 				return (
 					<a href={`/introduction/tips/detail/${post.id}`} className={`col-12 col-md-6 ${i % 2 === 0 ? 'pe-md-0' : 'ps-md-0'}`}>
-						<li className='d-flex w-100 pe-0 border p-3'>
+						<ListGroup.Item className='d-flex w-100 pe-0 p-3'>
 							<div className='row w-100'>
 								<div className='col-12 col-lg-9'>
 									<div className='text-book'>
 										<TimeIcon className='mb-1' /> 약 {post.estimatedReadTime}분
 									</div>
 
-									<h5 style={{height: '40px'}}>{post.title}</h5>
+									<h5 style={{ height: '40px' }}>{post.title}</h5>
 								</div>
 
 								<div className='col-12 col-lg-3'>
@@ -29,7 +30,7 @@ const MainTipsListGroup = ({postList}) => {
 									}월`}</p>
 								</div>
 							</div>
-						</li>
+						</ListGroup.Item>
 					</a>
 				)
 			})}

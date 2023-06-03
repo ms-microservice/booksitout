@@ -13,7 +13,7 @@ const AddedLibraryCard = ({addedLibrary, removeLibrary}) => {
 				<div style={{ height: '280px', overflowX: 'hidden', overflowY: 'scroll' }}>
 					{addedLibrary.length === 0 ? (
 						<div className='mt-4'>
-							<NoContent message='추가된 도서관이 없어요' />
+							<NoContent message='추가된 도서관이 없어요' move={-30} />
 						</div>
 					) : (
 						<div className='row row-eq-height'>

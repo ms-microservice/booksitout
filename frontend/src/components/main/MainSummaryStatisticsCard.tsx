@@ -13,12 +13,12 @@ const MainSummaryStatisticsCard = ({ statistics, loading }) => {
 				<a href='/statistics' className='text-decoration-none text-black h-100'>
 					<CardTitle icon={<StatisticsIcon />} title={`${currentYear}년 독서 요약`} iconSize={2} />
 
-					{statistics == null && statistics !== undefined ? (
+					{statistics === undefined ? (
 						<Error />
 					) : (
 						<div className='h-100 '>
-							<div className='d-flex align-items-center' style={{ marginTop: '40px', marginBottom: '10px' }}>
-								<SummaryTable statistics={statistics} loading={loading} />
+							<div className='d-flex align-items-center' style={{ marginBottom: '10px' }}>
+								<SummaryTable statistics={statistics} loading={loading || statistics == null} />
 							</div>
 						</div>
 					)}

@@ -4,13 +4,13 @@ import {AiFillCheckCircle as CheckIcon} from 'react-icons/ai'
 
 const RegionSearchResult = ({ region, selected }) => {
 	return (
-		<ListGroup.Item className='d-flex justify-content-center align-items-center rounded clickable' style={{ height: '60px' }}>
+		<ListGroup.Item className='d-flex justify-content-center align-items-center rounded clickable p-0 m-0' style={{ height: '60px' }}>
 			{selected === region.id && (
 				<CheckIcon
 					className='img-fluid text-book'
 					style={{
-						width: '50px',
-						height: '50px',
+						width: '25px',
+						height: '25px',
 						position: 'absolute',
 						top: '0px',
 						right: '0px',

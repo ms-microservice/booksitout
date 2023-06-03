@@ -33,7 +33,7 @@ const SearchSettings = () => {
 					<h3 className='mb-5'>검색 설정</h3>
 
 					<div className='row row-eq-height h-100'>
-						<div className='col-12 col-lg-6 mb-3' style={{ height: '300px' }}>
+						<div className='col-12 col-lg-6 mb-4' style={{ height: '300px' }}>
 							<MyBookSettings />
 						</div>
 

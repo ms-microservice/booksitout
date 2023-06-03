@@ -12,8 +12,7 @@ const CategoryTable = ({ categoryData }) => {
 			) : (
 				<table className='table table-hover mt-3 rounded rounded-3 overflow-hidden'>
 					<thead className='table-dark'>
-						<tr>
-							<th></th>
+						<tr className='text-center'>
 							<th>장르</th>
 							<th>다 읽은 책</th>
 							<th>읽는 중</th>
@@ -23,18 +22,24 @@ const CategoryTable = ({ categoryData }) => {
 					<tbody>
 						{categoryData.map((category) => {
 							return (
-								<tr>
-									<td className='col-2 col-md-1'>
-										<img src={getCategoryIcon(category.category)} alt='' className='img-fluid' style={{ width: '30px' }} />
+								<tr className='text-center'>
+									<td className='col-5 col-md-4'>
+										<img
+											src={getCategoryIcon(category.category)}
+											alt=''
+											className='img-fluid mt-1'
+											style={{ width: '30px' }}
+										/>
+										<p className='mt-2 mb-0'>{getCategoryKoreanDisplayName(category.category)}</p>
 									</td>
 
-									<td className='col-3'>
-										<p>{getCategoryKoreanDisplayName(category.category)}</p>
+									<td className='col-4'>
+										<p className='mt-3'>{category.doneCategory}권</p>
 									</td>
 
-									<td className='col-4'>{category.doneCategory}권</td>
-
-									<td className='col-4'>{category.notDoneCategory}권</td>
+									<td className='col-4'>
+										<p className='mt-3'>{category.notDoneCategory}권</p>
+									</td>
 								</tr>
 							)
 						})}

@@ -28,39 +28,41 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 	}
 
 	return (
-		<div className='row row-eq-height justify-content-center mt-3'>
-			<a href={link} className='mb-4 col-8 col-lg-4 align-self-center text-center'>
-				<img
-					className={`img-fluid rounded  ${book.cover !== '' && 'border'} text-decoration-none text-black`}
-					src={book.cover === '' ? defaultBookCover : book.cover}
-					style={{ maxHeight: '250px' }}
-					alt=''
-				/>
-			</a>
+		<>
+			<a href={link} className='text-black'>
+				<div className='row row-eq-height justify-content-center'>
+					<div className='col-8 col-lg-4 align-self-center text-center'>
+						<img
+							className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
+							src={book.cover === '' ? defaultBookCover : book.cover}
+							style={{ maxHeight: '250px' }}
+							alt=''
+						/>
+					</div>
 
-			<div className='col-12 col-lg-8 pb-5 pb-md-0'>
-				<a href={link} className='text-decoration-none text-black'>
-					<h4>{book.title}</h4>
-					<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
-					<PageProgressBar book={book} />
+					<div className='col-12 col-lg-8 pb-md-0'>
+						<h4>{book.title}</h4>
+						<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
+						<PageProgressBar book={book} />
 
-					<div className='d-block d-md-none d-lg-block'>
-						<div className='row text-center mt-4 justify-content-center'>
-							<div className={bookInfoStyle}>
-								<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
-							</div>
+						<div className='d-block d-md-none d-lg-block'>
+							<div className='row text-center mt-4 justify-content-center'>
+								<div className={bookInfoStyle}>
+									<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
+								</div>
 
-							<div className={bookInfoStyle}>
-								<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
-							</div>
+								<div className={bookInfoStyle}>
+									<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
+								</div>
 
-							<div className={bookInfoStyle}>
-								<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
+								<div className={bookInfoStyle}>
+									<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
+								</div>
 							</div>
 						</div>
 					</div>
-				</a>
-			</div>
+				</div>
+			</a>
 
 			<div className='row w-100' style={{ position: 'absolute', bottom: '20px' }}>
 				<div className='col-6 mt-md-2'>
@@ -77,7 +79,7 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 					</a>
 				</div>
 			</div>
-		</div>
+		</>
 	)
 }
 

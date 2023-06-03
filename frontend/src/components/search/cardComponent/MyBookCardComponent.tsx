@@ -1,11 +1,10 @@
 import { Card, ProgressBar } from 'react-bootstrap'
 import defaultCover from '../../../resources/images/common/default-book-cover.png'
-import PageProgressBar from '../../common/PageProgressBar'
 
 const MyBookCardComponent = ({ book }) => {
 	return (
 		<div className='col-12 col-lg-6 mb-3' style={{ height: '225px' }}>
-			<a href={`/book/detail/${book.bookId}`} className='text-decoration-none text-black' target='_blank' rel='noreferrer'>
+			<a href={`/book/detail/${book.bookId}`} className='text-decoration-none text-black'>
 				<Card className='h-100'>
 					<Card.Body>
 						<div className='row h-100'>

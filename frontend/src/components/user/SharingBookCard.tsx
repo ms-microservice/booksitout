@@ -1,6 +1,7 @@
 import { Card } from "react-bootstrap"
 import PageProgressBar from "../common/PageProgressBar"
 import defaultBookCover from '../../resources/images/common/default-book-cover.png'
+import BookRating from "../book/book-detail/BookRating"
 
 
 const SharingBookCard = ({book}) => {
@@ -23,7 +24,13 @@ const SharingBookCard = ({book}) => {
 							<h5 className='text-secondary pb-5'>{book.author}</h5>
 
 							<div style={{ position: 'absolute', bottom: 0, left: 0, right: 0 }} className='pb-0 ps-3 pe-5'>
-								<PageProgressBar book={book} />
+								{book.currentPage >= book.endPage ? (
+									<div className='not-clickable'>
+										<BookRating book={book} setBook={undefined} />
+									</div>
+								) : (
+									<PageProgressBar book={book} />
+								)}
 							</div>
 						</div>
 					</div>

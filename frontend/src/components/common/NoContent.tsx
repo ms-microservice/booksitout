@@ -1,8 +1,8 @@
 import { VscError as XMarkIcon } from 'react-icons/vsc'
 
-const NoContent = ({ message = '텅 비어 있어요', textSize = 4, iconSize = 6, mBetween = 3, move = 0, mt=0 }) => {
+const NoContent = ({ message = '텅 비어 있어요', textSize = 4, iconSize = 6, mBetween = 3, move = 60, mt=0 }) => {
 	return (
-		<div className='h-100 d-flex justify-content-center align-items-center' style={{ transform: `translateY(-${move}px)` }}>
+		<div className='h-100 d-flex justify-content-center align-items-center' style={{ transform: `translateY(${move * -1}px)` }}>
 			<div className='text-center w-100' style={{ marginTop: `${mt}px` }}>
 				<XMarkIcon className='text-book' size={`${iconSize}em`} />
 

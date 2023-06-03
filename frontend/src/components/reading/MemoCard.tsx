@@ -13,7 +13,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 	const addMemoFunction = (e) => {
 		e.preventDefault()
 
-		if (content == '') {
+		if (content === '') {
 			document.getElementById('content-input')!!.focus()
 			toast.error('메모 내용을 입력해 주세요')
 			return
@@ -42,7 +42,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 				<div className='row row-eq-height'>
 					{memoList == null || memoList.length === 0 ? (
-						<NoContent message={messages.memo.noContent} />
+						<NoContent message={messages.memo.noContent} move={0}/>
 					) : (
 						memoList.map((memo) => {
 							return (

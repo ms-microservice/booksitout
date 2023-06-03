@@ -226,7 +226,7 @@ const AddBookSearchForm = () => {
 								})}
 						</div>
 					) : searchResult.length === 0 ? (
-						<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} />
+						<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} move={-40}/>
 					) : (
 						<div className='row'>
 							{searchResult.map((book) => {

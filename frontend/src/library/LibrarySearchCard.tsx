@@ -68,7 +68,7 @@ const LibrarySearchCard = () => {
 						libraryList.map((library) => {
 							return (
 								<a href={`/library/detail/${library.id}`}>
-									<ListGroup.Item className='text-center'>
+									<ListGroup.Item className='text-center rounded'>
 										{library.name}
 										<div className='text-secondary clamp-1-line'>{library.address}</div>
 									</ListGroup.Item>

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import MembershipAddMethodButtonGroup from './MembershipAddMethodButtonGroup'
 import MembershipAddFormImage from './MembershipAddFormImage'
-import MembershipAddFormManual from './MembershipAddFormManual'
+import MembershipAddFormManual from './manual/MembershipAddFormManual'
 
 const MembershipAddForm = () => {
     const { method } = useParams()

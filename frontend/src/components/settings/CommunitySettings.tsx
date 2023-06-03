@@ -19,7 +19,6 @@ const CommunitySettings = () => {
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		multiple: false,
 		onDrop: React.useCallback((image) => {
-			
 			const reader = new FileReader()
 			
 			reader.onabort = () => console.log('file reading was aborted')

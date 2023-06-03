@@ -37,7 +37,7 @@ const GatheringRoute = () => {
 
 			<div>
 				{pagedGathering.content.length === 0 ? (
-					<NoContent message='독서모임 모집글이 없어요' />
+					<NoContent message='독서모임 모집글이 없어요' move={-20}/>
 				) : (
 					pagedGathering.content.map((gathering) => {
 						return (

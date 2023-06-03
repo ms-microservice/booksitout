@@ -111,7 +111,7 @@ const LibraryDetail = () => {
 
 			<Card>
 				<Card.Body>
-					<div ref={mapElement} style={{ width: '100%', height: '400px' }} className='rounded' />
+					<div ref={mapElement} style={{ width: '100%', height: '400px', zIndex: 1 }} className='rounded'/>
 				</Card.Body>
 			</Card>
 			<div className='mb-3' />

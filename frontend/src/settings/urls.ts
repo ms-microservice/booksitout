@@ -62,7 +62,7 @@ const urls = {
 
 		book: {
 			get: {
-				last: `${apiBase}/v1/book/last`,
+				last: `${apiBase}/v4/book/last`,
 				detail: (bookId) => `${apiBase}/v1/book/${bookId}`,
 				all: (range: string, page: number, size: number) => `${apiBase}/v1/book/all/${range}?page=${page}&size=${size}`,
 			},
