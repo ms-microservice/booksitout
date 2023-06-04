@@ -23,7 +23,9 @@ const MembershipCard = ({ membership, width=2 }) => {
 						</div>
 
 						<div className='w-100 text-center'>
-							<Barcode value={utils.insertSpace(membership.number)} height={80} width={width} />
+							<Barcode value={membership.number} height={80} width={width} displayValue={false} />
+
+							<h6>{utils.insertSpace(membership.number)}</h6>
 						</div>
 					</a>
 				)}

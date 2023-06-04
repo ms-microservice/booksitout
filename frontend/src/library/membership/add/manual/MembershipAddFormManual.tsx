@@ -3,14 +3,13 @@ import { Button, Card, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import { booksitoutServer } from '../../../../functions/axios'
 import { useNavigate } from 'react-router-dom'
-import MembershipAddManualTypeRegion from './MembershipAddManualTypeRegion'
+import MembershipAddFormManualTypeSearchCard from './MembershipAddFormManualTypeSearchCard'
 
 const MembershipAddFormManual = () => {
 	const navigate = useNavigate()
 
     const [membershipNumber, setMembershipNumber] = React.useState<string>('')
-	const [regionId, setRegionId] = React.useState<number | null>(null)
-	const [membershipType, setMembershipType] = React.useState<string>('REGION')
+	const [typeId, setTypeId] = React.useState<number | null>(null)
 	const [memo, setMemo] = React.useState<string>('')
 
     const handleSubmit = (e) => {
@@ -25,8 +24,7 @@ const MembershipAddFormManual = () => {
         toast.loading('회원증을 추가하고 있어요')
 		const membership = {
 			number: membershipNumber,
-			region: regionId,
-			type: membershipType,
+			typeId: typeId,
 			memo: memo,
 		}
 
@@ -62,20 +60,8 @@ const MembershipAddFormManual = () => {
 
 					<div className='mt-4' />
 					<Form.Label>종류</Form.Label>
-					<Form.Select onChange={(e) => setMembershipType(e.target.value)}>
-						<option value='REGION'>공립 (시립, 구립, 도립 등)</option>
-
-						<option value='LIBRARY_ONE'>통합 (책 이음 등)</option>
-
-						<option value='COUNTRY'>국립</option>
-						<option value='SCHOOL'>학교 (대학, 초중고 등)</option>
-						<option value='PRIVATE'>사립</option>
-						<option value='OTHERS'>기타</option>
-					</Form.Select>
-
-					<div className='mt-4' />
-					<div style={{ minHeight: '300px' }}>
-						{membershipType === 'REGION' && <MembershipAddManualTypeRegion regionId={regionId} setRegionId={setRegionId} />}
+					<div style={{ minHeight: '200px' }}>
+						<MembershipAddFormManualTypeSearchCard typeId={typeId} setTypeId={setTypeId} />
 					</div>
 
 					<div className='mt-4' />
