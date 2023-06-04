@@ -10,6 +10,9 @@ import defaultBookCover from '../../../resources/images/common/default-book-cove
 import '../../../resources/css/bookSearchCard.css'
 
 const SubscriptionCardComponent = ({ book }) => {
+
+	if (book == null || book.title === undefined) return <></>
+
 	return (
 		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }}>
 			<a href={book.link} target='_blank' className='text-decoration-none text-black' rel='noreferrer'>

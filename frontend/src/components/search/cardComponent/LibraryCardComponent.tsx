@@ -1,3 +1,4 @@
+import React from 'react'
 import { Card } from 'react-bootstrap'
 import defaultCover from '../../../resources/images/common/default-book-cover.png'
 import libraryIcon from '../../../resources/images/book-classifications/sources/library.png'
@@ -11,6 +12,8 @@ const LibraryCardComponent = ({ book }) => {
 		dispatch(openSearchLibraryDetail())
 		dispatch(setSearchLibraryDetailSelected(book))
 	}
+
+	if (book == null || book === undefined || book.book == null || book.book === undefined) return <></>
 
 	return (
 		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }} onClick={handleOnClick}>

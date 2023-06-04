@@ -2,6 +2,9 @@ import { Card, ProgressBar } from 'react-bootstrap'
 import defaultCover from '../../../resources/images/common/default-book-cover.png'
 
 const MyBookCardComponent = ({ book }) => {
+	
+	if (book.title === undefined) return <></>
+
 	return (
 		<div className='col-12 col-lg-6 mb-3' style={{ height: '225px' }}>
 			<a href={`/book/detail/${book.bookId}`} className='text-decoration-none text-black'>
@@ -9,7 +12,7 @@ const MyBookCardComponent = ({ book }) => {
 					<Card.Body>
 						<div className='row h-100'>
 							<div className='col-3 d-flex align-self-center'>
-								<img src={book.cover === '' ? defaultCover : book.cover} alt='' className='img-fluid w-100' />
+								<img src={book.cover === '' ? defaultCover : book.cover} alt='' className='img-fluid w-100 rounded' />
 							</div>
 
 							<div className='col-9'>
