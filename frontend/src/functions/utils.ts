@@ -45,6 +45,10 @@ const utils = {
 		return result.startsWith(',') ? result.substring(1) : result
 	},
 
+	insertSpace: (str, atEvery = 4) => {
+		return str.replace(new RegExp(`(\\d{${atEvery}})`, 'g'), '$1 ')
+	},
+
 	isHoursPassed: (key: string, hours: number): boolean => {
 		const storedTimestamp = localStorage.getItem(key)
 

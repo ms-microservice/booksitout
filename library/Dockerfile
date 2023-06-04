@@ -4,7 +4,7 @@ MAINTAINER JINKYUM PARK
 WORKDIR ./
 
 ARG JAR_FILE_PATH=./build/libs/*.jar
-ENV SPRING_PROFILES_ACTIVE=prod,api,log,actuator,membership
+ENV SPRING_PROFILES_ACTIVE=prod,api,log,actuator,membership,cloud
 
 COPY ./src/main/resources/appleWallet/Certificates.p12 /path/in/docker/Certificates.p12
 COPY ./src/main/resources/appleWallet/AppleWWDRCAG3.cer /path/in/docker/AppleWWDRCAG3.cer

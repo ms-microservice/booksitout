@@ -15,6 +15,8 @@ const CommunityFloatingButton = () => {
 		width: '60px',
 		height: '60px',
 
+		zIndex: 5,
+
 		borderRadius: '50px',
 	}
 
@@ -42,7 +44,7 @@ const CommunityFloatingButton = () => {
 	return (
 		<>
 			{token !== '' && token !== null && (
-				<Button variant='book z position-fixed' style={addButtonStyle} active={getIsActive()} onClick={() => navigate(getNavigateUrl())}>
+				<Button variant='book position-fixed' style={addButtonStyle} active={getIsActive()} onClick={() => navigate(getNavigateUrl())}>
 					<PostIcon className='h2 m-0 p-0' />
 				</Button>
 			)}

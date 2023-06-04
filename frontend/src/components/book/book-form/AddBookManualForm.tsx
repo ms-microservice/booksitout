@@ -154,7 +154,9 @@ const AddBookManualForm = () => {
 											type='number'
 											inputMode='numeric'
 											pattern='[0-9]*'
+											autoCapitalize='off'
 											autoComplete='off'
+											autoCorrect='off'
 											placeholder={messages.book.placeholder.add.page}
 											required
 										/>

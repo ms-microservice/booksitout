@@ -99,16 +99,47 @@ const BookDetail = () => {
 				<AddRatingModal isModalOpen={ratingModalOpen} setIsModalOpen={setRatingModalOpen} book={book} setBook={setBook} />
 				<AddReviewModal isModalOpen={reviewModalOpen} setIsModalOpen={setReviewModalOpen} book={book} setBook={setBook} />
 				<AddSummaryModal isModalOpen={summaryModalOpen} setIsModalOpen={setSummaryModalOpen} book={book} setBook={setBook} />
-				<AddReadingSessionModal isModalOpen={addReadingModalOpen} setIsModalOpen={setAddReadingModalOpen} book={book} setBook={setBook} readingSessionList={readingSession} setReadingSessionList={setReadingSession} />
+				<AddReadingSessionModal
+					isModalOpen={addReadingModalOpen}
+					setIsModalOpen={setAddReadingModalOpen}
+					book={book}
+					setBook={setBook}
+					readingSessionList={readingSession}
+					setReadingSessionList={setReadingSession}
+				/>
 				<AddMemoModal modalOpen={addMemoModalOpen} setModalOpen={setAddMemoModalOpen} book={book} memoList={memo} setMemoList={setMemo} />
-				<ReadingSessionDetailModal isModalOpen={readingDetailModalOpen} setIsModalOpen={setReadingDetailModalOpen} readingSession={selectedReadingSession} setReadingSession={setSelectedReadingSession} readingSessionList={readingSession} setReadingSessionList={setReadingSession} book={book} setBook={setBook} />
-				<MemoDetailModal isModalOpen={memoDetailModalOpen} setIsModalOpen={setMemoDetailModalOpen} memo={selectedMemo} setMemo={setSelectedMemo} memoList={memo} setMemoList={setMemo} />
+				<ReadingSessionDetailModal
+					isModalOpen={readingDetailModalOpen}
+					setIsModalOpen={setReadingDetailModalOpen}
+					readingSession={selectedReadingSession}
+					setReadingSession={setSelectedReadingSession}
+					readingSessionList={readingSession}
+					setReadingSessionList={setReadingSession}
+					book={book}
+					setBook={setBook}
+				/>
+				<MemoDetailModal
+					isModalOpen={memoDetailModalOpen}
+					setIsModalOpen={setMemoDetailModalOpen}
+					memo={selectedMemo}
+					setMemo={setSelectedMemo}
+					memoList={memo}
+					setMemoList={setMemo}
+				/>
 
 				<div className='col-12 col-md-4 mb-5'>
 					<BookCover book={book} />
-					<BookButtons book={book} setBook={setBook} setIsRatingModalOpen={setRatingModalOpen} setIsReviewModalOpen={setReviewModalOpen} setIsSummaryModalOpen={setSummaryModalOpen} />
+					<BookButtons
+						book={book}
+						setBook={setBook}
+						setIsRatingModalOpen={setRatingModalOpen}
+						setIsReviewModalOpen={setReviewModalOpen}
+						setIsSummaryModalOpen={setSummaryModalOpen}
+					/>
 
-					<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book?.title ?? ''}`)}>이 책 검색하기</Button>
+					<Button variant='secondary' className='mt-3 w-100' onClick={() => navigate(`/search/${book?.title ?? ''}`)}>
+						이 책 검색하기
+					</Button>
 				</div>
 
 				<div className='col-12 col-md-8 mt-0 mt-md-5'>
@@ -199,7 +230,7 @@ const BookDetail = () => {
 								<div className='col-12'>
 									{readingSession == null || readingSession.length === 0 ? (
 										<div className='mb-4'>
-											<NoContent message='독서활동이 없어요' />
+											<NoContent message='독서활동이 없어요' move={0} />
 										</div>
 									) : (
 										<ReadingSessionList
@@ -214,7 +245,12 @@ const BookDetail = () => {
 						</Card.Body>
 					</Card>
 
-					<MemoCard memo={memo} setMemoDetailModalOpen={setMemoDetailModalOpen} setAddMemoModalOpen={setAddMemoModalOpen} setSelectedMemo={setSelectedMemo} />
+					<MemoCard
+						memo={memo}
+						setMemoDetailModalOpen={setMemoDetailModalOpen}
+						setAddMemoModalOpen={setAddMemoModalOpen}
+						setSelectedMemo={setSelectedMemo}
+					/>
 				</div>
 			</div>
 		</div>
@@ -408,13 +444,7 @@ const BookDescription = ({ book }) => {
 const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelectedMemo }) => {
 	return (
 		<Card className='mt-3'>
-			<AddButton
-				size='30'
-				color='book'
-				onClick={() => {
-					setAddMemoModalOpen(true)
-				}}
-			/>
+			<AddButton size='30' color='book' onClick={() => setAddMemoModalOpen(true)} />
 
 			<Card.Body>
 				<h4>📋 메모</h4>
@@ -423,13 +453,13 @@ const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelect
 					<div className='col-12'>
 						{memo == null || memo.length === 0 ? (
 							<div className='mb-4'>
-								<NoContent message='메모가 없어요' />
+								<NoContent message='메모가 없어요' move={0} />
 							</div>
 						) : (
 							<div className='row row-eq-height'>
 								{memo.map((memo) => {
 									return (
-										<div className='col-12 mb-2'>
+										<div className='col-12 mb-2 clickable'>
 											<Card
 												style={{ backgroundColor: uiSettings.color.memo }}
 												onClick={() => {
@@ -442,7 +472,7 @@ const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelect
 
 												<Card.Body>
 													<div className='row'>
-														<div className='text-center'>{memo.content}</div>
+														<div className='text-center clamp-2-line'>{memo.content}</div>
 													</div>
 												</Card.Body>
 											</Card>

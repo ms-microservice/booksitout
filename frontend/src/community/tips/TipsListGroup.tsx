@@ -46,8 +46,8 @@ const TipsListGroup = ({ range }) => {
 
 	if (initialFetch) return <></>
 	if (loading) return <Loading />
-	if (postList == null || error) return <Error />
-	if (postList.length === 0) return <NoContent message='아직 꿀팁이 없어요'  />
+	if (postList == null || error) return <Error mt={100}/>
+	if (postList.length === 0) return <NoContent message='아직 꿀팁이 없어요' move={-30} />
 
 	return (
 		<InfiniteScroll loader={<InfiniteScrollLoading />} next={getNextPage} hasMore={currentPage < totalPages} dataLength={totalPages} className='overflow-hidden'>

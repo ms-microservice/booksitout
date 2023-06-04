@@ -1,5 +1,5 @@
 import React from "react"
-import { Card } from "react-bootstrap"
+import { Card, ListGroup } from "react-bootstrap"
 
 import Loading from "../../components/common/Loading"
 import Error from '../../components/common/Error'
@@ -16,17 +16,13 @@ import CardTitle from "../../common/CardTitle"
 const MainTipsCard = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
 	const [loading, setLoading] = React.useState(true)
-	const [error, setError] = React.useState(false)
-
-    const [tipPost, setTipPost] = React.useState<TipsType[]>([])
+	
+    const [tipPost, setTipPost] = React.useState<TipsType[] | null>(null)
 	React.useEffect(() => {
 		booksitoutServer
 			.get(`/v4/forum/tips?type=all&size=6`)
 			.then((res) => {
 				setTipPost(res.data.content)
-			})
-			.catch(() => {
-				setError(true)
 			})
 			.finally(() => {
 				setInitialFetch(false)
@@ -43,7 +39,17 @@ const MainTipsCard = () => {
 						title='책잇아웃 꿀팁'
 					/>
 
-					{error ? <Error /> : initialFetch ? <></> : loading ? <Loading /> : <MainTipsListGroup postList={tipPost} />}
+					{initialFetch ? (
+						<></>
+					) : tipPost == null ? (
+						<Error />
+					) : loading ? (
+						<Loading />
+					) : (
+						<ListGroup>
+							<MainTipsListGroup postList={tipPost} />
+						</ListGroup>
+					)}
 
 					<div className='d-inline-block pb-4 d-md-none' />
 

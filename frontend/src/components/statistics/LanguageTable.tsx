@@ -25,16 +25,20 @@ const LanguageTable = ({ languageData }) => {
 							return (
 								<tr>
 									<td className='col-2 col-1 text-center align-items-center'>
-										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid' style={{ width: '30px' }} />
+										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid mt-2 mb-2' style={{ width: '20px' }} />
 									</td>
 
 									<td className='col-3'>
-										<p>{getLanguageKoreanLabel(language.language)}</p>
+										<p className='mt-2 mb-2'>{getLanguageKoreanLabel(language.language)}</p>
 									</td>
 
-									<td className='col-4'>{language.doneBook}권</td>
+									<td className='col-4'>
+										<p className='mt-2 mb-2'>{language.doneBook}권</p>
+									</td>
 
-									<td className='col-4'>{language.notDoneBook}권</td>
+									<td className='col-4'>
+										<p className='mt-2 mb-2'>{language.notDoneBook}권</p>
+									</td>
 								</tr>
 							)
 						})}

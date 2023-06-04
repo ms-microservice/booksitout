@@ -12,13 +12,13 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 	const handleAddMemo = (e) => {
 		e.preventDefault()
 
-		if (page ?? 1 < 0) {
+		if ((page ?? 1) < 0) {
 			document.getElementById('page-input')!!.focus()
 			toast.error('페이지는 0보다 작을 수 없어요')
 			return
 		}
 
-		if (page ?? 0 > book.endPage) {
+		if ((page ?? 0) > book.endPage) {
 			document.getElementById('page-input')!!.focus()
 			toast.error('메모의 페이지가 책의 마지막 페이지보다 커요')
 			return
@@ -56,6 +56,10 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddMemo(e)}>
+					<Form.Label>내용</Form.Label>
+					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus id='content-input' />
+					<div className='mb-2' />
+
 					<Form.Label type='number'>페이지</Form.Label>
 					<Form.Control
 						type='number'
@@ -64,9 +68,7 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 						onChange={(e) => setPage(Number(e.target.value))}
 						id='page-input'
 					/>
-
-					<Form.Label className='mt-2'>내용</Form.Label>
-					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus id='content-input' />
+					<div className='mb-2' />
 
 					<div className='row'>
 						<div className='col-12 col-md-6'>

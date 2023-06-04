@@ -1,0 +1,7 @@
+.membership-container {
+    min-height: 400px;
+
+    @media (max-width: 768px) {
+        min-height: 925px;
+    }
+}

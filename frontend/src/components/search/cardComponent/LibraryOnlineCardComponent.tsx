@@ -12,6 +12,8 @@ import '../../../resources/css/bookSearchCard.css'
 const LibraryOnlineCardComponent = ({book}) => {
     const libraryData = search.data.onlineLibrary.find((r) => r.key === book.provider)
 
+	if (book.title == null || book == null || book === undefined) return <></>
+
 	return (
 		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }}>
 			<a href={book.link} target='_blank' className='text-decoration-none text-black' rel='noreferrer'>

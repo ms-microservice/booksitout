@@ -16,7 +16,7 @@ const SettingsLinkCard = ({ title, contentList, link }) => {
 							</div>
 						</div>
 
-						<div className='col-2' style={{ minHeight: '280px' }}>
+						<div className='col-2' style={{ minHeight: '260px' }}>
 							<div className='d-flex justify-content-end align-items-center h-100'>
 								<RightArrowIcon className='text-book' size={30} />
 							</div>

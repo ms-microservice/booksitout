@@ -5,23 +5,37 @@ import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.library.common.PageService;
-import com.jinkyumpark.library.common.feign.client.UserClient;
-import com.jinkyumpark.library.common.feign.response.AppUserResponse;
 import com.jinkyumpark.library.common.loginUser.LoginUser;
 import com.jinkyumpark.library.common.loginUser.User;
+import com.jinkyumpark.library.common.s3.S3Service;
+import com.jinkyumpark.library.membership.appleWallet.AppleWalletService;
 import com.jinkyumpark.library.membership.dto.LibraryMembershipResponse;
 import com.jinkyumpark.library.membership.dto.MembershipAddRequest;
 import com.jinkyumpark.library.membership.dto.MembershipEditRequest;
+import com.jinkyumpark.library.membership.imageRecognition.ImageRecognitionService;
+import com.jinkyumpark.library.membership.imageRecognition.naverOcr.NaverOcrService;
 import com.jinkyumpark.library.region.RegionDetail;
 import com.jinkyumpark.library.region.RegionService;
+import de.brendamour.jpasskit.PKPass;
+import de.brendamour.jpasskit.signing.PKSigningException;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
+import java.io.IOException;
+import java.security.cert.CertificateException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
@@ -30,14 +44,17 @@ public class LibraryMembershipControllerV5 {
 
     private final LibraryMembershipService libraryMembershipService;
     private final RegionService regionService;
-    private final UserClient userClient;
+    private final AppleWalletService appleWalletService;
 
+    private final NaverOcrService naverOcrService;
+    private final ImageRecognitionService imageRecognitionService;
+
+    private final S3Service s3Service;
     private final PageService pageService;
 
     @GetMapping("{membershipId}")
     public LibraryMembershipResponse getMembershipId(@PathVariable("membershipId") Long membershipId) {
         LibraryMembership membership = libraryMembershipService.getLibraryMembershipById(membershipId);
-        AppUserResponse appUser = userClient.getAppUserById(membership.getAppUserId());
 
         if (membership.getRegion() == null) {
             return LibraryMembershipResponse.of(membership);
@@ -91,6 +108,23 @@ public class LibraryMembershipControllerV5 {
         return new ResponseEntity<>(appleWalletPass, headers, HttpStatus.OK);
     }
 
+    @SneakyThrows
+    @PostMapping("image")
+    public LibraryMembershipResponse getImageRecognitionResult(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
+        List<String> recognizedTextList = new ArrayList<>();
+
+        if (multipartFile != null) {
+            byte[] imageData = multipartFile.getInputStream().readAllBytes();
+            String s3Url = s3Service.uploadFile(UUID.randomUUID().toString(), "", imageData);
+            recognizedTextList.addAll(naverOcrService.getImageRecognitionResultByLineBreak(s3Url));
+        }
+
+        String membershipNumber = imageRecognitionService.getMembershipNumber(String.join("", recognizedTextList));
+        RegionDetail region = imageRecognitionService.getRegion(recognizedTextList);
+
+        return LibraryMembershipResponse.of(membershipNumber, region);
+    }
+
     @PostMapping
     public AddSuccessResponse addMembership(@LoginUser User user,
                                             @RequestBody @Valid MembershipAddRequest membershipAddRequest) {
@@ -128,4 +162,5 @@ public class LibraryMembershipControllerV5 {
                 .message("회원증을 지웠어요")
                 .build();
     }
+
 }

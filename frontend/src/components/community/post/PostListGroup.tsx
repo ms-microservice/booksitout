@@ -34,11 +34,10 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 												<BookIcon className='text-book me-2' />
 
 												<div className='d-block'>
-													<span className='force-1-line'>
-														{post.book.title.slice(0, 10)}{' '}
-														<span className='text-secondary '>{post.book.title.length > 10 ? '...' : ''}</span>
-													</span>
+													<span className='clamp-1-line'>{post.book.title}</span>
+
 													<br />
+
 													<span className='text-secondary'>{post.book.author}</span>
 												</div>
 											</>

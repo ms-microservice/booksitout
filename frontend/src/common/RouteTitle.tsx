@@ -1,6 +1,6 @@
 import React from 'react'
 
-const RouteTitle = ({ icon, title }) => {
+const RouteTitle = ({ icon, title, subTitle = '' }) => {
 	return (
 		<div className='d-flex mb-3'>
 			<h1 className='text-book ms-3 me-3'>

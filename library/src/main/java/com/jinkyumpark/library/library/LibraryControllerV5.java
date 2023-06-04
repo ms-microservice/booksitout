@@ -73,12 +73,15 @@ public class LibraryControllerV5 {
                                             @PathVariable("query") String query,
                                             @RequestParam(value = "page", required = false) Integer page,
                                             @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(page, size);
+        Pageable pageable = pageService.getPageableSortedDesc(page, size, "bookCount");
 
         Page<Library> libraryPaged;
-        if (type.equalsIgnoreCase("region-id")) libraryPaged = libraryService.getLibraryByRegionId(Long.valueOf(query), pageable);
-        else if (type.equalsIgnoreCase("region-detail-id")) libraryPaged = libraryService.getLibraryByRegionDetailId(Long.valueOf(query), pageable);
-        else if (type.equalsIgnoreCase("region-detail-english-name")) libraryPaged = libraryService.getLibraryByEnglishName(query.toUpperCase(), pageable);
+        if (type.equalsIgnoreCase("region-id"))
+            libraryPaged = libraryService.getLibraryByRegionId(Long.valueOf(query), pageable);
+        else if (type.equalsIgnoreCase("region-detail-id"))
+            libraryPaged = libraryService.getLibraryByRegionDetailId(Long.valueOf(query), pageable);
+        else if (type.equalsIgnoreCase("region-detail-english-name"))
+            libraryPaged = libraryService.getLibraryByEnglishName(query.toUpperCase(), pageable);
         else throw new BadRequestException("type not valid");
 
         return PagedResponse.builder()
@@ -99,7 +102,7 @@ public class LibraryControllerV5 {
                                                        @RequestParam(value = "radius", required = false) Integer radiusInMeter,
                                                        @RequestParam(value = "page", required = false) Integer page,
                                                        @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(page, size);
+        Pageable pageable = pageService.getPageable(page, size < 20 ? 20 : size);
 
         Page<Library> libraryPaged = libraryService.getLibraryByLatitudeAndLongitudeRange(latitude, longitude, radiusInMeter, pageable);
 
@@ -117,7 +120,7 @@ public class LibraryControllerV5 {
                 .last(libraryPaged.isLast())
                 .totalElements((int) libraryPaged.getTotalElements())
                 .totalPages(libraryPaged.getTotalPages())
-                .content(content)
+                .content(content.subList(0, content.size() < size ? content.size() : size))
                 .build();
     }
 
@@ -125,7 +128,7 @@ public class LibraryControllerV5 {
     public List<LibraryAutoCompleteResponse> getAutoCompleteKeyword(@RequestParam("query") String query,
                                                                     @RequestParam(value = "page", required = false) Integer page,
                                                                     @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(page, size);
+        Pageable pageable = pageService.getPageableSortedDesc(page, size, "bookCount");
 
         return libraryService.getLibraryByQueryLike(query, pageable).stream()
                 .map(LibraryAutoCompleteResponse::of)

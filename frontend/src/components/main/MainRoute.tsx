@@ -4,13 +4,12 @@ import { Card, Alert } from 'react-bootstrap'
 import { RootState } from '../../redux/store';
 import { useSelector } from 'react-redux';
 
-import Loading from '../common/Loading'
 import PostPopular from '../community/post/PostPopular';
 import MainTipsCard from '../../community/tips/MainTipsCard';
 
 import { getLastBook } from '../../functions/book'
 import { getReadTime, getStatisticsSummary } from '../../functions/statistics'
-import { getAlertMessage, getIsAlertShowing, updateAlertCloseTime } from '../../functions/alert'
+import { getAlertMessage } from '../../functions/alert'
 
 import uiSettings from '../../settings/ui'
 import '../../resources/css/mainReadChart.css'
@@ -39,16 +38,14 @@ import parse from 'html-react-parser'
 const MainRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 	
-	const [showAlert, setShowAlert] = React.useState(getIsAlertShowing())
-	
-	const [loading, setIsLoading] = React.useState(true)
 	const [initialFetch, setInitialFetch] = React.useState(true)
+	const [goalLoading, setGoalLoading] = React.useState(true)
+	const [lastBookLoading, setLastBookLoading] = React.useState(true)
 
 	const [lastBook, setLastBook] = React.useState<BookType | null | undefined>(null)
 	const [readTime, setReadTime] = React.useState<number[] | null>(null)
 	const [goal, setGoal] = React.useState<GoalType | null | undefined>(null)
 	const [statistics, setStatistics] = React.useState<StatisticsType | null | undefined>(null)
-
 	const [gathering, setGathering] = React.useState<GatheringType[] | null | undefined>(null)
 
 	React.useEffect(() => {
@@ -66,51 +63,43 @@ const MainRoute = () => {
 			setStatistics(undefined)
 
 			setInitialFetch(false)
-			setIsLoading(false)
 			return
 		}
 
 		Promise.all([
 			getLastBook()
 				.then((res) => (res.status === 204 ? setLastBook(null) : setLastBook(res.data)))
-				.catch(() => setLastBook(undefined)),
+				.catch(() => setLastBook(undefined))
+				.finally(() => setLastBookLoading(false)),
 
 			getReadTime(7).then((readTime) => setReadTime(readTime)),
 
 			booksitoutServer
 				.get(`v1/goal/${new Date().getFullYear()}`)
 				.then((res) => (res.status === 204 ? setGoal(null) : setGoal(res.data)))
-				.catch(() => setGoal(undefined)),
+				.catch(() => setGoal(undefined))
+				.finally(() => setGoalLoading(false)),
 
 			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats.data || null)),
 		]).finally(() => {
 			setInitialFetch(false)
-			setIsLoading(false)
 		})
 	}, [isLogin])
 
-	const closeAlert = () => {
-		setShowAlert(false)
-		updateAlertCloseTime()
-	}
-
 	if (initialFetch) return <></>
-	if (loading) return <Loading />
 
 	return (
 		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden' }}>
 			<div className='row mb-5 p-0'>
-				{showAlert && (
-					<div className='container'>
-						<Alert variant='success' dismissible onClose={() => closeAlert()}>
-							{isLogin
-								? getAlertMessage()
-								: parse(
-										'책잇아웃 : 책을 <b>기록</b>하고, 원하는 책을 <b>도서관</b> / <b>중고책</b> / <b>구독</b> 등 한 번에 <b>검색</b> / <b>알림</b>. 책 관련 <b>커뮤니티</b>까지.'
-								  )}
-						</Alert>
-					</div>
-				)}
+				<div className='container'>
+					<Alert variant='success'>
+						{isLogin
+							? getAlertMessage()
+							: parse(
+									'책잇아웃 : 책을 <b>기록</b>하고, 원하는 책을 <b>도서관</b> / <b>중고책</b> / <b>구독</b> 등 한 번에 <b>검색</b> / <b>알림</b>. 책 관련 <b>커뮤니티</b>까지.'
+							  )}
+					</Alert>
+				</div>
 
 				<div>
 					<div className={`${isLogin ? 'd-none' : 'd-block d-md-none'} mb-4`}>
@@ -124,7 +113,7 @@ const MainRoute = () => {
 							<Card.Body>
 								<div className='row row-eq-height'>
 									<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
-										{isLogin ? <MainLastReadBookCard lastBook={lastBook} /> : <MainBookNotLoginCard />}
+										{isLogin && !lastBookLoading ? <MainLastReadBookCard lastBook={lastBook} /> : <MainBookNotLoginCard />}
 									</div>
 
 									<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
@@ -136,19 +125,13 @@ const MainRoute = () => {
 									</div>
 
 									<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-										<MainGoalCard goal={goal} loading={!isLogin} />
+										<MainGoalCard goal={goal} loading={!isLogin || goalLoading} />
 									</div>
 
 									{isLogin && (
-										<>
-											{/* <div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-												<MainNearLibraryCard />
-											</div> */}
-
-											<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
-												<MainLibraryMembershipCard />
-											</div>
-										</>
+										<div className={`col-12 col-md-6 col-xl-4 mt-2 mb-2 ${!isLogin && 'md-hide'}`}>
+											<MainLibraryMembershipCard />
+										</div>
 									)}
 								</div>
 							</Card.Body>
@@ -167,7 +150,7 @@ const MainRoute = () => {
 								</div>
 
 								<div className='col-12 col-xl-6 mt-2 mb-2'>
-									<GatheringSummaryCard gatheringList={gathering} title='지금 모집중인 독서모임' col='col-12' />
+									<GatheringSummaryCard title='지금 모집중인 독서모임' col='col-12' />
 								</div>
 							</div>
 						</Card.Body>

@@ -9,10 +9,10 @@ import {BsBookHalf as BookIcon} from 'react-icons/bs'
 const MainBookNotLoginCard = () => {
     return (
 		<Card className='h-100' style={{ minHeight: '420px' }}>
-			<Card.Body className='h-100'>
-				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} textSize={3} iconSize={2} />
+			<Card.Body className='h-100 pb-5'>
+				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} textSize={3} iconSize={2} mb={0} />
 
-				<div className='row row-eq-height justify-content-center mt-3'>
+				<div className='row row-eq-height justify-content-center'>
 					<div className='mb-4 col-8 col-lg-4 align-self-center text-center'>
 						<img
 							className='img-fluid rounded text-decoration-none text-black'
@@ -39,7 +39,7 @@ const MainBookNotLoginCard = () => {
 							<Placeholder xs='12' />
 						</Placeholder>
 
-						<div className='d-block d-md-none d-lg-block mt-5 mb-4'>
+						<div className='d-block d-md-none d-lg-block mt-4 mb-4'>
 							<div className='row text-center justify-content-center'>
 								<div className='col-4'>
 									<BookInfoPlaceholder />

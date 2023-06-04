@@ -85,9 +85,9 @@ const AddGatheringForm = () => {
 						<Form.Control as='textarea' id='content-input' onChange={(e) => setContent(e.target.value)} rows={12} />
 					</FormGroup>
 
-					<FormGroup className='mt-3'>
+					<FormGroup>
 						<div className='row'>
-							<div className='col-12 col-md-6'>
+							<div className='col-12 col-md-6 mt-3'>
 								<Form.Label>독서모임 종류</Form.Label>
 								<Form.Select onChange={(e) => setGatheringType(e.target.value)}>
 									<option value='FREE'>자유롭게</option>
@@ -98,7 +98,7 @@ const AddGatheringForm = () => {
 								</Form.Select>
 							</div>
 
-							<div className='col-12 col-md-6'>
+							<div className='col-12 col-md-6 mt-3'>
 								<Form.Label>인원제한 (본인 포함)</Form.Label>
 								<Form.Control
 									type='number'
@@ -112,9 +112,9 @@ const AddGatheringForm = () => {
 						</div>
 					</FormGroup>
 
-					<FormGroup className='mt-3'>
+					<FormGroup>
 						<div className='row'>
-							<div className='col-12 col-md-6'>
+							<div className='col-12 col-md-6 mt-3'>
 								<Form.Label>위치 종류</Form.Label>
 								<Form.Select onChange={(e) => setLocationType(e.target.value)}>
 									<option value='SUBWAY'>지하철역</option>
@@ -123,7 +123,7 @@ const AddGatheringForm = () => {
 								</Form.Select>
 							</div>
 
-							<div className='col-12 col-md-6'>
+							<div className='col-12 col-md-6 mt-3'>
 								<Form.Label>위치 상세</Form.Label>
 								<Form.Control id='location-detail-input' onChange={(e) => setLocationDetail(e.target.value)} />
 							</div>

@@ -1,20 +1,22 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import NoContent from '../components/common/NoContent'
-import Loading from '../components/common/Loading'
-import Goal from './Goal'
-import AddGoalModal from './AddGoalModal'
-import EditGoalModal from './EditGoalModal'
-import AddButton from '../components/common/AddButton'
-import { getGoalList, deleteGoal } from './goalFunctions'
-import goalIcon from './images/goal.png'
-import AddPastGoalModal from './AddPastGoalModal'
-import EditPastGoalModal from './EditPastGoalModal'
-import goalMessage from './goalMessage'
-import { GoalType } from './GoalType'
+import NoContent from '../../components/common/NoContent'
+import Loading from '../../components/common/Loading'
+import Goal from '../Goal'
+import AddGoalModal from '../AddGoalModal'
+import EditGoalModal from '../EditGoalModal'
+import AddButton from '../../components/common/AddButton'
+import { getGoalList, deleteGoal } from '../goalFunctions'
+import goalIcon from '../images/goal.png'
+import AddPastGoalModal from '../AddPastGoalModal'
+import EditPastGoalModal from '../EditPastGoalModal'
+import goalMessage from '../goalMessage'
+import { GoalType } from '../GoalType'
 
 const GoalRoute = () => {
+	document.title = '목표 | 책잇아웃'
+
 	const GOAL_DELETE_SUCCESS_MESSAGE = `목표를 지웠어요`
 	const GOAL_DELETE_FAIL_MESSAGE = `오류가 났어요. 잠시 후 다시 시도해 주세요`
 
@@ -102,22 +104,23 @@ const GoalRoute = () => {
 					)}
 
 					<div className='col-12 col-lg-6 mb-4'>
-						<Card className='h-100' style={{ minHeight: '360px' }}>
-							<Card.Body className='h-100'>
-								<h2 className='mb-3'>{currentYear}년</h2>
+						<Card className='h-100' style={{ minHeight: '390px' }}>
+							<Card.Body>
+								<h2>{currentYear}년</h2>
+								<div className='mb-4' />
 
 								<div className={currentYearGoal != null ? 'mt-5 mb-5' : ''}>
 									{currentYearGoal == null ? (
-										<NoContent message={`${currentYear}년 목표가 없어요`} />
+										<NoContent message={`${currentYear}년 목표가 없어요`} move={-40} />
 									) : (
 										<Goal goal={currentYearGoal} />
 									)}
 								</div>
 
-								<div className='row justify-content-center mb-0' style={{ display: 'relative', bottom: '0px' }}>
+								<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '20px' }}>
 									{currentYearGoal == null ? (
-										<div className='col-12 col-lg-8'>
-											<Button variant='book' className='w-100 mt-2' onClick={() => setIsGoalModalOpen(true)}>
+										<div className='col-12 col-lg-8 w-100'>
+											<Button variant='book' className='w-100' onClick={() => setIsGoalModalOpen(true)}>
 												목표 설정하기
 											</Button>
 										</div>
@@ -142,19 +145,19 @@ const GoalRoute = () => {
 					</div>
 
 					<div className='col-12 col-lg-6 mb-4'>
-						<Card className='h-100'>
+						<Card className='h-100' style={{ minHeight: '390px' }}>
 							<Card.Body>
 								<h2>목표 분석</h2>
 
 								<div className='mt-4 mb-4 mb-md-0'>
-									<NoContent message={`목표 분석은 아직 준비중이에요`} />
+									<NoContent message={`목표 분석은 아직 준비중이에요`} move={-40} />
 								</div>
 							</Card.Body>
 						</Card>
 					</div>
 
-					<div className='col-12 mb-5'>
-						<Card style={{ minHeight: '350px' }}>
+					<div className='col-12 mb-4'>
+						<Card style={{ minHeight: '390px' }}>
 							<Card.Body>
 								<h2 className='mb-4'>과거 목표</h2>
 
@@ -168,7 +171,7 @@ const GoalRoute = () => {
 								/>
 
 								{goalList.filter((g) => g.year !== new Date().getFullYear()).length === 0 ? (
-									<NoContent message='과거 목표가 없어요' />
+									<NoContent message='과거 목표가 없어요' move={-60} />
 								) : (
 									<div className='row text-center'>
 										{goalList

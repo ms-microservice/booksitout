@@ -58,6 +58,9 @@ const AddGoalModal = ({ isModalOpen, setIsModalOpen, setCurrentYearGoal }) => {
 						placeholder={goalMessage.add.placeholder}
 						onChange={(e) => setGoal(e.target.value)}
 						id='goal-input'
+						autoCapitalize='off'
+						autoComplete='off'
+						autoCorrect='off'
 					/>
 
 					<div className='row justify-content-center mt-3'>

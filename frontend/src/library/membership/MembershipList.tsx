@@ -13,25 +13,39 @@ import { BsFillPersonVcardFill as CardIcon} from 'react-icons/bs'
 
 import InfiniteScrollLoading from '../../components/common/InfiniteScrollLoading';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { Button } from 'react-bootstrap';
+import AddButton from '../../components/common/AddButton';
+import { useNavigate } from 'react-router-dom';
 
 const MembershipList = () => {
+	const navigate = useNavigate()
+
     const [loading, setLoading] = React.useState<boolean>(true)
+	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
 
     const [membershipPaged, setMembershipPaged] = React.useState<PageType<MembershipType[]> | null>(null)
     const [page, setPage] = React.useState<number>(1)
     React.useEffect(() => {
+		setTimeout(() => {
+			setInitialFetch(false)
+		}, 300)
+
         booksitoutServer
 			.get(`v5/library/membership?page=${page}`)
 			.then((res) => setMembershipPaged(res.data))
-			.finally(() => setLoading(false))
+			.finally(() => {
+				setLoading(false)
+				setInitialFetch(false)
+			})
 	}, [page])
 
 	return (
 		<div className='container-xl' style={{ minHeight: '500px' }}>
 			<RouteTitle icon={<CardIcon />} title={'모든 도서관 회원증'} />
+			<AddButton size={40} top='80px' onClick={() => navigate('/library/membership/add/image')} />
 
-			{loading ? (
+			{initialFetch ? (
+				<></>
+			) : loading ? (
 				Array.from({ length: 4 }).map(() => {
 					return (
 						<div className='mb-4'>
@@ -42,18 +56,7 @@ const MembershipList = () => {
 			) : membershipPaged === null ? (
 				<Error move={-60} />
 			) : membershipPaged.content.length === 0 ? (
-				<>
-					<NoContent message='도서관 회원증이 없어요' />
-					<div className='row justify-content-center'>
-						<div className='col-12 col-md-6'>
-							<a href='/library/membership/add/image'>
-								<Button variant='book' className='w-100'>
-									바로 추가하기
-								</Button>
-							</a>
-						</div>
-					</div>
-				</>
+				<NoContent message='도서관 회원증이 없어요' move={-60} />
 			) : (
 				membershipPaged.content.map((membership) => {
 					return (

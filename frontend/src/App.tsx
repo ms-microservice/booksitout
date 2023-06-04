@@ -34,11 +34,11 @@ import ReadingRoute from './components/reading/ReadingRoute'
 import ReadingNoId from './components/reading/ReadingNoId'
 
 import StatisticsRoute from './components/statistics/StatisticsRoute'
-import GoalRoute from './goal/GoalRoute'
+import GoalRoute from './goal/goalRoute/GoalRoute'
 
 import SearchRoute from './components/search/SearchRoute'
 
-import CommunityRoute, {loader as communityRouteLoader} from './components/community/community-main/CommunityRoute'
+import CommunityRoute from './components/community/community-main/CommunityRoute'
 import AddCommunityRoute from './community/AddCommunityRoute'
 
 import PostRoute, { loader as postRouteLoader } from './components/community/post/post-route/PostRoute'
@@ -105,7 +105,7 @@ const router = createBrowserRouter(
 
 			<Route path='/search/:query' element={<SearchRoute />} />
 
-			<Route path='/community' element={<CommunityRoute />} errorElement={<ErrorPage />} loader={communityRouteLoader} />
+			<Route path='/community' element={<CommunityRoute />} errorElement={<ErrorPage />} />
 			<Route path='/community/:type/add' element={<AddCommunityRoute />} />
 
 			<Route path='/community/post/all/:sortBy' element={<PostRoute />} errorElement={<ErrorPage />} loader={postRouteLoader} />

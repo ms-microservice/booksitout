@@ -69,7 +69,7 @@ const SummaryTable = ({ statistics, loading = false  }) => {
 								<h5>
 									{loading ? (
 										<Placeholder as={Card.Text} animation='wave'>
-											<Placeholder xs='4' />
+											<Placeholder xs='6' />
 										</Placeholder>
 									) : (
 										stat.value(statistics)

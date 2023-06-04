@@ -4,7 +4,7 @@ const Error = ({ message = '서버에 오류가 났어요', color = 'text-danger
 	const iconStyle = { width: `${iconSize}px`, height: `${iconSize}px` }
 
 	return (
-		<div className='h-100 d-flex justify-content-center align-items-center' style={{ transform: `translateY(-${move}px)`, marginTop: `${mt}px` }}>
+		<div className='h-100 d-flex justify-content-center align-items-center' style={{ transform: `translateY(${move * -1}px)`, marginTop: `${mt}px` }}>
 			<div className='row justify-content-center'>
 				<ErrorIcon className={`${color} m-0`} style={iconStyle} />
 				<h3 className='text-center'>{message}</h3>

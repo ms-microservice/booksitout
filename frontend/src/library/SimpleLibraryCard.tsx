@@ -7,7 +7,7 @@ const SimpleLibraryCard = ({ library }) => {
 			<a href={`/library/detail/${library.id}`}>
 				<Card.Body>
 					<div className='row'>
-						<div className='col-7'>
+						<div className={library.location.distance !== 0 ? 'col-7' : 'col-12'}>
 							<h5 className='clamp-1-line'>{library.name}</h5>
 						</div>
 

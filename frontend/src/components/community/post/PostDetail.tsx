@@ -378,7 +378,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 	}
 
 	return (
-		<Card style={{ minHeight: '100px' }}>
+		<Card style={{ minHeight: '475px' }}>
 			<EditCommentModal
 				show={commentEditModalOpen}
 				setShow={setCommentEditModalOpen}
@@ -415,7 +415,7 @@ const PostDetailCommentCard = ({post, setPost, commentList, setCommentList}) => 
 				</Card>
 
 				{commentList.length === 0 ? (
-					<NoContent message='댓글이 없어요' />
+					<NoContent message='댓글이 없어요' move={0} />
 				) : (
 					commentList.map((comment) => {
 						return (

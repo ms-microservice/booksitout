@@ -10,21 +10,17 @@ import {BsBookHalf as BookIcon} from 'react-icons/bs'
 const MainLastReadBookCard = ({ lastBook }) => {
 	return (
 		<Card className='h-100' style={{ minHeight: '420px' }}>
-			<a href={lastBook == null ? '/book/not-done' : `/book/detail/${lastBook.bookId}`} className='h-100 text-decoration-none text-black'>
-				<Card.Body className='h-100'>
-					<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} iconSize={2} />
+			<Card.Body className='h-100'>
+				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} iconSize={2} mb={0} />
 
-					{lastBook === undefined ? (
-						<Error />
-					) : lastBook == null ? (
-						<div className='mt-5 mb-2 mb-md-3'>
-							<NoContent message={messages.book.lastBook.noContent} />
-						</div>
-					) : (
-						<MainHorizontalBookView book={lastBook} link={lastBook == null ? `/book/not-done` : `/book/detail/${lastBook.bookId}`} />
-					)}
-				</Card.Body>
-			</a>
+				{lastBook === undefined ? (
+					<Error />
+				) : lastBook == null ? (
+					<NoContent message={messages.book.lastBook.noContent} move={40} />
+				) : (
+					<MainHorizontalBookView book={lastBook} link={lastBook == null ? `/book/not-done` : `/book/detail/${lastBook.bookId}`} />
+				)}
+			</Card.Body>
 		</Card>
 	)
 }

@@ -15,7 +15,7 @@ export async function loader({ params }) {
 	const name = params.name
 
     const fetchRegion = booksitoutServer.get(`v5/library/region/by-english-name?english-name=${name}`).then((res) => res.data)
-    const fetchLibraryList = booksitoutServer.get(`v5/library/available-library/by-region/region-detail-english-name/${name}`).then((res) => res.data)
+    const fetchLibraryList = booksitoutServer.get(`v5/library/available-library/by-region/region-detail-english-name/${name}?size=30`).then((res) => res.data)
 
     const [region, libraryList] = await Promise.all([fetchRegion, fetchLibraryList])
 

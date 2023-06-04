@@ -12,7 +12,7 @@ const LibraryCard = ({library}) => {
 			<Card className='mb-3' style={{ minHeight: '125px' }}>
 				<Card.Body>
 					<div className='row'>
-						<div className='col-8'>
+						<div className={library.location.distance !== 0 ? 'col-8' : 'col-12'}>
 							<h4>{library.name}</h4>
 						</div>
 

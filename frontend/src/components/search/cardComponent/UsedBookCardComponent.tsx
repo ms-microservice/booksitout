@@ -9,6 +9,9 @@ import aladinIcon from '../../../resources/images/search/aladin.png'
 import yes24Icon from '../../../resources/images/search/yes24.png'
 
 const UsedBookCardComponent = ({ book }) => {
+	
+	if (book === undefined || book.link === undefined) return <></>
+
 	return (
 		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }}>
 			<a href={book.link} target='_blank' className='text-decoration-none text-black' rel='noreferrer'>

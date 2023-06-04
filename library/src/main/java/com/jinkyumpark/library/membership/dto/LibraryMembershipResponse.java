@@ -39,6 +39,18 @@ public class LibraryMembershipResponse {
                 .build();
     }
 
+    public static LibraryMembershipResponse of(String number, RegionDetail regionDetail) {
+        return LibraryMembershipResponse.builder()
+                .number(number)
+                .region(regionDetail == null ? null : LibraryMembershipResponseRegion.builder()
+                        .id(regionDetail.getRegionDetailId())
+                        .koreanName(regionDetail.getKoreanName())
+                        .englishName(regionDetail.getEnglishName())
+                        .logo(regionDetail.getLogo())
+                        .build())
+                .build();
+    }
+
 }
 
 @Getter

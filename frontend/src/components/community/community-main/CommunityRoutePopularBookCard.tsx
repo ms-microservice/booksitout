@@ -27,7 +27,7 @@ const CommunityRoutePopularBookCard = () => {
 
 				<div className='mb-4' />
 
-				<ListGroup>
+				<ListGroup className="h-100">
 					{error || popularBook === undefined ? (
 						<Error />
 					) : (

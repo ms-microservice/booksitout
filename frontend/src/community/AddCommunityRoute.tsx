@@ -3,12 +3,15 @@ import { useParams } from "react-router-dom"
 import AddPostForm from "../components/community/post/AddPostForm"
 import Preparing from "../components/common/Preparing"
 import AddGatheringForm from "./gathering/AddGatheringForm"
+import ScrollToTop from "../common/topnav/ScrollToTop"
 
 const AddCommunityRoute = () => {
     const {type} = useParams()
 
     return (
 		<div className='container-xl mb-5'>
+			<ScrollToTop />
+
 			<ButtonGroup className='w-100'>
 				<a href='/community/post/add' className='w-100'>
 					<ToggleButton className='w-100' value={'SEARCH'} type='radio' checked={false} variant={type === 'post' ? 'book' : 'light'}>

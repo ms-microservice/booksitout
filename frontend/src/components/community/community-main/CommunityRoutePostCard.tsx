@@ -47,13 +47,13 @@ const CommunityRoutePostCard = () => {
 						인기글
 					</h3>
 
-					<div>
+					<div className='h-100'>
 						{initialFetch ? (
 							<></>
 						) : loading ? (
 							<Loading mt='125px' message='' />
 						) : error ? (
-							<Error />
+							<Error move={30}/>
 						) : (
 							<PostListGroup postList={popularPost} col1='col-12 col-md-6' col2='col-12 col-md-6' />
 						)}
