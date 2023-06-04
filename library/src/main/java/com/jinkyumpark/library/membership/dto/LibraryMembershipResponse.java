@@ -1,11 +1,15 @@
 package com.jinkyumpark.library.membership.dto;
 
-import com.jinkyumpark.library.membership.LibraryMembership;
+import com.jinkyumpark.library.library.dto.LibraryResponse;
+import com.jinkyumpark.library.membership.Membership;
+import com.jinkyumpark.library.region.Region;
 import com.jinkyumpark.library.region.RegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
@@ -13,63 +17,63 @@ public class LibraryMembershipResponse {
 
     private Long id;
     private String number;
+    private String memo;
 
-    private LibraryMembershipResponseRegion region;
-
-    public static LibraryMembershipResponse of(LibraryMembership libraryMembership) {
-        return LibraryMembershipResponse.builder()
-                .id(libraryMembership.getLibraryMembershipId())
-                .number(libraryMembership.getNumber())
-
-                .build();
-    }
-
-    public static LibraryMembershipResponse of(LibraryMembership libraryMembership, RegionDetail regionDetail) {
-        return LibraryMembershipResponse.builder()
-                .id(libraryMembership.getLibraryMembershipId())
-                .number(libraryMembership.getNumber())
-
-                .region(LibraryMembershipResponseRegion.builder()
-                        .id(regionDetail.getRegionDetailId())
-                        .koreanName(regionDetail.getKoreanName())
-                        .englishName(regionDetail.getEnglishName())
-                        .logo(regionDetail.getLogo())
-                        .build())
-
-                .build();
-    }
-
-    public static LibraryMembershipResponse of(String number, RegionDetail regionDetail) {
-        return LibraryMembershipResponse.builder()
-                .number(number)
-                .region(regionDetail == null ? null : LibraryMembershipResponseRegion.builder()
-                        .id(regionDetail.getRegionDetailId())
-                        .koreanName(regionDetail.getKoreanName())
-                        .englishName(regionDetail.getEnglishName())
-                        .logo(regionDetail.getLogo())
-                        .build())
-                .build();
-    }
-
-}
-
-@Getter
-@NoArgsConstructor @AllArgsConstructor @Builder
-class LibraryMembershipResponseRegion {
-
-    private Long id;
-    private String koreanName;
-    private String englishName;
     private String logo;
-
-}
-
-@Getter
-@NoArgsConstructor @AllArgsConstructor @Builder
-class LibraryMembershipResponseUser {
-
-    private Long id;
     private String name;
-    private String profileImage;
+    private String description;
+
+    private List<LibraryResponse> usableLibrary;
+
+    public static LibraryMembershipResponse of(Membership membership) {
+        String logo;
+        String name;
+
+        if (membership.getType().getRegionDetail() != null) {
+            logo = membership.getType().getRegionDetail().getLogo();
+            name = membership.getType().getRegionDetail().getKoreanName();
+        } else if (membership.getType().getRegion() != null) {
+            logo = membership.getType().getRegion().getLogo();
+            name = membership.getType().getRegion().getKoreanName();
+        } else {
+            logo = membership.getType().getLogo();
+            name = membership.getType().getName();
+        }
+
+        return LibraryMembershipResponse.builder()
+                .id(membership.getLibraryMembershipId())
+                .number(membership.getNumber())
+                .memo(membership.getMemo())
+
+                .logo(logo)
+                .name(name)
+                .description(membership.getType().getDescription())
+
+                .build();
+    }
+
+    public static LibraryMembershipResponse of(Membership membership, Region region) {
+        return LibraryMembershipResponse.builder()
+                .id(membership.getLibraryMembershipId())
+                .number(membership.getNumber())
+                .memo(membership.getMemo())
+
+                .name(region.getKoreanName())
+                .logo(region.getLogo())
+
+                .build();
+    }
+
+    public static LibraryMembershipResponse of(Membership membership, RegionDetail regionDetail) {
+        return LibraryMembershipResponse.builder()
+                .id(membership.getLibraryMembershipId())
+                .number(membership.getNumber())
+                .memo(membership.getMemo())
+
+                .name(regionDetail.getKoreanName())
+                .logo(regionDetail.getLogo())
+
+                .build();
+    }
 
 }

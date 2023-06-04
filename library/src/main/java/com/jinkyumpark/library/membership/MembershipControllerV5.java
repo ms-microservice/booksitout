@@ -13,9 +13,9 @@ import com.jinkyumpark.library.membership.dto.LibraryMembershipResponse;
 import com.jinkyumpark.library.membership.dto.MembershipAddRequest;
 import com.jinkyumpark.library.membership.dto.MembershipEditRequest;
 import com.jinkyumpark.library.membership.imageRecognition.ImageRecognitionService;
+import com.jinkyumpark.library.membership.imageRecognition.LibraryMembershipImageRecognitionResponse;
 import com.jinkyumpark.library.membership.imageRecognition.naverOcr.NaverOcrService;
-import com.jinkyumpark.library.region.RegionDetail;
-import com.jinkyumpark.library.region.RegionService;
+import com.jinkyumpark.library.membership.type.MembershipType;
 import de.brendamour.jpasskit.PKPass;
 import de.brendamour.jpasskit.signing.PKSigningException;
 import lombok.RequiredArgsConstructor;
@@ -34,18 +34,16 @@ import java.io.IOException;
 import java.security.cert.CertificateException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController @RequestMapping("v5/library/membership")
-public class LibraryMembershipControllerV5 {
+public class MembershipControllerV5 {
 
-    private final LibraryMembershipService libraryMembershipService;
-    private final RegionService regionService;
+    private final MembershipService membershipService;
+
     private final AppleWalletService appleWalletService;
-
     private final NaverOcrService naverOcrService;
     private final ImageRecognitionService imageRecognitionService;
 
@@ -54,19 +52,9 @@ public class LibraryMembershipControllerV5 {
 
     @GetMapping("{membershipId}")
     public LibraryMembershipResponse getMembershipId(@PathVariable("membershipId") Long membershipId) {
-        LibraryMembership membership = libraryMembershipService.getLibraryMembershipById(membershipId);
+        Membership membership = membershipService.getLibraryMembershipById(membershipId);
 
-        if (membership.getRegion() == null) {
-            return LibraryMembershipResponse.of(membership);
-        }
-
-        Optional<RegionDetail> regionDetail = regionService.getRegionDetailById(membership.getRegion().getRegionDetailId());
-
-        if (regionDetail.isEmpty()) {
-            return LibraryMembershipResponse.of(membership);
-        }
-
-        return LibraryMembershipResponse.of(membership, regionDetail.get());
+        return LibraryMembershipResponse.of(membership);
     }
 
     @GetMapping
@@ -74,17 +62,10 @@ public class LibraryMembershipControllerV5 {
                                                     @RequestParam(value = "page", required = false) Integer page,
                                                     @RequestParam(value = "size", required = false) Integer size) {
         Pageable pageable = pageService.getPageable(page, size);
-        Page<LibraryMembership> pagedMembership = libraryMembershipService.getAllMembership(user.getId(), pageable);
+        Page<Membership> pagedMembership = membershipService.getAllMembership(user.getId(), pageable);
 
         List<LibraryMembershipResponse> content = pagedMembership.getContent().stream()
-                .map(membership ->
-                        membership.getRegion() == null ?
-                                LibraryMembershipResponse.of(membership)
-                                :
-                                LibraryMembershipResponse.of(
-                                        membership,
-                                        membership.getRegion()
-                                ))
+                .map(LibraryMembershipResponse::of)
                 .collect(Collectors.toList());
 
         return PagedResponse.builder()
@@ -110,7 +91,7 @@ public class LibraryMembershipControllerV5 {
 
     @SneakyThrows
     @PostMapping("image")
-    public LibraryMembershipResponse getImageRecognitionResult(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
+    public LibraryMembershipImageRecognitionResponse getImageRecognitionResult(@RequestParam(value = "file", required = false) MultipartFile multipartFile) {
         List<String> recognizedTextList = new ArrayList<>();
 
         if (multipartFile != null) {
@@ -120,20 +101,20 @@ public class LibraryMembershipControllerV5 {
         }
 
         String membershipNumber = imageRecognitionService.getMembershipNumber(String.join("", recognizedTextList));
-        RegionDetail region = imageRecognitionService.getRegion(recognizedTextList);
+        MembershipType membershipType = imageRecognitionService.getMembershipType(recognizedTextList);
 
-        return LibraryMembershipResponse.of(membershipNumber, region);
+        return LibraryMembershipImageRecognitionResponse.of(membershipNumber, membershipType);
     }
 
     @PostMapping
     public AddSuccessResponse addMembership(@LoginUser User user,
                                             @RequestBody @Valid MembershipAddRequest membershipAddRequest) {
-        LibraryMembership toAdd = membershipAddRequest.toEntity(user.getId());
-        LibraryMembership added = libraryMembershipService.add(toAdd);
+        Membership toAdd = membershipAddRequest.toEntity(user.getId());
+        Membership added = membershipService.add(toAdd);
 
         return AddSuccessResponse.builder()
                 .id(added.getLibraryMembershipId())
-                .added(added)
+                .added(LibraryMembershipResponse.of(added))
                 .message("회원증을 추가했어요")
                 .build();
     }
@@ -142,8 +123,8 @@ public class LibraryMembershipControllerV5 {
     public UpdateSuccessResponse updateMembership(@LoginUser User user,
                                                   @PathVariable("membershipId") Long membershipId,
                                                   @RequestBody @Valid MembershipEditRequest membershipEditRequest) {
-        LibraryMembership toEdit = libraryMembershipService.update(membershipEditRequest.toEntity(user.getId(), membershipId));
-        LibraryMembership edited = libraryMembershipService.update(toEdit);
+        Membership toEdit = membershipService.update(membershipEditRequest.toEntity(user.getId(), membershipId));
+        Membership edited = membershipService.update(toEdit);
 
         return UpdateSuccessResponse.builder()
                 .id(edited.getLibraryMembershipId())
@@ -155,7 +136,7 @@ public class LibraryMembershipControllerV5 {
     @DeleteMapping("{membershipId}")
     public DeleteSuccessResponse deleteMembership(@LoginUser User user,
                                                   @PathVariable("membershipId") Long membershipId) {
-        libraryMembershipService.delete(user.getId(), membershipId);
+        membershipService.delete(user.getId(), membershipId);
 
         return DeleteSuccessResponse.builder()
                 .id(membershipId)

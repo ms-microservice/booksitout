@@ -11,26 +11,26 @@ import javax.transaction.Transactional;
 
 @RequiredArgsConstructor
 @Service
-public class LibraryMembershipService {
+public class MembershipService {
 
     private final LibraryMembershipRepository libraryMembershipRepository;
 
-    public LibraryMembership getLibraryMembershipById(Long membershipId) {
+    public Membership getLibraryMembershipById(Long membershipId) {
         return libraryMembershipRepository.findById(membershipId)
                 .orElseThrow(() -> new NotFoundException("membership not present"));
     }
 
-    public Page<LibraryMembership> getAllMembership(Long appUserId, Pageable pageable) {
+    public Page<Membership> getAllMembership(Long appUserId, Pageable pageable) {
         return libraryMembershipRepository.findAllByAppUserId(appUserId, pageable);
     }
 
-    public LibraryMembership add(LibraryMembership libraryMembership) {
-        return libraryMembershipRepository.save(libraryMembership);
+    public Membership add(Membership membership) {
+        return libraryMembershipRepository.save(membership);
     }
 
     @Transactional
-    public LibraryMembership update(LibraryMembership libraryMembership) {
-        LibraryMembership membership = libraryMembershipRepository.findById(libraryMembership.getLibraryMembershipId())
+    public Membership update(Membership libraryMembership) {
+        Membership membership = libraryMembershipRepository.findById(libraryMembership.getLibraryMembershipId())
                 .orElseThrow(() -> new NotFoundException("수정할 회원증이 없어요"));
 
         if (!membership.getAppUserId().equals(libraryMembership.getAppUserId())) {
@@ -41,7 +41,7 @@ public class LibraryMembershipService {
     }
 
     public void delete(Long appUserId, Long membershipId) {
-        LibraryMembership membership = libraryMembershipRepository.findById(membershipId)
+        Membership membership = libraryMembershipRepository.findById(membershipId)
                 .orElseThrow(() -> new NotFoundException("지우시려는 회원증이 없어요"));
 
         if (!membership.getAppUserId().equals(appUserId)) {

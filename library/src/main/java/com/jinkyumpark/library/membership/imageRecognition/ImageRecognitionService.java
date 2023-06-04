@@ -1,5 +1,6 @@
 package com.jinkyumpark.library.membership.imageRecognition;
 
+import com.jinkyumpark.library.membership.type.MembershipType;
 import com.jinkyumpark.library.region.RegionDetail;
 import com.jinkyumpark.library.region.RegionService;
 import lombok.RequiredArgsConstructor;
@@ -39,6 +40,15 @@ public class ImageRecognitionService {
                         .replace("구립", "")
                         .replace("도서관", "")
         );
+    }
+
+    public MembershipType getMembershipType(List<String> textList) {
+        String regionCandidate = textList.stream()
+                .filter(text -> text.endsWith("구") || text.endsWith("시") || text.endsWith("도서관"))
+                .findFirst()
+                .orElse("");
+
+        return null;
     }
 
 }

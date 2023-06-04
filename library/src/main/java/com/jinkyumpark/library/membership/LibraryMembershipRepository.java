@@ -5,9 +5,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
-public interface LibraryMembershipRepository extends JpaRepository<LibraryMembership, Long> {
+public interface LibraryMembershipRepository extends JpaRepository<Membership, Long> {
 
-    @Query("select l from LibraryMembership l where l.appUserId = ?1")
-    Page<LibraryMembership> findAllByAppUserId(Long appUserId, Pageable pageable);
+    @Query("select l from Membership l where l.appUserId = ?1")
+    Page<Membership> findAllByAppUserId(Long appUserId, Pageable pageable);
 
 }
