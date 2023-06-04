@@ -2,7 +2,7 @@ import React from 'react'
 import CardTitle from '../../common/CardTitle'
 import { Card } from 'react-bootstrap'
 import Preparing from '../../components/common/Preparing'
-import { VscSearch as SearchIcon } from 'react-icons/vsc'
+import { FaSearch as SearchIcon } from 'react-icons/fa'
 
 const LibraryDetailSearchBookCard = ({library}) => {
     return (

@@ -40,7 +40,7 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 						/>
 					</div>
 
-					<div className='col-12 col-lg-8 pb-md-0'>
+					<div className='col-12 col-lg-8 pb-5 pt-3 pt-md-0'>
 						<h4>{book.title}</h4>
 						<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
 						<PageProgressBar book={book} />

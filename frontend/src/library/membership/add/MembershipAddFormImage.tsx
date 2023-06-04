@@ -57,7 +57,7 @@ const MembershipAddFormImage = () => {
 
 		const membership = {
 			number: recognizedData?.number,
-			region: recognizedData?.region.id,
+			region: recognizedData?.logo,
 		}
 		booksitoutServer
 			.post('v5/library/membership', membership)

@@ -51,18 +51,24 @@ const LibraryNearRoute = () => {
 				.get(`v5/library/available-library/by-radius?lat=${latitude}&long=${longitude}&radius=${currentRange * 1000}&size=20`)
 				.then((res) => {
 					if (nearLibraryList?.length ?? 0 !== res.data.content.length) {
-						toast.success(
-							`도서관 ${res.data.content.length - (nearLibraryList?.length ?? 0)}곳을 ${
-								(nearLibraryList?.length ?? 0) === 0 ? '' : '더 '
-							}찾았어요`
-						)
+						if (res.data.content.length - (nearLibraryList?.length ?? 0) > 0) {
+							toast.success(
+								`도서관 ${res.data.content.length - (nearLibraryList?.length ?? 0)}곳을 ${
+									(nearLibraryList?.length ?? 0) === 0 ? '' : '더 '
+								}찾았어요`
+							)
+						} else if (res.data.content.length - (nearLibraryList?.length ?? 0) < 0) {
+							toast.success(`도서관 ${(nearLibraryList?.length ?? 0) - res.data.content.length }곳이 없어졌어요`)
+						} else {
+							toast.success('새로 찾은 도서관은 없어요')
+						}
 					}
 
 					setNearLibraryList(res.data.content)
 				})
 				.catch(() => setNearLibraryList(undefined))
 		}
-	}, [latitude, longitude, range])
+	}, [latitude, longitude, currentRange])
 
 	const getLocationNoCache = async () => {
 		return location.getLatitudeAndLongitudeNoCache().then((locationResult) => {
@@ -126,7 +132,7 @@ const LibraryNearRoute = () => {
 					return <LibraryCardLoading />
 				})
 			) : nearLibraryList.length === 0 ? (
-				<NoContent message={`${range}km 내에 도서관이 없어요`} textSize={2} iconSize={7} />
+				<NoContent message={`${currentRange}km 내에 도서관이 없어요`} textSize={2} iconSize={7} move={0} />
 			) : (
 				nearLibraryList.map((library) => {
 					return <LibraryCard library={library} />

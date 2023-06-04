@@ -444,13 +444,7 @@ const BookDescription = ({ book }) => {
 const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelectedMemo }) => {
 	return (
 		<Card className='mt-3'>
-			<AddButton
-				size='30'
-				color='book'
-				onClick={() => {
-					setAddMemoModalOpen(true)
-				}}
-			/>
+			<AddButton size='30' color='book' onClick={() => setAddMemoModalOpen(true)} />
 
 			<Card.Body>
 				<h4>📋 메모</h4>
@@ -465,7 +459,7 @@ const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelect
 							<div className='row row-eq-height'>
 								{memo.map((memo) => {
 									return (
-										<div className='col-12 mb-2'>
+										<div className='col-12 mb-2 clickable'>
 											<Card
 												style={{ backgroundColor: uiSettings.color.memo }}
 												onClick={() => {
@@ -478,7 +472,7 @@ const MemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelect
 
 												<Card.Body>
 													<div className='row'>
-														<div className='text-center'>{memo.content}</div>
+														<div className='text-center clamp-2-line'>{memo.content}</div>
 													</div>
 												</Card.Body>
 											</Card>
