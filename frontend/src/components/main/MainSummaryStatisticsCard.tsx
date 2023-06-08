@@ -14,7 +14,7 @@ const MainSummaryStatisticsCard = ({ statistics, loading }) => {
 					<CardTitle icon={<StatisticsIcon />} title={`${currentYear}년 독서 요약`} iconSize={2} />
 
 					{statistics === undefined ? (
-						<Error />
+						<Error move={75} />
 					) : (
 						<div className='h-100 '>
 							<div className='d-flex align-items-center' style={{ marginBottom: '10px' }}>

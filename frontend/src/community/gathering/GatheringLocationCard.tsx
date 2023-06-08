@@ -1,5 +1,5 @@
 import { Card } from 'react-bootstrap'
-import { BsTrainFrontFill as SubwayIcon, BsWebcamFill as OnlineIcon, BsFillQuestionCircleFill as OthersIcon } from 'react-icons/bs'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const GatheringLocationCard = ({ gatheringLocation }) => {
 	return (
@@ -15,10 +15,10 @@ const GatheringLocationCard = ({ gatheringLocation }) => {
 }
 
 const getGatheringLocationTypeIcon = (type) => {
-	if (type === 'SUBWAY') return <SubwayIcon className='text-book' />
-	if (type === 'ONLINE') return <OnlineIcon className='text-book' />
+	if (type === 'SUBWAY') return <booksitoutIcon.subway className='text-book' />
+	if (type === 'ONLINE') return <booksitoutIcon.online className='text-book' />
 
-	return <OthersIcon className='text-book' />
+	return <booksitoutIcon.others className='text-book' />
 }
 
 export default GatheringLocationCard

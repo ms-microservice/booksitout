@@ -8,16 +8,17 @@ import MembershipCardLoading from '../MembershipCardLoading'
 import { booksitoutServer } from '../../../functions/axios'
 import { toast } from 'react-hot-toast'
 import MembershipAddFormImageEditCard from './MembershipAddFormImageEditCard'
-import { MembershipType } from '../MembershipType'
 
 import './membershipAddForm.scss'
 import { useNavigate } from 'react-router-dom'
+import { ImageMembershipType } from './ImageRecognitionType'
+import NoContent from '../../../components/common/NoContent'
 
 const MembershipAddFormImage = () => {
 	const navigate = useNavigate()
 
 	const [image, setImage] = React.useState<string>()
-	const [recognizedData, setRecognizedData] = React.useState<MembershipType>()
+	const [recognizedData, setRecognizedData] = React.useState<ImageMembershipType>()
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		multiple: false,
@@ -57,8 +58,10 @@ const MembershipAddFormImage = () => {
 
 		const membership = {
 			number: recognizedData?.number,
-			region: recognizedData?.logo,
+			typeId: recognizedData?.typeId,
+			memo: ''
 		}
+
 		booksitoutServer
 			.post('v5/library/membership', membership)
 			.then(() => {
@@ -71,7 +74,7 @@ const MembershipAddFormImage = () => {
 	}
 
 	return (
-		<Card style={{ minHeight: '750px' }} className='mb-5'>
+		<Card style={{ minHeight: '1000px' }} className='mb-5'>
 			<Card.Body>
 				<h5 className='text-center clamp-1-line'>도서관 회원증 사진을 업로드해서 회원증을 추가할 수 있어요</h5>
 				<div className='mb-4' />
@@ -95,37 +98,43 @@ const MembershipAddFormImage = () => {
 
 				<Card className='membership-container'>
 					<Card.Body>
-						<div className='row justify-content-center align-items-center'>
-							<div className='col-12 col-md-4 text-center'>
-								<img src={image} alt='' className='img-fluid rounded' style={{ maxHeight: '400px' }} />
+						{image == null ? (
+							<div style={{ minHeight: '680px' }}>
+								<NoContent message='이미지를 업로드 해 주세요' move={-250} />
 							</div>
+						) : (
+							<div className='row justify-content-center align-items-center'>
+								<div className='col-12 col-md-4 text-center'>
+									<img src={image} alt='' className='img-fluid rounded' style={{ maxHeight: '600px' }} />
+								</div>
 
-							<div className='col-12 col-md-8 mt-4 mt-md-0'>
-								{image == null ? (
-									<></>
-								) : recognizedData == null ? (
-									<MembershipCardLoading />
-								) : (
-									<div className='not-clickable'>
-										<MembershipCard membership={recognizedData} />
-									</div>
-								)}
+								<div className='col-12 col-md-8 mt-4 mt-md-0'>
+									{image == null ? (
+										<></>
+									) : recognizedData == null ? (
+										<MembershipCardLoading />
+									) : (
+										<div className='not-clickable'>
+											<MembershipCard membership={recognizedData} />
+										</div>
+									)}
 
-								<div className='mt-3' />
+									<div className='mt-3' />
 
-								{image == null ? (
-									<></>
-								) : recognizedData == null ? (
-									<Card style={{ minHeight: '200px' }}></Card>
-								) : (
-									<MembershipAddFormImageEditCard membership={recognizedData} />
-								)}
+									{image == null ? (
+										<></>
+									) : recognizedData == null ? (
+										<Card style={{ minHeight: '440px' }}></Card>
+									) : (
+										<MembershipAddFormImageEditCard membership={recognizedData} />
+									)}
+								</div>
 							</div>
-						</div>
+						)}
 					</Card.Body>
 				</Card>
 
-				<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '20px' }}>
+				<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '30px' }}>
 					<div className='col-12 col-md-6'>
 						<Button variant='book' className='w-100' onClick={() => addMembership()}>
 							회원증 추가하기

@@ -11,7 +11,7 @@ const TimerFloatingButton = ({ url = '/reading' }) => {
 		left: '2.5%',
 		bottom: '20px',
 
-		width: '80px',
+		width: '90px',
 		height: '60px',
 
 		borderRadius: '10px',

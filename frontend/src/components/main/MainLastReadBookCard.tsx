@@ -1,7 +1,7 @@
 import { Card } from 'react-bootstrap';
 
 import NoContent from '../common/NoContent';
-import MainHorizontalBookView from '../book/book-view/MainHorizontalBookView';
+import MainHorizontalBookView from '../../book/book-view/MainHorizontalBookView';
 import messages from '../../settings/messages';
 import Error from '../common/Error';
 import CardTitle from '../../common/CardTitle';

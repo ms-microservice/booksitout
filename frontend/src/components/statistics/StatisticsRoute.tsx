@@ -4,7 +4,7 @@ import { RootState } from '../../redux/store'
 
 import RouteTitle from '../../common/RouteTitle'
 import Loading from '../common/Loading'
-import Boarding from '../info/Boarding'
+import Boarding from '../../info/Boarding'
 
 import { getCategoryStatistics, getLangaugeStatistics, getReadTime } from '../../functions/statistics'
 import { BsFileEarmarkBarGraphFill as StatisticsIcon } from 'react-icons/bs'

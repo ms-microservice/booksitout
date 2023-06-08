@@ -70,7 +70,7 @@ const GoalRoute = () => {
 	}, [])
 
 	return (
-		<div className='container'>
+		<div className='container-xl'>
 			{intialFetch ? (
 				<></>
 			) : isLoading ? (

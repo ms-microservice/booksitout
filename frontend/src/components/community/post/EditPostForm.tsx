@@ -7,7 +7,7 @@ import Loading from '../../common/Loading';
 import Error from "../../common/Error"
 import AddIsbnCard from "./AddIsbnCard"
 import toast from "react-hot-toast"
-import BookSearchModal from "../BookSearchModal"
+import BookSearchModal from "../../../book/BookSearchModal"
 import { booksitoutServer } from "../../../functions/axios";
 
 const EditPostForm = () => {

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import { booksitoutServer } from '../../functions/axios'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 import NoContent from '../../components/common/NoContent'
 import Error from '../../components/common/Error';
@@ -12,7 +13,6 @@ import { MembershipType } from './MembershipType'
 import MembershipCard from './MembershipCard'
 import MembershipCardLoading from './MembershipCardLoading'
 import AddButton from '../../components/common/AddButton';
-import { BsFillPersonVcardFill as CardIcon} from 'react-icons/bs'
 import { useNavigate } from 'react-router-dom';
 
 const LibraryRouteMembershipCard = () => {
@@ -42,7 +42,12 @@ const LibraryRouteMembershipCard = () => {
 
 			<a href='/library/membership/all' className='text-black'>
 				<Card.Body>
-					<CardTitle icon={<CardIcon />} title={'도서관 회원증'} subTitle={'도서관 회원증을 편하게 관리할 수 있어요'} textSize={3} />
+					<CardTitle
+						icon={<booksitoutIcon.membership />}
+						title={'도서관 회원증'}
+						subTitle={'도서관 회원증을 편하게 관리할 수 있어요'}
+						textSize={3}
+					/>
 
 					{initialFetch ? (
 						<></>
@@ -57,7 +62,7 @@ const LibraryRouteMembershipCard = () => {
 							})}
 						</div>
 					) : membershipList === undefined ? (
-						<Error move={-140}/>
+						<Error move={-140} />
 					) : membershipList.content.length === 0 ? (
 						<NoContent message='추가하신 회원증이 없어요' move={0} mt={130} />
 					) : (

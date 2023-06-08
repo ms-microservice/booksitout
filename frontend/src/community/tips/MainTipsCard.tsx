@@ -1,5 +1,5 @@
 import React from "react"
-import { Card, ListGroup } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 
 import Loading from "../../components/common/Loading"
 import Error from '../../components/common/Error'
@@ -46,9 +46,8 @@ const MainTipsCard = () => {
 					) : loading ? (
 						<Loading />
 					) : (
-						<ListGroup>
+
 							<MainTipsListGroup postList={tipPost} />
-						</ListGroup>
 					)}
 
 					<div className='d-inline-block pb-4 d-md-none' />

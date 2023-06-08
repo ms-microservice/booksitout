@@ -8,7 +8,7 @@ const MembershipDetailRemoveEditCard = ({id, deleteMembership}) => {
     const navigate = useNavigate()
 
     return (
-		<Card style={{ minHeight: '200px' }}>
+		<Card style={{ minHeight: '210px' }}>
 			<Card.Body>
 				<CardTitle icon={<ChangeIcon />} title={'수정 / 삭제하기'} subTitle={undefined} textSize={2} />
 

@@ -1,11 +1,11 @@
 import React from 'react'
 import { Card, Form, ListGroup } from 'react-bootstrap'
-import { FaSearch as SearchIcon } from 'react-icons/fa'
 import { booksitoutServer } from '../functions/axios'
 import { LibraryAutoCompleteType } from './LibraryType'
 import { useDebounce } from '../common/useDebounce'
 import LibrarySearchPlaceholder from './LibrarySearchPlaceholder'
 import NoContent from '../components/common/NoContent'
+import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const LibrarySearchCard = () => {
 	const [query, setQuery] = React.useState<string>('')
@@ -35,7 +35,7 @@ const LibrarySearchCard = () => {
 			<Card.Body>
 				<div className='d-flex'>
 					<h3>
-						<SearchIcon className='me-2 text-book' />
+						<booksitoutIcon.search className='me-2 text-book' />
 					</h3>
 					<h3 className='pt-1'>도서관 검색하기</h3>
 				</div>
@@ -63,7 +63,7 @@ const LibrarySearchCard = () => {
 							return <LibrarySearchPlaceholder />
 						})
 					) : libraryList.length === 0 ? (
-						<NoContent message={query === '' ? '검색어를 입력해 주세요' : '도서관이 없어요'} move={0} mt={100}/>
+						<NoContent message={query === '' ? '검색어를 입력해 주세요' : '도서관이 없어요'} move={0} mt={100} />
 					) : (
 						libraryList.map((library) => {
 							return (

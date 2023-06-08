@@ -18,7 +18,7 @@ const MembershipCard = ({ membership, width=2 }) => {
 							</div>
 
 							<div className='col-8 text-end'>
-								<h5>{membership.name}</h5>
+								<h5 className='clamp-1-line'>{membership.name}</h5>
 							</div>
 						</div>
 

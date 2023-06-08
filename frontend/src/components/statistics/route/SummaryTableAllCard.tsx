@@ -55,7 +55,7 @@ const SummaryTableAllCard = () => {
 						{isStatisticsLoading ? (
 							<SummaryTable statistics={statisticsData} loading={true} />
 						) : statisticsData == null ? (
-							<Error />
+							<Error move={40}/>
 						) : (
 							<SummaryTable statistics={statisticsData} loading={false} />
 						)}

@@ -1,11 +1,8 @@
 import React from 'react'
 import { Nav } from 'react-bootstrap'
-import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
-import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
-import { ImLibrary as LibraryIcon} from 'react-icons/im'
-import { BsPeopleFill as CommunityIcon, BsFileEarmarkBarGraphFill as StatisticsIcon, BsBookHalf as BookIcon } from 'react-icons/bs'
-import uiSettings from '../../settings/ui'
 import { useLocation } from 'react-router-dom'
+import uiSettings from '../../settings/ui'
+import booksitoutIcon from '../icons/booksitoutIcon';
 
 const TopnavNav = ({ isLogin, handleLogout }) => {
 	const location = useLocation()
@@ -15,28 +12,28 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 			id: 1,
 			url: '/book/not-done',
 			activeUrl: '/book',
-			icon: <BookIcon />,
+			icon: <booksitoutIcon.book />,
 			label: '내 책',
 		},
 		{
 			id: 2,
 			url: '/statistics',
 			activeUrl: '/statistics',
-			icon: <StatisticsIcon />,
+			icon: <booksitoutIcon.statistics />,
 			label: '독서통계',
 		},
 		{
 			id: 3,
 			url: '/community',
 			activeUrl: '/community',
-			icon: <CommunityIcon />,
+			icon: <booksitoutIcon.community />,
 			label: '커뮤니티',
 		},
 		{
 			id: 4,
 			url: '/library',
 			activeUrl: '/library',
-			icon: <LibraryIcon />,
+			icon: <booksitoutIcon.library />,
 			label: '도서관',
 		},
 	]
@@ -65,7 +62,7 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 					onClick={(e) => isLogin && handleLogout(e)}>
 					<div className='topnav-link-container'>
 						<span className='me-1 topnav-icon'>
-							<LoginIcon />
+							<booksitoutIcon.login />
 						</span>
 
 						<span className='topnav-text'> {!isLogin ? '로그인' : '로그아웃'}</span>
@@ -76,7 +73,7 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 					<Nav.Link href='/join' className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
 						<div className='topnav-link-container'>
 							<span className='me-1 topnav-icon'>
-								<JoinIcon />
+								<booksitoutIcon.join />
 							</span>
 
 							<span className='topnav-text'> 회원가입</span>
@@ -88,7 +85,7 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 					<Nav.Link href='/settings' className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
 						<div className='topnav-link-container'>
 							<span className='me-1 topnav-icon'>
-								<SettingIcon />
+								<booksitoutIcon.settings />
 							</span>
 
 							<span className='topnav-text'> 설정</span>

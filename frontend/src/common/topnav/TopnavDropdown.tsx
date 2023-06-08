@@ -2,10 +2,7 @@ import React from 'react'
 import { NavDropdown } from 'react-bootstrap'
 import userIcon from '../../resources/images/user/user3.png'
 import uiSettings from '../../settings/ui'
-
-import { FiLogIn as LoginIcon, FiSettings as SettingIcon } from 'react-icons/fi'
-import { HiOutlineUserAdd as JoinIcon } from 'react-icons/hi'
-import { GrCircleQuestion as QuestionIcon } from 'react-icons/gr'
+import booksitoutIcon from '../icons/booksitoutIcon';
 
 const TopnavDropdown = ({ isLogin, handleLogout }) => {
 	const expand = uiSettings.topnav.collapse
@@ -30,15 +27,15 @@ const TopnavDropdown = ({ isLogin, handleLogout }) => {
 			{!isLogin ? (
 				<>
 					<NavDropdown.Item href='/login'>
-						<LoginIcon className='me-2 mb-1' /> 로그인
+						<booksitoutIcon.login className='me-2 mb-1' /> 로그인
 					</NavDropdown.Item>
 
 					<NavDropdown.Item href='/join'>
-						<JoinIcon className='me-2 mb-1' /> 회원가입
+						<booksitoutIcon.join className='me-2 mb-1' /> 회원가입
 					</NavDropdown.Item>
 
 					<NavDropdown.Item href='/faq'>
-						<QuestionIcon className='me-2 mb-1 bold' /> FAQ
+						<booksitoutIcon.question className='me-2 mb-1 bold' /> FAQ
 					</NavDropdown.Item>
 				</>
 			) : (
@@ -49,11 +46,11 @@ const TopnavDropdown = ({ isLogin, handleLogout }) => {
 					<NavDropdown.Divider />
 
 					<NavDropdown.Item href='/settings'>
-						<SettingIcon className='me-2 mb-1' /> 설정
+						<booksitoutIcon.settings className='me-2 mb-1' /> 설정
 					</NavDropdown.Item>
 
 					<NavDropdown.Item onClick={(e) => handleLogout(e)}>
-						<LoginIcon className='me-2 mb-1' /> 로그아웃
+						<booksitoutIcon.login className='me-2 mb-1' /> 로그아웃
 					</NavDropdown.Item>
 				</>
 			)}

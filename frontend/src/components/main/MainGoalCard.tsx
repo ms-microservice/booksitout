@@ -12,14 +12,14 @@ const MainGoalCard = ({ goal, loading }) => {
 				<a href='/goal' className='text-black h-100'>
 					<CardTitle icon={<GoalIcon />} title={`${new Date().getFullYear()}년 목표`} iconSize={1} />
 
-					{goal == null && loading ? (
+					{loading ? (
 						<div style={{ transform: `translateY(40px)` }}>
 							<Goal goal={goal} loading={true} />
 						</div>
 					) : goal == null ? (
-						<NoContent message={`${new Date().getFullYear()}년 목표가 없어요`} move={40} />
+						<Error move={40} />
 					) : goal === undefined ? (
-						<Error />
+						<NoContent message={`${new Date().getFullYear()}년 목표가 없어요`} move={40} />
 					) : (
 						<div className='h-100 d-flex align-items-center' style={{ transform: 'translateY(-30px)' }}>
 							<Goal goal={goal} loading={false} />

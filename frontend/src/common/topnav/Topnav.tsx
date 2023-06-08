@@ -3,9 +3,8 @@ import toast from 'react-hot-toast'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Container, Navbar, Nav, Card } from 'react-bootstrap'
-import { BiSearchAlt2 as SearchIcon } from 'react-icons/bi'
 
-import user from '../../functions/user'
+import user from '../../user/user'
 import messages from '../../settings/messages'
 
 import uiSettings from '../../settings/ui'
@@ -21,6 +20,7 @@ import TopnavSearchBar from './TopnavSearchBar'
 import TopnavDropdown from './TopnavDropdown'
 import TopnavLogo from './TopnavLogo'
 import TopnavNav from './TopnavNav'
+import booksitoutIcon from '../icons/booksitoutIcon';
 
 const Topnav = () => {
 	const navigate = useNavigate()
@@ -100,7 +100,7 @@ const Topnav = () => {
 					<TopnavLogo />
 
 					<button className='d-lg-none ms-auto me-3 navbar-toggler'>
-						<SearchIcon
+						<booksitoutIcon.search
 							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 							onClick={handleSearchClick}
 						/>

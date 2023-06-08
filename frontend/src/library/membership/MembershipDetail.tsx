@@ -1,25 +1,26 @@
 import React from 'react'
+import { Card } from 'react-bootstrap'
 import { useNavigate, useParams } from 'react-router-dom'
+import { toast } from 'react-hot-toast'
+
 import { booksitoutServer } from '../../functions/axios'
 import { MembershipType } from './MembershipType'
 import MembershipCard from './MembershipCard'
 import MembershipDetailAddCard from './MembershipDetailAddCard'
 import MembershipDetailLibrary from './MembershipDetailLibrary'
 import MembershipCardLoading from './MembershipCardLoading'
-import NoContent from '../../components/common/NoContent'
-import { Card } from 'react-bootstrap'
 import MembershipDetailRemoveEditCard from './MembershipDetailRemoveEditCard'
-import { toast } from 'react-hot-toast'
+import NoContent from '../../components/common/NoContent'
 
 const MembershipDetail = () => {
-	const navigate= useNavigate()
+	const navigate = useNavigate()
 
 	const [loading, setLoading] = React.useState<boolean>(true)
 	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
 	const [notFound, setNotFound] = React.useState<boolean>(false)
 
 	const { id } = useParams()
-    const [membership, setMembership] = React.useState<MembershipType | null>(null)
+	const [membership, setMembership] = React.useState<MembershipType | null>(null)
 	React.useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
@@ -52,7 +53,8 @@ const MembershipDetail = () => {
 	}
 
 	if (notFound) return <NoContent message='도서관 회원증이 없어요' />
-    return (
+
+	return (
 		<div className='container-xl'>
 			{initialFetch ? (
 				<Card style={{ minHeight: '200px' }}></Card>
@@ -65,7 +67,7 @@ const MembershipDetail = () => {
 			)}
 			<div className='mb-4' />
 
-			<MembershipDetailLibrary />
+			<MembershipDetailLibrary libraryList={membership?.usableLibrary ?? []} />
 			<div className='mb-4' />
 
 			<MembershipDetailAddCard id={id} />

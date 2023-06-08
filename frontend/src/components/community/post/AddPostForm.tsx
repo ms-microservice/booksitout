@@ -9,7 +9,7 @@ import Error from '../../common/Error'
 
 import '../../../resources/css/customCarousel.css'
 import AddIsbnCard from './AddIsbnCard'
-import BookSearchModal from '../BookSearchModal'
+import BookSearchModal from '../../../book/BookSearchModal'
 
 import { RecentBookType } from '../../../types/PostType'
 import { booksitoutServer } from '../../../functions/axios'

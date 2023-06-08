@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import user from '../../functions/user'
+import user from '../../user/user'
 import messages from '../../settings/messages'
 
 const EditPasswordModal = ({ show, setShow }) => {

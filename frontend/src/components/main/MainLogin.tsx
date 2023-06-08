@@ -5,7 +5,7 @@ import { Button, Form } from 'react-bootstrap'
 import toast from 'react-hot-toast'
 import axios from 'axios'
 
-import user from '../../functions/user'
+import user from '../../user/user'
 import urls from '../../settings/urls'
 import utils from '../../functions/utils'
 import messages from '../../settings/messages'

@@ -1,7 +1,7 @@
 import React from 'react'
 import { Modal, Form, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import user from '../../functions/user'
+import user from '../../user/user'
 import messages from '../../settings/messages'
 
 const EditNameModal = ({ show, setShow }) => {

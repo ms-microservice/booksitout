@@ -21,7 +21,7 @@ import MainLastReadBookCard from './MainLastReadBookCard';
 import MainReadingTimeCard from './MainReadingTimeCard';
 import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
-import MainBoarding from '../info/MainBoarding';
+import MainBoarding from '../../info/MainBoarding';
 import GatheringSummaryCard from '../community/summaryCard/GatheringSummaryCard';
 import MainBookNotLoginCard from './MainBookNotLoginCard';
 import MainLibraryMembershipCard from './MainLibraryMembershipCard';
@@ -46,22 +46,15 @@ const MainRoute = () => {
 	const [readTime, setReadTime] = React.useState<number[] | null>(null)
 	const [goal, setGoal] = React.useState<GoalType | null | undefined>(null)
 	const [statistics, setStatistics] = React.useState<StatisticsType | null | undefined>(null)
-	const [gathering, setGathering] = React.useState<GatheringType[] | null | undefined>(null)
 
 	React.useEffect(() => {
 		setTimeout(() => {
 			setInitialFetch(false)
 		}, uiSettings.initalFetchTime)
 
-		booksitoutServer
-			.get('v4/forum/gathering/all?size=4')
-			.then((res) => setGathering(res.data.content))
-			.catch(() => setGathering(undefined))
-
 		if (!isLogin) {
 			setReadTime(placeholderData.readTime)
-			setStatistics(undefined)
-
+			setStatistics(null)
 			setInitialFetch(false)
 			return
 		}
@@ -80,7 +73,10 @@ const MainRoute = () => {
 				.catch(() => setGoal(undefined))
 				.finally(() => setGoalLoading(false)),
 
-			getStatisticsSummary(new Date().getFullYear()).then((stats) => setStatistics(stats.data || null)),
+			booksitoutServer
+				.get(`/v3/statistics/year/${new Date().getFullYear()}`)
+				.then((res) => setStatistics(res.data || null))
+				.catch(() => setStatistics(undefined)),
 		]).finally(() => {
 			setInitialFetch(false)
 		})

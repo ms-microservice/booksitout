@@ -7,16 +7,16 @@ import ErrorPage from './components/common/ErrorPage'
 
 import AdminRoute from './admin/AdminRoute'
 
-import IntroductionRoute from './components/info/IntroductionRoute'
-import FaqRoute from './components/info/FaqRoute'
-import QnaRoute, {loader as QnaLoader} from './components/info/QnaRoute'
-import FeatureRoute from './components/info/FeatureRoute'
+import IntroductionRoute from './info/IntroductionRoute'
+import FaqRoute from './info/FaqRoute'
+import QnaRoute, {loader as QnaLoader} from './info/QnaRoute'
+import FeatureRoute from './info/FeatureRoute'
 import TipsRoute from './community/tips/TipsRoute'
 import TipsDetail from './community/tips/TipsDetail'
 
-import LoginRoute from './components/user/LoginRoute'
-import OAuth from './components/user/OAuth'
-import JoinRoute from './components/user/JoinRoute'
+import LoginRoute from './user/LoginRoute'
+import OAuth from './user/OAuth'
+import JoinRoute from './user/JoinRoute'
 
 import SettingsRoute from './components/settings/SettingsRoute'
 import SearchLibrarySettings from './components/settings/SearchLibrarySettings'
@@ -25,10 +25,10 @@ import CommunitySettings from './components/settings/CommunitySettings'
 import NotificationSettings from './components/settings/NotificationSettings'
 import PersonalInfoSettings from './components/settings/PersonalInfoSettings'
 
-import BookRoute from './components/book/BookRoute'
-import BookDetail from './components/book/book-detail/BookDetail'
-import AddBookRoute from './components/book/book-form/AddBookRoute'
-import EditBookForm from './components/book/book-form/EditBookForm'
+import BookRoute from './book/BookRoute'
+import BookDetail from './book/book-detail/BookDetail'
+import AddBookRoute from './book/book-form/AddBookRoute'
+import EditBookForm from './book/book-form/EditBookForm'
 
 import ReadingRoute from './components/reading/ReadingRoute'
 import ReadingNoId from './components/reading/ReadingNoId'
@@ -49,9 +49,9 @@ import GatheringRoute, {loader as gatheringRouteLoader} from './community/gather
 import GatheringDetail, {loader as gatheringDetailLoader} from './community/gathering/GatheringDetail'
 import GatheringJoinForm, { loader as gatheringJoinLoader } from './community/gathering/GatheringJoinForm'
 
-import UserRoute, { loader as userRouteLoader } from './components/user/UserRoute'
-import UserPostList, {loader as userPostListLoader} from './components/user/UserPostList'
-import UserBookList, { loader as userBookListLoader } from './components/user/UserBookList'
+import UserRoute, { loader as userRouteLoader } from './user/UserRoute'
+import UserPostList, {loader as userPostListLoader} from './user/UserPostList'
+import UserBookList, { loader as userBookListLoader } from './user/UserBookList'
 
 import BookInfoRoute, { loader as bookInfoRouteLoader } from './components/bookInfo/BookInfoRoute'
 
@@ -63,6 +63,7 @@ import LibraryRegionRoute, { loader as libraryRegionDetailLoader } from './libra
 import MembershipDetail from './library/membership/MembershipDetail'
 import MembershipList from './library/membership/MembershipList'
 import MembershipAddForm from './library/membership/add/MembershipAddForm'
+import MembershipEditRoute, {loader as membershipEditLoader} from './library/membership/edit/MembershipEditRoute'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -145,6 +146,7 @@ const router = createBrowserRouter(
 			<Route path='/library/membership/all' element={<MembershipList />} />
 			<Route path='/library/membership/:id' element={<MembershipDetail />} />
 			<Route path='/library/membership/add/:method' element={<MembershipAddForm />} />
+			<Route path='/library/membership/edit/:id' element={<MembershipEditRoute />} errorElement={<ErrorPage />} loader={membershipEditLoader} />
 		</Route>
 	)
 )

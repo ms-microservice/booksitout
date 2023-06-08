@@ -8,7 +8,7 @@ import Timer from './Timer'
 import MemoCard from './MemoCard'
 import EndReadingSessionModal from './EndReadingSessionModal'
 import PageProgressBar from '../common/PageProgressBar'
-import MemoDetailModal from '../book/book-detail/MemoDetailModal'
+import MemoDetailModal from '../../book/book-detail/memo/MemoDetailModal'
 import defaultBookCover from '../../resources/images/common/default-book-cover.png'
 import { getBookOfCurrentReadingSession, startReadingSession } from '../../functions/reading'
 import { getMemoListOfBook } from '../../functions/memo'
@@ -137,7 +137,7 @@ const ReadingRoute = () => {
 								</div>
 
 								<div className='col-6 col-lg-4'>
-									<Button variant={isTimerOn ? 'danger' : 'primary'} className='w-100' onClick={() => dispatch(toggleTimer())}>
+									<Button variant={isTimerOn ? 'outline-danger' : 'outline-book'} className='w-100' onClick={() => dispatch(toggleTimer())}>
 										{isTimerOn ? '잠시 정지' : '다시 시작'}
 									</Button>
 								</div>
