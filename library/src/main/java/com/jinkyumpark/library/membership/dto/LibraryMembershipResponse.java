@@ -2,14 +2,14 @@ package com.jinkyumpark.library.membership.dto;
 
 import com.jinkyumpark.library.library.dto.LibraryResponse;
 import com.jinkyumpark.library.membership.Membership;
-import com.jinkyumpark.library.region.Region;
-import com.jinkyumpark.library.region.RegionDetail;
+import com.jinkyumpark.library.membership.typeLibrary.MembershipTypeLibrary;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
@@ -49,29 +49,15 @@ public class LibraryMembershipResponse {
                 .name(name)
                 .description(membership.getType().getDescription())
 
-                .build();
-    }
-
-    public static LibraryMembershipResponse of(Membership membership, Region region) {
-        return LibraryMembershipResponse.builder()
-                .id(membership.getLibraryMembershipId())
-                .number(membership.getNumber())
-                .memo(membership.getMemo())
-
-                .name(region.getKoreanName())
-                .logo(region.getLogo())
-
-                .build();
-    }
-
-    public static LibraryMembershipResponse of(Membership membership, RegionDetail regionDetail) {
-        return LibraryMembershipResponse.builder()
-                .id(membership.getLibraryMembershipId())
-                .number(membership.getNumber())
-                .memo(membership.getMemo())
-
-                .name(regionDetail.getKoreanName())
-                .logo(regionDetail.getLogo())
+                .usableLibrary(
+                        membership.getType().getUsableLibraries() == null ?
+                                null
+                                :
+                                membership.getType().getUsableLibraries().stream()
+                                        .map(MembershipTypeLibrary::getLibrary)
+                                        .map(LibraryResponse::of)
+                                        .collect(Collectors.toList())
+                )
 
                 .build();
     }
