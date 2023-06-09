@@ -61,7 +61,7 @@ public class MembershipControllerV5 {
     public PagedResponse getAllRegisteredMembership(@LoginUser User user,
                                                     @RequestParam(value = "page", required = false) Integer page,
                                                     @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(page, size);
+        Pageable pageable = pageService.getPageableSortedDesc(page, size, "lastUsedDate");
         Page<Membership> pagedMembership = membershipService.getAllMembership(user.getId(), pageable);
 
         List<LibraryMembershipResponse> content = pagedMembership.getContent().stream()

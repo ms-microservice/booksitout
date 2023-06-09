@@ -15,9 +15,14 @@ public class MembershipService {
 
     private final LibraryMembershipRepository libraryMembershipRepository;
 
+    @Transactional
     public Membership getLibraryMembershipById(Long membershipId) {
-        return libraryMembershipRepository.findById(membershipId)
+        Membership membership = libraryMembershipRepository.findById(membershipId)
                 .orElseThrow(() -> new NotFoundException("membership not present"));
+
+        membership.useMembership();
+
+        return membership;
     }
 
     public Page<Membership> getAllMembership(Long appUserId, Pageable pageable) {

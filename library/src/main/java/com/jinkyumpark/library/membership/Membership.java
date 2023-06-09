@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
@@ -28,6 +29,13 @@ public class Membership {
 
     @Column(name = "memo")
     private String memo;
+
+    @Column(name = "last_used_date")
+    private LocalDateTime lastUsedDate;
+
+    public void useMembership() {
+        this.lastUsedDate = LocalDateTime.now();
+    }
 
     public Membership update(Membership toUpdate) {
 
