@@ -4,6 +4,7 @@ import com.jinkyumpark.search.general.response.AddBookResponse
 import com.jinkyumpark.search.general.service.BookInfoService
 import com.jinkyumpark.search.general.service.ImageService
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
@@ -19,6 +20,11 @@ class GeneralControllerV3(
     fun getNewNaverSearchResult(@RequestParam("query") query: String): List<AddBookResponse> {
         return bookInfoService
             .getBookByQueryFromNaver(query)
+    }
+
+    @GetMapping("new/naver/isbn/{isbn}")
+    fun getNewNaverSearchResultByIsbn(@PathVariable("isbn") isbn: String): AddBookResponse? {
+        return bookInfoService.getBookByIsbnFromNaver(isbn)
     }
 
     @GetMapping("image/google")

@@ -7,5 +7,6 @@ data class AddBookResponse(
     val author: String,
     val cover: String,
     val isbn: String,
-    val link: String
+    val link: String,
+    val description: String,
 ): Serializable
