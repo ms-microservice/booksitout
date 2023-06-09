@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.bookIsbn;
 
-import com.jinkyumpark.core.common.feign.response.NewBookSearchResponse;
+import com.jinkyumpark.core.book.model.BookLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -9,35 +9,37 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
 
 @Entity
-@Table(uniqueConstraints = {@UniqueConstraint(name = "book_isbn_unique", columnNames = {"isbn13"})})
+@Table(uniqueConstraints = {@UniqueConstraint(name = "book_isbn_unique", columnNames = {"isbn"})})
 public class BookIsbn {
 
+    @Column(unique = true, length = 13)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long bookIsbnId;
+    private String isbn;
 
-    @Column(unique = true)
-    private Long isbn13;
-
+    @Column(nullable = false)
     private String title;
     private String author;
     private String cover;
+
+    @Column(columnDefinition = "TEXT")
     private String description;
 
-    public static BookIsbn of(NewBookSearchResponse newBookSearchResponse) {
-        int index = newBookSearchResponse.getTitle().lastIndexOf('(') == -1 ? newBookSearchResponse.getTitle().length() : newBookSearchResponse.getTitle().lastIndexOf('(');
+    @Column(length = 4)
+    private Integer publicationYear;
 
-        return BookIsbn.builder()
-                .isbn13(Long.parseLong(newBookSearchResponse.getIsbn()))
-                .title(newBookSearchResponse.getTitle().substring(0, index))
-                .author(newBookSearchResponse.getAuthor())
-                .cover(newBookSearchResponse.getCover())
-                .build();
-    }
+    @Column(length = 100)
+    private String publisher;
+
+    @Column(length = 5)
+    private Integer page;
+
+    private String naverLink;
+
+    @Column(name = "language", length = 10)
+    @Enumerated(value = EnumType.STRING)
+    private BookLanguage language;
 
 }

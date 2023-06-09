@@ -1,6 +1,5 @@
 package com.jinkyumpark.core.bookIsbn;
 
-import com.jinkyumpark.core.book.dto.BookDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
