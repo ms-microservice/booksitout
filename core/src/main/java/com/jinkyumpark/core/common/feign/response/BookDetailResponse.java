@@ -20,7 +20,7 @@ public class BookDetailResponse {
 
     public BookIsbn toEntity() {
         return BookIsbn.builder()
-                .isbn13(isbn)
+                .isbn(String.valueOf(isbn))
                 .title(title)
                 .author(author)
                 .cover(cover)
