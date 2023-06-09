@@ -17,14 +17,35 @@ public class LibraryMembershipImageRecognitionResponse {
     private String name;
 
     public static LibraryMembershipImageRecognitionResponse of(String number, MembershipType membershipType) {
-        return LibraryMembershipImageRecognitionResponse.builder()
-                .number(number)
+        if (membershipType != null && number != null) {
+            return LibraryMembershipImageRecognitionResponse.builder()
+                    .number(number)
 
-                .typeId(membershipType.getId())
-                .logo(membershipType.getLogo())
-                .name(membershipType.getName())
+                    .typeId(membershipType.getId())
+                    .logo(membershipType.getLogo())
+                    .name(membershipType.getName())
 
-                .build();
+                    .build();
+        }
+
+
+        if (number != null) {
+            return LibraryMembershipImageRecognitionResponse.builder()
+                    .number(number)
+                    .build();
+        }
+
+        if (membershipType != null) {
+            return LibraryMembershipImageRecognitionResponse.builder()
+                    .typeId(membershipType.getId())
+                    .logo(membershipType.getLogo())
+                    .name(membershipType.getName())
+
+                    .build();
+
+        }
+
+        return LibraryMembershipImageRecognitionResponse.builder().build();
     }
 
 }

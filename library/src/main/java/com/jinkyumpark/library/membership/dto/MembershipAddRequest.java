@@ -14,8 +14,7 @@ import javax.validation.constraints.NotNull;
 public class MembershipAddRequest {
 
     @NotBlank private String number;
-    @NotNull
-    private Long typeId;
+    @NotNull private Long typeId;
     private String memo;
 
     public Membership toEntity(Long appUserId) {

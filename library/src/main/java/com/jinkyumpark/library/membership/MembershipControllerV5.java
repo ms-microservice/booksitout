@@ -119,7 +119,7 @@ public class MembershipControllerV5 {
                 .build();
     }
 
-    @PatchMapping("{membershipId}")
+    @PutMapping("{membershipId}")
     public UpdateSuccessResponse updateMembership(@LoginUser User user,
                                                   @PathVariable("membershipId") Long membershipId,
                                                   @RequestBody @Valid MembershipEditRequest membershipEditRequest) {
