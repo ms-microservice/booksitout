@@ -13,6 +13,8 @@ import AddPastGoalModal from '../AddPastGoalModal'
 import EditPastGoalModal from '../EditPastGoalModal'
 import goalMessage from '../goalMessage'
 import { GoalType } from '../GoalType'
+import RouteTitle from '../../common/RouteTitle'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const GoalRoute = () => {
 	document.title = '목표 | 책잇아웃'
@@ -71,6 +73,8 @@ const GoalRoute = () => {
 
 	return (
 		<div className='container-xl'>
+			<RouteTitle icon={<booksitoutIcon.goal />} title={'목표'} />
+
 			{intialFetch ? (
 				<></>
 			) : isLoading ? (

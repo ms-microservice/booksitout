@@ -19,7 +19,7 @@ import { ImLibrary } from 'react-icons/im'
 import { BiTime } from 'react-icons/bi'
 import { FaUserAlt } from 'react-icons/fa'
 import { AiFillStar, AiOutlineStar, AiFillCheckCircle } from 'react-icons/ai'
-
+import { TbTargetArrow } from 'react-icons/tb'
 
 const booksitoutIcon: { [key: string]: IconType } = {
 	login: FiLogIn,
@@ -41,6 +41,7 @@ const booksitoutIcon: { [key: string]: IconType } = {
 	statistics: BsFileEarmarkBarGraphFill,
 	star: AiOutlineStar,
 	starFill: AiFillStar,
+	goal: TbTargetArrow,
 
 	community: BsPeopleFill,
 
