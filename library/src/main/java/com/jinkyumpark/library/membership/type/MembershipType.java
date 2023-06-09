@@ -1,9 +1,8 @@
 package com.jinkyumpark.library.membership.type;
 
-import com.jinkyumpark.library.library.Library;
 import com.jinkyumpark.library.membership.typeLibrary.MembershipTypeLibrary;
-import com.jinkyumpark.library.region.Region;
-import com.jinkyumpark.library.region.RegionDetail;
+import com.jinkyumpark.library.region.region.Region;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

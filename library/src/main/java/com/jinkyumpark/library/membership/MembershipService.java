@@ -13,11 +13,11 @@ import javax.transaction.Transactional;
 @Service
 public class MembershipService {
 
-    private final LibraryMembershipRepository libraryMembershipRepository;
+    private final MembershipRepository membershipRepository;
 
     @Transactional
     public Membership getLibraryMembershipById(Long membershipId) {
-        Membership membership = libraryMembershipRepository.findById(membershipId)
+        Membership membership = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new NotFoundException("membership not present"));
 
         membership.useMembership();
@@ -26,16 +26,16 @@ public class MembershipService {
     }
 
     public Page<Membership> getAllMembership(Long appUserId, Pageable pageable) {
-        return libraryMembershipRepository.findAllByAppUserId(appUserId, pageable);
+        return membershipRepository.findAllByAppUserId(appUserId, pageable);
     }
 
     public Membership add(Membership membership) {
-        return libraryMembershipRepository.save(membership);
+        return membershipRepository.save(membership);
     }
 
     @Transactional
     public Membership update(Membership libraryMembership) {
-        Membership membership = libraryMembershipRepository.findById(libraryMembership.getLibraryMembershipId())
+        Membership membership = membershipRepository.findById(libraryMembership.getLibraryMembershipId())
                 .orElseThrow(() -> new NotFoundException("수정할 회원증이 없어요"));
 
         if (!membership.getAppUserId().equals(libraryMembership.getAppUserId())) {
@@ -46,14 +46,14 @@ public class MembershipService {
     }
 
     public void delete(Long appUserId, Long membershipId) {
-        Membership membership = libraryMembershipRepository.findById(membershipId)
+        Membership membership = membershipRepository.findById(membershipId)
                 .orElseThrow(() -> new NotFoundException("지우시려는 회원증이 없어요"));
 
         if (!membership.getAppUserId().equals(appUserId)) {
             throw new UnauthorizedException("회원증은 본인만 지울 수 있어요");
         }
 
-        libraryMembershipRepository.deleteById(membershipId);
+        membershipRepository.deleteById(membershipId);
     }
 
 }

@@ -46,6 +46,7 @@ public class LibraryMembershipImageRecognitionResponse {
         }
 
         return LibraryMembershipImageRecognitionResponse.builder().build();
+
     }
 
 }

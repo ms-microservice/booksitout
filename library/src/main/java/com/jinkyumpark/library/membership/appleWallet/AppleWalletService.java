@@ -1,5 +1,6 @@
 package com.jinkyumpark.library.membership.appleWallet;
 
+import com.jinkyumpark.library.common.Utils;
 import com.jinkyumpark.library.membership.Membership;
 import com.jinkyumpark.library.membership.MembershipService;
 import de.brendamour.jpasskit.PKBarcode;
@@ -26,22 +27,7 @@ public class AppleWalletService {
 
     private final MembershipService membershipService;
     private final PKFileBasedSigningUtil pkFileBasedSigningUtil;
-
-    @Value("${apple.wallet.identifier.pass-type}")
-    private String passTypeIdentifier;
-    @Value("${apple.wallet.identifier.team}")
-    private String teamIdentifier;
-    @Value("${apple.wallet.identifier.organization-name}")
-    private String organizationName;
-    @Value("${apple.wallet.secret.pass-key}")
-    private String passKeyPassword;
-
-    @Value("${apple.wallet.path.private-certificate}")
-    private String privateCertificatePath;
-    @Value("${apple.wallet.path.apple-certificate}")
-    private String appleCertificatePath;
-    @Value("${apple.wallet.path..template}")
-    private String templatePath;
+    private final AppleWalletProperties appleWalletProperties;
 
     @SneakyThrows
     public PKPass getAppleWalletJson(Long membershipId) {
@@ -49,8 +35,8 @@ public class AppleWalletService {
 
         PKBarcode barcode = PKBarcode.builder()
                 .format(PKBarcodeFormat.PKBarcodeFormatCode128)
-                .altText(addSpacesToNumber(membership.getNumber(), 4))
-                .message(addSpacesToNumber(membership.getNumber(), 4))
+                .altText(Utils.addSpacesToNumber(membership.getNumber(), 4))
+                .message(Utils.addSpacesToNumber(membership.getNumber(), 4))
                 .messageEncoding(StandardCharsets.UTF_8)
                 .build();
 
@@ -76,10 +62,10 @@ public class AppleWalletService {
                         .value("책잇아웃에서 발급받은 도서관 회원증이에요. booksitout.com 에서 수정하실 수 있어요.")
                         .build());
 
-        String primaryColor = "#3ab56d";
-        String textColor = "rgb(255, 255, 255)";
         String logoText = membership.getName();
         String description = membership.getName();
+        String primaryColor = "#3ab56d";
+        String textColor = "rgb(255, 255, 255)";
         String serialNumber = "booksitout-library-membership-" + membershipId;
 
         return PKPass.builder()
@@ -88,9 +74,9 @@ public class AppleWalletService {
                 .pass(storePass)
                 .barcodes(List.of(barcode))
 
-                .passTypeIdentifier(passTypeIdentifier)
-                .teamIdentifier(teamIdentifier)
-                .organizationName(organizationName)
+                .passTypeIdentifier(appleWalletProperties.getIdentifier().getPassTypeIdentifier())
+                .teamIdentifier(appleWalletProperties.getIdentifier().getTeamIdentifier())
+                .organizationName(appleWalletProperties.getIdentifier().getOrganizationName())
 
                 .serialNumber(serialNumber)
                 .description(description)
@@ -101,39 +87,21 @@ public class AppleWalletService {
                 .labelColor(textColor)
 
                 .sharingProhibited(true)
-//                .webServiceURL(new URL("https://booksitout.com"))
-//                .userInfo()
-//                .locations()
-//                .maxDistance()
 
                 .build();
     }
 
-    public byte[] getAppleWalletPass(PKPass pkPass) throws IOException, CertificateException, PKSigningException {
+    public byte[] getAppleWalletPass(PKPass pkPass) throws PKSigningException, CertificateException, IOException {
         PKSigningInformation pkSigningInformation = new PKSigningInformationUtil()
                 .loadSigningInformationFromPKCS12AndIntermediateCertificate(
-                        privateCertificatePath,
-                        passKeyPassword,
-                        appleCertificatePath
+                        appleWalletProperties.getPath().getPrivateCertificatePath(),
+                        appleWalletProperties.getSecret(),
+                        appleWalletProperties.getPath().getPrivateCertificatePath()
                 );
 
-        IPKPassTemplate pkPassTemplateFolder = new PKPassTemplateFolder(templatePath);
+        IPKPassTemplate pkPassTemplateFolder = new PKPassTemplateFolder(appleWalletProperties.getPath().getTemplatePath());
 
         return pkFileBasedSigningUtil.createSignedAndZippedPkPassArchive(pkPass, pkPassTemplateFolder, pkSigningInformation);
-    }
-
-    public static String addSpacesToNumber(String number, int interval) {
-        StringBuilder formattedNumber = new StringBuilder();
-
-        int length = number.length();
-        for (int i = 0; i < length; i++) {
-            if (i % interval == 0) {
-                formattedNumber.append(' ');
-            }
-            formattedNumber.append(number.charAt(i));
-        }
-
-        return formattedNumber.toString();
     }
 
 }

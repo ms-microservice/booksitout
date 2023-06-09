@@ -9,7 +9,7 @@ import com.jinkyumpark.library.common.loginUser.LoginUser;
 import com.jinkyumpark.library.common.loginUser.User;
 import com.jinkyumpark.library.common.s3.S3Service;
 import com.jinkyumpark.library.membership.appleWallet.AppleWalletService;
-import com.jinkyumpark.library.membership.dto.LibraryMembershipResponse;
+import com.jinkyumpark.library.membership.dto.MembershipResponse;
 import com.jinkyumpark.library.membership.dto.MembershipAddRequest;
 import com.jinkyumpark.library.membership.dto.MembershipEditRequest;
 import com.jinkyumpark.library.membership.imageRecognition.ImageRecognitionService;
@@ -51,24 +51,24 @@ public class MembershipControllerV5 {
     private final PageService pageService;
 
     @GetMapping("{membershipId}")
-    public LibraryMembershipResponse getMembershipId(@PathVariable("membershipId") Long membershipId) {
+    public MembershipResponse getMembershipId(@PathVariable("membershipId") Long membershipId) {
         Membership membership = membershipService.getLibraryMembershipById(membershipId);
 
-        return LibraryMembershipResponse.of(membership);
+        return MembershipResponse.of(membership);
     }
 
     @GetMapping
-    public PagedResponse getAllRegisteredMembership(@LoginUser User user,
-                                                    @RequestParam(value = "page", required = false) Integer page,
-                                                    @RequestParam(value = "size", required = false) Integer size) {
+    public PagedResponse<List<MembershipResponse>> getAllRegisteredMembership(@LoginUser User user,
+                                                                              @RequestParam(value = "page", required = false) Integer page,
+                                                                              @RequestParam(value = "size", required = false) Integer size) {
         Pageable pageable = pageService.getPageableSortedDesc(page, size, "lastUsedDate");
         Page<Membership> pagedMembership = membershipService.getAllMembership(user.getId(), pageable);
 
-        List<LibraryMembershipResponse> content = pagedMembership.getContent().stream()
-                .map(LibraryMembershipResponse::of)
+        List<MembershipResponse> content = pagedMembership.getContent().stream()
+                .map(MembershipResponse::of)
                 .collect(Collectors.toList());
 
-        return PagedResponse.builder()
+        return PagedResponse.<List<MembershipResponse>>builder()
                 .first(pagedMembership.isFirst())
                 .last(pagedMembership.isLast())
                 .totalElements((int) pagedMembership.getTotalElements())
@@ -114,7 +114,7 @@ public class MembershipControllerV5 {
 
         return AddSuccessResponse.builder()
                 .id(added.getLibraryMembershipId())
-                .added(LibraryMembershipResponse.of(added))
+                .added(MembershipResponse.of(added))
                 .message("회원증을 추가했어요")
                 .build();
     }

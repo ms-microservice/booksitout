@@ -8,13 +8,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class LatitudeAndLongitudeToAddressResponse {
+public class LocationResponse {
 
     private String fullAddress;
     private String shortAddress;
 
-    public static LatitudeAndLongitudeToAddressResponse of(ApiKakaoMapConvertResponse kakaoResponse) {
-        return LatitudeAndLongitudeToAddressResponse.builder()
+    public static LocationResponse of(ApiKakaoMapConvertResponse kakaoResponse) {
+        return LocationResponse.builder()
                 .fullAddress(kakaoResponse.getLongAddress())
                 .shortAddress(kakaoResponse.getShortAddress())
                 .build();

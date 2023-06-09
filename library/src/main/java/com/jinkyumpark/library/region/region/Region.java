@@ -1,5 +1,6 @@
-package com.jinkyumpark.library.region;
+package com.jinkyumpark.library.region.region;
 
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

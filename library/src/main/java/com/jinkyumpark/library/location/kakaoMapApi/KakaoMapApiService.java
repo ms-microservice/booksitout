@@ -1,6 +1,5 @@
 package com.jinkyumpark.library.location.kakaoMapApi;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Value;
@@ -12,7 +11,6 @@ import org.springframework.web.reactive.function.client.WebClient;
 public class KakaoMapApiService {
 
     private final WebClient webClient;
-    private final ObjectMapper objectMapper;
 
     @Value("${api.secret.kakao}")
     private String kakaoSecret;

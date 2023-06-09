@@ -2,8 +2,8 @@ package com.jinkyumpark.library.membership.imageRecognition;
 
 import com.jinkyumpark.library.membership.type.MembershipType;
 import com.jinkyumpark.library.membership.type.MembershipTypeService;
-import com.jinkyumpark.library.region.Region;
-import com.jinkyumpark.library.region.RegionDetail;
+import com.jinkyumpark.library.region.region.Region;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import com.jinkyumpark.library.region.RegionService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

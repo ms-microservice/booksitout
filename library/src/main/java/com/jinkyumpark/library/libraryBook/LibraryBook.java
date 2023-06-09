@@ -11,20 +11,19 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
 
-@Entity @Table(
-        uniqueConstraints = {
+@Entity
+@Table(
+uniqueConstraints = {
                 @UniqueConstraint(name = "library_book_isbn_library_unique", columnNames = {"isbn", "library_id"})
         }
 )
 public class LibraryBook {
 
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long libraryBookId;
+    @EmbeddedId
+    private LibraryBookId id;
 
-    @Column(name = "isbn", length = 13)
-    private Long isbn;
-
-    @ManyToOne @JoinColumn(name = "library_id", nullable = false)
+    @MapsId("libraryId")
+    @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "library_id")
     private Library library;
 
 }

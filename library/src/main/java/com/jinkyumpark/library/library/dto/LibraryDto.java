@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class LibraryResponse {
+public class LibraryDto {
 
     private Long id;
 
@@ -27,8 +27,8 @@ public class LibraryResponse {
         return location.getDistance();
     }
 
-    public static LibraryResponse of(Library library, double distance) {
-        return LibraryResponse.builder()
+    public static LibraryDto of(Library library, double distance) {
+        return LibraryDto.builder()
                 .id(library.getLibraryId())
                 .name(library.getName())
                 .phone(library.getPhone())
@@ -49,8 +49,8 @@ public class LibraryResponse {
                 .build();
     }
 
-    public static LibraryResponse of(Library library) {
-        return LibraryResponse.builder()
+    public static LibraryDto of(Library library) {
+        return LibraryDto.builder()
                 .id(library.getLibraryId())
                 .name(library.getName())
                 .phone(library.getPhone())
@@ -74,9 +74,7 @@ public class LibraryResponse {
 }
 
 @Getter
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
 class LibraryResponseLocation {
 
     private String address;

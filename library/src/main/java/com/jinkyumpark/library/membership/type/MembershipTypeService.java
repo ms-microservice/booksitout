@@ -1,7 +1,7 @@
 package com.jinkyumpark.library.membership.type;
 
-import com.jinkyumpark.library.region.Region;
-import com.jinkyumpark.library.region.RegionDetail;
+import com.jinkyumpark.library.region.region.Region;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

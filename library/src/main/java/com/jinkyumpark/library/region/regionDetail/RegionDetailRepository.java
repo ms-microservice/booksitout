@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.region;
+package com.jinkyumpark.library.region.regionDetail;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

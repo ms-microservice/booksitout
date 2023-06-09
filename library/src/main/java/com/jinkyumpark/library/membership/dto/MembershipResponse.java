@@ -1,6 +1,6 @@
 package com.jinkyumpark.library.membership.dto;
 
-import com.jinkyumpark.library.library.dto.LibraryResponse;
+import com.jinkyumpark.library.library.dto.LibraryDto;
 import com.jinkyumpark.library.membership.Membership;
 import com.jinkyumpark.library.membership.typeLibrary.MembershipTypeLibrary;
 import lombok.AllArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.stream.Collectors;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class LibraryMembershipResponse {
+public class MembershipResponse {
 
     private Long id;
     private String number;
@@ -23,9 +23,9 @@ public class LibraryMembershipResponse {
     private String name;
     private String description;
 
-    private List<LibraryResponse> usableLibrary;
+    private List<LibraryDto> usableLibrary;
 
-    public static LibraryMembershipResponse of(Membership membership) {
+    public static MembershipResponse of(Membership membership) {
         String logo;
         String name;
 
@@ -40,7 +40,7 @@ public class LibraryMembershipResponse {
             name = membership.getType().getName();
         }
 
-        return LibraryMembershipResponse.builder()
+        return MembershipResponse.builder()
                 .id(membership.getLibraryMembershipId())
                 .number(membership.getNumber())
                 .memo(membership.getMemo())
@@ -55,7 +55,7 @@ public class LibraryMembershipResponse {
                                 :
                                 membership.getType().getUsableLibraries().stream()
                                         .map(MembershipTypeLibrary::getLibrary)
-                                        .map(LibraryResponse::of)
+                                        .map(LibraryDto::of)
                                         .collect(Collectors.toList())
                 )
 
