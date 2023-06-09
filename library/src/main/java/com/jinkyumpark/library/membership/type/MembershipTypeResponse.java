@@ -35,6 +35,7 @@ public class MembershipTypeResponse {
                 .name(name)
                 .logo(logo)
                 .description(membershipType.getDescription())
+
                 .build();
     }
 

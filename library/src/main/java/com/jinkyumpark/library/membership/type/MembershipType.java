@@ -1,5 +1,7 @@
 package com.jinkyumpark.library.membership.type;
 
+import com.jinkyumpark.library.library.Library;
+import com.jinkyumpark.library.membership.typeLibrary.MembershipTypeLibrary;
 import com.jinkyumpark.library.region.Region;
 import com.jinkyumpark.library.region.RegionDetail;
 import lombok.AllArgsConstructor;
@@ -8,6 +10,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
@@ -36,5 +39,32 @@ public class MembershipType {
 
     @ManyToOne @JoinColumn(name = "region_detail_id")
     private RegionDetail regionDetail;
+
+    @OneToMany(mappedBy = "membershipType")
+    private List<MembershipTypeLibrary> usableLibraries;
+
+    public String getLogo() {
+        if (regionDetail != null) {
+            return regionDetail.getLogo();
+        }
+
+        if (region != null) {
+            return region.getLogo();
+        }
+
+        return logo;
+    }
+
+    public String getName() {
+        if (regionDetail != null) {
+            return regionDetail.getKoreanName();
+        }
+
+        if (region != null) {
+            return region.getKoreanName();
+        }
+
+        return name;
+    }
 
 }
