@@ -13,5 +13,7 @@ public class PublicUserResponse {
     private String email;
     private String name;
     private String profileImage;
+    private Boolean isPaidUser;
+    private Integer joinDayCount;
 
 }

@@ -20,6 +20,6 @@ public interface SearchClient {
     NewBookSearchResponse getNewBookByIsbnFromNaver(@PathVariable("isbn") String isbn);
 
     @RequestMapping(method = RequestMethod.GET, value = "v4/search/by-isbn/data4library")
-    BookDetailResponse getBookDetailByIsbnFromData4library(@RequestParam("isbn") Long isbn);
+    BookDetailResponse getBookDetailByIsbnFromData4library(@RequestParam("isbn") String isbn);
 
 }

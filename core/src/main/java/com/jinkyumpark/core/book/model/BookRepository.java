@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
+
     @Query("select b from Book b where b.appUserId = ?1 order by b.lastModifiedDate")
     Page<Book> findAllBooks(Long appUserId, Pageable pageRequest);
 
@@ -40,5 +41,8 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b where b.appUserId = ?1 and b.isbn13 is not null")
     List<Book> findAllIsbnNotEmptyByAppUserId(Long appUserId, Pageable pageable);
+
+    @Query("select b from Book b where b.isbn13 is null")
+    Page<Book> findAllBooksOfEmptyIsbn(Pageable pageable);
 
 }

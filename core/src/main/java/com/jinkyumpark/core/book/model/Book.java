@@ -122,4 +122,10 @@ public class Book extends TimeEntity {
             this.memoLink = bookDto.getMemoLink();
     }
 
+    public Book addIsbn(String isbn) {
+        this.isbn13 = Long.valueOf(isbn);
+
+        return this;
+    }
+
 }
