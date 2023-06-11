@@ -8,7 +8,7 @@ const BookRoute = () => {
 	const { range, rangeDetail } = useParams()
 
     return (
-		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden', overflowY: 'hidden' }}>
+		<div className='container-fluid h-100' style={{ maxWidth: '1920px', overflowX: 'hidden' }}>
 			<RouteTitle icon={<BookIcon />} title={'내 책'} />
 			<BookList range={range} rangeDetail={rangeDetail} />
 		</div>

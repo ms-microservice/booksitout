@@ -2,8 +2,8 @@ import React from 'react'
 import { booksitoutServer } from '../functions/axios'
 import { LibraryType } from './LibraryType'
 import { Form } from 'react-bootstrap'
-import Error from '../components/common/Error'
-import NoContent from '../components/common/NoContent';
+import Error from '../common/Error'
+import NoContent from '../common/NoContent';
 import LocationError from './LocationError'
 import location from './locationFunction'
 import CardTitle from '../common/CardTitle'

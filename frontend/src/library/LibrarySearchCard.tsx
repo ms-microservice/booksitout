@@ -4,7 +4,7 @@ import { booksitoutServer } from '../functions/axios'
 import { LibraryAutoCompleteType } from './LibraryType'
 import { useDebounce } from '../common/useDebounce'
 import LibrarySearchPlaceholder from './LibrarySearchPlaceholder'
-import NoContent from '../components/common/NoContent'
+import NoContent from '../common/NoContent'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const LibrarySearchCard = () => {

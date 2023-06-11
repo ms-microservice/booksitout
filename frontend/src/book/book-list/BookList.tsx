@@ -5,12 +5,12 @@ import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import parse from 'html-react-parser'
 
-import Loading from '../../components/common/Loading'
-import Error from '../../components/common/Error'
-import NoContent from '../../components/common/NoContent'
+import Loading from '../../common/Loading'
+import Error from '../../common/Error'
+import NoContent from '../../common/NoContent'
 import HorizontalBookView from '../book-view/HorizontalBookView'
 import DoneHorizontalBookView from '../book-view/DoneHorizontalBookView'
-import InfiniteScrollLoading from '../../components/common/InfiniteScrollLoading'
+import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
 import BookListRangeButton from './BookListRangeButton'
 import Boarding from '../../info/Boarding'
 
@@ -39,7 +39,7 @@ const BookList = ({range, rangeDetail}) => {
 			: range === 'done'
 			? `다 읽은 책이 없어요`
 			: range === 'give-up'
-			? `내 사전에 포기란 없다! 포기한 책이 없어요`
+			? `포기한 책이 없어요`
 			: `텅 비어 있어요`
 	).toString()
 	const fetchSize = 24
@@ -107,7 +107,7 @@ const BookList = ({range, rangeDetail}) => {
 			{error || bookList == null ? (
 				<Error />
 			) : bookList.length === 0 ? (
-				<NoContent message={noContentMessage ?? ''} textSize={2} iconSize={10} move={-120} />
+				<NoContent message={noContentMessage ?? ''} textSize={2} iconSize={10} move={-100} />
 			) : (
 				<InfiniteScroll
 					dataLength={bookList.length}

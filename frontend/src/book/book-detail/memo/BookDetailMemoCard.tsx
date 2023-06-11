@@ -1,8 +1,8 @@
 import React from 'react'
-import AddButton from '../../../components/common/AddButton'
+import AddButton from '../../../common/AddButton'
 import { Card } from 'react-bootstrap'
-import NoContent from '../../../components/common/NoContent'
-import AllButton from '../../../components/common/AllButton'
+import NoContent from '../../../common/NoContent'
+import AllButton from '../../../common/AllButton'
 import uiSettings from '../../../settings/ui'
 import MemoAllModal from './MemoAllModal'
 

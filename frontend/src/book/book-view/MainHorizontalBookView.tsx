@@ -4,7 +4,7 @@ import { Button } from 'react-bootstrap'
 
 import BookInfoIcon from '../book-info/BookInfoIcon'
 import defaultBookCover from '../../images/placeholder/default-book-cover.png'
-import PageProgressBar from '../../components/common/PageProgressBar'
+import PageProgressBar from '../../common/PageProgressBar'
 import { giveUpBook } from '../../functions/book'
 import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from '../book-info/bookInfoEnum'
 

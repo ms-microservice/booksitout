@@ -3,11 +3,11 @@ import { BiTime as TimeIcon } from 'react-icons/bi'
 
 import TipsType from './TipsType'
 
-import NoContent from '../../components/common/NoContent'
-import Error from '../../components/common/Error'
-import Loading from '../../components/common/Loading'
+import NoContent from '../../common/NoContent'
+import Error from '../../common/Error'
+import Loading from '../../common/Loading'
 import InfiniteScroll from 'react-infinite-scroll-component'
-import InfiniteScrollLoading from '../../components/common/InfiniteScrollLoading'
+import InfiniteScrollLoading from '../../common/InfiniteScrollLoading'
 import { booksitoutServer } from '../../functions/axios'
 
 const TipsListGroup = ({ range }) => {

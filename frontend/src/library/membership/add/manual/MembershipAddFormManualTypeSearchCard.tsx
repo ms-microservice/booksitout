@@ -1,8 +1,8 @@
 import React from 'react'
 import { Card, ListGroup, Form } from 'react-bootstrap'
 import { MembershipTypeSearchResultType } from '../../MembershipType'
-import NoContent from '../../../../components/common/NoContent'
-import Error from '../../../../components/common/Error';
+import NoContent from '../../../../common/NoContent'
+import Error from '../../../../common/Error';
 import RegionSearchResultLoading from '../RegionSearchResultLoading'
 import { booksitoutServer } from '../../../../functions/axios';
 import { useDebounce } from '../../../../common/useDebounce';

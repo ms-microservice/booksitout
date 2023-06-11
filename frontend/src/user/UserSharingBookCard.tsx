@@ -1,7 +1,7 @@
 import UserRouteCard from './UserRouteCard'
 import SharingBookCard from './SharingBookCard'
-import AllButton from '../components/common/AllButton'
-import NoContent from '../components/common/NoContent'
+import AllButton from '../common/AllButton'
+import NoContent from '../common/NoContent'
 import { BsBookHalf as BookIcon } from 'react-icons/bs'
 
 const UserSharingBook = ({ bookList, nickName }) => {

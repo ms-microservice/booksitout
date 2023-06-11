@@ -1,7 +1,7 @@
 import { ButtonGroup, ToggleButton } from "react-bootstrap"
 import { useParams } from "react-router-dom"
-import AddPostForm from "../components/community/post/AddPostForm"
-import Preparing from "../components/common/Preparing"
+import AddPostForm from "../community/post/AddPostForm"
+import Preparing from "../common/Preparing"
 import AddGatheringForm from "./gathering/AddGatheringForm"
 import ScrollToTop from "../common/topnav/ScrollToTop"
 

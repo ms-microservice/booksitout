@@ -4,7 +4,7 @@ import { useLoaderData, useParams, useSearchParams } from "react-router-dom"
 import { PageType } from "../types/PageType"
 import SharingBookCard from "./SharingBookCard"
 import { SharingBook } from "../types/BookType"
-import Page from "../components/common/Page"
+import Page from "../common/Page"
 
 export async function loader({params, request}) {
     const nickName = params.nickName

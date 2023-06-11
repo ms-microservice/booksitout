@@ -1,12 +1,13 @@
 import React from 'react'
 import { Card, ListGroup, Form } from 'react-bootstrap'
+
 import RegionSearchResultLoading from '../RegionSearchResultLoading'
-import NoContent from '../../../../components/common/NoContent'
+import NoContent from '../../../../common/NoContent'
 import { useDebounce } from '../../../../common/useDebounce'
 import { PageType } from '../../../../types/PageType'
 import { RegionSearchResultType } from '../../../LocationType'
 import { booksitoutServer } from '../../../../functions/axios'
-import Error from '../../../../components/common/Error';
+import Error from '../../../../common/Error';
 import RegionSearchResult from '../RegionSearchResult'
 
 const MembershipAddManualTypeRegion = ({ regionId, setRegionId }) => {

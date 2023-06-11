@@ -3,7 +3,7 @@ import UserProfileCard from './UserProfileCard'
 import UserSharingBookCard from './UserSharingBookCard'
 import UserCommunityCard from './UserCommunityCard'
 import { PublicUserType } from '../types/UserType'
-import { BookType, PostType } from '../types/PostType'
+import { BookType, PostType } from '../community/post/PostType'
 import axios from 'axios'
 import urls from '../settings/urls'
 

@@ -1,9 +1,9 @@
 import { Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from 'react-router-dom'
 
-import Root from './components/common/Root'
-import MainRoute from './components/main/MainRoute'
-import NotFound from './components/common/NotFound'
-import ErrorPage from './components/common/ErrorPage'
+import Root from './common/Root'
+import MainRoute from './main/MainRoute'
+import NotFound from './common/NotFound'
+import ErrorPage from './common/ErrorPage'
 
 import AdminRoute from './admin/AdminRoute'
 
@@ -18,32 +18,32 @@ import LoginRoute from './user/LoginRoute'
 import OAuth from './user/OAuth'
 import JoinRoute from './user/JoinRoute'
 
-import SettingsRoute from './components/settings/SettingsRoute'
-import SearchLibrarySettings from './components/settings/SearchLibrarySettings'
-import SearchSettings from './components/settings/SearchSettings'
-import CommunitySettings from './components/settings/CommunitySettings'
-import NotificationSettings from './components/settings/NotificationSettings'
-import PersonalInfoSettings from './components/settings/PersonalInfoSettings'
+import SettingsRoute from './settings/SettingsRoute'
+import SearchLibrarySettings from './settings/SearchLibrarySettings'
+import SearchSettings from './settings/SearchSettings'
+import CommunitySettings from './settings/CommunitySettings'
+import NotificationSettings from './settings/NotificationSettings'
+import PersonalInfoSettings from './settings/PersonalInfoSettings'
 
 import BookRoute from './book/BookRoute'
 import BookDetail from './book/book-detail/BookDetail'
 import AddBookRoute from './book/book-form/AddBookRoute'
 import EditBookForm from './book/book-form/EditBookForm'
 
-import ReadingRoute from './components/reading/ReadingRoute'
-import ReadingNoId from './components/reading/ReadingNoId'
+import ReadingRoute from './reading/ReadingRoute'
+import ReadingNoId from './reading/ReadingNoId'
 
-import StatisticsRoute from './components/statistics/StatisticsRoute'
+import StatisticsRoute from './statistics/StatisticsRoute'
 import GoalRoute from './goal/goalRoute/GoalRoute'
 
-import SearchRoute from './components/search/SearchRoute'
+import SearchRoute from './search/SearchRoute'
 
-import CommunityRoute from './components/community/community-main/CommunityRoute'
+import CommunityRoute from './community/community-main/CommunityRoute'
 import AddCommunityRoute from './community/AddCommunityRoute'
 
-import PostRoute, { loader as postRouteLoader } from './components/community/post/post-route/PostRoute'
-import PostDetail from './components/community/post/PostDetail'
-import EditPostForm from './components/community/post/EditPostForm'
+import PostRoute, { loader as postRouteLoader } from './community/post/post-route/PostRoute'
+import PostDetail from './community/post/PostDetail'
+import EditPostForm from './community/post/EditPostForm'
 
 import GatheringRoute, {loader as gatheringRouteLoader} from './community/gathering/GatheringRoute'
 import GatheringDetail, {loader as gatheringDetailLoader} from './community/gathering/GatheringDetail'
@@ -53,7 +53,7 @@ import UserRoute, { loader as userRouteLoader } from './user/UserRoute'
 import UserPostList, {loader as userPostListLoader} from './user/UserPostList'
 import UserBookList, { loader as userBookListLoader } from './user/UserBookList'
 
-import BookInfoRoute, { loader as bookInfoRouteLoader } from './components/bookInfo/BookInfoRoute'
+import BookInfoRoute, { loader as bookInfoRouteLoader } from './bookInfo/BookInfoRoute'
 
 import LibraryRoute from './library/LibraryRoute'
 import LibraryDetail, {loader as libraryDetailLoader} from './library/detail/LibraryDetail'

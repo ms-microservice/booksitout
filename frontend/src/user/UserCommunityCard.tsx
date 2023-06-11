@@ -1,7 +1,7 @@
 import UserRouteCard from "./UserRouteCard"
-import AllButton from "../components/common/AllButton"
-import NoContent from '../components/common/NoContent'
-import PostListGroup from "../components/community/post/PostListGroup"
+import AllButton from "../common/AllButton"
+import NoContent from '../common/NoContent'
+import PostListGroup from "../community/post/PostListGroup"
 import { HiDocumentText as PostIcon } from 'react-icons/hi'
 
 const UserCommunityCard = ({ postList, nickName }) => {

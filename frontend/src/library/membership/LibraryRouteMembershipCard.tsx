@@ -3,16 +3,16 @@ import { Card } from 'react-bootstrap'
 import { booksitoutServer } from '../../functions/axios'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
-import NoContent from '../../components/common/NoContent'
-import Error from '../../components/common/Error';
-import AllButton from '../../components/common/AllButton'
+import NoContent from '../../common/NoContent'
+import Error from '../../common/Error';
+import AllButton from '../../common/AllButton'
 import CardTitle from '../../common/CardTitle'
 import { PageType } from '../../types/PageType'
 
 import { MembershipType } from './MembershipType'
 import MembershipCard from './MembershipCard'
 import MembershipCardLoading from './MembershipCardLoading'
-import AddButton from '../../components/common/AddButton';
+import AddButton from '../../common/AddButton';
 import { useNavigate } from 'react-router-dom';
 
 const LibraryRouteMembershipCard = () => {

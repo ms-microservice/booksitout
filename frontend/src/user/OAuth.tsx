@@ -7,7 +7,7 @@ import toast from 'react-hot-toast'
 import urls from '../settings/urls'
 import { checkIsLogin, loginToken } from '../redux/userSlice'
 import messages from '../settings/messages'
-import Loading from '../components/common/Loading'
+import Loading from '../common/Loading'
 import utils from '../functions/utils'
 
 const OAuth = () => {

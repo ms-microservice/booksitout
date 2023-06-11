@@ -1,7 +1,7 @@
 import React from 'react'
 import Barcode from 'react-barcode'
 import { Card } from 'react-bootstrap'
-import Error from '../../components/common/Error';
+import Error from '../../common/Error';
 import utils from '../../functions/utils';
 
 const MembershipCard = ({ membership, width=2 }) => {

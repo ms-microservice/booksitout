@@ -4,8 +4,8 @@ import { MembershipTypeSearchResultType } from '../MembershipType'
 import { booksitoutServer } from '../../../functions/axios'
 import { Card, ListGroup, Form } from 'react-bootstrap'
 import RegionSearchResultLoading from './RegionSearchResultLoading'
-import NoContent from '../../../components/common/NoContent'
-import Error from '../../../components/common/Error';
+import NoContent from '../../../common/NoContent'
+import Error from '../../../common/Error';
 import MembershipTypeSearchResult from './manual/MembershipTypeSearchResult'
 
 const MembershipAddFormImageTypeSearchCard = ({ recognizedMembership }) => {

@@ -1,8 +1,8 @@
 import axios from "axios"
 import urls from "../settings/urls"
 import { useLoaderData, useSearchParams } from 'react-router-dom'
-import PostRoutePost from "../components/community/post/post-route/PostRoutePost"
-import { PostType } from "../types/PostType"
+import PostRoutePost from "../community/post/post-route/PostRoutePost"
+import { PostType } from "../community/post/PostType"
 import { Pagination } from "react-bootstrap"
 import { PageType } from "../types/PageType"
 

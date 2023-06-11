@@ -1,5 +1,5 @@
 import { Card } from "react-bootstrap"
-import PageProgressBar from "../components/common/PageProgressBar"
+import PageProgressBar from "../common/PageProgressBar"
 import defaultBookCover from '../images/placeholder/default-book-cover-loading.png'
 import BookRating from "../book/book-detail/BookRating"
 

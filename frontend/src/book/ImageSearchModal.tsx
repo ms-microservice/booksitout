@@ -3,7 +3,7 @@ import { Modal, Card, Button } from 'react-bootstrap'
 import checkIcon from '../resources/images/common/check.png'
 import urls from '../settings/urls'
 import uiSettings from '../settings/ui';
-import NoContent from '../components/common/NoContent'
+import NoContent from '../common/NoContent'
 import { ImageSearchResult } from '../types/SearchType';
 
 const ImageSearchModal = ({ showModal, setShowModal, setCover, title, author }) => {

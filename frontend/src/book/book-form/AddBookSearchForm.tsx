@@ -7,13 +7,13 @@ import { Button, Form, Modal } from 'react-bootstrap'
 
 import messages from '../../settings/messages'
 import urls from '../../settings/urls'
-import NoContent from '../../components/common/NoContent'
-import Error from '../../components/common/Error'
+import NoContent from '../../common/NoContent'
+import Error from '../../common/Error'
 import utils from '../../functions/utils'
 
 import './addBookModal.css'
-import AddBookSearchResult from '../../components/search/AddBookSearchResult';
-import AddBookSearchResultLoading from '../../components/search/AddBookSearchResultLoading';
+import AddBookSearchResult from '../../search/AddBookSearchResult';
+import AddBookSearchResultLoading from '../../search/AddBookSearchResultLoading';
 import { BookUserType } from '../../types/BookType'
 
 

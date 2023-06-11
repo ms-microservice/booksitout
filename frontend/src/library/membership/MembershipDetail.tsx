@@ -10,7 +10,7 @@ import MembershipDetailAddCard from './MembershipDetailAddCard'
 import MembershipDetailLibrary from './MembershipDetailLibrary'
 import MembershipCardLoading from './MembershipCardLoading'
 import MembershipDetailRemoveEditCard from './MembershipDetailRemoveEditCard'
-import NoContent from '../../components/common/NoContent'
+import NoContent from '../../common/NoContent'
 
 const MembershipDetail = () => {
 	const navigate = useNavigate()

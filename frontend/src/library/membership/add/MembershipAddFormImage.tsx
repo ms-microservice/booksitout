@@ -12,7 +12,7 @@ import MembershipAddFormImageEditCard from './MembershipAddFormImageEditCard'
 import './membershipAddForm.scss'
 import { useNavigate } from 'react-router-dom'
 import { ImageMembershipType } from './ImageRecognitionType'
-import NoContent from '../../../components/common/NoContent'
+import NoContent from '../../../common/NoContent'
 
 const MembershipAddFormImage = () => {
 	const navigate = useNavigate()

@@ -1,12 +1,12 @@
 import { booksitoutServer } from '../../functions/axios'
 import GatheringRouteButton from './GatheringRouteButton'
 import { useLoaderData, useParams, useSearchParams } from 'react-router-dom'
-import GatheringSimpleCard from '../../components/community/summaryCard/GatheringSimpleCard'
+import GatheringSimpleCard from '../../community/summaryCard/GatheringSimpleCard'
 
 import { GatheringType } from './GatheringType'
 import { PageType } from '../../types/PageType'
-import NoContent from '../../components/common/NoContent'
-import Page from '../../components/common/Page'
+import NoContent from '../../common/NoContent'
+import Page from '../../common/Page'
 
 export async function loader({ params, request }) {
 	const type = params.type.replace('-', '_').toUpperCase()

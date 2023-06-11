@@ -2,8 +2,8 @@ import React from 'react'
 import { booksitoutServer } from '../../functions/axios';
 
 import { PageType } from '../../types/PageType'
-import Error from '../../components/common/Error';
-import NoContent from '../../components/common/NoContent'
+import Error from '../../common/Error';
+import NoContent from '../../common/NoContent'
 import RouteTitle from '../../common/RouteTitle';
 
 import { MembershipType } from './MembershipType'
@@ -11,9 +11,9 @@ import MembershipCard from './MembershipCard';
 import MembershipCardLoading from './MembershipCardLoading';
 import { BsFillPersonVcardFill as CardIcon} from 'react-icons/bs'
 
-import InfiniteScrollLoading from '../../components/common/InfiniteScrollLoading';
+import InfiniteScrollLoading from '../../common/InfiniteScrollLoading';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import AddButton from '../../components/common/AddButton';
+import AddButton from '../../common/AddButton';
 import { useNavigate } from 'react-router-dom';
 
 const MembershipList = () => {

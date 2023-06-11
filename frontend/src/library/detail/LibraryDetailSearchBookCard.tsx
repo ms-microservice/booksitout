@@ -1,7 +1,7 @@
 import React from 'react'
 import CardTitle from '../../common/CardTitle'
 import { Card } from 'react-bootstrap'
-import Preparing from '../../components/common/Preparing'
+import Preparing from '../../common/Preparing'
 import { FaSearch as SearchIcon } from 'react-icons/fa'
 
 const LibraryDetailSearchBookCard = ({library}) => {
