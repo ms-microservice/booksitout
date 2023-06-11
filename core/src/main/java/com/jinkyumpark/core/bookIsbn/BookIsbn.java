@@ -36,7 +36,10 @@ public class BookIsbn {
     @Column(length = 5)
     private Integer page;
 
-    private String naverLink;
+    @Column(name = "naver_link") private String naverLink;
+    @Column(name = "aladin_link") private String aladinLink;
+    @Column(name = "yes24_link") private String yes24Link;
+    @Column(name = "kyobo_link") private String kyoboLink;
 
     @Column(name = "language", length = 10)
     @Enumerated(value = EnumType.STRING)
