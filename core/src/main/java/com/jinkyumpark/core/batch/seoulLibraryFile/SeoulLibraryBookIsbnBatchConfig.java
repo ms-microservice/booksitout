@@ -1,8 +1,8 @@
-package com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile;
+package com.jinkyumpark.core.batch.seoulLibraryFile;
 
+import com.jinkyumpark.core.batch.seoulLibraryFile.steps.SeoulLibraryBookIsbnProcessor;
 import com.jinkyumpark.core.bookIsbn.BookIsbn;
-import com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
-import com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.steps.SeoulLibraryBookIsbnProcessor;
+import com.jinkyumpark.core.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

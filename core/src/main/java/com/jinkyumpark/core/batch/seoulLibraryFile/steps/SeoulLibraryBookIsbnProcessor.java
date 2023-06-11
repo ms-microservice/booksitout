@@ -1,7 +1,7 @@
-package com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.steps;
+package com.jinkyumpark.core.batch.seoulLibraryFile.steps;
 
 import com.jinkyumpark.core.bookIsbn.BookIsbn;
-import com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
+import com.jinkyumpark.core.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
 import com.jinkyumpark.core.common.feign.SearchClient;
 import com.jinkyumpark.core.common.feign.response.NewBookSearchResponse;
 import lombok.RequiredArgsConstructor;

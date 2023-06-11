@@ -1,8 +1,8 @@
-package com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.steps;
+package com.jinkyumpark.core.batch.seoulLibraryFile.steps;
 
 import com.fasterxml.jackson.core.JsonParser;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
+import com.jinkyumpark.core.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;

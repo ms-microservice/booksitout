@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile;
+package com.jinkyumpark.core.batch.seoulLibraryFile;
 
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;

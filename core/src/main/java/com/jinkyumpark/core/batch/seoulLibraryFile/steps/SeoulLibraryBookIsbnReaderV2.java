@@ -1,22 +1,18 @@
-package com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.steps;
+package com.jinkyumpark.core.batch.seoulLibraryFile.steps;
 
 import com.fasterxml.jackson.databind.MappingIterator;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
-import com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
+import com.jinkyumpark.core.batch.seoulLibraryFile.dto.FileSeoulLibraryResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.batch.core.*;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.Map;
 
 @Slf4j
 @Primary
@@ -38,11 +34,8 @@ public class SeoulLibraryBookIsbnReaderV2 implements ItemReader<FileSeoulLibrary
 
     @Override
     public void beforeStep(StepExecution stepExecution) {
-        startLine = 10001L;
-        endLine = 20000L;
-
-//        startLine = 0L;
-//        endLine = 0L;
+        startLine = 50_001;
+        endLine = 10_000L;
     }
 
     @Override

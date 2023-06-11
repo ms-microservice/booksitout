@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.bookIsbn.batch.seoulLibraryFile.dto;
+package com.jinkyumpark.core.batch.seoulLibraryFile.dto;
 
 import com.jinkyumpark.core.book.model.BookLanguage;
 import com.jinkyumpark.core.bookIsbn.BookIsbn;
@@ -21,6 +21,7 @@ public class FileSeoulLibraryResponse {
     private String publer;
     private String contry_name;
     private String lang_name;
+    private String lang;
 
     public BookIsbn toEntity(String cover, String description, String naverLink) {
         return BookIsbn.builder()
@@ -36,7 +37,7 @@ public class FileSeoulLibraryResponse {
 
                 .page(getPage(page))
 
-                .language(getLanguage(lang_name))
+                .language(getLanguage(lang))
                 .naverLink(naverLink)
 
                 .build();
@@ -98,10 +99,10 @@ public class FileSeoulLibraryResponse {
 
     private BookLanguage getLanguage(String language) {
         BookLanguage languageExtracted = null;
-        if (lang_name == null || lang_name.contains("한국")) languageExtracted = BookLanguage.KOREAN;
-        else if (lang_name.contains("영어") || lang_name.contains("eng") || lang_name.contains("ENG")) languageExtracted = BookLanguage.ENGLISH;
-        else if (lang_name.toUpperCase().contains("일본") || lang_name.contains("jap")) languageExtracted = BookLanguage.JAPANESE;
-        else if (lang_name.contains("중국") || lang_name.contains("chin") || lang_name.contains("Chinese")) languageExtracted = BookLanguage.CHINESE;
+        if (language == null || language.contains("한국") || language.contains("kor")) languageExtracted = BookLanguage.KOREAN;
+        else if (language.contains("영어") || language.contains("eng") || language.contains("ENG")) languageExtracted = BookLanguage.ENGLISH;
+        else if (language.toUpperCase().contains("일본") || language.contains("jpn")) languageExtracted = BookLanguage.JAPANESE;
+        else if (language.contains("중국") || language.contains("chi") || language.contains("Chinese")) languageExtracted = BookLanguage.CHINESE;
 
         return languageExtracted;
     }
