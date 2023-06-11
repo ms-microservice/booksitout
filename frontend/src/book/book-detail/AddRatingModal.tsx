@@ -33,7 +33,7 @@ const AddRatingModal = ({ isModalOpen, setIsModalOpen, book, setBook }) => {
 				<div className='row justify-content-center'>
 					{[1, 2, 3, 4, 5].map((starCount) => {
 						return (
-							<div className='col-2 text-center'>
+							<div className='col-2 text-center clickable'>
 								<h1 onClick={() => setRating(starCount)}>
 									{starCount <= rating ? <StarFillIcon className='text-warning' /> : <StarIcon />}
 								</h1>
