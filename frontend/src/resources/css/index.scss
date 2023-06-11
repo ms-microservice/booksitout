@@ -139,8 +139,8 @@ input::-webkit-inner-spin-button {
 
 .clamp-2-line {
 	display: inline-block;
-	height: calc(2em + 1px);
-	line-height: 1em;
+	height: calc(3em + 1px);
+	line-height: 1.5em;
 	overflow: hidden;
 	text-overflow: ellipsis;
 }

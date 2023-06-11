@@ -8,7 +8,12 @@ import {
 	BsTrainFrontFill,
 	BsWebcamFill,
 	BsFillQuestionCircleFill,
-	BsFillPatchCheckFill
+	BsFillPatchCheckFill,
+	BsPencilFill,
+	BsPersonFill,
+	BsFillChatLeftTextFill,
+	BsFillCalendarFill,
+	BsFillPeopleFill,
 } from 'react-icons/bs'
 import { FaSearch } from 'react-icons/fa'
 import { TbLocationFilled } from 'react-icons/tb'
@@ -20,6 +25,8 @@ import { BiTime } from 'react-icons/bi'
 import { FaUserAlt } from 'react-icons/fa'
 import { AiFillStar, AiOutlineStar, AiFillCheckCircle } from 'react-icons/ai'
 import { TbTargetArrow } from 'react-icons/tb'
+import { IoIosPaper } from 'react-icons/io'
+import { RiFilePaperLine } from 'react-icons/ri'
 
 const booksitoutIcon: { [key: string]: IconType } = {
 	login: FiLogIn,
@@ -36,6 +43,11 @@ const booksitoutIcon: { [key: string]: IconType } = {
 	search: FaSearch,
 
 	book: BsBookHalf,
+	title: BsPencilFill,
+	author: BsFillPeopleFill,
+	description: BsFillChatLeftTextFill,
+	publishYear: BsFillCalendarFill,
+	page: RiFilePaperLine,
 
 	// Statistics
 	statistics: BsFileEarmarkBarGraphFill,

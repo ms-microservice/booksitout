@@ -1,9 +1,24 @@
 export interface Book {
-    isbn: number;
+    isbn: string;
 
     title: string;
     author: string;
-    cover: string;
+    cover?: string;
+
+	description?: string;
+	
+	publicationYear?: number;
+	page?: number;
+	language: string;
+
+	link: BookLinkType;
+}
+
+export interface BookLinkType {
+	naver?: string;
+	aladin?: string;
+	yes24?: string;
+	kyobo?: string;
 }
 
 export interface BookUserType extends Book {

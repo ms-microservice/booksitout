@@ -56,12 +56,7 @@ const SummaryTable = ({ statistics, loading = false  }) => {
 					return (
 						<tr>
 							<th className='col-8 h5'>
-								<img
-									className='img-fluid me-3'
-									src={stat.icon}
-									alt=''
-									style={{ width: '30px', height: '30px', whiteSpace: 'nowrap' }}
-								/>
+								<img className='img-fluid me-3 force-1-line' src={stat.icon} alt='' style={{ width: '30px', height: '30px' }} />
 								{stat.name}
 							</th>
 

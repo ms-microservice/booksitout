@@ -28,7 +28,9 @@ const location = {
 
 					return [latitude, longitude]
 				},
-				(error) => [null, null]
+				(error) => {
+					return [undefined, undefined]
+				}
 			)
 		}
 	},

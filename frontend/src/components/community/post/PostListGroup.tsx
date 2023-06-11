@@ -26,15 +26,14 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 									<div className='text-secondary'>{post.user.name}</div>
 								</div>
 
-								<div
-									className={`${col2} d-flex align-items-start justify-content-between p-0 pe-md-1 mt-3 mt-md-0 align-items-center`}>
+								<div className={`${col2} d-flex align-items-start justify-content-between p-0 pe-md-1 mt-3 mt-md-0`}>
 									<div className='d-flex align-items-center' style={{ width: '400px', paddingLeft: '12px' }}>
 										{post.book != null ? (
 											<>
 												<BookIcon className='text-book me-2' />
 
-												<div className='d-block'>
-													<span className='clamp-1-line'>{post.book.title}</span>
+												<div className='d-block clamp-1-line' style={{ width: '170px' }}>
+													<span>{post.book.title}</span>
 
 													<br />
 
@@ -48,15 +47,17 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 
 									<div className='ms-0 ms-xl-5' />
 
-									<Badge bg='book' style={{ width: '65px' }}>
-										<LikeIcon /> {post.likeCount}
-									</Badge>
+									<>
+										<Badge bg='book' style={{ width: '65px' }}>
+											<LikeIcon /> {post.likeCount}
+										</Badge>
 
-									<div className='ms-2 ms-xl-2' />
+										<div className='ms-2 ms-xl-2' />
 
-									<Badge bg='danger' style={{ width: '65px' }}>
-										<DislikeIcon /> {post.dislikeCount}
-									</Badge>
+										<Badge bg='danger' style={{ width: '65px' }}>
+											<DislikeIcon /> {post.dislikeCount}
+										</Badge>
+									</>
 								</div>
 							</div>
 						</a>

@@ -40,7 +40,7 @@ export interface BookType {
     title: string;
     author: string;
     cover?: string;
-    isbn: number;
+    isbn: string;
 }
 
 export interface RecentBookType {

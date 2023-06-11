@@ -41,7 +41,7 @@ const EditPostForm = () => {
 
     const [title, setTitle] = React.useState('')
     const [content, setContent] = React.useState('')
-    const [isbn, setIsbn] = React.useState(0)
+    const [isbn, setIsbn] = React.useState<string>('')
     const handleEditPost = (e) => {
         e.preventDefault()
 

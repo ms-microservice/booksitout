@@ -10,6 +10,8 @@ import BookInfoQuizCard from './BookInfoQuizCard'
 import { PostType } from '../../types/PostType'
 import axios from 'axios'
 import urls from '../../settings/urls'
+import RouteTitle from '../../common/RouteTitle'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 interface LoaderData {
 	book: Book
@@ -32,6 +34,8 @@ const BookInfoRoute = () => {
 
 	return (
 		<div className='container-xl'>
+			<RouteTitle icon={<booksitoutIcon.book />} title={'책 정보'} />
+
 			<BookInfoBasicInfoCard book={book} />
 			<div className='mb-4' />
 

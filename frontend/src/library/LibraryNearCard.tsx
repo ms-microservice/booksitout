@@ -15,14 +15,18 @@ import SimpleLibraryCardLoading from './SimpleLibraryCardLoading'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=0 }) => {
-	const [latitude, setLatitude] = React.useState<number | null>(null)
-	const [longitude, setLongitude] = React.useState<number | null>(null)
-	const [locationName, setLocationName] = React.useState<string | null>(null)
-	const [locationError, setLocationError] = React.useState<boolean>(false)
-
 	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
 
+	const [latitude, setLatitude] = React.useState<number | null | undefined>(null)
+	const [longitude, setLongitude] = React.useState<number | null | undefined>(null)
+	const [locationName, setLocationName] = React.useState<string | null>(null)
+	const [locationError, setLocationError] = React.useState<boolean>(false)
+	
 	React.useEffect(() => {
+		setTimeout(() => {
+			setInitialFetch(false)
+		}, 300)
+		
 		const getLocation = async () => {
 			location.getLatitudeAndLongitude().then((locationResult) => {
 				if (locationResult === undefined || locationResult[0] === null || locationResult[1] === null) {
@@ -33,8 +37,13 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 					location.getAddressByLatitudeAndLongitude(locationResult[0], locationResult[1]).then((address) => setLocationName(address))
 				}
 			})
+			.catch(() => {
+				setLatitude(undefined)
+				setLongitude(undefined)
+			})
+
 		}
-	
+
 		getLocation()
 	}, [])
 
@@ -85,10 +94,6 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 					<div className='h-100'>
 						{initialFetch ? (
 							<></>
-						) : locationError ? (
-							<LocationError move={-80} />
-						) : nearLibraryList === undefined ? (
-							<Error move={-80} />
 						) : nearLibraryList == null ? (
 							<div className={`row row-eq-height mt-${mt}`}>
 								{Array.from({ length: 6 }).map(() => {
@@ -99,8 +104,12 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 									)
 								})}
 							</div>
+						) : latitude === undefined || longitude === undefined || locationError ? (
+							<LocationError move={-80} />
+						) : nearLibraryList === undefined ? (
+							<Error move={-80} />
 						) : nearLibraryList.length === 0 ? (
-							<NoContent message='2km 내에 도서관이 없어요' />
+							<NoContent message='2km 내에 도서관이 없어요' move={-80}/>
 						) : (
 							<div className={`row row-eq-height mt-${mt}`}>
 								{nearLibraryList.map((library) => {
