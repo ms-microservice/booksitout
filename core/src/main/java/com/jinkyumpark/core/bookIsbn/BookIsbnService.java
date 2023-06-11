@@ -18,21 +18,21 @@ public class BookIsbnService {
     private final BookIsbnQueryDslRepository bookIsbnQueryDslRepository;
     private final SearchClient searchClient;
 
-    public BookIsbnDto getBookInfoByIsbn(Long isbn) {
+    public BookIsbnDto getBookInfoByIsbn(String isbn) {
         BookIsbn bookIsbn = bookIsbnRepository.findByIsbn(String.valueOf(isbn))
                 .orElseThrow(() -> new NoContentException("찾으시려는 책이 없어요"));
 
         return BookIsbnDto.of(bookIsbn);
     }
 
-    public BookIsbn addBookIsbnIfAbsent(Long isbn) {
+    public BookIsbn addBookIsbnIfAbsent(String isbn) {
         Optional<BookIsbn> bookIsbnOptional = bookIsbnRepository.findByIsbn(String.valueOf(isbn));
 
         if (bookIsbnOptional.isPresent()) return bookIsbnOptional.get();
 
-        List<NewBookSearchResponse> searchResult = searchClient.getNewBookSearchResultFromNaver(isbn.toString());
+        List<NewBookSearchResponse> searchResult = searchClient.getNewBookSearchResultFromNaver(isbn);
         Optional<NewBookSearchResponse> firstResult = searchResult.stream()
-                .filter(b -> b.getIsbn().equals(isbn.toString()))
+                .filter(b -> b.getIsbn().equals(isbn))
                 .findFirst();
 
         if (firstResult.isEmpty()) return null;
@@ -40,8 +40,8 @@ public class BookIsbnService {
         return bookIsbnRepository.save(firstResult.get().toEntity());
     }
 
-    public BookIsbn getBookInfoAddIfAbsent(Long isbn) {
-        Optional<BookIsbn> book = bookIsbnRepository.findByIsbn(String.valueOf(isbn));
+    public BookIsbn getBookInfoAddIfAbsent(String isbn) {
+        Optional<BookIsbn> book = bookIsbnRepository.findByIsbn(isbn);
 
         if (book.isEmpty()) {
             BookIsbn bookIsbn = searchClient.getBookDetailByIsbnFromData4library(isbn).toEntity();

@@ -25,6 +25,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @Service
 public class BookService {
+
     private final MessageSourceAccessor messageSource;
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
@@ -186,7 +187,7 @@ public class BookService {
     }
 
     @Transactional
-    public Long addBookAndBookIsbn(BookDto bookDto, long isbn) {
+    public Long addBookAndBookIsbn(BookDto bookDto, String isbn) {
         Long savedBookId = bookRepository.save(bookDto.toEntity()).getBookId();
 
         BookIsbnDto bookIsbnDto = BookIsbnDto.builder()
@@ -200,4 +201,5 @@ public class BookService {
 
         return savedBookId;
     }
+
 }

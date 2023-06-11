@@ -13,7 +13,7 @@ public class BookSearchResultAddRequest {
 
     @NotNull private String title;
     @NotNull private String author;
-    @NotNull private Long isbn;
+    @NotNull private String isbn;
     private String cover;
 
     private Integer page;
@@ -26,7 +26,7 @@ public class BookSearchResultAddRequest {
                 .title(title)
                 .author(author)
                 .cover(cover)
-                .isbn13(isbn)
+                .isbn13(Long.valueOf(isbn))
 
                 .endPage(page)
 

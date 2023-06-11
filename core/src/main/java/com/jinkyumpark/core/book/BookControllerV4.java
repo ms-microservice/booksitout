@@ -66,7 +66,7 @@ public class BookControllerV4 {
     }
 
     @GetMapping("sharing/paged")
-    public PagedResponse getBookByNicknamePaged(@RequestParam("name") String nickName,
+    public PagedResponse<List<BookResponse>> getBookByNicknamePaged(@RequestParam("name") String nickName,
                                                      @RequestParam(value = "page", required = false) Integer page,
                                                      @RequestParam(value = "size", required = false) Integer size) {
         if (page == null) page = 1;
@@ -79,7 +79,7 @@ public class BookControllerV4 {
                 .map(BookResponse::of)
                 .collect(Collectors.toList());
 
-        return PagedResponse.builder()
+        return PagedResponse.<List<BookResponse>>builder()
                 .first(paged.isFirst())
                 .last(paged.isLast())
                 .totalPages(paged.getTotalPages())

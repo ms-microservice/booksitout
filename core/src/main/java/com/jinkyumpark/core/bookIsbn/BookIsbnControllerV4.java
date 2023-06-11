@@ -12,14 +12,14 @@ public class BookIsbnControllerV4 {
     private final BookIsbnService bookIsbnService;
 
     @GetMapping("{isbn}")
-    public BookIsbnDto getBookInfoByIsbn(@PathVariable("isbn") Long isbn) {
+    public BookIsbnDto getBookInfoByIsbn(@PathVariable("isbn") String isbn) {
         BookIsbn bookIsbn = bookIsbnService.getBookInfoAddIfAbsent(isbn);
 
         return BookIsbnDto.of(bookIsbn);
     }
 
     @PostMapping("{isbn}")
-    public void addBookIsbnIfAbsent(@PathVariable("isbn") Long isbn) {
+    public void addBookIsbnIfAbsent(@PathVariable("isbn") String isbn) {
         bookIsbnService.addBookIsbnIfAbsent(isbn);
     }
 
