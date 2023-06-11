@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor @Builder
-public class PagedResponse {
+public class PagedResponse<T> {
 
     private final boolean first;
     private final boolean last;
@@ -14,5 +14,6 @@ public class PagedResponse {
     private final int totalElements;
     private final int totalPages;
 
-    private final Object content;
+    private final T content;
+
 }
