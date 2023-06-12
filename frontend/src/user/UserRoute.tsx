@@ -6,6 +6,8 @@ import { PublicUserType } from '../types/UserType'
 import { BookType, PostType } from '../community/post/PostType'
 import axios from 'axios'
 import urls from '../settings/urls'
+import RouteTitle from '../common/RouteTitle'
+import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 interface LoaderData {
 	user: PublicUserType;
@@ -35,6 +37,8 @@ const UserRoute = () => {
 
 	return (
 		<div className='container-xl'>
+			<RouteTitle icon={<booksitoutIcon.user />} title={'유저 정보'} />
+
 			<UserProfileCard user={user} />
 			<div className='mb-4' />
 

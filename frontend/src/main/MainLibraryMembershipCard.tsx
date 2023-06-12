@@ -35,12 +35,12 @@ const MainLibraryMembershipCard = () => {
 	}, [])
 
 	return (
-		<Card className='h-100' style={{ minHeight: '510px' }}>
+		<Card className='h-100' style={{ minHeight: '420px', maxHeight: '420px' }}>
 			<AddButton size='40' top='20px' onClick={() => navigate('/library/membership/add/image')} />
 
 			<Card.Body className='h-100'>
 				<a href='/library/membership/all' className='text-black h-100'>
-					<CardTitle icon={<CardIcon />} title='도서관 회원증' subTitle={undefined} iconSize={1} />
+					<CardTitle icon={<CardIcon />} title='도서관 회원증' subTitle={undefined} iconSize={1} mb={0} />
 
 					{initialFetch ? (
 						<></>
@@ -60,7 +60,7 @@ const MainLibraryMembershipCard = () => {
 						membershipList.content.map((membership) => {
 							return (
 								<div className='col-12 mb-3'>
-									<MembershipCard membership={membership} />
+									<MembershipCard membership={membership} height={37.5} />
 								</div>
 							)
 						})

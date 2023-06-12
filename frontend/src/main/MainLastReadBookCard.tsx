@@ -11,7 +11,7 @@ const MainLastReadBookCard = ({ lastBook }) => {
 	return (
 		<Card className='h-100' style={{ minHeight: '420px' }}>
 			<Card.Body className='h-100'>
-				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} iconSize={2} mb={0} />
+				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} iconSize={2}  />
 
 				{lastBook === undefined ? (
 					<Error />

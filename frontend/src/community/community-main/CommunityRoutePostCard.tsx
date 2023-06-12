@@ -2,8 +2,6 @@ import React from 'react'
 import { Card } from "react-bootstrap"
 import axios from 'axios'
 
-import { BsFire as FireIcon } from 'react-icons/bs'
-
 import PostListGroup from '../post/PostListGroup'
 import AddButton from '../../common/AddButton'
 import Error from '../../common/Error';
@@ -13,6 +11,7 @@ import AllButton from '../../common/AllButton'
 import urls from '../../settings/urls'
 
 import { PostType } from '../post/PostType'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const CommunityRoutePostCard = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
@@ -43,7 +42,7 @@ const CommunityRoutePostCard = () => {
 					</a>
 
 					<h3 className='mb-3'>
-						<FireIcon className='me-2 text-book h2' />
+						<booksitoutIcon.popular className='me-2 text-book h2' />
 						인기글
 					</h3>
 

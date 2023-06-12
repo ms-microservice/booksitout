@@ -12,6 +12,8 @@ import OnlineUsedSearchResult from './searchResult/OnlineUsedSearchResult'
 import search from '../functions/search'
 import * as BookType from '../types/BookType'
 import OfflineUsedSearchResult from './searchResult/OfflineUsedSearchResult'
+import RouteTitle from '../common/RouteTitle'
+import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const SearchRoute = () => {
 	const { query } = useParams()
@@ -28,7 +30,9 @@ const SearchRoute = () => {
 	}, [query])
 
 	return (
-		<div className='container mt-5'>
+		<div className='container-xl mt-5'>
+			<RouteTitle icon={<booksitoutIcon.search/>} title={'검색 결과'} />
+
 			<LibraryDetailModal />
 
 			<Alert variant='success' className='text-center'>

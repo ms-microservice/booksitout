@@ -22,6 +22,15 @@ const languageImageMap = new Map([
 	['SPANISH', spanishIcon],
 ])
 
+const languageEmojiMap = new Map([
+	['ENGLISH', '🇺🇸'],
+	['KOREAN', '🇰🇷'],
+	['JAPANESE', '🇯🇵'],
+	['CHINESE', '🇨🇳'],
+	['FRENCH', '🇫🇷'],
+	['SPANISH', '🇪🇸'],
+])
+
 const getLanguageKoreanLabel = (language: string) => {
 	return languageTextKoreanMap.get(language) ?? '한국어'
 }
@@ -30,4 +39,8 @@ const getLangaugeImage = (language: string) => {
 	return languageImageMap.get(language) ?? koreanIcon
 }
 
-export { getLangaugeImage, getLanguageKoreanLabel }
+const getLanguageEmoji = (language: string) => {
+	return languageEmojiMap.get(language) ?? '🇰🇷'
+}
+
+export { getLangaugeImage, getLanguageKoreanLabel, getLanguageEmoji }

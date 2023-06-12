@@ -6,6 +6,8 @@ import { PostType } from '../PostType'
 import { booksitoutServer } from '../../../functions/axios'
 import Page from '../../../common/Page';
 import { PageType } from '../../../types/PageType'
+import RouteTitle from '../../../common/RouteTitle'
+import booksitoutIcon from '../../../common/icons/booksitoutIcon';
 
 export async function loader({ params }) {
 	const sortBy = params.sortBy
@@ -29,6 +31,8 @@ const PostRoute = () => {
 
 	return (
 		<div className='container-xl'>
+			<RouteTitle icon={<booksitoutIcon.post />} title={'전체 게시글'} />
+
 			<div className='mb-3'>
 				<PostRouteButton sortBy={sortBy} />
 			</div>

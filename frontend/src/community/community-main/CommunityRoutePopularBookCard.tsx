@@ -4,8 +4,7 @@ import { PopularBookType } from "../post/PostType"
 import axios from "axios"
 import urls from "../../settings/urls"
 import Error from '../../common/Error';
-
-import { BsBookHalf as BookIcon } from 'react-icons/bs'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const CommunityRoutePopularBookCard = () => {
     const [popularBook, setPopularBook] = React.useState<PopularBookType[]>([])
@@ -22,12 +21,12 @@ const CommunityRoutePopularBookCard = () => {
 		<Card style={{ minHeight: '700px' }} className='mb-4 h-100'>
 			<Card.Body>
 				<h3>
-					<BookIcon className='me-2 text-book' /> 인기 책
+					<booksitoutIcon.book className='me-2 text-book' /> 인기 책
 				</h3>
 
 				<div className='mb-4' />
 
-				<ListGroup className="h-100">
+				<ListGroup className='h-100'>
 					{error || popularBook === undefined ? (
 						<Error />
 					) : (

@@ -2,11 +2,13 @@ import { Card, Button } from 'react-bootstrap'
 import parse from 'html-react-parser'
 import utils from '../functions/utils'
 import { faqData } from './faqData';
+import RouteTitle from '../common/RouteTitle';
+import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const FaqRoute = () => {
 	return (
-		<div className='container mt-5 mb-5'>
-			<h2>자주 묻는 질문</h2>
+		<div className='container-xl mt-5 mb-5'>
+			<RouteTitle icon={<booksitoutIcon.faq />} title={'자주 묻는 질문'} />
 
 			{faqData.map((faq) => {
 				return (

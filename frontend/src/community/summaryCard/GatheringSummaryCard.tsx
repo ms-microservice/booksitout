@@ -1,7 +1,5 @@
 import React from 'react'
 import { Card } from "react-bootstrap"
-import { FaPeopleArrows as PeopleIcon } from 'react-icons/fa'
-
 import GatheringSimpleCard from './GatheringSimpleCard'
 import AllButton from "../../common/AllButton"
 import NoContent from "../../common/NoContent"
@@ -9,6 +7,7 @@ import Error from '../../common/Error';
 import CardTitle from '../../common/CardTitle'
 import { booksitoutServer } from '../../functions/axios'
 import { GatheringType } from '../../community/gathering/GatheringType'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500px', col = 'col-12 col-md-6 col-xl-4' }) => {
 	const [gatheringList, setGatheringList] = React.useState<GatheringType[] | null>(null)
@@ -25,7 +24,7 @@ const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500p
 		<Card style={{ minHeight: minHeight }} className='h-100'>
 			<a href='/community/gathering/all' className='text-black h-100'>
 				<Card.Body className='h-100'>
-					<CardTitle icon={<PeopleIcon />} title={title} />
+					<CardTitle icon={<booksitoutIcon.gathering />} title={title} />
 
 					{gatheringList == null ? (
 						<Error />

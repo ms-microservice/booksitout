@@ -1,7 +1,5 @@
 import { useLoaderData } from 'react-router-dom'
-
 import { Book } from '../types/BookType'
-
 import BookInfoBasicInfoCard from './BookInfoBasicInfoCard'
 import BookInfoPostCard from './BookInfoPostCard'
 import BookInfoStatisticsCard from './BookInfoStatisticsCard'

@@ -7,9 +7,9 @@ import { BsGraphUp as GraphIcon } from 'react-icons/bs'
 
 const MainReadingTimeCard = ({readTime}) => {
 	return (
-		<Card className='h-100'>
-			<a href='/statistics' className='text-decoration-none text-black h-100'>
-				<Card.Body className='h-100'>
+		<Card className='h-100' style={{ minHeight: '200px' }}>
+			<Card.Body className='h-100'>
+				<a href='/statistics' className='text-black'>
 					<CardTitle icon={<GraphIcon />} title='최근 1주일 독서시간' iconSize={2} />
 
 					{readTime == null ? (
@@ -19,8 +19,8 @@ const MainReadingTimeCard = ({readTime}) => {
 							<DateLineChart startDate={new Date().setDate(new Date().getDate() - 7)} data={readTime} duration={7} />
 						</div>
 					)}
-				</Card.Body>
-			</a>
+				</a>
+			</Card.Body>
 		</Card>
 	)
 }

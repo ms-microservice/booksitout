@@ -6,6 +6,7 @@ import yes24Logo from '../images/logo/square/yes24.png'
 import kyoboLogo from '../images/logo/square/kyobo.jpg'
 import naverLogo from '../images/logo/square/naver.png'
 import booksitoutLogo from '../images/logo.png'
+import { getLangaugeImage, getLanguageEmoji, getLanguageKoreanLabel } from '../functions/language'
 
 const BookInfoBasicInfoCard = ({ book }) => {
 	return (
@@ -17,11 +18,17 @@ const BookInfoBasicInfoCard = ({ book }) => {
 
 				<div className='col-12 col-md-8 pt-2 ps-4'>
 					<InfoText icon={<booksitoutIcon.title />} text={<h5>{book.title}</h5>} />
-					<InfoText icon={<booksitoutIcon.author />} text={<h5 className='text-secondary'>{book.author ?? '-'}</h5>} />
-					<InfoText icon={<booksitoutIcon.publishYear />} text={<h5 className='text-secondary'>{book.publishYear ?? '-'}</h5>} />
+					<InfoText icon={<booksitoutIcon.author />} text={<h5>{book.author ?? '-'}</h5>} />
+					<InfoText icon={<booksitoutIcon.publishYear />} text={<h5>{book.publishYear ?? '-'}</h5>} />
+					<InfoText icon={<booksitoutIcon.page />} text={<h5>{book.page == null ? '-' : `${book.page} 페이지`}</h5>} />
 					<InfoText
-						icon={<booksitoutIcon.page />}
-						text={<h5 className='text-secondary'>{book.page == null ? '-' : `${book.page} 페이지`}</h5>}
+						icon={<booksitoutIcon.language />}
+						text={
+							<h5>
+								{getLanguageKoreanLabel(book.language) ?? '-'}
+								<span className='ms-2 me-2'>{getLanguageEmoji(book.language)}</span>
+							</h5>
+						}
 					/>
 					<InfoText icon={<booksitoutIcon.description />} text={<p className='clamp-2-line'>{book.description ?? '-'}</p>} />
 
