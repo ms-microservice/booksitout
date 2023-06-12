@@ -14,9 +14,13 @@ import MembershipCard from './MembershipCard'
 import MembershipCardLoading from './MembershipCardLoading'
 import AddButton from '../../common/AddButton';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
 const LibraryRouteMembershipCard = () => {
 	const navigate = useNavigate()
+
+	const isLogin = useSelector((state: RootState) => state.user.isLogin)
 	const [loading, setLoading] = React.useState<boolean>(true)
 	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
 
@@ -49,7 +53,9 @@ const LibraryRouteMembershipCard = () => {
 						textSize={3}
 					/>
 
-					{initialFetch ? (
+					{!isLogin ? (
+						<NoContent message='회원증을 관리하기 위해서는 로그인 해 주세요' mt={130}/>
+					) : initialFetch ? (
 						<></>
 					) : loading ? (
 						<div className='row'>

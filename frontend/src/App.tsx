@@ -61,7 +61,7 @@ import LibraryNearRoute from './library/LibraryNearRoute'
 import LibraryRegionRoute, { loader as libraryRegionDetailLoader } from './library/region/LibraryRegionRoute'
 
 import MembershipDetail from './library/membership/MembershipDetail'
-import MembershipList from './library/membership/MembershipList'
+import MembershipRoute from './library/membership/MembershipRoute'
 import MembershipAddForm from './library/membership/add/MembershipAddForm'
 import MembershipEditRoute, {loader as membershipEditLoader} from './library/membership/edit/MembershipEditRoute'
 
@@ -143,7 +143,7 @@ const router = createBrowserRouter(
 			<Route path='/library/near' element={<LibraryNearRoute />} />
 			<Route path='/library/region/:name' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionDetailLoader} />
 
-			<Route path='/library/membership/all' element={<MembershipList />} />
+			<Route path='/library/membership/all' element={<MembershipRoute />} />
 			<Route path='/library/membership/:id' element={<MembershipDetail />} />
 			<Route path='/library/membership/add/:method' element={<MembershipAddForm />} />
 			<Route path='/library/membership/edit/:id' element={<MembershipEditRoute />} errorElement={<ErrorPage />} loader={membershipEditLoader} />

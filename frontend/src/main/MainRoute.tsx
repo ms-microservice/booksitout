@@ -29,7 +29,6 @@ import MainLibraryMembershipCard from './MainLibraryMembershipCard';
 import { GoalType } from '../goal/GoalType'
 import { StatisticsType } from '../types/StatisticsType';
 import { BookType } from '../community/post/PostType';
-import { GatheringType } from '../community/gathering/GatheringType'
 
 import { booksitoutServer } from '../functions/axios';
 

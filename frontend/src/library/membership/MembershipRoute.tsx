@@ -15,10 +15,13 @@ import InfiniteScrollLoading from '../../common/InfiniteScrollLoading';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import AddButton from '../../common/AddButton';
 import { useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { RootState } from '../../redux/store';
 
-const MembershipList = () => {
+const MembershipRoute = () => {
 	const navigate = useNavigate()
 
+	const isLogin = useSelector((state: RootState) => state.user.isLogin)
     const [loading, setLoading] = React.useState<boolean>(true)
 	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
 
@@ -43,7 +46,9 @@ const MembershipList = () => {
 			<RouteTitle icon={<CardIcon />} title={'모든 도서관 회원증'} />
 			<AddButton size={40} top='80px' onClick={() => navigate('/library/membership/add/image')} />
 
-			{initialFetch ? (
+			{!isLogin ? (
+				<NoContent message='회원증을 관리하기 위해서는 로그인 해 주세요' mt={60}/>
+			) : initialFetch ? (
 				<></>
 			) : loading ? (
 				Array.from({ length: 4 }).map(() => {
@@ -77,4 +82,4 @@ const MembershipList = () => {
 	)
 }
 
-export default MembershipList
+export default MembershipRoute

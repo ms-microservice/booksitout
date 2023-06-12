@@ -22,25 +22,27 @@ const LibraryNearRoute = () => {
 	const { range } = useParams()
 	const [currentRange, setCurrentRange] = React.useState<number>(Number(range ?? 3))
 
-	const [latitude, setLatitude] = React.useState<number | null>(null)
-	const [longitude, setLongitude] = React.useState<number | null>(null)
+	const [latitude, setLatitude] = React.useState<number | null | undefined>(null)
+	const [longitude, setLongitude] = React.useState<number | null | undefined>(null)
 	const [locationName, setLocationName] = React.useState<string | null>(null)
 	const [locationError, setLocationError] = React.useState<boolean>(false)
 
-	React.useEffect(() => {
-		const getLocation = async () => {
-			location.getLatitudeAndLongitude().then((locationResult) => {
-				if (locationResult === undefined || locationResult[0] === null || locationResult[1] === null) {
-					setLocationError(true)
-				} else {
-					setLatitude(locationResult[0])
-					setLongitude(locationResult[1])
-					location.getAddressByLatitudeAndLongitude(locationResult[0], locationResult[1]).then((address) => setLocationName(address))
-				}
-			})
+	const getLocation = async () => {
+		const locationResult = await location.getLatitudeAndLongitude()
 
+		if (locationResult == null || locationResult === undefined || locationResult[0] === null || locationResult[1] === null) {
+			setLocationError(true)
+			setLatitude(undefined)
+			setLongitude(undefined)
+		} else {
+			console.log('location success!')
+			setLatitude(locationResult[0])
+			setLongitude(locationResult[1])
+			location.getAddressByLatitudeAndLongitude(locationResult[0], locationResult[1]).then((address) => setLocationName(address))
 		}
+	}
 
+	React.useEffect(() => {
 		getLocation()
 	}, [])
 
@@ -92,7 +94,7 @@ const LibraryNearRoute = () => {
 	}
 
 	return (
-		<div className='container-xl'>
+		<div className='container-xl pb-5'>
 			<ReloadIcon
 				className='text-book clickable d-md-none'
 				onClick={refreshLocation}
@@ -101,7 +103,7 @@ const LibraryNearRoute = () => {
 
 			<div className='row justify-content-end mb-3'>
 				<div className='col-12 col-md-10'>
-					<CardTitle icon={<LocationIcon />} title='내 주변 도서관' subTitle={locationName ?? '?'} />
+					<CardTitle icon={<LocationIcon />} title='내 주변 도서관' subTitle={locationName ?? '위치 알 수 없음'} textSize={1} />
 				</div>
 
 				<div className='col-6 col-md-2 pt-md-3'>
@@ -123,10 +125,10 @@ const LibraryNearRoute = () => {
 				</div>
 			</div>
 
-			{locationError ? (
-				<LocationError />
+			{locationError || latitude === undefined || longitude === undefined ? (
+				<LocationError move={-100} />
 			) : nearLibraryList === undefined ? (
-				<Error message='서버에 오류가 났어요' move={0} />
+				<Error message='서버에 오류가 났어요' />
 			) : nearLibraryList == null ? (
 				Array.from({ length: 6 }).map(() => {
 					return <LibraryCardLoading />

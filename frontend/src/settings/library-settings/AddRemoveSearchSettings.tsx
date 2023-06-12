@@ -61,7 +61,7 @@ const AddRemoveSearchSettings = ({ title, includedLabel, excludedLabel, initialS
 												<DeleteIcon className='h5 text-danger ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />
-												<h6 className='mt-2'>{service.name}</h6>
+												<h6 className='mt-2 clamp-1-line'>{service.name}</h6>
 											</div>
 										)
 									})}
@@ -84,7 +84,7 @@ const AddRemoveSearchSettings = ({ title, includedLabel, excludedLabel, initialS
 												<AddIcon className='h5 text-success ms-5 position-absolute' />
 
 												<img src={service.icon} alt='' className='img-fluid rounded' style={iconStyle} />
-												<h6 className='mt-2'>{service.name}</h6>
+												<h6 className='mt-2 clamp-1-line'>{service.name}</h6>
 											</div>
 										)
 									})}

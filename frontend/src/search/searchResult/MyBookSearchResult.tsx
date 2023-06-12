@@ -5,6 +5,7 @@ import search from '../../functions/search'
 import MyBookComponent from '../cardComponent/MyBookCardComponent'
 import MyBookSearchLoading from '../placeholder/MyBookSearchPlaceholder'
 import SearchResultInitialFetch from '../placeholder/SearchResultInitialFetch'
+import { MyBookSearchRange } from '../myBookSearchRange'
 
 const MyBookSearchResult = ({query}) => {
     const [loading, setLoading] = React.useState<boolean>(true)
@@ -29,14 +30,14 @@ const MyBookSearchResult = ({query}) => {
 	}, [query])
 
     if (initialFetch) {
-        return <BookSearchResult label='내 책' labelComponent={<></>} bookList={[1, 2]} CardComponent={SearchResultInitialFetch} isConfigured={true} />
+        return <BookSearchResult label='내 책' labelComponent={MyBookSearchRange.getDisplayName()} bookList={[1, 2]} CardComponent={SearchResultInitialFetch} isConfigured={true} />
     }
 
     if (loading) {
-		return <BookSearchResult label='내 책' labelComponent={<></>} bookList={[1, 2]} CardComponent={MyBookSearchLoading} isConfigured={true} />
+		return <BookSearchResult label='내 책' labelComponent={MyBookSearchRange.getDisplayName()} bookList={[1, 2]} CardComponent={MyBookSearchLoading} isConfigured={true} />
     }
 
-    return <BookSearchResult label='내 책' labelComponent={<></>} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
+    return <BookSearchResult label='내 책' labelComponent={MyBookSearchRange.getDisplayName()} bookList={myBookList} CardComponent={MyBookComponent} isConfigured={true} />
 }
 
 export default MyBookSearchResult

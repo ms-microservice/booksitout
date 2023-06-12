@@ -18,20 +18,22 @@ const location = {
 		}
 
 		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				(position) => {
-					const latitude = position.coords.latitude
-					const longitude = position.coords.longitude
+			return new Promise((resolve, reject) => {
+				navigator.geolocation.getCurrentPosition(
+					(position) => {
+						const latitude = position.coords.latitude
+						const longitude = position.coords.longitude
 
-					localStorage.setItem('location', latitude + ',' + longitude)
-					localStorage.setItem('location-time', new Date().toString())
+						localStorage.setItem('location', latitude + ',' + longitude)
+						localStorage.setItem('location-time', new Date().toString())
 
-					return [latitude, longitude]
-				},
-				(error) => {
-					return [undefined, undefined]
-				}
-			)
+						return resolve([latitude, longitude])
+					},
+					() => {
+						return resolve([undefined, undefined])
+					}
+				)
+			})
 		}
 	},
 
@@ -69,7 +71,7 @@ const location = {
 
 				return address
 			})
-			.catch(() => 'ERROR')
+			.catch(() => '위치 알 수 없음')
 	},
 }
 

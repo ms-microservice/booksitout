@@ -32,7 +32,7 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 											<>
 												<BookIcon className='text-book me-2' />
 
-												<div className='d-block clamp-1-line' style={{ width: '170px' }}>
+												<div className='d-block clamp-1-line' style={{ width: '140px' }}>
 													<span>{post.book.title}</span>
 
 													<br />
@@ -47,7 +47,7 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 
 									<div className='ms-0 ms-xl-5' />
 
-									<>
+									<div>
 										<Badge bg='book' style={{ width: '65px' }}>
 											<LikeIcon /> {post.likeCount}
 										</Badge>
@@ -57,7 +57,7 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 										<Badge bg='danger' style={{ width: '65px' }}>
 											<DislikeIcon /> {post.dislikeCount}
 										</Badge>
-									</>
+									</div>
 								</div>
 							</div>
 						</a>
