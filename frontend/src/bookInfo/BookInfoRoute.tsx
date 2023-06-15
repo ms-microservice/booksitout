@@ -1,5 +1,5 @@
 import { useLoaderData } from 'react-router-dom'
-import { Book } from '../types/BookType'
+import { BookType } from '../types/BookType'
 import BookInfoBasicInfoCard from './BookInfoBasicInfoCard'
 import BookInfoPostCard from './BookInfoPostCard'
 import BookInfoStatisticsCard from './BookInfoStatisticsCard'
@@ -12,7 +12,7 @@ import RouteTitle from '../common/RouteTitle'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 interface LoaderData {
-	book: Book
+	book: BookType
 	postList: PostType[]
 }
 

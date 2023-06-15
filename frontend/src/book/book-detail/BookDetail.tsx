@@ -213,7 +213,7 @@ const BookDetail = () => {
 
 						{book.currentPage !== book.endPage && (
 							<AddButton
-								size='30'
+								size={30}
 								color='book'
 								onClick={() => {
 									setAddReadingModalOpen(true)
@@ -221,7 +221,7 @@ const BookDetail = () => {
 							/>
 						)}
 
-						<Card.Body>
+						<Card.Body style={{minHeight: '300px'}}>
 							<h4>📚 독서활동</h4>
 
 							<div className='row justify-content-center mt-4'>

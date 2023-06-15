@@ -1,6 +1,7 @@
 import NoContent from "../common/NoContent"
 import PostListGroup from "../community/post/PostListGroup"
 import BookInfoCard from "./BookInfoCard"
+import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const BookInfoRelatedPost = ({postList}) => {
 	return (
@@ -13,6 +14,7 @@ const BookInfoRelatedPost = ({postList}) => {
 					<div className='mt-0'>{<PostListGroup postList={postList} />}</div>
 				)
 			}
+			icon={<booksitoutIcon.post />}
 		/>
 	)
 }

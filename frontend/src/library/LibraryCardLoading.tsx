@@ -28,23 +28,15 @@ const LibraryCardLoading = () => {
 				</div>
 
 				<div className='ms-4'>
-					<LibraryTextWithIcon
-						icon={<LocationIcon />}
-						text={
-							<Placeholder as={Card.Text} animation='glow' className='mb-0'>
-								<Placeholder xs={3} />
-							</Placeholder>
-						}
-					/>
+					<Placeholder as={Card.Text} animation='glow' className='mb-0 d-flex align-items-center'>
+						<LibraryTextWithIcon icon={<LocationIcon />} text={<></>} />
+						<Placeholder xs={2} className='h-50' />
+					</Placeholder>
 
-					<LibraryTextWithIcon
-						icon={<BookIcon />}
-						text={
-							<Placeholder as={Card.Text} animation='glow' className='mb-0'>
-								<Placeholder xs={3} />
-							</Placeholder>
-						}
-					/>
+					<Placeholder as={Card.Text} animation='glow' className='mb-0 d-flex align-items-center'>
+						<LibraryTextWithIcon icon={<BookIcon />} text={<></>} />
+						<Placeholder xs={2} className='h-50' />
+					</Placeholder>
 				</div>
 			</Card.Body>
 		</Card>

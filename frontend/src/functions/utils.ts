@@ -1,3 +1,5 @@
+import parser from 'html-react-parser'
+
 const moneyFormatter = new Intl.NumberFormat('kr-KO', {
 	style: 'currency',
 	currency: 'KRW',
@@ -71,6 +73,8 @@ const utils = {
 		}
 		return [null, null]
 	},
+
+	htmlParser: parser,
 }
 
 export default utils

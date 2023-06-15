@@ -56,27 +56,16 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 					</Nav.Link>
 				))}
 
-				<Nav.Link
-					href='/login'
-					className={`d-flex d-${expand}-none align-items-center justify-content-center`}
-					onClick={(e) => isLogin && handleLogout(e)}>
-					<div className='topnav-link-container'>
-						<span className='me-1 topnav-icon'>
-							<booksitoutIcon.login />
-						</span>
-
-						<span className='topnav-text'> {!isLogin ? '로그인' : '로그아웃'}</span>
-					</div>
-				</Nav.Link>
-
-				{!isLogin && (
-					<Nav.Link href='/join' className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
+				{isLogin && (
+					<Nav.Link
+						href={`/user/${localStorage.getItem('user-name-public')}`}
+						className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
 						<div className='topnav-link-container'>
 							<span className='me-1 topnav-icon'>
-								<booksitoutIcon.join />
+								<booksitoutIcon.user />
 							</span>
 
-							<span className='topnav-text'> 회원가입</span>
+							<span className='topnav-text'>내 프로필</span>
 						</div>
 					</Nav.Link>
 				)}
@@ -92,6 +81,31 @@ const TopnavNav = ({ isLogin, handleLogout }) => {
 						</div>
 					</Nav.Link>
 				)}
+
+				{!isLogin && (
+					<Nav.Link href='/join' className={`d-flex d-${expand}-none align-items-center justify-content-center`}>
+						<div className='topnav-link-container'>
+							<span className='me-1 topnav-icon'>
+								<booksitoutIcon.join />
+							</span>
+
+							<span className='topnav-text'> 회원가입</span>
+						</div>
+					</Nav.Link>
+				)}
+
+				<Nav.Link
+					href='/login'
+					className={`d-flex d-${expand}-none align-items-center justify-content-center`}
+					onClick={(e) => isLogin && handleLogout(e)}>
+					<div className='topnav-link-container'>
+						<span className='me-1 topnav-icon'>
+							<booksitoutIcon.login />
+						</span>
+
+						<span className='topnav-text'> {!isLogin ? '로그인' : '로그아웃'}</span>
+					</div>
+				</Nav.Link>
 			</Nav>
 		</div>
 	)

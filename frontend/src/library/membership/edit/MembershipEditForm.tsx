@@ -31,9 +31,9 @@ const MembershipEditForm = ({ membership }) => {
 			.put(`v5/library/membership/${membership.id}`, editedMembership)
 			.then(() => {
 				toast.success('회원증을 수정했어요')
-				navigate(`/library/membership/detail/${membership.id}`)
+				navigate(`/library/membership/${membership.id}`)
 			})
-			.catch(() => toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요'))
+			.catch((e) => toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요'))
 	}
 
 	return (

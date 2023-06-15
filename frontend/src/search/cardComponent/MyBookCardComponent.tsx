@@ -7,7 +7,7 @@ const MyBookCardComponent = ({ book }) => {
 
 	return (
 		<div className='col-12 col-lg-6 mb-3' style={{ height: '225px' }}>
-			<a href={`/book/detail/${book.bookId}`} className='text-decoration-none text-black'>
+			<a href={`/book/detail/${book.bookId}`}>
 				<Card className='h-100'>
 					<Card.Body>
 						<div className='row h-100'>

@@ -5,6 +5,7 @@ import LibraryOnlineLabel from '../label/OnlineLibraryLabel'
 import LibraryOnlineCardComponent from '../cardComponent/LibraryOnlineCardComponent'
 import OnlineLibrarySearchLoading from '../placeholder/OnlineLibrarySearchLoading'
 import SearchResultInitialFetch from '../placeholder/SearchResultInitialFetch'
+import BookSearchResultLoading from '../BookSearchResultLoading'
 
 const OnlineLibrarySearchResult = ({query}) => {
 	const [loading, setLoading] = React.useState(true)
@@ -42,15 +43,7 @@ const OnlineLibrarySearchResult = ({query}) => {
 	}
 
 	if (loading) {
-		return (
-			<BookSearchResult
-				label='전자도서관'
-				labelComponent={<LibraryOnlineLabel />}
-				bookList={[1, 2]}
-				CardComponent={OnlineLibrarySearchLoading}
-				isConfigured={true}
-			/>
-		)
+		return <BookSearchResultLoading label='전자도서관' labelComponent={<LibraryOnlineLabel />} CardComponent={OnlineLibrarySearchLoading} />
 	}
 
     return (

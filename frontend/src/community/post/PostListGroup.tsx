@@ -1,10 +1,10 @@
 import { Badge, ListGroup } from 'react-bootstrap'
 
-import { AiFillLike as LikeIcon, AiFillDislike as DislikeIcon } from 'react-icons/ai'
 import { BsBookFill as BookIcon } from 'react-icons/bs'
 
 import NoContent from '../../common/NoContent'
 import Error from '../../common/Error'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'}) => {
 
@@ -19,7 +19,7 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 						<a href={`/community/post/${post.postId}`} className='text-decoration-none w-100'>
 							<div className='row w-100'>
 								<div className={`${col1}`}>
-									<div>
+									<div className='clamp-1-line'>
 										{post.title} <span className='text-book'>[{post.commentCount}]</span>
 									</div>
 
@@ -49,13 +49,13 @@ const PostListGroup = ({postList, col1='col-12 col-md-8', col2='col-12 col-md-4'
 
 									<div>
 										<Badge bg='book' style={{ width: '65px' }}>
-											<LikeIcon /> {post.likeCount}
+											<booksitoutIcon.like /> {post.likeCount}
 										</Badge>
 
 										<div className='ms-2 ms-xl-2' />
 
 										<Badge bg='danger' style={{ width: '65px' }}>
-											<DislikeIcon /> {post.dislikeCount}
+											<booksitoutIcon.dislike /> {post.dislikeCount}
 										</Badge>
 									</div>
 								</div>

@@ -7,10 +7,10 @@ import { PostType } from './PostType'
 import PostListGroup from './PostListGroup'
 import AddButton from '../../common/AddButton'
 import Error from '../../common/Error';
-import Loading from '../../common/Loading';
 import AllButton from '../../common/AllButton'
 import { booksitoutServer } from '../../functions/axios'
 import CardTitle from '../../common/CardTitle'
+import PostListGroupLoading from './PostListGroupLoading'
 
 const PostPopular = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
@@ -37,7 +37,7 @@ const PostPopular = () => {
 		<a href='/community/post/all/popular' className='text-decoration-none text-black'>
 			<Card className='h-100' style={{ minHeight: '480px' }}>
 				<a href='/community/post/add'>
-					<AddButton size='30' color='book' top='15px' right='15px' />
+					<AddButton color='book' top='15px' right='15px' />
 				</a>
 
 				<Card.Body>
@@ -46,9 +46,9 @@ const PostPopular = () => {
 					{initialFetch ? (
 						<></>
 					) : loading ? (
-						<Loading mt='125px' message='' />
+						<PostListGroupLoading col1='col-12 col-md-8 col-xl-6' col2='col-12 col-md-4 col-xl-6' />
 					) : error ? (
-						<Error  />
+						<Error />
 					) : (
 						<PostListGroup postList={popularPost} col1='col-12 col-md-8 col-xl-6' col2='col-12 col-md-4 col-xl-6' />
 					)}

@@ -11,6 +11,7 @@ import MembershipDetailLibrary from './MembershipDetailLibrary'
 import MembershipCardLoading from './MembershipCardLoading'
 import MembershipDetailRemoveEditCard from './MembershipDetailRemoveEditCard'
 import NoContent from '../../common/NoContent'
+import MembershipDetailLibraryLoading from './MembershipDetailLibraryLoading'
 
 const MembershipDetail = () => {
 	const navigate = useNavigate()
@@ -67,7 +68,14 @@ const MembershipDetail = () => {
 			)}
 			<div className='mb-4' />
 
-			<MembershipDetailLibrary libraryList={membership?.usableLibrary ?? []} />
+			{initialFetch ? (
+				<Card style={{ minHeight: '450px' }}></Card>
+			) : loading ? (
+				<MembershipDetailLibraryLoading />
+			) : (
+				<MembershipDetailLibrary libraryList={membership?.usableLibrary ?? []} />
+			)}
+
 			<div className='mb-4' />
 
 			<MembershipDetailAddCard id={id} />

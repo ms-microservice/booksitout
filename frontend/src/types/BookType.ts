@@ -1,4 +1,4 @@
-export interface Book {
+export interface BookType {
     isbn: string;
 
     title: string;
@@ -12,6 +12,8 @@ export interface Book {
 	language: string;
 
 	link: BookLinkType;
+
+	category: string;
 }
 
 export interface BookLinkType {
@@ -21,22 +23,22 @@ export interface BookLinkType {
 	kyobo?: string;
 }
 
-export interface BookUserType extends Book {
+export interface BookAddSearchResult extends BookType {
+	from: string;
+}
+
+export interface BookUserType extends BookType {
 	summary?: string;
 	review?: string;
 	currentPage: number;
 	endPage: number;
 }
 
-export interface BookDetailType extends Book {
-    category: BookCategory;
-}
-
 export interface BookCategory {
 
 }
 
-export interface SharingBook extends Book {
+export interface SharingBook extends BookType {
     currentPage: number;
     endPage: number;
 }

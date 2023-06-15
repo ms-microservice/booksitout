@@ -1,24 +1,23 @@
 import React from "react"
 import { Card, ListGroup } from "react-bootstrap"
 import { PopularBookType } from "../post/PostType"
-import axios from "axios"
-import urls from "../../settings/urls"
-import Error from '../../common/Error';
+import Error from '../../common/Error'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
+import { booksitoutServer } from "../../functions/axios"
 
 const CommunityRoutePopularBookCard = () => {
     const [popularBook, setPopularBook] = React.useState<PopularBookType[]>([])
 	React.useEffect(() => {
-		axios
-			.get(`${urls.api.base}/v4/forum/ranking?size=7`)
-			.then((res) => setPopularBook(res.data.content))
-			.catch((e) => setError(true))
+		booksitoutServer
+			.get(`/v4/forum/ranking`)
+			.then((res) => setPopularBook(res.data))
+			.catch(() => setError(true))
 	}, [])
 
 	const [error, setError] = React.useState(false)
 
     return (
-		<Card style={{ minHeight: '700px' }} className='mb-4 h-100'>
+		<Card style={{ minHeight: '750px', maxHeight: '750px' }} className='h-100'>
 			<Card.Body>
 				<h3>
 					<booksitoutIcon.book className='me-2 text-book' /> 인기 책
@@ -40,7 +39,7 @@ const CommunityRoutePopularBookCard = () => {
 											</div>
 
 											<div className='col-11 m-0 ps-3'>
-												<p className='m-0'>{book.title}</p>
+												<p className='m-0 clamp-1-line'>{book.title}</p>
 
 												<p className='text-secondary m-0 force-1-line'>
 													{book.author.substring(0, 20)} {book.author.length > 20 ? '...' : ''}

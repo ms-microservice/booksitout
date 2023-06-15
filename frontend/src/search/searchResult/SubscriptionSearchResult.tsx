@@ -6,6 +6,7 @@ import SubscriptionLabel from '../label/SubscriptionLabel'
 import SubscriptionComponent from '../cardComponent/SubscriptionCardComponent'
 import SubscriptionSearchLoading from '../placeholder/SubscriptionSearchLoading'
 import SearchResultInitialFetch from '../placeholder/SearchResultInitialFetch'
+import BookSearchResultLoading from '../BookSearchResultLoading'
 
 const SubscriptionSearchResult = ({query}) => {
 	const [loading, setLoading] = React.useState<boolean>(true)
@@ -41,15 +42,7 @@ const SubscriptionSearchResult = ({query}) => {
 	}
 
 	if (loading) {
-		return (
-			<BookSearchResult
-				label='구독'
-				labelComponent={<SubscriptionLabel />}
-				bookList={[1, 2]}
-				CardComponent={SubscriptionSearchLoading}
-				isConfigured={true}
-			/>
-		)
+		return <BookSearchResultLoading label='구독' labelComponent={<SubscriptionLabel />} CardComponent={SubscriptionSearchLoading} />
 	}
 
     return (

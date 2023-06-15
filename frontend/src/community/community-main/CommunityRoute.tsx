@@ -1,7 +1,6 @@
 import MainTipsCard from '../../community/tips/MainTipsCard';
 import GatheringSummaryCard from '../summaryCard/GatheringSummaryCard';
 import CommunityRoutePopularBookCard from './CommunityRoutePopularBookCard';
-import CommunityRoutePopularSurveyCard from './CommunityRoutePopularSurveyCard';
 import CommunityRoutePostCard from './CommunityRoutePostCard'
 import { BsPeopleFill as CommunityIcon } from 'react-icons/bs'
 import RouteTitle from '../../common/RouteTitle';
@@ -14,21 +13,13 @@ const CommunityRoute = () => {
 			<RouteTitle icon={<CommunityIcon />} title={'커뮤니티'} />
 
 			<div className='row row-eq-height'>
-				<div className='col-12 mb-4 col-md-4'>
+				<div className='col-12 col-md-4 mb-4'>
 					<CommunityRoutePopularBookCard />
 				</div>
 
-				<div className='col-12 mb-4 col-md-8'>
+				<div className='col-12 col-md-8 mb-4'>
 					<CommunityRoutePostCard />
 				</div>
-
-				{/* <div className='col-12 mb-4 col-md-6'>
-					<ForumRoutePopularSurveyCard />
-				</div>
-
-				<div className='col-12 mb-4 col-md-6'>
-					<ForumRoutePopularQuizCard />
-				</div> */}
 
 				<div className='col-12 mb-4'>
 					<GatheringSummaryCard />

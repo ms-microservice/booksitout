@@ -5,6 +5,7 @@ import NoContent from '../common/NoContent'
 import { addMemo } from '../functions/memo'
 import messages from '../settings/messages'
 import uiSettings from '../settings/ui';
+import EditorForm from '../common/editor/EditorForm'
 
 const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen }) => {
 	const [page, setPage] = React.useState<number>(book.currentPage)
@@ -42,7 +43,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 				<div className='row row-eq-height'>
 					{memoList == null || memoList.length === 0 ? (
-						<NoContent message={messages.memo.noContent} move={0}/>
+						<NoContent message={messages.memo.noContent} move={0} />
 					) : (
 						memoList.map((memo) => {
 							return (
@@ -66,15 +67,7 @@ const MemoCard = ({ book, memoList, setMemoList, setSelectedMemo, setIsModalOpen
 
 			<Card.Footer>
 				<Form onSubmit={addMemoFunction}>
-					<Form.Control
-						id='content-input'
-						as='textarea'
-						rows={3}
-						type='text'
-						placeholder={messages.memo.placeholder.content}
-						onChange={(e) => setContent(e.target.value)}
-						value={content}
-					/>
+					<EditorForm placeholder={messages.memo.placeholder.content} setContent={setContent}/>
 
 					<div className='row justify-content-end mt-2'>
 						<div className='col-3 col-sm-2'>

@@ -36,6 +36,7 @@ const OAuth = () => {
 
 				localStorage.setItem('login-token', userData.token)
 				localStorage.setItem('user-name', userData.name)
+				localStorage.setItem('user-name-public', userData.publicName)
 				localStorage.setItem('register-year', new Date().getFullYear().toString())
 				localStorage.setItem('login-date', new Date().toString())
 				localStorage.setItem('profile-image', userData.profileImage)

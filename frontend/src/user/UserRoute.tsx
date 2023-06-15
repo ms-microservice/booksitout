@@ -36,7 +36,7 @@ const UserRoute = () => {
 	const { user, bookList, postList } = useLoaderData() as LoaderData
 
 	return (
-		<div className='container-xl'>
+		<div className='container-xl pb-4'>
 			<RouteTitle icon={<booksitoutIcon.user />} title={'유저 정보'} />
 
 			<UserProfileCard user={user} />

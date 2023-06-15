@@ -65,6 +65,8 @@ import MembershipRoute from './library/membership/MembershipRoute'
 import MembershipAddForm from './library/membership/add/MembershipAddForm'
 import MembershipEditRoute, {loader as membershipEditLoader} from './library/membership/edit/MembershipEditRoute'
 
+import PwaRoute from './pwa/PwaRoute'
+
 const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route path='/' element={<Root />}>
@@ -73,6 +75,7 @@ const router = createBrowserRouter(
 			<Route path='/' element={<MainRoute />} />
 
 			<Route path='/admin' element={<AdminRoute />} />
+			<Route path='/pwa' element={<PwaRoute />} />
 
 			<Route path='/introduction' element={<IntroductionRoute />} />
 			<Route path='introduction/features' element={<FeatureRoute />} />
@@ -141,7 +144,7 @@ const router = createBrowserRouter(
 			<Route path='/library' element={<LibraryRoute />} />
 			<Route path='/library/detail/:id' element={<LibraryDetail />} errorElement={<ErrorPage />} loader={libraryDetailLoader} />
 			<Route path='/library/near' element={<LibraryNearRoute />} />
-			<Route path='/library/region/:name' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionDetailLoader} />
+			<Route path='/library/region/:region/:regionDetail' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionDetailLoader} />
 
 			<Route path='/library/membership/all' element={<MembershipRoute />} />
 			<Route path='/library/membership/:id' element={<MembershipDetail />} />

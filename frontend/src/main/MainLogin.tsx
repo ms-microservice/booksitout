@@ -108,6 +108,7 @@ const MainLogin = () => {
 
 			localStorage.setItem('login-token', res.data.token)
 			localStorage.setItem('user-name', res.data.name)
+			localStorage.setItem('user-name-public', res.data.publicName)
 			localStorage.setItem('register-year', new Date().getFullYear().toString())
 			localStorage.setItem('login-date', new Date().toString())
 			localStorage.setItem('login-method', res.data.loginMethod)

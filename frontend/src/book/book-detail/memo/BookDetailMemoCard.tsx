@@ -5,13 +5,14 @@ import NoContent from '../../../common/NoContent'
 import AllButton from '../../../common/AllButton'
 import uiSettings from '../../../settings/ui'
 import MemoAllModal from './MemoAllModal'
+import utils from '../../../functions/utils';
 
 const BookDetailMemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen, setSelectedMemo, bookId }) => {
     const [show, setShow] = React.useState<boolean>(false)
 
 	return (
-		<Card className='mt-3 pb-3'>
-			<AddButton size='30' color='book' onClick={() => setAddMemoModalOpen(true)} />
+		<Card className='mt-3 pb-3' style={{minHeight: '300px'}}>
+			<AddButton size={30} color='book' onClick={() => setAddMemoModalOpen(true)} />
 			<MemoAllModal show={show} setShow={setShow} bookId={bookId} />
 
 			<Card.Body>
@@ -29,18 +30,17 @@ const BookDetailMemoCard = ({ memo, setMemoDetailModalOpen, setAddMemoModalOpen,
 									return (
 										<div className='col-12 col-md-6 mb-2 clickable'>
 											<Card
-												style={{ backgroundColor: uiSettings.color.memo }}
+												style={{ backgroundColor: uiSettings.color.memo, height: '100px' }}
 												onClick={() => {
 													setMemoDetailModalOpen(true)
 													setSelectedMemo(memo)
 												}}>
-												<Card.Header>
-													<h6 className='mt-1'>{memo.page}P</h6>
-												</Card.Header>
-
 												<Card.Body>
-													<div className='row'>
-														<div className='text-center clamp-2-line'>{memo.content}</div>
+													<div className='d-flex align-items-center'>
+														<div className='text-center clamp-2-line'>{utils.htmlParser(memo.content)}</div>
+														{memo.page !== 0 && memo.page != null && (
+															<div className='text-bold text-book'>{memo.page}P</div>
+														)}
 													</div>
 												</Card.Body>
 											</Card>

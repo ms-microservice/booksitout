@@ -5,9 +5,20 @@ const AddBookSearchResultLoading = () => {
 	return (
 		<Card className='text-center mt-2 mb-2' style={{ height: '250px' }}>
 			<Card.Body>
-				<img src={defaultLoadingBookCover} alt='book cover' className='img-fluid border mt-4 rounded' style={{ height: '100px' }} />
+				<div className='d-flex justify-content-center align-items-center' style={{ height: '125px' }}>
+					<div className='row'>
+						<div className='col-12'>
+							<img
+								src={defaultLoadingBookCover}
+								alt='book cover loading'
+								className='img-fluid border rounded'
+								style={{ maxHeight: '125px' }}
+							/>
+						</div>
+					</div>
+				</div>
 
-				<div className='mt-4'>
+				<div className='h-50 d-flex flex-column justify-content-center'>
 					<Placeholder as={Card.Text} animation='glow'>
 						<Placeholder xs='8' />
 						<br />

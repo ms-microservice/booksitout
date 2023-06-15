@@ -42,37 +42,38 @@ const StatisticsRoute = () => {
 		})
 	}, [])
 
-	if (!isLogin)
-		return (
-			<Boarding
-				title='내 독서활동에 대한 통계를 보시려면 로그인 해 주세요'
-				subtitle='독서시간 그래프, 평균 독서시간, 언어별, 장르별 독서 현황을 볼 수 있어요'
-			/>
-		)
-	if (initialFetch) return <></>
-	if (isLoading) return <Loading/>
-
 	return (
 		<div className='container-fluid' style={{ maxWidth: '1920px', overflowX: 'hidden', overflowY: 'hidden' }}>
 			<RouteTitle icon={<StatisticsIcon />} title={'독서통계'} />
 
-			<div className='row row-eq-height'>
-				<div className='col-12 col-md-6 col-xl-4 mb-4 '>
-					<MonthReadTimeCard readTimeList={readTimeList} />
-				</div>
+			{!isLogin ? (
+				<Boarding
+					title='내 독서활동에 대한 통계를 보시려면 로그인 해 주세요'
+					subtitle='독서시간 그래프, 평균 독서시간, 언어별, 장르별 독서 현황을 볼 수 있어요'
+				/>
+			) : initialFetch ? (
+				<></>
+			) : isLoading ? (
+				<Loading />
+			) : (
+				<div className='row row-eq-height'>
+					<div className='col-12 col-md-6 col-xl-4 mb-4 '>
+						<MonthReadTimeCard readTimeList={readTimeList} />
+					</div>
 
-				<div className='col-12 col-md-6 col-xl-4 mb-4 '>
-					<SummaryTableAllCard />
-				</div>
+					<div className='col-12 col-md-6 col-xl-4 mb-4 '>
+						<SummaryTableAllCard />
+					</div>
 
-				<div className='col-12 col-md-6 col-xl-4 mb-4' style={{ minHeight: '450px' }}>
-					<LanguageSummaryCard languageData={languageData} />
-				</div>
+					<div className='col-12 col-md-6 col-xl-4 mb-4' style={{ minHeight: '450px' }}>
+						<LanguageSummaryCard languageData={languageData} />
+					</div>
 
-				<div className='col-12 col-md-6 col-xl-4 mb-4' style={{ minHeight: '450px' }}>
-					<CategoryTableCard categoryData={categoryData} />
+					<div className='col-12 col-md-6 col-xl-4 mb-4' style={{ minHeight: '450px' }}>
+						<CategoryTableCard categoryData={categoryData} />
+					</div>
 				</div>
-			</div>
+			)}
 		</div>
 	)
 }

@@ -128,7 +128,7 @@ const LibraryNearRoute = () => {
 			{locationError || latitude === undefined || longitude === undefined ? (
 				<LocationError move={-100} />
 			) : nearLibraryList === undefined ? (
-				<Error message='서버에 오류가 났어요' />
+				<Error message='서버에 오류가 났어요' move={-50} />
 			) : nearLibraryList == null ? (
 				Array.from({ length: 6 }).map(() => {
 					return <LibraryCardLoading />

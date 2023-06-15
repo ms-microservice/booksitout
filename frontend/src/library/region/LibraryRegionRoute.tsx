@@ -12,15 +12,18 @@ interface LoaderData {
 }
 
 export async function loader({ params }) {
-	const name = params.name
+	const region = params.region
+	const regionDetail = params.regionDetail
 
-    const fetchRegion = booksitoutServer.get(`v5/library/region/by-english-name?english-name=${name}`).then((res) => res.data)
-    const fetchLibraryList = booksitoutServer.get(`v5/library/available-library/by-region/region-detail-english-name/${name}?size=30`).then((res) => res.data)
+    const fetchRegion = booksitoutServer.get(`v5/library/region/by-english-name?english-name=${regionDetail}`).then((res) => res.data)
+    const fetchLibraryList = booksitoutServer
+		.get(`v5/library/available-library/region?region=${region}&region-detail=${regionDetail}&size=30`)
+		.then((res) => res.data)
 
-    const [region, libraryList] = await Promise.all([fetchRegion, fetchLibraryList])
+    const [regionResponse, libraryList] = await Promise.all([fetchRegion, fetchLibraryList])
 
     return {
-		region: region,
+		region: regionResponse,
 		pagedLibrary: libraryList,
 	}
 }

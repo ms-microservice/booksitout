@@ -100,7 +100,7 @@ const Topnav = () => {
 					<TopnavLogo />
 
 					<button className='d-lg-none ms-auto me-3 navbar-toggler'>
-						<booksitoutIcon.search
+						<booksitoutIcon.topnavSearch
 							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 							onClick={handleSearchClick}
 						/>

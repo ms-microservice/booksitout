@@ -158,3 +158,17 @@ input::-webkit-inner-spin-button {
 		color: var(--primary-color)
 	}
 }
+
+.hover {
+	&:hover {
+		color: var(--primary-color);
+	}
+}
+
+blockquote {
+    background-color: rgb(241, 241, 238);
+    padding: 20px;
+    padding-left: 40px;
+    font-style: italic;
+    text-align: center;
+}

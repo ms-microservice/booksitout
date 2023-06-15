@@ -68,9 +68,11 @@ const LibraryDetail = () => {
 						<div className='col-8 col-md-3 mb-4 mb-md-0 mt-2 mt-md-0'>
 							<Card>
 								<Card.Body>
-									<a href={`/library/region/${library.location.englishName.toLowerCase()}`} className='d-flex align-items-center'>
+									<a
+										href={`/library/region/${library.location.name.regionEnglishName.toLowerCase()}/${library.location.name.regionDetailEnglishName.toLowerCase()}`}
+										className='d-flex align-items-center'>
 										<img src={library.location.logo} alt='' style={{ height: '40px' }} className='rounded' />
-										<h5 className='ms-2 w-100 text-center mb-0'>{library.location.name}</h5>
+										<h5 className='ms-2 w-100 text-center mb-0'>{library.location.name.displayName}</h5>
 									</a>
 								</Card.Body>
 							</Card>
@@ -111,7 +113,7 @@ const LibraryDetail = () => {
 
 			<Card>
 				<Card.Body>
-					<div ref={mapElement} style={{ width: '100%', height: '400px', zIndex: 1 }} className='rounded'/>
+					<div ref={mapElement} style={{ width: '100%', height: '400px', zIndex: 1 }} className='rounded' />
 				</Card.Body>
 			</Card>
 			<div className='mb-3' />

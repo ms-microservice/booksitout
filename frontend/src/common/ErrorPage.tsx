@@ -15,12 +15,12 @@ const ErrorPage = () => {
 
     return (
 		<div className='text-center h-100'>
-			<div style={{ marginTop: '250px' }} />
+			<div style={{ marginTop: '225px' }} />
 
 			<ErrorIcon style={{ fontSize: '150px' }} className='text-danger' />
 			<h1 className='mt-3'>오류가 났어요!</h1>
 
-			<div className='mt-4' />
+			<div className='mt-3' />
 
 			<h6 className='text-secondary'>{error.message}</h6>
 		</div>

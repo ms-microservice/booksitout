@@ -6,6 +6,7 @@ import { deleteMemo, editMemo } from '../../../functions/memo'
 import uiSettings from '../../../settings/ui'
 import messages from '../../../settings/messages'
 import './memo.css'
+import utils from '../../../functions/utils'
 
 const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList, setMemoList }) => {
 	const [isEditMode, setIsEditMode] = React.useState<boolean>(false)
@@ -97,8 +98,12 @@ const MemoDetailModal = ({ isModalOpen, setIsModalOpen, memo, setMemo, memoList,
 							</Form>
 						) : (
 							<Card className='text-center' style={{ backgroundColor: uiSettings.color.memo }}>
-								<Card.Header>{memo.page} P</Card.Header>
-								<Card.Body>{memo.content}</Card.Body>
+								<Card.Body style={{ minHeight: '200px' }}>
+									<div className='d-flex'>
+										<div>{utils.htmlParser(memo.content)}</div>
+										{memo.page != null && memo.page !== 0 && <div className='text-bold text-book'>{memo.page} P</div>}
+									</div>
+								</Card.Body>
 							</Card>
 						)}
 

@@ -166,7 +166,6 @@ const GoalRoute = () => {
 								<h2 className='mb-4'>과거 목표</h2>
 
 								<AddButton
-									size='30'
 									color='book'
 									onClick={() => {
 										setIsPastGoalAddModalOpen(true)

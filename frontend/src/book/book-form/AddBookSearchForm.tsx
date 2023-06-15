@@ -1,21 +1,19 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-
 import toast from 'react-hot-toast'
-import axios from 'axios'
 import { Button, Form, Modal } from 'react-bootstrap'
-
 import messages from '../../settings/messages'
-import urls from '../../settings/urls'
 import NoContent from '../../common/NoContent'
 import Error from '../../common/Error'
-import utils from '../../functions/utils'
-
 import './addBookModal.css'
 import AddBookSearchResult from '../../search/AddBookSearchResult';
 import AddBookSearchResultLoading from '../../search/AddBookSearchResultLoading';
-import { BookUserType } from '../../types/BookType'
-
+import { BookAddSearchResult } from '../../types/BookType'
+import { booksitoutServer } from '../../functions/axios'
+import AddBookSearchInfoCard from './AddBookSearchInfoCard'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
+import { getLanguageKoreanLabel } from '../../functions/language'
+import defaultBookCover from '../../images/placeholder/default-book-cover.png'
 
 const AddBookSearchForm = () => {
 	const navigate = useNavigate()
@@ -25,41 +23,71 @@ const AddBookSearchForm = () => {
 	const [modalOpen, setModalOpen] = React.useState<boolean>(false)
 
 	const [query, setQuery] = React.useState<string>('')
-	const [searchResult, setSearchResult] = React.useState([])
+	const [searchResult, setSearchResult] = React.useState<BookAddSearchResult[]>([])
+	const [selectedBook, setSelectedBook] = React.useState<BookAddSearchResult | null>(null)
 
-	const [selectedBook, setSelectedBook] = React.useState<BookUserType | null>(null)
-	const [endPage, setEndPage] = React.useState<number | null>(null)
+	const [userAddedPage, setUserAddedPage] = React.useState<number | null>(null)
 	const [form, setForm] = React.useState<string>('PHYSICAL')
-	const [source, setSource] = React.useState<string>('NOT_PROVIDED')
 	const [sharing, setSharing] = React.useState<boolean>(true)
+	const [source, setSource] = React.useState<string>('NOT_PROVIDED')
+
+	const [additionalSearch, setAdditionalSearch] = React.useState<boolean>(false)
 
 	const addBook = () => {
-		const lastBracketIndex = selectedBook?.title.lastIndexOf('(') === -1 ? selectedBook?.title.length : selectedBook?.title.lastIndexOf('(') ?? 0
+		let page: number | null = userAddedPage
+
+		if (page === null || page === 0) {
+			if (selectedBook?.page == null) {
+				toast.error('페이지 정보가 없어요. 페이지를 입력해 주세요')
+				document.getElementById('page-input')!!.focus()
+				return
+			} else {
+				page = selectedBook.page
+			}
+		}
 
 		const book = {
-			title: selectedBook?.title.slice(0, lastBracketIndex),
+			title: selectedBook?.title,
 			author: selectedBook?.author.replaceAll('^', ', '),
 			isbn: selectedBook?.isbn,
 			cover: selectedBook?.cover,
-			page: endPage,
+			page: page,
 			form: form,
 			source: source,
 			sharing: sharing,
 		}
 
-		axios
-			.post(`${urls.api.base}/v4/book`, book, { headers: { Authorization: utils.getToken() } })
-			.then((res) => {
-				return res.status
-			})
+		booksitoutServer
+			.post(`/v4/book`, book)
 			.then(() => {
 				toast.success('책을 추가했어요')
 				navigate('/book/not-done/all')
 			})
-			.catch((e) => {
-				toast.error(`오류가 났어요. 잠시 후 다시 시도해 주세요 (${e})`)
-			})
+			.catch((e) => toast.error(`오류가 났어요. 잠시 후 다시 시도해 주세요 (${e})`))
 	}
+
+	// const addNaverBook = () => {
+	// 	const lastBracketIndex = selectedBook?.title.lastIndexOf('(') === -1 ? selectedBook?.title.length : selectedBook?.title.lastIndexOf('(') ?? 0
+
+	// 	const book = {
+	// 		title: selectedBook?.title.slice(0, lastBracketIndex),
+	// 		author: selectedBook?.author.replaceAll('^', ', '),
+	// 		isbn: selectedBook?.isbn,
+	// 		cover: selectedBook?.cover,
+	// 		page: userAddedPage,
+	// 		form: form,
+	// 		source: source,
+	// 		sharing: sharing,
+	// 	}
+
+	// 	booksitoutServer
+	// 		.post(`/v4/book`, book)
+	// 		.then(() => {
+	// 			toast.success('책을 추가했어요')
+	// 			navigate('/book/not-done/all')
+	// 		})
+	// 		.catch((e) => toast.error(`오류가 났어요. 잠시 후 다시 시도해 주세요 (${e})`))
+	// 	}
 
 	const handleAddBook = (e) => {
 		e.preventDefault()
@@ -76,9 +104,17 @@ const AddBookSearchForm = () => {
 
 		const typingTimer = setTimeout(() => {
 			if (query !== '') {
-				axios
-					.get(`${urls.api.base}/v3/search/new/naver?query=${query}`)
-					.then((res) => setSearchResult(res.data))
+				setAdditionalSearch(false)
+
+				booksitoutServer
+					.get(`v5/book-isbn?query=${query}&size=12`)
+					.then((res) =>
+						setSearchResult(
+							res.data.map((b) => {
+								return { ...b, from: 'BOOKSITOUT' }
+							})
+						)
+					)
 					.catch(() => setError(true))
 					.finally(() => setLoading(false))
 			}
@@ -87,8 +123,28 @@ const AddBookSearchForm = () => {
 		return () => clearTimeout(typingTimer)
 	}, [query])
 
+	const searchNaver = () => {
+		toast.loading('네이버에서 검색하고 있어요')
+
+		booksitoutServer
+			.get(`v3/search/new/naver?query=${query}`)
+			.then((res) =>
+				setSearchResult([
+					...searchResult,
+					...res.data.map((b) => {
+						return { ...b, from: 'NAVER' }
+					}),
+				])
+			)
+			.catch(() => toast.error('네이버에서 검색하는 도중 오류가 났어요'))
+			.finally(() => {
+				setAdditionalSearch(true)
+				toast.success('네이버에서 추가로 검색했어요')
+			})
+	}
+
 	return (
-		<>
+		<div className='pb-5'>
 			<Modal id='add-book-modal' show={modalOpen} size='lg' fullscreen='sm-down' onHide={() => setModalOpen(false)} centered>
 				{selectedBook == null ? (
 					<Error />
@@ -105,11 +161,41 @@ const AddBookSearchForm = () => {
 						<Modal.Body>
 							<div className='row justify-content-center'>
 								<div className='col-5 col-lg-4'>
-									<img src={selectedBook.cover} alt='' className='img-fluid border rounded' />
+									<img
+										src={selectedBook.cover == null || selectedBook.cover === '' ? defaultBookCover : selectedBook.cover}
+										alt=''
+										className='img-fluid border rounded'
+									/>
 								</div>
 
 								<div className='col-12 col-lg-8 mt-3 mt-lg-0'>
 									<Form onSubmit={(e) => handleAddBook(e)}>
+										<div className='row row-eq-height'>
+											<div className='col-6 mb-3'>
+												<AddBookSearchInfoCard icon={<booksitoutIcon.page />} label={`${selectedBook.page ?? '?'} 페이지`} />
+											</div>
+
+											<div className='col-6 mb-3'>
+												<AddBookSearchInfoCard
+													icon={<booksitoutIcon.language />}
+													label={getLanguageKoreanLabel(selectedBook.language)}
+												/>
+											</div>
+
+											<div className='col-6 mb-3'>
+												<AddBookSearchInfoCard icon={<booksitoutIcon.category />} label={selectedBook.category ?? '기타'} />
+											</div>
+
+											<div className='col-6 mb-3'>
+												<AddBookSearchInfoCard
+													icon={<booksitoutIcon.publishYear />}
+													label={`${selectedBook.publicationYear ?? '? '}년 출판`}
+												/>
+											</div>
+										</div>
+
+										<div className='mt-3' />
+
 										<div className='row'>
 											<div className='col-6'>
 												<Form.Group className='mb-3'>
@@ -117,11 +203,12 @@ const AddBookSearchForm = () => {
 													<Form.Control
 														type='number'
 														inputMode='numeric'
+														id='page-input'
+														defaultValue={selectedBook.page}
 														pattern='[0-9]*'
-														onChange={(e) => setEndPage(Number(e.target.value))}
+														onChange={(e) => setUserAddedPage(Number(e.target.value))}
 														placeholder={messages.book.placeholder.add.page}
-														required
-														autoFocus
+														autoFocus={selectedBook.page == null}
 														autoComplete='off'
 														autoCapitalize='off'
 														autoCorrect='off'
@@ -141,44 +228,17 @@ const AddBookSearchForm = () => {
 											</div>
 
 											<div className='col-12'>
-												<Form.Group className='mb-3'>
-													<Form.Label>책은 어디서 얻었나요?</Form.Label>
-													<Form.Select onChange={(e) => setSource(e.target.value)}>
-														<option value='NOT_PROVIDED'>말하고 싶지 않아요</option>
-
-														<option value='BUY_NEW_OFFLINE'>새 책 - 온라인 서점</option>
-														<option value='BUY_NEW_ONLINE'>새 책 - 오프라인 서점</option>
-
-														<option value='BUY_USED_OFFLINE'>중고책 - 오프라인 서점</option>
-														<option value='BUY_USED_ONLINE'>중고책 - 온라인 서점</option>
-
-														<option value='LIBRARY'>도서관</option>
-														<option value='BORROW_STORE'>돈 주고 빌렸어요</option>
-														<option value='BORROW_FRIENDS'>친구에게 빌렸어요</option>
-
-														<option value='SUBSCRIPTION'>구독</option>
-
-														<option value='OTHERS'>기타</option>
-													</Form.Select>
-												</Form.Group>
+												<Form.Check
+													type='switch'
+													label='내 책 정보 공개하기'
+													checked={sharing}
+													onChange={() => setSharing(!sharing)}
+													className='force-1-line'
+												/>
 											</div>
 										</div>
 
-										<Form.Group className='mb-3' controlId='formBasicCheckbox'>
-											<Form.Check
-												type='switch'
-												label='내 책 정보 공개하기'
-												checked={sharing}
-												onChange={() => setSharing(!sharing)}
-												className='force-1-line'
-											/>
-										</Form.Group>
-
-										<div className='row mt-5'>
-											<div className='mt-1 mt-lg-5 d-block' />
-											<div className='mt-1 mt-lg-5 d-block' />
-											<div className='mt-1 mt-lg-3 d-block' />
-
+										<div className='row mt-4'>
 											<div className='col-6'>
 												<Button variant='book-danger' className='w-100' onClick={() => setModalOpen(false)}>
 													취소
@@ -200,7 +260,7 @@ const AddBookSearchForm = () => {
 			</Modal>
 
 			<div className='container mt-3'>
-				<div className='row justify-content-center'>
+				<div className='row justify-content-center mb-5'>
 					<div className='col-12 col-md-8'>
 						<Form.Control
 							placeholder='책 제목 / 저자를 검색해 주세요'
@@ -212,40 +272,48 @@ const AddBookSearchForm = () => {
 					</div>
 				</div>
 
-				<>
-					{loading ? (
-						<div className='row'>
-							{Array(8)
-								.fill(0)
-								.map(() => {
-									return (
-										<div className='col-6 col-md-3'>
-											<AddBookSearchResultLoading />
-										</div>
-									)
-								})}
-						</div>
-					) : searchResult.length === 0 ? (
-						<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} move={-40}/>
-					) : (
-						<div className='row'>
-							{searchResult.map((book) => {
+				{loading ? (
+					<div className='row'>
+						{Array(8)
+							.fill(0)
+							.map(() => {
 								return (
-									<div
-										className='col-6 col-md-3'
-										onClick={() => {
-											setModalOpen(true)
-											setSelectedBook(book)
-										}}>
-										<AddBookSearchResult book={book} />
+									<div className='col-6 col-md-3'>
+										<AddBookSearchResultLoading />
 									</div>
 								)
 							})}
+					</div>
+				) : searchResult.length === 0 ? (
+					<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} mt={100} />
+				) : (
+					<div className='row'>
+						{searchResult.map((book) => {
+							return (
+								<div
+									className='col-6 col-md-3'
+									onClick={() => {
+										setModalOpen(true)
+										setSelectedBook(book)
+									}}>
+									<AddBookSearchResult book={book} />
+								</div>
+							)
+						})}
+					</div>
+				)}
+
+				{query !== '' && !loading && !additionalSearch && (
+					<div className='row justify-content-center mt-5'>
+						<div className='col-12 col-md-6'>
+							<Button variant='book' className='w-100' onClick={searchNaver}>
+								찾는 결과가 없어요
+							</Button>
 						</div>
-					)}
-				</>
+					</div>
+				)}
 			</div>
-		</>
+		</div>
 	)}
 
 export default AddBookSearchForm

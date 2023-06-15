@@ -1,21 +1,15 @@
 import React from 'react'
 import { Card, Alert } from 'react-bootstrap'
-
 import { RootState } from '../redux/store';
 import { useSelector } from 'react-redux';
-
 import PostPopular from '../community/post/PostPopular';
 import MainTipsCard from '../community/tips/MainTipsCard';
-
 import { getLastBook } from '../functions/book'
-import { getReadTime } from '../functions/statistics'
 import { getAlertMessage } from '../functions/alert'
-
 import uiSettings from '../settings/ui'
 import './mainReadChart.css'
 import './mainLoginPrompt.css'
 import placeholderData from './placeholderData';
-
 import MainNoLoginPrompt from './MainNoLoginPrompt'
 import MainLastReadBookCard from './MainLastReadBookCard';
 import MainReadingTimeCard from './MainReadingTimeCard';
@@ -25,14 +19,12 @@ import MainBoarding from '../info/MainBoarding';
 import GatheringSummaryCard from '../community/summaryCard/GatheringSummaryCard';
 import MainBookNotLoginCard from './MainBookNotLoginCard';
 import MainLibraryMembershipCard from './MainLibraryMembershipCard';
-
 import { GoalType } from '../goal/GoalType'
 import { StatisticsType } from '../types/StatisticsType';
 import { BookType } from '../community/post/PostType';
-
 import { booksitoutServer } from '../functions/axios';
-
 import parse from 'html-react-parser'
+import utils from '../functions/utils';
 
 const MainRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
@@ -42,7 +34,7 @@ const MainRoute = () => {
 	const [lastBookLoading, setLastBookLoading] = React.useState(true)
 
 	const [lastBook, setLastBook] = React.useState<BookType | null | undefined>(null)
-	const [readTime, setReadTime] = React.useState<number[] | null>(null)
+	const [readTime, setReadTime] = React.useState<number[] | null | undefined>(null)
 	const [goal, setGoal] = React.useState<GoalType | null | undefined>(null)
 	const [statistics, setStatistics] = React.useState<StatisticsType | null | undefined>(null)
 
@@ -64,7 +56,10 @@ const MainRoute = () => {
 				.catch(() => setLastBook(undefined))
 				.finally(() => setLastBookLoading(false)),
 
-			getReadTime(7).then((readTime) => setReadTime(readTime)),
+			booksitoutServer
+				.get(`v1/statistics/read-time/${7}`)
+				.then((res) => setReadTime(res.data))
+				.catch(() => setReadTime(undefined)),
 
 			booksitoutServer
 				.get(`v1/goal/${new Date().getFullYear()}`)

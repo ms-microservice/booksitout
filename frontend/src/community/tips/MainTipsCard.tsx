@@ -12,6 +12,7 @@ import logo from '../../images/logo.png'
 
 import { booksitoutServer } from "../../functions/axios"
 import CardTitle from "../../common/CardTitle"
+import MainTipsListGroupLoading from "./MainTipsListGroupLoading"
 
 const MainTipsCard = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
@@ -39,8 +40,15 @@ const MainTipsCard = () => {
 						title='책잇아웃 꿀팁'
 					/>
 
-					{initialFetch ? <></> : tipPost == null ? <Error /> : loading ? <Loading /> : <MainTipsListGroup postList={tipPost} />}
-
+					{initialFetch ? (
+						<></>
+					) : tipPost == null ? (
+						<Error />
+					) : loading ? (
+						<MainTipsListGroupLoading />
+					) : (
+						<MainTipsListGroup postList={tipPost} />
+					)}
 					<div className='d-inline-block pb-4' />
 
 					<AllButton url='/introduction/tips/all' />

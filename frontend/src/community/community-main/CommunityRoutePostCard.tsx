@@ -23,7 +23,7 @@ const CommunityRoutePostCard = () => {
 		setTimeout(() => setInitialFetch(false), 300)
 
 		axios
-			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=10`)
+			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=9`)
 			.then((res) => setPopularPost(res.data.content))
 			.catch((e) => setError(true))
 			.finally(() => {
@@ -34,11 +34,11 @@ const CommunityRoutePostCard = () => {
 
 
     return (
-		<a href='/community/post/all/popular' className='h-100'>
-			<Card style={{ minHeight: '550px' }} className='mb-4 h-100'>
+		<Card className='h-100' style={{ minHeight: '750px' }}>
+			<a href='/community/post/all/popular'>
 				<Card.Body>
 					<a href='/community/post/add'>
-						<AddButton size='30' color='book' top='15px' right='15px' />
+						<AddButton size={30} color='book' top='15px' right='15px' />
 					</a>
 
 					<h3 className='mb-3'>
@@ -52,7 +52,7 @@ const CommunityRoutePostCard = () => {
 						) : loading ? (
 							<Loading mt='125px' message='' />
 						) : error ? (
-							<Error move={30}/>
+							<Error move={30} />
 						) : (
 							<PostListGroup postList={popularPost} col1='col-12 col-md-6' col2='col-12 col-md-6' />
 						)}
@@ -62,8 +62,8 @@ const CommunityRoutePostCard = () => {
 				<div className='mt-3' />
 
 				<AllButton url='/community/post/all/popular' col='col-12 col-md-8' />
-			</Card>
-		</a>
+			</a>
+		</Card>
 	)
 }
 

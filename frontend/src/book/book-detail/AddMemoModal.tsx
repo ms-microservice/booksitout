@@ -3,6 +3,7 @@ import toast from 'react-hot-toast'
 import { Modal, Form, Button } from 'react-bootstrap'
 import { addMemo } from '../../functions/memo'
 import '../input.css'
+import EditorForm from '../../common/editor/EditorForm'
 
 const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) => {
 	const [page, setPage] = React.useState<number | null>(null)
@@ -48,7 +49,7 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 	}
 
 	return (
-		<Modal show={modalOpen} onHide={() => setModalOpen(false)} fullscreen='md-down' centered>
+		<Modal show={modalOpen} onHide={() => setModalOpen(false)} fullscreen='md-down' centered size='xl'>
 			<Modal.Header closeButton className='text-center'>
 				<h4 className='w-100'>📋 메모 추가하기</h4>
 			</Modal.Header>
@@ -56,7 +57,7 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 			<Modal.Body>
 				<Form onSubmit={(e) => handleAddMemo(e)}>
 					<Form.Label>내용</Form.Label>
-					<Form.Control as='textarea' type='textarea' onChange={(e) => setContent(e.target.value)} autoFocus id='content-input' />
+					<EditorForm placeholder={'메모를 입력해 주세요'} setContent={setContent} id='content-input' />
 					<div className='mb-2' />
 
 					<Form.Label type='number'>페이지</Form.Label>

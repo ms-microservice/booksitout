@@ -4,6 +4,7 @@ import LibraryNearCard from './LibraryNearCard'
 import LibrarySearchCard from './LibrarySearchCard'
 import LibraryRouteMembershipCard from './membership/LibraryRouteMembershipCard'
 import RouteTitle from '../common/RouteTitle'
+import LibraryRouteRegionCard from './LibraryRouteRegionCard'
 
 const LibraryRoute = () => {
 	document.title = '도서관 | 책잇아웃'
@@ -19,6 +20,10 @@ const LibraryRoute = () => {
 
 				<div className='col-12 col-xl-6 mb-4'>
 					<LibraryNearCard />
+				</div>
+
+				<div className='col-12 col-xl-6 mb-4'>
+					<LibraryRouteRegionCard />
 				</div>
 
 				<div className='col-12 col-xl-6 mb-4'>

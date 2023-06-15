@@ -42,7 +42,7 @@ const LibraryRouteMembershipCard = () => {
 
 	return (
 		<Card style={{ minHeight: '575px' }} className='h-100'>
-			<AddButton size='40' top='20px' onClick={() => navigate('/library/membership/add/image')} />
+			<AddButton top='20px' onClick={() => navigate('/library/membership/add/image')} />
 
 			<a href='/library/membership/all' className='text-black'>
 				<Card.Body>
@@ -54,7 +54,7 @@ const LibraryRouteMembershipCard = () => {
 					/>
 
 					{!isLogin ? (
-						<NoContent message='회원증을 관리하기 위해서는 로그인 해 주세요' mt={130}/>
+						<NoContent message='회원증을 관리하기 위해서는 로그인 해 주세요' mt={130} />
 					) : initialFetch ? (
 						<></>
 					) : loading ? (

@@ -32,7 +32,7 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 		<>
 			<a href={link} className='text-black'>
 				<div className='row row-eq-height justify-content-center'>
-					<div className='col-8 col-lg-4 align-self-center text-center'>
+					<div className='col-8 col-lg-4 align-self-center'>
 						<img
 							className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
 							src={book.cover === '' ? defaultBookCover : book.cover}
@@ -41,7 +41,7 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 						/>
 					</div>
 
-					<div className='col-12 col-lg-8 pb-5 pt-3 pt-md-0'>
+					<div className='col-12 col-lg-8 pt-3'>
 						<h4>{book.title}</h4>
 						<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
 						<PageProgressBar book={book} />

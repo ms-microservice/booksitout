@@ -16,7 +16,7 @@ const LibraryCardComponent = ({ book }) => {
 	if (book == null || book === undefined || book.book == null || book.book === undefined) return <></>
 
 	return (
-		<div className='col-12 col-lg-6 mb-3 mb-lg-0' style={{ height: '225px' }} onClick={handleOnClick}>
+		<div className='col-12 col-lg-6 mb-3 mb-lg-0 clickable' style={{ height: '225px' }} onClick={handleOnClick}>
 			<Card className='w-100 h-100' style={{ overflow: 'hidden' }}>
 				<Card.Body>
 					<div className='row w-100 h-100'>

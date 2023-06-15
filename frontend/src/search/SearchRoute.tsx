@@ -14,6 +14,9 @@ import * as BookType from '../types/BookType'
 import OfflineUsedSearchResult from './searchResult/OfflineUsedSearchResult'
 import RouteTitle from '../common/RouteTitle'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
+import ScrollToTop from '../common/topnav/ScrollToTop'
+import BooksitoutCardComponent from './searchResult/BooksitoutSearchResult'
+import BooksitoutSearchResultCard from './BooksitoutSearchResultCard'
 
 const SearchRoute = () => {
 	const { query } = useParams()
@@ -31,15 +34,17 @@ const SearchRoute = () => {
 
 	return (
 		<div className='container-xl mt-5'>
-			<RouteTitle icon={<booksitoutIcon.search/>} title={'검색 결과'} />
-
+			<ScrollToTop />
 			<LibraryDetailModal />
+
+			<RouteTitle icon={<booksitoutIcon.search />} title={'검색 결과'} />
 
 			<Alert variant='success' className='text-center'>
 				클릭하면 책을 볼 수 있는 곳으로 이동해요
 			</Alert>
 
 			<MyBookSearchResult query={query} />
+			<BooksitoutSearchResultCard query={query} />
 			<LibrarySearchResult query={query} />
 			<OnlineLibrarySearchResult query={query} />
 			<SubscriptionSearchResult query={query} />

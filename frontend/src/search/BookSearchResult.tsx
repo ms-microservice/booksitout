@@ -24,20 +24,24 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 					<div className='col-4 col-lg-4'>
 						<h3 style={{ whiteSpace: 'nowrap' }}>
 							{label}
-							
-							<span className="d-lg-none"><br/></span>
 
-							{bookList != null && typeof bookList != 'undefined' && isConfigured && <span className='ms-lg-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>}
+							<span className='d-lg-none'>
+								<br />
+							</span>
+
+							{bookList != null && typeof bookList != 'undefined' && isConfigured && (
+								<span className='ms-lg-3 text-secondary h5'>{`총 ${bookList.length}권`}</span>
+							)}
 						</h3>
 					</div>
 
-					<div className='col-8 col-lg-8 text-end' >{labelComponent}</div>
+					<div className='col-8 col-lg-8 text-end'>{labelComponent}</div>
 				</div>
 
 				{!isConfigured ? (
-					<SearchNotConfigured url = {notConfiguredUrl}/>
+					<SearchNotConfigured url={notConfiguredUrl} />
 				) : typeof bookList == 'undefined' || bookList == null ? (
-					<div className="h-100">
+					<div className='h-100'>
 						<Error />
 					</div>
 				) : (
@@ -52,7 +56,11 @@ const BookSearchResult = ({ label, labelComponent, bookList, CardComponent, isCo
 											<div className='row'>
 												<CardComponent book={bookArray[0]} />
 
-												{bookArray[1] != null ? <CardComponent book={bookArray[1]} /> : <div className='col-12 col-lg-6 m-2 d-lg-none' style={{ height: '225px' }}/>}
+												{bookArray[1] != null ? (
+													<CardComponent book={bookArray[1]} />
+												) : (
+													<div className='col-12 col-lg-6 m-2 d-lg-none' style={{ height: '225px' }} />
+												)}
 											</div>
 										</Carousel.Item>
 									)

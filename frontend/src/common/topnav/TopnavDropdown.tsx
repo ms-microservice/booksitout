@@ -27,30 +27,41 @@ const TopnavDropdown = ({ isLogin, handleLogout }) => {
 			{!isLogin ? (
 				<>
 					<NavDropdown.Item href='/login'>
-						<booksitoutIcon.login className='me-2 mb-1' /> 로그인
+						<booksitoutIcon.login className='text-book me-2 mb-1' /> 로그인
 					</NavDropdown.Item>
 
 					<NavDropdown.Item href='/join'>
-						<booksitoutIcon.join className='me-2 mb-1' /> 회원가입
+						<booksitoutIcon.join className='text-book me-2 mb-1' /> 회원가입
 					</NavDropdown.Item>
 
 					<NavDropdown.Item href='/faq'>
-						<booksitoutIcon.question className='me-2 mb-1 bold' /> FAQ
+						<booksitoutIcon.faq className='text-book me-2 mb-1 bold' /> FAQ
 					</NavDropdown.Item>
 				</>
 			) : (
 				<>
-					<NavDropdown.Item href='/qna'>QNA</NavDropdown.Item>
-					<NavDropdown.Item href='/faq'>FAQ</NavDropdown.Item>
+					<NavDropdown.Item href='/qna'>
+						<booksitoutIcon.qna className='text-book me-2 mb-1 bold' />
+						QNA
+					</NavDropdown.Item>
+
+					<NavDropdown.Item href='/faq'>
+						<booksitoutIcon.faq className='text-book me-2 mb-1 bold' />
+						FAQ
+					</NavDropdown.Item>
 
 					<NavDropdown.Divider />
 
+					<NavDropdown.Item href={`/user/${localStorage.getItem('user-name-public')}`}>
+						<booksitoutIcon.user className='text-book me-2 mb-1' /> 내 프로필
+					</NavDropdown.Item>
+
 					<NavDropdown.Item href='/settings'>
-						<booksitoutIcon.settings className='me-2 mb-1' /> 설정
+						<booksitoutIcon.settings className='text-book me-2 mb-1' /> 설정
 					</NavDropdown.Item>
 
 					<NavDropdown.Item onClick={(e) => handleLogout(e)}>
-						<booksitoutIcon.login className='me-2 mb-1' /> 로그아웃
+						<booksitoutIcon.login className='text-book me-2 mb-1' /> 로그아웃
 					</NavDropdown.Item>
 				</>
 			)}

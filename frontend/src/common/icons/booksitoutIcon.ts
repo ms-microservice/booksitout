@@ -10,27 +10,27 @@ import {
 	BsFillQuestionCircleFill,
 	BsFillPatchCheckFill,
 	BsPencilFill,
-	BsPersonFill,
 	BsFillChatLeftTextFill,
 	BsFillCalendarFill,
 	BsFillPeopleFill,
 	BsFire,
 	BsFillPostcardFill,
-	BsArrowRepeat
+	BsArrowRepeat,
+	BsFillInfoCircleFill,
+	BsFillFileImageFill,
+	BsMapFill,
 } from 'react-icons/bs'
-import { FaPeopleArrows, FaSearch } from 'react-icons/fa'
+import { FaPeopleArrows, FaSearch, FaTheaterMasks, FaUserAlt } from 'react-icons/fa'
 import { TbLocationFilled } from 'react-icons/tb'
 import { FiLogIn, FiSettings } from 'react-icons/fi'
-import { GrCircleQuestion, GrLanguage } from 'react-icons/gr'
+import { GrCircleQuestion } from 'react-icons/gr'
 import { HiOutlineUserAdd } from 'react-icons/hi'
 import { ImLibrary } from 'react-icons/im'
-import { BiTime } from 'react-icons/bi'
-import { FaUserAlt } from 'react-icons/fa'
-import { AiFillStar, AiOutlineStar, AiFillCheckCircle } from 'react-icons/ai'
+import { BiSearchAlt2, BiTime } from 'react-icons/bi'
+import { AiFillStar, AiOutlineStar, AiFillCheckCircle, AiOutlineAppstore, AiFillLike, AiFillDislike } from 'react-icons/ai'
 import { TbTargetArrow } from 'react-icons/tb'
-import { IoIosPaper } from 'react-icons/io'
 import { RiFilePaperLine } from 'react-icons/ri'
-import { MdLanguage, MdOutlineLanguage } from 'react-icons/md';
+import { MdBrowserNotSupported, MdLanguage, MdQuiz } from 'react-icons/md';
 
 const booksitoutIcon: { [key: string]: IconType } = {
 	login: FiLogIn,
@@ -42,9 +42,16 @@ const booksitoutIcon: { [key: string]: IconType } = {
 	settings: FiSettings,
 	paid: BsFillPatchCheckFill,
 
+	// pwa
+	pwa: AiOutlineAppstore,
+	notSupported: MdBrowserNotSupported,
+	info: BsFillInfoCircleFill,
+
 	location: TbLocationFilled,
+	map: BsMapFill,
 
 	search: FaSearch,
+	topnavSearch: BiSearchAlt2,
 
 	book: BsBookHalf,
 	title: BsPencilFill,
@@ -59,13 +66,17 @@ const booksitoutIcon: { [key: string]: IconType } = {
 	starFill: AiFillStar,
 	goal: TbTargetArrow,
 	language: MdLanguage,
+	category: FaTheaterMasks,
 
 	// Community
 	community: BsPeopleFill,
 	popular: BsFire,
 	post: BsFillPostcardFill,
-
+	quiz: MdQuiz,
+	image: BsFillFileImageFill,
 	check: AiFillCheckCircle,
+	like: AiFillLike,
+	dislike: AiFillDislike,
 
 	// gathering
 	gathering: FaPeopleArrows,

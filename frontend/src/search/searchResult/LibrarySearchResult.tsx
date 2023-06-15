@@ -7,20 +7,14 @@ import { LibraryBook } from '../../types/BookType'
 import LibrarySearchLoading from '../placeholder/LibrarySearchLoading'
 import { booksitoutServer } from '../../functions/axios'
 import urls from '../../settings/urls'
-import SearchResultInitialFetch from '../placeholder/SearchResultInitialFetch'
+import BookSearchResultLoading from '../BookSearchResultLoading'
 
 const LibrarySearchResult = ({query}) => {
 	const [loading, setLoading] = React.useState<boolean>(true)
-	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
 
 	const [libraryList, setLibraryBookList] = React.useState<LibraryBook[]>([])
     React.useEffect(() => {
-		// setInitialFetch(true)
 		setLoading(true)
-
-		setTimeout(() => {
-			setInitialFetch(false)
-		}, 300)
 
         if (search.local.settings.library.isConfigured()) {
 			booksitoutServer
@@ -35,35 +29,12 @@ const LibrarySearchResult = ({query}) => {
 				.catch(() => setLibraryBookList([]))
 				.finally(() => {
 					setLoading(false)
-					setInitialFetch(false)
 				})
 		}
     }, [query])
 
-	if (initialFetch) {
-		return (
-			<BookSearchResult
-				label='도서관'
-				labelComponent={<LibraryLabel />}
-				bookList={[1, 2]}
-				CardComponent={SearchResultInitialFetch}
-				isConfigured={true}
-				notConfiguredUrl=''
-			/>
-		)
-	}
-
 	if (loading) {
-		return (
-			<BookSearchResult
-				label='도서관'
-				labelComponent={<LibraryLabel />}
-				bookList={[1, 2]}
-				CardComponent={LibrarySearchLoading}
-				isConfigured={true}
-				notConfiguredUrl=''
-			/>
-		)
+		return <BookSearchResultLoading label='도서관' labelComponent={<LibraryLabel />} CardComponent={LibrarySearchLoading} />
 	}
 
     return (
