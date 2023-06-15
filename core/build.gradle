@@ -18,6 +18,7 @@ dependencies {
     // QueryDSL
     implementation("com.querydsl:querydsl-jpa:${queryDslVersion}")
     implementation("com.querydsl:querydsl-apt:${queryDslVersion}")
+    compile("com.querydsl:querydsl-core:${queryDslVersion}")
 
     // MSA Related
     implementation("org.springframework.cloud:spring-cloud-starter-netflix-eureka-client")
