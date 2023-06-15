@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.security
+package com.jinkyumpark.search.common.security
 
 @Target(AnnotationTarget.VALUE_PARAMETER)
 @Retention(AnnotationRetention.RUNTIME)

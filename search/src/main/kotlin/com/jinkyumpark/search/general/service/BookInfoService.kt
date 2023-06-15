@@ -49,6 +49,10 @@ class BookInfoService(
                     isbn = it.isbn,
                     link = it.link,
                     description = it.description,
+                    publicationYear = null,
+                    page = null,
+                    language = null,
+                    category = null,
                 )
             }
     }
@@ -78,6 +82,10 @@ class BookInfoService(
                     isbn = it.isbn,
                     link = it.link,
                     description = it.description,
+                    publicationYear = null,
+                    page = null,
+                    language = null,
+                    category = null,
                 )
             }
     }

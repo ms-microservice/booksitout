@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.security
+package com.jinkyumpark.search.common.security
 
 import org.springframework.core.MethodParameter
 import org.springframework.stereotype.Component

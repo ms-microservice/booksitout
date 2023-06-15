@@ -24,7 +24,8 @@ class GeneralControllerV3(
 
     @GetMapping("new/naver/isbn/{isbn}")
     fun getNewNaverSearchResultByIsbn(@PathVariable("isbn") isbn: String): AddBookResponse? {
-        return bookInfoService.getBookByIsbnFromNaver(isbn)
+        return bookInfoService
+            .getBookByIsbnFromNaver(isbn)
     }
 
     @GetMapping("image/google")

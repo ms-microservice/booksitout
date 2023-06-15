@@ -1,4 +1,4 @@
-package com.jinkyumpark.search.security
+package com.jinkyumpark.search.common.security
 
 import org.springframework.context.annotation.Configuration
 import org.springframework.web.method.support.HandlerMethodArgumentResolver

@@ -1,8 +1,8 @@
 package com.jinkyumpark.search.settings;
 
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
-import com.jinkyumpark.search.security.LoginUser;
-import com.jinkyumpark.search.security.User;
+import com.jinkyumpark.search.common.security.LoginUser;
+import com.jinkyumpark.search.common.security.User;
 import com.jinkyumpark.search.settings.dtos.SettingsDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;

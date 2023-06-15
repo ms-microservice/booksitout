@@ -3,8 +3,8 @@ package com.jinkyumpark.search.offlineLibrary
 import com.jinkyumpark.search.offlineLibrary.library.request.LibrarySearchRangeAddRequest
 import com.jinkyumpark.search.offlineLibrary.libraryUser.LibraryUserService
 import com.jinkyumpark.search.offlineLibrary.response.AvailableLibraryResponse
-import com.jinkyumpark.search.security.LoginUser
-import com.jinkyumpark.search.security.User
+import com.jinkyumpark.search.common.security.LoginUser
+import com.jinkyumpark.search.common.security.User
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*

@@ -1,7 +1,7 @@
 package com.jinkyumpark.search.settings;
 
-import com.jinkyumpark.search.security.LoginUser;
-import com.jinkyumpark.search.security.User;
+import com.jinkyumpark.search.common.security.LoginUser;
+import com.jinkyumpark.search.common.security.User;
 import com.jinkyumpark.search.settings.dtos.ChangeMyBookSearchRangeRequest;
 import com.jinkyumpark.search.settings.dtos.ChangeRangeRequest;
 import com.jinkyumpark.search.settings.dtos.ChangeRegionRequest;
