@@ -49,6 +49,8 @@ public class AppUserControllerV3 {
                 .token(token)
 
                 .name(appUser.getName())
+                .publicName(appUser.getPublicName())
+
                 .registerDate(appUser.getCreatedDate())
                 .profileImage(appUser.getProfileImage())
                 .appUserId(appUser.getAppUserId())
