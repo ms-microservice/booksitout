@@ -63,31 +63,31 @@ const HorizontalBookView = ({
 
 	return (
 		<>
-			<a href={link} className='mb-4 align-self-center'>
-				<div className='d-flex justify-content-center'>
+			<a href={link} className="mb-4 align-self-center">
+				<div className="d-flex justify-content-center">
 					<img
-						id='book-cover'
+						id="book-cover"
 						className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
 						src={book.cover === '' ? defaultBookCover : book.cover}
-						alt=''
+						alt=""
 					/>
 				</div>
 
-				<div className='mt-3 text-center'>
+				<div className="mt-3 text-center">
 					<h5 style={{ overflow: 'hidden', height: '50px' }} className={book.title.length <= 7 ? 'pt-2' : ''}>
 						{book.title}
 					</h5>
 
-					<h6 className='text-muted mb-md-0' style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
+					<h6 className="text-muted mb-md-0" style={{ whiteSpace: 'nowrap', overflow: 'hidden' }}>
 						{book.author == null || book.author === '' ? '-' : book.author}
 					</h6>
 
 					<HorizontalPageBar book={book} />
 				</div>
 			</a>
-			<div className='row mt-3 mt-md-2'>
-				<div className='col-12 mb-2'>{firstButton}</div>
-				<div className='col-12 mb-2'>{secondButton}</div>
+			<div className="row mt-3 mt-md-2">
+				<div className="col-12 mb-2">{firstButton}</div>
+				<div className="col-12 mb-2">{secondButton}</div>
 			</div>
 		</>
 	)

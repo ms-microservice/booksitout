@@ -18,7 +18,7 @@ const Root = () => {
 			<TimerSettings />
 
 			<Topnav />
-			<div style={{ marginBottom: '80px' }} />
+			<div style={{ marginBottom: '70px' }} />
 
 			<Outlet />
 

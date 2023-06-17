@@ -19,11 +19,11 @@ const LibraryRoute = () => {
 				</div>
 
 				<div className='col-12 col-xl-6 mb-4'>
-					<LibraryNearCard />
+					<LibraryRouteRegionCard />
 				</div>
 
 				<div className='col-12 col-xl-6 mb-4'>
-					<LibraryRouteRegionCard />
+					<LibraryNearCard />
 				</div>
 
 				<div className='col-12 col-xl-6 mb-4'>

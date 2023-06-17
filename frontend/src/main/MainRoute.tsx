@@ -17,14 +17,13 @@ import MainSummaryStatisticsCard from './MainSummaryStatisticsCard';
 import MainGoalCard from './MainGoalCard';
 import MainBoarding from '../info/MainBoarding';
 import GatheringSummaryCard from '../community/summaryCard/GatheringSummaryCard';
-import MainBookNotLoginCard from './MainBookNotLoginCard';
+import MainLastReadBookCardLoading from './MainLastReadBookCardLoading';
 import MainLibraryMembershipCard from './MainLibraryMembershipCard';
 import { GoalType } from '../goal/GoalType'
 import { StatisticsType } from '../types/StatisticsType';
 import { BookType } from '../community/post/PostType';
 import { booksitoutServer } from '../functions/axios';
 import parse from 'html-react-parser'
-import utils from '../functions/utils';
 
 const MainRoute = () => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
@@ -103,7 +102,7 @@ const MainRoute = () => {
 							<Card.Body>
 								<div className='row row-eq-height'>
 									<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>
-										{isLogin && !lastBookLoading ? <MainLastReadBookCard lastBook={lastBook} /> : <MainBookNotLoginCard />}
+										{isLogin && !lastBookLoading ? <MainLastReadBookCard lastBook={lastBook} /> : <MainLastReadBookCardLoading />}
 									</div>
 
 									<div className='col-12 col-md-6 col-xl-4 mt-2 mb-2'>

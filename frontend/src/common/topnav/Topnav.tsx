@@ -89,13 +89,13 @@ const Topnav = () => {
 		<>
 			<Card
 				className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
-				style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
+				style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '70px' : '-85px' }}>
 				<Card.Body>
 					<TopnavSearchBar autoFocus={autoFocus} isLogin={isLogin} />
 				</Card.Body>
 			</Card>
 
-			<Navbar key={expand} expand={expand} expanded={expanded} fixed='top' bg='light' collapseOnSelect>
+			<Navbar key={expand} expand={expand} expanded={expanded} fixed='top' bg='light' collapseOnSelect className='p-1'>
 				<Container fluid style={{ zIndex: '1000' }}>
 					<TopnavLogo />
 

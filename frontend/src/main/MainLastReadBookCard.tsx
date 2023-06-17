@@ -9,7 +9,7 @@ import {BsBookHalf as BookIcon} from 'react-icons/bs'
 
 const MainLastReadBookCard = ({ lastBook }) => {
 	return (
-		<Card className='h-100' style={{ minHeight: '420px' }}>
+		<Card className='h-100' style={{ minHeight: '380px' }}>
 			<Card.Body>
 				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} mb={0} />
 

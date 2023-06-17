@@ -260,7 +260,7 @@ const AddBookSearchForm = () => {
 			</Modal>
 
 			<div className='container mt-3'>
-				<div className='row justify-content-center mb-5'>
+				<div className='row justify-content-center mb-4'>
 					<div className='col-12 col-md-8'>
 						<Form.Control
 							placeholder='책 제목 / 저자를 검색해 주세요'

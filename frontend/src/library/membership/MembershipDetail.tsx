@@ -56,7 +56,7 @@ const MembershipDetail = () => {
 	if (notFound) return <NoContent message='도서관 회원증이 없어요' />
 
 	return (
-		<div className='container-xl'>
+		<div className='container-xl pb-5'>
 			{initialFetch ? (
 				<Card style={{ minHeight: '200px' }}></Card>
 			) : loading ? (

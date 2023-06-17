@@ -58,7 +58,7 @@ import BookInfoRoute, { loader as bookInfoRouteLoader } from './bookInfo/BookInf
 import LibraryRoute from './library/LibraryRoute'
 import LibraryDetail, {loader as libraryDetailLoader} from './library/detail/LibraryDetail'
 import LibraryNearRoute from './library/LibraryNearRoute'
-import LibraryRegionRoute, { loader as libraryRegionDetailLoader } from './library/region/LibraryRegionRoute'
+import LibraryRegionRoute, { loader as libraryRegionLoader } from './library/region/LibraryRegionRoute'
 
 import MembershipDetail from './library/membership/MembershipDetail'
 import MembershipRoute from './library/membership/MembershipRoute'
@@ -144,7 +144,8 @@ const router = createBrowserRouter(
 			<Route path='/library' element={<LibraryRoute />} />
 			<Route path='/library/detail/:id' element={<LibraryDetail />} errorElement={<ErrorPage />} loader={libraryDetailLoader} />
 			<Route path='/library/near' element={<LibraryNearRoute />} />
-			<Route path='/library/region/:region/:regionDetail' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionDetailLoader} />
+			<Route path='/library/region/:region/:regionDetail' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionLoader} />
+			<Route path='/library/region/:region' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionLoader} />
 
 			<Route path='/library/membership/all' element={<MembershipRoute />} />
 			<Route path='/library/membership/:id' element={<MembershipDetail />} />

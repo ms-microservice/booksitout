@@ -8,7 +8,7 @@ const MainSummaryStatisticsCard = ({ statistics, loading }) => {
 	const currentYear = new Date().getFullYear()
 
 	return (
-		<Card className='h-100' style={{ minHeight: '400px' }}>
+		<Card className='h-100' style={{ minHeight: '380px' }}>
 			<Card.Body className='h-100'>
 				<a href='/statistics' className='text-decoration-none text-black h-100'>
 					<CardTitle icon={<StatisticsIcon />} title={`${currentYear}년 독서 요약`} iconSize={2} />

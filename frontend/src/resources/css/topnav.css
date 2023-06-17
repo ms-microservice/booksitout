@@ -1,10 +1,10 @@
 @keyframes search-bar-up-animation {
   from {top: 0px;}
-  to {top: 75px ;}
+  to {top: 70px ;}
 }
 
 @keyframes search-bar-down-animation {
-  from {top: 75px;}
+  from {top: 70px;}
   to {top: -95px ;}
 }
 
@@ -14,6 +14,6 @@
 }
 
 .search-bar-down {
-    animation-name: search-bar-down-animation;
-    animation-duration: 0.5s;
+  animation-name: search-bar-down-animation;
+  animation-duration: 0.5s;
 }

@@ -78,11 +78,22 @@ const LibraryRouteRegionCard = () => {
 								return (
 									<div className='col-6 col-md-4 mb-2'>
 										<a
-											href={`/library/region/${region.depth1.englishName.toLowerCase()}/${region.depth2.englishName.toLowerCase()}`}>
+											href={
+												region.depth2 == null
+													? `/library/region/${region.depth1.englishName.toLowerCase()}`
+													: `/library/region/${region.depth1.englishName.toLowerCase()}/${region.depth2.englishName.toLowerCase()}`
+											}>
 											<ListGroup.Item className='text-center rounded'>
 												<div className='d-flex justify-content-center align-items-center'>
-													<img src={region.depth2.logo} alt='' style={{ height: '50px' }} className='rounded me-2' />
-													<div className='clamp-1-line'>{region.depth2.koreanName}</div>
+													<img
+														src={region.depth2 == null ? region.depth1.logo : region.depth2.logo}
+														alt=''
+														style={{ height: '50px' }}
+														className='rounded me-2'
+													/>
+													<div className='clamp-1-line'>
+														{region.depth1.koreanName} {region.depth2 == null ? '' : region.depth2.koreanName}
+													</div>
 												</div>
 											</ListGroup.Item>
 										</a>

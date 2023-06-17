@@ -1,17 +1,13 @@
 import { useNavigate } from 'react-router-dom'
 import { toast } from 'react-hot-toast';
 import { Button } from 'react-bootstrap'
-
-import BookInfoIcon from '../book-info/BookInfoIcon'
 import defaultBookCover from '../../images/placeholder/default-book-cover.png'
 import PageProgressBar from '../../common/PageProgressBar'
 import { giveUpBook } from '../../functions/book'
-import { CATEGORY_INFO, FORM_INFO, LANGUAGE_INFO } from '../book-info/bookInfoEnum'
+import './mainHorizontalBookView.scss'
 
 const MainHorizontalBookView = ({ book, link = '' }) => {
 	const navigate = useNavigate()
-
-	const bookInfoStyle = 'col-4 mb-2'
 
 	const handleGiveupBook = (bookId) => {
 		const confirm = window.confirm('책을 포기할까요?')
@@ -29,10 +25,10 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 	}
 
 	return (
-		<>
+		<div className='h-100 pb-6 pb-md-5 pb-lg-0'>
 			<a href={link} className='text-black'>
-				<div className='row row-eq-height justify-content-center'>
-					<div className='col-8 col-lg-4 align-self-center'>
+				<div className='row row-eq-height justify-content-center align-items-center h-100' id='book-container'>
+					<div className='col-8 col-lg-4'>
 						<img
 							className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
 							src={book.cover === '' ? defaultBookCover : book.cover}
@@ -41,26 +37,10 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 						/>
 					</div>
 
-					<div className='col-12 col-lg-8 pt-3'>
-						<h4>{book.title}</h4>
-						<h6 className='text-muted'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
+					<div className='col-12 col-lg-8 pt-2 pt-md-0'>
+						<h4 className='clamp-1-line'>{book.title}</h4>
+						<h6 className='text-muted clamp-1-line'>{book.author == null || book.author === '' ? '-' : book.author}</h6>
 						<PageProgressBar book={book} />
-
-						<div className='d-block d-md-none d-lg-block'>
-							<div className='row text-center mt-4 justify-content-center'>
-								<div className={bookInfoStyle}>
-									<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language} />
-								</div>
-
-								<div className={bookInfoStyle}>
-									<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} />
-								</div>
-
-								<div className={bookInfoStyle}>
-									<BookInfoIcon infoType={FORM_INFO} infoData={book.form} />
-								</div>
-							</div>
-						</div>
 					</div>
 				</div>
 			</a>
@@ -74,13 +54,13 @@ const MainHorizontalBookView = ({ book, link = '' }) => {
 
 				<div className='col-6 mt-md-2'>
 					<a href={`/reading/${book.bookId}`} className='w-100'>
-						<Button variant='book' className='w-100'>
+						<Button variant='book' className='w-100 clamp-1-line'>
 							이어서 읽기
 						</Button>
 					</a>
 				</div>
 			</div>
-		</>
+		</div>
 	)
 }
 

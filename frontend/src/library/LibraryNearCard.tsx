@@ -59,7 +59,6 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 	const getLocationNoCache = async () => {
 		return location.getLatitudeAndLongitudeNoCache().then((locationResult) => {
 			if (locationResult === undefined || locationResult == null || locationResult[0] === null || locationResult[1] === null) {
-				// setLocationError(true)
 				return false
 			} else {
 				setLatitude(locationResult[0])

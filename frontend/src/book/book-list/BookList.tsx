@@ -5,7 +5,6 @@ import toast from 'react-hot-toast'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import parse from 'html-react-parser'
 
-import Loading from '../../common/Loading'
 import Error from '../../common/Error'
 import NoContent from '../../common/NoContent'
 import HorizontalBookView from '../book-view/HorizontalBookView'
@@ -17,6 +16,7 @@ import Boarding from '../../info/Boarding'
 import { getBookList, giveUpBook } from '../../functions/book'
 import { RootState } from '../../redux/store'
 import { BookUserType } from '../../types/BookType'
+import HorizontalBookViewLoading from './HorizontalBookViewLoading'
 
 const BookList = ({range, rangeDetail}) => {
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
@@ -44,8 +44,7 @@ const BookList = ({range, rangeDetail}) => {
 	).toString()
 	const fetchSize = 24
 
-	const [initalFetch, setInitialFetch] = React.useState(true)
-	const [loading, setIsLoading] = React.useState(false)
+	const [loading, setIsLoading] = React.useState(true)
 	const [error, setError] = React.useState(false)
 	const [currentPage, setCurrentPage] = React.useState(0)
 	const [maxPage, setMaxPage] = React.useState(0)
@@ -55,12 +54,9 @@ const BookList = ({range, rangeDetail}) => {
 	React.useEffect(() => {
 		document.title = `${range === 'not-done' ? '읽고 있는 책' : range === 'give-up' ? '포기한 책' : '다 읽은 책'} | 책잇아웃`
 		if (!isLogin) {
-			setInitialFetch(false)
 			setIsLoading(false)
 			return
 		}
-
-		setTimeout(() => setInitialFetch(false), 5000)
 
 		getBookList(rangeApi(), 0, fetchSize)
 			.then((pageList) => {
@@ -72,10 +68,7 @@ const BookList = ({range, rangeDetail}) => {
 			.catch(() => {
 				setError(true)
 			})
-			.finally(() => {
-				setInitialFetch(false)
-				setIsLoading(false)
-			})
+			.finally(() => setIsLoading(false))
 	}, [])
 
 	const getNextPage = () => {
@@ -95,16 +88,27 @@ const BookList = ({range, rangeDetail}) => {
 				subtitle='내가 읽고 있는 책, 다 읽은 책을 쉽게 관리하고 남은 독서시간을 예측해줘요'
 			/>
 		)
-	if (initalFetch) return <></>
-	if (loading) return <Loading message='잠시만 기다려 주세요' />
 
 	return (
 		<>
-			<div className='mb-4'>
+			<div className="mb-4">
 				<BookListRangeButton range={range} />
 			</div>
 
-			{error || bookList == null ? (
+			{loading ? (
+				<div className="row">
+					{
+						Array.from({ length: 12 }).map(() => {
+							return (
+								<div className="col-6 col-md-4 col-lg-3 col-xl-2 mb-4">
+									<HorizontalBookViewLoading />
+								</div>
+							)
+						})
+
+					}
+				</div>
+			) : error || bookList == null ? (
 				<Error />
 			) : bookList.length === 0 ? (
 				<NoContent message={noContentMessage ?? ''} textSize={2} iconSize={10} move={-100} />
@@ -114,7 +118,8 @@ const BookList = ({range, rangeDetail}) => {
 					next={getNextPage}
 					hasMore={currentPage < maxPage}
 					loader={<InfiniteScrollLoading />}
-					className='overflow-hidden'>
+					className="overflow-hidden"
+				>
 					<BookCardList bookList={bookList} range={range} setBookList={setBookList} />
 				</InfiniteScroll>
 			)}
@@ -178,28 +183,29 @@ const BookCardList = ({ bookList, range, setBookList }) => {
 
 	if (range === 'not-done') {
 		return (
-			<div className='row row-eq-height'>
-				{bookList.map((book) => {
+			<div className="row row-eq-height">
+				{bookList.map(book => {
 					return (
-						<div className='col-6 col-sm-4 col-md-3 col-xl-2 mb-5'>
-							<Card className='h-100'>
+						<div className="col-6 col-sm-4 col-md-3 col-xl-2 mb-5">
+							<Card className="h-100">
 								<Card.Body>
 									<HorizontalBookView
 										book={book}
 										link={`/book/detail/${book.bookId}`}
 										firstButton={
-											<a href={`/reading/${book.bookId}`} className='btn btn-book w-100'>
+											<a href={`/reading/${book.bookId}`} className="btn btn-book w-100">
 												이어서 읽기
 											</a>
 										}
 										secondButton={
 											<Button
-												variant='book-danger'
-												className='w-100'
-												onClick={(e) => {
+												variant="book-danger"
+												className="w-100"
+												onClick={e => {
 													e.preventDefault()
 													handleGiveupBook(book.bookId)
-												}}>
+												}}
+											>
 												포기하기
 											</Button>
 										}

@@ -21,28 +21,20 @@ const BooksitoutCardComponent = ({ book }) => {
 								<h6 className='text-secondary clamp-1-line'>{book.author}</h6>
 
 								<div className='row pt-3'>
-									<div className='col-6 mb-1'>
-										<AddBookSearchInfoCard p={10} icon={<booksitoutIcon.page />} label={`${book.page ?? '?'} 페이지`} />
+									<div className='col-6 mb-2 pe-1'>
+										<AddBookSearchInfoCard p={5} icon={<booksitoutIcon.page />} label={`${book.page ?? '?'} 페이지`}  me={2}/>
 									</div>
 
-									<div className='col-6 mb-1'>
-										<AddBookSearchInfoCard
-											p={10}
-											icon={<booksitoutIcon.language />}
-											label={getLanguageKoreanLabel(book.language)}
-										/>
+									<div className='col-6 mb-2 ps-1'>
+										<AddBookSearchInfoCard p={5} icon={<booksitoutIcon.language />}label={getLanguageKoreanLabel(book.language)} me={2}/>
 									</div>
 
-									<div className='col-6 mb-1'>
-										<AddBookSearchInfoCard p={10} icon={<booksitoutIcon.category />} label={book.category ?? '기타'} />
+									<div className='col-6 mb-2 pe-1'>
+										<AddBookSearchInfoCard p={5} icon={<booksitoutIcon.category />} label={book.category ?? '기타'}  me={2}/>
 									</div>
 
-									<div className='col-6 mb-1'>
-										<AddBookSearchInfoCard
-											p={10}
-											icon={<booksitoutIcon.publishYear />}
-											label={`${book.publicationYear ?? '? '}년 출판`}
-										/>
+									<div className='col-6 mb-2 ps-1'>
+										<AddBookSearchInfoCard p={5} icon={<booksitoutIcon.publishYear />} label={`${book.publicationYear ?? '? '}년 출판`} me={2}/>
 									</div>
 								</div>
 							</div>

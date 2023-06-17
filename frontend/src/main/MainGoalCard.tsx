@@ -7,7 +7,7 @@ import booksitoutIcon from '../common/icons/booksitoutIcon';
 
 const MainGoalCard = ({ goal, loading }) => {
 	return (
-		<Card className='h-100' style={{ minHeight: '400px' }}>
+		<Card className='h-100' style={{ minHeight: '380px' }}>
 			<Card.Body className='h-100 mb-5'>
 				<a href='/goal' className='text-black h-100'>
 					<CardTitle icon={<booksitoutIcon.goal />} title={`${new Date().getFullYear()}년 목표`} iconSize={1} />
