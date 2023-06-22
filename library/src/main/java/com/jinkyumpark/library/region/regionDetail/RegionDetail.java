@@ -1,5 +1,6 @@
 package com.jinkyumpark.library.region.regionDetail;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.library.region.region.Region;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

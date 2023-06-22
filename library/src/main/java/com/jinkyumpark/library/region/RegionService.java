@@ -2,10 +2,16 @@ package com.jinkyumpark.library.region;
 
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.library.common.PageService;
+import com.jinkyumpark.library.region.region.Region;
+import com.jinkyumpark.library.region.region.RegionRepository;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
+import com.jinkyumpark.library.region.regionDetail.RegionDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -31,6 +37,19 @@ public class RegionService {
         return regionDetailOptional.orElseGet(() -> regionDetailRepository.findById(1L).get());
     }
 
+    public Region getMostMatchRegionByAddressSnippet(String addressSnippet) {
+        if (addressSnippet.isEmpty()) return null;
+
+        Pageable pageable = pageService.getPageable(1, 1);
+
+        List<Region> result = regionRepository.findByKoreanName(addressSnippet);
+        if (result.isEmpty()) {
+            return null;
+        }
+
+        return result.get(0);
+    }
+
     public RegionDetail getMostMatchRegionDetailByAddressSnippet(String addressSnippet) {
         if (addressSnippet.isEmpty()) return null;
 
@@ -44,13 +63,26 @@ public class RegionService {
         return result.get(0);
     }
 
-    public Page<RegionDetail> getAllRegionByName(String query, Pageable pageable) {
+    public Page<Region> getAllRegionByName(String query, Pageable pageable) {
+        return regionRepository.findAllByKoreanName(query, pageable);
+    }
+
+    public Page<RegionDetail> getAllRegionDetailByName(String query, Pageable pageable) {
         return regionDetailRepository.findAllByKoreanName(query, pageable);
     }
 
+    public Region getRegionByEnglishName(String englishName) {
+        List<Region> result = regionRepository.findByEnglishName(englishName);
+
+        if (result.isEmpty()) return null;
+        return result.get(0);
+    }
+
     public RegionDetail getRegionDetailByEnglishName(String englishName) {
-        return regionDetailRepository.findByEnglishName(englishName)
-                .orElseThrow(() -> new NotFoundException("region with that name not present"));
+        List<RegionDetail> result = regionDetailRepository.findByEnglishName(englishName);
+
+        if (result.isEmpty()) return null;
+        return result.get(0);
     }
 
     public Optional<RegionDetail> getRegionDetailById(Long regionDetailId) {

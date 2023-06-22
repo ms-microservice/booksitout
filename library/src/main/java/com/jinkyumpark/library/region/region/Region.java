@@ -19,6 +19,7 @@ public class Region {
     private Long regionId;
 
     @Column(nullable = false, length = 20) private String koreanName;
+    @Column(length = 20) private String displayKoreanName;
     @Column(length = 20) private String englishName;
 
     private String logo;
