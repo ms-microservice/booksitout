@@ -4,17 +4,16 @@ import UsedOfflineLabel from '../label/UsedOfflineLabel'
 import search from '../../functions/search'
 import UsedBookComponent from '../cardComponent/UsedBookCardComponent'
 import UsedSearchPlaceholder from '../placeholder/UsedSearchPlaceholder'
+import BookSearchResultLoading from '../BookSearchResultLoading'
 
 const OfflineUsedSearchResult = ({ offlineUsedList }) => {
 
 	if (offlineUsedList === undefined) {
 		return (
-			<BookSearchResult
-				label='중고 매장'
+			<BookSearchResultLoading
+				label="중고 매장"
 				labelComponent={<UsedOfflineLabel />}
-				bookList={[1, 2]}
 				CardComponent={UsedSearchPlaceholder}
-				isConfigured={search.local.settings.usedOffline.isConfigured()}
 			/>
 		)
 	}

@@ -8,6 +8,7 @@ import axios from 'axios'
 import urls from '../settings/urls'
 import RouteTitle from '../common/RouteTitle'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
+import { booksitoutServer } from '../functions/axios'
 
 interface LoaderData {
 	user: PublicUserType;
@@ -18,9 +19,9 @@ interface LoaderData {
 export async function loader({ params }) {
 	const nickName = params.nickName
 
-	const fetchUser = axios.get(`${urls.api.base}/v4/user/public-user/by-name?name=${nickName}`).then((res) => res.data)
-	const fetchBooks = axios.get(`${urls.api.base}/v4/book/sharing?name=${nickName}&size=7`).then((res) => res.data)
-	const fetchPosts = axios.get(`${urls.api.base}/v4/forum/post/by-name?name=${nickName}`).then((res) => res.data)
+	const fetchUser = booksitoutServer.get(`/v4/user/public-user/by-name?name=${nickName}`).then(res => res.data)
+	const fetchBooks = booksitoutServer.get(`/v4/book/sharing?name=${nickName}&size=7`).then((res) => res.data)
+	const fetchPosts = booksitoutServer.get(`/v4/forum/post/by-name?name=${nickName}`).then((res) => res.data)
 
 	const [user, bookList, postList] = await Promise.all([fetchUser, fetchBooks, fetchPosts]);
 

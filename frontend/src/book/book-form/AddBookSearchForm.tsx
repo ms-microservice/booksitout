@@ -58,7 +58,7 @@ const AddBookSearchForm = () => {
 		}
 
 		booksitoutServer
-			.post(`/v4/book`, book)
+			.post(`/v5/book`, book)
 			.then(() => {
 				toast.success('책을 추가했어요')
 				navigate('/book/not-done/all')
@@ -144,49 +144,66 @@ const AddBookSearchForm = () => {
 	}
 
 	return (
-		<div className='pb-5'>
-			<Modal id='add-book-modal' show={modalOpen} size='lg' fullscreen='sm-down' onHide={() => setModalOpen(false)} centered>
+		<div className="pb-5">
+			<Modal
+				id="add-book-modal"
+				show={modalOpen}
+				size="lg"
+				fullscreen="sm-down"
+				onHide={() => setModalOpen(false)}
+				centered
+			>
 				{selectedBook == null ? (
 					<Error />
 				) : (
 					<>
 						<Modal.Header closeButton>
-							<h4 className='mb-0'>
+							<h4 className="mb-0">
 								{selectedBook.title}
 								<br />
-								<h5 className='text-secondary mb-0'>{selectedBook.author}</h5>
+								<h5 className="text-secondary mb-0">{selectedBook.author}</h5>
 							</h4>
 						</Modal.Header>
 
 						<Modal.Body>
-							<div className='row justify-content-center'>
-								<div className='col-5 col-lg-4'>
+							<div className="row justify-content-center">
+								<div className="col-5 col-lg-4">
 									<img
-										src={selectedBook.cover == null || selectedBook.cover === '' ? defaultBookCover : selectedBook.cover}
-										alt=''
-										className='img-fluid border rounded'
+										src={
+											selectedBook.cover == null || selectedBook.cover === ''
+												? defaultBookCover
+												: selectedBook.cover
+										}
+										alt=""
+										className="img-fluid border rounded"
 									/>
 								</div>
 
-								<div className='col-12 col-lg-8 mt-3 mt-lg-0'>
-									<Form onSubmit={(e) => handleAddBook(e)}>
-										<div className='row row-eq-height'>
-											<div className='col-6 mb-3'>
-												<AddBookSearchInfoCard icon={<booksitoutIcon.page />} label={`${selectedBook.page ?? '?'} 페이지`} />
+								<div className="col-12 col-lg-8 mt-3 mt-lg-0">
+									<Form onSubmit={e => handleAddBook(e)}>
+										<div className="row row-eq-height">
+											<div className="col-6 mb-3">
+												<AddBookSearchInfoCard
+													icon={<booksitoutIcon.page />}
+													label={`${selectedBook.page ?? '?'} 페이지`}
+												/>
 											</div>
 
-											<div className='col-6 mb-3'>
+											<div className="col-6 mb-3">
 												<AddBookSearchInfoCard
 													icon={<booksitoutIcon.language />}
 													label={getLanguageKoreanLabel(selectedBook.language)}
 												/>
 											</div>
 
-											<div className='col-6 mb-3'>
-												<AddBookSearchInfoCard icon={<booksitoutIcon.category />} label={selectedBook.category ?? '기타'} />
+											<div className="col-6 mb-3">
+												<AddBookSearchInfoCard
+													icon={<booksitoutIcon.category />}
+													label={selectedBook.category ?? '기타'}
+												/>
 											</div>
 
-											<div className='col-6 mb-3'>
+											<div className="col-6 mb-3">
 												<AddBookSearchInfoCard
 													icon={<booksitoutIcon.publishYear />}
 													label={`${selectedBook.publicationYear ?? '? '}년 출판`}
@@ -194,59 +211,63 @@ const AddBookSearchForm = () => {
 											</div>
 										</div>
 
-										<div className='mt-3' />
+										<div className="mt-3" />
 
-										<div className='row'>
-											<div className='col-6'>
-												<Form.Group className='mb-3'>
+										<div className="row">
+											<div className="col-6">
+												<Form.Group className="mb-3">
 													<Form.Label>총 페이지 수</Form.Label>
 													<Form.Control
-														type='number'
-														inputMode='numeric'
-														id='page-input'
+														type="number"
+														inputMode="numeric"
+														id="page-input"
 														defaultValue={selectedBook.page}
-														pattern='[0-9]*'
-														onChange={(e) => setUserAddedPage(Number(e.target.value))}
+														pattern="[0-9]*"
+														onChange={e => setUserAddedPage(Number(e.target.value))}
 														placeholder={messages.book.placeholder.add.page}
 														autoFocus={selectedBook.page == null}
-														autoComplete='off'
-														autoCapitalize='off'
-														autoCorrect='off'
+														autoComplete="off"
+														autoCapitalize="off"
+														autoCorrect="off"
 													/>
 												</Form.Group>
 											</div>
 
-											<div className='col-6'>
-												<Form.Group className='mb-3'>
+											<div className="col-6">
+												<Form.Group className="mb-3">
 													<Form.Label>책 형태</Form.Label>
-													<Form.Select onChange={(e) => setForm(e.target.value)}>
-														<option value='PHYSICAL'>📄 종이책</option>
-														<option value='EBOOK'>🔋 전자책</option>
-														<option value='AUDIO'>🎧 오디오북</option>
+													<Form.Select onChange={e => setForm(e.target.value)}>
+														<option value="PHYSICAL">📄 종이책</option>
+														<option value="EBOOK">🔋 전자책</option>
+														<option value="AUDIO">🎧 오디오북</option>
 													</Form.Select>
 												</Form.Group>
 											</div>
 
-											<div className='col-12'>
+											<div className="col-12">
 												<Form.Check
-													type='switch'
-													label='내 책 정보 공개하기'
+													type="switch"
+													label="내 책 정보 공개하기"
 													checked={sharing}
 													onChange={() => setSharing(!sharing)}
-													className='force-1-line'
+													className="force-1-line"
 												/>
 											</div>
 										</div>
 
-										<div className='row mt-4'>
-											<div className='col-6'>
-												<Button variant='book-danger' className='w-100' onClick={() => setModalOpen(false)}>
+										<div className="row mt-4">
+											<div className="col-6">
+												<Button
+													variant="book-danger"
+													className="w-100"
+													onClick={() => setModalOpen(false)}
+												>
 													취소
 												</Button>
 											</div>
 
-											<div className='col-6'>
-												<Button variant='book' className='w-100' type='submit'>
+											<div className="col-6">
+												<Button variant="book" className="w-100" type="submit">
 													추가하기
 												</Button>
 											</div>
@@ -259,43 +280,44 @@ const AddBookSearchForm = () => {
 				)}
 			</Modal>
 
-			<div className='container mt-3'>
-				<div className='row justify-content-center mb-4'>
-					<div className='col-12 col-md-8'>
+			<div className="container mt-3">
+				<div className="row justify-content-center mb-4">
+					<div className="col-12 col-md-8">
 						<Form.Control
-							placeholder='책 제목 / 저자를 검색해 주세요'
-							className='mb-3 mt-2'
-							onChange={(e) => setQuery(e.target.value)}
-							autoComplete='off'
+							placeholder="책 제목 / 저자를 검색해 주세요"
+							className="mb-3 mt-2"
+							onChange={e => setQuery(e.target.value)}
+							autoComplete="off"
 							autoFocus
 						/>
 					</div>
 				</div>
 
 				{loading ? (
-					<div className='row'>
+					<div className="row">
 						{Array(8)
 							.fill(0)
 							.map(() => {
 								return (
-									<div className='col-6 col-md-3'>
+									<div className="col-6 col-md-3">
 										<AddBookSearchResultLoading />
 									</div>
 								)
 							})}
 					</div>
 				) : searchResult.length === 0 ? (
-					<NoContent message='검색 결과가 없어요' iconSize={10} textSize={2} mt={100} />
+					<NoContent message="검색 결과가 없어요" iconSize={10} textSize={2} mt={100} move={0} />
 				) : (
-					<div className='row'>
-						{searchResult.map((book) => {
+					<div className="row">
+						{searchResult.map(book => {
 							return (
 								<div
-									className='col-6 col-md-3'
+									className="col-6 col-md-3"
 									onClick={() => {
 										setModalOpen(true)
 										setSelectedBook(book)
-									}}>
+									}}
+								>
 									<AddBookSearchResult book={book} />
 								</div>
 							)
@@ -304,9 +326,9 @@ const AddBookSearchForm = () => {
 				)}
 
 				{query !== '' && !loading && !additionalSearch && (
-					<div className='row justify-content-center mt-5'>
-						<div className='col-12 col-md-6'>
-							<Button variant='book' className='w-100' onClick={searchNaver}>
+					<div className="row justify-content-center mt-5">
+						<div className="col-12 col-md-6">
+							<Button variant="book" className="w-100" onClick={searchNaver}>
 								찾는 결과가 없어요
 							</Button>
 						</div>

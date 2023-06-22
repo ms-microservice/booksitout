@@ -1,9 +1,9 @@
 import React from 'react'
 import { Card } from 'react-bootstrap'
 import defaultCover from '../../resources/images/common/default-book-cover.png'
-import libraryIcon from '../../resources/images/book-classifications/sources/library.png'
 import { useDispatch } from 'react-redux'
 import { openSearchLibraryDetail, setSearchLibraryDetailSelected } from '../../redux/modalSlice'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const LibraryCardComponent = ({ book }) => {
 	const dispatch = useDispatch()
@@ -32,8 +32,8 @@ const LibraryCardComponent = ({ book }) => {
 								{book.libraryList.slice(0, 5).map((library) => {
 									return (
 										<h6>
-											<img src={libraryIcon} alt='' className='img-fluid me-2' style={{ width: '20px' }} />
-											<span className='mt-2'>{library.name}</span>
+											<booksitoutIcon.library className="me-2 text-book pb-14" style={{ width: '20px' }} />
+											<span className="mt-2">{library.name}</span>
 										</h6>
 									)
 								})}

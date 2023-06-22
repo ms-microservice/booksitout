@@ -41,7 +41,7 @@ const LibraryRouteMembershipCard = () => {
 	}, [])
 
 	return (
-		<Card style={{ minHeight: '575px' }} className='h-100'>
+		<Card style={{ minHeight: '500px' }} className='h-100'>
 			<AddButton top='20px' onClick={() => navigate('/library/membership/add/image')} />
 
 			<a href='/library/membership/all' className='text-black'>
@@ -61,8 +61,8 @@ const LibraryRouteMembershipCard = () => {
 						<div className='row'>
 							{Array.from({ length: 4 }).map(() => {
 								return (
-									<div className='col-12 col-md-6 mb-3'>
-										<MembershipCardLoading />
+									<div className="col-12 col-md-6 mb-3">
+										<MembershipCardLoading height={37.5} />
 									</div>
 								)
 							})}
@@ -75,8 +75,8 @@ const LibraryRouteMembershipCard = () => {
 						<div className='row'>
 							{membershipList.content.map((membership) => {
 								return (
-									<div className='col-12 col-md-6 mb-3'>
-										<MembershipCard membership={membership} />
+									<div className="col-12 col-md-6 mb-3">
+										<MembershipCard membership={membership} height={37.5} />
 									</div>
 								)
 							})}

@@ -4,45 +4,43 @@ import { PopularBookType } from "../post/PostType"
 import Error from '../../common/Error'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
 import { booksitoutServer } from "../../functions/axios"
+import PopularBookListLoading from "./CommunityRoutePopularBookListLoading";
+import styled from 'styled-components';
+import CardTitle from "../../common/CardTitle";
+import { useMinLoading } from "../../common/useMinLoading";
 
 const CommunityRoutePopularBookCard = () => {
-    const [popularBook, setPopularBook] = React.useState<PopularBookType[]>([])
-	React.useEffect(() => {
-		booksitoutServer
-			.get(`/v4/forum/ranking`)
-			.then((res) => setPopularBook(res.data))
-			.catch(() => setError(true))
-	}, [])
-
-	const [error, setError] = React.useState(false)
+	const [popularBook, loading, error] = useMinLoading<PopularBookType[]>(() =>
+		booksitoutServer.get(`/v4/forum/ranking`).then(res => res.data),
+	)
 
     return (
-		<Card style={{ minHeight: '750px', maxHeight: '750px' }} className='h-100'>
+		<PopularBookCard>
 			<Card.Body>
-				<h3>
-					<booksitoutIcon.book className='me-2 text-book' /> 인기 책
-				</h3>
+				<CardTitle icon={<booksitoutIcon.book />} title={'인기 책'} />
 
-				<div className='mb-4' />
-
-				<ListGroup className='h-100'>
-					{error || popularBook === undefined ? (
+				<ListGroup className="h-100">
+					{loading ? (
+						<PopularBookListLoading />
+					) : error || popularBook == null || popularBook === undefined ? (
 						<Error />
 					) : (
-						popularBook.map((book) => {
+						typeof popularBook != 'boolean' &&
+						popularBook.map(book => {
 							return (
 								<ListGroup.Item>
 									<a href={`/book/info/${book.isbn}`}>
-										<div className='row'>
-											<div className='col-1'>
-												<b className='me-4 force-1-line text-book'>{book.id}</b>
+										<div className="row">
+											<div className="col-1">
+												<b className="me-4 force-1-line text-book">{book.id}</b>
 											</div>
 
-											<div className='col-11 m-0 ps-3'>
-												<p className='m-0 clamp-1-line'>{book.title}</p>
+											<div className="col-11 m-0 ps-3">
+												<p className="m-0 clamp-1-line">{book.title}</p>
 
-												<p className='text-secondary m-0 force-1-line'>
-													{book.author.substring(0, 20)} {book.author.length > 20 ? '...' : ''}
+												<p className="text-secondary m-0 force-1-line">
+													{book.author.substring(0, 20)}{' '}
+													{book.author.length > 20 ? '...' : ''}
 												</p>
 											</div>
 										</div>
@@ -53,8 +51,14 @@ const CommunityRoutePopularBookCard = () => {
 					)}
 				</ListGroup>
 			</Card.Body>
-		</Card>
+		</PopularBookCard>
 	)
 }
+
+const PopularBookCard = styled(Card)`
+	height: 100%;
+	min-height: 750px;
+	max-height: 750px;
+`;
 
 export default CommunityRoutePopularBookCard

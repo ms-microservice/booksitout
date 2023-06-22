@@ -1,70 +1,56 @@
 import React from 'react'
 import { Card } from "react-bootstrap"
-import axios from 'axios'
-
 import PostListGroup from '../post/PostListGroup'
 import AddButton from '../../common/AddButton'
 import Error from '../../common/Error';
-import Loading from '../../common/Loading';
 import AllButton from '../../common/AllButton'
-
-import urls from '../../settings/urls'
-
 import { PostType } from '../post/PostType'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
+import CardTitle from '../../common/CardTitle'
+import styled from 'styled-components';
+import PostListGroupLoading from '../post/PostListGroupLoading'
+import { useMinLoading } from '../../common/useMinLoading'
+import { booksitoutServer } from '../../functions/axios'
 
 const CommunityRoutePostCard = () => {
-	const [initialFetch, setInitialFetch] = React.useState(true)
-	const [loading, setLoading] = React.useState(true)
-	const [error, setError] = React.useState(false)
-
-	const [popularPost, setPopularPost] = React.useState<PostType[]>([])
-	React.useEffect(() => {
-		setTimeout(() => setInitialFetch(false), 300)
-
-		axios
-			.get(`${urls.api.base}/v4/forum/post?sort=popular&size=9`)
-			.then((res) => setPopularPost(res.data.content))
-			.catch((e) => setError(true))
-			.finally(() => {
-				setInitialFetch(false)
-				setLoading(false)
-			})
-	}, [])
-
+	const [popularPost, loading, error] = useMinLoading<PostType[]>(() =>
+		booksitoutServer.get('/v4/forum/post?sort=popular&size=8').then(res => res.data.content),
+	)
 
     return (
-		<Card className='h-100' style={{ minHeight: '750px' }}>
-			<a href='/community/post/all/popular'>
-				<Card.Body>
-					<a href='/community/post/add'>
-						<AddButton size={30} color='book' top='15px' right='15px' />
-					</a>
+		<PostCard>
+			<AddButton size={30} color="book" top="15px" right="15px" url="/community/post/add" />
 
-					<h3 className='mb-3'>
-						<booksitoutIcon.popular className='me-2 text-book h2' />
-						인기글
-					</h3>
+			<Card.Body>
+				<PostCardContainer href="/community/post/all/popular">
+					<CardTitle icon={<booksitoutIcon.popular />} title={'인기글'} />
 
-					<div className='h-100'>
-						{initialFetch ? (
-							<></>
-						) : loading ? (
-							<Loading mt='125px' message='' />
-						) : error ? (
-							<Error move={30} />
-						) : (
-							<PostListGroup postList={popularPost} col1='col-12 col-md-6' col2='col-12 col-md-6' />
-						)}
-					</div>
-				</Card.Body>
+					{loading ? (
+						<PostListGroupLoading length={8} col1="col-12 col-md-6" col2="col-12 col-md-6" />
+					) : error ? (
+						<Error />
+					) : (
+						<PostListGroup postList={popularPost} col1="col-12 col-md-6" col2="col-12 col-md-6" />
+					)}
+				</PostCardContainer>
 
-				<div className='mt-3' />
-
-				<AllButton url='/community/post/all/popular' col='col-12 col-md-8' />
-			</a>
-		</Card>
-	)
+				<div className="pt-3" />
+				<AllButton url="/community/post/all/popular" col="col-12 col-md-8" />
+			</Card.Body>
+		</PostCard>
+	)	
 }
+
+const PostCard = styled(Card)`
+	height: 100%;
+	min-height: 750px;
+	max-height: 750px;
+`
+
+const PostCardContainer = styled.a`
+	&:hover {
+		color: black;
+	}
+`
 
 export default CommunityRoutePostCard

@@ -32,7 +32,7 @@ const PostPopular = () => {
 		<a href="/community/post/all/popular" className="text-decoration-none text-black">
 			<Card className="h-100" style={{ minHeight: '480px' }}>
 				<a href="/community/post/add">
-					<AddButton color="book" top="15px" right="15px" />
+					<AddButton color="book" />
 				</a>
 
 				<Card.Body>

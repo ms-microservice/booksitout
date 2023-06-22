@@ -96,11 +96,11 @@ const router = createBrowserRouter(
 			<Route path='/settings/community' element={<CommunitySettings />} />
 			<Route path='/settings/notification' element={<NotificationSettings />} />
 
-			<Route path='/book/:range' element={<BookRoute />} />
-			<Route path='/book/:range/:rangeDetail' element={<BookRoute />} />
-			<Route path='/book/detail/:id' element={<BookDetail />} />
-			<Route path='/book/add/:method' element={<AddBookRoute />} />
-			<Route path='/book/edit/:id' element={<EditBookForm />} />
+			<Route path='/book/:range' element={<BookRoute />} errorElement={<ErrorPage/>} />
+			<Route path='/book/:range/:rangeDetail' element={<BookRoute />} errorElement={<ErrorPage/>} />
+			<Route path='/book/detail/:id' element={<BookDetail />} errorElement={<ErrorPage/>} />
+			<Route path='/book/add/:method' element={<AddBookRoute />} errorElement={<ErrorPage/>} />
+			<Route path='/book/edit/:id' element={<EditBookForm />} errorElement={<ErrorPage/>} />
 
 			<Route path='/reading' element={<ReadingNoId />} />
 			<Route path='/reading/:id' element={<ReadingRoute />} />

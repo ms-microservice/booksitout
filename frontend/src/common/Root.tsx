@@ -25,6 +25,8 @@ const Root = () => {
 			<TimerFloatingButton />
 			<CommunityFloatingButton />
 			<BookFloatingButton />
+
+			<div className="pb-4"/>
 		</>
 	)
 }

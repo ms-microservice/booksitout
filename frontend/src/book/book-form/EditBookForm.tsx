@@ -7,9 +7,8 @@ import Error from '../../common/Error'
 import NoContent from '../../common/NoContent'
 import ImageSearchModal from '../ImageSearchModal'
 import defaultBookCover from '../../images/placeholder/default-book-cover.png'
-import { editBook } from '../../functions/book'
 import urls from '../../settings/urls'
-import utils from '../../functions/utils'
+import { booksitoutServer } from '../../functions/axios'
 
 const BookEditForm = () => {
 	const { id } = useParams()
@@ -47,19 +46,17 @@ const BookEditForm = () => {
 			setInitialFetch(false)
 		}, 5000)
 
-		fetch(BOOK_GET_API_URL, {
-			method: 'GET',
-			headers: { Authorization: utils.getToken() ?? '' },
-		})
-			.then((res) => {
+		booksitoutServer
+			.get(BOOK_GET_API_URL)
+			.then(res => {
 				if (!res.status.toString().startsWith('2')) {
 					setNotFound(true)
 					return
 				}
 
-				return res.json()
+				return res.data
 			})
-			.then((book) => {
+			.then(book => {
 				setTitle(book.title)
 				setAuthor(book.author)
 				setLanguage(book.language)
@@ -81,7 +78,6 @@ const BookEditForm = () => {
 		e.preventDefault()
 
 		const editedBook = {
-			bookId: id,
 			title: title,
 			author: author,
 			language: language,
@@ -93,14 +89,13 @@ const BookEditForm = () => {
 			isSharing: sharing,
 		}
 
-		editBook(editedBook).then((result) => {
-			if (result) {
+		booksitoutServer
+			.put(`/v1/book/${id}`, editedBook)
+			.then(() => {
 				toast.success(EDIT_SUCCESS_MESSAGE)
 				navigate(`/book/detail/${id}`)
-			} else {
-				toast.error('책을 수정할 수 없었어요. 잠시 후 다시 시도해 주세요')
-			}
-		})
+			})
+			.catch(() => toast.error('책을 수정할 수 없었어요. 잠시 후 다시 시도해 주세요'))
 	}
 
 	if (initalFetch) return <></>

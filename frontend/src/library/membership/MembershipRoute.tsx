@@ -1,22 +1,20 @@
 import React from 'react'
 import { booksitoutServer } from '../../functions/axios';
-
 import { PageType } from '../../types/PageType'
 import Error from '../../common/Error';
 import NoContent from '../../common/NoContent'
 import RouteTitle from '../../common/RouteTitle';
-
 import { MembershipType } from './MembershipType'
 import MembershipCard from './MembershipCard';
 import MembershipCardLoading from './MembershipCardLoading';
 import { BsFillPersonVcardFill as CardIcon} from 'react-icons/bs'
-
 import InfiniteScrollLoading from '../../common/InfiniteScrollLoading';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import AddButton from '../../common/AddButton';
 import { useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../redux/store';
+import styled from 'styled-components';
 
 const MembershipRoute = () => {
 	const navigate = useNavigate()
@@ -42,18 +40,21 @@ const MembershipRoute = () => {
 	}, [page])
 
 	return (
-		<div className='container-xl' style={{ minHeight: '500px' }}>
+		<div className="container-xl" style={{ minHeight: '500px' }}>
+			<MembershipAddButtonContainer>
+				<AddButton size={40} top="80px" onClick={() => navigate('/library/membership/add/image')} />
+			</MembershipAddButtonContainer>
+
 			<RouteTitle icon={<CardIcon />} title={'모든 도서관 회원증'} />
-			<AddButton size={40} top='80px' onClick={() => navigate('/library/membership/add/image')} />
 
 			{!isLogin ? (
-				<NoContent message='회원증을 관리하기 위해서는 로그인 해 주세요' mt={60}/>
+				<NoContent message="회원증을 관리하기 위해서는 로그인 해 주세요" mt={60} />
 			) : initialFetch ? (
 				<></>
 			) : loading ? (
 				Array.from({ length: 4 }).map(() => {
 					return (
-						<div className='mb-4'>
+						<div className="mb-4">
 							<MembershipCardLoading />
 						</div>
 					)
@@ -61,17 +62,18 @@ const MembershipRoute = () => {
 			) : membershipPaged === null ? (
 				<Error move={-60} />
 			) : membershipPaged.content.length === 0 ? (
-				<NoContent message='도서관 회원증이 없어요' move={-60} />
+				<NoContent message="도서관 회원증이 없어요" move={-60} />
 			) : (
-				membershipPaged.content.map((membership) => {
+				membershipPaged.content.map(membership => {
 					return (
 						<InfiniteScroll
 							dataLength={membershipPaged.totalElements}
 							next={() => setPage(page + 1)}
 							hasMore={!membershipPaged.last}
 							loader={<InfiniteScrollLoading />}
-							className='overflow-hidden'>
-							<div className='mb-4'>
+							className="overflow-hidden"
+						>
+							<div className="mb-4">
 								<MembershipCard membership={membership} />
 							</div>
 						</InfiniteScroll>
@@ -81,5 +83,10 @@ const MembershipRoute = () => {
 		</div>
 	)
 }
+
+const MembershipAddButtonContainer = styled.div`
+	position: relative;
+	transform: translateY(-75px)
+`;
 
 export default MembershipRoute

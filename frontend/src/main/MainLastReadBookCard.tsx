@@ -18,7 +18,7 @@ const MainLastReadBookCard = ({ lastBook }) => {
 				) : lastBook == null ? (
 					<NoContent message={messages.book.lastBook.noContent} move={40} />
 				) : (
-					<MainHorizontalBookView book={lastBook} link={lastBook == null ? `/book/not-done` : `/book/detail/${lastBook.bookId}`} />
+					<MainHorizontalBookView book={lastBook} link={lastBook == null ? `/book/not-done` : `/book/detail/${lastBook.id}`} />
 				)}
 			</Card.Body>
 		</Card>

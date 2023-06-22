@@ -12,7 +12,7 @@ const MainLastReadBookCardLoading = () => {
 				<CardTitle icon={<BookIcon />} title={'마지막으로 읽은 책'} mb={0} />
 
 				<BookInfoContainer className="row row-eq-height pb-5">
-					<div className="col-12 col-lg-4 text-center">
+					<div className="col-12 col-lg-4 text-center pt-4">
 						<img
 							className="img-fluid rounded text-decoration-none text-black"
 							src={bookCoverLoading}

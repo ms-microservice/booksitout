@@ -13,6 +13,7 @@ import { IoReloadCircle as ReloadIcon } from 'react-icons/io5'
 import toast from 'react-hot-toast'
 import SimpleLibraryCardLoading from './SimpleLibraryCardLoading'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
+import styled from 'styled-components';
 
 const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=0 }) => {
 	const [initialFetch, setInitialFetch] = React.useState<boolean>(true)
@@ -77,18 +78,22 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 	}
 
 	return (
-		<Card style={{ minHeight: '500px' }} className='h-100'>
+		<Card style={{ minHeight: '500px' }} className="h-100">
 			<ReloadIcon
-				className='text-book clickable'
+				className="text-book clickable"
 				onClick={refreshLocation}
 				style={{ fontSize: '40px', position: 'absolute', right: '2.5%', top: '20px' }}
 			/>
 
-			<a href='/library/near' className='text-black'>
+			<a href="/library/near" className="text-black h-100">
 				<Card.Body>
-					<CardTitle icon={<booksitoutIcon.location />} title={'내 주변 도서관'} subTitle={locationName ?? ''} />
+					<CardTitle
+						icon={<booksitoutIcon.location />}
+						title={'내 주변 도서관'}
+						subTitle={locationName ?? ''}
+					/>
 
-					<div className='h-100 pt-4'>
+					<LibraryContainer>
 						{initialFetch ? (
 							<></>
 						) : latitude === undefined || longitude === undefined || locationError ? (
@@ -97,7 +102,7 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 							<div className={`row row-eq-height mt-${mt}`}>
 								{Array.from({ length: 6 }).map(() => {
 									return (
-										<div className='col-12 col-md-6 h-100'>
+										<div className="col-12 col-md-6 h-100">
 											<SimpleLibraryCardLoading />
 										</div>
 									)
@@ -106,23 +111,23 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 						) : nearLibraryList === undefined ? (
 							<Error move={-80} />
 						) : nearLibraryList.length === 0 ? (
-							<NoContent message='2km 내에 도서관이 없어요' move={-80} />
+							<NoContent message="2km 내에 도서관이 없어요" move={-80} />
 						) : (
 							<div className={`row row-eq-height mt-${mt}`}>
-								{nearLibraryList.map((library) => {
+								{nearLibraryList.map(library => {
 									return (
-										<div className='col-12 col-md-6 h-100'>
+										<div className="col-12 col-md-6 h-100">
 											<SimpleLibraryCard library={library} />
 										</div>
 									)
 								})}
 							</div>
 						)}
-					</div>
+					</LibraryContainer>
 
 					{moreButton && (
 						<>
-							<div className='pt-3' />
+							<div className="pt-3" />
 							<AllButton url={`/library/near`} col={col} />
 						</>
 					)}
@@ -131,5 +136,12 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 		</Card>
 	)
 }
+
+const LibraryContainer = styled.div`
+	height: 100%;
+
+	padding-top: 25px;
+
+`
 
 export default LibraryNearCard

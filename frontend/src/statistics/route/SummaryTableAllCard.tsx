@@ -29,33 +29,33 @@ const SummaryTableAllCard = () => {
 	}, [statisticsSelectedYear])
 
 	return (
-		<Card className='h-100'>
+		<Card className="h-100">
 			<Card.Body>
-				<div className='row h-100'>
-					<div className='col-7'>
+				<div className="row h-100">
+					<div className="col-7">
 						<CardTitle icon={<DateIcon />} title={'매년 독서현황'} />
 					</div>
 
-					<div className='col-5'>
+					<div className="col-5">
 						<Form>
-							<Form.Select onChange={(e) => setStatisticsSelectedYear(Number(e.target.value))}>
+							<Form.Select onChange={e => setStatisticsSelectedYear(Number(e.target.value))}>
 								{Array.from(
 									{ length: new Date().getFullYear() - (new Date().getFullYear() - 5) + 1 },
-									(_, i) => i + new Date().getFullYear() - 5
+									(_, i) => i + new Date().getFullYear() - 5,
 								)
 									.reverse()
-									.map((year) => {
+									.map(year => {
 										return <option value={year}>{`${year}년`}</option>
 									})}
 							</Form.Select>
 						</Form>
 					</div>
 
-					<div className='mt-2' style={{ minHeight: '320px' }}>
+					<div className="mt-2" style={{ minHeight: '320px' }}>
 						{isStatisticsLoading ? (
 							<SummaryTable statistics={statisticsData} loading={true} />
 						) : statisticsData == null ? (
-							<Error move={40}/>
+							<Error mt={35} />
 						) : (
 							<SummaryTable statistics={statisticsData} loading={false} />
 						)}

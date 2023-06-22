@@ -8,6 +8,7 @@ import CardTitle from '../../common/CardTitle'
 import { booksitoutServer } from '../../functions/axios'
 import { GatheringType } from '../../community/gathering/GatheringType'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
+import AddButton from '../../common/AddButton'
 
 const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500px', col = 'col-12 col-md-6 col-xl-4' }) => {
 	const [gatheringList, setGatheringList] = React.useState<GatheringType[] | null>(null)
@@ -21,18 +22,20 @@ const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500p
 	}, [])
 
 	return (
-		<Card style={{ minHeight: minHeight }} className='h-100'>
-			<a href='/community/gathering/all' className='text-black h-100'>
-				<Card.Body className='h-100'>
+		<Card style={{ minHeight: minHeight }} className="h-100">
+			<AddButton />
+
+			<a href="/community/gathering/all" className="text-black h-100">
+				<Card.Body className="h-100">
 					<CardTitle icon={<booksitoutIcon.gathering />} title={title} />
 
 					{gatheringList == null ? (
 						<Error />
 					) : gatheringList.length === 0 ? (
-						<NoContent message='독서모임이 없어요'/>
+						<NoContent message="독서모임이 없어요" />
 					) : (
-						<div className='row row-eq-height'>
-							{gatheringList.slice(0, 6).map((gathering) => {
+						<div className="row row-eq-height">
+							{gatheringList.slice(0, 6).map(gathering => {
 								return (
 									<div className={`${col} mb-3`}>
 										<GatheringSimpleCard gathering={gathering} />
@@ -42,7 +45,7 @@ const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500p
 						</div>
 					)}
 
-					<div className='pt-2' />
+					<div className="pt-2" />
 
 					<AllButton url={'/community/gathering/all'} />
 				</Card.Body>

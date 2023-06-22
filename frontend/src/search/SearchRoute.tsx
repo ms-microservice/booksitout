@@ -15,20 +15,23 @@ import OfflineUsedSearchResult from './searchResult/OfflineUsedSearchResult'
 import RouteTitle from '../common/RouteTitle'
 import booksitoutIcon from '../common/icons/booksitoutIcon';
 import ScrollToTop from '../common/topnav/ScrollToTop'
-import BooksitoutCardComponent from './searchResult/BooksitoutSearchResult'
 import BooksitoutSearchResultCard from './BooksitoutSearchResultCard'
 
 const SearchRoute = () => {
 	const { query } = useParams()
 	document.title = `검색 : ${query} | 책잇아웃`
 
-	const [onlineUsedList, setOnlineUsedBookList] = React.useState<BookType.UsedBook[] | undefined>(undefined)
-	const [offlineUsedList, setOfflineUsedBookList] = React.useState<BookType.UsedBook[] | undefined>(undefined)
+	const [onlineUsedList, setOnlineUsedBookList] = React.useState<BookType.UsedBook[] | undefined | null>(undefined)
+	const [offlineUsedList, setOfflineUsedBookList] = React.useState<BookType.UsedBook[] | undefined | null>(undefined)
 	React.useEffect(() => {
 		(search.local.settings.usedOnline.isConfigured() || search.local.settings.usedOffline.isConfigured()) &&
 			search.api.search.used(query || '', search.local.settings.usedOnline.api(), search.local.settings.usedOffline.api()).then((result) => {
 				setOnlineUsedBookList(result.online)
 				setOfflineUsedBookList(result.offline)
+			})
+			.catch(() => {
+				setOnlineUsedBookList(null)
+				setOfflineUsedBookList(null)
 			})
 	}, [query])
 

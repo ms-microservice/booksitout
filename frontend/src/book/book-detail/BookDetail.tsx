@@ -272,7 +272,7 @@ const BookCover = ({ book }) => {
 
 const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen, setIsSummaryModalOpen }) => {
 	const navigate = useNavigate()
-	const BOOK_EDIT_URL = `/book/edit/${book.bookId}`
+	const BOOK_EDIT_URL = `/book/edit/${book.id}`
 
 	return (
 		<div className='row mt-3'>
@@ -290,7 +290,7 @@ const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen
 						const confirm = window.confirm('정말 책을 삭제할까요?')
 
 						if (confirm) {
-							deleteBook(book.bookId).then((success) => {
+							deleteBook(book.id).then((success) => {
 								if (success) {
 									toast.success('책을 삭제 했어요')
 									navigate('/book/not-done/all')
@@ -341,7 +341,7 @@ const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen
 			) : book.currentPage < book.endPage && !book.isGiveUp ? (
 				<>
 					<div className='col-12 mt-3'>
-						<Button variant='book' className='w-100' onClick={() => navigate(`/reading/${book.bookId}`)}>
+						<Button variant='book' className='w-100' onClick={() => navigate(`/reading/${book.id}`)}>
 							이어서 읽기
 						</Button>
 					</div>
@@ -354,7 +354,7 @@ const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen
 								const confirm = window.confirm('책을 포기할까요?')
 
 								if (confirm) {
-									giveUpBook(book.bookId).then((success) => {
+									giveUpBook(book.id).then((success) => {
 										if (success) {
 											toast.success('책을 포기했어요. 마음이 언제든지 다시 시작하실 수 있어요!')
 											navigate('/book/give-up')
@@ -378,7 +378,7 @@ const BookButtons = ({ book, setBook, setIsRatingModalOpen, setIsReviewModalOpen
 								const confirm = window.confirm('책을 다시 읽을까요?')
 
 								if (confirm) {
-									unGiveUpBook(book.bookId).then((success) => {
+									unGiveUpBook(book.id).then((success) => {
 										if (success) {
 											toast.success('책을 다시 읽을 수 있어요')
 											navigate('/book/not-done/all')

@@ -1,18 +1,17 @@
 export interface BookType {
+	id: number;
     isbn: string;
 
     title: string;
     author: string;
     cover?: string;
-
 	description?: string;
 	
-	publicationYear?: number;
 	page?: number;
+
 	language: string;
-
+	publicationYear?: number;
 	link: BookLinkType;
-
 	category: string;
 }
 
@@ -32,10 +31,7 @@ export interface BookUserType extends BookType {
 	review?: string;
 	currentPage: number;
 	endPage: number;
-}
-
-export interface BookCategory {
-
+	isGiveUp: boolean;
 }
 
 export interface SharingBook extends BookType {

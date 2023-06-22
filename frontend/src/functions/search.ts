@@ -193,9 +193,6 @@ const search = {
 				return axios
 					.get(urls.api.search.used(query, includeOnline, includeOffline))
 					.then((res) => res.data)
-					.catch(() => {
-						return []
-					})
 			},
 
 			library: (query: string, region: string, regionDetail: string) => {

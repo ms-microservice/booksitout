@@ -2,10 +2,10 @@ import React from 'react'
 import { Badge, Card, ListGroup, Placeholder } from 'react-bootstrap'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
-const PostListGroupLoading = ({ col1 = 'col-12 col-md-8', col2 = 'col-12 col-md-4' }) => {
+const PostListGroupLoading = ({ col1 = 'col-12 col-md-8', col2 = 'col-12 col-md-4', length = 5 }) => {
 	return (
 		<ListGroup>
-			{Array.from({ length: 5 }).map(() => {
+			{Array.from({ length: length }).map(() => {
 				return (
 					<ListGroup.Item as='li' className='d-flex w-100 pe-0'>
 						<div className='row w-100'>

@@ -11,7 +11,7 @@ const MonthReadTimeCard = ({ readTimeList }) => {
 			<Card.Body className='h-100'>
 				<CardTitle icon={<GraphIcon />} title={'최근 30일 독서시간'} />
 
-				<div className='row h-100 w-100 pt-2 pb-2' id='readTimeChart'>
+				<div className='row h-100 w-100' id='readTimeChart'>
 					<DateLineChart startDate={new Date().setDate(new Date().getDate() - 30)} data={readTimeList} duration={30} />
 				</div>
 			</Card.Body>

@@ -20,17 +20,18 @@ import {
 	BsFillFileImageFill,
 	BsMapFill,
 } from 'react-icons/bs'
-import { FaPeopleArrows, FaSearch, FaTheaterMasks, FaUserAlt } from 'react-icons/fa'
+import { FaCross, FaPeopleArrows, FaSearch, FaTheaterMasks, FaUserAlt } from 'react-icons/fa'
 import { TbLocationFilled } from 'react-icons/tb'
 import { FiLogIn, FiSettings } from 'react-icons/fi'
-import { GrCircleQuestion } from 'react-icons/gr'
-import { HiOutlineUserAdd } from 'react-icons/hi'
+import { GrCircleQuestion, GrLanguage } from 'react-icons/gr'
+import { HiDotsCircleHorizontal, HiOutlineUserAdd } from 'react-icons/hi'
 import { ImLibrary } from 'react-icons/im'
-import { BiSearchAlt2, BiTime } from 'react-icons/bi'
-import { AiFillStar, AiOutlineStar, AiFillCheckCircle, AiOutlineAppstore, AiFillLike, AiFillDislike } from 'react-icons/ai'
+import { BiNetworkChart, BiSearchAlt2, BiTime } from 'react-icons/bi'
+import { AiFillStar, AiOutlineStar, AiFillCheckCircle, AiOutlineAppstore, AiFillLike, AiFillDislike, AiFillExperiment, AiFillPicture } from 'react-icons/ai'
 import { TbTargetArrow } from 'react-icons/tb'
-import { RiFilePaperLine } from 'react-icons/ri'
-import { MdBrowserNotSupported, MdLanguage, MdQuiz } from 'react-icons/md';
+import { RiComputerFill, RiFilePaperLine } from 'react-icons/ri'
+import { MdBrowserNotSupported, MdHistoryEdu, MdLanguage, MdQuiz } from 'react-icons/md';
+import { GiEvilBook, GiThink } from 'react-icons/gi';
 
 const booksitoutIcon: { [key: string]: IconType } = {
 	login: FiLogIn,
@@ -67,6 +68,18 @@ const booksitoutIcon: { [key: string]: IconType } = {
 	goal: TbTargetArrow,
 	language: MdLanguage,
 	category: FaTheaterMasks,
+
+	categoryOthers: HiDotsCircleHorizontal,
+	categoryPhilosophy: GiThink,
+	categoryReligion: FaCross,
+	categoryNaturalScience: AiFillExperiment,
+	categoryLanguage: MdLanguage,
+	categoryLiterature: GiEvilBook,
+	categoryHistory: MdHistoryEdu,
+
+	categoryArt: AiFillPicture,
+	categoryTechnology: RiComputerFill,
+	categorySocialScience: BiNetworkChart,
 
 	// Community
 	community: BsPeopleFill,

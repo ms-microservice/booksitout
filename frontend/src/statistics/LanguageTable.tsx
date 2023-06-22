@@ -1,8 +1,12 @@
 import React from 'react'
 import Error from '../common/Error'
-import { getLangaugeImage, getLanguageKoreanLabel } from '../functions/language'
+import { getLangaugeImage, getLanguageConfig, getLanguageKoreanLabel } from '../functions/language'
 
 const LanguageTable = ({ languageData }) => {
+	React.useEffect(() => {
+		console.log(languageData)
+	}, [])
+
 	return (
 		<>
 			{languageData == null ? (
@@ -22,20 +26,24 @@ const LanguageTable = ({ languageData }) => {
 						{languageData.map((language) => {
 							return (
 								<tr>
-									<td className='col-2 col-1 text-center align-items-center'>
-										<img src={getLangaugeImage(language.language)} alt='' className='img-fluid mt-2 mb-2' style={{ width: '20px' }} />
+									<td className="col-2 col-1 text-center align-items-center">
+										<h1 className="mt-1">{getLanguageConfig(language.language)?.emoji}</h1>
 									</td>
 
-									<td className='col-3'>
-										<p className='mt-2 mb-2'>{getLanguageKoreanLabel(language.language)}</p>
+									<td className="col-3">
+										<h5 className="mt-3">{getLanguageConfig(language.language)?.korean}</h5>
 									</td>
 
-									<td className='col-4'>
-										<p className='mt-2 mb-2'>{language.doneBook}권</p>
+									<td className="col-4">
+										<h5 className="mt-3">
+											<b className="text-book me-1">{language.doneBook}</b>권
+										</h5>
 									</td>
 
-									<td className='col-4'>
-										<p className='mt-2 mb-2'>{language.notDoneBook}권</p>
+									<td className="col-4">
+										<h5 className="mt-3">
+											<b className="text-book me-1">{language.notDoneBook}</b>권
+										</h5>
 									</td>
 								</tr>
 							)

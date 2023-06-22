@@ -4,6 +4,7 @@ import { BookType } from '../types/BookType'
 import { booksitoutServer } from '../functions/axios'
 import BooksitoutCardComponent from './searchResult/BooksitoutSearchResult'
 import BooksitoutSearchResultLoading from './placeholder/BooksitoutSearchResultLoading'
+import BookSearchResultLoading from './BookSearchResultLoading'
 
 const BooksitoutSearchResultCard = ({ query }) => {
 	const [loading, setLoading] = React.useState<boolean>(true)
@@ -20,12 +21,10 @@ const BooksitoutSearchResultCard = ({ query }) => {
 
 	if (loading) {
 		return (
-			<BookSearchResult
-				label='책잇아웃 책'
+			<BookSearchResultLoading
+				label="책잇아웃 책"
 				labelComponent={<></>}
-				bookList={[1, 2]}
 				CardComponent={BooksitoutSearchResultLoading}
-				isConfigured={true}
 			/>
 		)
 	}
