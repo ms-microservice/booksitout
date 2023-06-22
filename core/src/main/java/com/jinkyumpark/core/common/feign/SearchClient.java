@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
-@FeignClient(name = "searchNew", url = "${feign.url.search}")
+@FeignClient(name = "search")
 public interface SearchClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "v3/search/new/naver")
