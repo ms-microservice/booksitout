@@ -21,7 +21,7 @@ public class MembershipEditRequest {
 
                 .number(number)
                 .memo(memo)
-                .type(MembershipType.builder().id(typeId).build())
+                .type(typeId == null ? null : MembershipType.builder().id(typeId).build())
 
                 .appUserId(appUserId)
                 .build();
