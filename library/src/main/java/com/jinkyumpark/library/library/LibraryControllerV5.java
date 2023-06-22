@@ -68,6 +68,33 @@ public class LibraryControllerV5 {
                 .build();
     }
 
+    @GetMapping("region")
+    public PagedResponse<List<LibraryDto>> getLibraryByRegionAndRegionDetail(@RequestParam("region") String region,
+                                                                             @RequestParam(value = "region-detail", required = false) String regionDetail,
+                                                                             @RequestParam(value = "page", required = false) Integer page,
+                                                                             @RequestParam(value = "size", required = false) Integer size) {
+        Pageable pageable = pageService.getPageableSortedDesc(page, size, "bookCount");
+
+        Page<Library> pagedLibrary;
+        if (regionDetail == null) {
+            pagedLibrary = libraryService.getLibraryByRegion(region, pageable);
+        } else {
+            pagedLibrary = libraryService.getLibraryByRegionAndRegionDetail(region, regionDetail, pageable);
+        }
+
+        List<LibraryDto> content = pagedLibrary.getContent().stream()
+                        .map(LibraryDto::of)
+                        .collect(Collectors.toList());
+
+        return PagedResponse.<List<LibraryDto>>builder()
+                .first(pagedLibrary.isFirst())
+                .last(pagedLibrary.isLast())
+                .totalPages(pagedLibrary.getTotalPages())
+                .totalElements((int) pagedLibrary.getTotalElements())
+                .content(content)
+                .build();
+    }
+
     @GetMapping("by-region/{type}/{query}")
     public PagedResponse<List<LibraryDto>> getLibraryByRegion(@PathVariable("type") String type,
                                                               @PathVariable("query") String query,

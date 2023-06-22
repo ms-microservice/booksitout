@@ -15,12 +15,9 @@ import java.util.List;
 public class AvailableLibraryListener implements ItemWriteListener<Library> {
 
     private final AvailableLibraryBatchService libraryBatchService;
-    private final LibraryService libraryService;
 
     @Override
-    public void beforeWrite(List<? extends Library> items) {
-
-    }
+    public void beforeWrite(List<? extends Library> items) {}
 
     @Override
     public void afterWrite(List<? extends Library> items) {
@@ -28,7 +25,6 @@ public class AvailableLibraryListener implements ItemWriteListener<Library> {
     }
 
     @Override
-    public void onWriteError(Exception exception, List<? extends Library> items) {
-    }
+    public void onWriteError(Exception exception, List<? extends Library> items) {}
 
 }

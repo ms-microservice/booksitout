@@ -41,9 +41,17 @@ public class LibraryDto {
                                 .address(library.getAddress())
                                 .latitude(library.getLatitude())
                                 .longitude(library.getLongitude())
-                                .name(library.getRegionDetail().getKoreanName())
+                                .name(LibraryResponseName.builder()
+                                        .displayName(library.getRegionDetail().getKoreanName())
+
+                                        .regionEnglishName(library.getRegionDetail().getRegion().getEnglishName())
+                                        .regionDetailEnglishName(library.getRegionDetail().getEnglishName())
+
+                                        .build()
+                                )
                                 .logo(library.getRegionDetail().getLogo())
                                 .distance(distance)
+
                                 .build()
                 )
                 .build();
@@ -58,16 +66,23 @@ public class LibraryDto {
                 .bookCount(library.getBookCount())
                 .openDay(library.getOpenDay())
                 .openHour(library.getOpenHour())
-                .location(
-                        LibraryResponseLocation.builder()
-                                .address(library.getAddress())
-                                .latitude(library.getLatitude())
-                                .longitude(library.getLongitude())
-                                .name(library.getRegionDetail().getKoreanName())
-                                .englishName(library.getRegionDetail().getEnglishName())
-                                .logo(library.getRegionDetail().getLogo())
+                .location(LibraryResponseLocation.builder()
+                        .address(library.getAddress())
+                        .latitude(library.getLatitude())
+                        .longitude(library.getLongitude())
+                        .name(LibraryResponseName.builder()
+                                .displayName(library.getRegionDetail().getKoreanName())
+
+                                .regionEnglishName(library.getRegionDetail().getRegion().getEnglishName())
+                                .regionDetailEnglishName(library.getRegionDetail().getEnglishName())
+
                                 .build()
+                        )
+                        .logo(library.getRegionDetail().getLogo())
+
+                        .build()
                 )
+
                 .build();
     }
 
@@ -81,10 +96,20 @@ class LibraryResponseLocation {
     private Double latitude;
     private Double longitude;
 
-    private String name;
-    private String englishName;
+    private LibraryResponseName name;
     private String logo;
 
     private double distance;
+
+}
+
+@Getter
+@NoArgsConstructor @AllArgsConstructor @Builder
+class LibraryResponseName {
+
+    private String displayName;
+
+    private String regionEnglishName;
+    private String regionDetailEnglishName;
 
 }

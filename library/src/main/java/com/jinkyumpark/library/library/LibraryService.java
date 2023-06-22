@@ -3,10 +3,14 @@ package com.jinkyumpark.library.library;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.library.location.LocationService;
 import com.jinkyumpark.library.region.RegionService;
+import com.jinkyumpark.library.region.region.Region;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -62,4 +66,28 @@ public class LibraryService {
         return libraryRepository.findAllByNameOrAddress(query, pageable);
     }
 
+    public Page<Library> getLibraryByRegionAndRegionDetail(String region, String regionDetail, Pageable pageable) {
+        Region regionResult = regionService.getRegionByEnglishName(region);
+        RegionDetail regionDetailResult = regionService.getRegionDetailByEnglishName(regionDetail);
+
+        if (regionResult == null || regionDetailResult == null) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "해당 지역이 없어요");
+        }
+
+        Long regionId = regionResult.getRegionId();
+        Long regionDetailId = regionDetailResult.getRegionDetailId();
+
+        return libraryRepository.findAllByRegionIdAndRegionDetailId(regionId, regionDetailId, pageable);
+    }
+
+    public Page<Library> getLibraryByRegion(String region, Pageable pageable) {
+        Region regionResult = regionService.getRegionByEnglishName(region);
+        if (regionResult == null) {
+            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "해당 지역이 없어요");
+        }
+
+        Long regionId = regionResult.getRegionId();
+
+        return libraryRepository.findAllByRegionId(regionId, pageable);
+    }
 }
