@@ -15,7 +15,6 @@ import {
 	BsFillPeopleFill,
 	BsFire,
 	BsFillPostcardFill,
-	BsArrowRepeat,
 	BsFillInfoCircleFill,
 	BsFillFileImageFill,
 	BsMapFill,
@@ -23,14 +22,14 @@ import {
 import { FaCross, FaPeopleArrows, FaSearch, FaTheaterMasks, FaUserAlt } from 'react-icons/fa'
 import { TbLocationFilled } from 'react-icons/tb'
 import { FiLogIn, FiSettings } from 'react-icons/fi'
-import { GrCircleQuestion, GrLanguage } from 'react-icons/gr'
+import { GrCircleQuestion} from 'react-icons/gr'
 import { HiDotsCircleHorizontal, HiOutlineUserAdd } from 'react-icons/hi'
 import { ImLibrary } from 'react-icons/im'
 import { BiNetworkChart, BiSearchAlt2, BiTime } from 'react-icons/bi'
 import { AiFillStar, AiOutlineStar, AiFillCheckCircle, AiOutlineAppstore, AiFillLike, AiFillDislike, AiFillExperiment, AiFillPicture } from 'react-icons/ai'
 import { TbTargetArrow } from 'react-icons/tb'
 import { RiComputerFill, RiFilePaperLine } from 'react-icons/ri'
-import { MdBrowserNotSupported, MdHistoryEdu, MdLanguage, MdQuiz } from 'react-icons/md';
+import { MdBrowserNotSupported, MdFeedback, MdHistoryEdu, MdLanguage, MdQuiz } from 'react-icons/md';
 import { GiEvilBook, GiThink } from 'react-icons/gi';
 
 const booksitoutIcon: { [key: string]: IconType } = {
@@ -105,8 +104,8 @@ const booksitoutIcon: { [key: string]: IconType } = {
 	membership: BsFillPersonVcardFill,
 
 	// admin
-	qna: BsFillQuestionCircleFill,
-	faq: BsArrowRepeat,
+	faq: BsFillQuestionCircleFill,
+	suggestion: MdFeedback,
 }
 
 export default booksitoutIcon

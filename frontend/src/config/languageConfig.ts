@@ -5,43 +5,17 @@ import chineseIcon from '../resources/images/book-classifications/languages/chin
 import frenchIcon from '../resources/images/book-classifications/languages/france.png'
 import spanishIcon from '../resources/images/book-classifications/languages/spain.png'
 
-const languageTextKoreanMap = new Map([
-	['ENGLISH', '영어'],
-	['KOREAN', '한국어'],
-	['JAPANESE', '일본어'],
-	['CHINESE', '중국어'],
-	['FRENCH', '프랑스어'],
-	['SPANISH', '스페인어'],
-])
-
-const languageImageMap = new Map([
-	['ENGLISH', englishIcon],
-	['KOREAN', koreanIcon],
-	['JAPANESE', japaneseIcon],
-	['CHINESE', chineseIcon],
-	['FRENCH', frenchIcon],
-	['SPANISH', spanishIcon],
-])
-
-const languageEmojiMap = new Map([
-	['ENGLISH', '🇺🇸'],
-	['KOREAN', '🇰🇷'],
-	['JAPANESE', '🇯🇵'],
-	['CHINESE', '🇨🇳'],
-	['FRENCH', '🇫🇷'],
-	['SPANISH', '🇪🇸'],
-])
-
 const white = '#FFFFFF'
+const black = '#000000'
 
-const languageConfig = new Map([
+const languageConfigMap = new Map([
 	[
 		'ENGLISH',
 		{
 			emoji: '🇺🇸',
 			korean: '영어',
 			image: englishIcon,
-			color: ['#0A3161', '#B31942', white],
+			color: ['#C8102E', '#012169'],
 			hoverColor: '',
 		},
 	],
@@ -51,7 +25,7 @@ const languageConfig = new Map([
 			emoji: '🇰🇷',
 			korean: '한국어',
 			image: koreanIcon,
-			color: ['#0F64CD', '#CD2E3A', white, '#000000'],
+			color: ['#CD2E3A', '#0F64CD', black],
 			hoverColor: '',
 		},
 	],
@@ -81,7 +55,7 @@ const languageConfig = new Map([
 			emoji: '🇫🇷',
 			korean: '프랑스어',
 			image: frenchIcon,
-			color: ['#002395', '#FFFFFF', '#ED2939'],
+			color: ['#002395', white, '#ED2939'],
 			hoverColor: '',
 		},
 	],
@@ -101,7 +75,7 @@ const languageConfig = new Map([
 			emoji: '🇩🇪',
 			korean: '독일어',
 			image: null,
-			color: ['#000000', '#DD0000', '#FFCC00'],
+			color: [black, '#DD0000', '#FFCC00'],
 			hoverColor: '',
 		},
 	],
@@ -127,21 +101,8 @@ const languageConfig = new Map([
 	],
 ])
 
-const getLanguageKoreanLabel = (language: string) => {
-	return languageTextKoreanMap.get(language) ?? '한국어'
+const languageConfig = (language: string) => {
+    return languageConfigMap.get(language) ?? languageConfigMap.get('KOREAN')
 }
 
-const getLangaugeImage = (language: string) => {
-	return languageImageMap.get(language) ?? koreanIcon
-}
-
-const getLanguageEmoji = (language: string) => {
-	return languageEmojiMap.get(language) ?? '🇰🇷'
-}
-
-const getLanguageConfig = (language: string) => {
-	return languageConfig.get(language) ?? languageConfig.get('UNKNOWN')
-}
-
-
-export { getLangaugeImage, getLanguageKoreanLabel, getLanguageEmoji, getLanguageConfig }
+export default languageConfig

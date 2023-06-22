@@ -9,7 +9,6 @@ import AdminRoute from './admin/AdminRoute'
 
 import IntroductionRoute from './info/IntroductionRoute'
 import FaqRoute from './info/FaqRoute'
-import QnaRoute, {loader as QnaLoader} from './info/QnaRoute'
 import FeatureRoute from './info/FeatureRoute'
 import TipsRoute from './community/tips/TipsRoute'
 import TipsDetail from './community/tips/TipsDetail'
@@ -69,90 +68,149 @@ import PwaRoute from './pwa/PwaRoute'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route path='/' element={<Root />}>
-			<Route path='*' element={<NotFound />} />
+		<Route path="/" element={<Root />}>
+			<Route path="*" element={<NotFound />} />
 
-			<Route path='/' element={<MainRoute />} />
+			<Route path="/" element={<MainRoute />} />
 
-			<Route path='/admin' element={<AdminRoute />} />
-			<Route path='/pwa' element={<PwaRoute />} />
+			<Route path="/admin" element={<AdminRoute />} />
+			<Route path="/pwa" element={<PwaRoute />} />
 
-			<Route path='/introduction' element={<IntroductionRoute />} />
-			<Route path='introduction/features' element={<FeatureRoute />} />
-			<Route path='introduction/tips/:range' element={<TipsRoute />} />
-			<Route path='introduction/tips/detail/:id' element={<TipsDetail />} />
+			<Route path="/introduction" element={<IntroductionRoute />} />
+			<Route path="introduction/features" element={<FeatureRoute />} />
+			<Route path="introduction/tips/:range" element={<TipsRoute />} />
+			<Route path="introduction/tips/detail/:id" element={<TipsDetail />} />
 
-			<Route path='/qna' element={<QnaRoute />} loader={QnaLoader} />
-			<Route path='/faq' element={<FaqRoute />} />
+			<Route path="/faq" element={<FaqRoute />} />
 
-			<Route path='/login' element={<LoginRoute />} />
-			<Route path='/login/oauth/:provider' element={<OAuth />} />
-			<Route path='/join' element={<JoinRoute />} />
+			<Route path="/login" element={<LoginRoute />} />
+			<Route path="/login/oauth/:provider" element={<OAuth />} />
+			<Route path="/join" element={<JoinRoute />} />
 
-			<Route path='/settings' element={<SettingsRoute />} />
-			<Route path='/settings/search' element={<SearchSettings />} />
-			<Route path='/settings/search/library' element={<SearchLibrarySettings />} />
-			<Route path='/settings/personal-info' element={<PersonalInfoSettings />} />
-			<Route path='/settings/community' element={<CommunitySettings />} />
-			<Route path='/settings/notification' element={<NotificationSettings />} />
+			<Route path="/settings" element={<SettingsRoute />} />
+			<Route path="/settings/search" element={<SearchSettings />} />
+			<Route path="/settings/search/library" element={<SearchLibrarySettings />} />
+			<Route path="/settings/personal-info" element={<PersonalInfoSettings />} />
+			<Route path="/settings/community" element={<CommunitySettings />} />
+			<Route path="/settings/notification" element={<NotificationSettings />} />
 
-			<Route path='/book/:range' element={<BookRoute />} errorElement={<ErrorPage/>} />
-			<Route path='/book/:range/:rangeDetail' element={<BookRoute />} errorElement={<ErrorPage/>} />
-			<Route path='/book/detail/:id' element={<BookDetail />} errorElement={<ErrorPage/>} />
-			<Route path='/book/add/:method' element={<AddBookRoute />} errorElement={<ErrorPage/>} />
-			<Route path='/book/edit/:id' element={<EditBookForm />} errorElement={<ErrorPage/>} />
+			<Route path="/book/:range" element={<BookRoute />} errorElement={<ErrorPage />} />
+			<Route path="/book/:range/:rangeDetail" element={<BookRoute />} errorElement={<ErrorPage />} />
+			<Route path="/book/detail/:id" element={<BookDetail />} errorElement={<ErrorPage />} />
+			<Route path="/book/add/:method" element={<AddBookRoute />} errorElement={<ErrorPage />} />
+			<Route path="/book/edit/:id" element={<EditBookForm />} errorElement={<ErrorPage />} />
 
-			<Route path='/reading' element={<ReadingNoId />} />
-			<Route path='/reading/:id' element={<ReadingRoute />} />
-			<Route path='/statistics' element={<StatisticsRoute />} />
-			<Route path='/goal' element={<GoalRoute />} />
+			<Route path="/reading" element={<ReadingNoId />} />
+			<Route path="/reading/:id" element={<ReadingRoute />} />
+			<Route path="/statistics" element={<StatisticsRoute />} />
+			<Route path="/goal" element={<GoalRoute />} />
 
-			<Route path='/search/:query' element={<SearchRoute />} />
+			<Route path="/search/:query" element={<SearchRoute />} />
 
-			<Route path='/community' element={<CommunityRoute />} errorElement={<ErrorPage />} />
-			<Route path='/community/:type/add' element={<AddCommunityRoute />} />
+			<Route path="/community" element={<CommunityRoute />} errorElement={<ErrorPage />} />
+			<Route path="/community/:type/add" element={<AddCommunityRoute />} />
 
-			<Route path='/community/post/all/:sortBy' element={<PostRoute />} errorElement={<ErrorPage />} loader={postRouteLoader} />
-			<Route path='/community/post/:postId' element={<PostDetail />} />
-			<Route path='/community/post/edit/:postId' element={<EditPostForm />} />
+			<Route
+				path="/community/post/all/:sortBy"
+				element={<PostRoute />}
+				errorElement={<ErrorPage />}
+				loader={postRouteLoader}
+			/>
+			<Route path="/community/post/:postId" element={<PostDetail />} />
+			<Route path="/community/post/edit/:postId" element={<EditPostForm />} />
 
-			<Route path='/community/quiz' element={<></>} />
-			<Route path='/community/quiz/:quizId' element={<></>} />
-			<Route path='/community/quiz/edit/:quizId' element={<></>} />
+			<Route path="/community/quiz" element={<></>} />
+			<Route path="/community/quiz/:quizId" element={<></>} />
+			<Route path="/community/quiz/edit/:quizId" element={<></>} />
 
-			<Route path='/community/survey' element={<></>} />
-			<Route path='/community/survey/:surveyId' element={<></>} />
-			<Route path='/community/survey/edit/:surveyId' element={<></>} />
+			<Route path="/community/survey" element={<></>} />
+			<Route path="/community/survey/:surveyId" element={<></>} />
+			<Route path="/community/survey/edit/:surveyId" element={<></>} />
 
-			<Route path='/community/gathering/:type' element={<GatheringRoute />} errorElement={<ErrorPage />} loader={gatheringRouteLoader} />
-			<Route path='/community/gathering/detail/:id' element={<GatheringDetail />} errorElement={<ErrorPage />} loader={gatheringDetailLoader} />
-			<Route path='/community/gathering/edit/:id' element={<></>} />
-			<Route path='/community/gathering/join/:id' element={<GatheringJoinForm />} errorElement={<ErrorPage />} loader={gatheringJoinLoader} />
+			<Route
+				path="/community/gathering/:type"
+				element={<GatheringRoute />}
+				errorElement={<ErrorPage />}
+				loader={gatheringRouteLoader}
+			/>
+			<Route
+				path="/community/gathering/detail/:id"
+				element={<GatheringDetail />}
+				errorElement={<ErrorPage />}
+				loader={gatheringDetailLoader}
+			/>
+			<Route path="/community/gathering/edit/:id" element={<></>} />
+			<Route
+				path="/community/gathering/join/:id"
+				element={<GatheringJoinForm />}
+				errorElement={<ErrorPage />}
+				loader={gatheringJoinLoader}
+			/>
 
-			<Route path='/book/info/:isbn' element={<BookInfoRoute />} errorElement={<ErrorPage />} loader={bookInfoRouteLoader} />
-			<Route path='/book/info/:isbn/related-posts' element={<></>} />
-			<Route path='/book/info/:isbn/covers' element={<></>} />
+			<Route
+				path="/book/info/:isbn"
+				element={<BookInfoRoute />}
+				errorElement={<ErrorPage />}
+				loader={bookInfoRouteLoader}
+			/>
+			<Route path="/book/info/:isbn/related-posts" element={<></>} />
+			<Route path="/book/info/:isbn/covers" element={<></>} />
 
-			<Route path='/user/:nickName' element={<UserRoute />} errorElement={<ErrorPage />} loader={userRouteLoader} />
-			<Route path='/user/:nickName/books' element={<UserBookList />} errorElement={<ErrorPage />} loader={userBookListLoader} />
-			<Route path='/user/:nickName/posts' element={<UserPostList />} errorElement={<ErrorPage />} loader={userPostListLoader} />
+			<Route
+				path="/user/:nickName"
+				element={<UserRoute />}
+				errorElement={<ErrorPage />}
+				loader={userRouteLoader}
+			/>
+			<Route
+				path="/user/:nickName/books"
+				element={<UserBookList />}
+				errorElement={<ErrorPage />}
+				loader={userBookListLoader}
+			/>
+			<Route
+				path="/user/:nickName/posts"
+				element={<UserPostList />}
+				errorElement={<ErrorPage />}
+				loader={userPostListLoader}
+			/>
 
-			<Route path='/user/:nickName/quizes' element={<></>} />
-			<Route path='/user/:nickName/surveys' element={<></>} />
-			<Route path='/user/:nickName/gatherings' element={<></>} />
+			<Route path="/user/:nickName/quizes" element={<></>} />
+			<Route path="/user/:nickName/surveys" element={<></>} />
+			<Route path="/user/:nickName/gatherings" element={<></>} />
 
-			<Route path='/library' element={<LibraryRoute />} />
-			<Route path='/library/detail/:id' element={<LibraryDetail />} errorElement={<ErrorPage />} loader={libraryDetailLoader} />
-			<Route path='/library/near' element={<LibraryNearRoute />} />
-			<Route path='/library/region/:region/:regionDetail' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionLoader} />
-			<Route path='/library/region/:region' element={<LibraryRegionRoute />} errorElement={<ErrorPage />} loader={libraryRegionLoader} />
+			<Route path="/library" element={<LibraryRoute />} />
+			<Route
+				path="/library/detail/:id"
+				element={<LibraryDetail />}
+				errorElement={<ErrorPage />}
+				loader={libraryDetailLoader}
+			/>
+			<Route path="/library/near" element={<LibraryNearRoute />} />
+			<Route
+				path="/library/region/:region/:regionDetail"
+				element={<LibraryRegionRoute />}
+				errorElement={<ErrorPage />}
+				loader={libraryRegionLoader}
+			/>
+			<Route
+				path="/library/region/:region"
+				element={<LibraryRegionRoute />}
+				errorElement={<ErrorPage />}
+				loader={libraryRegionLoader}
+			/>
 
-			<Route path='/library/membership/all' element={<MembershipRoute />} />
-			<Route path='/library/membership/:id' element={<MembershipDetail />} />
-			<Route path='/library/membership/add/:method' element={<MembershipAddForm />} />
-			<Route path='/library/membership/edit/:id' element={<MembershipEditRoute />} errorElement={<ErrorPage />} loader={membershipEditLoader} />
-		</Route>
-	)
+			<Route path="/library/membership/all" element={<MembershipRoute />} />
+			<Route path="/library/membership/:id" element={<MembershipDetail />} />
+			<Route path="/library/membership/add/:method" element={<MembershipAddForm />} />
+			<Route
+				path="/library/membership/edit/:id"
+				element={<MembershipEditRoute />}
+				errorElement={<ErrorPage />}
+				loader={membershipEditLoader}
+			/>
+		</Route>,
+	),
 )
 
 function App() {

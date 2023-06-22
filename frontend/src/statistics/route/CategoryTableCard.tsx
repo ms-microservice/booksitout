@@ -7,6 +7,7 @@ import AllButton from '../../common/AllButton';
 import Error from '../../common/Error';
 import PieChart from '../PieChart';
 import styled from 'styled-components';
+import categoryConfig from '../../config/categoryConfig';
 
 const CategoryTableCard = ({ categoryData }) => {
 	const [show, setShow] = React.useState(false)
@@ -20,7 +21,6 @@ const CategoryTableCard = ({ categoryData }) => {
 
 				<Modal.Body>
 					<CategoryTable categoryData={categoryData} />
-					<div className="mb-5" />
 				</Modal.Body>
 			</Modal>
 
@@ -36,9 +36,9 @@ const CategoryTableCard = ({ categoryData }) => {
 								<div className="col-12">
 									<PieContainer>
 										<PieChart
-											labels={categoryData.map(c => c.category)}
+											labels={categoryData.map(c => categoryConfig(c.category)?.korean)}
 											data={categoryData.map(c => c.doneCategory + c.notDoneCategory)}
-											background={[]}
+											background={categoryData.map(c => categoryConfig(c.category)?.color)}
 											size={250}
 										/>
 									</PieContainer>

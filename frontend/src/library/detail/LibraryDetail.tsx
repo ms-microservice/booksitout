@@ -10,6 +10,7 @@ import utils from '../../functions/utils'
 import LibraryTextWithIcon from '../LibraryTextWithIcon'
 import LibraryDetailSearchBookCard from './LibraryDetailSearchBookCard'
 import toast from 'react-hot-toast'
+import RouteContainer from '../../common/RouteContainer'
 
 export async function loader({ params }) {
 	const id = params.id
@@ -23,11 +24,11 @@ export async function loader({ params }) {
 }
 
 const LibraryDetail = () => {
-    const library = useLoaderData() as LibraryType
-    document.title = `${library.name} | 책잇아웃`
+	const library = useLoaderData() as LibraryType
+	document.title = `${library.name} | 책잇아웃`
 
-    const mapElement = React.useRef(null);
-    React.useEffect(() => {
+	const mapElement = React.useRef(null)
+	React.useEffect(() => {
 		const { naver } = window
 		if (!mapElement.current || !naver) return
 
@@ -46,44 +47,55 @@ const LibraryDetail = () => {
 	const copyText = (text: string) => {
 		var tempTextarea = document.createElement('textarea')
 		tempTextarea.value = text
-		document.body.appendChild(tempTextarea);
-		
-		tempTextarea.select();
-		document.execCommand("copy");
+		document.body.appendChild(tempTextarea)
 
-		document.body.removeChild(tempTextarea);
+		tempTextarea.select()
+		document.execCommand('copy')
+
+		document.body.removeChild(tempTextarea)
 
 		toast.success('주소를 복사했어요')
 	}
 
-    return (
-		<div className='container-xl'>
-			<Card className='mb-3'>
+	return (
+		<RouteContainer>
+			<Card className="mb-3">
 				<Card.Body>
-					<div className='row justify-content-end'>
-						<div className='col-12 col-md-9'>
+					<div className="row justify-content-end">
+						<div className="col-12 col-md-9">
 							<h2>{library.name}</h2>
 						</div>
 
-						<div className='col-8 col-md-3 mb-4 mb-md-0 mt-2 mt-md-0'>
+						<div className="col-8 col-md-3 mb-4 mb-md-0 mt-2 mt-md-0">
 							<Card>
 								<Card.Body>
 									<a
 										href={`/library/region/${library.location.name.regionEnglishName.toLowerCase()}/${library.location.name.regionDetailEnglishName.toLowerCase()}`}
-										className='d-flex align-items-center'>
-										<img src={library.location.logo} alt='' style={{ height: '40px' }} className='rounded' />
-										<h5 className='ms-2 w-100 text-center mb-0'>{library.location.name.displayName}</h5>
+										className="d-flex align-items-center"
+									>
+										<img
+											src={library.location.logo}
+											alt=""
+											style={{ height: '40px' }}
+											className="rounded"
+										/>
+										<h5 className="ms-2 w-100 text-center mb-0">
+											{library.location.name.displayName}
+										</h5>
 									</a>
 								</Card.Body>
 							</Card>
 						</div>
 					</div>
 
-					<div className='ms-md-5'>
+					<div className="ms-md-5">
 						<LibraryTextWithIcon
 							icon={<LocationIcon />}
 							text={
-								<div onClick={() => copyText(library.location.address)} className='clickable hover-primary clamp-1-line'>
+								<div
+									onClick={() => copyText(library.location.address)}
+									className="clickable hover-primary clamp-1-line"
+								>
 									{library.location.address}
 								</div>
 							}
@@ -91,7 +103,7 @@ const LibraryDetail = () => {
 						<LibraryTextWithIcon
 							icon={<PhoneIcon />}
 							text={
-								<a href={`tel:${library.phone}`} className='a-secondary'>
+								<a href={`tel:${library.phone}`} className="a-secondary">
 									{library.phone}
 								</a>
 							}
@@ -99,13 +111,16 @@ const LibraryDetail = () => {
 						<LibraryTextWithIcon
 							icon={<HomePageIcon />}
 							text={
-								<a href={library.homepage} target='_blank' rel='noreferrer' className='a-secondary'>
+								<a href={library.homepage} target="_blank" rel="noreferrer" className="a-secondary">
 									{library.homepage?.substring(library.homepage.indexOf('://') + 3)}
 								</a>
 							}
 						/>
 
-						<LibraryTextWithIcon icon={<BookIcon />} text={`${utils.insertCommas(library.bookCount)} 권` ?? '?'} />
+						<LibraryTextWithIcon
+							icon={<BookIcon />}
+							text={`${utils.insertCommas(library.bookCount)} 권` ?? '?'}
+						/>
 						<LibraryTextWithIcon icon={<TimeIcon />} text={`휴무) ${library.openDay}`} />
 					</div>
 				</Card.Body>
@@ -113,14 +128,14 @@ const LibraryDetail = () => {
 
 			<Card>
 				<Card.Body>
-					<div ref={mapElement} style={{ width: '100%', height: '400px', zIndex: 1 }} className='rounded' />
+					<div ref={mapElement} style={{ width: '100%', height: '400px', zIndex: 1 }} className="rounded" />
 				</Card.Body>
 			</Card>
-			<div className='mb-3' />
+			<div className="mb-3" />
 
 			<LibraryDetailSearchBookCard library={library} />
-			<div className='mb-3' />
-		</div>
+			<div className="mb-3" />
+		</RouteContainer>
 	)
 }
 

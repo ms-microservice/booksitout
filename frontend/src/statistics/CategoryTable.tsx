@@ -1,7 +1,7 @@
 import React from 'react'
 import Error from '../common/Error'
-import { getCategoryKoreanDisplayName } from '../functions/category'
 import booksitoutIcon from '../common/icons/booksitoutIcon'
+import categoryConfig from '../config/categoryConfig'
 
 const CategoryTable = ({ categoryData }) => {
 	const categoryReactIconMap: Map<string, any> = new Map([
@@ -41,11 +41,18 @@ const CategoryTable = ({ categoryData }) => {
 							return (
 								<tr className="text-center">
 									<td className="col-2">
-										<h2 className="mt-1 mb-3 text-book">{getCategoryReactIcon(category.category)}</h2>
+										<h2
+											className="mt-1 mb-3"
+											style={{
+												color: categoryConfig(category.category)?.color[0],
+											}}
+										>
+											{getCategoryReactIcon(category.category)}
+										</h2>
 									</td>
 
 									<td className="col-2">
-										<h5 className="mb-3 mt-3">{getCategoryKoreanDisplayName(category.category)}</h5>
+										<h5 className="mb-3 mt-3">{categoryConfig(category.category)?.korean}</h5>
 									</td>
 
 									<td className="col-4">

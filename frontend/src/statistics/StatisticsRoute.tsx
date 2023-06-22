@@ -19,25 +19,17 @@ const StatisticsRoute = () => {
 	document.title = '통계 | 책잇아웃'
 
 	const isLogin = useSelector((state: RootState) => state.user.isLogin)
-	const [initialFetch, setInitialFetch] = React.useState(true)
 	const [isLoading, setIsLoading] = React.useState(true)
 	const [readTimeList, setReadTimeList] = React.useState(null)
 	const [languageData, setLanguageData] = React.useState(null)
 	const [categoryData, setCategoryData] = React.useState(null)
 
 	React.useEffect(() => {
-		setTimeout(() => {
-			setInitialFetch(false)
-		}, 3000)
-
 		Promise.all([
-			getReadTime(30).then((readTime) => setReadTimeList(readTime)),
-			getLangaugeStatistics().then((languageStats) => setLanguageData(languageStats)),
-			getCategoryStatistics().then((categoryStats) => setCategoryData(categoryStats)),
-		]).finally(() => {
-			setInitialFetch(false)
-			setIsLoading(false)
-		})
+			getReadTime(30).then(readTime => setReadTimeList(readTime)),
+			getLangaugeStatistics().then(languageStats => setLanguageData(languageStats)),
+			getCategoryStatistics().then(categoryStats => setCategoryData(categoryStats)),
+		]).finally(() => setIsLoading(false))
 	}, [])
 
 	return (
@@ -49,8 +41,6 @@ const StatisticsRoute = () => {
 					title="내 독서활동에 대한 통계를 보시려면 로그인 해 주세요"
 					subtitle="독서시간 그래프, 평균 독서시간, 언어별, 장르별 독서 현황을 볼 수 있어요"
 				/>
-			) : initialFetch ? (
-				<></>
 			) : isLoading ? (
 				<Loading />
 			) : (
@@ -93,10 +83,8 @@ const StatisticsSummaryContainer = styled.div.attrs({
 })``
 
 const BookSummaryContainer = styled.div.attrs({
-  className: 'col-12 col-xl-4 mb-4'
-})`
-  
-`;
+	className: 'col-12 col-xl-4 mb-4',
+})``
 
 const StatisticsCardContainer = styled.div.attrs({
 	className: 'col-12 col-md-6 mb-4',

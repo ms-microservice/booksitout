@@ -5,11 +5,11 @@ import CardTitle from '../../common/CardTitle'
 import { MdOutlineLanguage as LanguageIcon } from 'react-icons/md'
 import styled from 'styled-components';
 import { Chart, ArcElement } from 'chart.js'
-import { getLanguageConfig } from '../../functions/language'
 import AllButton from '../../common/AllButton'
 import PieChart from '../PieChart'
 import { LanguageType } from '../../types/StatisticsType'
 import Error from '../../common/Error';
+import languageConfig from '../../config/languageConfig'
 
 const LanguageSummaryCard = ({ languageData }) => {
 	Chart.register(ArcElement);
@@ -28,9 +28,9 @@ const LanguageSummaryCard = ({ languageData }) => {
 		)
 	}, [])
 
-	const pieLabel = languageSorted == null ? [] : languageSorted.map(l => l.language)
+	const pieLabel = languageSorted == null ? [] : languageSorted.map(l => languageConfig(l.language)?.korean ?? '')
 	const pieData = languageSorted == null ? [] : languageSorted.map(l => l.doneBook + l.notDoneBook)
-	const pieColor = languageSorted == null ? [] : languageSorted.map(l => getLanguageConfig(l.language)?.color ?? [])
+	const pieColor = languageSorted == null ? [] : languageSorted.map(l => languageConfig(l.language)?.color ?? [])
 
 	return (
 		<>
@@ -59,9 +59,7 @@ const LanguageSummaryCard = ({ languageData }) => {
 									</PieContainer>
 								</div>
 
-								<div className="col-4">
-
-								</div>
+								<div className="col-4"></div>
 							</div>
 
 							<AllButton url="" onClick={() => setShow(true)} />

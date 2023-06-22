@@ -68,7 +68,7 @@ const HorizontalBookView = ({
 					<img
 						id="book-cover"
 						className={`img-fluid rounded  ${book.cover !== '' && 'border'}`}
-						src={book.cover === '' ? defaultBookCover : book.cover}
+						src={book.cover === '' || book.cover == null ? defaultBookCover : book.cover}
 						alt=""
 					/>
 				</div>
