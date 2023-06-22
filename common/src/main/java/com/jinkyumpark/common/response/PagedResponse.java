@@ -3,17 +3,18 @@ package com.jinkyumpark.common.response;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Getter
-@AllArgsConstructor @Builder
+@NoArgsConstructor @AllArgsConstructor @Builder
 public class PagedResponse<T> {
 
-    private final boolean first;
-    private final boolean last;
+    private boolean first;
+    private boolean last;
 
-    private final int totalElements;
-    private final int totalPages;
+    private int totalElements;
+    private int totalPages;
 
-    private final T content;
+    private T content;
 
 }
