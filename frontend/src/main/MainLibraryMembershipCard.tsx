@@ -28,7 +28,7 @@ const MainLibraryMembershipCard = () => {
 
 	return (
 		<Card className="h-100" style={{ minHeight: '420px', maxHeight: '420px' }}>
-			<AddButton onClick={() => navigate('/library/membership/add/image')} />
+			<AddButton onClick={() => navigate('/add/membership/image')} />
 
 			<Card.Body className="h-100">
 				<a href="/library/membership/all" className="text-black h-100">

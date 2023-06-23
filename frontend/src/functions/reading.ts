@@ -32,7 +32,7 @@ const endReadingSessionWithoutSaving = () => {
 const endReadingSession = (book, endPage: number) => {
 	const readingTime = Math.round(Number(localStorage.getItem('reading-session-time')) ?? 1)
 	return axios
-		.put(urls.api.reading.edit.end(book.bookId, endPage, readingTime), null, { headers: apiSettings.headers })
+		.put(urls.api.reading.edit.end(book.id, endPage, readingTime), null, { headers: apiSettings.headers })
 		.then((res) => {
 			if (res.status === 200) {
 				return res.data

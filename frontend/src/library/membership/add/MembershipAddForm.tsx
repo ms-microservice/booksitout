@@ -10,7 +10,7 @@ const MembershipAddForm = () => {
     const { method } = useParams()
 
     return (
-		<div className='container-xl'>
+		<>
 			<ScrollToTop />
 			
 			<MembershipAddMethodButtonGroup method={method} />
@@ -18,7 +18,7 @@ const MembershipAddForm = () => {
 			<div className='mt-4' />
 
 			{method === 'image' ? <MembershipAddFormImage /> : method === 'manual' ? <MembershipAddFormManual /> : <></>}
-		</div>
+		</>
 	)
 }
 

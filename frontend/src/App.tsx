@@ -65,6 +65,7 @@ import MembershipAddForm from './library/membership/add/MembershipAddForm'
 import MembershipEditRoute, {loader as membershipEditLoader} from './library/membership/edit/MembershipEditRoute'
 
 import PwaRoute from './pwa/PwaRoute'
+import AddRoute from './common/add/AddRoute'
 
 const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -97,7 +98,6 @@ const router = createBrowserRouter(
 			<Route path="/book/:range" element={<BookRoute />} errorElement={<ErrorPage />} />
 			<Route path="/book/:range/:rangeDetail" element={<BookRoute />} errorElement={<ErrorPage />} />
 			<Route path="/book/detail/:id" element={<BookDetail />} errorElement={<ErrorPage />} />
-			<Route path="/book/add/:method" element={<AddBookRoute />} errorElement={<ErrorPage />} />
 			<Route path="/book/edit/:id" element={<EditBookForm />} errorElement={<ErrorPage />} />
 
 			<Route path="/reading" element={<ReadingNoId />} />
@@ -108,7 +108,6 @@ const router = createBrowserRouter(
 			<Route path="/search/:query" element={<SearchRoute />} />
 
 			<Route path="/community" element={<CommunityRoute />} errorElement={<ErrorPage />} />
-			<Route path="/community/:type/add" element={<AddCommunityRoute />} />
 
 			<Route
 				path="/community/post/all/:sortBy"
@@ -202,13 +201,18 @@ const router = createBrowserRouter(
 
 			<Route path="/library/membership/all" element={<MembershipRoute />} />
 			<Route path="/library/membership/:id" element={<MembershipDetail />} />
-			<Route path="/library/membership/add/:method" element={<MembershipAddForm />} />
 			<Route
 				path="/library/membership/edit/:id"
 				element={<MembershipEditRoute />}
 				errorElement={<ErrorPage />}
 				loader={membershipEditLoader}
 			/>
+
+			<Route path="/add" element={<AddRoute />}>
+				<Route path="book/:method" element={<AddBookRoute />} errorElement={<ErrorPage />} />
+				<Route path=":type" element={<AddCommunityRoute />} />
+				<Route path="membership/:method" element={<MembershipAddForm />} />
+			</Route>
 		</Route>,
 	),
 )

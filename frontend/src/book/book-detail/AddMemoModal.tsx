@@ -35,7 +35,7 @@ const AddMemoModal = ({ modalOpen, setModalOpen, book, memoList, setMemoList }) 
 			content: content,
 		}
 
-		addMemo(newMemo, book.bookId).then((success) => {
+		addMemo(newMemo, book.id).then((success) => {
 			if (success) {
 				toast.success('메모를 추가했어요')
 				setMemoList([...memoList, newMemo])

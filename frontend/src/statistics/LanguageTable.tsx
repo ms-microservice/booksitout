@@ -27,11 +27,13 @@ const LanguageTable = ({ languageData }) => {
 							return (
 								<tr>
 									<td className="col-2 col-1 text-center align-items-center">
-										<h1 className="mt-1">{getLanguageConfig(language.language)?.emoji}</h1>
+										<h1 className="mt-2">{getLanguageConfig(language.language)?.emoji}</h1>
 									</td>
 
 									<td className="col-3">
-										<h5 className="mt-3">{getLanguageConfig(language.language)?.korean}</h5>
+										<h5 className="mt-3 force-1-line">
+											{getLanguageConfig(language.language)?.korean}
+										</h5>
 									</td>
 
 									<td className="col-4">

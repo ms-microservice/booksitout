@@ -9,8 +9,11 @@ import { booksitoutServer } from '../../functions/axios'
 import { GatheringType } from '../../community/gathering/GatheringType'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
 import AddButton from '../../common/AddButton'
+import { useNavigate } from 'react-router-dom'
 
 const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500px', col = 'col-12 col-md-6 col-xl-4' }) => {
+	const navigate = useNavigate()
+
 	const [gatheringList, setGatheringList] = React.useState<GatheringType[] | null>(null)
 	React.useEffect(() => {
 		booksitoutServer
@@ -23,7 +26,7 @@ const CommunityRouteGatheringCard = ({ title = '독서모임', minHeight = '500p
 
 	return (
 		<Card style={{ minHeight: minHeight }} className="h-100">
-			<AddButton />
+			<AddButton onClick={() => navigate('/add/gathering')}/>
 
 			<a href="/community/gathering/all" className="text-black h-100">
 				<Card.Body className="h-100">

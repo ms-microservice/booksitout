@@ -64,7 +64,7 @@ const BookList = ({ range, rangeDetail }) => {
 				if (isLoadingDone) {
 					setLoading(false)
 				}
-			}, 500)
+			}, 100)
 
 			getBookList(rangeApi(), 0, fetchSize)
 				.then(pageList => {
@@ -88,15 +88,6 @@ const BookList = ({ range, rangeDetail }) => {
 			.finally(() => {
 				setCurrentPage(currentPage + 1)
 			})
-	}
-
-	if (!isLogin) {
-		return (
-			<Boarding
-				title="내 책을 관리하려면 로그인 해 주세요"
-				subtitle="내가 읽고 있는 책, 다 읽은 책을 쉽게 관리하고 남은 독서시간을 예측해줘요"
-			/>
-		)
 	}
 
 	if (loading) {

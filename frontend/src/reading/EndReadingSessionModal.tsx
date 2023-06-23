@@ -69,11 +69,10 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 			return
 		}
 
-
 		toast.loading('독서활동을 저장하고 있어요')
 		endReadingSession(book, isPercentMode ? percentEndPage : endPage).then((success) => {
 			if (success) {
-				navigate(`/book/detail/${book.bookId}`)
+				navigate(`/book/detail/${book.id}`)
 			} else {
 				toast.error(messages.error)
 			}
@@ -88,7 +87,7 @@ const EndReadingSessionModal = ({ isShowingModal, setIsShowingModal, book }) => 
 				if (success) {
 					dispatch(stopTimer())
 					toast.success(messages.reading.delete.success.notSaving)
-					navigate(`/book/detail/${book.bookId}`)
+					navigate(`/book/detail/${book.id}`)
 				} else {
 					toast.error(messages.error)
 				}

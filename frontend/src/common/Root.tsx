@@ -7,7 +7,6 @@ import TimerSettings from '../settings/TimerSettings'
 import Topnav from '../common/topnav/Topnav'
 import BookFloatingButton from './BookFloatingButton'
 import TimerFloatingButton from './TimerFloatingButton'
-import CommunityFloatingButton from './CommunityFloatingButton'
 
 const Root = () => {
     return (
@@ -23,10 +22,9 @@ const Root = () => {
 			<Outlet />
 
 			<TimerFloatingButton />
-			<CommunityFloatingButton />
 			<BookFloatingButton />
 
-			<div className="pb-4"/>
+			<div className="pb-4" />
 		</>
 	)
 }

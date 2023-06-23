@@ -71,6 +71,7 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 	}
 
 	const refreshLocation = () => {
+		setLocationName(null)
 		toast.loading('위치를 가져오고 있어요')
 		getLocationNoCache().then((result) =>
 			result ? toast.success('위치를 업데이트 했어요') : toast.error('위치를 가져올 수 없었어요. 잠시 후 다시 시도해 주세요')
@@ -87,11 +88,7 @@ const LibraryNearCard = ({ col = 'col-12 col-md-6', moreButton=true, size=6, mt=
 
 			<a href="/library/near" className="text-black h-100">
 				<Card.Body>
-					<CardTitle
-						icon={<booksitoutIcon.location />}
-						title={'내 주변 도서관'}
-						subTitle={locationName ?? ''}
-					/>
+					<CardTitle icon={<booksitoutIcon.location />} title={'내 주변 도서관'} subTitle={locationName} />
 
 					<LibraryContainer>
 						{initialFetch ? (

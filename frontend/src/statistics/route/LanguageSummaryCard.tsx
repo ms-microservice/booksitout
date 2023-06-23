@@ -17,8 +17,6 @@ const LanguageSummaryCard = ({ languageData }) => {
 
 	const [languageSorted, setLanguageSorted] = React.useState<LanguageType[] | null>(null)
 	React.useEffect(() => {
-		console.log(languageData)
-
 		setLanguageSorted(
 			languageData == null
 				? []

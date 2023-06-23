@@ -42,7 +42,7 @@ const CategoryTable = ({ categoryData }) => {
 								<tr className="text-center">
 									<td className="col-2">
 										<h2
-											className="mt-1 mb-3"
+											className="mt-2 mb-3"
 											style={{
 												color: categoryConfig(category.category)?.color[0],
 											}}

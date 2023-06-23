@@ -4,6 +4,8 @@ import toast from 'react-hot-toast'
 import { booksitoutServer } from '../../../../functions/axios'
 import { useNavigate } from 'react-router-dom'
 import MembershipAddFormManualTypeSearchCard from './MembershipAddFormManualTypeSearchCard'
+import CardTitle from '../../../../common/CardTitle'
+import booksitoutIcon from '../../../../common/icons/booksitoutIcon';
 
 const MembershipAddFormManual = () => {
 	const navigate = useNavigate()
@@ -40,37 +42,39 @@ const MembershipAddFormManual = () => {
     }
 
     return (
-		<Card style={{ minHeight: '725px' }} className='mb-5'>
+		<Card style={{ minHeight: '725px' }} className="mb-5">
 			<Card.Body>
+				<CardTitle icon={<booksitoutIcon.membership />} title={'회원증 직접 추가하기'} />
+
 				<Form onSubmit={handleSubmit}>
-					<div className='mt-4' />
-					<div className='d-flex align-items-center'>
+					<div className="mt-4" />
+					<div className="d-flex align-items-center">
 						<Form.Label>도서관 회원증 번호</Form.Label>
-						<h6 className='ms-3 text-book'>{membershipNumber.length}</h6>
+						<h6 className="ms-3 text-book">{membershipNumber.length}</h6>
 					</div>
 					<Form.Control
-						id='membership-number-input'
-						type='number'
-						inputMode='numeric'
-						pattern='[0-9]*'
+						id="membership-number-input"
+						type="number"
+						inputMode="numeric"
+						pattern="[0-9]*"
 						autoFocus
-						onChange={(e) => setMembershipNumber(e.target.value)}
-						placeholder='보통 13자리인 도서관 회원증 번호'
+						onChange={e => setMembershipNumber(e.target.value)}
+						placeholder="보통 13자리인 도서관 회원증 번호"
 					/>
 
-					<div className='mt-4' />
+					<div className="mt-4" />
 					<Form.Label>종류</Form.Label>
 					<div style={{ minHeight: '200px' }}>
 						<MembershipAddFormManualTypeSearchCard typeId={typeId} setTypeId={setTypeId} />
 					</div>
 
-					<div className='mt-4' />
+					<div className="mt-4" />
 					<Form.Label>메모</Form.Label>
-					<Form.Control onChange={(e) => setMemo(e.target.value)} />
+					<Form.Control onChange={e => setMemo(e.target.value)} />
 
-					<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '20px' }}>
-						<div className='col-12 col-md-6'>
-							<Button type='submit' variant='book' className='w-100'>
+					<div className="row justify-content-center w-100" style={{ position: 'absolute', bottom: '20px' }}>
+						<div className="col-12 col-md-6">
+							<Button type="submit" variant="book" className="w-100">
 								회원증 추가하기
 							</Button>
 						</div>

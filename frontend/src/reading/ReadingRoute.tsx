@@ -19,6 +19,7 @@ import messages from '../settings/messages'
 import { RootState } from '../redux/store'
 import { BookUserType } from '../types/BookType'
 import { MemoType } from '../types/MemoType'
+import RouteContainer from '../common/RouteContainer'
 
 const ReadingRoute = () => {
 	const { id } = useParams()
@@ -63,12 +64,12 @@ const ReadingRoute = () => {
 						}
 					})
 				} else {
-					if (Number(id) !== Number(book.bookId)) {
+					if (Number(id) !== Number(book.id)) {
 						toast.error('진행중인 독서활동이 있어요')
-						navigate(`/reading/${book.bookId}`)
+						navigate(`/reading/${book.id}`)
 					}
 
-					getMemoListOfBook(book.bookId).then((memos) => setMemoList(memos))
+					getMemoListOfBook(book.bookId).then(memos => setMemoList(memos))
 					setBook(book)
 				}
 			})
@@ -79,8 +80,12 @@ const ReadingRoute = () => {
 	}, [dispatch, id, navigate])
 
 	return (
-		<div className='container' style={{ marginBottom: '100px' }}>
-			<EndReadingSessionModal isShowingModal={isEndReadingSessionModalOpen} setIsShowingModal={setIsEndReadingSessionModalOpen} book={book} />
+		<RouteContainer>
+			<EndReadingSessionModal
+				isShowingModal={isEndReadingSessionModalOpen}
+				setIsShowingModal={setIsEndReadingSessionModalOpen}
+				book={book}
+			/>
 			<MemoDetailModal
 				isModalOpen={isMemoDetailModalOpen}
 				setIsModalOpen={setIsMemoDetailModalOpen}
@@ -98,30 +103,33 @@ const ReadingRoute = () => {
 				<Error />
 			) : (
 				book != null && (
-					<div className='row justify-content-center text-center'>
-						<div className='col-8 col-lg-6 col-xl-4'>
+					<div className="row justify-content-center text-center">
+						<div className="col-8 col-lg-6 col-xl-4">
 							<img
 								src={book.cover == null || book.cover === '' ? defaultBookCover : book.cover}
-								alt=''
-								className={`img-fluid rounded w-100 ${book.cover == null || book.cover === '' ? '' : 'border'}`}
+								alt=""
+								className={`img-fluid rounded w-100 ${
+									book.cover == null || book.cover === '' ? '' : 'border'
+								}`}
 							/>
 							<Button
-								variant='secondary'
-								className='w-100 mt-3'
+								variant="secondary"
+								className="w-100 mt-3"
 								onClick={() => {
 									navigate(`/book/detail/${id}`)
-								}}>
+								}}
+							>
 								책 상세 페이지로
 							</Button>
 						</div>
 
-						<div className='col-12 col-lg-12 col-xl-8 mt-5 mb-5'>
-							<div className='mb-5'>
+						<div className="col-12 col-lg-12 col-xl-8 mt-5 mb-5">
+							<div className="mb-5">
 								<h2>{book.title}</h2>
-								<h4 className='text-muted'>{book.author}</h4>
+								<h4 className="text-muted">{book.author}</h4>
 
-								<div className='row justify-content-center'>
-									<div className='col-11 col-md-9'>
+								<div className="row justify-content-center">
+									<div className="col-11 col-md-9">
 										<PageProgressBar book={book} />
 									</div>
 								</div>
@@ -129,22 +137,30 @@ const ReadingRoute = () => {
 
 							<Timer />
 
-							<div className='row justify-content-center mb-4 mt-4'>
-								<div className='col-6 col-lg-4'>
-									<Button variant='book' className='w-100' onClick={() => showEndReadingSessionModal()}>
+							<div className="row justify-content-center mb-4 mt-4">
+								<div className="col-6 col-lg-4">
+									<Button
+										variant="book"
+										className="w-100"
+										onClick={() => showEndReadingSessionModal()}
+									>
 										독서 끝내기
 									</Button>
 								</div>
 
-								<div className='col-6 col-lg-4'>
-									<Button variant={isTimerOn ? 'outline-danger' : 'outline-book'} className='w-100' onClick={() => dispatch(toggleTimer())}>
+								<div className="col-6 col-lg-4">
+									<Button
+										variant={isTimerOn ? 'outline-danger' : 'outline-book'}
+										className="w-100"
+										onClick={() => dispatch(toggleTimer())}
+									>
 										{isTimerOn ? '잠시 정지' : '다시 시작'}
 									</Button>
 								</div>
 							</div>
 
-							<div className='row justify-content-center mb-4'>
-								<div className='col-12 col-lg-10 mt-3'>
+							<div className="row justify-content-center mb-4">
+								<div className="col-12 col-lg-10 mt-3">
 									<MemoCard
 										book={book}
 										memoList={memoList}
@@ -158,7 +174,7 @@ const ReadingRoute = () => {
 					</div>
 				)
 			)}
-		</div>
+		</RouteContainer>
 	)
 }
 

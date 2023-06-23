@@ -28,6 +28,7 @@ import BookDetailMemoCard from './memo/BookDetailMemoCard'
 import RouteContainer from '../../common/RouteContainer'
 import RouteTitle from '../../common/RouteTitle'
 import booksitoutIcon from '../../common/icons/booksitoutIcon';
+import categoryConfig from '../../config/categoryConfig'
 
 const BookDetail = () => {
 	const { id } = useParams()
@@ -434,38 +435,97 @@ const BookDescription = ({ book }) => {
 	const infoIconStyle = `col-4 col-md-8 col-lg-6 col-xl-8 align-self-center`
 	const infoCardStyle = `col-6 col-md-3 col-lg-3 col-xl-2 mb-2`
 
+	const categoryReactIconMap: Map<string, any> = new Map([
+		['PHILOSOPHY', <booksitoutIcon.categoryPhilosophy />],
+		['RELIGION', <booksitoutIcon.categoryReligion />],
+		['SOCIAL_SCIENCE', <booksitoutIcon.categorySocialScience />],
+		['NATURAL_SCIENCE', <booksitoutIcon.categoryNaturalScience />],
+		['TECHNOLOGY', <booksitoutIcon.categoryTechnology />],
+		['ART', <booksitoutIcon.categoryArt />],
+		['LANGUAGE', <booksitoutIcon.categoryLanguage />],
+		['LITERATURE', <booksitoutIcon.categoryLiterature />],
+		['HISTORY', <booksitoutIcon.categoryHistory />],
+		['OTHERS', <booksitoutIcon.categoryOthers />],
+	])
+
+	const getCategoryReactIcon = (category: string) => {
+		return categoryReactIconMap.get(category) ?? booksitoutIcon.categoryOthers
+	}
+
 	return (
 		<>
-			<div className='row mb-4'>
+			<div className="row mb-4">
 				<h2>{book.title}</h2>
-				<h4 className='text-muted'>{book.author == null ? '-' : book.author}</h4>
+				<h4 className="text-muted">{book.author == null ? '-' : book.author}</h4>
 
-				<div className='row justify-content-center'>
-					<div className='col-12 col-lg-11'>
+				<div className="row justify-content-center">
+					<div className="col-12 col-lg-11">
 						<PageProgressBar book={book} />
 					</div>
 				</div>
 			</div>
 
-			<div className='row justify-content-center'>
+			<div className="row justify-content-center">
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?language=${book.language}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={LANGUAGE_INFO} infoData={book.language != null ? book.language : 'KOREAN'} responsiveImageStyle={infoIconStyle} />
+					<BookInfoIcon
+						infoType={LANGUAGE_INFO}
+						infoData={book.language != null ? book.language : 'KOREAN'}
+						responsiveImageStyle={infoIconStyle}
+					/>
 					{/* </a> */}
 				</div>
+
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?category=${book.category}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={CATEGORY_INFO} infoData={book.category} responsiveImageStyle={infoIconStyle} />
+					<Card style={{ height: '100px' }}>
+						<Card.Body>
+							<div className="row justify-content-center">
+								<div className="col-9 col-md-10 align-self-center p-0">
+									<h2
+										style={{
+											color: categoryConfig(book.category)?.color[0],
+											height: '40px'
+										}}
+									>
+										{getCategoryReactIcon(book.category)}
+									</h2>
+								</div>
+
+								<div className="col-12 col-md-12 mt-2 mt-md-0">
+									<h6 className="text-center mb-0 force-1-line">
+										{categoryConfig(book.category)?.korean}
+									</h6>
+								</div>
+							</div>
+						</Card.Body>
+					</Card>
+
+					{/* <BookInfoIcon
+						infoType={CATEGORY_INFO}
+						infoData={book.category}
+						responsiveImageStyle={infoIconStyle}
+					/> */}
 					{/* </a> */}
 				</div>
+
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?form=${book.form}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={FORM_INFO} infoData={book.form != null ? book.form : 'PHYSICAL'} responsiveImageStyle={infoIconStyle} />
+					<BookInfoIcon
+						infoType={FORM_INFO}
+						infoData={book.form != null ? book.form : 'PHYSICAL'}
+						responsiveImageStyle={infoIconStyle}
+					/>
 					{/* </a> */}
 				</div>
+
 				<div className={infoCardStyle}>
 					{/* <a href={`/book/all?source=${book.source}`} className='text-decoration-none text-black'> */}
-					<BookInfoIcon infoType={SOURCE_INFO} infoData={book.source != null ? book.source : 'NOT_PROVIDED'} responsiveImageStyle={infoIconStyle} />
+					<BookInfoIcon
+						infoType={SOURCE_INFO}
+						infoData={book.source != null ? book.source : 'NOT_PROVIDED'}
+						responsiveImageStyle={infoIconStyle}
+					/>
 					{/* </a> */}
 				</div>
 			</div>

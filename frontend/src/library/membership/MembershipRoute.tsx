@@ -42,7 +42,7 @@ const MembershipRoute = () => {
 	return (
 		<div className="container-xl" style={{ minHeight: '500px' }}>
 			<MembershipAddButtonContainer>
-				<AddButton size={40} top="80px" onClick={() => navigate('/library/membership/add/image')} />
+				<AddButton size={40} top="80px" onClick={() => navigate('/add/membership/image')} />
 			</MembershipAddButtonContainer>
 
 			<RouteTitle icon={<CardIcon />} title={'모든 도서관 회원증'} />

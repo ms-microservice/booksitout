@@ -11,8 +11,11 @@ import AllButton from '../../common/AllButton'
 import { booksitoutServer } from '../../functions/axios'
 import CardTitle from '../../common/CardTitle'
 import PostListGroupLoading from './PostListGroupLoading'
+import { useNavigate } from 'react-router-dom'
 
 const PostPopular = () => {
+	const navigate = useNavigate()
+
 	const [loading, setLoading] = React.useState(true)
 	const [error, setError] = React.useState(false)
 
@@ -29,12 +32,10 @@ const PostPopular = () => {
 	}, [])
 
 	return (
-		<a href="/community/post/all/popular" className="text-decoration-none text-black">
-			<Card className="h-100" style={{ minHeight: '480px' }}>
-				<a href="/community/post/add">
-					<AddButton color="book" />
-				</a>
+		<Card className="h-100" style={{ minHeight: '480px' }}>
+			<AddButton color="book" onClick={() => navigate('/add/post')} />
 
+			<a href="/community/post/all/popular" className="text-decoration-none text-black">
 				<Card.Body>
 					<CardTitle icon={<FireIcon />} title={'지금 인기있는 게시글'} />
 
@@ -54,8 +55,8 @@ const PostPopular = () => {
 
 					<AllButton url="/community/post/all/popular" />
 				</Card.Body>
-			</Card>
-		</a>
+			</a>
+		</Card>
 	)
 }
 

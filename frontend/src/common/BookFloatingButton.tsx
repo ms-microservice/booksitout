@@ -11,8 +11,8 @@ const BookFloatingButton = () => {
 	const token = useSelector((state: RootState) => state.user.token)
 
 	const addButtonStyle = {
-		right: '2.5%',
-		bottom: '20px',
+		right: '30px',
+		bottom: '30px',
 
 		width: '60px',
 		height: '60px',
@@ -24,11 +24,15 @@ const BookFloatingButton = () => {
 	const getNavigateUrl = () => {
 		const path = window.location.pathname
 
-		if (path === '/book/add/search') {
-			return '/book/add/manual'
+		if (path === '/add/book/search') {
+			return '/add/post'
 		}
 
-		return '/book/add/search'
+		if (path === '/add/post' || path === '/add/gathering') {
+			return '/add/membership/image'
+		}
+
+		return '/add/book/search'
 	}
 
 	const getIsActive = () => {

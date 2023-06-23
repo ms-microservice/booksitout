@@ -7,15 +7,20 @@ const BookInfoIcon = ({
 	responsiveTextStyle = 'col-12 col-md-12 mt-2 mt-md-0',
 }) => {
 	return (
-		<Card>
+		<Card style={{ height: '100px' }}>
 			<Card.Body>
-				<div className='row justify-content-center'>
+				<div className="row justify-content-center">
 					<div className={responsiveImageStyle}>
-						<img src={infoType.imageFunction(infoData)} alt='' className='img-fluid mb-0 mb-md-2 p-0' style={{ maxHeight: '50px' }} />
+						<img
+							src={infoType.imageFunction(infoData)}
+							alt=""
+							className="img-fluid mb-0 mb-md-2 p-0"
+							style={{ maxHeight: '50px' }}
+						/>
 					</div>
 
 					<div className={responsiveTextStyle}>
-						<h6 className='text-center mb-0' style={{ whiteSpace: 'nowrap' }}>
+						<h6 className="text-center mb-0" style={{ whiteSpace: 'nowrap' }}>
 							{infoType.textFunction(infoData)}
 						</h6>
 					</div>

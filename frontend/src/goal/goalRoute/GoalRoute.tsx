@@ -113,7 +113,7 @@ const GoalRoute = () => {
 								<h2>{currentYear}년</h2>
 								<div className='mb-4' />
 
-								<div className={currentYearGoal != null ? 'mt-5 mb-5' : ''}>
+								<div className={currentYearGoal != null ? 'mt-4 mb-5' : ''}>
 									{currentYearGoal == null ? (
 										<NoContent message={`${currentYear}년 목표가 없어요`} move={-40} />
 									) : (

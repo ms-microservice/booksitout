@@ -10,7 +10,7 @@ const PopularBookListLoading = ({length = 10}) => {
 						<div className="row">
 							<div className="col-1">
 								<Placeholder as={Card.Text} animation="glow" className="mb-0">
-									<b className="me-4 force-1-line text-book">{i}</b>
+									<b className="me-4 force-1-line text-book">{i + 1}</b>
 								</Placeholder>
 							</div>
 

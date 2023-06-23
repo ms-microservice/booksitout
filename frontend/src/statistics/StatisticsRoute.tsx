@@ -42,14 +42,14 @@ const StatisticsRoute = () => {
 					subtitle="독서시간 그래프, 평균 독서시간, 언어별, 장르별 독서 현황을 볼 수 있어요"
 				/>
 			) : isLoading ? (
-				<Loading />
+				<Loading mt='150px'/>
 			) : (
 				<StatisticsContainer>
 					<StatisticsSummaryContainer>
 						<div className="row">
-							<StatisticsCardContainer>
+							<MonthReadTimeCardContainer>
 								<MonthReadTimeCard readTimeList={readTimeList} />
-							</StatisticsCardContainer>
+							</MonthReadTimeCardContainer>
 
 							<StatisticsCardContainer>
 								<SummaryTableAllCard />
@@ -91,5 +91,14 @@ const StatisticsCardContainer = styled.div.attrs({
 })`
 	min-height: 450px;
 `
+
+const MonthReadTimeCardContainer = styled.div.attrs({
+  className:  'col-12 col-md-6 mb-4'
+})`
+	min-height: 450px;
+
+	@media screen and (min-width: 768px) {}
+	min-height: 0px;
+`;
 
 export default StatisticsRoute

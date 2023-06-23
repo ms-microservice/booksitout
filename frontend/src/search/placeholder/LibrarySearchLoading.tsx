@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, Placeholder } from 'react-bootstrap'
 import loadingCover from '../../resources/images/common/loading-default-book-cover.png'
 import libraryIcon from '../../resources/images/book-classifications/sources/library.png'
+import booksitoutIcon from '../../common/icons/booksitoutIcon'
 
 const LibrarySearchLoading = () => {
     return (
@@ -29,14 +30,17 @@ const LibrarySearchLoading = () => {
 								{Array.from({ length: 4 }).map(() => {
 									return (
 										<h6>
-											<div className='row'>
-												<div className='col-2'>
-													<img src={libraryIcon} alt='' className='img-fluid me-2' style={{ width: '20px' }} />
+											<div className="row">
+												<div className="col-2">
+													<booksitoutIcon.library
+														className="me-2 text-book pb-1"
+														style={{ width: '20px' }}
+													/>
 												</div>
 
-												<div className='col-10'>
-													<span className='mt-2'>
-														<Placeholder as={Card.Text} animation='glow'>
+												<div className="col-10">
+													<span className="mt-2">
+														<Placeholder as={Card.Text} animation="glow">
 															<Placeholder xs={8} />
 														</Placeholder>
 													</span>
