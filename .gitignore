@@ -1,3 +1,6 @@
+# Data Files
+data/
+
 # dependencies
 node_modules/
 .pnp/
