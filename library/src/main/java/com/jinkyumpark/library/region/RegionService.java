@@ -1,7 +1,6 @@
 package com.jinkyumpark.library.region;
 
-import com.jinkyumpark.common.exception.NotFoundException;
-import com.jinkyumpark.library.common.PageService;
+import com.jinkyumpark.library.common.PageUtils;
 import com.jinkyumpark.library.region.region.Region;
 import com.jinkyumpark.library.region.region.RegionRepository;
 import com.jinkyumpark.library.region.regionDetail.RegionDetail;
@@ -9,9 +8,7 @@ import com.jinkyumpark.library.region.regionDetail.RegionDetailRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Optional;
@@ -22,7 +19,6 @@ public class RegionService {
 
     private final RegionRepository regionRepository;
     private final RegionDetailRepository regionDetailRepository;
-    private final PageService pageService;
 
     public RegionDetail getMostMatchRegionDetailByAddress(String address) {
         String[] split = address.split("\\s+");
@@ -40,7 +36,7 @@ public class RegionService {
     public Region getMostMatchRegionByAddressSnippet(String addressSnippet) {
         if (addressSnippet.isEmpty()) return null;
 
-        Pageable pageable = pageService.getPageable(1, 1);
+        Pageable pageable = PageUtils.getPageable(1, 1);
 
         List<Region> result = regionRepository.findByKoreanName(addressSnippet);
         if (result.isEmpty()) {
@@ -53,7 +49,7 @@ public class RegionService {
     public RegionDetail getMostMatchRegionDetailByAddressSnippet(String addressSnippet) {
         if (addressSnippet.isEmpty()) return null;
 
-        Pageable pageable = pageService.getPageable(1, 1);
+        Pageable pageable = PageUtils.getPageable(1, 1);
 
         List<RegionDetail> result = regionDetailRepository.findAllByKoreanName(addressSnippet, pageable).getContent();
         if (result.isEmpty()) {

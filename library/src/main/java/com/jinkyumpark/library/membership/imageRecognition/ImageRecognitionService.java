@@ -1,5 +1,6 @@
 package com.jinkyumpark.library.membership.imageRecognition;
 
+import com.jinkyumpark.library.common.PageUtils;
 import com.jinkyumpark.library.membership.type.MembershipType;
 import com.jinkyumpark.library.membership.type.MembershipTypeService;
 import com.jinkyumpark.library.region.region.Region;
@@ -32,20 +33,6 @@ public class ImageRecognitionService {
         return "";
     }
 
-    public RegionDetail getRegion(List<String> textList) {
-        String regionCandidate = textList.stream()
-                .filter(text -> text.endsWith("구") || text.endsWith("시") || text.endsWith("도서관"))
-                .findFirst()
-                .orElse("");
-
-        return regionService.getMostMatchRegionDetailByAddressSnippet(
-                regionCandidate
-                        .replace("구립도서관", "")
-                        .replace("구립", "")
-                        .replace("도서관", "")
-        );
-    }
-
     public MembershipType getMembershipType(List<String> textList) {
         String regionCandidate = textList.stream()
                 .filter(text -> text.endsWith("구") || text.endsWith("시") || text.endsWith("도서관"))
@@ -53,9 +40,6 @@ public class ImageRecognitionService {
                 .orElse("")
                 .replace("구립", "")
                 .replace("도서관", "")
-//                .replaceFirst("^(.*?)구", "")
-//                .replaceFirst("^(.*?)시", "")
-//                .replaceFirst("^(.*?)구", "")
                 ;
 
         Region region = regionService.getMostMatchRegionByAddressSnippet(regionCandidate);
@@ -69,6 +53,19 @@ public class ImageRecognitionService {
         if (region != null) {
             Optional<MembershipType> byRegion = membershipTypeService.getByRegion(region);
             if (byRegion.isPresent()) return byRegion.get();
+        }
+
+        String integratedLibraryCandidate = textList.stream()
+                .filter(text -> text.contains("통합") || text.contains("책이음") || text.contains("평생"))
+                .findFirst()
+                .orElse("")
+                ;
+
+        List<MembershipType> result = membershipTypeService
+                .getMembershipTypeByQuery(integratedLibraryCandidate, PageUtils.getPageable(1, 1)).getContent();
+
+        if (!result.isEmpty()) {
+            return result.get(0);
         }
 
         return null;

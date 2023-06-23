@@ -1,9 +1,9 @@
-package com.jinkyumpark.library.library.batch;
+package com.jinkyumpark.library.batch.availableLibrary;
 
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse;
 import com.jinkyumpark.library.library.Library;
-import com.jinkyumpark.library.library.batch.steps.AvailableLibraryProcessor;
-import com.jinkyumpark.library.library.batch.steps.AvailableLibraryReader;
+import com.jinkyumpark.library.batch.availableLibrary.steps.AvailableLibraryProcessor;
+import com.jinkyumpark.library.batch.availableLibrary.steps.AvailableLibraryReader;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;

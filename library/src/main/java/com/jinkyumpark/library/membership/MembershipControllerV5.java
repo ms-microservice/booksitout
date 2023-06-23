@@ -4,7 +4,7 @@ import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
-import com.jinkyumpark.library.common.PageService;
+import com.jinkyumpark.library.common.PageUtils;
 import com.jinkyumpark.library.common.loginUser.LoginUser;
 import com.jinkyumpark.library.common.loginUser.User;
 import com.jinkyumpark.library.common.s3.S3Service;
@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.validation.Valid;
 import java.io.IOException;
@@ -48,7 +49,6 @@ public class MembershipControllerV5 {
     private final ImageRecognitionService imageRecognitionService;
 
     private final S3Service s3Service;
-    private final PageService pageService;
 
     @GetMapping("{membershipId}")
     public MembershipResponse getMembershipId(@PathVariable("membershipId") Long membershipId) {
@@ -61,7 +61,7 @@ public class MembershipControllerV5 {
     public PagedResponse<List<MembershipResponse>> getAllRegisteredMembership(@LoginUser User user,
                                                                               @RequestParam(value = "page", required = false) Integer page,
                                                                               @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageableSortedDesc(page, size, "lastUsedDate");
+        Pageable pageable = PageUtils.getPageableSortedDesc(page, size, "lastUsedDate");
         Page<Membership> pagedMembership = membershipService.getAllMembership(user.getId(), pageable);
 
         List<MembershipResponse> content = pagedMembership.getContent().stream()
@@ -123,12 +123,11 @@ public class MembershipControllerV5 {
     public UpdateSuccessResponse updateMembership(@LoginUser User user,
                                                   @PathVariable("membershipId") Long membershipId,
                                                   @RequestBody @Valid MembershipEditRequest membershipEditRequest) {
-        Membership toEdit = membershipService.update(membershipEditRequest.toEntity(user.getId(), membershipId));
-        Membership edited = membershipService.update(toEdit);
+        Membership edited = membershipService.update(membershipEditRequest.toEntity(user.getId(), membershipId));
 
         return UpdateSuccessResponse.builder()
                 .id(edited.getLibraryMembershipId())
-                .updated(edited)
+                .updated(MembershipResponse.of(edited))
                 .message("회원증을 수정했어요")
                 .build();
     }

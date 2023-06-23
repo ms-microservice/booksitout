@@ -1,7 +1,7 @@
 package com.jinkyumpark.library.region;
 
 import com.jinkyumpark.common.response.PagedResponse;
-import com.jinkyumpark.library.common.PageService;
+import com.jinkyumpark.library.common.PageUtils;
 import com.jinkyumpark.library.region.region.Region;
 import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.RequiredArgsConstructor;
@@ -19,18 +19,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("v5/library/region")
+@RestController @RequestMapping("v5/library/region")
 public class RegionControllerV5 {
 
     private final RegionService regionService;
-    private final PageService pageService;
 
     @GetMapping
     public PagedResponse<List<RegionDetailResponse>> getRegionByQuery(@RequestParam("query") String query,
                                                                       @RequestParam(value = "page", required = false) Integer page,
                                                                       @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(page, size);
+        Pageable pageable = PageUtils.getPageable(page, size);
         Page<RegionDetail> regionPaged = regionService.getAllRegionDetailByName(query, pageable);
 
         return PagedResponse.<List<RegionDetailResponse>>builder()
@@ -49,7 +47,7 @@ public class RegionControllerV5 {
     public PagedResponse<List<RegionResponse>> getRegionFullByQuery(@RequestParam("query") String query,
                                                                     @RequestParam(value = "page", required = false) Integer page,
                                                                     @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(page, size);
+        Pageable pageable = PageUtils.getPageable(page, size);
         Page<Region> regionPaged = regionService.getAllRegionByName(query, pageable);
         Page<RegionDetail> regionDetailPaged = regionService.getAllRegionDetailByName(query, pageable);
 

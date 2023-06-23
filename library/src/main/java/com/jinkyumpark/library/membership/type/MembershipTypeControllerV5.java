@@ -1,6 +1,6 @@
 package com.jinkyumpark.library.membership.type;
 
-import com.jinkyumpark.library.common.PageService;
+import com.jinkyumpark.library.common.PageUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 public class MembershipTypeControllerV5 {
 
     private final MembershipTypeService membershipTypeService;
-    private final PageService pageService;
 
     @GetMapping
     public List<MembershipTypeResponse> getMembershipTypeByQuery(@RequestParam("q") String query,
                                                                  @RequestParam(value = "size", required = false) Integer size) {
-        Pageable pageable = pageService.getPageable(1, size);
+        Pageable pageable = PageUtils.getPageable(1, size);
 
         Page<MembershipType> pagedMembership = membershipTypeService.getMembershipTypeByQuery(query, pageable);
         return pagedMembership.getContent().stream()

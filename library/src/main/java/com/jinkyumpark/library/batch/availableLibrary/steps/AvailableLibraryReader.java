@@ -1,9 +1,9 @@
-package com.jinkyumpark.library.library.batch.steps;
+package com.jinkyumpark.library.batch.availableLibrary.steps;
 
 import com.jinkyumpark.library.data4library.Data4LibService;
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse;
-import com.jinkyumpark.library.library.batch.status.AvailableLibraryBatch;
-import com.jinkyumpark.library.library.batch.status.AvailableLibraryBatchService;
+import com.jinkyumpark.library.batch.availableLibrary.status.AvailableLibraryBatch;
+import com.jinkyumpark.library.batch.availableLibrary.status.AvailableLibraryBatchService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.NonTransientResourceException;

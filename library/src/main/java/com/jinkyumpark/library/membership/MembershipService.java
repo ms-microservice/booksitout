@@ -1,11 +1,13 @@
 package com.jinkyumpark.library.membership;
 
-import com.jinkyumpark.common.exception.NotFoundException;
-import com.jinkyumpark.common.exception.UnauthorizedException;
+import com.jinkyumpark.library.common.MessageKey;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import javax.transaction.Transactional;
 
@@ -14,11 +16,14 @@ import javax.transaction.Transactional;
 public class MembershipService {
 
     private final MembershipRepository membershipRepository;
+    private final MessageSourceAccessor messageSource;
 
     @Transactional
     public Membership getLibraryMembershipById(Long membershipId) {
         Membership membership = membershipRepository.findById(membershipId)
-                .orElseThrow(() -> new NotFoundException("membership not present"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        messageSource.getMessage(MessageKey.MEMBERSHIP_GET_NOT_FOUND.getKey()))
+                );
 
         membership.useMembership();
 
@@ -36,10 +41,14 @@ public class MembershipService {
     @Transactional
     public Membership update(Membership libraryMembership) {
         Membership membership = membershipRepository.findById(libraryMembership.getLibraryMembershipId())
-                .orElseThrow(() -> new NotFoundException("수정할 회원증이 없어요"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        messageSource.getMessage(MessageKey.MEMBERSHIP_PUT_NOT_FOUND.getKey()))
+                );
 
         if (!membership.getAppUserId().equals(libraryMembership.getAppUserId())) {
-            throw new UnauthorizedException("회원증은 본인만 수정할 수 있어요");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    messageSource.getMessage(MessageKey.MEMBERSHIP_PUT_UNAUTHORIZED.getKey())
+            );
         }
 
         return membership.update(libraryMembership);
@@ -47,10 +56,14 @@ public class MembershipService {
 
     public void delete(Long appUserId, Long membershipId) {
         Membership membership = membershipRepository.findById(membershipId)
-                .orElseThrow(() -> new NotFoundException("지우시려는 회원증이 없어요"));
+                .orElseThrow(() -> new ResponseStatusException(HttpStatus.NOT_FOUND,
+                        messageSource.getMessage(MessageKey.MEMBERSHIP_DELETE_NOT_FOUND.getKey()))
+                );
 
         if (!membership.getAppUserId().equals(appUserId)) {
-            throw new UnauthorizedException("회원증은 본인만 지울 수 있어요");
+            throw new ResponseStatusException(HttpStatus.UNAUTHORIZED,
+                    messageSource.getMessage(MessageKey.MEMBERSHIP_DELETE_UNAUTHORIZED.getKey())
+            );
         }
 
         membershipRepository.deleteById(membershipId);

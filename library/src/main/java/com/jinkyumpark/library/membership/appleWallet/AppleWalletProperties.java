@@ -35,6 +35,4 @@ public class AppleWalletProperties {
         private String privateCertificatePath;
     }
 
-
-
 }

@@ -6,16 +6,16 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 @Service
-public class PageService {
+public class PageUtils {
 
-    public Pageable getPageable(Integer page, Integer size) {
+    public static Pageable getPageable(Integer page, Integer size) {
         if (page == null) page = 1;
         if (size == null) size = 10;
 
         return PageRequest.of(page - 1, size);
     }
 
-    public Pageable getPageableSortedDesc(Integer page, Integer size, String sortedBy) {
+    public static Pageable getPageableSortedDesc(Integer page, Integer size, String sortedBy) {
         if (page == null) page = 1;
         if (size == null) size = 10;
 

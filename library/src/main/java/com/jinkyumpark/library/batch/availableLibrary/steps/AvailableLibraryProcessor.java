@@ -1,4 +1,4 @@
-package com.jinkyumpark.library.library.batch.steps;
+package com.jinkyumpark.library.batch.availableLibrary.steps;
 
 import com.jinkyumpark.library.data4library.Data4LibService;
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse;
