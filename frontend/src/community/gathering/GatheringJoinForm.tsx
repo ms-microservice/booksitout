@@ -4,8 +4,7 @@ import { Button, Card, Form } from 'react-bootstrap'
 import { toast } from 'react-hot-toast'
 import { useLoaderData, useNavigate, useParams } from 'react-router-dom'
 import { GatheringDetailType } from './GatheringType'
-import UserCard from '../../components/community/post/UserCard'
-import GatheringSimpleCard from '../../components/community/summaryCard/GatheringSimpleCard'
+import GatheringSimpleCard from '../../community/summaryCard/GatheringSimpleCard'
 
 export async function loader({ params }) {
 	const id = params.id

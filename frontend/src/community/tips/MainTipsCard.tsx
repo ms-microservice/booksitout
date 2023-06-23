@@ -1,17 +1,18 @@
 import React from "react"
-import { Card, ListGroup } from "react-bootstrap"
+import { Card } from "react-bootstrap"
 
-import Loading from "../../components/common/Loading"
-import Error from '../../components/common/Error'
+import Loading from "../../common/Loading"
+import Error from '../../common/Error'
 
 import MainTipsListGroup from "./MainTipsListGroup"
 import TipsType from "./TipsType"
-import AllButton from "../../components/common/AllButton"
+import AllButton from "../../common/AllButton"
 
 import logo from '../../images/logo.png'
 
 import { booksitoutServer } from "../../functions/axios"
 import CardTitle from "../../common/CardTitle"
+import MainTipsListGroupLoading from "./MainTipsListGroupLoading"
 
 const MainTipsCard = () => {
 	const [initialFetch, setInitialFetch] = React.useState(true)
@@ -44,14 +45,11 @@ const MainTipsCard = () => {
 					) : tipPost == null ? (
 						<Error />
 					) : loading ? (
-						<Loading />
+						<MainTipsListGroupLoading />
 					) : (
-						<ListGroup>
-							<MainTipsListGroup postList={tipPost} />
-						</ListGroup>
+						<MainTipsListGroup postList={tipPost} />
 					)}
-
-					<div className='d-inline-block pb-4 d-md-none' />
+					<div className='d-inline-block pb-4' />
 
 					<AllButton url='/introduction/tips/all' />
 				</Card.Body>

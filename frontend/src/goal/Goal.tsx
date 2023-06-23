@@ -1,8 +1,8 @@
 import goalIcon from './images/goal.png'
 import goalCompleteIcon from './images/goal-complete.png'
 import { Card, Placeholder } from 'react-bootstrap'
-import Error from '../components/common/Error';
-import NoContent from '../components/common/NoContent';
+import Error from '../common/Error';
+import NoContent from '../common/NoContent';
 
 const Goal = ({ goal, loading = false }) => {
 	return (

@@ -3,4 +3,4 @@ spring:
     name: community
 
   config:
-    import: configserver:http://config:8888/
+    import: configserver:http://config.booksitout.com:8888/

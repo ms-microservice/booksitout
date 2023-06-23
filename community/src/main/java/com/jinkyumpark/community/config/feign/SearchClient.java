@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.util.List;
 
-@FeignClient(name = "search", url = "${feign.url.search}")
+@FeignClient(name = "search")
 public interface SearchClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "v4/search/popular/best-seller/aladin")

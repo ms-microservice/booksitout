@@ -1,4 +1,4 @@
-import Preparing from '../components/common/Preparing'
+import Preparing from '../common/Preparing'
 
 const AdminMain = () => {
     return (

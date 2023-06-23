@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.memo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

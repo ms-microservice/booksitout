@@ -5,7 +5,8 @@ import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.dto.BookResponse;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
@@ -73,7 +74,7 @@ public class ReadingSessionControllerV1 {
     }
 
     @PostMapping("{bookId}/start")
-    public Book startReadingSession(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
+    public BookResponse startReadingSession(@PathVariable("bookId") Long bookId, @LoginUser LoginAppUser loginAppUser) {
         Book book = bookService.getBookById(loginAppUser, bookId);
 
         Integer startPage = book.getCurrentPage() == 0 ? 0 : book.getCurrentPage() + 1;
@@ -85,7 +86,7 @@ public class ReadingSessionControllerV1 {
                 .build();
 
         readingSessionService.addReadingSession(readingSessionDto, loginAppUser);
-        return book;
+        return BookResponse.of(book);
     }
 
     @PostMapping("{bookId}")

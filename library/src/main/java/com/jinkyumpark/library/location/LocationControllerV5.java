@@ -15,11 +15,11 @@ public class LocationControllerV5 {
     private final KakaoMapApiService kakaoMapApiService;
 
     @GetMapping("convert-address")
-    public LatitudeAndLongitudeToAddressResponse getAddressByLatitudeAndLongitude(@RequestParam("lat") Double latitude,
-                                                                                  @RequestParam("long") Double longitude) {
+    public LocationResponse getAddressByLatitudeAndLongitude(@RequestParam("lat") Double latitude,
+                                                             @RequestParam("long") Double longitude) {
         ApiKakaoMapConvertResponse kakaoResponse = kakaoMapApiService.getAddressByLatitudeAndLongitude(latitude, longitude);
 
-        return LatitudeAndLongitudeToAddressResponse.of(kakaoResponse);
+        return LocationResponse.of(kakaoResponse);
     }
 
 }

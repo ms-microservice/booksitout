@@ -1,16 +1,16 @@
 import React from 'react'
 import { Card, Form, ListGroup } from 'react-bootstrap'
-import { FaSearch as SearchIcon } from 'react-icons/fa'
 import { booksitoutServer } from '../functions/axios'
 import { LibraryAutoCompleteType } from './LibraryType'
 import { useDebounce } from '../common/useDebounce'
 import LibrarySearchPlaceholder from './LibrarySearchPlaceholder'
-import NoContent from '../components/common/NoContent'
+import NoContent from '../common/NoContent'
+import booksitoutIcon from '../common/icons/booksitoutIcon';
+import CardTitle from '../common/CardTitle'
 
 const LibrarySearchCard = () => {
 	const [query, setQuery] = React.useState<string>('')
 	const [debouncedQuery, cancelDebounce] = useDebounce(query, 500)
-
 	const [loading, setLoading] = React.useState<boolean>(false)
 
 	const [libraryList, setLibraryList] = React.useState<LibraryAutoCompleteType[]>([])
@@ -33,12 +33,7 @@ const LibrarySearchCard = () => {
 	return (
 		<Card style={{ minHeight: '500px' }}>
 			<Card.Body>
-				<div className='d-flex'>
-					<h3>
-						<SearchIcon className='me-2 text-book' />
-					</h3>
-					<h3 className='pt-1'>도서관 검색하기</h3>
-				</div>
+				<CardTitle icon={<booksitoutIcon.search/>} title={'도서관 검색하기'}/>
 
 				<Form className='mt-3'>
 					<div className='row justify-content-center'>
@@ -63,7 +58,7 @@ const LibrarySearchCard = () => {
 							return <LibrarySearchPlaceholder />
 						})
 					) : libraryList.length === 0 ? (
-						<NoContent message={query === '' ? '검색어를 입력해 주세요' : '도서관이 없어요'} move={0} mt={100}/>
+						<NoContent message={query === '' ? '검색어를 입력해 주세요' : '도서관이 없어요'} move={0} mt={100} />
 					) : (
 						libraryList.map((library) => {
 							return (

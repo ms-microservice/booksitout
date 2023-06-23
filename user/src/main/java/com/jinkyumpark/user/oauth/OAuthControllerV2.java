@@ -1,7 +1,6 @@
 package com.jinkyumpark.user.oauth;
 
 import com.jinkyumpark.user.appUser.AppUser;
-import com.jinkyumpark.user.appUser.AppUserRepository;
 import com.jinkyumpark.user.appUser.AppUserService;
 import com.jinkyumpark.user.appUser.dto.LoginMethod;
 import com.jinkyumpark.user.appUser.dto.LoginSuccessResponse;

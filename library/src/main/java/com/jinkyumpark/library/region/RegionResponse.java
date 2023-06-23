@@ -1,5 +1,7 @@
 package com.jinkyumpark.library.region;
 
+import com.jinkyumpark.library.region.region.Region;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,10 +20,12 @@ public class RegionResponse {
         return RegionResponse.builder()
                 .id(regionDetail.getRegionDetailId())
                 .depth1(RegionResponseRegion.builder()
-                                .koreanName(regionDetail.getRegion().getKoreanName())
-                                .englishName(regionDetail.getRegion().getEnglishName())
-                                .logo(regionDetail.getRegion().getLogo())
-                                .build()
+                        .koreanName(regionDetail.getRegion().getDisplayKoreanName() == null ?
+                                regionDetail.getRegion().getKoreanName() :
+                                regionDetail.getRegion().getDisplayKoreanName())
+                        .englishName(regionDetail.getRegion().getEnglishName())
+                        .logo(regionDetail.getRegion().getLogo())
+                        .build()
                 )
                 .depth2(RegionResponseDetail.builder()
                         .koreanName(regionDetail.getKoreanName())
@@ -29,6 +33,22 @@ public class RegionResponse {
                         .logo(regionDetail.getLogo())
                         .build())
                 .build();
+    }
+
+    public static RegionResponse of(Region region) {
+        return RegionResponse.builder()
+                .id(region.getRegionId())
+                .depth1(RegionResponseRegion.builder()
+                        .koreanName(region.getDisplayKoreanName() == null ?
+                                region.getKoreanName() :
+                                region.getDisplayKoreanName())
+                        .englishName(region.getEnglishName())
+                        .logo(region.getLogo())
+                        .build()
+                )
+                .depth2(null)
+                .build();
+
     }
 
 }

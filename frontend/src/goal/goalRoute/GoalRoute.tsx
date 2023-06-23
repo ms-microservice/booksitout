@@ -1,18 +1,20 @@
 import React from 'react'
 import { Card, Button } from 'react-bootstrap'
 import toast from 'react-hot-toast'
-import NoContent from '../../components/common/NoContent'
-import Loading from '../../components/common/Loading'
+import NoContent from '../../common/NoContent'
+import Loading from '../../common/Loading'
 import Goal from '../Goal'
 import AddGoalModal from '../AddGoalModal'
 import EditGoalModal from '../EditGoalModal'
-import AddButton from '../../components/common/AddButton'
+import AddButton from '../../common/AddButton'
 import { getGoalList, deleteGoal } from '../goalFunctions'
 import goalIcon from '../images/goal.png'
 import AddPastGoalModal from '../AddPastGoalModal'
 import EditPastGoalModal from '../EditPastGoalModal'
 import goalMessage from '../goalMessage'
 import { GoalType } from '../GoalType'
+import RouteTitle from '../../common/RouteTitle'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 const GoalRoute = () => {
 	document.title = '목표 | 책잇아웃'
@@ -70,7 +72,9 @@ const GoalRoute = () => {
 	}, [])
 
 	return (
-		<div className='container'>
+		<div className='container-xl'>
+			<RouteTitle icon={<booksitoutIcon.goal />} title={'목표'} />
+
 			{intialFetch ? (
 				<></>
 			) : isLoading ? (
@@ -109,7 +113,7 @@ const GoalRoute = () => {
 								<h2>{currentYear}년</h2>
 								<div className='mb-4' />
 
-								<div className={currentYearGoal != null ? 'mt-5 mb-5' : ''}>
+								<div className={currentYearGoal != null ? 'mt-4 mb-5' : ''}>
 									{currentYearGoal == null ? (
 										<NoContent message={`${currentYear}년 목표가 없어요`} move={-40} />
 									) : (
@@ -162,7 +166,6 @@ const GoalRoute = () => {
 								<h2 className='mb-4'>과거 목표</h2>
 
 								<AddButton
-									size='30'
 									color='book'
 									onClick={() => {
 										setIsPastGoalAddModalOpen(true)

@@ -1,23 +1,21 @@
 import React from 'react'
-import { Button, Card } from 'react-bootstrap'
+import { Card } from 'react-bootstrap'
 import { useDropzone } from 'react-dropzone'
 
 import { BsFillImageFill as ImageIcon } from 'react-icons/bs'
-import MembershipCard from '../MembershipCard'
-import MembershipCardLoading from '../MembershipCardLoading'
 import { booksitoutServer } from '../../../functions/axios'
 import { toast } from 'react-hot-toast'
-import MembershipAddFormImageEditCard from './MembershipAddFormImageEditCard'
-import { MembershipType } from '../MembershipType'
 
 import './membershipAddForm.scss'
-import { useNavigate } from 'react-router-dom'
+import { ImageMembershipType } from './ImageRecognitionType'
+import CardTitle from '../../../common/CardTitle'
+import booksitoutIcon from '../../../common/icons/booksitoutIcon';
+import MembershipImageModal from './MembershipImageModal'
 
 const MembershipAddFormImage = () => {
-	const navigate = useNavigate()
-
 	const [image, setImage] = React.useState<string>()
-	const [recognizedData, setRecognizedData] = React.useState<MembershipType>()
+	const [recognizedData, setRecognizedData] = React.useState<ImageMembershipType>()
+	const [show, setShow] = React.useState<boolean>(false)
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({
 		multiple: false,
@@ -42,96 +40,53 @@ const MembershipAddFormImage = () => {
 	})
 
 	const addImage = (imageData) => {
+		setShow(true)
 		const formData = new FormData()
 		formData.append('file', imageData ?? '')
 
 		booksitoutServer
 			.post('v5/library/membership/image', formData, { headers: { 'Content-Type': 'multipart/form-data' } })
-			.then((res) => setRecognizedData(res.data))
+			.then(res => setRecognizedData(res.data))
 			.then(() => toast.success('회원증을 인식했어요! 잘못된 정보가 있다면 수정하고 회원증을 추가해 주세요'))
 			.catch(() => toast.error('오류가 났어요! 잠시 후 다시 시도해 주세요'))
 	}
 
-	const addMembership = () => {
-		toast.loading('회원증을 추가하고 있어요')
-
-		const membership = {
-			number: recognizedData?.number,
-			region: recognizedData?.logo,
-		}
-		booksitoutServer
-			.post('v5/library/membership', membership)
-			.then(() => {
-				toast.success('회원증을 추가했어요')
-				navigate('/library/membership/all')
-			})
-			.catch(() => {
-				toast.error('오류가 났어요. 잠시 후 다시 시도해 주세요')
-			})
-	}
-
 	return (
-		<Card style={{ minHeight: '750px' }} className='mb-5'>
-			<Card.Body>
-				<h5 className='text-center clamp-1-line'>도서관 회원증 사진을 업로드해서 회원증을 추가할 수 있어요</h5>
-				<div className='mb-4' />
+		<Card className="mb-5">
+			<MembershipImageModal
+				image={image}
+				membership={recognizedData}
+				setMembership={setRecognizedData}
+				show={show}
+				onHide={() => setShow(false)}
+			/>
 
-				<Card {...getRootProps()}>
-					<Card.Body className='text-center'>
+			<Card.Body>
+				<CardTitle
+					icon={<booksitoutIcon.membership />}
+					title={'사진으로 도서관 회원증 추가'}
+					subTitle="책잇아웃의 AI가 사진을 분석해서 회원증 정보를 인식해 줘요"
+				/>
+
+				<Card {...getRootProps()} style={{ minHeight: '300px' }} className="mt-4">
+					<Card.Body className="text-center h-100 row align-items-center">
 						<input {...getInputProps()} />
 
-						<ImageIcon className='text-book h3' />
+						<div>
+							<ImageIcon className={isDragActive ? 'text-book h1' : 'text-secondary h1'} />
 
-						<p className='m-0 text-secondary'>
-							{isDragActive ? (
-								<span className='text-book'>맞아요! 여기에 올려 주세요</span>
-							) : (
-								<>여기에 이미지를 올리거나 클릭해서 올릴 이미지를 선택할 수 있어요</>
-							)}
-						</p>
-					</Card.Body>
-				</Card>
-				<div className='mb-4' />
-
-				<Card className='membership-container'>
-					<Card.Body>
-						<div className='row justify-content-center align-items-center'>
-							<div className='col-12 col-md-4 text-center'>
-								<img src={image} alt='' className='img-fluid rounded' style={{ maxHeight: '400px' }} />
-							</div>
-
-							<div className='col-12 col-md-8 mt-4 mt-md-0'>
-								{image == null ? (
-									<></>
-								) : recognizedData == null ? (
-									<MembershipCardLoading />
+							<p className="m-0 mt-2 text-secondary">
+								{isDragActive ? (
+									<span className="text-book">맞아요! 여기에 올려 주세요</span>
 								) : (
-									<div className='not-clickable'>
-										<MembershipCard membership={recognizedData} />
-									</div>
+									<>여기에 이미지를 올리거나 클릭해서 올릴 이미지를 선택할 수 있어요</>
 								)}
-
-								<div className='mt-3' />
-
-								{image == null ? (
-									<></>
-								) : recognizedData == null ? (
-									<Card style={{ minHeight: '200px' }}></Card>
-								) : (
-									<MembershipAddFormImageEditCard membership={recognizedData} />
-								)}
-							</div>
+							</p>
 						</div>
 					</Card.Body>
 				</Card>
 
-				<div className='row justify-content-center w-100' style={{ position: 'absolute', bottom: '20px' }}>
-					<div className='col-12 col-md-6'>
-						<Button variant='book' className='w-100' onClick={() => addMembership()}>
-							회원증 추가하기
-						</Button>
-					</div>
-				</div>
+				<div className="mb-3" />
 			</Card.Body>
 		</Card>
 	)

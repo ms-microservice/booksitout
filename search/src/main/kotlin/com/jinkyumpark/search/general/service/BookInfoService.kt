@@ -18,10 +18,12 @@ class BookInfoService(
     val objectMapper: ObjectMapper,
 
     @Value("\${search.naver.url}") val naverUrl: String,
+    @Value("\${api.search.url.naver.book-detail}") val naverBookDetailUrl: String,
     @Value("\${search.naver.clientId}") val naverClientId: String,
     @Value("\${search.naver.secret}") val naverSecret: String,
     @Value("\${search.data4library.secret}") private val data4LibrarySecret: String,
     @Value("\${search.aladin.secret}") val aladinApiKey: String,
+
 ) {
 
     @Cacheable(value = ["new-naver"], key = "#query.toLowerCase().replaceAll(' ', '')")
@@ -46,6 +48,44 @@ class BookInfoService(
                     cover = it.image,
                     isbn = it.isbn,
                     link = it.link,
+                    description = it.description,
+                    publicationYear = null,
+                    page = null,
+                    language = null,
+                    category = null,
+                )
+            }
+    }
+
+    fun getBookByIsbnFromNaver(isbn: String): AddBookResponse? {
+        val url = "$naverBookDetailUrl?d_isbn=$isbn&display=1"
+
+        val response: ApiNaverSearchResponse = webClient
+            .get()
+            .uri(url)
+            .header("X-Naver-Client-Id", naverClientId)
+            .header("X-Naver-Client-Secret", naverSecret)
+            .retrieve()
+            .bodyToMono(ApiNaverSearchResponse::class.java)
+            .block() ?: return null
+
+        if (response.items.isEmpty()) return null
+
+        return response
+            .items
+            .first()
+            .let {
+                AddBookResponse(
+                    title = it.title,
+                    author = it.author,
+                    cover = it.image,
+                    isbn = it.isbn,
+                    link = it.link,
+                    description = it.description,
+                    publicationYear = null,
+                    page = null,
+                    language = null,
+                    category = null,
                 )
             }
     }

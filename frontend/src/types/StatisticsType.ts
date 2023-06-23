@@ -15,3 +15,9 @@ export interface DayStatisticsType {
     averageReadTime: number;
     mostReadTime: number;
 }
+
+export interface LanguageType {
+    language: string;
+    doneBook: number;
+    notDoneBook: number;
+}

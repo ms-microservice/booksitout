@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.reading.dto;
 
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.reading.ReadingSession;
 import lombok.Builder;
 import lombok.Getter;

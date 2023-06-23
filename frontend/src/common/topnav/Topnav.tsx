@@ -3,9 +3,8 @@ import toast from 'react-hot-toast'
 
 import { useLocation, useNavigate } from 'react-router-dom'
 import { Container, Navbar, Nav, Card } from 'react-bootstrap'
-import { BiSearchAlt2 as SearchIcon } from 'react-icons/bi'
 
-import user from '../../functions/user'
+import user from '../../user/user'
 import messages from '../../settings/messages'
 
 import uiSettings from '../../settings/ui'
@@ -21,6 +20,7 @@ import TopnavSearchBar from './TopnavSearchBar'
 import TopnavDropdown from './TopnavDropdown'
 import TopnavLogo from './TopnavLogo'
 import TopnavNav from './TopnavNav'
+import booksitoutIcon from '../icons/booksitoutIcon';
 
 const Topnav = () => {
 	const navigate = useNavigate()
@@ -89,18 +89,18 @@ const Topnav = () => {
 		<>
 			<Card
 				className={`position-fixed d-inline d-lg-none p-0 ${initialLoad ? '' : showSearchBar ? 'search-bar-up' : 'search-bar-down'}`}
-				style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '75px' : '-95px' }}>
+				style={{ left: '5%', width: '90%', zIndex: '900', top: showSearchBar ? '70px' : '-85px' }}>
 				<Card.Body>
 					<TopnavSearchBar autoFocus={autoFocus} isLogin={isLogin} />
 				</Card.Body>
 			</Card>
 
-			<Navbar key={expand} expand={expand} expanded={expanded} fixed='top' bg='light' collapseOnSelect>
+			<Navbar key={expand} expand={expand} expanded={expanded} fixed='top' bg='light' collapseOnSelect className='p-1'>
 				<Container fluid style={{ zIndex: '1000' }}>
 					<TopnavLogo />
 
 					<button className='d-lg-none ms-auto me-3 navbar-toggler'>
-						<SearchIcon
+						<booksitoutIcon.topnavSearch
 							className={`h1 m-0 button-hover ${showSearchBar ? 'text-black' : 'text-secondary'}`}
 							onClick={handleSearchClick}
 						/>

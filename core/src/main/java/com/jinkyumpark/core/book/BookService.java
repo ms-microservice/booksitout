@@ -1,14 +1,18 @@
 package com.jinkyumpark.core.book;
 
 import com.jinkyumpark.common.exception.NoContentException;
+import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.book.dto.BookDto;
 import com.jinkyumpark.core.book.dto.MyBookSearchRange;
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.common.exception.NotFoundException;
-import com.jinkyumpark.core.book.model.BookRepository;
+import com.jinkyumpark.core.book.model.book.Book;
+import com.jinkyumpark.core.book.model.book.BookRepository;
+import com.jinkyumpark.core.book.model.customBook.BookCustom;
+import com.jinkyumpark.core.book.model.customBook.BookCustomRepository;
+import com.jinkyumpark.core.bookIsbn.BookIsbn;
 import com.jinkyumpark.core.bookIsbn.BookIsbnDto;
 import com.jinkyumpark.core.bookIsbn.BookIsbnRepository;
+import com.jinkyumpark.core.common.feign.SearchClient;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.reading.ReadingSessionRepository;
@@ -21,16 +25,19 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
 public class BookService {
+
     private final MessageSourceAccessor messageSource;
     private final BookRepository bookRepository;
     private final ReadingSessionRepository readingSessionRepository;
-
     private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
     private final BookIsbnRepository bookIsbnRepository;
+    private final BookCustomRepository bookCustomRepository;
+    private final SearchClient searchClient;
 
     public Book getBookById(LoginAppUser loginAppUser, Long id) {
         Book book = bookRepository.findById(id)
@@ -130,7 +137,7 @@ public class BookService {
     }
 
     public Long addBook(BookDto bookDto) {
-        return bookRepository.save(bookDto.toEntity()).getBookId();
+        return bookRepository.save(bookDto.toBookEntity()).getBookId();
     }
 
     @Transactional
@@ -186,8 +193,8 @@ public class BookService {
     }
 
     @Transactional
-    public Long addBookAndBookIsbn(BookDto bookDto, long isbn) {
-        Long savedBookId = bookRepository.save(bookDto.toEntity()).getBookId();
+    public Long addBookAndBookIsbn(BookDto bookDto, String isbn) {
+        Long savedBookId = bookRepository.save(bookDto.toBookEntity()).getBookId();
 
         BookIsbnDto bookIsbnDto = BookIsbnDto.builder()
                 .title(bookDto.getTitle())
@@ -200,4 +207,27 @@ public class BookService {
 
         return savedBookId;
     }
+
+    @Transactional
+    public Book addBookAndBookCustom(Book book, BookCustom bookCustom) {
+        BookCustom savedBookCustom = null;
+        if (bookCustom != null) {
+            savedBookCustom = bookCustomRepository.save(bookCustom);
+        }
+
+        if (book.getBookIsbn() != null) {
+            Optional<BookIsbn> byIsbn = bookIsbnRepository.findByIsbn(book.getBookIsbn().getIsbn());
+            if (byIsbn.isEmpty()) {
+                BookIsbn bookIsbn = searchClient.getNewBookByIsbnFromNaver(book.getBookIsbn().getIsbn()).toEntity();
+                bookIsbnRepository.save(bookIsbn);
+            }
+        }
+
+        return bookRepository.save(book.addBookCustom(savedBookCustom));
+    }
+
+    public List<Book> getAllDoneBookByYear(Long appUserId, int year, Pageable pageable) {
+        return bookRepositoryQueryDsl.getDoneBookByYear(appUserId, year, pageable);
+    }
+
 }

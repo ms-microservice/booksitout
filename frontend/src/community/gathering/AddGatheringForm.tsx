@@ -2,7 +2,7 @@ import React from 'react'
 import { Button, Card, Form, FormGroup } from 'react-bootstrap'
 import { useSelector } from 'react-redux'
 import { RootState } from '../../redux/store'
-import Error from '../../components/common/Error';
+import Error from '../../common/Error';
 import { booksitoutServer } from '../../functions/axios';
 import toast from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';

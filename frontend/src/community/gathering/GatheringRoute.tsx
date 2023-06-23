@@ -1,12 +1,14 @@
 import { booksitoutServer } from '../../functions/axios'
 import GatheringRouteButton from './GatheringRouteButton'
 import { useLoaderData, useParams, useSearchParams } from 'react-router-dom'
-import GatheringSimpleCard from '../../components/community/summaryCard/GatheringSimpleCard'
+import GatheringSimpleCard from '../../community/summaryCard/GatheringSimpleCard'
 
 import { GatheringType } from './GatheringType'
 import { PageType } from '../../types/PageType'
-import NoContent from '../../components/common/NoContent'
-import Page from '../../components/common/Page'
+import NoContent from '../../common/NoContent'
+import Page from '../../common/Page'
+import RouteTitle from '../../common/RouteTitle'
+import booksitoutIcon from '../../common/icons/booksitoutIcon';
 
 export async function loader({ params, request }) {
 	const type = params.type.replace('-', '_').toUpperCase()
@@ -31,13 +33,15 @@ const GatheringRoute = () => {
 
 	return (
 		<div className='container-xl'>
+			<RouteTitle icon={<booksitoutIcon.gathering />} title={'독서모임'} />
+
 			<div className='mb-3'>
 				<GatheringRouteButton type={type} />
 			</div>
 
 			<div>
 				{pagedGathering.content.length === 0 ? (
-					<NoContent message='독서모임 모집글이 없어요' move={-20}/>
+					<NoContent message='독서모임 모집글이 없어요' move={-20} />
 				) : (
 					pagedGathering.content.map((gathering) => {
 						return (

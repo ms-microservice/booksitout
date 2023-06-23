@@ -5,7 +5,7 @@ import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
 import com.jinkyumpark.core.memo.request.MemoAddRequest;

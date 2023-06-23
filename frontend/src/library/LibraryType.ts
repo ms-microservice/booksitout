@@ -11,14 +11,20 @@ export interface LibraryType {
 }
 
 export interface LibraryTypeLocation {
+    name: LibraryTypeLocationName;
+
     address: string;
     latitude: number;
     longitude: number;
-    name: string;
-    englishName: string;
     logo: string;
 
     distance?: number;
+}
+
+export interface LibraryTypeLocationName {
+    displayName: string;
+    regionEnglishName: string;
+    regionDetailEnglishName: string;
 }
 export interface LibraryAutoCompleteType {
     id: number;

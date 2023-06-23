@@ -2,7 +2,7 @@ package com.jinkyumpark.core.reading;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;

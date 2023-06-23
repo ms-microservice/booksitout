@@ -127,6 +127,7 @@ public class AppUserService implements UserDetailsService {
                 .token("Bearer " + jwtToken)
 
                 .name(oAuthDto.getName())
+                .publicName(addedAppUser.getPublicName())
                 .registerDate(addedAppUser.getCreatedDate())
                 .profileImage(oAuthDto.getProfileImage())
                 .appUserId(addedAppUser.getAppUserId())

@@ -1,20 +1,23 @@
 package com.jinkyumpark.core.book;
 
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.book.model.QBook;
+import com.jinkyumpark.core.book.model.book.Book;
+import com.jinkyumpark.core.book.model.book.QBook;
 import com.jinkyumpark.core.reading.QReadingSession;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Repository
 public class BookRepositoryQueryDsl {
+
     private final JPAQueryFactory queryFactory;
 
     public List<Book> getAllBookByQuery(Long appUserId, String query) {
@@ -23,8 +26,13 @@ public class BookRepositoryQueryDsl {
         return queryFactory
                 .selectFrom(book)
                 .where(book.appUserId.eq(appUserId))
-                .where(book.title.trim().containsIgnoreCase(query.replaceAll("%20", ""))
-                        .or(book.author.contains(query.replaceAll("%20", "")))
+
+                .where(book.bookIsbn.title.trim().containsIgnoreCase(query.replaceAll("%20", ""))
+                        .or(book.bookCustom.title.trim().containsIgnoreCase(query.replaceAll("%20", "")))
+                )
+
+                .where(book.bookIsbn.author.contains(query.replaceAll("%20", ""))
+                        .or(book.bookCustom.author.contains(query.replaceAll("%20", "")))
                 )
                 .limit(10)
                 .fetch();
@@ -36,9 +44,16 @@ public class BookRepositoryQueryDsl {
         return queryFactory
                 .selectFrom(book)
                 .where(book.appUserId.eq(appUserId))
-                .where(book.title.trim().containsIgnoreCase(query.replaceAll("%20", ""))
-                        .or(book.author.contains(query.replaceAll("%20", ""))))
-                .where(book.currentPage.gt(book.endPage))
+
+                .where(book.bookIsbn.title.trim().containsIgnoreCase(query.replaceAll("%20", ""))
+                        .or(book.bookCustom.title.trim().containsIgnoreCase(query.replaceAll("%20", "")))
+                )
+
+                .where(book.bookIsbn.author.contains(query.replaceAll("%20", ""))
+                        .or(book.bookCustom.author.contains(query.replaceAll("%20", "")))
+                )
+
+                .where(book.currentPage.lt(book.endPage))
                 .limit(10)
                 .fetch();
     }
@@ -49,9 +64,16 @@ public class BookRepositoryQueryDsl {
         return queryFactory
                 .selectFrom(book)
                 .where(book.appUserId.eq(appUserId))
-                .where(book.title.trim().containsIgnoreCase(query.replaceAll("%20", ""))
-                        .or(book.author.contains(query.replaceAll("%20", ""))))
-                .where(book.currentPage.eq(book.endPage))
+
+                .where(book.bookIsbn.title.trim().containsIgnoreCase(query.replaceAll("%20", ""))
+                        .or(book.bookCustom.title.trim().containsIgnoreCase(query.replaceAll("%20", "")))
+                )
+
+                .where(book.bookIsbn.author.contains(query.replaceAll("%20", ""))
+                        .or(book.bookCustom.author.contains(query.replaceAll("%20", "")))
+                )
+
+                .where(book.currentPage.goe(book.endPage))
                 .limit(10)
                 .fetch();
     }
@@ -62,9 +84,15 @@ public class BookRepositoryQueryDsl {
         return queryFactory
                 .selectFrom(book)
                 .where(book.appUserId.eq(appUserId)
-                        .and(book.title.containsIgnoreCase(query.replaceAll("%20", ""))
-                                .or(book.author.contains(query.replaceAll("%20", ""))))
-                        .and(book.isGiveUp.eq(false))
+                        .and(book.bookIsbn.title.containsIgnoreCase(query.replaceAll("%20", ""))
+                                .or(book.bookCustom.title.containsIgnoreCase(query.replaceAll("%20", "")))
+                                .or(book.bookIsbn.author.contains(query.replaceAll("%20", "")))
+                                .or(book.bookCustom.author.contains(query.replaceAll("%20", "")))
+                        )
+
+                        .and(book.isGiveUp.eq(false).or(
+                                book.isGiveUp.isNull()
+                        ))
                 )
                 .limit(10)
                 .fetch();
@@ -77,7 +105,9 @@ public class BookRepositoryQueryDsl {
         long totalCount = queryFactory
                 .select(book)
                 .from(book)
-                .where(book.appUserId.eq(appUserId).and(book.currentPage.goe(book.endPage)))
+                .where(book.appUserId.eq(appUserId)
+                        .and(book.currentPage.goe(book.endPage))
+                )
                 .fetchCount();
 
         List<Book> bookList = queryFactory
@@ -111,17 +141,48 @@ public class BookRepositoryQueryDsl {
                 .innerJoin(book.readingSessionList, readingSession)
 
                 .where(book.appUserId.eq(appUserId)
-                                .and(book.currentPage.goe(book.endPage))
-                                .and(queryFactory
-                                        .select(readingSession.startTime.max().year())
-                                        .from(readingSession)
-                                        .where(readingSession.book.bookId.eq(book.bookId))
-                                        .eq(year)
-                                )
+                        .and(book.currentPage.goe(book.endPage))
+                        .and(queryFactory
+                                .select(readingSession.startTime.max().year())
+                                .from(readingSession)
+                                .where(readingSession.book.bookId.eq(book.bookId))
+                                .eq(year)
+                        )
                 )
 
                 .groupBy(book)
 
                 .fetchCount();
     }
+
+    public List<Book> getDoneBookByYear(Long appUserId, int year, Pageable pageable) {
+        QBook book = QBook.book;
+        QReadingSession readingSession = QReadingSession.readingSession;
+
+        return queryFactory
+                .selectFrom(book)
+
+                .innerJoin(book.readingSessionList, readingSession)
+
+                .where(book.appUserId.eq(appUserId)
+                        .and(book.currentPage.goe(book.endPage))
+                        .and(queryFactory
+                                .select(readingSession.startTime.max().year())
+                                .from(readingSession)
+                                .where(readingSession.book.bookId.eq(book.bookId))
+                                .eq(year)
+                        )
+                )
+
+                .groupBy(book)
+
+                .offset(pageable.getOffset())
+                .limit(pageable.getPageSize())
+                .fetchAll()
+                .stream()
+                .collect(Collectors.toList())
+        ;
+    }
+
+
 }

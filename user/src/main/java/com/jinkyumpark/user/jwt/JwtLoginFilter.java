@@ -3,7 +3,6 @@ package com.jinkyumpark.user.jwt;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.user.appUser.AppUser;
-import com.jinkyumpark.user.appUser.AppUserRepository;
 import com.jinkyumpark.user.appUser.dto.EmailPasswordLoginRequest;
 import com.jinkyumpark.user.appUser.dto.LoginFailResponse;
 import com.jinkyumpark.user.appUser.dto.LoginMethod;

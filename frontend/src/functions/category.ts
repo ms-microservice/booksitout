@@ -21,6 +21,7 @@ const categoryKoreanDisplayNameMap: Map<string, string> = new Map([
 	['HISTORY', '역사'],
 	['OTHERS', '기타'],
 ])
+
 const categoryIconMap: Map<string, any> = new Map([
 	['PHILOSOPHY', philosophyIcon],
 	['RELIGION', religionIcon],

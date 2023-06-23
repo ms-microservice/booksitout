@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.statistics.response;
 
-import com.jinkyumpark.core.statistics.model.DayStatistics;
-import com.jinkyumpark.core.statistics.model.YearStatistics;
+import com.jinkyumpark.core.statistics.dto.DayStatistics;
+import com.jinkyumpark.core.statistics.dto.YearStatistics;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;

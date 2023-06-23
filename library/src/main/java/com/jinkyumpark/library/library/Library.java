@@ -1,6 +1,6 @@
 package com.jinkyumpark.library.library;
 
-import com.jinkyumpark.library.region.RegionDetail;
+import com.jinkyumpark.library.region.regionDetail.RegionDetail;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -23,8 +23,7 @@ public class Library {
     private Double latitude;
     private Double longitude;
 
-    @ManyToOne
-    @JoinColumn(name = "region_detail_id", nullable = false)
+    @ManyToOne @JoinColumn(name = "region_detail_id", nullable = false)
     private RegionDetail regionDetail;
 
     private String phone;

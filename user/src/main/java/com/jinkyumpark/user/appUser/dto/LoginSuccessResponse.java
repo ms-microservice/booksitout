@@ -8,8 +8,7 @@ import org.springframework.format.annotation.DateTimeFormat;
 import java.time.LocalDateTime;
 
 @Getter
-@AllArgsConstructor
-@Builder
+@AllArgsConstructor @Builder
 public class LoginSuccessResponse {
 
     @DateTimeFormat(pattern = "yyyy-MM-ddTHH:MM")
@@ -20,6 +19,7 @@ public class LoginSuccessResponse {
     private final Long appUserId;
     private final String token;
     private final String name;
+    private final String publicName;
     private final String profileImage;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponse
 import com.jinkyumpark.library.data4library.response.ApiData4LibraryAvailableLibraryResponseLibraryLib
 import com.jinkyumpark.library.library.Library
-import com.jinkyumpark.library.region.RegionDetail
+import com.jinkyumpark.library.region.regionDetail.RegionDetail
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import org.springframework.web.reactive.function.client.WebClient

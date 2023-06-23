@@ -2,8 +2,8 @@ package com.jinkyumpark.core.statistics;
 
 import com.jinkyumpark.core.statistics.dto.BookRelatedStatistics;
 import com.jinkyumpark.core.statistics.dto.ReadingSessionRelatedStatistics;
-import com.jinkyumpark.core.statistics.model.DayStatistics;
-import com.jinkyumpark.core.statistics.model.YearStatistics;
+import com.jinkyumpark.core.statistics.dto.DayStatistics;
+import com.jinkyumpark.core.statistics.dto.YearStatistics;
 import com.jinkyumpark.core.statistics.response.SummaryStatistics;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.loginUser.LoginUser;
@@ -17,8 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.time.LocalDateTime;
 
 @RequiredArgsConstructor
-@RestController
-@RequestMapping("v3/statistics")
+@RestController @RequestMapping("v3/statistics")
 public class StatisticsControllerV3 {
 
     private final StatisticsQueryDslRepository statisticsQueryDslRepository;

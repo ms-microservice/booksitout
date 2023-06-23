@@ -9,6 +9,7 @@ import com.fasterxml.jackson.databind.json.JsonMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.datatype.jsr310.ser.LocalDateTimeSerializer;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.MediaType;
@@ -25,7 +26,7 @@ import java.util.Collections;
 public class RestTemplateConfig {
 
     @Bean
-    public RestTemplate restTemplate(ObjectMapper objectMapper) {
+    public RestTemplate restTemplate(@Qualifier("underBarWithLowerCaseToCamel") ObjectMapper objectMapper) {
         RestTemplate restTemplate = new RestTemplate();
 
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();

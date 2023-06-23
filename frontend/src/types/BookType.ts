@@ -1,27 +1,40 @@
-export interface Book {
-    isbn: number;
+export interface BookType {
+	id: number;
+    isbn: string;
 
     title: string;
     author: string;
-    cover: string;
+    cover?: string;
+	description?: string;
+	
+	page?: number;
+
+	language: string;
+	publicationYear?: number;
+	link: BookLinkType;
+	category: string;
 }
 
-export interface BookUserType extends Book {
+export interface BookLinkType {
+	naver?: string;
+	aladin?: string;
+	yes24?: string;
+	kyobo?: string;
+}
+
+export interface BookAddSearchResult extends BookType {
+	from: string;
+}
+
+export interface BookUserType extends BookType {
 	summary?: string;
 	review?: string;
 	currentPage: number;
 	endPage: number;
+	isGiveUp: boolean;
 }
 
-export interface BookDetailType extends Book {
-    category: BookCategory;
-}
-
-export interface BookCategory {
-
-}
-
-export interface SharingBook extends Book {
+export interface SharingBook extends BookType {
     currentPage: number;
     endPage: number;
 }

@@ -1,7 +1,7 @@
 package com.jinkyumpark.library.membership.dto;
 
-import com.jinkyumpark.library.membership.LibraryMembership;
-import com.jinkyumpark.library.region.RegionDetail;
+import com.jinkyumpark.library.membership.Membership;
+import com.jinkyumpark.library.membership.type.MembershipType;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -11,16 +11,19 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor @AllArgsConstructor @Builder
 public class MembershipEditRequest {
 
-    private Long region;
     private String number;
+    private String memo;
+    private Long typeId;
 
-    public LibraryMembership toEntity(Long appUserId, Long membershipId) {
-        return LibraryMembership.builder()
+    public Membership toEntity(Long appUserId, Long membershipId) {
+        return Membership.builder()
                 .libraryMembershipId(membershipId)
-                .appUserId(appUserId)
 
-                .region(RegionDetail.builder().regionDetailId(region).build())
                 .number(number)
+                .memo(memo)
+                .type(typeId == null ? null : MembershipType.builder().id(typeId).build())
+
+                .appUserId(appUserId)
                 .build();
     }
 

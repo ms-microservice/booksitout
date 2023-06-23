@@ -31,4 +31,7 @@ public interface LibraryRepository extends JpaRepository<Library, Long> {
     @Query("select l from Library l where l.name like concat('%', :query, '%') or l.address like concat('%', :query, '%')")
     List<Library> findAllByNameOrAddress(String query, Pageable pageable);
 
+    @Query("select l from Library l where l.regionDetail.regionDetailId = :regionDetailId and l.regionDetail.region.regionId = :regionId")
+    Page<Library> findAllByRegionIdAndRegionDetailId(Long regionId, Long regionDetailId, Pageable pageable);
+
 }

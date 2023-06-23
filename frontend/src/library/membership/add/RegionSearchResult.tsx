@@ -1,6 +1,6 @@
 import React from 'react'
 import { ListGroup } from 'react-bootstrap'
-import {AiFillCheckCircle as CheckIcon} from 'react-icons/ai'
+import { AiFillCheckCircle as CheckIcon } from 'react-icons/ai'
 
 const RegionSearchResult = ({ region, selected }) => {
 	return (

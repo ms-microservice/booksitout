@@ -7,8 +7,8 @@ import parse from 'html-react-parser'
 import Tip from "./TipsType"
 import TipsTimeIcon from "./TipsTimeIcon"
 
-import Loading from "../../components/common/Loading"
-import Error from '../../components/common/Error'
+import Loading from "../../common/Loading"
+import Error from '../../common/Error'
 
 import { booksitoutServer } from "../../functions/axios"
 

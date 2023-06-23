@@ -1,12 +1,12 @@
 import React from 'react'
 import Barcode from 'react-barcode'
 import { Card } from 'react-bootstrap'
-import Error from '../../components/common/Error';
+import Error from '../../common/Error';
 import utils from '../../functions/utils';
 
-const MembershipCard = ({ membership, width=2 }) => {
+const MembershipCard = ({ membership, width=2, height=80 }) => {
 	return (
-		<Card style={{ minHeight: '200px' }}>
+		<Card style={{ minHeight: height * 2.5 }}>
 			<Card.Body>
 				{membership == null ? (
 					<Error move={0} mt={10} />
@@ -14,16 +14,18 @@ const MembershipCard = ({ membership, width=2 }) => {
 					<a href={`/library/membership/${membership.id}`}>
 						<div className='row'>
 							<div className='col-4'>
-								<img src={membership.logo} alt='' style={{ width: '50px' }} />
+								<img src={membership.logo} alt='' style={{ height: '40px' }} />
 							</div>
 
 							<div className='col-8 text-end'>
-								<h5>{membership.name}</h5>
+								<h5 className='clamp-1-line'>{membership.name}</h5>
 							</div>
 						</div>
 
 						<div className='w-100 text-center'>
-							<Barcode value={utils.insertSpace(membership.number)} height={80} width={width} />
+							<Barcode value={membership.number} height={height} width={width} displayValue={false} />
+
+							<h6>{utils.insertSpace(membership.number)}</h6>
 						</div>
 					</a>
 				)}

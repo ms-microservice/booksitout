@@ -4,7 +4,7 @@ import com.jinkyumpark.community.config.feign.response.BookInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "bookIsbn", url = "${feign.url.core}")
+@FeignClient(name = "core")
 public interface BookClient {
 
     @RequestMapping(method = RequestMethod.GET, value = "v4/book-isbn/{isbn}")
