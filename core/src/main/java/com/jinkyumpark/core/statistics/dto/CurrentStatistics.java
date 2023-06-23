@@ -7,10 +7,9 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor @AllArgsConstructor @Builder
-public class StatisticsDto {
-    private Integer totalReadMinute;
-    private Integer totalStar;
-    private Integer maxReadMinute;
-    private Integer totalPage;
-    private Boolean bookFinished;
+public class CurrentStatistics {
+
+    private Integer currentReading;
+    private Integer consecutiveReading;
+
 }

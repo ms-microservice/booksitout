@@ -1,7 +1,7 @@
 package com.jinkyumpark.core.statistics;
 
-import com.jinkyumpark.core.book.model.Book;
-import com.jinkyumpark.core.book.model.QBook;
+import com.jinkyumpark.core.book.model.book.Book;
+import com.jinkyumpark.core.book.model.book.QBook;
 import com.jinkyumpark.core.reading.QReadingSession;
 import com.jinkyumpark.core.reading.ReadingSession;
 import com.jinkyumpark.core.statistics.dto.BookRelatedStatistics;
@@ -12,8 +12,10 @@ import org.springframework.stereotype.Service;
 
 import java.time.Duration;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @Service
@@ -108,4 +110,33 @@ public class StatisticsQueryDslRepository {
                 .totalReadBookCount(totalReadBookCount)
                 .build();
     }
+
+    public Integer countConsecutiveReading(Long appUserId) {
+        QReadingSession readingSession = QReadingSession.readingSession;
+
+        List<LocalDate> readingTime = queryFactory
+                .selectFrom(readingSession)
+                .where(readingSession.appUserId.eq(appUserId))
+                .orderBy(readingSession.startTime.desc())
+                .fetch().stream()
+
+                .map(r -> r.getStartTime().toLocalDate())
+                .distinct()
+                .collect(Collectors.toList());
+
+        LocalDate previousDate = LocalDate.now().plusDays(1L);
+        int count = 0;
+        for (LocalDate currentDate : readingTime) {
+            long difference = ChronoUnit.DAYS.between(currentDate, previousDate);
+            if (difference > 1) {
+                break;
+            }
+
+            count++;
+            previousDate = currentDate;
+        }
+
+        return count;
+    }
+
 }

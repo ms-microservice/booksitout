@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book.model;
+package com.jinkyumpark.core.book.model.book;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -11,9 +11,6 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @Query("select b from Book b where b.appUserId = ?1 order by b.lastModifiedDate")
     Page<Book> findAllBooks(Long appUserId, Pageable pageRequest);
-
-    @Query("select b from Book b where b.appUserId = :appUserId and (b.title like %:query% or b.author like %:query%)")
-    List<Book> findAllByQuery(Long appUserId, String query);
 
     @Query("select b from Book b where b.appUserId = ?1 and b.currentPage = 0 and (b.isGiveUp is null OR b.isGiveUp = true) order by b.lastModifiedDate desc")
     Page<Book> findAllNotStartedBooks(Long appUserId, Pageable pageRequest);
@@ -39,10 +36,10 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b where b.appUserId = ?1 and b.sharing = true")
     Page<Book> getAllSharingBooksPaged(Long appUserId, Pageable pageable);
 
-    @Query("select b from Book b where b.appUserId = ?1 and b.isbn13 is not null")
+    @Query("select b from Book b where b.appUserId = ?1 and b.bookIsbn.isbn is not null")
     List<Book> findAllIsbnNotEmptyByAppUserId(Long appUserId, Pageable pageable);
 
-    @Query("select b from Book b where b.isbn13 is null")
+    @Query("select b from Book b where b.bookIsbn is null")
     Page<Book> findAllBooksOfEmptyIsbn(Pageable pageable);
 
 }

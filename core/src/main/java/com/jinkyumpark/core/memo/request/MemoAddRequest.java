@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.memo.request;
 
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.memo.Memo;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

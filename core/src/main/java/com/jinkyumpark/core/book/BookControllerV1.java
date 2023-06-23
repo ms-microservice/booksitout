@@ -2,9 +2,11 @@ package com.jinkyumpark.core.book;
 
 import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.DeleteSuccessResponse;
+import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.common.response.UpdateSuccessResponse;
 import com.jinkyumpark.core.book.dto.BookDto;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.dto.BookResponse;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.book.dto.BookAddRequest;
 import com.jinkyumpark.core.book.dto.BookEditRequest;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -18,18 +20,22 @@ import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RequiredArgsConstructor
 @RestController @RequestMapping("v1/book")
 public class BookControllerV1 {
+
     private final MessageSourceAccessor messageSource;
     private final BookService bookService;
     private final BookRepositoryQueryDsl bookRepositoryQueryDsl;
 
     @GetMapping("{id}")
-    public Book getBookById(@PathVariable("id") Long bookId,
-                            @LoginUser LoginAppUser loginAppUser) {
-        return bookService.getBookById(loginAppUser, bookId);
+    public BookResponse getBookById(@PathVariable("id") Long bookId,
+                                    @LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getBookById(loginAppUser, bookId);
+        return BookResponse.of(book);
     }
 
     @GetMapping("last")
@@ -38,24 +44,52 @@ public class BookControllerV1 {
     }
 
     @GetMapping("all/{range}")
-    public Page<Book> getAllBooks(@PathVariable(value = "range", required = false) String range,
-                                  @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
-                                  @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
-                                  @LoginUser LoginAppUser loginAppUser) {
+    public PagedResponse<List<BookResponse>> getAllBooks(@PathVariable(value = "range", required = false) String range,
+                                                         @RequestParam(value = "page", required = false, defaultValue = "0") Integer page,
+                                                         @RequestParam(value = "size", required = false, defaultValue = "10") Integer size,
+                                                         @LoginUser LoginAppUser loginAppUser) {
         Pageable pageRequest = PageRequest.of(page, size, Sort.by("createdDate").descending());
 
-        if (range.equals("not-started")) return bookService.getAllNotStartedBook(loginAppUser.getId(), pageRequest);
-        if (range.equals("started")) return bookService.getAllStartedBook(loginAppUser.getId(), pageRequest);
-        if (range.equals("not-done")) return bookService.getAllNotDoneBook(loginAppUser.getId(), pageRequest);
-        if (range.equals("done")) return bookRepositoryQueryDsl.getDoneBookOrderByDoneDateDesc(loginAppUser.getId(), page, size);
-        if (range.equals("give-up")) return bookService.getAllGiveUpBook(loginAppUser.getId(), pageRequest);
+        Page<Book> pagedBook;
 
-        return bookService.getAllBooks(loginAppUser.getId(), pageRequest);
+        switch (range) {
+            case "not-started":
+                pagedBook = bookService.getAllNotStartedBook(loginAppUser.getId(), pageRequest);
+                break;
+            case "started":
+                pagedBook = bookService.getAllStartedBook(loginAppUser.getId(), pageRequest);
+                break;
+            case "not-done":
+                pagedBook = bookService.getAllNotDoneBook(loginAppUser.getId(), pageRequest);
+                break;
+            case "done":
+                pagedBook = bookRepositoryQueryDsl.getDoneBookOrderByDoneDateDesc(loginAppUser.getId(), page, size);
+                break;
+            case "give-up":
+                pagedBook = bookService.getAllGiveUpBook(loginAppUser.getId(), pageRequest);
+                break;
+            default:
+                pagedBook = bookService.getAllBooks(loginAppUser.getId(), pageRequest);
+                break;
+        }
+
+        return PagedResponse.<List<BookResponse>>builder()
+                .first(pagedBook.isFirst())
+                .last(pagedBook.isLast())
+                .totalElements((int) pagedBook.getTotalElements())
+                .totalPages(pagedBook.getTotalPages())
+                .content(pagedBook.getContent().stream()
+                        .map(BookResponse::of)
+                        .collect(Collectors.toList())
+                )
+                .build();
     }
 
     @GetMapping("current-reading-session")
-    public Book getCurrentReadingSessionBook(@LoginUser LoginAppUser loginAppUser) {
-        return bookService.getCurrentReadingSessionBook(loginAppUser.getId());
+    public BookResponse getCurrentReadingSessionBook(@LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getCurrentReadingSessionBook(loginAppUser.getId());
+
+        return BookResponse.of(book);
     }
 
     @PostMapping

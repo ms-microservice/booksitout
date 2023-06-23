@@ -19,9 +19,9 @@ public class BookIsbnQueryDslRepository {
         return queryFactory
                 .selectFrom(bookIsbn)
                 .where(
-                        bookIsbn.title.like(query).or(
-                                bookIsbn.author.like(query).or(
-                                        bookIsbn.isbn.like(query)
+                        bookIsbn.title.contains(query).or(
+                                bookIsbn.author.contains(query).or(
+                                        bookIsbn.isbn.contains(query)
                                 )
                         )
                 )

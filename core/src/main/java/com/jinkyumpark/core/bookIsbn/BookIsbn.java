@@ -1,6 +1,7 @@
 package com.jinkyumpark.core.bookIsbn;
 
-import com.jinkyumpark.core.book.model.BookLanguage;
+import com.jinkyumpark.core.book.model.book.BookLanguage;
+import com.jinkyumpark.core.book.model.book.BookMainCategory;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,10 +25,13 @@ public class BookIsbn {
     private String author;
     private String cover;
 
+    @Column(name = "sub_title")
+    private String subTitle;
+
     @Column(columnDefinition = "TEXT")
     private String description;
 
-    @Column(length = 4)
+    @Column(name = "publication_year", length = 4)
     private Integer publicationYear;
 
     @Column(length = 100)
@@ -44,5 +48,9 @@ public class BookIsbn {
     @Column(name = "language", length = 10)
     @Enumerated(value = EnumType.STRING)
     private BookLanguage language;
+
+    @Column(name = "category", length = 15)
+    @Enumerated(value = EnumType.STRING)
+    private BookMainCategory category;
 
 }

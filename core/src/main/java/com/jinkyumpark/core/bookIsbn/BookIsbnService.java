@@ -18,11 +18,11 @@ public class BookIsbnService {
     private final BookIsbnQueryDslRepository bookIsbnQueryDslRepository;
     private final SearchClient searchClient;
 
-    public BookIsbnDto getBookInfoByIsbn(String isbn) {
-        BookIsbn bookIsbn = bookIsbnRepository.findByIsbn(String.valueOf(isbn))
-                .orElseThrow(() -> new NoContentException("찾으시려는 책이 없어요"));
+    public BookIsbn getBookInfoByIsbn(String isbn) {
+        if (isbn == null) return null;
 
-        return BookIsbnDto.of(bookIsbn);
+        return bookIsbnRepository.findByIsbn(isbn)
+                .orElse(null);
     }
 
     public BookIsbn addBookIsbnIfAbsent(String isbn) {

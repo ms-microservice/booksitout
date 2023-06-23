@@ -1,16 +1,15 @@
 package com.jinkyumpark.core.book.dto;
 
-import com.jinkyumpark.core.book.model.BookForm;
-import com.jinkyumpark.core.book.model.BookSource;
+import com.jinkyumpark.core.book.model.book.BookForm;
+import com.jinkyumpark.core.book.model.book.BookSource;
 import com.sun.istack.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-@NoArgsConstructor @AllArgsConstructor
+@AllArgsConstructor
 @Getter
 public class BookAddRequest {
     @NotNull

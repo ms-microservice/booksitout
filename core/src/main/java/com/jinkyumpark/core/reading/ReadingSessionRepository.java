@@ -25,4 +25,8 @@ public interface ReadingSessionRepository extends JpaRepository<ReadingSession, 
     Optional<ReadingSession> getCurrentReadingSessionEager(Long appUserId);
 
     Optional<ReadingSession> findFirstByBook_BookIdOrderByStartTimeDesc(Long bookId);
+
+    @Query("select count(r) from ReadingSession r where r.endPage is null")
+    Integer countAllReading();
+
 }

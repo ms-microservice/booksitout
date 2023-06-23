@@ -4,10 +4,11 @@ import com.jinkyumpark.common.exception.BadRequestException;
 import com.jinkyumpark.common.exception.UnauthorizedException;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
 import com.jinkyumpark.core.book.BookService;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.common.exception.NotFoundException;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
 import com.jinkyumpark.core.reading.exception.ReadingSessionIsInProgressException;
+import com.jinkyumpark.core.statistics.StatisticsQueryDslRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.support.MessageSourceAccessor;
 import org.springframework.data.domain.Pageable;
@@ -22,10 +23,12 @@ import static java.time.temporal.ChronoUnit.DAYS;
 @RequiredArgsConstructor
 @Service
 public class ReadingSessionService {
+
     private final MessageSourceAccessor messageSource;
     private final ReadingSessionRepository readingSessionRepository;
     private final BookService bookService;
     private final ReadingSessionQueryDslRepository readingSessionQueryDslRepository;
+    private final StatisticsQueryDslRepository statisticsQueryDslRepository;
 
     public List<Integer> getReadTimeByDateRange(Long appUserId, LocalDateTime startDate, LocalDateTime endDate) {
         List<ReadingSession> readingSessionList = readingSessionRepository.findAllByAppUserIdAndStartTimeBetween(appUserId, startDate, endDate);
@@ -147,4 +150,13 @@ public class ReadingSessionService {
         readingSessionRepository.deleteById(readingSessionId);
         book.deleteReadingSession(readingSession);
     }
+
+    public Integer getCurrentlyReading() {
+        return readingSessionRepository.countAllReading();
+    }
+
+    public Integer getConsecutiveReadingDayCount(Long appUserId) {
+        return statisticsQueryDslRepository.countConsecutiveReading(appUserId);
+    }
+
 }

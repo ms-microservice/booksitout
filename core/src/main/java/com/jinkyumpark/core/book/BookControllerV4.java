@@ -4,8 +4,7 @@ import com.jinkyumpark.common.response.AddSuccessResponse;
 import com.jinkyumpark.common.response.PagedResponse;
 import com.jinkyumpark.core.book.dto.BookResponse;
 import com.jinkyumpark.core.book.dto.BookSearchResultAddRequest;
-import com.jinkyumpark.core.book.dto.RecentBookResponse;
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.common.feign.UserClient;
 import com.jinkyumpark.core.common.feign.response.PublicUserResponse;
 import com.jinkyumpark.core.loginUser.LoginAppUser;
@@ -30,7 +29,7 @@ public class BookControllerV4 {
     private final UserClient userClient;
 
     @GetMapping("recent")
-    public List<RecentBookResponse> getRecentBook(@LoginUser LoginAppUser loginAppUser,
+    public List<BookResponse> getRecentBook(@LoginUser LoginAppUser loginAppUser,
                                                   @RequestParam(name = "page", required = false) Integer page,
                                                   @RequestParam(name = "size", required = false) Integer size) {
         if (page == null) page = 1;
@@ -41,13 +40,15 @@ public class BookControllerV4 {
         List<Book> book = bookService.getAllBookByAppUserId(loginAppUser.getId(), pageable);
 
         return book.stream()
-                .map(RecentBookResponse::of)
+                .map(BookResponse::of)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("last")
-    public Book getLastBook(@LoginUser LoginAppUser loginAppUser) {
-        return bookService.getLastBookByAppUserIdThrowNoContent(loginAppUser.getId());
+    public BookResponse getLastBook(@LoginUser LoginAppUser loginAppUser) {
+        Book book = bookService.getLastBookByAppUserIdThrowNoContent(loginAppUser.getId());
+
+        return BookResponse.of(book);
     }
 
     @GetMapping("sharing")
@@ -67,8 +68,8 @@ public class BookControllerV4 {
 
     @GetMapping("sharing/paged")
     public PagedResponse<List<BookResponse>> getBookByNicknamePaged(@RequestParam("name") String nickName,
-                                                     @RequestParam(value = "page", required = false) Integer page,
-                                                     @RequestParam(value = "size", required = false) Integer size) {
+                                                                    @RequestParam(value = "page", required = false) Integer page,
+                                                                    @RequestParam(value = "size", required = false) Integer size) {
         if (page == null) page = 1;
         if (size == null) size = 10;
         Pageable pageable = PageRequest.of(page - 1, size, Sort.by("lastModifiedDate").descending());
@@ -88,7 +89,7 @@ public class BookControllerV4 {
                 .build();
     }
 
-    @PostMapping
+    @PostMapping("with-isbn")
     public AddSuccessResponse addBookBySearchResultAndAddToBookIsbn(@RequestBody BookSearchResultAddRequest bookAddRequest,
                                                                     @LoginUser LoginAppUser loginAppUser) {
 
@@ -96,6 +97,17 @@ public class BookControllerV4 {
                 bookAddRequest.toDto(loginAppUser.getId()),
                 bookAddRequest.getIsbn()
         );
+
+        return AddSuccessResponse.builder()
+                .id(addedBookId)
+                .build();
+    }
+
+    @PostMapping
+    public AddSuccessResponse addBookBySearchResult(@RequestBody BookSearchResultAddRequest bookAddRequest,
+                                                    @LoginUser LoginAppUser loginAppUser) {
+
+        Long addedBookId = bookService.addBook(bookAddRequest.toDto(loginAppUser.getId()));
 
         return AddSuccessResponse.builder()
                 .id(addedBookId)

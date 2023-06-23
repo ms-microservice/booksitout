@@ -1,7 +1,9 @@
-package com.jinkyumpark.core.book.model;
+package com.jinkyumpark.core.book.model.book;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.jinkyumpark.core.book.model.customBook.BookCustom;
 import com.jinkyumpark.core.book.dto.BookDto;
+import com.jinkyumpark.core.bookIsbn.BookIsbn;
 import com.jinkyumpark.core.common.jpa.TimeEntity;
 import com.jinkyumpark.core.memo.Memo;
 import com.jinkyumpark.core.reading.ReadingSession;
@@ -14,7 +16,6 @@ import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -28,31 +29,17 @@ public class Book extends TimeEntity {
     @Column(name = "book_id")
     private Long bookId;
 
-    @Column(nullable = false) private String title;
-    @Column(nullable = false) private String author;
-    @Column(length = 1000) private String cover;
-
-    private LocalDateTime publishedAt;
-
     @ColumnDefault("0") private Integer currentPage;
     @Column(nullable = false) private Integer endPage;
 
     @Enumerated(EnumType.ORDINAL) private BookSource source;
     @Enumerated(EnumType.ORDINAL) private BookForm form;
 
-    private String review;
-    private String summary;
     @Column(length = 5) private Integer rating;
 
-    @ColumnDefault(value = "1")
-    @Enumerated(value = EnumType.ORDINAL)
-    @Column(nullable = true)
+    @ColumnDefault(value = "UNKNOWN")
+    @Enumerated(value = EnumType.STRING)
     private BookLanguage language;
-
-    @ColumnDefault(value = "1")
-    @Enumerated(value = EnumType.ORDINAL)
-    @Column(nullable = true)
-    private BookCategory category;
 
     @ColumnDefault("false") private Boolean isGiveUp;
     @ColumnDefault("true") private Boolean sharing;
@@ -60,12 +47,10 @@ public class Book extends TimeEntity {
     @Enumerated(EnumType.STRING)
     @ColumnDefault("NONE")
     private BookMemoType memoType;
+
     private String memoLink;
 
     private Long appUserId;
-
-    @Column(length = 13)
-    private Long isbn13;
 
     @OneToMany(mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.PERSIST, CascadeType.REMOVE})
     @JsonIgnore
@@ -74,6 +59,12 @@ public class Book extends TimeEntity {
     @OneToMany(targetEntity = ReadingSession.class, mappedBy = "book", fetch = FetchType.LAZY, orphanRemoval = true, cascade = {CascadeType.ALL})
     @JsonIgnore
     private List<ReadingSession> readingSessionList;
+
+    @OneToOne @JoinColumn(name = "book_custom_id")
+    private BookCustom bookCustom;
+
+    @OneToOne @JoinColumn(name = "isbn")
+    private BookIsbn bookIsbn;
 
     public void addReadingSession(ReadingSessionDto readingSessionDto) {
         if (readingSessionDto.getEndPage() != null) this.currentPage = readingSessionDto.getEndPage();
@@ -96,20 +87,10 @@ public class Book extends TimeEntity {
     }
 
     public void editBook(BookDto bookDto) {
-        if (bookDto.getTitle() != null)
-            this.title = bookDto.getTitle();
-        if (bookDto.getAuthor() != null)
-            this.author = bookDto.getAuthor();
         if (bookDto.getLanguage() != null)
             this.language = bookDto.getLanguage();
-        if (bookDto.getCover() != null)
-            this.cover = bookDto.getCover();
-        if (bookDto.getSummary() != null)
-            this.cover = bookDto.getCover();
         if (bookDto.getSource() != null)
             this.source = bookDto.getSource();
-        if (bookDto.getReview() != null)
-            this.review = bookDto.getReview();
         if (bookDto.getSharing() != null)
             this.sharing = bookDto.getSharing();
         if (bookDto.getEndPage() != null)
@@ -123,8 +104,17 @@ public class Book extends TimeEntity {
     }
 
     public Book addIsbn(String isbn) {
-        this.isbn13 = Long.valueOf(isbn);
+        this.bookIsbn = BookIsbn.builder()
+                .isbn(isbn)
+                .build();
 
+        return this;
+    }
+
+    public Book addBookCustom(BookCustom bookCustom) {
+        if (bookCustom == null) return this;
+
+        this.bookCustom = bookCustom;
         return this;
     }
 

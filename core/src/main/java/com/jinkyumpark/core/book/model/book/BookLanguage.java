@@ -1,4 +1,4 @@
-package com.jinkyumpark.core.book.model;
+package com.jinkyumpark.core.book.model.book;
 
 public enum BookLanguage {
     KOREAN,
@@ -7,6 +7,8 @@ public enum BookLanguage {
     CHINESE,
     FRENCH,
     SPANISH,
+    GERMAN,
+    ITALIAN,
 
     UNKNOWN
 }

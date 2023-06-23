@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.bookIsbn;
 
-import com.jinkyumpark.core.book.model.BookLanguage;
+import com.jinkyumpark.core.book.model.book.BookLanguage;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;

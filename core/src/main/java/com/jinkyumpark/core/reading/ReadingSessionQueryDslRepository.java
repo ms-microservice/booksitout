@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.reading;
 
-import com.jinkyumpark.core.book.model.QBook;
+import com.jinkyumpark.core.book.model.book.QBook;
 import com.jinkyumpark.core.reading.dto.ReadingSessionDto;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
