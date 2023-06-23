@@ -18,6 +18,8 @@ public class SeoulLibraryBookIsbnProcessor implements ItemProcessor<FileSeoulLib
 
     @Override
     public BookIsbn process(FileSeoulLibraryResponse fileResponse) {
+        log.info(fileResponse.getTitle());
+
         if (fileResponse.getIsbn() == null ||
                 fileResponse.getPage() == null ||
                 fileResponse.getPage().equals("1")) {
@@ -32,10 +34,10 @@ public class SeoulLibraryBookIsbnProcessor implements ItemProcessor<FileSeoulLib
 
         NewBookSearchResponse bookResponse = searchClient.getNewBookByIsbnFromNaver(fileResponse.getIsbn());
         if (bookResponse == null) {
-            return fileResponse.toEntity(null, null, null);
+            return fileResponse.toEntity(null, null, null, null);
         }
 
-        return fileResponse.toEntity(bookResponse.getCover(), bookResponse.getDescription(), bookResponse.getLink());
+        return fileResponse.toEntity(bookResponse.getCover(), bookResponse.getDescription(), bookResponse.getLink(), bookResponse.getPublicationYear());
     }
 
 }

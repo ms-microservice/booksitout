@@ -1,12 +1,18 @@
 package com.jinkyumpark.core.batch.seoulLibraryFile.dto;
 
-import com.jinkyumpark.core.book.model.BookLanguage;
+import com.jinkyumpark.core.book.model.book.BookLanguage;
+import com.jinkyumpark.core.book.model.book.BookMainCategory;
 import com.jinkyumpark.core.bookIsbn.BookIsbn;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Slf4j
 @Getter
@@ -22,22 +28,26 @@ public class FileSeoulLibraryResponse {
     private String contry_name;
     private String lang_name;
     private String lang;
+    private String class_no;
 
-    public BookIsbn toEntity(String cover, String description, String naverLink) {
+    public BookIsbn toEntity(String cover, String description, String naverLink, Integer publicationYear) {
         return BookIsbn.builder()
                 .isbn(isbn)
 
                 .title(getTitle(title))
+                .subTitle(getSubTitle(title))
                 .author(getAuthor(author))
                 .cover(cover)
                 .description(description)
 
-                .publicationYear(getYear(publer_year))
+                .publicationYear(getYear(publer_year, publicationYear))
                 .publisher(publer)
 
                 .page(getPage(page))
 
                 .language(getLanguage(lang))
+                .category(getCategory(class_no))
+
                 .naverLink(naverLink)
 
                 .build();
@@ -49,16 +59,47 @@ public class FileSeoulLibraryResponse {
                 .replace("[구독형]", "")
                 .replace("[전자책]", "")
                 .replace("[전자자료]", "")
-                ;
+                .replace("[지도자료]", "");
 
-        if (uselessInfoRemoved.length() > 200) {
-            return uselessInfoRemoved.substring(199);
+        String subTitleRemoved = uselessInfoRemoved
+                // starts with ()
+                .replaceAll("\\([^)]*\\)", "")
+                // ends with ()
+                .replaceAll("\\([^()]*\\)$", "")
+                // last occurrence of : until end
+                .replaceAll(":[^:]*$", "");
+
+        if (subTitleRemoved.length() > 200) {
+            return uselessInfoRemoved.substring(0, 199);
         }
 
-        return uselessInfoRemoved;
+        return subTitleRemoved.trim();
+    }
+
+    private String getSubTitle(String title) {
+        String[] regexes = {"\\([^)]*\\)", "\\([^()]*\\)$", ":[^:]*$"};
+
+        List<String> matches = new ArrayList<>();
+
+        for (String regex : regexes) {
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(title);
+
+            while (matcher.find()) {
+                String match = matcher.group();
+                matches.add(match);
+            }
+        }
+
+        String combined = String.join("", matches);
+        if (combined.isEmpty()) return null;
+        else if (combined.length() < 200) return combined;
+        else return combined.substring(0, 200);
     }
 
     private String getAuthor(String author) {
+        if (author == null || author.isEmpty()) return null;
+
         return author
                 .replaceAll(" 지음", "")
                 .replaceAll(" 저", "")
@@ -69,14 +110,17 @@ public class FileSeoulLibraryResponse {
                 .replace("[by] ", "");
     }
 
-    private Integer getYear(String year) {
+    private Integer getYear(String year, Integer naverPublicationYear) {
         String publicationYear = year == null ? null : year.trim().replaceAll(" ", "");
-        Integer publicationYearExtracted = null;
+        Integer publicationYearExtracted;
         try {
             publicationYearExtracted = publicationYear == null || publicationYear.isEmpty() ? null : Integer.parseInt(publicationYear);
         } catch (Exception e) {
             log.info("publication Year malformed {}", year);
+            return naverPublicationYear;
         }
+
+        if (publicationYearExtracted == null || publicationYearExtracted == 0) return naverPublicationYear;
 
         return publicationYearExtracted;
     }
@@ -99,12 +143,34 @@ public class FileSeoulLibraryResponse {
 
     private BookLanguage getLanguage(String language) {
         BookLanguage languageExtracted = null;
-        if (language == null || language.contains("한국") || language.contains("kor")) languageExtracted = BookLanguage.KOREAN;
-        else if (language.contains("영어") || language.contains("eng") || language.contains("ENG")) languageExtracted = BookLanguage.ENGLISH;
-        else if (language.toUpperCase().contains("일본") || language.contains("jpn")) languageExtracted = BookLanguage.JAPANESE;
-        else if (language.contains("중국") || language.contains("chi") || language.contains("Chinese")) languageExtracted = BookLanguage.CHINESE;
+        if (language.toUpperCase().contains("KOR"))
+            languageExtracted = BookLanguage.KOREAN;
+        else if (language.toUpperCase().contains("ENG"))
+            languageExtracted = BookLanguage.ENGLISH;
+        else if (language.toUpperCase().contains("JPN"))
+            languageExtracted = BookLanguage.JAPANESE;
+        else if (language.toUpperCase().contains("CHI"))
+            languageExtracted = BookLanguage.CHINESE;
+        else if (language.toUpperCase().contains("FRE"))
+            languageExtracted = BookLanguage.FRENCH;
+        else if (language.toUpperCase().contains("SPA"))
+            languageExtracted = BookLanguage.SPANISH;
+        else if (language.toUpperCase().contains("GER"))
+            languageExtracted = BookLanguage.GERMAN;
+        else if (language.toUpperCase().contains("ITA"))
+            languageExtracted = BookLanguage.ITALIAN;
 
         return languageExtracted;
+    }
+
+    private BookMainCategory getCategory(String category) {
+        if (category == null || category.matches("\\W+")) {
+            return BookMainCategory.UNKNOWN;
+        }
+
+        return BookMainCategory.getByStartsWith(
+                String.valueOf(category.charAt(0))
+        );
     }
 
 }

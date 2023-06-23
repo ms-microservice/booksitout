@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.batch.bookFindIsbn.steps;
 
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import com.jinkyumpark.core.common.feign.SearchClient;
 import com.jinkyumpark.core.common.feign.response.NewBookSearchResponse;
 import lombok.RequiredArgsConstructor;
@@ -21,12 +21,12 @@ public class BookFindIsbnProcessor implements ItemProcessor<Book, Book> {
     @Transactional
     @Override
     public Book process(Book bookWithoutIsbn) {
-        log.info("Finding book with title : {}", bookWithoutIsbn.getTitle());
+        log.info("Finding book with title : {}", bookWithoutIsbn.getBookCustom().getTitle());
 
         try { Thread.sleep(200); }
         catch (InterruptedException e) { Thread.currentThread().interrupt(); }
 
-        String query = bookWithoutIsbn.getTitle() + " " + bookWithoutIsbn.getAuthor();
+        String query = bookWithoutIsbn.getBookCustom().getTitle();
         List<NewBookSearchResponse> searchResult = searchClient.getNewBookSearchResultFromNaver(query);
 
         if (searchResult.isEmpty()) {

@@ -1,6 +1,6 @@
 package com.jinkyumpark.core.batch.bookFindIsbn.steps;
 
-import com.jinkyumpark.core.book.model.Book;
+import com.jinkyumpark.core.book.model.book.Book;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JpaItemWriter;
